@@ -12,13 +12,14 @@ import {
 import { MuiThemeProvider } from 'material-ui/styles';
 
 import Login from './pages/login';
+import Layout from './components/Layout'
 
 const App = () => (
   <MuiThemeProvider>
     <Router>
       <Switch>
-        <Redirect path="/" exact to="/login" />
         <Route path="/login" component={Login} />
+        <Route path="/" component={Layout} />
       </Switch>
     </Router>
   </MuiThemeProvider>

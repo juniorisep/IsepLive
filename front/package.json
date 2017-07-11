@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "flow": "^0.2.3",
-    "material-ui": "^1.0.0-alpha.17",
-    "material-ui-icons": "^1.0.0-alpha.3",
+    "material-ui": "^1.0.0-alpha.21",
+    "material-ui-icons": "^1.0.0-alpha.19",
     "moment": "^2.18.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -13,12 +13,20 @@
     "url-join": "^2.0.2"
   },
   "devDependencies": {
+    "flow-bin": "^0.42.0",
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.0.2",
     "react-scripts": "1.0.7"
   },
   "scripts": {
+    "build-css": "node-sass src/ -o public/css",
+    "watch-css": "npm run build-css && node-sass src/ -o public/css --watch --recursive",
+    "start-js": "react-scripts start",
     "start": "react-scripts start",
+    "_run_dev_server_": "npm-run-all -p watch-css start-js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   }
 }

@@ -18,7 +18,7 @@ const App = () => (
   <MuiThemeProvider>
     <Router>
       <Switch>
-        <Route path="/login" component={Login} />
+        <Route path="/connexion" component={Login} />
         <Route path="/" component={Layout} />
       </Switch>
     </Router>

@@ -19,48 +19,44 @@ import MenuOpen from '../MenuOpen';
 import Home from '../../pages/home';
 import NotFound from '../../pages/404'
 
-const styleSheet = createStyleSheet('ButtonAppBar', {
+const styleSheet = createStyleSheet('Layout', {
   root: {
     width: '100%',
   },
   flex: {
     flex: 1,
   },
+  user_detail: {
+    height: '100%',
+    marginRight: '5px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    flexDirection: 'column',
+  },
+  user_name: {
+    fontSize: '20px',
+    display: 'block',
+    textAlign: 'right',
+    textTransform: 'capitalize',
+  },
+  user_badge: {
+    display: 'block',
+    fontSize: '10px',
+    padding: '3px 5px',
+    fontWeight: 'bold',
+    background: 'white',
+    color: '#8E7CC3',
+    borderRadius: '3px',
+    margin: '3px',
+    verticalAlign: 'baseline',
+  },
+  user_group: {
+    display: 'flex',
+  }
 });
 
-const STYLE_USER_DETAIL = {
-  height: '100%',
-  marginRight: '5px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'flex-end',
-  flexDirection: 'column',
-};
-
-const STYLE_USER_NAME = {
-  fontSize: '20px',
-  display: 'block',
-  textAlign: 'right',
-  textTransform: 'capitalize',
-};
-
-const STYLE_USER_BADGE = {
-  display: 'block',
-  fontSize: '10px',
-  padding: '3px 5px',
-  fontWeight: 'bold',
-  background: 'white',
-  color: '#8E7CC3',
-  borderRadius: '3px',
-  margin: '3px',
-  verticalAlign: 'baseline',
-};
-
-const STYLE_USER_GROUP = {
-  display: 'flex',
-};
-
-function ButtonAppBar(props) {
+function Layout(props) {
   const classes = props.classes;
   return (
     <div className={classes.root}>
@@ -73,12 +69,12 @@ function ButtonAppBar(props) {
           <Button color="contrast">Association</Button>
           <Button color="contrast">Evenements</Button>
           <Button color="contrast">Qui sommes-nous ?</Button>
-          <div style={STYLE_USER_GROUP}>
-            <div style={STYLE_USER_DETAIL}>
-              <div style={STYLE_USER_NAME}>
+          <div className={classes.user_group}>
+            <div className={classes.user_detail}>
+              <div className={classes.user_name}>
                 Victor ELY
               </div>
-              <div style={STYLE_USER_BADGE}>
+              <div className={classes.user_badge}>
                 SysAdmin
               </div>
             </div>
@@ -95,8 +91,8 @@ function ButtonAppBar(props) {
   );
 }
 
-ButtonAppBar.propTypes = {
+Layout.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styleSheet)(ButtonAppBar);
+export default withStyles(styleSheet)(Layout);

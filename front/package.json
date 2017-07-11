@@ -14,16 +14,11 @@
   },
   "devDependencies": {
     "flow-bin": "^0.42.0",
-    "node-sass": "^4.5.3",
     "npm-run-all": "^4.0.2",
     "react-scripts": "1.0.7"
   },
   "scripts": {
-    "build-css": "node-sass src/ -o public/css",
-    "watch-css": "npm run build-css && node-sass src/ -o public/css --watch --recursive",
-    "start-js": "react-scripts start",
     "start": "react-scripts start",
-    "_run_dev_server_": "npm-run-all -p watch-css start-js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

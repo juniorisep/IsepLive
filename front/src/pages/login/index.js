@@ -24,6 +24,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  overflow: auto;
+  padding: 30px 0;
 `;
 
 const Background = styled.div`
@@ -50,12 +52,17 @@ const ContentContainer = styled.div`
 
 const Separator = styled.div`
   width: 0;
-  height: 400;
+  margin: 70px 0;
   border: 0;
   border-right: 4px dashed ${MAIN_COLOR};
 
   @media (max-width: 1100px) {
-    display: none;
+    width: auto;
+    margin: 0 100px;
+    height: 0;
+    border: 0;
+    border-top: 4px dashed ${MAIN_COLOR};
+    margin-bottom: 50px;
   }
 `;
 

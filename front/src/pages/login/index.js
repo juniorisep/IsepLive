@@ -41,6 +41,11 @@ const ContentContainer = styled.div`
   display: flex;
   padding: 0 100px;
   width: 100%;
+
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    padding: 0;
+  }
 `;
 
 const Separator = styled.div`
@@ -48,12 +53,23 @@ const Separator = styled.div`
   height: 400;
   border: 0;
   border-right: 4px dashed ${MAIN_COLOR};
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
 `;
 
 const TitleContainer = styled.div`
   flex: 1;
   text-align: center;
   padding: 50px;
+`;
+
+const TitleHeader = styled.div`
+  text-align: left;
+  @media (max-width: 1100px) {
+    text-align: center;
+  }
 `;
 
 const Title = styled.h1`
@@ -125,11 +141,13 @@ export default class Login extends Component {
         <Background url="img/background.jpg" />
         <ContentContainer>
           <TitleContainer>
-            <div style={{ textAlign: 'left' }}>
+            <TitleHeader>
               <div>
                 <Title>ISEPLive.fr</Title>
               </div>
               <Subtitle>Espace étudiant de l'Isep</Subtitle>
+            </TitleHeader>
+            <div style={{ textAlign: 'left' }}>
             </div>
             <LogoPartner>
               <Logo src="img/alten.jpg" alt="Alten" />

@@ -8,6 +8,7 @@ html, body, div#root {
     -moz-font-smoothing: antialiased;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
+    font-family: 'Roboto', sans-serif;
 }
 
 * {

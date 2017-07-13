@@ -25,7 +25,6 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   overflow: auto;
-  padding: 30px 0;
 `;
 
 const Background = styled.div`

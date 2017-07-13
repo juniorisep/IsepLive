@@ -16,8 +16,7 @@ import Lock from 'material-ui-icons/Lock';
 
 import styled from 'styled-components';
 
-const MAIN_COLOR = '#1b3b82';
-const SECONDARY_COLOR = '#ffa101';
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 
 const Container = styled.div`
   display: flex;

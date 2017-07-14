@@ -20,7 +20,9 @@ const Header = styled.header`
 `;
 
 const SearchBar = styled.input`
-  width: 70%;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
   margin-top: ${props => props.margin}px;
   border: 0;
   outline: none;
@@ -106,32 +108,29 @@ const Post = styled.li`
   display: flex;
   min-height: 250px;
   flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
-
-  @media (max-width: 600px) {
+  
+  @media (max-width: 40em) {
     flex-direction: column;
   }
 `;
 
 const PostContent = styled.div`
-  width: 50%;
-  flex: 1 1 0;
-  flex-basis: 100%;
-  @media (max-width: 600px) {
-    width: 100%;
+  height: 100%;
+  @media (max-width: 40em) {
     height: 300px;
+  }
+`;
+
+const PostText = PostContent.extend`
+  padding: 20px;
+  @media (max-width: 40em) {
+    height: auto;
   }
 `;
 
 const Text = styled.p`
   font-size: 1em;
   color: ${props => props.color || '#949494'};
-`;
-
-const PostText = PostContent.extend`
-  padding: 20px;
-  @media (max-width: 600px) {
-    height: auto;
-  }
 `;
 
 const About = styled.div`
@@ -226,57 +225,68 @@ export default function Home(props) {
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
             <PostList>
               <Post>
-                <PostContent>
-                  <IframeWrap>
-                    <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
-                    width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe>
-                  </IframeWrap>
-                </PostContent>
-                <PostText>
-                  <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
-                  <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
-                  </Text>
-                  <Text>
-                    Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
-                    À ce soir sur http://iseplive.fr/ pour la version longue.
-                  </Text>
-                  <Text>
-                    La bise, l'équipe ISEPLive.
-                  </Text>
-                  <Text>
-                    Musiques:
-                    Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
-                    Nicolas Haelg - So Much More (feat. Bjorn Maria)
-                    Diplo - Revolution (Absence Remix)
-                    Nhyx X The Loud Republic - Gamma
-                  </Text>
-                  <Button color="accent">Voir plus</Button>
-                </PostText>
+                <Box w={[ 1, 1/2 ]}>
+                  <PostContent>
+                    <IframeWrap>
+                      <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
+                      width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+                    </IframeWrap>
+                  </PostContent>
+                </Box>
+                <Box w={[ 1, 1/2 ]}>
+                  <PostText>
+                    <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
+                    <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
+                    </Text>
+                    <Text>
+                      Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
+                      À ce soir sur http://iseplive.fr/ pour la version longue.
+                    </Text>
+                    <Text>
+                      La bise, l'équipe ISEPLive.
+                    </Text>
+                    <Text>
+                      Musiques:
+                      Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
+                      Nicolas Haelg - So Much More (feat. Bjorn Maria)
+                      Diplo - Revolution (Absence Remix)
+                      Nhyx X The Loud Republic - Gamma
+                    </Text>
+                    <Button color="accent">Voir plus</Button>
+                  </PostText>
+                </Box>
               </Post>
               <Post invert>
-                <PostContent>
-                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/H2StAurAOYI?rel=0&amp;showinfo=0" frameBorder="0" allowfullscreen></iframe>
-                </PostContent>
-                <PostText>
-                  <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
-                  <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
-                  </Text>
-                  <Text>
-                    Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
-                    À ce soir sur http://iseplive.fr/ pour la version longue.
-                  </Text>
-                  <Text>
-                    La bise, l'équipe ISEPLive.
-                  </Text>
-                  <Text>
-                    Musiques:
-                    Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
-                    Nicolas Haelg - So Much More (feat. Bjorn Maria)
-                    Diplo - Revolution (Absence Remix)
-                    Nhyx X The Loud Republic - Gamma
-                  </Text>
-                  <Button color="accent">Voir plus</Button>
-                </PostText>
+                <Box w={[ 1, 1/2 ]}>
+                  <PostContent>
+                    <IframeWrap>
+                      <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
+                      width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+                    </IframeWrap>
+                  </PostContent>
+                </Box>
+                <Box w={[ 1, 1/2 ]}>
+                  <PostText>
+                    <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
+                    <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
+                    </Text>
+                    <Text>
+                      Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
+                      À ce soir sur http://iseplive.fr/ pour la version longue.
+                    </Text>
+                    <Text>
+                      La bise, l'équipe ISEPLive.
+                    </Text>
+                    <Text>
+                      Musiques:
+                      Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
+                      Nicolas Haelg - So Much More (feat. Bjorn Maria)
+                      Diplo - Revolution (Absence Remix)
+                      Nhyx X The Loud Republic - Gamma
+                    </Text>
+                    <Button color="accent">Voir plus</Button>
+                  </PostText>
+                </Box>
               </Post>
             </PostList>
             <Center>

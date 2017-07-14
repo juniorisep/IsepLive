@@ -60,34 +60,6 @@ const styleSheet = createStyleSheet('Layout', {
   flex: {
     flex: 1,
   },
-  user_detail: {
-    height: '100%',
-    marginRight: '5px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    flexDirection: 'column',
-  },
-  user_name: {
-    fontSize: '20px',
-    display: 'block',
-    textAlign: 'right',
-    textTransform: 'capitalize',
-  },
-  user_badge: {
-    display: 'block',
-    fontSize: '10px',
-    padding: '3px 5px',
-    fontWeight: 'bold',
-    background: 'white',
-    color: '#8E7CC3',
-    borderRadius: '3px',
-    margin: '3px',
-    verticalAlign: 'baseline',
-  },
-  user_group: {
-    display: 'flex',
-  }
 });
 
 function Layout(props) {
@@ -110,17 +82,6 @@ function Layout(props) {
               <span>Ely</span>
             </div>
           </Profile>
-          {/* <div className={classes.user_group}>
-            <div className={classes.user_detail}>
-              <div className={classes.user_name}>
-            Victor ELY
-              </div>
-              <div className={classes.user_badge}>
-            SysAdmin
-              </div>
-            </div>
-          </div> */}
-          {/* <MenuOpen /> */}
         </Toolbar>
       </AppBar>
       <Switch>

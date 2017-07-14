@@ -3,6 +3,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
+import Button from 'material-ui/Button';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 
@@ -12,6 +13,7 @@ const Header = styled.header`
   background: url(${props => props.url});
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   padding: 20px;
   text-align: center;
 `;
@@ -31,9 +33,6 @@ const SearchBar = styled.input`
 const IconMenu = styled.div`
   display: flex;
   justify-content: space-between;
-  max-width: 900px;
-  margin: 50px auto;
-  padding: 0 50px;
 `;
 
 const FakeIcon = styled.div`
@@ -48,30 +47,109 @@ const Background = styled.div`
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  position: relative;
+`;
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: ${MAIN_COLOR};
+  opacity: 0.6;
 `;
 
 const Content = styled.div`
-  width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding-top: 50px;
-  min-height: 900px;
+  padding: 50px;
+  position: relative;
 `;
 
-const MessageBox = styled.div`
+const PublishBox = styled.div`
   background: ${MAIN_COLOR};
   margin-bottom: 20px;
   text-align: center;
-  padding: 10px;
-  height: 100px;
+  padding: 20px;
+  min-height: 150px;
+`;
+
+const MessageBox = styled.textarea`
+  font-family: 'Roboto';
+  font-size: 1.3em;
+  padding: .4em;
+  border: 0;
+  outline: 0;
+  border-radius: 5px;
+  width: 100%;
+  resize: vertical;
+`;
+
+const PostSection = styled.div`
+  margin: 30px 0;
 `;
 
 const PostList = styled.ul`
+  padding: 0;
+`;
 
+const Post = styled.li`
+  background: white;
+  margin-bottom: 20px;
+  display: flex;
+  min-height: 250px;
+  flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
+const PostContent = styled.div`
+  width: 50%;
+  flex: 1 1 0;
+  flex-basis: 100%;
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 300px;
+  }
+`;
+
+const Text = styled.p`
+  font-size: 1em;
+  color: #949494;
+`;
+
+const PostText = PostContent.extend`
+  padding: 20px;
+  @media (max-width: 600px) {
+    height: auto;
+  }
 `;
 
 const About = styled.div`
 
 `;
+
+const Title = styled.h1`
+  font-size: ${props => props.fontSize}em;
+  display: inline-block;
+  color: ${props => props.invert ? MAIN_COLOR : SECONDARY_COLOR};
+  ${props => props.framed && `background: ${props.invert ? SECONDARY_COLOR : MAIN_COLOR};`}
+  margin: 0;
+  margin-bottom: .5em;
+  padding: ${props => props.framed ? '.3em .4em' : 0};
+`;
+
+const IframeWrap = styled.div`
+  display: flex;
+  align-items: center;
+  background: black;
+  height: 100%;
+  overflow: hidden;
+`;
+
+const SectionTitle = Title.withComponent('h2');
 
 export default function Home(props) {
   return (
@@ -79,39 +157,110 @@ export default function Home(props) {
       <Header url="img/background.jpg">
         <SearchBar placeholder="Rechercher" margin={200} />
       </Header>
-      <IconMenu>
-        <div>
-          <FakeIcon />
-          <span>Videos</span>
-        </div>
-        <div>
-          <FakeIcon />
-          <span>Photos</span>
-        </div>
-        <div>
-          <FakeIcon />
-          <span>Photos</span>
-        </div>
-        <div>
-          <FakeIcon />
-          <span>Photos</span>
-        </div>
-      </IconMenu>
+      <Content>
+        <IconMenu>
+          <div>
+            <FakeIcon />
+            <span>Videos</span>
+          </div>
+          <div>
+            <FakeIcon />
+            <span>Photos</span>
+          </div>
+          <div>
+            <FakeIcon />
+            <span>Gazettes</span>
+          </div>
+          <div>
+            <FakeIcon />
+            <span>Evenements</span>
+          </div>
+        </IconMenu>
+      </Content>
       <Background>
+        <Overlay />
         <Content>
-          <MessageBox>
-            <SearchBar placeholder="Tapez votre message" />
-          </MessageBox>
+          <PublishBox>
+            <MessageBox placeholder="Tapez votre message" />
+          </PublishBox>
           <Separator />
-          <PostList>
-
-          </PostList>
-          <About>
-
-          </About>
-
+          <PostSection>
+            <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
+            <PostList>
+              <Post>
+                <PostContent>
+                  <IframeWrap>
+                    <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
+                    width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+                  </IframeWrap>
+                </PostContent>
+                <PostText>
+                  <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
+                  <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
+                  </Text>
+                  <Text>
+                    Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
+                    À ce soir sur http://iseplive.fr/ pour la version longue.
+                  </Text>
+                  <Text>
+                    La bise, l'équipe ISEPLive.
+                  </Text>
+                  <Text>
+                    Musiques:
+                    Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
+                    Nicolas Haelg - So Much More (feat. Bjorn Maria)
+                    Diplo - Revolution (Absence Remix)
+                    Nhyx X The Loud Republic - Gamma
+                  </Text>
+                  <Button color="accent">Voir plus</Button>
+                </PostText>
+              </Post>
+              <Post invert>
+                <PostContent>
+                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/H2StAurAOYI?rel=0&amp;showinfo=0" frameBorder="0" allowfullscreen></iframe>
+                </PostContent>
+                <PostText>
+                  <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
+                  <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
+                  </Text>
+                  <Text>
+                    Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
+                    À ce soir sur http://iseplive.fr/ pour la version longue.
+                  </Text>
+                  <Text>
+                    La bise, l'équipe ISEPLive.
+                  </Text>
+                  <Text>
+                    Musiques:
+                    Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
+                    Nicolas Haelg - So Much More (feat. Bjorn Maria)
+                    Diplo - Revolution (Absence Remix)
+                    Nhyx X The Loud Republic - Gamma
+                  </Text>
+                  <Button color="accent">Voir plus</Button>
+                </PostText>
+              </Post>
+            </PostList>
+          </PostSection>
         </Content>
       </Background>
+      <Content>
+        <About>
+          <SectionTitle fontSize={2} framed>L'EQUIPE...</SectionTitle>
+          <Separator />
+          <SectionTitle fontSize={2} framed>SUIVEZ-NOUS...</SectionTitle>
+          <IconMenu>
+            <div>
+              <FakeIcon />
+              <span>Facebook</span>
+            </div>
+            <div>
+              <FakeIcon />
+              <span>Twitter</span>
+            </div>
+          </IconMenu>
+        </About>
+      </Content>
     </div>
   );
 }

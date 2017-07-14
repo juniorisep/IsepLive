@@ -9,13 +9,24 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import { MuiThemeProvider } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
+import createPalette from 'material-ui/styles/palette';
+import indigo from 'material-ui/colors/indigo';
+import orange from 'material-ui/colors/orange';
 
 import Login from './pages/login';
 import Layout from './components/Layout'
 
+const theme = createMuiTheme({
+  palette: createPalette({
+    primary: indigo,
+    accent: orange,
+  }),
+});
+
 const App = () => (
-  <MuiThemeProvider>
+  <MuiThemeProvider theme={theme}>
     <Router>
       <Switch>
         <Route path="/connexion" component={Login} />

@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {NavLink, Route, Switch, Redirect} from 'react-router-dom';
+import styled from 'styled-components';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -18,6 +19,39 @@ import MenuOpen from '../MenuOpen';
 
 import Home from '../../pages/home';
 import NotFound from '../../pages/404'
+
+const Logo = styled.img`
+  height: 50px;
+  margin-right: 20px;
+`;
+
+const Profile = styled.div`
+  display: flex;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px 0;
+  margin-left: auto;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+  }
+
+  > img {
+    height: 40px;
+    margin-right: 5px;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  > div > span {
+    display: block;
+    font-weight: bold;
+    padding: 2px;
+  }
+`;
 
 const styleSheet = createStyleSheet('Layout', {
   root: {
@@ -62,24 +96,31 @@ function Layout(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <img alt="Isep Live" src="img/iseplive.jpg" style={{height: '50px'}}/>
+          <Logo src="img/iseplive.jpg" alt="isep live logo"/>
           <Button color="contrast">Acccueil</Button>
           <Button color="contrast">Media</Button>
           <Button color="contrast">Annuaire</Button>
           <Button color="contrast">Association</Button>
           <Button color="contrast">Evenements</Button>
           <Button color="contrast">Qui sommes-nous ?</Button>
-          <div className={classes.user_group}>
+          <Profile>
+            <img src="https://numeris-isep.fr/img/team//amalric.resized.jpg" alt=""/>
+            <div>
+              <span>Victor</span>
+              <span>Ely</span>
+            </div>
+          </Profile>
+          {/* <div className={classes.user_group}>
             <div className={classes.user_detail}>
               <div className={classes.user_name}>
-                Victor ELY
+            Victor ELY
               </div>
               <div className={classes.user_badge}>
-                SysAdmin
+            SysAdmin
               </div>
             </div>
-          </div>
-          <MenuOpen />
+          </div> */}
+          {/* <MenuOpen /> */}
         </Toolbar>
       </AppBar>
       <Switch>

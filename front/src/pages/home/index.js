@@ -69,9 +69,7 @@ const Content = styled.div`
 const PublishBox = styled.div`
   background: ${MAIN_COLOR};
   margin-bottom: 20px;
-  text-align: center;
   padding: 20px;
-  min-height: 150px;
 `;
 
 const MessageBox = styled.textarea`
@@ -83,6 +81,7 @@ const MessageBox = styled.textarea`
   border-radius: 5px;
   width: 100%;
   resize: vertical;
+  margin-bottom: 10px;
 `;
 
 const PostSection = styled.div`
@@ -182,6 +181,8 @@ export default function Home(props) {
         <Content>
           <PublishBox>
             <MessageBox placeholder="Tapez votre message" />
+            <Button raised color="primary">Importer fichier</Button>
+            <Button raised color="accent" style={{ float: "right" }}>Publier</Button>
           </PublishBox>
           <Separator />
           <PostSection>

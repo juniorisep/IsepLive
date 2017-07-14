@@ -161,13 +161,26 @@ const IframeWrap = styled.div`
 const Footer = styled.footer`
   background: ${MAIN_COLOR};
   padding: 20px;
-  min-height: 300px;
+  color: white;
+  p, h4 {
+    margin: 0;
+    margin-bottom: 5px;
+  }
 `;
 
 const LinksBar = styled.div`
   background: ${SECONDARY_COLOR};
   color: white;
   padding: 10px 0;
+  font-weight: bold;
+  > div {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 50px;
+  }
+  a {
+    margin: 0 10px;
+  }
 `;
 
 const Center = styled.div`
@@ -312,11 +325,34 @@ export default function Home(props) {
       </FluidContent>
       <Footer>
         <FluidContent>
+          <Flex>
+            <Box w={[ 1, 1/4 ]}>
+              <h4>CONTACT</h4>
+              <p>28, Rue Notre Dame des Champs</p>
+              <p>75 006 Paris</p>
+              <p>+33 00 00 00 00 00</p>
+              <p>iseplive@gmail.com</p>
+            </Box>
+            <Box w={[ 1, 1/4 ]}>
 
+            </Box>
+            <Box w={[ 1, 1/4 ]}>
+
+            </Box>
+            <Box w={[ 1, 1/4 ]}>
+
+            </Box>
+          </Flex>
         </FluidContent>
       </Footer>
       <LinksBar>
-        Hello
+        <div>
+          <span>© 2017 ISEP Live </span>
+          <a href="">Aide</a>
+          <a href="">Mentions Légales</a>
+          <a href="">Convention d'utilisation</a>
+          <a href="">Contact</a>
+        </div>
       </LinksBar>
     </div>
   );

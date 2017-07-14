@@ -169,6 +169,13 @@ const ButtonContainer = styled.div`
   text-align: center;
 `;
 
+const BigButton = styled(Button)`
+  margin-bottom: 20px;
+  font-size: 1.5em !important;
+  color: white !important;
+  background: ${MAIN_COLOR} !important;
+`;
+
 
 const CUSTOM_STYLES = {
   underlineFocusStyle: {
@@ -196,7 +203,7 @@ export default class Login extends Component {
       <Container>
         <BackgroundContainer>
           <Background url="img/background.jpg" />
-          <Overlay />
+          {/* <Overlay /> */}
         </BackgroundContainer>
         <Content>
           <TitleContainer>
@@ -213,13 +220,12 @@ export default class Login extends Component {
           <Separator />
           <AccessContainer>
             <ButtonContainer>
-              <Button
-                style={CUSTOM_STYLES.btn}
-                onClick={() => this.setState({ open: true })}
-              >Se connecter</Button>
+              <BigButton
+                // style={CUSTOM_STYLES.btn}
+                onClick={() => this.setState({ open: true })}>Se connecter</BigButton>
             </ButtonContainer>
             <ButtonContainer>
-              <Button style={CUSTOM_STYLES.btn}>Accès visiteur</Button>
+              <BigButton>Accès visiteur</BigButton>
             </ButtonContainer>
           </AccessContainer>
         </Content>
@@ -259,7 +265,7 @@ function LoginForm(props) {
         <Button onClick={props.handleRequestClose} color="primary">
           Mot de passe oublié
         </Button>
-        <Button onClick={props.handleRequestClose} color="primary" >
+        <Button onClick={props.handleRequestClose} color="accent" >
           Connexion
         </Button>
       </DialogActions>

@@ -3,6 +3,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
+import { Flex, Box } from 'grid-styled'
 import Button from 'material-ui/Button';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
@@ -38,8 +39,15 @@ const IconMenu = styled.div`
 const FakeIcon = styled.div`
   width: 100px;
   height: 100px;
-  border: 1px solid black;
+  background: ${MAIN_COLOR};
   margin-bottom: 10px;
+  border-radius: 100px;
+`;
+
+const IconName = styled.h3`
+  text-align: center;
+  margin: 0;
+  color: ${SECONDARY_COLOR};
 `;
 
 const Background = styled.div`
@@ -59,7 +67,7 @@ const Overlay = styled.div`
   opacity: 0.6;
 `;
 
-const Content = styled.div`
+const FluidContent = styled.div`
   max-width: 1100px;
   margin: 0 auto;
   padding: 50px;
@@ -116,7 +124,7 @@ const PostContent = styled.div`
 
 const Text = styled.p`
   font-size: 1em;
-  color: #949494;
+  color: ${props => props.color || '#949494'};
 `;
 
 const PostText = PostContent.extend`
@@ -127,7 +135,7 @@ const PostText = PostContent.extend`
 `;
 
 const About = styled.div`
-
+  margin-bottom: 50px;
 `;
 
 const Title = styled.h1`
@@ -136,9 +144,11 @@ const Title = styled.h1`
   color: ${props => props.invert ? MAIN_COLOR : SECONDARY_COLOR};
   ${props => props.framed && `background: ${props.invert ? SECONDARY_COLOR : MAIN_COLOR};`}
   margin: 0;
-  margin-bottom: .5em;
+  margin-bottom: 1em;
   padding: ${props => props.framed ? '.3em .4em' : 0};
 `;
+
+const SectionTitle = Title.withComponent('h2');
 
 const IframeWrap = styled.div`
   display: flex;
@@ -148,7 +158,21 @@ const IframeWrap = styled.div`
   overflow: hidden;
 `;
 
-const SectionTitle = Title.withComponent('h2');
+const Footer = styled.footer`
+  background: ${MAIN_COLOR};
+  padding: 20px;
+  min-height: 300px;
+`;
+
+const LinksBar = styled.div`
+  background: ${SECONDARY_COLOR};
+  color: white;
+  padding: 10px 0;
+`;
+
+const Center = styled.div`
+  text-align: center;
+`;
 
 export default function Home(props) {
   return (
@@ -156,29 +180,29 @@ export default function Home(props) {
       <Header url="img/background.jpg">
         <SearchBar placeholder="Rechercher" margin={200} />
       </Header>
-      <Content>
+      <FluidContent>
         <IconMenu>
           <div>
             <FakeIcon />
-            <span>Videos</span>
+            <IconName>Videos</IconName>
           </div>
           <div>
             <FakeIcon />
-            <span>Photos</span>
+            <IconName>Photos</IconName>
           </div>
           <div>
             <FakeIcon />
-            <span>Gazettes</span>
+            <IconName>Gazettes</IconName>
           </div>
           <div>
             <FakeIcon />
-            <span>Evenements</span>
+            <IconName>Evenements</IconName>
           </div>
         </IconMenu>
-      </Content>
+      </FluidContent>
       <Background>
         <Overlay />
-        <Content>
+        <FluidContent>
           <PublishBox>
             <MessageBox placeholder="Tapez votre message" />
             <Button raised color="primary">Importer fichier</Button>
@@ -242,26 +266,58 @@ export default function Home(props) {
                 </PostText>
               </Post>
             </PostList>
+            <Center>
+              <Button color="accent" raised>Voir tout</Button>
+            </Center>
           </PostSection>
-        </Content>
+        </FluidContent>
       </Background>
-      <Content>
+      <FluidContent>
         <About>
-          <SectionTitle fontSize={2} framed>L'EQUIPE...</SectionTitle>
-          <Separator />
-          <SectionTitle fontSize={2} framed>SUIVEZ-NOUS...</SectionTitle>
-          <IconMenu>
-            <div>
-              <FakeIcon />
-              <span>Facebook</span>
-            </div>
-            <div>
-              <FakeIcon />
-              <span>Twitter</span>
-            </div>
-          </IconMenu>
+          <SectionTitle fontSize={2} framed>L'EQUIPE</SectionTitle>
+          <Flex direction={[ 'column', 'row' ]}>
+            <Box w={[ 1, 1/2 ]} p={2}>
+              <img src="img/background.jpg" alt="" width="100%"/>
+            </Box>
+            <Box w={[ 1, 1/2 ]} p={2}>
+              <Text>
+                Blabla
+              </Text>
+              <Text color="#3a40d7">
+                Blabla
+              </Text>
+            </Box>
+          </Flex>
         </About>
-      </Content>
+        <Separator />
+        <SectionTitle fontSize={2} framed>SUIVEZ-NOUS</SectionTitle>
+        <IconMenu>
+          <div>
+            <FakeIcon />
+            <IconName>Facebook</IconName>
+          </div>
+          <div>
+            <FakeIcon />
+            <IconName>Twitter</IconName>
+          </div>
+          <div>
+            <FakeIcon />
+            <IconName>Instagram</IconName>
+          </div>
+          <div>
+            <FakeIcon />
+            <IconName>Snapchat</IconName>
+          </div>
+        </IconMenu>
+      </FluidContent>
+      <Footer>
+        <FluidContent>
+
+        </FluidContent>
+      </Footer>
+      <LinksBar>
+        Hello
+      </LinksBar>
     </div>
   );
 }

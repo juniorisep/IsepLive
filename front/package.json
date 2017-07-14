@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "flow": "^0.2.3",
+    "grid-styled": "^2.0.0-8",
     "material-ui": "^1.0.0-alpha.21",
     "material-ui-icons": "^1.0.0-alpha.19",
     "moment": "^2.18.1",

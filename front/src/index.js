@@ -13,6 +13,8 @@ import {
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
+import { ThemeProvider } from 'styled-components';
+
 import createPalette from 'material-ui/styles/palette';
 import indigo from 'material-ui/colors/indigo';
 import orange from 'material-ui/colors/orange';
@@ -27,15 +29,22 @@ const theme = createMuiTheme({
   }),
 });
 
+const styledTheme = {
+  main: MAIN_COLOR,
+  accent: SECONDARY_COLOR,
+}
+
 const App = () => (
   <MuiThemeProvider theme={theme}>
-    <Router>
-      <Switch>
-        <Redirect path="/" exact to="/connexion" />
-        <Route path="/connexion" component={Login} />
-        <Route path="/" component={Layout} />
-      </Switch>
-    </Router>
+    <ThemeProvider theme={styledTheme}>
+      <Router>
+        <Switch>
+          <Redirect path="/" exact to="/connexion" />
+          <Route path="/connexion" component={Login} />
+          <Route path="/" component={Layout} />
+        </Switch>
+      </Router>
+    </ThemeProvider>
   </MuiThemeProvider>
 )
 

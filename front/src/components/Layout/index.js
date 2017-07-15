@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import {NavLink, Route, Switch, Redirect} from 'react-router-dom';
 import styled from 'styled-components';
+import { Flex, Box } from 'grid-styled';
 
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -18,7 +19,11 @@ import MenuIcon from 'material-ui-icons/Menu';
 import MenuOpen from '../MenuOpen';
 
 import Home from '../../pages/home';
+import Media from '../../pages/media';
 import NotFound from '../../pages/404'
+
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+import { FluidContent } from '../common';
 
 const Logo = styled.img`
   height: 50px;
@@ -53,6 +58,31 @@ const Profile = styled.div`
   }
 `;
 
+const Footer = styled.footer`
+  background: ${MAIN_COLOR};
+  padding: 20px;
+  color: white;
+  p, h4 {
+    margin: 0;
+    margin-bottom: 5px;
+  }
+`;
+
+const LinksBar = styled.div`
+  background: ${SECONDARY_COLOR};
+  color: white;
+  padding: 10px 0;
+  font-weight: bold;
+  > div {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 50px;
+  }
+  a {
+    margin: 0 10px;
+  }
+`;
+
 const styleSheet = createStyleSheet('Layout', {
   root: {
     width: '100%',
@@ -62,19 +92,33 @@ const styleSheet = createStyleSheet('Layout', {
   },
 });
 
+function Nav(props) {
+  return (
+    <Button
+      color="contrast"
+      component={NavLink}
+      to={props.to} activeStyle={{
+        color: SECONDARY_COLOR,
+      }}>{props.children}</Button>
+  )
+}
+
 function Layout(props) {
   const classes = props.classes;
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Logo src="img/iseplive.jpg" alt="isep live logo"/>
-          <Button color="contrast">Acccueil</Button>
-          <Button color="contrast">Media</Button>
-          <Button color="contrast">Annuaire</Button>
-          <Button color="contrast">Association</Button>
-          <Button color="contrast">Evenements</Button>
-          <Button color="contrast">Qui sommes-nous ?</Button>
+          <Logo
+            src="img/iseplive.jpg"
+            alt="isep live logo"
+          />
+          <Nav to="/accueil">Accueil</Nav>
+          <Nav to="/media">Media</Nav>
+          <Nav to="/annuaire">Annuaire</Nav>
+          <Nav to="/associations">Associations</Nav>
+          <Nav to="/evenements">Evenements</Nav>
+          <Nav to="/whoarewe">Qui sommes-nous ?</Nav>
           <Profile>
             <img src="https://numeris-isep.fr/img/team//amalric.resized.jpg" alt=""/>
             <div>
@@ -87,8 +131,40 @@ function Layout(props) {
       <Switch>
         <Redirect path="/" exact to="/accueil" />
         <Route path="/accueil" component={Home} />
+        <Route path="/media" component={Media} />
         <Route path="*" component={NotFound} />
       </Switch>
+      <Footer>
+        <FluidContent>
+          <Flex>
+            <Box w={[ 1, 1/4 ]}>
+              <h4>CONTACT</h4>
+              <p>28, Rue Notre Dame des Champs</p>
+              <p>75 006 Paris</p>
+              <p>+33 00 00 00 00 00</p>
+              <p>iseplive@gmail.com</p>
+            </Box>
+            <Box w={[ 1, 1/4 ]}>
+
+            </Box>
+            <Box w={[ 1, 1/4 ]}>
+
+            </Box>
+            <Box w={[ 1, 1/4 ]}>
+
+            </Box>
+          </Flex>
+        </FluidContent>
+      </Footer>
+      <LinksBar>
+        <div>
+          <span>© 2017 ISEP Live </span>
+          <a href="">Aide</a>
+          <a href="">Mentions Légales</a>
+          <a href="">Convention d'utilisation</a>
+          <a href="">Contact</a>
+        </div>
+      </LinksBar>
     </div>
   );
 }

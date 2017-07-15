@@ -8,30 +8,15 @@ import Button from 'material-ui/Button';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 
-import { Separator } from '../../components/Layout/Common';
+import {
+  Separator,
+  FluidContent,
+  Header,
+  SearchBar,
+  Filler,
+} from '../../components/common';
 
-const Header = styled.header`
-  background: url(${props => props.url});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  padding: 20px;
-  text-align: center;
-`;
 
-const SearchBar = styled.input`
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  margin-top: ${props => props.margin}px;
-  border: 0;
-  outline: none;
-  font-size: 20px;
-  border-radius: 20px;
-  padding: 8px 25px;
-  font-family: 'Roboto';
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-`;
 
 const IconMenu = styled.div`
   display: flex;
@@ -49,7 +34,7 @@ const FakeIcon = styled.div`
 const IconName = styled.h3`
   text-align: center;
   margin: 0;
-  color: ${SECONDARY_COLOR};
+  color: ${props => props.theme.accent};
 `;
 
 const Background = styled.div`
@@ -69,12 +54,6 @@ const Overlay = styled.div`
   opacity: 0.6;
 `;
 
-const FluidContent = styled.div`
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 50px;
-  position: relative;
-`;
 
 const PublishBox = styled.div`
   background: ${MAIN_COLOR};
@@ -108,7 +87,7 @@ const Post = styled.li`
   display: flex;
   min-height: 250px;
   flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
-  
+
   @media (max-width: 40em) {
     flex-direction: column;
   }
@@ -140,8 +119,8 @@ const About = styled.div`
 const Title = styled.h1`
   font-size: ${props => props.fontSize}em;
   display: inline-block;
-  color: ${props => props.invert ? MAIN_COLOR : SECONDARY_COLOR};
-  ${props => props.framed && `background: ${props.invert ? SECONDARY_COLOR : MAIN_COLOR};`}
+  color: ${props => props.invert ? props.theme.main : props.theme.accent};
+  ${props => props.framed && `background: ${props.invert ? props.theme.accent : props.theme.main};`}
   margin: 0;
   margin-bottom: 1em;
   padding: ${props => props.framed ? '.3em .4em' : 0};
@@ -157,31 +136,6 @@ const IframeWrap = styled.div`
   overflow: hidden;
 `;
 
-const Footer = styled.footer`
-  background: ${MAIN_COLOR};
-  padding: 20px;
-  color: white;
-  p, h4 {
-    margin: 0;
-    margin-bottom: 5px;
-  }
-`;
-
-const LinksBar = styled.div`
-  background: ${SECONDARY_COLOR};
-  color: white;
-  padding: 10px 0;
-  font-weight: bold;
-  > div {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 50px;
-  }
-  a {
-    margin: 0 10px;
-  }
-`;
-
 const Center = styled.div`
   text-align: center;
 `;
@@ -190,7 +144,10 @@ export default function Home(props) {
   return (
     <div>
       <Header url="img/background.jpg">
-        <SearchBar placeholder="Rechercher" margin={200} />
+        <Filler h="200" />
+        <FluidContent p="0">
+          <SearchBar placeholder="Rechercher" />
+        </FluidContent>
       </Header>
       <FluidContent>
         <IconMenu>
@@ -298,7 +255,7 @@ export default function Home(props) {
       <FluidContent>
         <About>
           <SectionTitle fontSize={2} framed>L'EQUIPE</SectionTitle>
-          <Flex direction={[ 'column', 'row' ]}>
+          <Flex wrap>
             <Box w={[ 1, 1/2 ]} p={2}>
               <img src="img/background.jpg" alt="" width="100%"/>
             </Box>
@@ -333,37 +290,6 @@ export default function Home(props) {
           </div>
         </IconMenu>
       </FluidContent>
-      <Footer>
-        <FluidContent>
-          <Flex>
-            <Box w={[ 1, 1/4 ]}>
-              <h4>CONTACT</h4>
-              <p>28, Rue Notre Dame des Champs</p>
-              <p>75 006 Paris</p>
-              <p>+33 00 00 00 00 00</p>
-              <p>iseplive@gmail.com</p>
-            </Box>
-            <Box w={[ 1, 1/4 ]}>
-
-            </Box>
-            <Box w={[ 1, 1/4 ]}>
-
-            </Box>
-            <Box w={[ 1, 1/4 ]}>
-
-            </Box>
-          </Flex>
-        </FluidContent>
-      </Footer>
-      <LinksBar>
-        <div>
-          <span>© 2017 ISEP Live </span>
-          <a href="">Aide</a>
-          <a href="">Mentions Légales</a>
-          <a href="">Convention d'utilisation</a>
-          <a href="">Contact</a>
-        </div>
-      </LinksBar>
     </div>
   );
 }

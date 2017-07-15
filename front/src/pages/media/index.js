@@ -13,8 +13,31 @@ import {
   SearchBar,
   Filler,
   Banner,
-  Album,
 } from '../../components/common';
+
+const Album = (props) => {
+  const AlbumStyle = styled.div`
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    div.image {
+      width: 100%;
+      height: 200px;
+      background: url(${props => props.url});
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    div.caption {
+      padding: 10px;
+      color: ${props => props.theme.main};
+    }
+  `;
+  return (
+    <AlbumStyle url={props.url}>
+      <div className="image"></div>
+      <div className="caption">{props.text}</div>
+    </AlbumStyle>
+  )
+};
 
 
 const DateSeparator = (props) => {

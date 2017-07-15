@@ -1,4 +1,4 @@
-// @flow
+// @flowy
 
 import React, { Component } from 'react';
 
@@ -6,13 +6,11 @@ import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
 
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
-import Lock from 'material-ui-icons/Lock';
 
 import styled from 'styled-components';
 

@@ -31,6 +31,7 @@ const App = () => (
   <MuiThemeProvider theme={theme}>
     <Router>
       <Switch>
+        <Redirect path="/" exact to="/connexion" />
         <Route path="/connexion" component={Login} />
         <Route path="/" component={Layout} />
       </Switch>

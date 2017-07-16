@@ -125,8 +125,8 @@ function Layout(props) {
           <Profile>
             <img src="https://numeris-isep.fr/img/team//amalric.resized.jpg" alt=""/>
             <div>
-              <span>Victor</span>
-              <span>Ely</span>
+              <span>Amalric</span>
+              <span>DE BUFFIERE</span>
             </div>
           </Profile>
         </Toolbar>

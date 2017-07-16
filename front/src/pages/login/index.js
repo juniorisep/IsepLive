@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 
+import {NavLink} from 'react-router-dom';
+
 import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
@@ -223,7 +225,7 @@ export default class Login extends Component {
                 onClick={() => this.setState({ open: true })}>Se connecter</BigButton>
             </ButtonContainer>
             <ButtonContainer>
-              <BigButton>Accès visiteur</BigButton>
+              <BigButton component={NavLink} to="/accueil">Accès visiteur</BigButton>
             </ButtonContainer>
           </AccessContainer>
         </Content>

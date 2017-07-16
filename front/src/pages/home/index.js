@@ -97,6 +97,9 @@ const Post = styled.li`
 
 const PostContent = styled.div`
   height: 100%;
+  position: relative;
+  ${props => props.bg && 'background: black;'}
+
   @media (max-width: 40em) {
     height: 300px;
   }
@@ -131,11 +134,23 @@ const Title = styled.h1`
 const SectionTitle = Title.withComponent('h2');
 
 const IframeWrap = styled.div`
-  display: flex;
-  align-items: center;
-  background: black;
+  position: absolute;
+  width: 100%;
   height: 100%;
+  height: 0;
   overflow: hidden;
+  padding-bottom: 56.25%;
+  top: 50%;
+  margin-top: -28.1%;
+
+  > iframe {
+    border: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Center = styled.div`
@@ -170,22 +185,6 @@ export default function Home(props) {
             <IconName>Evenements</IconName>
           </Box>
         </Flex>
-        {/* <IconMenu>
-          <div>
-          </div>
-          <div>
-            <FakeIcon />
-            <IconName>Photos</IconName>
-          </div>
-          <div>
-            <FakeIcon />
-            <IconName>Gazettes</IconName>
-          </div>
-          <div>
-            <FakeIcon />
-            <IconName>Evenements</IconName>
-          </div>
-        </IconMenu> */}
       </FluidContent>
       <Background>
         <Overlay />
@@ -201,10 +200,10 @@ export default function Home(props) {
             <PostList>
               <Post>
                 <Box w={[ 1, 1/2 ]}>
-                  <PostContent>
+                  <PostContent bg>
                     <IframeWrap>
                       <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
-                      width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+                      scrolling="no" allowTransparency allowFullScreen></iframe>
                     </IframeWrap>
                   </PostContent>
                 </Box>
@@ -233,7 +232,7 @@ export default function Home(props) {
               </Post>
               <Post invert>
                 <Box w={[ 1, 1/2 ]}>
-                  <PostContent>
+                  <PostContent bg>
                     <IframeWrap>
                       <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
                       width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe>

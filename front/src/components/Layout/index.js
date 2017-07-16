@@ -16,8 +16,6 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 
-import MenuOpen from '../MenuOpen';
-
 import Home from '../../pages/home';
 import Media from '../../pages/media';
 import AddressBook from '../../pages/addressbook';
@@ -112,10 +110,12 @@ function Layout(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Logo
-            src="img/iseplive.jpg"
-            alt="isep live logo"
-          />
+          <NavLink to="/accueil">
+            <Logo
+              src="img/iseplive.jpg"
+              alt="isep live logo"
+            />
+          </NavLink>
           <Nav to="/accueil">Accueil</Nav>
           <Nav to="/media">Media</Nav>
           <Nav to="/annuaire">Annuaire</Nav>

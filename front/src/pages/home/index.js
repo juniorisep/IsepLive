@@ -136,7 +136,6 @@ const SectionTitle = Title.withComponent('h2');
 const IframeWrap = styled.div`
   position: absolute;
   width: 100%;
-  height: 100%;
   height: 0;
   overflow: hidden;
   padding-bottom: 56.25%;

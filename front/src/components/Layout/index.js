@@ -42,6 +42,10 @@ const Profile = styled.div`
   margin: 5px 0;
   margin-left: 5px;
 
+  @media (max-width: 62em) {
+    margin-left: auto;
+  }
+
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     cursor: pointer;

@@ -152,26 +152,24 @@ export default function Home(props) {
         </FluidContent>
       </Header>
       <FluidContent>
-        <Center>
-          <Flex wrap justify="space-between">
-            <Box w={[1, 1/2, 1/4]}>
-              <FakeIcon />
-              <IconName>Videos</IconName>
-            </Box>
-            <Box w={[1, 1/2, 1/4]}>
-              <FakeIcon />
-              <IconName>Photos</IconName>
-            </Box>
-            <Box w={[1, 1/2, 1/4]}>
-              <FakeIcon />
-              <IconName>Gazettes</IconName>
-            </Box>
-            <Box w={[1, 1/2, 1/4]}>
-              <FakeIcon />
-              <IconName>Evenements</IconName>
-            </Box>
-          </Flex>
-        </Center>
+        <Flex wrap justify="space-between">
+          <Box w={[1, 1/2, 1/4]}>
+            <FakeIcon />
+            <IconName>Videos</IconName>
+          </Box>
+          <Box w={[1, 1/2, 1/4]}>
+            <FakeIcon />
+            <IconName>Photos</IconName>
+          </Box>
+          <Box w={[1, 1/2, 1/4]}>
+            <FakeIcon />
+            <IconName>Gazettes</IconName>
+          </Box>
+          <Box w={[1, 1/2, 1/4]}>
+            <FakeIcon />
+            <IconName>Evenements</IconName>
+          </Box>
+        </Flex>
         {/* <IconMenu>
           <div>
           </div>
@@ -291,24 +289,24 @@ export default function Home(props) {
         </About>
         <Separator />
         <SectionTitle fontSize={2} framed>SUIVEZ-NOUS</SectionTitle>
-        <IconMenu>
-          <div>
+        <Flex wrap justify="space-between">
+          <Box w={[1, 1/2, 1/4]}>
             <FakeIcon />
             <IconName>Facebook</IconName>
-          </div>
-          <div>
+          </Box>
+          <Box w={[1, 1/2, 1/4]}>
             <FakeIcon />
             <IconName>Twitter</IconName>
-          </div>
-          <div>
+          </Box>
+          <Box w={[1, 1/2, 1/4]}>
             <FakeIcon />
             <IconName>Instagram</IconName>
-          </div>
-          <div>
+          </Box>
+          <Box w={[1, 1/2, 1/4]}>
             <FakeIcon />
             <IconName>Snapchat</IconName>
-          </div>
-        </IconMenu>
+          </Box>
+        </Flex>
       </FluidContent>
     </div>
   );

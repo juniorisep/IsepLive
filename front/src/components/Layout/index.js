@@ -108,6 +108,20 @@ const NavMenu = styled.div`
     display: none;
   }
 `;
+const SocialBox = styled.div`
+  width: 100%;
+  text-align: center;
+  > h2 {
+    margin: 0;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    color: white;
+    font-size: 11px;
+  }
+  img {
+    width: 100%;
+  }
+`;
 
 const styleSheet = createStyleSheet('Layout', {
   root: {
@@ -206,22 +220,38 @@ class Layout extends React.Component {
         </Switch>
         <Footer>
           <FluidContent>
-            <Flex>
-              <Box w={[ 1, 1/4 ]}>
+            <Flex wrap>
+              <Box w={[ 1, 1, 2/6 ]} p={2}>
                 <h4>CONTACT</h4>
                 <p>28, Rue Notre Dame des Champs</p>
                 <p>75 006 Paris</p>
                 <p>+33 00 00 00 00 00</p>
                 <p>iseplive@gmail.com</p>
               </Box>
-              <Box w={[ 1, 1/4 ]}>
-
+              <Box w={[ 1, 1, 1/6 ]} p={2}>
+                <img src="img/iseplive.jpg" alt="logo" width="100%"/>
               </Box>
-              <Box w={[ 1, 1/4 ]}>
-
+              <Box w={[ 1, 1, 1/6 ]} p={2}>
+                <img src="img/iseplive.jpg" alt="logo" width="100%"/>
               </Box>
-              <Box w={[ 1, 1/4 ]}>
-
+              <Box w={[ 1, 1, 2/6 ]} p={2}>
+                <SocialBox>
+                  <h2>Suivez-nous sur les réseaux de l'internet</h2>
+                  <Flex>
+                    <Box width={1/4} p={1}>
+                      <img src="img/iseplive.jpg" alt="logo"/>
+                    </Box>
+                    <Box width={1/4} p={1}>
+                      <img src="img/iseplive.jpg" alt="logo"/>
+                    </Box>
+                    <Box width={1/4} p={1}>
+                      <img src="img/iseplive.jpg" alt="logo"/>
+                    </Box>
+                    <Box width={1/4} p={1}>
+                      <img src="img/iseplive.jpg" alt="logo"/>
+                    </Box>
+                  </Flex>
+                </SocialBox>
               </Box>
             </Flex>
           </FluidContent>

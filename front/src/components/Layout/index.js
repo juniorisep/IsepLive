@@ -22,6 +22,7 @@ import Home from '../../pages/home';
 import Media from '../../pages/media';
 import AddressBook from '../../pages/addressbook';
 import Club from '../../pages/club';
+import Events from '../../pages/events';
 import NotFound from '../../pages/404'
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
@@ -136,6 +137,7 @@ function Layout(props) {
         <Route path="/media" component={Media} />
         <Route path="/annuaire" component={AddressBook} />
         <Route path="/associations" component={Club} />
+        <Route path="/evenements" component={Events} />
         <Route path="*" component={NotFound} />
       </Switch>
       <Footer>

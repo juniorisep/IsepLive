@@ -16,6 +16,9 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 
+import Drawer from 'material-ui/Drawer';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+
 import Home from '../../pages/home';
 import Media from '../../pages/media';
 import AddressBook from '../../pages/addressbook';
@@ -29,6 +32,7 @@ import { FluidContent } from '../common';
 const Logo = styled.img`
   height: 50px;
   margin-right: 20px;
+  cursor: pointer;
 `;
 
 const Profile = styled.div`
@@ -36,7 +40,7 @@ const Profile = styled.div`
   padding: 5px;
   border-radius: 5px;
   margin: 5px 0;
-  margin-left: auto;
+  margin-left: 5px;
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -84,6 +88,27 @@ const LinksBar = styled.div`
   }
 `;
 
+const NavMenu = styled.div`
+  flex: 1 1 auto;
+  > div {
+    display: flex;
+  }
+  > div > div a {
+    margin: 0 5px;
+  }
+  > div > div {
+    flex: 1 1 auto;
+    text-align: center;
+    border-right: 2px solid white;
+  }
+  > div > div:first-child {
+    border-left: 2px solid white;
+  }
+  @media (max-width: 62em) {
+    display: none;
+  }
+`;
+
 const styleSheet = createStyleSheet('Layout', {
   root: {
     width: '100%',
@@ -95,84 +120,124 @@ const styleSheet = createStyleSheet('Layout', {
 
 function Nav(props) {
   return (
-    <Button
-      color="contrast"
-      component={NavLink}
-      to={props.to} activeStyle={{
-        color: SECONDARY_COLOR,
-      }}>{props.children}</Button>
+    <div>
+      <Button
+        color="contrast"
+        component={NavLink}
+        to={props.to} activeStyle={{
+          color: SECONDARY_COLOR,
+        }}>{props.children}</Button>
+    </div>
   )
 }
 
-function Layout(props) {
-  const classes = props.classes;
+function SideNav(props) {
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <NavLink to="/accueil">
+    <NavLink to={props.to}>
+      <ListItem button>
+        <ListItemText primary={props.children} />
+      </ListItem>
+    </NavLink>
+  )
+}
+
+
+const navList = (Component) => (
+  <div>
+    <Component to="/accueil">Accueil</Component>
+    <Component to="/media">Media</Component>
+    <Component to="/annuaire">Annuaire</Component>
+    <Component to="/associations">Associations</Component>
+    <Component to="/evenements">Evenements</Component>
+    <Component to="/whoarewe">Qui sommes-nous ?</Component>
+  </div>
+)
+
+class Layout extends React.Component {
+
+  state = {
+    sidebarOpen: false,
+  }
+
+  handleSideBarClose = () => {
+    this.setState({ sidebarOpen: false });
+  }
+
+  render() {
+    const props = this.props;
+    const classes = props.classes;
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
             <Logo
               src="img/iseplive.jpg"
               alt="isep live logo"
+              onClick={() => this.setState({ sidebarOpen: true })}
             />
-          </NavLink>
-          <Nav to="/accueil">Accueil</Nav>
-          <Nav to="/media">Media</Nav>
-          <Nav to="/annuaire">Annuaire</Nav>
-          <Nav to="/associations">Associations</Nav>
-          <Nav to="/evenements">Evenements</Nav>
-          <Nav to="/whoarewe">Qui sommes-nous ?</Nav>
-          <Profile>
-            <img src="https://numeris-isep.fr/img/team//amalric.resized.jpg" alt=""/>
-            <div>
-              <span>Amalric</span>
-              <span>DE BUFFIERE</span>
-            </div>
-          </Profile>
-        </Toolbar>
-      </AppBar>
-      <Switch>
-        <Redirect path="/" exact to="/accueil" />
-        <Route path="/accueil" component={Home} />
-        <Route path="/media" component={Media} />
-        <Route path="/annuaire" component={AddressBook} />
-        <Route path="/associations" component={Club} />
-        <Route path="/evenements" component={Events} />
-        <Route path="*" component={NotFound} />
-      </Switch>
-      <Footer>
-        <FluidContent>
-          <Flex>
-            <Box w={[ 1, 1/4 ]}>
-              <h4>CONTACT</h4>
-              <p>28, Rue Notre Dame des Champs</p>
-              <p>75 006 Paris</p>
-              <p>+33 00 00 00 00 00</p>
-              <p>iseplive@gmail.com</p>
-            </Box>
-            <Box w={[ 1, 1/4 ]}>
+            <NavMenu>
+              {navList(Nav)}
+            </NavMenu>
+            <Profile>
+              <img src="https://numeris-isep.fr/img/team//amalric.resized.jpg" alt=""/>
+              <div>
+                <span>Victor</span>
+                <span>Ely</span>
+              </div>
+            </Profile>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          anchor="left"
+          open={this.state.sidebarOpen}
+          onRequestClose={this.handleSideBarClose}
+          onClick={this.handleSideBarClose}
+        >
+          {navList(SideNav)}
+        </Drawer>
+        <Switch>
+          <Redirect path="/" exact to="/accueil" />
+          <Route path="/accueil" component={Home} />
+          <Route path="/media" component={Media} />
+          <Route path="/annuaire" component={AddressBook} />
+          <Route path="/associations" component={Club} />
+          <Route path="/evenements" component={Events} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+        <Footer>
+          <FluidContent>
+            <Flex>
+              <Box w={[ 1, 1/4 ]}>
+                <h4>CONTACT</h4>
+                <p>28, Rue Notre Dame des Champs</p>
+                <p>75 006 Paris</p>
+                <p>+33 00 00 00 00 00</p>
+                <p>iseplive@gmail.com</p>
+              </Box>
+              <Box w={[ 1, 1/4 ]}>
 
-            </Box>
-            <Box w={[ 1, 1/4 ]}>
+              </Box>
+              <Box w={[ 1, 1/4 ]}>
 
-            </Box>
-            <Box w={[ 1, 1/4 ]}>
+              </Box>
+              <Box w={[ 1, 1/4 ]}>
 
-            </Box>
-          </Flex>
-        </FluidContent>
-      </Footer>
-      <LinksBar>
-        <div>
-          <span>© 2017 ISEP Live </span>
-          <a href="">Aide</a>
-          <a href="">Mentions Légales</a>
-          <a href="">Convention d'utilisation</a>
-          <a href="">Contact</a>
-        </div>
-      </LinksBar>
-    </div>
-  );
+              </Box>
+            </Flex>
+          </FluidContent>
+        </Footer>
+        <LinksBar>
+          <div>
+            <span>© 2017 ISEP Live </span>
+            <a href="">Aide</a>
+            <a href="">Mentions Légales</a>
+            <a href="">Convention d'utilisation</a>
+            <a href="">Contact</a>
+          </div>
+        </LinksBar>
+      </div>
+    );
+  }
 }
 
 Layout.propTypes = {

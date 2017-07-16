@@ -24,6 +24,7 @@ const IconMenu = styled.div`
 `;
 
 const FakeIcon = styled.div`
+  margin: 0 auto;
   width: 100px;
   height: 100px;
   background: ${MAIN_COLOR};
@@ -34,6 +35,7 @@ const FakeIcon = styled.div`
 const IconName = styled.h3`
   text-align: center;
   margin: 0;
+  margin-bottom: 10px;
   color: ${props => props.theme.accent};
 `;
 
@@ -150,10 +152,28 @@ export default function Home(props) {
         </FluidContent>
       </Header>
       <FluidContent>
-        <IconMenu>
+        <Center>
+          <Flex wrap justify="space-between">
+            <Box w={[1, 1/2, 1/4]}>
+              <FakeIcon />
+              <IconName>Videos</IconName>
+            </Box>
+            <Box w={[1, 1/2, 1/4]}>
+              <FakeIcon />
+              <IconName>Photos</IconName>
+            </Box>
+            <Box w={[1, 1/2, 1/4]}>
+              <FakeIcon />
+              <IconName>Gazettes</IconName>
+            </Box>
+            <Box w={[1, 1/2, 1/4]}>
+              <FakeIcon />
+              <IconName>Evenements</IconName>
+            </Box>
+          </Flex>
+        </Center>
+        {/* <IconMenu>
           <div>
-            <FakeIcon />
-            <IconName>Videos</IconName>
           </div>
           <div>
             <FakeIcon />
@@ -167,7 +187,7 @@ export default function Home(props) {
             <FakeIcon />
             <IconName>Evenements</IconName>
           </div>
-        </IconMenu>
+        </IconMenu> */}
       </FluidContent>
       <Background>
         <Overlay />

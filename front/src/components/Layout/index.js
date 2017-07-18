@@ -15,6 +15,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import Menu, { MenuItem } from 'material-ui/Menu';
 
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
@@ -175,11 +176,22 @@ class Layout extends React.Component {
 
   state = {
     sidebarOpen: false,
+    anchorEl: undefined,
+    open: false,
   }
 
   handleSideBarClose = () => {
     this.setState({ sidebarOpen: false });
   }
+
+  handleClick = event => {
+    this.setState({ open: true, anchorEl: event.currentTarget });
+  };
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
+
 
   render() {
     const props = this.props;
@@ -196,13 +208,22 @@ class Layout extends React.Component {
             <NavMenu>
               {navList(Nav)}
             </NavMenu>
-            <Profile>
+            <Profile onClick={this.handleClick}>
               <img src="https://numeris-isep.fr/img/team//amalric.resized.jpg" alt=""/>
               <div>
                 <span>Victor</span>
                 <span>Ely</span>
               </div>
             </Profile>
+            <Menu
+              id="simple-menu"
+              anchorEl={this.state.anchorEl}
+              open={this.state.open}
+              onRequestClose={this.handleRequestClose}
+            >
+              <MenuItem onClick={this.handleRequestClose}>Profile</MenuItem>
+              <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/connexion">Déconnexion</MenuItem>
+            </Menu>
           </Toolbar>
         </AppBar>
         <Drawer

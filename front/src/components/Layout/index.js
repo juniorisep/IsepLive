@@ -25,7 +25,9 @@ import Media from '../../pages/media';
 import AddressBook from '../../pages/addressbook';
 import Club from '../../pages/club';
 import Events from '../../pages/events';
-import NotFound from '../../pages/404'
+import NotFound from '../../pages/404';
+import Resume from '../../pages/resume';
+import Whoarewe from '../../pages/whoarewe';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 import { FluidContent } from '../common';
@@ -221,7 +223,7 @@ class Layout extends React.Component {
               open={this.state.open}
               onRequestClose={this.handleRequestClose}
             >
-              <MenuItem onClick={this.handleRequestClose}>Profile</MenuItem>
+              <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profile</MenuItem>
               <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/connexion">Déconnexion</MenuItem>
             </Menu>
           </Toolbar>
@@ -241,6 +243,8 @@ class Layout extends React.Component {
           <Route path="/annuaire" component={AddressBook} />
           <Route path="/associations" component={Club} />
           <Route path="/evenements" component={Events} />
+          <Route path="/profile" component={Resume} />
+          <Route path="/whoarewe" component={Whoarewe} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer>

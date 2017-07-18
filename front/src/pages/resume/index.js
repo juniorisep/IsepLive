@@ -23,7 +23,7 @@ class Resume extends Component {
             <p>Ton petit jardin secret</p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar placeholder="Rechercher des évenements"/>
+            <SearchBar placeholder="Rechercher"/>
           </FluidContent>
         </Header>
         <FluidContent>

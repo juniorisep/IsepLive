@@ -269,16 +269,16 @@ class Layout extends React.Component {
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
                   <Flex>
                     <Box width={1/4} p={1}>
-                      <img src="img/iseplive.jpg" alt="logo"/>
+                      <img src="svg/facebook.svg" alt="Facebook logo"/>
                     </Box>
                     <Box width={1/4} p={1}>
-                      <img src="img/iseplive.jpg" alt="logo"/>
+                      <img src="svg/twitter.svg" alt="Twitter logo"/>
                     </Box>
                     <Box width={1/4} p={1}>
-                      <img src="img/iseplive.jpg" alt="logo"/>
+                      <img src="svg/instagram.svg" alt="Instagram logo"/>
                     </Box>
                     <Box width={1/4} p={1}>
-                      <img src="img/iseplive.jpg" alt="logo"/>
+                      <img src="svg/snapchat.svg" alt="Snapchat logo"/>
                     </Box>
                   </Flex>
                 </SocialBox>

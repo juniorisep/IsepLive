@@ -182,6 +182,8 @@ class Layout extends React.Component {
     open: false,
   }
 
+  Profile = undefined;
+
   handleSideBarClose = () => {
     this.setState({ sidebarOpen: false });
   }

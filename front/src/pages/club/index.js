@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
 import {
-  Separator,
   FluidContent,
   Header,
-  Title,
   SearchBar,
   Filler,
   Banner,
 } from '../../components/common';
-import Button from 'material-ui/Button';
 
 const ClubTile = (props) => {
   const ClubStyle = styled.div`

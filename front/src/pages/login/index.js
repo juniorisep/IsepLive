@@ -39,7 +39,7 @@ const Background = styled.div`
   z-index: -2;
 `;
 
-const Overlay = styled.div`
+/* const Overlay = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -48,7 +48,7 @@ const Overlay = styled.div`
   background: ${MAIN_COLOR};
   opacity: 0.7;
   z-index: -1;
-`;
+`; */
 
 const BackgroundContainer = styled.div`
   position: absolute;

@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
 import {
-  Separator,
   FluidContent,
   Header,
-  Title,
   SearchBar,
   Filler,
   Banner,

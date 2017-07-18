@@ -18,10 +18,10 @@ import {
 
 
 
-const IconMenu = styled.div`
+/* const IconMenu = styled.div`
   display: flex;
   justify-content: space-between;
-`;
+`; */
 
 const FakeIcon = styled.div`
   margin: 0 auto;

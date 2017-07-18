@@ -9,7 +9,6 @@ import {
   Separator,
   FluidContent,
   Header,
-  Title,
   SearchBar,
   Filler,
   Banner,

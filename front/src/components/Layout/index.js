@@ -227,7 +227,7 @@ class Layout extends React.Component {
             </Menu>
           </Toolbar>
         </AppBar>
-        { window.innerWidth < 993  &&
+        { window.innerWidth < 1009  &&
           <Drawer
             anchor="left"
             open={this.state.sidebarOpen}

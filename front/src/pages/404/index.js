@@ -4,29 +4,26 @@ import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+
 import {
-  FluidContent,
   Header,
   Filler,
   Banner,
 } from '../../components/common';
 
-import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
-
 class NotFound extends Component {
   render() {
     return (
       <div>
-        <Header url="img/background.jpg">
-          <Filler h={50} />
+        <Header url="img/404.jpg">
+          <Filler h={152} />
           <Banner>
             <h1>404</h1>
-            <p>Un lendemain de soirée trop dur ?</p>
+            <p>Il semblerait que tu te sois aventuré un peu trop loin...</p>
           </Banner>
+          <Filler h={152} />
         </Header>
-        <FluidContent>
-          <h1>Mettre un truc rigolo ici</h1>
-        </FluidContent>
       </div>
     );
   }

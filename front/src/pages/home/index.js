@@ -277,10 +277,10 @@ export default function Home(props) {
             </Box>
             <Box w={[ 1, 1/2 ]} p={2}>
               <Text>
-                Blabla
+                Wei 2K18
               </Text>
               <Text color="#3a40d7">
-                Blabla
+                WEI Ingé 2015 - JT -
               </Text>
             </Box>
           </Flex>

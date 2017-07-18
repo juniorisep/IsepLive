@@ -262,23 +262,23 @@ class Layout extends React.Component {
                 <img src="img/iseplive.png" alt="Isep Live logo" width="100%"/>
               </Box>
               <Box w={[ 1, 1, 1/6 ]} p={2}>
-                <img src="img/juniorisep.png" alt="Junior ISEP logo" width="100%"/>
+                <img src="svg/juniorisep.svg" alt="Junior ISEP logo" width="100%"/>
               </Box>
               <Box w={[ 1, 1, 2/6 ]} p={2}>
                 <SocialBox>
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
                   <Flex>
                     <Box width={1/4} p={1}>
-                      <img src="svg/facebook.svg" alt="Facebook logo"/>
+                      <a href="https://www.facebook.com/IsepLive/?fref=ts"><img src="svg/facebook.svg" alt="Facebook logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                      <img src="svg/twitter.svg" alt="Twitter logo"/>
+                    <a href="https://twitter.com/iseplive"><img src="svg/twitter.svg" alt="Twitter logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                      <img src="svg/instagram.svg" alt="Instagram logo"/>
+                    <a href="https://www.instagram.com/iseplive/"><img src="svg/instagram.svg" alt="Instagram logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                      <img src="svg/snapchat.svg" alt="Snapchat logo"/>
+                    <a href=""><img src="svg/snapchat.svg" alt="Snapchat logo"/></a>
                     </Box>
                   </Flex>
                 </SocialBox>

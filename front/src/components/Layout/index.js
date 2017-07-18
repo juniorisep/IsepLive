@@ -42,7 +42,7 @@ const Profile = styled.div`
   margin: 5px 0;
   margin-left: 5px;
 
-  @media (max-width: 62em) {
+  @media (max-width: 63em) {
     margin-left: auto;
   }
 
@@ -108,7 +108,7 @@ const NavMenu = styled.div`
   > div > div:first-child {
     border-left: 2px solid white;
   }
-  @media (max-width: 62em) {
+  @media (max-width: 63em) {
     display: none;
   }
 `;
@@ -227,14 +227,16 @@ class Layout extends React.Component {
             </Menu>
           </Toolbar>
         </AppBar>
-        <Drawer
-          anchor="left"
-          open={this.state.sidebarOpen}
-          onRequestClose={this.handleSideBarClose}
-          onClick={this.handleSideBarClose}
-        >
+        { window.innerWidth < 993  &&
+          <Drawer
+            anchor="left"
+            open={this.state.sidebarOpen}
+            onRequestClose={this.handleSideBarClose}
+            onClick={this.handleSideBarClose}
+          >
           {navList(SideNav)}
         </Drawer>
+        }
         <Switch>
           <Redirect path="/" exact to="/accueil" />
           <Route path="/accueil" component={Home} />

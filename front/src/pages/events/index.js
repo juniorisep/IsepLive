@@ -43,7 +43,7 @@ const Event = (props) => {
     <EventStyle coverUrl={props.coverUrl}>
       <Flex wrap>
         <Box w={[1, 1/2]}>
-          <div className="image"></div>
+          <div className="image"><img src="img/background.jpg" style={{width: '100%'}}/></div>
         </Box>
         <Box w={[1, 1/2]} p="20px">
           <Flex>

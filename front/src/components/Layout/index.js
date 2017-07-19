@@ -26,9 +26,13 @@ import NotFound from '../../pages/404';
 import Resume from '../../pages/resume';
 import Whoarewe from '../../pages/whoarewe';
 import Admin from '../../pages/administration'
+import Contact from '../../pages/contact'
+import Help from '../../pages/help'
+import LegalNotice from '../../pages/legalNotice'
+import UserAgreement from '../../pages/userAgreement'
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
-import { FluidContent } from '../common';
+import { FluidContent, Filler } from '../common';
 
 const Logo = styled.img`
   height: 50px;
@@ -87,9 +91,6 @@ const LinksBar = styled.div`
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 50px;
-  }
-  a {
-    margin: 0 10px;
   }
 `;
 
@@ -249,6 +250,10 @@ class Layout extends React.Component {
           <Route path="/profile" component={Resume} />
           <Route path="/whoarewe" component={Whoarewe} />
           <Route path="/administration" component={Admin} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/aide" component={Help} />
+          <Route path="/convention-utilisation" component={UserAgreement} />
+          <Route path="/mentions-legales" component={LegalNotice} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer>
@@ -262,10 +267,12 @@ class Layout extends React.Component {
                 <p>iseplive@gmail.com</p>
               </Box>
               <Box w={[ 1, 1, 1/6 ]} p={2}>
+                <Filler h={28} />
                 <img src="img/iseplive.png" alt="Isep Live logo" width="100%"/>
               </Box>
               <Box w={[ 1, 1, 1/6 ]} p={2}>
-                <img src="svg/juniorisep.svg" alt="Junior ISEP logo" width="100%"/>
+                <Filler h={40} />
+                <a href="https://www.juniorisep.com"><img src="svg/juniorisep.svg" alt="Junior ISEP logo" width="100%"/></a>
               </Box>
               <Box w={[ 1, 1, 2/6 ]} p={2}>
                 <SocialBox>
@@ -292,10 +299,10 @@ class Layout extends React.Component {
         <LinksBar>
           <div>
             <span>© 2017 ISEP Live </span>
-            <a href="">Aide</a>
-            <a href="">Mentions Légales</a>
-            <a href="">Convention d'utilisation</a>
-            <a href="">Contact</a>
+            <Button color="contrast" component={NavLink} to="/aide" activeStyle={{color: MAIN_COLOR}}>Aide</Button>
+            <Button color="contrast" component={NavLink} to="/mentions-legales" activeStyle={{color: MAIN_COLOR}}>Mentions Légales</Button>
+            <Button color="contrast" component={NavLink} to="/convention-utilisation" activeStyle={{color: MAIN_COLOR}}>Convention d'utilisation</Button>
+            <Button color="contrast" component={NavLink} to="/contact" activeStyle={{color: MAIN_COLOR}}>Contact</Button>
           </div>
         </LinksBar>
       </div>

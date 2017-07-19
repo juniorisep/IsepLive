@@ -178,9 +178,6 @@ const BigButton = styled(Button)`
 
 
 const CUSTOM_STYLES = {
-  underlineFocusStyle: {
-    borderColor:"#77191c",
-  },
   btn: {
     background: MAIN_COLOR,
     color: 'white',
@@ -212,9 +209,9 @@ export default class Login extends Component {
               <Subtitle>Espace étudiant de l'Isep</Subtitle>
             </TitleHeader>
             <LogoPartner>
-              <Logo src="img/alten.jpg" alt="Alten" />
-              <Logo src="img/cosmoz.jpg" alt="BDE" />
-              <Logo src="img/isep.png" alt="ISEP" />
+              <a href="http://www.alten.fr/" target="_blank"><Logo src="img/alten.jpg" alt="Alten" /></a>
+              <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank"><Logo src="img/cosmoz.jpg" alt="BDE" /></a>
+              <a href="https://www.isep.fr/" target="_blank"><Logo src="img/isep.png" alt="ISEP" /></a>
             </LogoPartner>
           </TitleContainer>
           <Separator />
@@ -252,13 +249,11 @@ function LoginForm(props) {
           type="text"
           label="Nom d'utilisateur"
           fullWidth
-          underlineFocusStyle={CUSTOM_STYLES.underlineFocusStyle}
         />
         <TextField
           type="password"
           label="Mot de passe"
           fullWidth
-          underlineFocusStyle={CUSTOM_STYLES.underlineFocusStyle}
         />
       </DialogContent>
       <DialogActions>

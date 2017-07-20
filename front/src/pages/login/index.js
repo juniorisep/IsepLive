@@ -209,9 +209,9 @@ export default class Login extends Component {
               <Subtitle>Espace étudiant de l'Isep</Subtitle>
             </TitleHeader>
             <LogoPartner>
-              <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><Logo src="svg/alten.svg" alt="Alten" /></a>
-              <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><Logo src="svg/cosmoz.svg" alt="BDE" /></a>
-              <a href="https://www.isep.fr/" target="_blank" rel="noopener noreferrer"><Logo src="svg/isep.svg" alt="ISEP" /></a>
+              <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><Logo src="svg/alten.svg" alt="Alten logo" /></a>
+              <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><Logo src="svg/cosmoz.svg" alt="BDE logo" /></a>
+              <a href="https://www.isep.fr/" target="_blank" rel="noopener noreferrer"><Logo src="svg/isep.svg" alt="ISEP logo" /></a>
             </LogoPartner>
           </TitleContainer>
           <Separator />

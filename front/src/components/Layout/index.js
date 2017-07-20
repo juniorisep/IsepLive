@@ -268,10 +268,9 @@ class Layout extends React.Component {
               </Box>
               <Box w={[ 1, 1, 1/6 ]} p={2}>
                 <Filler h={28} />
-                <img src="img/iseplive.png" alt="Isep Live logo" width="100%"/>
+                <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank"><img src="img/iseplive.png" alt="Isep Live logo" width="100%"/></a>
               </Box>
               <Box w={[ 1, 1, 1/6 ]} p={2}>
-                <Filler h={40} />
                 <a href="https://www.juniorisep.com" target="_blank"><img src="svg/juniorisep.svg" alt="Junior ISEP logo" width="100%"/></a>
               </Box>
               <Box w={[ 1, 1, 2/6 ]} p={2}>

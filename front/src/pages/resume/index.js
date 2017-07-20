@@ -177,6 +177,16 @@ function UpdateResume(props) {
           label="Date de naissance"
           fullWidth
         />
+        <TextField
+          type="text"
+          label="Lien Facebook"
+          fullWidth
+        />
+        <TextField
+          type="text"
+          label="Lien Instagram"
+          fullWidth
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleRequestClose} color="accent" >

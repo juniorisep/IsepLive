@@ -44,21 +44,21 @@ class Resume extends Component {
         </Header>
         <FluidContent>
           <Flex wrap>
-            <Box px={2} py={1} width={1/4}>
+            <Box p={2} width={1/4}>
               <Person
                 url="https://numeris-isep.fr/img/team//amalric.resized.jpg"
               />
           	</Box>
-            <Box px={2} py={1} width={3/4}>
+            <Box p={2} width={3/4}>
               Informations
             </Box>
-            <Box px={2} py={1} width={1/1}>
+            <Box p={2} width={1}>
               Citation
             </Box>
-            <Box px={2} py={1} width={1/1}>
+            <Box p={2} width={1}>
               Association
             </Box>
-            <Box px={2} py={1} width={1/1}>
+            <Box p={2} width={1}>
               Publications
             </Box>
           </Flex>

@@ -297,7 +297,7 @@ class Layout extends React.Component {
         </Footer>
         <LinksBar>
           <div>
-            <span>© 2017 ISEP Live </span>
+            <span>© 2017 ISEPLive </span>
             <Button color="contrast" component={NavLink} to="/aide" activeStyle={{color: MAIN_COLOR}}>Aide</Button>
             <Button color="contrast" component={NavLink} to="/mentions-legales" activeStyle={{color: MAIN_COLOR}}>Mentions Légales</Button>
             <Button color="contrast" component={NavLink} to="/convention-utilisation" activeStyle={{color: MAIN_COLOR}}>Convention d'utilisation</Button>

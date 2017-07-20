@@ -268,26 +268,26 @@ class Layout extends React.Component {
               </Box>
               <Box w={[ 1, 1, 1/6 ]} p={2}>
                 <Filler h={28} />
-                <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank"><img src="img/iseplive.png" alt="Isep Live logo" width="100%"/></a>
+                <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="img/iseplive.png" alt="Isep Live logo" width="100%"/></a>
               </Box>
               <Box w={[ 1, 1, 1/6 ]} p={2}>
-                <a href="https://www.juniorisep.com" target="_blank"><img src="svg/juniorisep.svg" alt="Junior ISEP logo" width="100%"/></a>
+                <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="svg/juniorisep.svg" alt="Junior ISEP logo" width="100%"/></a>
               </Box>
               <Box w={[ 1, 1, 2/6 ]} p={2}>
                 <SocialBox>
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
                   <Flex>
                     <Box width={1/4} p={1}>
-                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank"><img src="svg/facebook.svg" alt="Facebook logo"/></a>
+                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="svg/facebook.svg" alt="Facebook logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                    <a href="https://twitter.com/iseplive" target="_blank"><img src="svg/twitter.svg" alt="Twitter logo"/></a>
+                    <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="svg/twitter.svg" alt="Twitter logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                    <a href="https://www.instagram.com/iseplive/" target="_blank"><img src="svg/instagram.svg" alt="Instagram logo"/></a>
+                    <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="svg/instagram.svg" alt="Instagram logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                    <a href="" target="_blank"><img src="svg/snapchat.svg" alt="Snapchat logo"/></a>
+                    <a href="" target="_blank" rel="noopener noreferrer"><img src="svg/snapchat.svg" alt="Snapchat logo"/></a>
                     </Box>
                   </Flex>
                 </SocialBox>

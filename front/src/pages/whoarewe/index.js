@@ -7,6 +7,7 @@ import { Flex, Box } from 'grid-styled';
 import {
   FluidContent,
   Header,
+  SearchBar,
   Filler,
   Banner,
 } from '../../components/common';
@@ -21,6 +22,9 @@ class Whoarewe extends Component {
             <h1>Qui sommes-nous ?</h1>
             <p>Notre petit jardin secret</p>
           </Banner>
+          <FluidContent p="0">
+            <SearchBar placeholder="Rechercher" />
+          </FluidContent>
         </Header>
         <FluidContent>
 

@@ -190,7 +190,12 @@ export default function Home(props) {
         <FluidContent>
           <PublishBox>
             <MessageBox placeholder="Tapez votre message" />
-            <Button raised color="primary">Importer fichier</Button>
+            <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{display: 'none'}} />
+            <label htmlFor="file">
+              <Button raised component="span" color="primary">
+                Importer fichier
+              </Button>
+            </label>
             <Button raised color="accent" style={{ float: "right" }}>Publier</Button>
           </PublishBox>
           <Separator />

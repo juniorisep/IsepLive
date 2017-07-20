@@ -204,7 +204,7 @@ class Layout extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Logo
-              src="img/iseplive.jpg"
+              src="svg/iseplive.svg"
               alt="isep live logo"
               onClick={() => this.setState({ sidebarOpen: true })}
             />

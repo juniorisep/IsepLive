@@ -124,6 +124,12 @@ class Resume extends Component {
               <Paper elevation={4} style={{ padding: 20, borderRadius: '10px'}}>
                 <Typography type="headline" component="h3">
                   Publications
+                  <Button raised color="primary" style={{float: 'right'}}>
+                    Modifier
+                  </Button>
+                  <Button color="accent" style={{float: 'right'}}>
+                    Supprimer
+                  </Button>
                 </Typography>
                 <Typography type="body1" component="p">
                   ryituoyipuoiùpuogypiftuodryitfuoygi

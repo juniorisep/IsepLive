@@ -225,7 +225,7 @@ class Layout extends React.Component {
               onRequestClose={this.handleRequestClose}
             >
               <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
-              <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profile</MenuItem>
+              <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
               <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/connexion">Déconnexion</MenuItem>
             </Menu>
           </Toolbar>

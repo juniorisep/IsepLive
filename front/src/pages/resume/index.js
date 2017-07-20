@@ -55,7 +55,7 @@ class Resume extends Component {
         <Header url="img/background.jpg">
           <Filler h={50} />
           <Banner>
-            <h1>Profile</h1>
+            <h1>Profil</h1>
             <p>Ton petit jardin secret</p>
           </Banner>
           <FluidContent p="0">

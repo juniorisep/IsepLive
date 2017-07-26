@@ -29,7 +29,7 @@ import {
 const Person = (props) => {
   const PersonStyle = styled.div`
     > img {
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
       width: 100%;
     }
   `;

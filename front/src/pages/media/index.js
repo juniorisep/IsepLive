@@ -16,9 +16,12 @@ import {
   Banner,
 } from '../../components/common';
 
+import Gallery from '../../components/Gallery';
+
 const Album = (props) => {
   const AlbumStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     div.image {
       width: 100%;
       height: 200px;
@@ -33,7 +36,7 @@ const Album = (props) => {
     }
   `;
   return (
-    <AlbumStyle url={props.url}>
+    <AlbumStyle url={props.url} onClick={props.onClick}>
       <div className="image"></div>
       <div className="caption">{props.text}</div>
     </AlbumStyle>
@@ -59,6 +62,14 @@ const DateSeparator = (props) => {
 }
 
 class Media extends Component {
+  state = {
+    showGallerie: false,
+  }
+
+  toggleGallerie = () => {
+    this.setState({ showGallerie: !this.state.showGallerie })
+  }
+
   render() {
     return (
       <div>
@@ -93,7 +104,7 @@ class Media extends Component {
             {
               '123456789'.split('').map(e => {
                 return <Box w={[ 1, 1/2, 1/3 ]} p={2}>
-                  <Album url="img/background.jpg" text="New Album"/>
+                  <Album url="img/background.jpg" text="New Album" onClick={this.toggleGallerie}/>
                 </Box>
               })
             }
@@ -109,6 +120,7 @@ class Media extends Component {
             }
           </Flex>
         </FluidContent>
+        <Gallery visible={this.state.showGallerie} onEscKey={this.toggleGallerie} />
       </div>
     );
   }

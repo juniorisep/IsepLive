@@ -27,4 +27,43 @@ public class VoteDor {
 
     private Date date;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public QuestionDor getQuestionDor() {
+        return questionDor;
+    }
+
+    public void setQuestionDor(QuestionDor questionDor) {
+        this.questionDor = questionDor;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

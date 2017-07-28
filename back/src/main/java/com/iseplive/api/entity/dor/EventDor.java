@@ -17,4 +17,43 @@ public class EventDor {
     private Date result;
     private Boolean enabled;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getFirstTurn() {
+        return firstTurn;
+    }
+
+    public void setFirstTurn(Date firstTurn) {
+        this.firstTurn = firstTurn;
+    }
+
+    public Date getSecondTurn() {
+        return secondTurn;
+    }
+
+    public void setSecondTurn(Date secondTurn) {
+        this.secondTurn = secondTurn;
+    }
+
+    public Date getResult() {
+        return result;
+    }
+
+    public void setResult(Date result) {
+        this.result = result;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 }

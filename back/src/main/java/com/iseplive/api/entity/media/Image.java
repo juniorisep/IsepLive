@@ -1,4 +1,4 @@
-package com.iseplive.api.entity;
+package com.iseplive.api.entity.media;
 
 import com.iseplive.api.dto.ImageTypeEnum;
 import com.iseplive.api.dto.Media;
@@ -14,7 +14,7 @@ import java.util.Date;
  * back
  */
 @Entity
-public class Image extends Media {
+public class Image implements Media {
 
     @Id
     private Long id;
@@ -22,8 +22,8 @@ public class Image extends Media {
     @Enumerated(EnumType.STRING)
     private ImageTypeEnum type;
 
-    private String link;
-    private String thumbLink;
+    private String fullSize;
+    private String smallSize;
     private Date creation;
     private String description;
 
@@ -35,12 +35,12 @@ public class Image extends Media {
         this.id = id;
     }
 
-    public String getLink() {
-        return link;
+    public String getFullSize() {
+        return fullSize;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setFullSize(String fullSize) {
+        this.fullSize = fullSize;
     }
 
     public Date getCreation() {
@@ -51,12 +51,12 @@ public class Image extends Media {
         this.creation = creation;
     }
 
-    public String getThumbLink() {
-        return thumbLink;
+    public String getSmallSize() {
+        return smallSize;
     }
 
-    public void setThumbLink(String thumbLink) {
-        this.thumbLink = thumbLink;
+    public void setSmallSize(String smallSize) {
+        this.smallSize = smallSize;
     }
 
     public String getDescription() {
@@ -73,5 +73,10 @@ public class Image extends Media {
 
     public void setType(ImageTypeEnum type) {
         this.type = type;
+    }
+
+    @Override
+    public String getLink() {
+        return fullSize;
     }
 }

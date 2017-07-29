@@ -1,5 +1,7 @@
 package com.iseplive.api.entity;
 
+import com.iseplive.api.entity.media.Image;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -1,4 +1,7 @@
-package com.iseplive.api.entity;
+package com.iseplive.api.entity.user;
+
+import com.iseplive.api.entity.Club;
+import com.iseplive.api.entity.media.Image;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -5,9 +5,24 @@ package com.iseplive.api.dto;
  * back
  */
 public enum ImageTypeEnum {
-    POST,
+
+    /**
+     * Standard images
+     */
+    STANDALONE,
+
+    /**
+     * Images linked to a gallery
+     */
     GALLERY,
+
+    /**
+     * Logo of clubs
+     */
     CLUB,
-    EVENT,
+
+    /**
+     * Profile images
+     */
     CONTACT
 }

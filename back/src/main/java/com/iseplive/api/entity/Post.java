@@ -1,5 +1,8 @@
 package com.iseplive.api.entity;
 
+import com.iseplive.api.entity.media.MediaIntegration;
+import com.iseplive.api.entity.user.Student;
+
 import javax.persistence.*;
 import java.util.Date;
 

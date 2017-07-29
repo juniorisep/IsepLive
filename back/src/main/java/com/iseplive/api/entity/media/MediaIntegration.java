@@ -1,6 +1,7 @@
-package com.iseplive.api.entity;
+package com.iseplive.api.entity.media;
 
 import com.iseplive.api.dto.MediaTypeEnum;
+import com.iseplive.api.entity.media.Gallery;
 
 import javax.persistence.*;
 
@@ -18,17 +19,7 @@ public class MediaIntegration {
     private MediaTypeEnum type;
 
     private String link;
-
-    @OneToOne
-    private Gallery gallery;
-
-    public Gallery getGallery() {
-        return gallery;
-    }
-
-    public void setGallery(Gallery gallery) {
-        this.gallery = gallery;
-    }
+    private Long mediaId;
 
     public Long getId() {
         return id;
@@ -52,5 +43,13 @@ public class MediaIntegration {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public Long getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(Long mediaId) {
+        this.mediaId = mediaId;
     }
 }

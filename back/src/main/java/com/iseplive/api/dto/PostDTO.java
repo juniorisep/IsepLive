@@ -10,8 +10,8 @@ public class PostDTO {
     private String title;
     private Date creationDate;
     private String content;
-    private Long authorId;
     private Long mediaId;
+    private Long authorId;
 
     public String getTitle() {
         return title;
@@ -37,4 +37,19 @@ public class PostDTO {
         this.content = content;
     }
 
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
+
+    public Long getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(Long mediaId) {
+        this.mediaId = mediaId;
+    }
 }

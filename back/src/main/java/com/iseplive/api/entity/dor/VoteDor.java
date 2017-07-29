@@ -1,9 +1,10 @@
 package com.iseplive.api.entity.dor;
 
-import com.iseplive.api.entity.Employee;
-import com.iseplive.api.entity.Student;
+import com.iseplive.api.entity.user.Employee;
+import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.util.Date;
 
@@ -14,7 +15,11 @@ import java.util.Date;
 @Entity
 public class VoteDor {
 
+    @Id
     private Long id;
+
+    @OneToOne
+    private SessionDor session;
 
     @OneToOne
     private Student student;
@@ -65,5 +70,13 @@ public class VoteDor {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public SessionDor getSession() {
+        return session;
+    }
+
+    public void setSession(SessionDor session) {
+        this.session = session;
     }
 }

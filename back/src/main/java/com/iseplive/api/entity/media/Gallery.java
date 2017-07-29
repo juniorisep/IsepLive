@@ -1,4 +1,6 @@
-package com.iseplive.api.entity;
+package com.iseplive.api.entity.media;
+
+import com.iseplive.api.dto.Media;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,7 +13,7 @@ import java.util.List;
  * back
  */
 @Entity
-public class Gallery {
+public class Gallery implements Media {
     @Id
     private Long id;
     private Date creation;
@@ -41,5 +43,10 @@ public class Gallery {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    @Override
+    public String getLink() {
+        return null;
     }
 }

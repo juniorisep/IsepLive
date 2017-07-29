@@ -9,7 +9,7 @@ import java.util.Date;
  * back
  */
 @Entity
-public class EventDor {
+public class SessionDor {
     @Id
     private Long id;
     private Date firstTurn;

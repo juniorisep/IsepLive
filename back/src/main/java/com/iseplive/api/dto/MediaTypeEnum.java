@@ -5,5 +5,5 @@ package com.iseplive.api.dto;
  * back
  */
 public enum MediaTypeEnum {
-    YOUTUBE, FACEBOOK, VIDEO, PHOTO, GALLERY
+    YOUTUBE, FACEBOOK, VIDEO, PHOTO, GALLERY, GAZETTE
 }

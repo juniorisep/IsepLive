@@ -1,5 +1,7 @@
 package com.iseplive.api.entity;
 
+import com.iseplive.api.entity.media.Image;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -14,7 +16,7 @@ public class Club {
 
     @Id
     private Long id;
-    private String title;
+    private String name;
     private String description;
     private Date creation;
     private String website;
@@ -30,12 +32,12 @@ public class Club {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

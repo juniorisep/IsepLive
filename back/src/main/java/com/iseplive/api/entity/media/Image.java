@@ -3,10 +3,7 @@ package com.iseplive.api.entity.media;
 import com.iseplive.api.dto.ImageTypeEnum;
 import com.iseplive.api.dto.Media;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,6 +14,7 @@ import java.util.Date;
 public class Image implements Media {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Enumerated(EnumType.STRING)

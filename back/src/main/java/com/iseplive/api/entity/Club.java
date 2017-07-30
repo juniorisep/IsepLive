@@ -1,10 +1,9 @@
 package com.iseplive.api.entity;
 
+import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.media.Image;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -15,11 +14,15 @@ import java.util.Date;
 public class Club {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
     private Date creation;
     private String website;
+
+    @Enumerated(EnumType.STRING)
+    private PublishStateEnum publishState;
 
     @OneToOne
     private Image logo;
@@ -70,5 +73,13 @@ public class Club {
 
     public void setLogo(Image logo) {
         this.logo = logo;
+    }
+
+    public PublishStateEnum getPublishState() {
+        return publishState;
+    }
+
+    public void setPublishState(PublishStateEnum publishState) {
+        this.publishState = publishState;
     }
 }

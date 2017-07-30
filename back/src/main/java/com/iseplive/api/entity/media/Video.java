@@ -3,6 +3,8 @@ package com.iseplive.api.entity.media;
 import com.iseplive.api.dto.Media;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 @Entity
 public class Video implements Media {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String url;
     private String name;

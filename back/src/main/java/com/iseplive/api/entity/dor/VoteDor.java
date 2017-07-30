@@ -3,9 +3,7 @@ package com.iseplive.api.entity.dor;
 import com.iseplive.api.entity.user.Employee;
 import com.iseplive.api.entity.user.Student;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -16,6 +14,7 @@ import java.util.Date;
 public class VoteDor {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne

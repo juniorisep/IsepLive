@@ -1,5 +1,6 @@
 package com.iseplive.api.entity;
 
+import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.media.MediaIntegration;
 import com.iseplive.api.entity.user.Student;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 public class Post {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private Date creationDate;
@@ -26,6 +28,10 @@ public class Post {
 
     @OneToOne
     private Student author;
+
+    @Enumerated(EnumType.STRING)
+    private PublishStateEnum publishState;
+
 
 
     public Long getId() {
@@ -74,5 +80,13 @@ public class Post {
 
     public void setAuthor(Student author) {
         this.author = author;
+    }
+
+    public PublishStateEnum getPublishState() {
+        return publishState;
+    }
+
+    public void setPublishState(PublishStateEnum publishState) {
+        this.publishState = publishState;
     }
 }

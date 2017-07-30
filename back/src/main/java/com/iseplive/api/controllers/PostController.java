@@ -1,5 +1,6 @@
 package com.iseplive.api.controllers;
 
+import com.iseplive.api.dto.MediaIntegrationDTO;
 import com.iseplive.api.dto.PostDTO;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.services.ImageService;
@@ -34,8 +35,8 @@ public class PostController {
         return postService.createPost(post);
     }
 
-    @PostMapping("/test")
-    public void uploadImage(@RequestParam("file") MultipartFile file) {
-        imageService.uploadFile(file);
+    @PostMapping("/integration")
+    public void postMediaIntegration(MediaIntegrationDTO media) {
+
     }
 }

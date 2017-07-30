@@ -5,4 +5,18 @@ package com.iseplive.api.dto;
  * back
  */
 public enum PublishStateEnum {
+    /**
+     * Item not published yer
+     */
+    WAITING,
+
+    /**
+     * Item available
+     */
+    PUBLISHED,
+
+    /**
+     * Item archived
+     */
+    ARCHIVED
 }

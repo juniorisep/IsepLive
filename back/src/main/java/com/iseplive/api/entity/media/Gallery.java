@@ -2,9 +2,7 @@ package com.iseplive.api.entity.media;
 
 import com.iseplive.api.dto.Media;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +12,9 @@ import java.util.List;
  */
 @Entity
 public class Gallery implements Media {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date creation;
 

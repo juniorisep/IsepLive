@@ -15,6 +15,7 @@ import java.util.List;
 public class Student {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer promo;
     private String firstname;

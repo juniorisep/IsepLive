@@ -2,10 +2,7 @@ package com.iseplive.api.entity;
 
 import com.iseplive.api.entity.media.Image;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -16,6 +13,7 @@ import java.util.Date;
 public class Event {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String location;

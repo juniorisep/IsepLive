@@ -32,6 +32,14 @@ const FakeIcon = styled.div`
   border-radius: 100px;
 `;
 
+const Icon = styled.img`
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+`;
+
 const IconName = styled.h3`
   text-align: center;
   margin: 0;
@@ -168,19 +176,19 @@ export default function Home(props) {
       <FluidContent>
         <Flex wrap justify="space-between">
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <Icon src="svg/Video.svg" />
             <IconName>Videos</IconName>
           </Box>
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <Icon src="svg/Photo.svg" />
             <IconName>Photos</IconName>
           </Box>
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <Icon src="svg/Gazette.svg" />
             <IconName>Gazettes</IconName>
           </Box>
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <Icon src="svg/Evenement.svg" />
             <IconName>Evenements</IconName>
           </Box>
         </Flex>

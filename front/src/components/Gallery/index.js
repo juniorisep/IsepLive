@@ -44,8 +44,15 @@ class Gallery extends Component {
   componentDidMount() {
     document.addEventListener('keydown', this.keyHandler);
   }
+
   componentWillUnmount() {
-    document.removeEventListener('onkeydown', this.keyHandler);
+    document.removeEventListener('keydown', this.keyHandler);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.visible) {
+      document.removeEventListener('keydown', this.keyHandler);
+    }
   }
 
   keyHandler = ({ key }) => {

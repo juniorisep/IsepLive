@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="168px" height="168px" viewBox="0 0 168 168" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>Gazette</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0,18.7467405 C0,16.5405151 1.06008864,13.3106709 2.3676484,11.5328526 L8.48224725,3.21916342 C9.78986335,1.44126856 12.640363,-5.55111512e-16 14.8422533,-5.55111512e-16 L58.0076424,-5.55111512e-16 C60.2125606,-5.55111512e-16 62,1.79845703 62,3.99895551 L62,75.0010445 C62,77.2096066 60.2113247,79 58.0035723,79 L3.99642766,79 C1.78926161,79 0,77.2145852 0,75.0052755 L0,18.7467405 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="62" height="79" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons" transform="translate(-552.000000, -65.000000)">
+            <g id="Group-Copy-2" transform="translate(552.000000, 65.000000)" fill="#1C257D">
+                <circle id="Oval-1" cx="84" cy="84" r="84"></circle>
+            </g>
+            <g id="Group-2-Copy" transform="translate(606.000000, 110.000000)">
+                <use id="Rectangle-1" stroke="#FFBE34" mask="url(#mask-2)" stroke-width="8" xlink:href="#path-1"></use>
+                <rect id="Rectangle-3" fill="#FFBE34" x="19" y="10" width="34" height="7"></rect>
+                <rect id="Rectangle-3-Copy" fill="#FFBE34" x="8" y="22" width="45" height="12"></rect>
+                <rect id="Rectangle-3-Copy-2" fill="#FFBE34" x="8" y="37" width="13" height="12"></rect>
+                <rect id="Rectangle-3-Copy-4" fill="#FFBE34" x="25" y="37" width="28" height="12"></rect>
+                <rect id="Rectangle-3-Copy-3" fill="#FFBE34" x="8" y="52" width="45" height="12"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

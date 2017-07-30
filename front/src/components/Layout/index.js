@@ -261,9 +261,8 @@ class Layout extends React.Component {
             <Flex wrap>
               <Box w={[ 1, 1, 2/6 ]} p={2}>
                 <h4>CONTACT</h4>
-                <p>28, Rue Notre Dame des Champs</p>
-                <p>75 006 Paris</p>
-                <p>+33 00 00 00 00 00</p>
+                <p>28, rue Notre Dame des Champs</p>
+                <p>75 006 PARIS</p>
                 <p>iseplive@gmail.com</p>
               </Box>
               <Box w={[ 1, 1, 2/6 ]} p={2}>

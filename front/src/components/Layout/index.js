@@ -266,12 +266,6 @@ class Layout extends React.Component {
                 <p>+33 00 00 00 00 00</p>
                 <p>iseplive@gmail.com</p>
               </Box>
-              <Box w={[ 1, 1, 1/6 ]} p={2}>
-                <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="svg/iseplivelogo.svg" alt="Isep Live logo" width="100%"/></a>
-              </Box>
-              <Box w={[ 1, 1, 1/6 ]} p={2}>
-                <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="svg/juniorisep.svg" alt="Junior ISEP logo" width="100%"/></a>
-              </Box>
               <Box w={[ 1, 1, 2/6 ]} p={2}>
                 <SocialBox>
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
@@ -287,6 +281,22 @@ class Layout extends React.Component {
                     </Box>
                     <Box width={1/4} p={1}>
                     <a href="" target="_blank" rel="noopener noreferrer"><img src="svg/snapchat.svg" alt="Snapchat logo"/></a>
+                    </Box>
+                  </Flex>
+                </SocialBox>
+              </Box>
+              <Box w={[ 1, 1, 2/6 ]} p={2}>
+                <SocialBox>
+                  <h2>Partenaires</h2>
+                  <Flex>
+                    <Box width={1/3} p={1}>
+                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%"/></a>
+                    </Box>
+                    <Box width={1/3} p={1}>
+                    <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/alten.png" alt="Alten logo"/></a>
+                    </Box>
+                    <Box width={1/3} p={1}>
+                    <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/cosmoz.png" alt="Cosmoz logo"/></a>
                     </Box>
                   </Flex>
                 </SocialBox>

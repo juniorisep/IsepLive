@@ -87,7 +87,7 @@ class Media extends Component {
           <Banner>
             <h1>Media</h1>
             <p>
-              Retrouvez photos, vidéos, gazettes de tout les évenements !
+              Retrouvez photos, vidéos, gazettes de tous les évenements !
             </p>
           </Banner>
           <FluidContent p="0">

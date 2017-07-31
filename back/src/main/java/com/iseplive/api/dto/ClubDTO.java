@@ -11,6 +11,7 @@ public class ClubDTO {
     private String description;
     private Date creation;
     private String website;
+    private Long adminId;
     private Long logoId;
 
     public String getName() {
@@ -51,5 +52,13 @@ public class ClubDTO {
 
     public void setLogoId(Long logoId) {
         this.logoId = logoId;
+    }
+
+    public Long getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Long adminId) {
+        this.adminId = adminId;
     }
 }

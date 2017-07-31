@@ -1,7 +1,11 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.dao.image.ImageRepository;
+import com.iseplive.api.entity.media.*;
+import com.iseplive.api.entity.media.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +27,8 @@ public class ImageService {
 
     private final Logger LOG = LoggerFactory.getLogger(ImageService.class);
 
+    @Autowired
+    ImageRepository imageRepository;
 
     public void uploadFile(MultipartFile file) {
         String rawName = file.getOriginalFilename();
@@ -74,5 +80,13 @@ public class ImageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Image getImage(Long id) {
+        Image img = imageRepository.findOne(id);
+        if (img != null) {
+            return img;
+        }
+        throw new RuntimeException("could not get the image with id: "+id);
     }
 }

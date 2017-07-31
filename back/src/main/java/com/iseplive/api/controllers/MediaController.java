@@ -16,8 +16,8 @@ import java.util.List;
 @RequestMapping("/media")
 public class MediaController {
 
-    @PostMapping("/image")
-    public Image addStandaloneImage(@RequestParam("image") MultipartFile image) {
+    @PostMapping("/image/{type}")
+    public Image addStandaloneImage(@RequestParam("image") MultipartFile image, @PathVariable ImageTypeEnum type) {
         return null;
     }
 

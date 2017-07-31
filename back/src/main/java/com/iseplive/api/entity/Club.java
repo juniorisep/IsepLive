@@ -2,9 +2,11 @@ package com.iseplive.api.entity;
 
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.media.Image;
+import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -20,6 +22,12 @@ public class Club {
     private String description;
     private Date creation;
     private String website;
+
+    @OneToOne
+    private Student admin;
+
+    @OneToMany(mappedBy = "club")
+    private List<ClubMember> members;
 
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
@@ -81,5 +89,21 @@ public class Club {
 
     public void setPublishState(PublishStateEnum publishState) {
         this.publishState = publishState;
+    }
+
+    public Student getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Student admin) {
+        this.admin = admin;
+    }
+
+    public List<ClubMember> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<ClubMember> members) {
+        this.members = members;
     }
 }

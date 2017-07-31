@@ -3,6 +3,7 @@ package com.iseplive.api.controllers;
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.Club;
+import com.iseplive.api.entity.ClubMember;
 import com.iseplive.api.services.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,11 @@ public class ClubController {
     @PutMapping("/{id}/{state}")
     public void setPublishState(@PathVariable("id") Long id, @PathVariable("state") PublishStateEnum state) {
         clubService.setPublishState(id, state);
+    }
+
+    @PutMapping("/{id}/member/{role}/{student}")
+    public ClubMember addMember(@PathVariable Long id, @PathVariable Long role, @PathVariable Long student) {
+        return clubService.addMember(id, role, student);
     }
 
     @DeleteMapping("/{id}")

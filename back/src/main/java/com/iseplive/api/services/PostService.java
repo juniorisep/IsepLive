@@ -3,6 +3,7 @@ package com.iseplive.api.services;
 import com.iseplive.api.dao.post.PostFactory;
 import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class PostService {
 
     public Post createPost(PostDTO postDTO) {
         Post post = postFactory.dtoToEntity(postDTO);
+        post.setPublishState(PublishStateEnum.WAITING);
         return postRepository.save(post);
     }
 }

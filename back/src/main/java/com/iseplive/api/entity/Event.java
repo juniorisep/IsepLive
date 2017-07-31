@@ -1,5 +1,6 @@
 package com.iseplive.api.entity;
 
+import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Image;
 
 import javax.persistence.*;

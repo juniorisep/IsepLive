@@ -1,10 +1,8 @@
 package com.iseplive.api.entity.media;
 
-import com.iseplive.api.dto.Media;
-
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -12,21 +10,11 @@ import javax.persistence.Id;
  * back
  */
 @Entity
-public class Video implements Media {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@DiscriminatorValue("media")
+public class Video extends Media {
     private String url;
     private String name;
     private Integer views;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUrl() {
         return url;
@@ -52,8 +40,4 @@ public class Video implements Media {
         this.views = views;
     }
 
-    @Override
-    public String getLink() {
-        return url;
-    }
 }

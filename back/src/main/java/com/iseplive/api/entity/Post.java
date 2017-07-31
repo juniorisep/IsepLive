@@ -1,7 +1,7 @@
 package com.iseplive.api.entity;
 
 import com.iseplive.api.dto.PublishStateEnum;
-import com.iseplive.api.entity.media.MediaIntegration;
+import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
@@ -24,15 +24,13 @@ public class Post {
     private String content;
 
     @OneToOne
-    private MediaIntegration media;
+    private Media media;
 
     @OneToOne
     private Student author;
 
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
-
-
 
     public Long getId() {
         return id;
@@ -66,14 +64,6 @@ public class Post {
         this.content = content;
     }
 
-    public MediaIntegration getMedia() {
-        return media;
-    }
-
-    public void setMedia(MediaIntegration media) {
-        this.media = media;
-    }
-
     public Student getAuthor() {
         return author;
     }
@@ -88,5 +78,13 @@ public class Post {
 
     public void setPublishState(PublishStateEnum publishState) {
         this.publishState = publishState;
+    }
+
+    public Media getMedia() {
+        return media;
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
     }
 }

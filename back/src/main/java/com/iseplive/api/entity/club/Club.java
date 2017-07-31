@@ -1,4 +1,4 @@
-package com.iseplive.api.entity;
+package com.iseplive.api.entity.club;
 
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.media.Image;

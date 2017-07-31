@@ -6,9 +6,9 @@ import com.iseplive.api.dao.club.ClubRepository;
 import com.iseplive.api.dao.club.ClubRoleRepository;
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.dto.PublishStateEnum;
-import com.iseplive.api.entity.Club;
-import com.iseplive.api.entity.ClubMember;
-import com.iseplive.api.entity.ClubRole;
+import com.iseplive.api.entity.club.Club;
+import com.iseplive.api.entity.club.ClubMember;
+import com.iseplive.api.entity.club.ClubRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

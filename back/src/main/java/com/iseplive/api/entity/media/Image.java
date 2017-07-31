@@ -1,7 +1,6 @@
 package com.iseplive.api.entity.media;
 
 import com.iseplive.api.dto.ImageTypeEnum;
-import com.iseplive.api.dto.Media;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,11 +10,8 @@ import java.util.Date;
  * back
  */
 @Entity
-public class Image implements Media {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@DiscriminatorValue("image")
+public class Image extends Media {
 
     @Enumerated(EnumType.STRING)
     private ImageTypeEnum type;
@@ -25,13 +21,6 @@ public class Image implements Media {
     private Date creation;
     private String description;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFullSize() {
         return fullSize;
@@ -71,10 +60,5 @@ public class Image implements Media {
 
     public void setType(ImageTypeEnum type) {
         this.type = type;
-    }
-
-    @Override
-    public String getLink() {
-        return fullSize;
     }
 }

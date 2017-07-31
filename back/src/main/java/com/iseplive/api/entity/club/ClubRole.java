@@ -1,4 +1,4 @@
-package com.iseplive.api.entity;
+package com.iseplive.api.entity.club;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

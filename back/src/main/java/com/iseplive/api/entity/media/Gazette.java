@@ -1,11 +1,7 @@
 package com.iseplive.api.entity.media;
 
-import com.iseplive.api.dto.Media;
-
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -13,21 +9,12 @@ import java.util.Date;
  * back
  */
 @Entity
-public class Gazette implements Media {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@DiscriminatorValue("gazette")
+public class Gazette extends Media {
+
     private String title;
     private Date date;
     private String url;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -51,10 +38,5 @@ public class Gazette implements Media {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    @Override
-    public String getLink() {
-        return url;
     }
 }

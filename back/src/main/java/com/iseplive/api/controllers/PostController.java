@@ -1,13 +1,11 @@
 package com.iseplive.api.controllers;
 
-import com.iseplive.api.dto.MediaIntegrationDTO;
 import com.iseplive.api.dto.PostDTO;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.services.ImageService;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -35,8 +33,8 @@ public class PostController {
         return postService.createPost(post);
     }
 
-    @PostMapping("/integration")
-    public void postMediaIntegration(MediaIntegrationDTO media) {
-
+    @PutMapping("/{id}/integration/poll/{poll}")
+    public void addPollIntegration(@PathVariable Long id, @PathVariable Long poll) {
+        postService.addPollIntegration(id, poll);
     }
 }

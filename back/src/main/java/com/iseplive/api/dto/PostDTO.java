@@ -8,9 +8,7 @@ import java.util.Date;
  */
 public class PostDTO {
     private String title;
-    private Date creationDate;
     private String content;
-    private Long mediaId;
     private Long authorId;
 
     public String getTitle() {
@@ -19,14 +17,6 @@ public class PostDTO {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
     public String getContent() {
@@ -43,13 +33,5 @@ public class PostDTO {
 
     public void setAuthorId(Long authorId) {
         this.authorId = authorId;
-    }
-
-    public Long getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(Long mediaId) {
-        this.mediaId = mediaId;
     }
 }

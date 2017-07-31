@@ -1,7 +1,5 @@
 package com.iseplive.api.entity.media;
 
-import com.iseplive.api.dto.Media;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,23 +9,15 @@ import java.util.List;
  * back
  */
 @Entity
-public class Gallery implements Media {
+@DiscriminatorValue("gallery")
+public class Gallery extends Media {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String name;
+
     private Date creation;
 
     @OneToMany
     private List<Image> images;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Date getCreation() {
         return creation;
@@ -45,8 +35,11 @@ public class Gallery implements Media {
         this.images = images;
     }
 
-    @Override
-    public String getLink() {
-        return null;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

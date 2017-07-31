@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dao.poll.PollQuestionRepository;
 import com.iseplive.api.dao.poll.PollRepository;
 import com.iseplive.api.dao.poll.PollVoteRepository;
@@ -28,6 +29,9 @@ public class PollService {
 
     @Autowired
     PollVoteRepository pollVoteRepository;
+
+    @Autowired
+    MediaRepository mediaRepository;
 
     @Autowired
     StudentService studentService;

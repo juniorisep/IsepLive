@@ -1,7 +1,7 @@
 package com.iseplive.api.dao.club;
 
 import com.iseplive.api.dto.ClubDTO;
-import com.iseplive.api.entity.Club;
+import com.iseplive.api.entity.club.Club;
 import org.springframework.stereotype.Service;
 
 /**

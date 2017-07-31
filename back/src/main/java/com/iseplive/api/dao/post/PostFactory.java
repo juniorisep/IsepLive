@@ -15,7 +15,6 @@ public class PostFactory {
         Post p = new Post();
         p.setTitle(post.getTitle());
         p.setContent(post.getContent());
-        p.setCreationDate(post.getCreationDate());
         return p;
     }
 }

@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
+
 import ReactDOM from 'react-dom';
+
 import registerServiceWorker from './registerServiceWorker';
 
 import {
@@ -12,12 +14,13 @@ import {
 } from 'react-router-dom';
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
-import { ThemeProvider } from 'styled-components';
-
 import createPalette from 'material-ui/styles/palette';
 import indigo from 'material-ui/colors/indigo';
 import orange from 'material-ui/colors/orange';
+
+import { ThemeProvider } from 'styled-components';
+
+import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
 
 import Login from './pages/login';
 import Layout from './components/Layout'

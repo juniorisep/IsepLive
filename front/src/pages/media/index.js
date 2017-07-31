@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
 
 import Button from 'material-ui/Button';
-import { LabelCheckbox } from 'material-ui/Checkbox';
+import { FormControlLabel } from 'material-ui/Form';
+import Switch from 'material-ui/Switch';
 
 import {
   Separator,
@@ -64,12 +65,19 @@ const DateSeparator = (props) => {
 class Media extends Component {
   state = {
     showGallerie: false,
+    photos: true,
+    videos: false,
+    gazettes: false,
   }
 
   toggleGallerie = () => {
     console.log("toggle");
     this.setState({ showGallerie: !this.state.showGallerie })
   }
+
+  handleChange = name => (event, checked) => {
+    this.setState({ [name]: checked });
+  };
 
   render() {
     return (
@@ -92,9 +100,30 @@ class Media extends Component {
               <Button color="primary" raised>Trier par</Button>
             </Box>
             <Box>
-              <LabelCheckbox label="Photos" />
-              <LabelCheckbox label="Vidéos" />
-              <LabelCheckbox label="Gazettes" />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.photos}
+                    onChange={this.handleChange('photos')}
+                  />
+                }
+              label="Photos" />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.videos}
+                    onChange={this.handleChange('videos')}
+                  />
+                }
+              label="Vidéos" />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.gazettes}
+                    onChange={this.handleChange('gazettes')}
+                  />
+                }
+                label="Gazettes" />
             </Box>
             <Box ml="auto">
               <Button color="primary" raised>Modifier l'affichage</Button>

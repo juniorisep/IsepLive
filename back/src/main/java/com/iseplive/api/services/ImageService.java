@@ -1,11 +1,14 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.dao.image.ImageRepository;
+import com.iseplive.api.dto.ImageTypeEnum;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.media.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.Arrays;
 
 /**
@@ -30,37 +34,47 @@ public class ImageService {
     @Autowired
     ImageRepository imageRepository;
 
-    public void uploadFile(MultipartFile file) {
+    @Value("${storage.url}")
+    private String baseUrl;
+
+    private final String publicBaseUrl = "/media/ressource";
+
+
+    public String getFileName(MultipartFile file) {
         String rawName = file.getOriginalFilename();
         rawName = rawName.substring(0, rawName.lastIndexOf('.'));
-        String rndNb = randomStringNumbers(10);
-        resizeImage(file, 1000, "out/" + rawName + "_scaled_" + rndNb + ".jpg");
-        try {
-            Files.copy(file.getInputStream(), Paths.get("out/"+rawName + "_" + rndNb + ".jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return rawName;
     }
 
-    private String randomStringNumbers(int length) {
-        String numbers = "0123456789";
-        StringBuilder out = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            int pos = (int) Math.round(Math.random() * 9);
-            out.append(numbers.charAt(pos));
+    public String resolvePath(String dir, String name, boolean thumb) {
+        if (thumb) {
+            return dir + "/" + sanitizePath(name) + "_thumb";
         }
-        return out.toString();
+        return dir + "/" + sanitizePath(name);
     }
 
-    private void resizeImage(MultipartFile image, int scaledWidth, String outputPath) {
+    public String getPublicPath(String path) {
+        return publicBaseUrl + path + ".jpg";
+    }
+
+    /**
+     * Method to resize image and save to jpg
+     * extension set by the method
+     *
+     * @param image
+     * @param scaledWidth
+     * @param outputPath
+     */
+    public void saveJPG(MultipartFile image, int scaledWidth, String outputPath) {
         try {
             // verify it is an image
-            if (!Arrays.asList("image/png", "image/jpg").contains(image.getContentType())) {
-                throw new RuntimeException("The file provided is not a valid image or is not supported (should be png or jpeg)");
+            if (!Arrays.asList("image/png", "image/jpeg").contains(image.getContentType())) {
+                throw new IllegalArgumentException("The file provided is not a valid image or is not supported (should be png or jpeg): "+image.getContentType());
             }
 
             // Create input image
             BufferedImage inputImage = ImageIO.read(image.getInputStream());
+            scaledWidth = scaledWidth > inputImage.getWidth() ? inputImage.getWidth() : scaledWidth;
             double ratio = (double) inputImage.getWidth() / (double) inputImage.getHeight();
             int scaledHeight = (int) (scaledWidth / ratio);
 
@@ -75,7 +89,18 @@ public class ImageService {
             g2d.dispose();
 
             // Write output to file
-            ImageIO.write(outputImage, "JPG", new File(outputPath));
+            File fileOutput = new File(baseUrl + outputPath + ".jpg");
+            Files.createDirectories(Paths.get(baseUrl + outputPath + ".jpg"));
+//            if (!fileOutput.getParentFile().canWrite()) {
+//                LOG.error("Cannot write here: {}", fileOutput.getParentFile());
+//                throw new RuntimeException("The directory has not been created");
+//            } else {
+//                if (!fileOutput.getParentFile().exists()) {
+//                    fileOutput.getParentFile().mkdirs();
+//                }
+//                fileOutput.createNewFile();
+//            }
+            ImageIO.write(outputImage, "JPG", fileOutput);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,5 +113,19 @@ public class ImageService {
             return img;
         }
         throw new RuntimeException("could not get the image with id: "+id);
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    private String sanitizePath(String name) {
+        name = Normalizer.normalize(name, Normalizer.Form.NFD);
+        name = name.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return name.replaceAll(" ", "-");
+    }
+
+    private String getPath(String url) {
+        return baseUrl + url;
     }
 }

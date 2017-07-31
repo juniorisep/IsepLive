@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.dao.club.ClubFactory;
 import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
@@ -9,8 +10,11 @@ import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
+import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,13 +43,30 @@ public class ClubService {
     @Autowired
     ImageService imageService;
 
+    @Value("${storage.club.url}")
+    public String clubLogoStorage;
+
+    final String BASE_MEDIA_RESSOURCE = "/media/ressource";
+
     public Club createClub(ClubDTO dto) {
         Club club = clubFactory.dtoToEntity(dto);
-
         club.setPublishState(PublishStateEnum.WAITING);
-        club.setLogo(imageService.getImage(dto.getLogoId()));
-        club.setAdmin(studentService.getStudent(dto.getAdminId()));
+        if (dto.getAdminId() == null) {
+            throw new IllegalArgumentException("The id of the admin cannot be null");
+        }
+        Student admin = studentService.getStudent(dto.getAdminId());
+        if (admin == null) {
+            throw new IllegalArgumentException("this student id doesn't exist");
+        }
+        club.setAdmin(admin);
+        return clubRepository.save(club);
+    }
 
+    public Club setClubLogo(MultipartFile file, Long clubId) {
+        Club club = clubRepository.findOne(clubId);
+        String path = imageService.resolvePath(clubLogoStorage, club.getName(), false);
+        imageService.saveJPG(file, 256, path);
+        club.setLogoUrl(imageService.getPublicPath(path));
         return clubRepository.save(club);
     }
 

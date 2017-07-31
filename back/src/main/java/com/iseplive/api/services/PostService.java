@@ -1,12 +1,16 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.dao.media.MediaRepository;
+import com.iseplive.api.dao.post.CommentRepository;
 import com.iseplive.api.dao.post.PostFactory;
 import com.iseplive.api.dao.post.PostRepository;
+import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
 import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
+import com.iseplive.api.entity.user.Student;
 import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,12 @@ public class PostService {
     PostFactory postFactory;
 
     @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    StudentService studentService;
+
+    @Autowired
     MediaRepository mediaRepository;
 
     public List<Post> getPosts() {
@@ -41,10 +51,35 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public void addPollIntegration(Long id, Long poll) {
+    public void addMediaIntegration(Long id, Long mediaId) {
         Post post = postRepository.findOne(id);
-        Media media = mediaRepository.findOne(poll);
+        Media media = mediaRepository.findOne(mediaId);
         post.setMedia(media);
+        postRepository.save(post);
+    }
+
+    public Comment commentPost(Long postId, CommentDTO dto, Long studentId) {
+        Comment comment = new Comment();
+        Post post = postRepository.findOne(postId);
+        comment.setPost(post);
+        comment.setMessage(dto.getMessage());
+        Student student = studentService.getStudent(studentId);
+        comment.setStudent(student);
+        comment.setCreation(new Date());
+        return commentRepository.save(comment);
+    }
+
+    public void setPublishState(Long id, PublishStateEnum state) {
+        Post post = postRepository.findOne(id);
+        post.setPublishState(state);
+        postRepository.save(post);
+    }
+
+    public void addLike(Long postId) {
+        Post post = postRepository.findOne(postId);
+        List<Student> students = post.getLike();
+        Student student = studentService.getStudent(1L);
+        students.add(student);
         postRepository.save(post);
     }
 }

@@ -1,4 +1,4 @@
-package com.iseplive.api.controllers;
+package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.dto.PollCreationDTO;
 import com.iseplive.api.entity.poll.Poll;

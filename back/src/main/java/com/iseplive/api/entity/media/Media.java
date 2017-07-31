@@ -1,9 +1,8 @@
 package com.iseplive.api.entity.media;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.iseplive.api.entity.Post;
+
+import javax.persistence.*;
 
 /**
  * Created by Guillaume on 31/07/2017.
@@ -16,11 +15,22 @@ public abstract class Media {
     @GeneratedValue
     private Long id;
 
+    @OneToOne
+    private Post post;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

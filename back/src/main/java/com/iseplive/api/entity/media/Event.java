@@ -1,7 +1,8 @@
-package com.iseplive.api.entity;
+package com.iseplive.api.entity.media;
 
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Image;
+import com.iseplive.api.entity.media.Media;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,11 +12,9 @@ import java.util.Date;
  * back
  */
 @Entity
-public class Event {
+@DiscriminatorValue("event")
+public class Event extends Media {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String title;
     private String location;
     private Date date;
@@ -28,14 +27,6 @@ public class Event {
 
     @OneToOne
     private Image image;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;

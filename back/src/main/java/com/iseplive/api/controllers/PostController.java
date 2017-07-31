@@ -1,6 +1,9 @@
 package com.iseplive.api.controllers;
 
+import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.services.ImageService;
 import com.iseplive.api.services.PostService;
@@ -33,8 +36,18 @@ public class PostController {
         return postService.createPost(post);
     }
 
-    @PutMapping("/{id}/integration/poll/{poll}")
-    public void addPollIntegration(@PathVariable Long id, @PathVariable Long poll) {
-        postService.addPollIntegration(id, poll);
+    @PutMapping("/{id}/comment")
+    public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto) {
+        return postService.commentPost(id, dto, 1L);
+    }
+
+    @PutMapping("/{id}/state/{state}")
+    public void setPublishState(@PathVariable("id") Long id, @PathVariable("state") PublishStateEnum state) {
+        postService.setPublishState(id, state);
+    }
+
+    @PutMapping("/{id}/integration/{media}")
+    public void addPollIntegration(@PathVariable Long id, @PathVariable Long media) {
+        postService.addMediaIntegration(id, media);
     }
 }

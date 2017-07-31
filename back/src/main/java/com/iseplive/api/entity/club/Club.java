@@ -32,8 +32,8 @@ public class Club {
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
 
-    @OneToOne
-    private Image logo;
+    private String logoUrl;
+    private String logoThumbUrl;
 
     public Long getId() {
         return id;
@@ -75,14 +75,6 @@ public class Club {
         this.website = website;
     }
 
-    public Image getLogo() {
-        return logo;
-    }
-
-    public void setLogo(Image logo) {
-        this.logo = logo;
-    }
-
     public PublishStateEnum getPublishState() {
         return publishState;
     }
@@ -105,5 +97,21 @@ public class Club {
 
     public void setMembers(List<ClubMember> members) {
         this.members = members;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getLogoThumbUrl() {
+        return logoThumbUrl;
+    }
+
+    public void setLogoThumbUrl(String logoThumbUrl) {
+        this.logoThumbUrl = logoThumbUrl;
     }
 }

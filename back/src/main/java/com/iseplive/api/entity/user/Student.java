@@ -23,8 +23,7 @@ public class Student {
     private Date birthDate;
     private String phone;
 
-    @OneToOne
-    private Image photo;
+    private String photoUrl;
 
     @Column(length = 300)
     private String bio;
@@ -96,11 +95,11 @@ public class Student {
         this.clubs = clubs;
     }
 
-    public Image getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoto(Image photo) {
-        this.photo = photo;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

@@ -1,11 +1,13 @@
 package com.iseplive.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -28,6 +30,12 @@ public class Post {
 
     @OneToOne
     private Student author;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
+
+    @OneToMany
+    private List<Student> like;
 
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
@@ -86,5 +94,26 @@ public class Post {
 
     public void setMedia(Media media) {
         this.media = media;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public int getLikes() {
+        return like.size();
+    }
+
+    @JsonIgnore
+    public List<Student> getLike() {
+        return like;
+    }
+
+    public void setLike(List<Student> like) {
+        this.like = like;
     }
 }

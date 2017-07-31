@@ -16,3 +16,8 @@ server:
 security:
   basic:
     enabled: false
+
+storage:
+  url: "/tmp"
+  club:
+    url: "/club"

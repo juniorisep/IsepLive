@@ -1,9 +1,11 @@
 package com.iseplive.api.entity.media;
 
 import com.iseplive.api.dto.ImageTypeEnum;
+import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -13,22 +15,13 @@ import java.util.Date;
 @DiscriminatorValue("image")
 public class Image extends Media {
 
-    @Enumerated(EnumType.STRING)
-    private ImageTypeEnum type;
-
-    private String fullSize;
-    private String smallSize;
+    private String thumbUrl;
+    private String fullSizeUrl;
     private Date creation;
     private String description;
 
-
-    public String getFullSize() {
-        return fullSize;
-    }
-
-    public void setFullSize(String fullSize) {
-        this.fullSize = fullSize;
-    }
+    @OneToMany
+    private List<Student> matched;
 
     public Date getCreation() {
         return creation;
@@ -36,14 +29,6 @@ public class Image extends Media {
 
     public void setCreation(Date creation) {
         this.creation = creation;
-    }
-
-    public String getSmallSize() {
-        return smallSize;
-    }
-
-    public void setSmallSize(String smallSize) {
-        this.smallSize = smallSize;
     }
 
     public String getDescription() {
@@ -54,11 +39,27 @@ public class Image extends Media {
         this.description = description;
     }
 
-    public ImageTypeEnum getType() {
-        return type;
+    public List<Student> getMatched() {
+        return matched;
     }
 
-    public void setType(ImageTypeEnum type) {
-        this.type = type;
+    public void setMatched(List<Student> matched) {
+        this.matched = matched;
+    }
+
+    public String getFullSizeUrl() {
+        return fullSizeUrl;
+    }
+
+    public void setFullSizeUrl(String fullSizeUrl) {
+        this.fullSizeUrl = fullSizeUrl;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
     }
 }

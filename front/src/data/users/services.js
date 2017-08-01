@@ -1,5 +1,5 @@
 // @flow
 
-export const isAuthenticated = () => {
-  return true;
+export const hasRole = (roles) => {
+  return roles.includes('ROLE_USER');
 };

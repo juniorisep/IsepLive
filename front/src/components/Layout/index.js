@@ -17,6 +17,9 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import Drawer from 'material-ui/Drawer';
 import { ListItem, ListItemText } from 'material-ui/List';
 
+import Auth from '../../components/Auth/AuthComponent';
+import AuthenticatedRoute from '../../components/Auth/AuthenticatedRoute';
+
 import Home from '../../pages/home';
 import Media from '../../pages/media';
 import AddressBook from '../../pages/addressbook';
@@ -237,8 +240,8 @@ class Layout extends React.Component {
             onRequestClose={this.handleSideBarClose}
             onClick={this.handleSideBarClose}
           >
-          {navList(SideNav)}
-        </Drawer>
+            {navList(SideNav)}
+          </Drawer>
         }
         <Switch>
           <Redirect path="/" exact to="/accueil" />
@@ -249,7 +252,7 @@ class Layout extends React.Component {
           <Route path="/evenements" component={Events} />
           <Route path="/profile" component={Resume} />
           <Route path="/whoarewe" component={Whoarewe} />
-          <Route path="/administration" component={Admin} />
+          <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin} />
           <Route path="/contact" component={Contact} />
           <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={UserAgreement} />
@@ -273,13 +276,13 @@ class Layout extends React.Component {
                       <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="svg/facebook.svg" alt="Facebook logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                    <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="svg/twitter.svg" alt="Twitter logo"/></a>
+                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="svg/twitter.svg" alt="Twitter logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                    <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="svg/instagram.svg" alt="Instagram logo"/></a>
+                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="svg/instagram.svg" alt="Instagram logo"/></a>
                     </Box>
                     <Box width={1/4} p={1}>
-                    <a href="" target="_blank" rel="noopener noreferrer"><img src="svg/snapchat.svg" alt="Snapchat logo"/></a>
+                      <a href="" target="_blank" rel="noopener noreferrer"><img src="svg/snapchat.svg" alt="Snapchat logo"/></a>
                     </Box>
                   </Flex>
                 </SocialBox>
@@ -292,10 +295,10 @@ class Layout extends React.Component {
                       <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%"/></a>
                     </Box>
                     <Box width={1/3} p={1}>
-                    <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/alten.png" alt="Alten logo"/></a>
+                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/alten.png" alt="Alten logo"/></a>
                     </Box>
                     <Box width={1/3} p={1}>
-                    <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/cosmoz.png" alt="Cosmoz logo"/></a>
+                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/cosmoz.png" alt="Cosmoz logo"/></a>
                     </Box>
                   </Flex>
                 </SocialBox>

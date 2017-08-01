@@ -138,10 +138,6 @@ const styleSheet = createStyleSheet('Layout', {
   },
 });
 
-const isAuthenticated = () => {
-    return true;
- };
-
 function Nav(props) {
   return (
     <div>

@@ -20,6 +20,8 @@ import orange from 'material-ui/colors/orange';
 
 import { ThemeProvider } from 'styled-components';
 
+import AuthenticatedRoute from './components/AuthenticatedRoute';
+
 import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
 
 import Login from './pages/login';
@@ -44,7 +46,7 @@ const App = () => (
         <Switch>
           <Redirect path="/" exact to="/connexion" />
           <Route path="/connexion" component={Login} />
-          <Route path="/" component={Layout} />
+          <AuthenticatedRoute path="/" component={Layout} />
         </Switch>
       </Router>
     </ThemeProvider>

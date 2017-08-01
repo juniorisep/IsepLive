@@ -6,6 +6,7 @@ import com.iseplive.api.entity.user.Student;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -18,10 +19,9 @@ public class Image extends Media {
     private String thumbUrl;
     private String fullSizeUrl;
     private Date creation;
-    private String description;
 
     @OneToMany
-    private List<Student> matched;
+    private Set<Student> matched;
 
     public Date getCreation() {
         return creation;
@@ -31,19 +31,11 @@ public class Image extends Media {
         this.creation = creation;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Student> getMatched() {
+    public Set<Student> getMatched() {
         return matched;
     }
 
-    public void setMatched(List<Student> matched) {
+    public void setMatched(Set<Student> matched) {
         this.matched = matched;
     }
 

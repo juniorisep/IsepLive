@@ -8,6 +8,7 @@ import com.iseplive.api.entity.Post;
 import com.iseplive.api.services.ImageService;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,13 +42,24 @@ public class PostController {
         return postService.commentPost(id, dto, 1L);
     }
 
+    @PutMapping("/{id}/like")
+    public void likePost(@PathVariable Long id) {
+        postService.addPostLike(id);
+    }
+
+    @PutMapping("/{id}/comment/{comId}/like")
+    public void likeComment(@PathVariable Long comId) {
+        postService.addCommentLike(comId);
+    }
+
     @PutMapping("/{id}/state/{state}")
     public void setPublishState(@PathVariable("id") Long id, @PathVariable("state") PublishStateEnum state) {
         postService.setPublishState(id, state);
     }
 
     @PutMapping("/{id}/integration/{media}")
-    public void addPollIntegration(@PathVariable Long id, @PathVariable Long media) {
+    public void addMediaIntegration(@PathVariable Long id, @PathVariable Long media) {
         postService.addMediaIntegration(id, media);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.iseplive.api.entity.media;
 
+import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Image;
 import com.iseplive.api.entity.media.Media;
@@ -18,6 +19,8 @@ public class Event extends Media {
     private String title;
     private String location;
     private Date date;
+
+    private PublishStateEnum publishState;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -74,5 +77,13 @@ public class Event extends Media {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public PublishStateEnum getPublishState() {
+        return publishState;
+    }
+
+    public void setPublishState(PublishStateEnum publishState) {
+        this.publishState = publishState;
     }
 }

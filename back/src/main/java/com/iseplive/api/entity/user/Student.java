@@ -1,5 +1,6 @@
 package com.iseplive.api.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Image;
 
@@ -87,6 +88,7 @@ public class Student {
         this.bio = bio;
     }
 
+    @JsonIgnore
     public List<Club> getClubs() {
         return clubs;
     }

@@ -2,9 +2,14 @@ package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.conf.NotFoundException;
 import com.iseplive.api.dto.ImageTypeEnum;
+import com.iseplive.api.dto.VideoIntegrationDTO;
+import com.iseplive.api.entity.media.Gallery;
 import com.iseplive.api.entity.media.Image;
+import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.media.VideoIntegration;
 import com.iseplive.api.services.ImageService;
+import com.iseplive.api.services.ImageUtils;
+import com.iseplive.api.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
@@ -21,21 +26,29 @@ import java.util.List;
 @RequestMapping("/media")
 public class MediaController {
     @Autowired
-    ImageService imageService;
+    ImageUtils imageUtils;
 
-    @PostMapping("/image/{type}")
-    public Image addStandaloneImage(@RequestParam("image") MultipartFile image, @PathVariable ImageTypeEnum type) {
-        return null;
+    @Autowired
+    MediaService mediaService;
+
+    @PostMapping("/image")
+    public Image addStandaloneImage(@RequestParam("image") MultipartFile image) {
+        return mediaService.addImage(image);
+    }
+
+    @PutMapping("/image/{id}/match/{student}")
+    public Image identifyStudentInImage(@PathVariable Long id, @PathVariable Long student) {
+        return mediaService.identifyStudentInImage(id, student);
     }
 
     @PostMapping("/videoIntegration")
-    public VideoIntegration addVideoIntegration() {
-        return null;
+    public VideoIntegration addVideoIntegration(@RequestBody VideoIntegrationDTO dto) {
+        return mediaService.createVideoIntegration(dto);
     }
 
-    @PostMapping("/gallery")
-    public void createGallery(@RequestParam("images") List<MultipartFile> image) {
-
+    @PostMapping("/gallery/{name}")
+    public Gallery createGallery(@PathVariable String name, @RequestParam("images") List<MultipartFile> images) {
+        return mediaService.createGallery(name, images);
     }
 
     @PostMapping("/gazette")
@@ -43,13 +56,9 @@ public class MediaController {
 
     }
 
-    public void addGazetteDoc() {
-
-    }
-
     @GetMapping("/ressource/{type}/{filename:.+}")
     public FileSystemResource downloadRessource(@PathVariable String type, @PathVariable String filename) {
-        String baseUrl = imageService.getBaseUrl();
+        String baseUrl = imageUtils.getBaseUrl();
         File file = new File(baseUrl + "/"+  type + "/" + filename);
         if (!file.exists()) {
             System.out.println(file.getPath());

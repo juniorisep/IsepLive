@@ -5,7 +5,8 @@ import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 31/07/2017.
@@ -30,7 +31,7 @@ public class Comment {
     private String message;
 
     @OneToMany
-    private List<Student> like;
+    private Set<Student> like = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -74,7 +75,7 @@ public class Comment {
     }
 
     @JsonIgnore
-    public List<Student> getLike() {
+    public Set<Student> getLike() {
         return like;
     }
 
@@ -82,7 +83,7 @@ public class Comment {
         return like.size();
     }
 
-    public void setLike(List<Student> like) {
+    public void setLike(Set<Student> like) {
         this.like = like;
     }
 }

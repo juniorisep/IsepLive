@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 28/07/2017.
@@ -75,11 +76,27 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public void addLike(Long postId) {
+    public void addPostLike(Long postId) {
         Post post = postRepository.findOne(postId);
-        List<Student> students = post.getLike();
+        Set<Student> students = post.getLike();
         Student student = studentService.getStudent(1L);
         students.add(student);
         postRepository.save(post);
+    }
+
+    public void addCommentLike(Long comId) {
+        Comment comment = commentRepository.findOne(comId);
+        Set<Student> students = comment.getLike();
+        Student student = studentService.getStudent(1L);
+        students.add(student);
+        commentRepository.save(comment);
+    }
+
+    public Post getPost(Long postId) {
+        Post post = postRepository.findOne(postId);
+        if (post == null) {
+            throw new IllegalArgumentException("Could not find a post with id: "+postId);
+        }
+        return post;
     }
 }

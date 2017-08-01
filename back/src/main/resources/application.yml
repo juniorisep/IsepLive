@@ -21,3 +21,11 @@ storage:
   url: "/tmp"
   club:
     url: "/club"
+  event:
+    url: "/event"
+  image:
+    url: "/image"
+
+logging:
+  level:
+    DEBUG

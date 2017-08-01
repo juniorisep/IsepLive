@@ -41,12 +41,10 @@ public class ClubService {
     StudentService studentService;
 
     @Autowired
-    ImageService imageService;
+    ImageUtils imageUtils;
 
     @Value("${storage.club.url}")
     public String clubLogoStorage;
-
-    final String BASE_MEDIA_RESSOURCE = "/media/ressource";
 
     public Club createClub(ClubDTO dto) {
         Club club = clubFactory.dtoToEntity(dto);
@@ -64,9 +62,9 @@ public class ClubService {
 
     public Club setClubLogo(MultipartFile file, Long clubId) {
         Club club = clubRepository.findOne(clubId);
-        String path = imageService.resolvePath(clubLogoStorage, club.getName(), false);
-        imageService.saveJPG(file, 256, path);
-        club.setLogoUrl(imageService.getPublicPath(path));
+        String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
+        imageUtils.saveJPG(file, 256, path);
+        club.setLogoUrl(imageUtils.getPublicUrl(path));
         return clubRepository.save(club);
     }
 

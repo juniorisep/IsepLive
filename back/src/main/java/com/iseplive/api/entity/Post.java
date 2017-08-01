@@ -6,8 +6,7 @@ import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -32,10 +31,10 @@ public class Post {
     private Student author;
 
     @OneToMany(mappedBy = "post")
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany
-    private List<Student> like;
+    private Set<Student> like = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
@@ -109,11 +108,11 @@ public class Post {
     }
 
     @JsonIgnore
-    public List<Student> getLike() {
+    public Set<Student> getLike() {
         return like;
     }
 
-    public void setLike(List<Student> like) {
+    public void setLike(Set<Student> like) {
         this.like = like;
     }
 }

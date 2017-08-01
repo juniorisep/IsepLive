@@ -1,6 +1,6 @@
 package com.iseplive.api.entity.media;
 
-import com.iseplive.api.dto.VideoIntegrationEnum;
+import com.iseplive.api.dto.VideoEmbedEnum;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -10,17 +10,17 @@ import javax.persistence.Entity;
  * back
  */
 @Entity
-@DiscriminatorValue("videoIntegration")
-public class VideoIntegration extends Media {
+@DiscriminatorValue("videoEmbed")
+public class VideoEmbed extends Media {
 
-    private VideoIntegrationEnum type;
+    private VideoEmbedEnum type;
     private String url;
 
-    public VideoIntegrationEnum getType() {
+    public VideoEmbedEnum getType() {
         return type;
     }
 
-    public void setType(VideoIntegrationEnum type) {
+    public void setType(VideoEmbedEnum type) {
         this.type = type;
     }
 

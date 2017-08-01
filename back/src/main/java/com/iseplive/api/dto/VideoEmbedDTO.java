@@ -4,15 +4,15 @@ package com.iseplive.api.dto;
  * Created by Guillaume on 01/08/2017.
  * back
  */
-public class VideoIntegrationDTO {
-    private VideoIntegrationEnum type;
+public class VideoEmbedDTO {
+    private VideoEmbedEnum type;
     private String url;
 
-    public VideoIntegrationEnum getType() {
+    public VideoEmbedEnum getType() {
         return type;
     }
 
-    public void setType(VideoIntegrationEnum type) {
+    public void setType(VideoEmbedEnum type) {
         this.type = type;
     }
 

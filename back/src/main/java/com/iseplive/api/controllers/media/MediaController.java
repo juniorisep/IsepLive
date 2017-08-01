@@ -1,13 +1,10 @@
 package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.conf.NotFoundException;
-import com.iseplive.api.dto.ImageTypeEnum;
-import com.iseplive.api.dto.VideoIntegrationDTO;
+import com.iseplive.api.dto.VideoEmbedDTO;
 import com.iseplive.api.entity.media.Gallery;
 import com.iseplive.api.entity.media.Image;
-import com.iseplive.api.entity.media.Media;
-import com.iseplive.api.entity.media.VideoIntegration;
-import com.iseplive.api.services.ImageService;
+import com.iseplive.api.entity.media.VideoEmbed;
 import com.iseplive.api.services.ImageUtils;
 import com.iseplive.api.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +38,9 @@ public class MediaController {
         return mediaService.identifyStudentInImage(id, student);
     }
 
-    @PostMapping("/videoIntegration")
-    public VideoIntegration addVideoIntegration(@RequestBody VideoIntegrationDTO dto) {
-        return mediaService.createVideoIntegration(dto);
+    @PostMapping("/videoEmbed")
+    public VideoEmbed addVideoEmbed(@RequestBody VideoEmbedDTO dto) {
+        return mediaService.createVideoEmbed(dto);
     }
 
     @PostMapping("/gallery/{name}")

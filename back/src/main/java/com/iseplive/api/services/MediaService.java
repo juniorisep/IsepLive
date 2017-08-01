@@ -2,10 +2,10 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
-import com.iseplive.api.dto.VideoIntegrationDTO;
+import com.iseplive.api.dto.VideoEmbedDTO;
 import com.iseplive.api.entity.media.Gallery;
 import com.iseplive.api.entity.media.Image;
-import com.iseplive.api.entity.media.VideoIntegration;
+import com.iseplive.api.entity.media.VideoEmbed;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,9 +79,9 @@ public class MediaService {
         return mediaRepository.save(image);
     }
 
-    public VideoIntegration createVideoIntegration(VideoIntegrationDTO dto) {
-        VideoIntegration videoIntegration = mediaFactory.dtoToVideoIntegrationEntity(dto);
-        return mediaRepository.save(videoIntegration);
+    public VideoEmbed createVideoEmbed(VideoEmbedDTO dto) {
+        VideoEmbed videoEmbed = mediaFactory.dtoToVideoEmbedEntity(dto);
+        return mediaRepository.save(videoEmbed);
     }
 
 }

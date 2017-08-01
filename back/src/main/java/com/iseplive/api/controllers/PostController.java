@@ -5,10 +5,8 @@ import com.iseplive.api.dto.PostDTO;
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
-import com.iseplive.api.services.ImageService;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +21,6 @@ public class PostController {
 
     @Autowired
     PostService postService;
-
-    @Autowired
-    ImageService imageService;
 
     @GetMapping
     public List<Post> getPosts() {
@@ -57,9 +52,9 @@ public class PostController {
         postService.setPublishState(id, state);
     }
 
-    @PutMapping("/{id}/integration/{media}")
-    public void addMediaIntegration(@PathVariable Long id, @PathVariable Long media) {
-        postService.addMediaIntegration(id, media);
+    @PutMapping("/{id}/embed/{media}")
+    public void addMediaEmbed(@PathVariable Long id, @PathVariable Long media) {
+        postService.addMediaEmbed(id, media);
     }
 
 }

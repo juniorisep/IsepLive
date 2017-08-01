@@ -52,7 +52,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public void addMediaIntegration(Long id, Long mediaId) {
+    public void addMediaEmbed(Long id, Long mediaId) {
         Post post = postRepository.findOne(id);
         Media media = mediaRepository.findOne(mediaId);
         post.setMedia(media);

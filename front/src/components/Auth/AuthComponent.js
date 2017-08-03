@@ -11,6 +11,6 @@ class Auth extends Component {
     }
     return null;
   }
-}
+};
 
 export default Auth;

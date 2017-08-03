@@ -28,11 +28,11 @@ import Events from '../../pages/events';
 import NotFound from '../../pages/404';
 import Resume from '../../pages/resume';
 import Whoarewe from '../../pages/whoarewe';
-import Admin from '../../pages/administration'
-import Contact from '../../pages/contact'
-import Help from '../../pages/help'
-import LegalNotice from '../../pages/legalNotice'
-import UserAgreement from '../../pages/userAgreement'
+import Admin from '../../pages/administration';
+import Contact from '../../pages/contact';
+import Help from '../../pages/help';
+import LegalNotice from '../../pages/legalNotice';
+import UserAgreement from '../../pages/userAgreement';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 import { FluidContent, Filler } from '../common';

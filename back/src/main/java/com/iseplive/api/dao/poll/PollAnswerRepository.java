@@ -1,6 +1,6 @@
 package com.iseplive.api.dao.poll;
 
-import com.iseplive.api.entity.poll.PollQuestion;
+import com.iseplive.api.entity.poll.PollAnswer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * back
  */
 @Repository
-public interface PollQuestionRepository extends CrudRepository<PollQuestion, Long> {
+public interface PollAnswerRepository extends CrudRepository<PollAnswer, Long> {
 }

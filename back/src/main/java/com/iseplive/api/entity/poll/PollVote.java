@@ -18,7 +18,7 @@ public class PollVote {
     private Student student;
 
     @OneToOne
-    private PollQuestion question;
+    private PollAnswer answer;
 
     public Long getId() {
         return id;
@@ -36,11 +36,11 @@ public class PollVote {
         this.student = student;
     }
 
-    public PollQuestion getQuestion() {
-        return question;
+    public PollAnswer getAnswer() {
+        return answer;
     }
 
-    public void setQuestion(PollQuestion question) {
-        this.question = question;
+    public void setAnswer(PollAnswer answer) {
+        this.answer = answer;
     }
 }

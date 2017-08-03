@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class PollCreationDTO {
     private String title;
-    private List<String> questions;
+    private List<String> answers;
 
     public String getTitle() {
         return title;
@@ -18,11 +18,11 @@ public class PollCreationDTO {
         this.title = title;
     }
 
-    public List<String> getQuestions() {
-        return questions;
+    public List<String> getAnswers() {
+        return answers;
     }
 
-    public void setQuestions(List<String> questions) {
-        this.questions = questions;
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
     }
 }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.16.2",
     "flow": "^0.2.3",
     "grid-styled": "^2.0.0-10",
     "material-ui": "^1.0.0-beta.3",

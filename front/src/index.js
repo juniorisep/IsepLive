@@ -4,6 +4,7 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 
+import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
 
 import {
@@ -26,6 +27,10 @@ import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
 
 import Login from './pages/login';
 import Layout from './components/Layout'
+
+
+axios.defaults.baseURL = "http://localhost:8080" // TODO: ugly, to replace
+
 
 const theme = createMuiTheme({
   palette: createPalette({

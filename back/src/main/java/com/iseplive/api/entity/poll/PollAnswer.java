@@ -10,7 +10,7 @@ import java.util.List;
  * back
  */
 @Entity
-public class PollQuestion {
+public class PollAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,7 +19,7 @@ public class PollQuestion {
     @OneToOne
     private Poll poll;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "answer")
     private List<PollVote> votes;
 
     public Long getId() {

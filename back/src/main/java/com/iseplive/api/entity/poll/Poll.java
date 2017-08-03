@@ -16,7 +16,7 @@ public class Poll extends Media {
     private String name;
 
     @OneToMany(mappedBy = "poll")
-    private List<PollQuestion> questions;
+    private List<PollAnswer> answers;
 
     public String getName() {
         return name;
@@ -26,11 +26,11 @@ public class Poll extends Media {
         this.name = name;
     }
 
-    public List<PollQuestion> getQuestions() {
-        return questions;
+    public List<PollAnswer> getAnswers() {
+        return answers;
     }
 
-    public void setQuestions(List<PollQuestion> questions) {
-        this.questions = questions;
+    public void setAnswers(List<PollAnswer> answers) {
+        this.answers = answers;
     }
 }

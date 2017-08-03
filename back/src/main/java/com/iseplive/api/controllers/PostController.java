@@ -32,6 +32,11 @@ public class PostController {
         return postService.createPost(post);
     }
 
+    @GetMapping("/{id}")
+    public Post getPost(@PathVariable Long id) {
+        return postService.getPost(id);
+    }
+
     @PutMapping("/{id}/comment")
     public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto) {
         return postService.commentPost(id, dto, 1L);

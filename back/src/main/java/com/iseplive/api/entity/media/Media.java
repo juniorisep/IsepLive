@@ -15,11 +15,18 @@ public abstract class Media {
     @GeneratedValue
     private Long id;
 
+    @Column(insertable = false, updatable = false)
+    private String mediaType;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getMediaType() {
+        return mediaType;
     }
 }

@@ -13,11 +13,9 @@ import java.util.List;
  * back
  */
 @Entity
-public class Student {
+@DiscriminatorValue("student")
+public class Student extends Author {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private Integer promo;
     private String firstname;
     private String lastname;
@@ -31,14 +29,6 @@ public class Student {
 
     @OneToMany
     private List<Club> clubs;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Integer getPromo() {
         return promo;

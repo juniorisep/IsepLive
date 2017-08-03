@@ -16,6 +16,7 @@ import {
   Filler,
 } from '../../components/common';
 
+import Video from '../../components/Video';
 import Poll from '../../components/Poll';
 
 
@@ -211,19 +212,26 @@ export default function Home(props) {
           <PostSection>
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
             <PostList>
+
               {
                 props.posts.map((p, i) => {
-                  if (p.media && p.media.mediaType == 'poll') {
-                    return (
-                      <Post key={i}>
-                        <Box w={[ 1 ]}>
-                          <PostText>
-                            <Title fontSize={2} invert>NEW POLL</Title>
-                            <Poll data={p.media} />
-                          </PostText>
-                        </Box>
-                      </Post>
-                    )
+                  if (p.media) {
+                    switch (p.media.mediaType) {
+                      case 'poll':
+                        return (
+                          <Post key={i}>
+                            <Box w={[ 1 ]}>
+                              <PostText>
+                                <Title fontSize={2} invert>NEW POLL</Title>
+                                <Poll data={p.media} />
+                              </PostText>
+                            </Box>
+                          </Post>
+                        )
+
+                      default:
+
+                    }
                   }
                 })
               }

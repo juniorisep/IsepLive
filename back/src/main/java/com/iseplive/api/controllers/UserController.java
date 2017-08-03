@@ -1,9 +1,10 @@
 package com.iseplive.api.controllers;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.iseplive.api.dto.StudentDTO;
+import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.services.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -14,9 +15,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    StudentService studentService;
+
     @PostMapping("/student/image")
     public void addProfileImage(@RequestParam("image") MultipartFile image) {
 
+    }
+
+    @PostMapping("/student")
+    public Student createStudent(@RequestBody StudentDTO dto) {
+        return studentService.createStudent(dto);
     }
 
 }

@@ -27,6 +27,13 @@ const Main = styled.div`
   padding: 20px;
 `;
 
+const Caption = styled.p`
+  margin: 0;
+  color: ${props => props.theme.main};
+  font-size: 15px;
+  text-align: right;
+`;
+
 class Poll extends Component {
 
   state = {
@@ -79,6 +86,7 @@ class Poll extends Component {
               );
             })
           }
+          {this.state.voted && <Caption>{total} votes</Caption>}
         </Main>
       </Wrapper>
     );
@@ -117,6 +125,7 @@ const AnswerBar = styled.div`
   width: 0%;
   height: 100%;
   background: ${props => props.theme.main};
+  border-radius: 5px;
   transition: width .5s ease;
 `;
 

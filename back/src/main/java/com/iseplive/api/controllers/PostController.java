@@ -28,7 +28,7 @@ public class PostController {
     }
 
     @PostMapping
-    public Post addPost(@RequestBody PostDTO post) {
+    public Post createPost(@RequestBody PostDTO post) {
         return postService.createPost(post);
     }
 

@@ -3,6 +3,7 @@ package com.iseplive.api.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.media.Media;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class Post {
     private Media media;
 
     @OneToOne
-    private Student author;
+    private Author author;
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
@@ -71,11 +72,11 @@ public class Post {
         this.content = content;
     }
 
-    public Student getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(Student author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 

@@ -2,6 +2,7 @@ package com.iseplive.api.entity.club;
 
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.media.Image;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
@@ -13,11 +14,9 @@ import java.util.List;
  * back
  */
 @Entity
-public class Club {
+@DiscriminatorValue("club")
+public class Club extends Author {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String name;
     private String description;
     private Date creation;
@@ -34,14 +33,6 @@ public class Club {
 
     private String logoUrl;
     private String logoThumbUrl;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

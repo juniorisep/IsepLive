@@ -1,6 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.dao.media.MediaRepository;
+import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.post.CommentRepository;
 import com.iseplive.api.dao.post.PostFactory;
 import com.iseplive.api.dao.post.PostRepository;
@@ -10,6 +11,7 @@ import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +43,16 @@ public class PostService {
     @Autowired
     MediaRepository mediaRepository;
 
+    @Autowired
+    AuthorRepository authorRepository;
+
     public List<Post> getPosts() {
         return postRepository.findByPublishStateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED);
     }
 
     public Post createPost(PostDTO postDTO) {
         Post post = postFactory.dtoToEntity(postDTO);
+        post.setAuthor(authorRepository.findOne(postDTO.getAuthorId()));
         post.setCreationDate(new Date());
         post.setPublishState(PublishStateEnum.WAITING);
         return postRepository.save(post);

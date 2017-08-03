@@ -5,6 +5,7 @@ import com.iseplive.api.dao.club.ClubFactory;
 import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
 import com.iseplive.api.dao.club.ClubRoleRepository;
+import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
@@ -26,7 +27,11 @@ import java.util.List;
 public class ClubService {
 
     @Autowired
+    AuthorRepository authorRepository;
+
+    @Autowired
     ClubRepository clubRepository;
+
 
     @Autowired
     ClubRoleRepository clubRoleRepository;
@@ -57,7 +62,7 @@ public class ClubService {
             throw new IllegalArgumentException("this student id doesn't exist");
         }
         club.setAdmin(admin);
-        return clubRepository.save(club);
+        return authorRepository.save(club);
     }
 
     public Club setClubLogo(MultipartFile file, Long clubId) {
@@ -65,7 +70,7 @@ public class ClubService {
         String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
         imageUtils.saveJPG(file, 256, path);
         club.setLogoUrl(imageUtils.getPublicUrl(path));
-        return clubRepository.save(club);
+        return authorRepository.save(club);
     }
 
     public ClubMember addMember(Long clubId, Long roleId, Long studentId) {
@@ -84,7 +89,7 @@ public class ClubService {
     public void setPublishState(Long id, PublishStateEnum state) {
         Club club = clubRepository.findOne(id);
         club.setPublishState(state);
-        clubRepository.save(club);
+        authorRepository.save(club);
     }
 
     public List<Club> getAll() {

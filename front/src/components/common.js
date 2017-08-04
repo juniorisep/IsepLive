@@ -1,6 +1,7 @@
 // @flow
-
+import React from 'react';
 import styled from 'styled-components';
+import { backUrl } from '../config';
 
 export const Separator = styled.div`
   width: 100%;
@@ -59,3 +60,10 @@ export const Banner = styled.div`
     margin-bottom: 0;
   }
 `;
+
+const ImageStyle = styled.img`
+  width: ${props => props.w};
+  margin-left: ${props => props.ml || 'auto'};
+`;
+
+export const Image = (props) => <ImageStyle {...props} src={backUrl + props.src} />

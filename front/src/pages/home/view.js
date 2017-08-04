@@ -3,7 +3,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled'
+import { Flex, Box } from 'grid-styled';
 import Button from 'material-ui/Button';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
@@ -16,8 +16,11 @@ import {
   Filler,
 } from '../../components/common';
 
+import Time from '../../components/Time';
+
 import Video from '../../components/Video';
 import Poll from '../../components/Poll';
+import Author from './author';
 
 
 /* const IconMenu = styled.div`
@@ -97,7 +100,7 @@ const Post = styled.li`
   background: white;
   margin-bottom: 20px;
   display: flex;
-  min-height: 250px;
+  min-height: 300px;
   flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
 
   @media (max-width: 40em) {
@@ -137,11 +140,18 @@ const Title = styled.h1`
   color: ${props => props.invert ? props.theme.main : props.theme.accent};
   ${props => props.framed && `background: ${props.invert ? props.theme.accent : props.theme.main};`}
   margin: 0;
-  margin-bottom: 1em;
+  margin-bottom: .5em;
   padding: ${props => props.framed ? '.3em .4em' : 0};
 `;
 
 const SectionTitle = Title.withComponent('h2');
+
+const Subtitle = styled.h3`
+  color: #9f9f9f;
+  font-weight: normal;
+  font-size: 15px;
+  margin: 0;
+`;
 
 const IframeWrap = styled.div`
   position: absolute;
@@ -224,6 +234,34 @@ export default function Home(props) {
                               <PostText>
                                 <Title fontSize={2} invert>NEW POLL</Title>
                                 <Poll data={p.media} />
+                              </PostText>
+                            </Box>
+                          </Post>
+                        )
+                      case 'videoEmbed':
+                        return (
+                          <Post key={i}>
+                            <Box w={[ 1, 1/2 ]}>
+                              <PostContent bg>
+                                <IframeWrap>
+                                  <iframe src={p.media.url}
+                                  scrolling="no" allowTransparency allowFullScreen></iframe>
+                                </IframeWrap>
+                              </PostContent>
+                            </Box>
+                            <Box w={[ 1, 1/2 ]}>
+                              <PostText>
+                                <Flex>
+                                  <Box>
+                                    <Title fontSize={2} invert>{p.title}</Title>
+                                    <Subtitle>Posté le <Time date={p.creation} format="DD/MM/YYYY [à] HH[h]mm" /></Subtitle>
+                                  </Box>
+                                  <Box ml="auto">
+                                    <Author data={p.author} />
+                                  </Box>
+                                </Flex>
+                                { p.content.split('\n').map(par => <Text>{par}</Text>) }
+                                <Button color="accent">Voir plus</Button>
                               </PostText>
                             </Box>
                           </Post>

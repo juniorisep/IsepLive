@@ -21,6 +21,7 @@ public class Student extends Author {
     private String lastname;
     private Date birthDate;
     private String phone;
+    private String studentId;
 
     private String photoUrl;
 
@@ -93,5 +94,14 @@ public class Student extends Author {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 }

@@ -25,6 +25,8 @@ storage:
     url: "/event"
   image:
     url: "/image"
+  student:
+    url: "/student"
 
 logging:
   level:

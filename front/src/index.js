@@ -28,8 +28,8 @@ import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
 import Login from './pages/login';
 import Layout from './components/Layout'
 
-
-axios.defaults.baseURL = "http://localhost:8080" // TODO: ugly, to replace
+import { backUrl } from './config';
+axios.defaults.baseURL = backUrl;
 
 
 const theme = createMuiTheme({

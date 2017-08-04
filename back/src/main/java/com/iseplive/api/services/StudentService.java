@@ -5,7 +5,11 @@ import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -19,6 +23,16 @@ public class StudentService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    ImageUtils imageUtils;
+
+    @Value("${storage.student.url}")
+    String studentImageStorage;
+
+    public List<Student> getAll() {
+        return studentRepository.findAll();
+    }
 
     public Student getStudent(Long id) {
         Student student = studentRepository.findOne(id);
@@ -37,5 +51,13 @@ public class StudentService {
         student.setPhone(dto.getPhone());
         student.setPromo(dto.getPromo());
         return authorRepository.save(student);
+    }
+
+    public void addProfileImage(Long id, MultipartFile image) {
+        Student student = getStudent(id);
+        String path = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), false);
+        imageUtils.saveJPG(image, 512, path);
+        student.setPhotoUrl(imageUtils.getPublicUrl(path));
+        studentRepository.save(student);
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * Created by Guillaume on 29/07/2017.
  * back
@@ -18,9 +20,14 @@ public class UserController {
     @Autowired
     StudentService studentService;
 
-    @PostMapping("/student/image")
-    public void addProfileImage(@RequestParam("image") MultipartFile image) {
+    @GetMapping("/student")
+    public List<Student> getAll() {
+        return studentService.getAll();
+    }
 
+    @PostMapping("/student/{id}/image")
+    public void addProfileImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) {
+        studentService.addProfileImage(id, image);
     }
 
     @PostMapping("/student")

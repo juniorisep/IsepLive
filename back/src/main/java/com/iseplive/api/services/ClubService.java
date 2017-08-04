@@ -66,7 +66,7 @@ public class ClubService {
     }
 
     public Club setClubLogo(MultipartFile file, Long clubId) {
-        Club club = clubRepository.findOne(clubId);
+        Club club = getClub(clubId);
         String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
         imageUtils.saveJPG(file, 256, path);
         club.setLogoUrl(imageUtils.getPublicUrl(path));
@@ -97,10 +97,13 @@ public class ClubService {
     }
 
     public Club getClub(Long id) {
-        return clubRepository.findOne(id);
+        Club club = clubRepository.findOne(id);
+        if (club == null) throw new IllegalArgumentException("could not find club with id: "+id);
+        return club;
     }
 
     public void deleteClub(Long id) {
         clubRepository.delete(id);
     }
+
 }

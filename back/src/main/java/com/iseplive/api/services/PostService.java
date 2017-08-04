@@ -52,10 +52,18 @@ public class PostService {
 
     public Post createPost(PostDTO postDTO) {
         Post post = postFactory.dtoToEntity(postDTO);
+        // TODO: check if authorId is allowed to be used by the user logged in
         post.setAuthor(authorRepository.findOne(postDTO.getAuthorId()));
         post.setCreationDate(new Date());
         post.setPublishState(PublishStateEnum.WAITING);
         return postRepository.save(post);
+    }
+
+    public void deletePost(Long postId) {
+        Post post = getPost(postId);
+        // TODO: delete the ressource associated to the media (stored on disk)
+        mediaRepository.delete(post.getMedia());
+        postRepository.delete(postId);
     }
 
     public void addMediaEmbed(Long id, Long mediaId) {

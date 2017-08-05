@@ -361,7 +361,7 @@ export default function Home(props) {
             </Box>
           </Flex>
         </About>
-        <Separator />
+{/*        <Separator />
         <SectionTitle fontSize={2} framed>SUIVEZ-NOUS</SectionTitle>
         <Flex wrap justify="space-between">
           <Box w={[1, 1/2, 1/4]}>
@@ -380,7 +380,7 @@ export default function Home(props) {
             <FakeIcon />
             <IconName>Snapchat</IconName>
           </Box>
-        </Flex>
+        </Flex>*/}
       </FluidContent>
     </div>
   );

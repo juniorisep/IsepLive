@@ -19,6 +19,9 @@ export const FluidContent = styled.div`
   margin: 0 auto;
   padding: ${props => props.p || '50px'};
   position: relative;
+  @media (max-width: 40em) {
+    padding: 5%;
+  }
 `;
 
 export const Header = styled.header`
@@ -67,3 +70,7 @@ const ImageStyle = styled.img`
 `;
 
 export const Image = (props) => <ImageStyle {...props} src={backUrl + props.src} />
+export const ProfileImage = (props) => {
+  if (!props.src) return <ImageStyle {...props} src="svg/user.svg" alt="profile-image" />;
+  return <Image {...props} />
+}

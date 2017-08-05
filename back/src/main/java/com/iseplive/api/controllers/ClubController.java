@@ -1,12 +1,10 @@
 package com.iseplive.api.controllers;
 
 import com.iseplive.api.dto.ClubDTO;
-import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
-import com.iseplive.api.entity.media.Image;
 import com.iseplive.api.services.ClubService;
-import com.iseplive.api.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,5 +1,7 @@
 package com.iseplive.api.dto;
 
+import com.iseplive.api.constants.VideoEmbedEnum;
+
 /**
  * Created by Guillaume on 01/08/2017.
  * back

@@ -2,7 +2,7 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
-import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.services.PostService;
@@ -40,6 +40,11 @@ public class PostController {
     @GetMapping("/{id}")
     public Post getPost(@PathVariable Long id) {
         return postService.getPost(id);
+    }
+
+    @GetMapping("/{id}/comment")
+    public List<Comment> getComments(@PathVariable Long id) {
+        return postService.getComments(id);
     }
 
     @PutMapping("/{id}/comment")

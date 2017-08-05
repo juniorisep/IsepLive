@@ -1,4 +1,4 @@
-package com.iseplive.api.dto;
+package com.iseplive.api.constants;
 
 /**
  * Created by Guillaume on 31/07/2017.

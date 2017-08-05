@@ -7,11 +7,12 @@ import com.iseplive.api.dao.club.ClubRepository;
 import com.iseplive.api.dao.club.ClubRoleRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dto.ClubDTO;
-import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -87,7 +88,7 @@ public class ClubService {
     }
 
     public void setPublishState(Long id, PublishStateEnum state) {
-        Club club = clubRepository.findOne(id);
+        Club club = getClub(id);
         club.setPublishState(state);
         authorRepository.save(club);
     }

@@ -1,7 +1,7 @@
 package com.iseplive.api.entity.club;
 
-import com.iseplive.api.dto.PublishStateEnum;
-import com.iseplive.api.entity.media.Image;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 
@@ -22,12 +22,15 @@ public class Club extends Author {
     private Date creation;
     private String website;
 
+    @JsonIgnore
     @OneToOne
     private Student admin;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private List<ClubMember> members;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
 

@@ -1,21 +1,21 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.constants.MediaType;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dto.VideoEmbedDTO;
 import com.iseplive.api.entity.media.Gallery;
 import com.iseplive.api.entity.media.Image;
+import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.media.VideoEmbed;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Guillaume on 01/08/2017.
@@ -41,6 +41,12 @@ public class MediaService {
 
     @Value("${storage.image.url}")
     String imageDir;
+
+    public List<Media> getAllGalleryGazetteVideo() {
+        return mediaRepository.findAllByMediaTypeIn(
+                Arrays.asList(MediaType.IMAGE, MediaType.GAZETTE, MediaType.VIDEO)
+        );
+    }
 
     public Gallery createGallery(String name, List<MultipartFile> files) {
         Gallery gallery = new Gallery();

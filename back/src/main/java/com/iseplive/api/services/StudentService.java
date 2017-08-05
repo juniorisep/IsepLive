@@ -4,6 +4,7 @@ import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class StudentService {
     public void addProfileImage(Long id, MultipartFile image) {
         Student student = getStudent(id);
         String path = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), false);
-        imageUtils.saveJPG(image, 512, path);
+        imageUtils.saveJPG(image, 512, 512, path);
         student.setPhotoUrl(imageUtils.getPublicUrl(path));
         studentRepository.save(student);
     }

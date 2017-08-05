@@ -80,7 +80,7 @@ const MessageBox = styled.textarea`
   font-family: 'Roboto';
   font-size: 1.3em;
   padding: .4em;
-  border: 0;
+  border: 5px solid transparent;
   outline: 0;
   border-radius: 5px;
   width: 100%;

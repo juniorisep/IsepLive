@@ -1,5 +1,7 @@
 package com.iseplive.api.entity.media;
 
+import com.iseplive.api.constants.MediaType;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.Date;
  * back
  */
 @Entity
-@DiscriminatorValue("gazette")
+@DiscriminatorValue(MediaType.GAZETTE)
 public class Gazette extends Media {
 
     private String title;

@@ -1,7 +1,7 @@
 package com.iseplive.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
@@ -31,12 +31,15 @@ public class Post {
     @OneToOne
     private Author author;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany
     private Set<Student> like = new HashSet<>();
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
 
@@ -108,7 +111,6 @@ public class Post {
         return like.size();
     }
 
-    @JsonIgnore
     public Set<Student> getLike() {
         return like;
     }

@@ -4,14 +4,12 @@ import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.dao.event.EventFactory;
 import com.iseplive.api.dao.event.EventRepository;
 import com.iseplive.api.dto.EventDTO;
-import com.iseplive.api.dto.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Event;
 import com.iseplive.api.entity.media.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by Guillaume on 01/08/2017.

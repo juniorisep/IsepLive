@@ -1,6 +1,7 @@
-package com.iseplive.api.services;
+package com.iseplive.api.utils;
 
 import com.iseplive.api.conf.IllegalArgumentException;
+import com.iseplive.api.services.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,7 +26,6 @@ import java.util.Arrays;
 public class ImageUtils {
 
     private final Logger LOG = LoggerFactory.getLogger(ImageService.class);
-
 
     @Value("${storage.url}")
     private String baseUrl;
@@ -59,10 +58,10 @@ public class ImageUtils {
      * extension set by the method
      *
      * @param image
-     * @param scaledWidth
+     * @param newWidth
      * @param outputPath
      */
-    public void saveJPG(MultipartFile image, int scaledWidth, String outputPath) {
+    public void saveJPG(MultipartFile image, int newWidth, int newHeight, String outputPath) {
         try {
             // verify it is an image
             if (!Arrays.asList("image/png", "image/jpeg").contains(image.getContentType())) {
@@ -71,18 +70,18 @@ public class ImageUtils {
 
             // Create input image
             BufferedImage inputImage = ImageIO.read(image.getInputStream());
-            scaledWidth = scaledWidth > inputImage.getWidth() ? inputImage.getWidth() : scaledWidth;
+            newWidth = newWidth > inputImage.getWidth() ? inputImage.getWidth() : newWidth;
             double ratio = (double) inputImage.getWidth() / (double) inputImage.getHeight();
-            int scaledHeight = (int) (scaledWidth / ratio);
+            int scaledHeight = (int) (newWidth / ratio);
 
             // Create output image
-            BufferedImage outputImage = new BufferedImage(scaledWidth,
+            BufferedImage outputImage = new BufferedImage(newWidth,
                     scaledHeight, BufferedImage.TYPE_INT_RGB);
 
             // Scale output
             Graphics2D g2d = outputImage.createGraphics();
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR );
-            g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
+            g2d.drawImage(inputImage, 0, 0, newWidth, scaledHeight, null);
             g2d.dispose();
 
             // Write output to file
@@ -95,6 +94,11 @@ public class ImageUtils {
             e.printStackTrace();
         }
     }
+
+    public void saveJPG(MultipartFile image, int scaledWidth, String outputPath) {
+        saveJPG(image, scaledWidth, 0, outputPath);
+    }
+
 
     public String getBaseUrl() {
         return baseUrl;

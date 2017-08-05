@@ -1,5 +1,7 @@
 package com.iseplive.api.entity.media;
 
+import com.iseplive.api.constants.MediaType;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,7 @@ import javax.persistence.Id;
  * back
  */
 @Entity
-@DiscriminatorValue("media")
+@DiscriminatorValue(MediaType.VIDEO)
 public class Video extends Media {
     private String url;
     private String name;

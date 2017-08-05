@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.post.CommentRepository;
@@ -7,13 +8,11 @@ import com.iseplive.api.dao.post.PostFactory;
 import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
-import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
-import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +56,11 @@ public class PostService {
         post.setCreationDate(new Date());
         post.setPublishState(PublishStateEnum.WAITING);
         return postRepository.save(post);
+    }
+
+    public List<Comment> getComments(Long postId) {
+        Post post = getPost(postId);
+        return post.getComments();
     }
 
     public void deletePost(Long postId) {

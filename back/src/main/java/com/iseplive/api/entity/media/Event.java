@@ -1,9 +1,8 @@
 package com.iseplive.api.entity.media;
 
-import com.iseplive.api.dto.PublishStateEnum;
+import com.iseplive.api.constants.MediaType;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
-import com.iseplive.api.entity.media.Image;
-import com.iseplive.api.entity.media.Media;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.Date;
  * back
  */
 @Entity
-@DiscriminatorValue("event")
+@DiscriminatorValue(MediaType.EVENT)
 public class Event extends Media {
 
     private String title;

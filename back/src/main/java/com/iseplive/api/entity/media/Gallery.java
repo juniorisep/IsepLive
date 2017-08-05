@@ -1,5 +1,7 @@
 package com.iseplive.api.entity.media;
 
+import com.iseplive.api.constants.MediaType;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  * back
  */
 @Entity
-@DiscriminatorValue("gallery")
+@DiscriminatorValue(MediaType.GALLERY)
 public class Gallery extends Media {
 
     private String name;

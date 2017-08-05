@@ -4,8 +4,9 @@ import com.iseplive.api.conf.NotFoundException;
 import com.iseplive.api.dto.VideoEmbedDTO;
 import com.iseplive.api.entity.media.Gallery;
 import com.iseplive.api.entity.media.Image;
+import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.media.VideoEmbed;
-import com.iseplive.api.services.ImageUtils;
+import com.iseplive.api.utils.ImageUtils;
 import com.iseplive.api.services.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -27,6 +28,11 @@ public class MediaController {
 
     @Autowired
     MediaService mediaService;
+
+    @GetMapping
+    public List<Media> getAllMedia() {
+        return mediaService.getAllGalleryGazetteVideo();
+    }
 
     @PostMapping("/image")
     public Image addStandaloneImage(@RequestParam("image") MultipartFile image) {

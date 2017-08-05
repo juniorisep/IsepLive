@@ -1,11 +1,10 @@
 package com.iseplive.api.entity.media;
 
-import com.iseplive.api.dto.ImageTypeEnum;
+import com.iseplive.api.constants.MediaType;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,7 +12,7 @@ import java.util.Set;
  * back
  */
 @Entity
-@DiscriminatorValue("image")
+@DiscriminatorValue(MediaType.IMAGE)
 public class Image extends Media {
 
     private String thumbUrl;

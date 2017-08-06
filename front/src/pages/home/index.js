@@ -9,12 +9,35 @@ class Home extends Component {
 
   state = {
     posts: [],
+    page: 0,
+    lastPage: false,
   }
 
   componentDidMount() {
-    postData.getPosts().then(res => {
-      console.log(res.data);
-      this.setState({ posts: res.data });
+    this.getPosts();
+  }
+
+  getPosts() {
+    postData.getPosts(this.state.page).then(res => {
+      this.setState({
+        posts: this.state.posts.concat(res.data.content),
+        page: this.state.page + 1,
+        lastPage: res.data.last,
+      });
+    })
+  }
+
+  seeMore = () => {
+    this.getPosts();
+  }
+
+  refreshPosts = () => {
+    postData.getPosts(0).then(res => {
+      this.setState({
+        posts: res.data.content,
+        page: 1,
+        lastPage: res.data.last,
+      });
     })
   }
 
@@ -22,6 +45,9 @@ class Home extends Component {
     return (
       <HomeView
         posts={this.state.posts}
+        lastPage={this.state.lastPage}
+        onSeeMore={this.seeMore}
+        refreshPosts={this.refreshPosts}
       />
     );
   }

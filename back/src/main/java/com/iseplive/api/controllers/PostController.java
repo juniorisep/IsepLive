@@ -1,12 +1,13 @@
 package com.iseplive.api.controllers;
 
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
-import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class PostController {
     PostService postService;
 
     @GetMapping
-    public List<Post> getPosts() {
-        return postService.getPosts();
+    public Page<Post> getPosts(@RequestParam(defaultValue = "0") int page) {
+        return postService.getPosts(page);
     }
 
     @PostMapping
@@ -32,14 +33,24 @@ public class PostController {
         return postService.createPost(post);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+    @GetMapping("/pinned")
+    public List<Post> getPinnedPosts() {
+        return postService.getPinnedPosts();
     }
 
     @GetMapping("/{id}")
     public Post getPost(@PathVariable Long id) {
         return postService.getPost(id);
+    }
+
+    @PutMapping("/{id}/pinned/{pinned}")
+    public void updatePost(@PathVariable Long id, @PathVariable Boolean pinned) {
+        postService.setPinnedPost(id, pinned);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
     }
 
     @GetMapping("/{id}/comment")

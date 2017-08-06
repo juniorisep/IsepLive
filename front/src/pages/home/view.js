@@ -6,14 +6,13 @@ import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
 import Button from 'material-ui/Button';
 
-import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
-
 import {
   Separator,
   FluidContent,
   Header,
   SearchBar,
   Filler,
+  ProfileImage,
 } from '../../components/common';
 
 import Time from '../../components/Time';
@@ -22,6 +21,7 @@ import Video from '../../components/Video';
 import Poll from '../../components/Poll';
 import Author from './author';
 
+import PublishBoxView from './publishBox';
 
 /* const IconMenu = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const FakeIcon = styled.div`
   margin: 0 auto;
   width: 100px;
   height: 100px;
-  background: ${MAIN_COLOR};
+  background: ${props => props.theme.main};
   margin-bottom: 10px;
   border-radius: 100px;
 `;
@@ -65,13 +65,13 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: ${MAIN_COLOR};
+  background: ${props => props.theme.main};
   opacity: 0.6;
 `;
 
 
 const PublishBox = styled.div`
-  background: ${MAIN_COLOR};
+  background: ${props => props.theme.main};
   margin-bottom: 20px;
   padding: 20px;
 `;
@@ -176,6 +176,45 @@ const Center = styled.div`
   text-align: center;
 `;
 
+function PostTitleView({ post }) {
+  const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
+  if (post.author.authorType == 'student') {
+    return (
+      <Flex align="center" mb="10px">
+        <Box mr="10px"><ProfileImage src={post.author.photoUrl} alt="logo-profile" w="40px" /></Box>
+        <Box>
+          <Title fontSize={1} invert >{post.author.firstname} {post.author.lastname}</Title>
+          <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
+        </Box>
+      </Flex>
+    )
+  }
+  return (
+    <Flex>
+      <Box>
+        {
+          post.title &&
+          <Title fontSize={2} invert>{post.title}</Title>
+        }
+        <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
+      </Box>
+      <Box ml="auto">
+        <Author data={post.author} />
+      </Box>
+    </Flex>
+  )
+}
+
+function PostTextView({ post }) {
+  return (
+    <PostText>
+      <PostTitleView post={post} />
+      { post.content.split('\n').map((par, i) => <Text key={i}>{par}</Text>) }
+      <Button color="accent">Voir plus</Button>
+    </PostText>
+  )
+}
+
 export default function Home(props) {
   return (
     <div>
@@ -208,16 +247,7 @@ export default function Home(props) {
       <Background>
         <Overlay />
         <FluidContent>
-          <PublishBox>
-            <MessageBox placeholder="Tapez votre message" />
-            <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{display: 'none'}} />
-            <label htmlFor="file">
-              <Button raised component="span" color="primary">
-                Importer fichier
-              </Button>
-            </label>
-            <Button raised color="accent" style={{ float: "right" }}>Publier</Button>
-          </PublishBox>
+          <PublishBoxView refreshPosts={props.refreshPosts} />
           <Separator />
           <PostSection>
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
@@ -225,14 +255,15 @@ export default function Home(props) {
 
               {
                 props.posts.map((p, i) => {
+                  const invert = i % 2 == 1;
                   if (p.media) {
                     switch (p.media.mediaType) {
                       case 'poll':
                         return (
-                          <Post key={i}>
+                          <Post key={i} invert={invert}>
                             <Box w={[ 1 ]}>
                               <PostText>
-                                <Title fontSize={2} invert>NEW POLL</Title>
+                                <PostTitleView post={p} />
                                 <Poll data={p.media} />
                               </PostText>
                             </Box>
@@ -240,7 +271,7 @@ export default function Home(props) {
                         )
                       case 'videoEmbed':
                         return (
-                          <Post key={i}>
+                          <Post key={i} invert={invert}>
                             <Box w={[ 1, 1/2 ]}>
                               <PostContent bg>
                                 <IframeWrap>
@@ -250,97 +281,93 @@ export default function Home(props) {
                               </PostContent>
                             </Box>
                             <Box w={[ 1, 1/2 ]}>
-                              <PostText>
-                                <Flex>
-                                  <Box>
-                                    <Title fontSize={2} invert>{p.title}</Title>
-                                    <Subtitle>Posté le <Time date={p.creation} format="DD/MM/YYYY [à] HH[h]mm" /></Subtitle>
-                                  </Box>
-                                  <Box ml="auto">
-                                    <Author data={p.author} />
-                                  </Box>
-                                </Flex>
-                                { p.content.split('\n').map(par => <Text>{par}</Text>) }
-                                <Button color="accent">Voir plus</Button>
-                              </PostText>
+                              <PostTextView post={p} />
                             </Box>
                           </Post>
                         )
-
-                      default:
-
                     }
+                  } else {
+                    return (
+                      <Post key={i} invert={invert}>
+                        <Box w={[ 1 ]}>
+                          <PostTextView post={p} />
+                        </Box>
+                      </Post>
+                    )
                   }
                 })
               }
-              <Post>
+              {/* <Post>
                 <Box w={[ 1, 1/2 ]}>
                   <PostContent bg>
-                    <IframeWrap>
-                      {/* <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
-                      scrolling="no" allowTransparency allowFullScreen></iframe> */}
-                    </IframeWrap>
-                  </PostContent>
+                <IframeWrap>
+                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
+                scrolling="no" allowTransparency allowFullScreen></iframe>
+                </IframeWrap>
+                </PostContent>
                 </Box>
                 <Box w={[ 1, 1/2 ]}>
-                  <PostText>
-                    <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
-                    <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
-                    </Text>
-                    <Text>
-                      Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
-                      À ce soir sur http://iseplive.fr/ pour la version longue.
-                    </Text>
-                    <Text>
-                      La bise, l'équipe ISEPLive.
-                    </Text>
-                    <Text>
-                      Musiques:
-                      Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
-                      Nicolas Haelg - So Much More (feat. Bjorn Maria)
-                      Diplo - Revolution (Absence Remix)
-                      Nhyx X The Loud Republic - Gamma
-                    </Text>
-                    <Button color="accent">Voir plus</Button>
-                  </PostText>
+                <PostText>
+                <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
+                <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
+                </Text>
+                <Text>
+                Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
+                À ce soir sur http://iseplive.fr/ pour la version longue.
+                </Text>
+                <Text>
+                La bise, l'équipe ISEPLive.
+                </Text>
+                <Text>
+                Musiques:
+                Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
+                Nicolas Haelg - So Much More (feat. Bjorn Maria)
+                Diplo - Revolution (Absence Remix)
+                Nhyx X The Loud Republic - Gamma
+                </Text>
+                <Button color="accent">Voir plus</Button>
+                </PostText>
                 </Box>
-              </Post>
-              <Post invert>
+                </Post>
+                <Post invert>
                 <Box w={[ 1, 1/2 ]}>
-                  <PostContent bg>
-                    <IframeWrap>
-                      {/* <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
-                      width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe> */}
-                    </IframeWrap>
-                  </PostContent>
+                <PostContent bg>
+                <IframeWrap>
+                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FIsepLive%2Fvideos%2F1209112955812955%2F&show_text=0"
+                width="100%" height="75%" scrolling="no" frameBorder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+                </IframeWrap>
+                </PostContent>
                 </Box>
                 <Box w={[ 1, 1/2 ]}>
-                  <PostText>
-                    <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
-                    <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
-                    </Text>
-                    <Text>
-                      Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
-                      À ce soir sur http://iseplive.fr/ pour la version longue.
-                    </Text>
-                    <Text>
-                      La bise, l'équipe ISEPLive.
-                    </Text>
-                    <Text>
-                      Musiques:
-                      Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
-                      Nicolas Haelg - So Much More (feat. Bjorn Maria)
-                      Diplo - Revolution (Absence Remix)
-                      Nhyx X The Loud Republic - Gamma
-                    </Text>
-                    <Button color="accent">Voir plus</Button>
-                  </PostText>
+                <PostText>
+                <Title fontSize={2} invert>AFTER MOVIE WEI 2K16</Title>
+                <Text>🔥 Revivez la folie du WEI Sup de l'ISEP 2016 grâce à notre Aftermovie !🔥
+                </Text>
+                <Text>
+                Merci à BDE Ulteam - ISEP pour ce magnifique week-end !
+                À ce soir sur http://iseplive.fr/ pour la version longue.
+                </Text>
+                <Text>
+                La bise, l'équipe ISEPLive.
+                </Text>
+                <Text>
+                Musiques:
+                Gareth Emery feat. Lawson - Make It Happen (Nicolas Haelg Remix)
+                Nicolas Haelg - So Much More (feat. Bjorn Maria)
+                Diplo - Revolution (Absence Remix)
+                Nhyx X The Loud Republic - Gamma
+                </Text>
+                <Button color="accent">Voir plus</Button>
+                </PostText>
                 </Box>
-              </Post>
+              </Post> */}
             </PostList>
-            <Center>
-              <Button color="accent" raised>Voir tout</Button>
-            </Center>
+            {
+              !props.lastPage &&
+              <Center>
+                <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+              </Center>
+            }
           </PostSection>
         </FluidContent>
       </Background>

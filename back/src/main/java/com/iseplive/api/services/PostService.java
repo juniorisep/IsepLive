@@ -1,6 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.IllegalArgumentException;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.post.CommentRepository;
@@ -8,12 +9,14 @@ import com.iseplive.api.dao.post.PostFactory;
 import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
-import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -45,8 +48,24 @@ public class PostService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public List<Post> getPosts() {
-        return postRepository.findByPublishStateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED);
+    public Pageable createPage(int page) {
+        return new PageRequest(page, 5);
+    }
+
+    public Page<Post> getPosts(int page) {
+        return postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, createPage(page));
+    }
+
+    public Page<Post> getPublicPosts(int page) {
+        return postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, false, createPage(page));
+    }
+
+    public List<Post> getPinnedPosts() {
+        return postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false);
+    }
+
+    public List<Post> getPublicPinnedPosts() {
+        return postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, true, false);
     }
 
     public Post createPost(PostDTO postDTO) {
@@ -116,5 +135,11 @@ public class PostService {
             throw new IllegalArgumentException("Could not find a post with id: "+postId);
         }
         return post;
+    }
+
+    public void setPinnedPost(Long id, Boolean pinned) {
+        Post post = getPost(id);
+        post.setPinned(pinned);
+        postRepository.save(post);
     }
 }

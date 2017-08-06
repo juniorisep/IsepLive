@@ -5,6 +5,7 @@ import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.*;
 import java.util.*;
@@ -17,10 +18,12 @@ import java.util.*;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     private String title;
     private Date creationDate;
+    private Boolean isPrivate = false;
+    private Boolean isPinned = false;
 
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -117,5 +120,21 @@ public class Post {
 
     public void setLike(Set<Student> like) {
         this.like = like;
+    }
+
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
+    public Boolean getPinned() {
+        return isPinned;
+    }
+
+    public void setPinned(Boolean pinned) {
+        isPinned = pinned;
     }
 }

@@ -68,6 +68,7 @@ public class ImageUtils {
                 throw new IllegalArgumentException("The file provided is not a valid image or is not supported (should be png or jpeg): "+image.getContentType());
             }
 
+
             // Create input image
             BufferedImage inputImage = ImageIO.read(image.getInputStream());
             newWidth = newWidth > inputImage.getWidth() ? inputImage.getWidth() : newWidth;

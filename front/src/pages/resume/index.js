@@ -1,33 +1,22 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import styled from 'styled-components';
 
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
-import { Flex, Box } from 'grid-styled';
+import {Flex, Box} from 'grid-styled';
 
-import {
-  FluidContent,
-  Header,
-  SearchBar,
-  Filler,
-  Banner,
-} from '../../components/common';
+import {FluidContent, Header, SearchBar, Filler, Banner} from '../../components/common';
 
 const Person = (props) => {
-  const PersonStyle = styled.div`
+  const PersonStyle = styled.div `
     > img {
       box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
       width: 100%;
@@ -42,18 +31,18 @@ const Person = (props) => {
 
 class Resume extends Component {
   state = {
-    open: false,
+    open: false
   };
 
   handleRequestClose = () => {
-    this.setState({ open: false });
+    this.setState({open: false});
   };
 
   render() {
     return (
       <div>
         <Header url="img/background.jpg">
-          <Filler h={50} />
+          <Filler h={50}/>
           <Banner>
             <h1>Profil</h1>
             <p>Ton petit jardin secret</p>
@@ -64,16 +53,23 @@ class Resume extends Component {
         </Header>
         <FluidContent>
           <Flex wrap>
-            <Box p={2} width={[ 1, 1/4 ]}>
-              <Person
-                url="https://numeris-isep.fr/img/team//amalric.resized.jpg"
-              />
-          	</Box>
-            <Box p={2} width={[ 1, 3/4 ]}>
-              <Paper elevation={4} style={{ padding: 20, borderRadius: '10px'}}>
+            <Box p={2} width={[
+              1, 1 / 4
+            ]}>
+              <Person url="https://numeris-isep.fr/img/team//amalric.resized.jpg"/>
+            </Box>
+            <Box p={2} width={[
+              1, 3 / 4
+            ]}>
+              <Paper elevation={4} style={{
+                padding: 20,
+                borderRadius: '10px'
+              }}>
                 <Typography type="headline" component="h3">
                   Antoine Ratel
-                  <Button raised color="primary" style={{float: 'right'}} onClick={() => this.setState({ open: true })}>
+                  <Button raised color="primary" style={{
+                    float: 'right'
+                  }} onClick={() => this.setState({open: true})}>
                     Modifier
                   </Button>
                 </Typography>
@@ -101,7 +97,10 @@ class Resume extends Component {
               </Paper>
             </Box>
             <Box p={2} width={1}>
-              <Paper elevation={4} style={{ padding: 20, borderRadius: '10px'}}>
+              <Paper elevation={4} style={{
+                padding: 20,
+                borderRadius: '10px'
+              }}>
                 <Typography type="headline" component="h3">
                   Citation
                 </Typography>
@@ -111,7 +110,10 @@ class Resume extends Component {
               </Paper>
             </Box>
             <Box p={2} width={1}>
-              <Paper elevation={4} style={{ padding: 20, borderRadius: '10px'}}>
+              <Paper elevation={4} style={{
+                padding: 20,
+                borderRadius: '10px'
+              }}>
                 <Typography type="headline" component="h3">
                   Associations
                 </Typography>
@@ -121,13 +123,20 @@ class Resume extends Component {
               </Paper>
             </Box>
             <Box p={2} width={1}>
-              <Paper elevation={4} style={{ padding: 20, borderRadius: '10px'}}>
+              <Paper elevation={4} style={{
+                padding: 20,
+                borderRadius: '10px'
+              }}>
                 <Typography type="headline" component="h3">
                   Publications
-                  <Button raised color="primary" style={{float: 'right'}}>
+                  <Button raised color="primary" style={{
+                    float: 'right'
+                  }}>
                     Modifier
                   </Button>
-                  <Button color="accent" style={{float: 'right'}}>
+                  <Button color="accent" style={{
+                    float: 'right'
+                  }}>
                     Supprimer
                   </Button>
                 </Typography>
@@ -137,10 +146,7 @@ class Resume extends Component {
               </Paper>
             </Box>
           </Flex>
-          <UpdateResume
-            open={this.state.open}
-            handleRequestClose={this.handleRequestClose}
-          />
+          <UpdateResume open={this.state.open} handleRequestClose={this.handleRequestClose}/>
         </FluidContent>
       </div>
     );
@@ -149,47 +155,22 @@ class Resume extends Component {
 
 function UpdateResume(props) {
   return (
-    <Dialog
-      open={props.open}
-      transition={Slide}
-      onRequestClose={props.handleRequestClose}>
-      <DialogTitle style={{textAlign: 'center'}}>
+    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+      <DialogTitle style={{
+        textAlign: 'center'
+      }}>
         {"Modifier vos informations"}
       </DialogTitle>
       <DialogContent>
-        <TextField
-          type="text"
-          label="Email"
-          fullWidth
-        />
-        <TextField
-          type="text"
-          label="Téléphone"
-          fullWidth
-        />
-        <TextField
-          type="text"
-          label="Adresse"
-          fullWidth
-        />
-        <TextField
-          type="text"
-          label="Date de naissance"
-          fullWidth
-        />
-        <TextField
-          type="text"
-          label="Lien Facebook"
-          fullWidth
-        />
-        <TextField
-          type="text"
-          label="Lien Instagram"
-          fullWidth
-        />
+        <TextField type="text" label="Email" fullWidth/>
+        <TextField type="text" label="Téléphone" fullWidth/>
+        <TextField type="text" label="Adresse" fullWidth/>
+        <TextField type="text" label="Date de naissance" fullWidth/>
+        <TextField type="text" label="Lien Facebook" fullWidth/>
+        <TextField type="text" label="Lien Instagram" fullWidth/>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleRequestClose} color="accent" >
+        <Button onClick={props.handleRequestClose} color="accent">
           Valider
         </Button>
       </DialogActions>

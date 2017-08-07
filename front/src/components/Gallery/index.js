@@ -1,10 +1,12 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  display: ${props => props.visible ? 'block' : 'none' };
+const Wrapper = styled.div `
+  display: ${props => props.visible
+  ? 'block'
+  : 'none'};
   position: fixed;
   width: 100%;
   height: 100%;
@@ -14,13 +16,13 @@ const Wrapper = styled.div`
   z-index: 1000;
 `;
 
-const Images = styled.div`
+const Images = styled.div `
   position: relative;
   display: block;
   height: 100%;
 `;
 
-const Image = styled.div`
+const Image = styled.div `
   left: ${props => props.index * 100}%;
   position: absolute;
   width: 100%;
@@ -36,18 +38,15 @@ class Gallery extends Component {
 
   state = {
     cIndex: 0,
-    photos: [
-      <img src="img/background.jpg" alt=""/>,
-      <img src="img/background.jpg" alt=""/>,
-      <img src="img/background.jpg" alt=""/>,
-    ],
+    photos: [ < img src = "img/background.jpg" alt = "" />, < img src = "img/background.jpg" alt = "" />, < img src = "img/background.jpg" alt = "" />
+    ]
   }
 
   componentDidMount() {
     document.addEventListener('keydown', this.keyHandler);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount() {
     document.removeEventListener('keydown', this.keyHandler);
   }
 
@@ -57,19 +56,23 @@ class Gallery extends Component {
     }
   }
 
-  keyHandler = ({ key }) => {
-    const  { cIndex, photos } = this.state;
+  keyHandler = ({key}) => {
+    const {cIndex, photos} = this.state;
     console.log(key);
     if (key === 'ArrowRight') {
       if (cIndex !== photos.length - 1) {
-        this.setState({ cIndex: cIndex + 1 });
+        this.setState({
+          cIndex: cIndex + 1
+        });
       } else {
-        this.setState({ cIndex: 0 });
+        this.setState({cIndex: 0});
       }
     }
     if (key === 'ArrowLeft') {
       if (cIndex !== 0) {
-        this.setState({ cIndex: cIndex - 1 });
+        this.setState({
+          cIndex: cIndex - 1
+        });
       }
     }
     if (key === 'Escape') {
@@ -77,21 +80,16 @@ class Gallery extends Component {
     }
   }
 
-
   render() {
     return (
       <Wrapper visible={this.props.visible}>
         <Images>
-          {
-            this.state.photos.map((p, i) => {
-              return <Image
-                key={i}
-                index={i}
-                pos={this.state.cIndex}>
-                {p}
-              </Image>
-            })
-          }
+          {this.state.photos.map((p, i) => {
+            return <Image key={i} index={i} pos={this.state.cIndex}>
+              {p}
+            </Image>
+          })
+}
         </Images>
       </Wrapper>
     );

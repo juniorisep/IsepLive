@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import * as pollData from '../../data/media/poll';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div `
   background: white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 `;
 
-const TopBar = styled.div`
+const TopBar = styled.div `
   background: ${props => props.theme.main};
   padding: 15px;
   font-size: 25px;
@@ -16,18 +16,18 @@ const TopBar = styled.div`
   color: ${props => props.theme.accent};
 `;
 
-const Question = styled.h1`
+const Question = styled.h1 `
   color: ${props => props.theme.main};
   margin: 0;
   margin-bottom: 20px;
   font-size: 20px;
 `;
 
-const Main = styled.div`
+const Main = styled.div `
   padding: 20px;
 `;
 
-const Caption = styled.p`
+const Caption = styled.p `
   margin: 0;
   color: ${props => props.theme.main};
   font-size: 15px;
@@ -39,23 +39,23 @@ class Poll extends Component {
   state = {
     voted: false,
     answer: null,
-    data: this.props.data,
+    data: this.props.data
   }
 
   componentDidMount() {
     pollData.getVote(this.state.data.id).then(res => {
       if (res.data) {
-        this.setState({ voted: true, answer: res.data.answer });
+        this.setState({voted: true, answer: res.data.answer});
       }
     })
   }
 
   handleVote = (ans) => {
     if (!this.state.voted) {
-      this.setState({ voted: true, answer: ans });
+      this.setState({voted: true, answer: ans});
       pollData.vote(this.state.data.id, ans.id).then(res => {
         pollData.getPoll(this.props.data.id).then(res => {
-          this.setState({ data: res.data });
+          this.setState({data: res.data});
         })
       });
     }
@@ -63,7 +63,7 @@ class Poll extends Component {
 
   getTotal() {
     const poll = this.state.data;
-    return poll.answers.reduce((acc, x) => acc + x.votesNb , 0);
+    return poll.answers.reduce((acc, x) => acc + x.votesNb, 0);
   }
 
   render() {
@@ -74,19 +74,12 @@ class Poll extends Component {
         <TopBar>Sondage</TopBar>
         <Main>
           <Question>{poll.name}</Question>
-          {
-            poll.answers.map(a => {
-              return (
-                <Answer
-                  key={a.id}
-                  vote={this.state.answer}
-                  total={total}
-                  onClick={() => this.handleVote(a)}
-                  answer={a} />
-              );
-            })
-          }
-          {this.state.voted && <Caption>{total} votes</Caption>}
+          {poll.answers.map(a => {
+            return (<Answer key={a.id} vote={this.state.answer} total={total} onClick={() => this.handleVote(a)} answer={a}/>);
+          })
+}
+          {this.state.voted && <Caption>{total}
+            votes</Caption>}
         </Main>
       </Wrapper>
     );
@@ -95,7 +88,7 @@ class Poll extends Component {
 
 export default Poll;
 
-const AnswerStyle = styled.div`
+const AnswerStyle = styled.div `
   position: relative;
   background: rgba(63, 81, 181, 0.43);
   border-radius: 5px;
@@ -111,14 +104,16 @@ const AnswerStyle = styled.div`
   `}
 `;
 
-const AnswerText = styled.div`
+const AnswerText = styled.div `
   padding: 10px 15px;
-  color: ${props => props.vote ? props.theme.accent : 'white'};
+  color: ${props => props.vote
+  ? props.theme.accent
+  : 'white'};
   position: relative;
   z-index: 1;
 `;
 
-const AnswerBar = styled.div`
+const AnswerBar = styled.div `
   position: absolute;
   top: 0;
   left: 0;
@@ -136,12 +131,16 @@ function Answer(props) {
   return (
     <AnswerStyle voted={props.vote} onClick={props.onClick}>
       <AnswerText vote={props.vote && props.vote.id === answer.id}>
-        {answer.content} {
-          props.vote &&
-          <span>- {answer.votesNb} vote{answer.votesNb != 1 && 's'}</span>
-        }
+        {answer.content}
+        {props.vote && <span>- {answer.votesNb}
+          vote{answer.votesNb !== 1 && 's'}</span>
+}
       </AnswerText>
-      <AnswerBar style={{ width: (props.vote ? percent : 0) + '%' }} />
+      <AnswerBar style={{
+        width: (props.vote
+          ? percent
+          : 0) + '%'
+      }}/>
     </AnswerStyle>
   )
 }

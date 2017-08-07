@@ -1,30 +1,30 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
-import { backUrl } from '../config';
+import {backUrl} from '../config';
 
-export const Separator = styled.div`
+export const Separator = styled.div `
   width: 100%;
   height: 0;
   border-top: 4px dashed ${props => props.theme.accent};
   margin-bottom: ${props => props.m || '50px'};
 `;
 
-export const Filler = styled.div`
+export const Filler = styled.div `
   min-height: ${props => props.h}px;
 `;
 
-export const FluidContent = styled.div`
+export const FluidContent = styled.div `
   max-width: ${props => props.w || '1100'}px;
   margin: 0 auto;
-  padding: ${props => props.p || '50px'};
+  padding: ${props => props.p || '50px'};
   position: relative;
   @media (max-width: 40em) {
     padding: 5%;
   }
 `;
 
-export const Header = styled.header`
+export const Header = styled.header `
   background: url(${props => props.url});
   background-repeat: no-repeat;
   background-size: cover;
@@ -33,7 +33,7 @@ export const Header = styled.header`
   text-align: center;
 `;
 
-export const SearchBar = styled.input`
+export const SearchBar = styled.input `
   width: 100%;
   border: 0;
   outline: none;
@@ -44,7 +44,7 @@ export const SearchBar = styled.input`
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 `;
 
-export const Banner = styled.div`
+export const Banner = styled.div `
   background: rgba(27, 56, 142, 0.7);
   text-align: center;
   padding: 30px;
@@ -64,13 +64,14 @@ export const Banner = styled.div`
   }
 `;
 
-const ImageStyle = styled.img`
+const ImageStyle = styled.img `
   width: ${props => props.w};
   margin-left: ${props => props.ml || 'auto'};
 `;
 
-export const Image = (props) => <ImageStyle {...props} src={backUrl + props.src} />
+export const Image = (props) => <ImageStyle {...props} src={backUrl + props.src}/>
 export const ProfileImage = (props) => {
-  if (!props.src) return <ImageStyle {...props} src="svg/user.svg" alt="profile-image" />;
-  return <Image {...props} />
+  if (!props.src)
+    return <ImageStyle {...props} src="svg/user.svg" alt="profile-image"/>;
+  return <Image {...props}/>
 }

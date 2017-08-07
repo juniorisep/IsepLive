@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import HomeView from './view';
 
@@ -10,7 +10,7 @@ class Home extends Component {
   state = {
     posts: [],
     page: 0,
-    lastPage: false,
+    lastPage: false
   }
 
   componentDidMount() {
@@ -22,7 +22,7 @@ class Home extends Component {
       this.setState({
         posts: this.state.posts.concat(res.data.content),
         page: this.state.page + 1,
-        lastPage: res.data.last,
+        lastPage: res.data.last
       });
     })
   }
@@ -31,25 +31,14 @@ class Home extends Component {
     this.getPosts();
   }
 
-  refreshPosts = () => {
+  refreshPosts = () => {
     postData.getPosts(0).then(res => {
-      this.setState({
-        posts: res.data.content,
-        page: 1,
-        lastPage: res.data.last,
-      });
+      this.setState({posts: res.data.content, page: 1, lastPage: res.data.last});
     })
   }
 
   render() {
-    return (
-      <HomeView
-        posts={this.state.posts}
-        lastPage={this.state.lastPage}
-        onSeeMore={this.seeMore}
-        refreshPosts={this.refreshPosts}
-      />
-    );
+    return (<HomeView posts={this.state.posts} lastPage={this.state.lastPage} onSeeMore={this.seeMore} refreshPosts={this.refreshPosts}/>);
   }
 }
 

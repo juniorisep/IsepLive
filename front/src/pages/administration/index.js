@@ -4,8 +4,6 @@ import React, {Component} from 'react';
 
 import Paper from 'material-ui/Paper';
 import Tabs, {Tab} from 'material-ui/Tabs';
-import TextField from 'material-ui/TextField';
-import Slide from 'material-ui/transitions/Slide';
 
 import {FluidContent} from '../../components/common';
 
@@ -20,7 +18,7 @@ const TabContainer = props => <div style={{
 
 class Admin extends Component {
   state = {
-    index: 0,
+    index: 0
   };
 
   handleChange = (event, index) => {
@@ -39,10 +37,10 @@ class Admin extends Component {
             </Tabs>
           </Paper>
           {this.state.index === 0 && <TabContainer>
-            <Users />
+            <Users/>
           </TabContainer>}
           {this.state.index === 1 && <TabContainer>
-            <Club />
+            <Club/>
           </TabContainer>}
           {this.state.index === 2 && <TabContainer>
             {'Item Three'}

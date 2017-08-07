@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
-
-const Controls = styled.div`
+const Controls = styled.div `
   height: 40px;
   display: flex;
   align-items: center;
   background: white;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div `
   position: relative;
   width: 100%;
   video {
@@ -24,14 +23,13 @@ const Wrapper = styled.div`
   }
 `;
 
-
-const PlayPause = styled.div`
+const PlayPause = styled.div `
   width: 20px;
   height: 20px;
   background: red;
 `;
 
-const ProgressBar = styled.div`
+const ProgressBar = styled.div `
   border-radius: 20px;
   height: 20px;
   background: red;
@@ -42,18 +40,18 @@ class Video extends Component {
   state = {
     isPlaying: false,
     vidLenght: 0,
-    currentTime: 0,
+    currentTime: 0
   }
 
   componentDidMount() {
     if (this.video.canPlayType) {
       this.video.controls = false;
       this.video.addEventListener('loadedmetadata', () => {
-        this.setState({ vidLenght: this.video.duration });
+        this.setState({vidLenght: this.video.duration});
       });
 
       this.video.addEventListener('timeupdate', () => {
-        this.setState({ currentTime: this.video.currentTime });
+        this.setState({currentTime: this.video.currentTime});
       });
     }
   }
@@ -61,9 +59,9 @@ class Video extends Component {
   togglePlay = () => {
     if (this.video.paused || this.video.ended) {
       this.video.play();
-      this.setState({ isPlaying: true });
+      this.setState({isPlaying: true});
     } else {
-      this.setState({ isPlaying: false });
+      this.setState({isPlaying: false});
       this.video.pause();
     }
   }
@@ -71,17 +69,18 @@ class Video extends Component {
   render() {
     const props = this.props;
     const progressStyle = {
-      width: ((this.state.currentTime / this.state.vidLenght) * 100) + '%',
+      width: ((this.state.currentTime / this.state.vidLenght) * 100) + '%'
     }
     return (
       <Wrapper>
-        <video poster={props.poster} ref={(v) => this.video = v} controls preload="metadata" >
+        <video poster={props.poster} ref={(v) => this.video = v} controls preload="metadata">
           <source src={props.source} type="video/mp4"/>
         </video>
         <Controls>
-          <PlayPause onClick={this.togglePlay}>{
-            this.state.isPlaying ? 'p' : '>'
-          }</PlayPause>
+          <PlayPause onClick={this.togglePlay}>{this.state.isPlaying
+              ? 'p'
+              : '>'
+}</PlayPause>
           <progress value={this.state.currentTime} min="0" max={this.state.vidLenght}>
             {/* <ProgressBar style={progressStyle} /> */}
           </progress>

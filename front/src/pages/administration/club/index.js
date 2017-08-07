@@ -1,29 +1,25 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import Button from 'material-ui/Button';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
 import Slide from 'material-ui/transitions/Slide';
 
 class Club extends Component {
   state = {
-     open: false,
+    open: false
   };
   handleRequestClose = () => {
-  this.setState({ open: false });
-};
+    this.setState({open: false});
+  };
   render() {
     return (
       <div>
-        <Button raised onClick={() => this.setState({ open: true })}>
+        <Button raised onClick={() => this.setState({open: true})}>
           Ajouter une association
         </Button>
         <Dialog open={this.state.open} onRequestClose={this.handleRequestClose} transition={Slide}>
@@ -31,33 +27,15 @@ class Club extends Component {
             {"Ajouter une nouvelle association"}
           </DialogTitle>
           <DialogContent>
-            <TextField
-              type="text"
-              label="Nom de l'association"
-              fullWidth
-            />
-            <TextField
-              type="text"
-              label="date de création"
-              fullWidth
-            />
-            <TextField
-              type="text"
-              label="Description"
-              fullWidth
-            />
-            <TextField
-              type="text"
-              label="Email"
-              fullWidth
-            />
-            <TextField
-              type="text"
-              label="Nom du président"
-              fullWidth
-            />
-            <br /><br />
-            <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{display: 'none'}} />
+            <TextField type="text" label="Nom de l'association" fullWidth/>
+            <TextField type="text" label="date de création" fullWidth/>
+            <TextField type="text" label="Description" fullWidth/>
+            <TextField type="text" label="Email" fullWidth/>
+            <TextField type="text" label="Nom du président" fullWidth/>
+            <br/><br/>
+            <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{
+              display: 'none'
+            }}/>
             <label htmlFor="file">
               <Button raised component="span">
                 Télécharger son logo
@@ -73,7 +51,7 @@ class Club extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <br /><br />
+        <br/><br/>
         <Paper>
           <Table>
             <TableHead>

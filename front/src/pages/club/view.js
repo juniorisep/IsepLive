@@ -1,19 +1,19 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled';
+import {Flex, Box} from 'grid-styled';
 import {
   FluidContent,
   Header,
   SearchBar,
   Filler,
   Banner,
-  Image,
+  Image
 } from '../../components/common';
 
 const ClubTile = (props) => {
-  const ClubStyle = styled.div`
+  const ClubStyle = styled.div `
     padding: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     > img {
@@ -30,7 +30,7 @@ const ClubTile = (props) => {
   `;
   return (
     <ClubStyle>
-      <Image src={props.url} mb="5px" />
+      <Image src={props.url} mb="5px"/>
       <p>{props.name}</p>
     </ClubStyle>
   )
@@ -41,7 +41,7 @@ class Club extends Component {
     return (
       <div>
         <Header url="img/background.jpg">
-          <Filler h={50} />
+          <Filler h={50}/>
           <Banner>
             <h1>Associations</h1>
             <p>Participez à la vie étudiante de l'ISEP</p>
@@ -52,15 +52,17 @@ class Club extends Component {
         </Header>
         <FluidContent>
           <Flex wrap>
-            {
-              this.props.clubs.map(e => {
-                return (
-                  <Box w={[1, 1/3, 1/4]} p={2}>
-                    <ClubTile url={e.logoUrl} name={e.name} />
-                  </Box>
-                )
-              })
-            }
+            {this.props.clubs.map(e => {
+              return (
+                <Box w={[
+                  1, 1 / 3,
+                  1 / 4
+                ]} p={2}>
+                  <ClubTile url={e.logoUrl} name={e.name}/>
+                </Box>
+              )
+            })
+}
           </Flex>
         </FluidContent>
       </div>

@@ -1,20 +1,20 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled';
+import {Flex, Box} from 'grid-styled';
 import {
   FluidContent,
   Header,
   SearchBar,
   Filler,
   Banner,
-  ProfileImage,
+  ProfileImage
 } from '../../components/common';
 import Button from 'material-ui/Button';
 
 const Person = (props) => {
-  const PersonStyle = styled.div`
+  const PersonStyle = styled.div `
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     > div {
       padding: 10px;
@@ -30,8 +30,7 @@ const Person = (props) => {
   `;
   return (
     <PersonStyle>
-      <ProfileImage src={props.url} w="100%" />
-      {/* <img src={props.url} alt="person-image"/> */}
+      <ProfileImage src={props.url} w="100%"/> {/* <img src={props.url} alt="person-image"/> */}
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>
@@ -45,7 +44,7 @@ class AddressBook extends Component {
     return (
       <div>
         <Header url="img/background.jpg">
-          <Filler h={50} />
+          <Filler h={50}/>
           <Banner>
             <h1>Annuaire</h1>
             <p>Si vous voulez stalker, c'est ici que ça se passe !</p>
@@ -69,7 +68,8 @@ class AddressBook extends Component {
         </Header>
         <FluidContent>
           <Flex align="center">
-            <Box flex="0 0 auto"> 8 personnes correspondent à votre recherche</Box>
+            <Box flex="0 0 auto">
+              8 personnes correspondent à votre recherche</Box>
             <Box ml="auto">
               <Button color="primary" raised>Modifier l'Affichage</Button>
             </Box>
@@ -78,19 +78,17 @@ class AddressBook extends Component {
             </Box>
           </Flex>
           <Flex wrap>
-            {
-              this.props.students.map(e => {
-                return (
-                  <Box w={[ 1, 1/3, 1/5 ]} p={2}>
-                    <Person
-                      url={e.photoUrl}
-                      name={e.firstname + ' ' + e.lastname}
-                      promotion={e.promo}
-                    />
-                  </Box>
-                )
-              })
-            }
+            {this.props.students.map(e => {
+              return (
+                <Box w={[
+                  1, 1 / 3,
+                  1 / 5
+                ]} p={2}>
+                  <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo}/>
+                </Box>
+              )
+            })
+}
           </Flex>
         </FluidContent>
       </div>

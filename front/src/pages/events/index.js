@@ -1,24 +1,18 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled';
-import {
-  FluidContent,
-  Header,
-  SearchBar,
-  Filler,
-  Banner,
-} from '../../components/common';
+import {Flex, Box} from 'grid-styled';
+import {FluidContent, Header, SearchBar, Filler, Banner} from '../../components/common';
 import Button from 'material-ui/Button';
 
-const EventsList = styled.ul`
+const EventsList = styled.ul `
   padding: 0;
   margin: 20px 0;
 `;
 
 const Event = (props) => {
-  const EventStyle = styled.li`
+  const EventStyle = styled.li `
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     > ${Flex} > ${Box} {
@@ -41,13 +35,18 @@ const Event = (props) => {
     p, h3 { color: #7a7a7a; }
     h3.lieu { color: ${props => props.theme.main}; }
   `;
+
   return (
     <EventStyle coverUrl={props.coverUrl}>
       <Flex wrap>
-        <Box w={[1, 1/2]}>
+        <Box w={[
+          1, 1 / 2
+        ]}>
           <div className="image"></div>
         </Box>
-        <Box w={[1, 1/2]} p="20px">
+        <Box w={[
+          1, 1 / 2
+        ]} p="20px">
           <Flex>
             <Box>
               <h2>Nom de l'event</h2>
@@ -70,7 +69,7 @@ class Events extends Component {
     return (
       <div>
         <Header url="img/background.jpg">
-          <Filler h={50} />
+          <Filler h={50}/>
           <Banner>
             <h1>Evenements</h1>
             <p>Il faut parfois prendre une pause dans ses études...</p>
@@ -81,15 +80,18 @@ class Events extends Component {
         </Header>
         <FluidContent>
           <Flex>
-            <Box mr="10px"><Button color="primary">Evenements à venir</Button></Box>
-            <Box><Button color="accent">Evenements passés</Button></Box>
+            <Box mr="10px">
+              <Button color="primary">Evenements à venir</Button>
+            </Box>
+            <Box>
+              <Button color="accent">Evenements passés</Button>
+            </Box>
           </Flex>
           <EventsList>
-            {
-              '-----'.split('').map(e => {
-                return <Event coverUrl="img/background.jpg" />
-              })
-            }
+            {'-----'.split('').map(e => {
+              return <Event coverUrl="img/background.jpg"/>
+            })
+}
           </EventsList>
         </FluidContent>
       </div>

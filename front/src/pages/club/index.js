@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import ClubView from './view';
 
@@ -14,14 +14,12 @@ class Club extends Component {
 
   componentDidMount() {
     clubData.getClubs().then(res => {
-      this.setState({ clubs: res.data });
+      this.setState({clubs: res.data});
     })
   }
 
   render() {
-    return (
-      <ClubView clubs={this.state.clubs} />
-    );
+    return (<ClubView clubs={this.state.clubs}/>);
   }
 }
 

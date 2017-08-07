@@ -3,10 +3,14 @@ package com.iseplive.api.entity.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Image;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -14,7 +18,7 @@ import java.util.List;
  */
 @Entity
 @DiscriminatorValue("student")
-public class Student extends Author {
+public class Student extends Author implements UserDetails {
 
     private Integer promo;
     private String firstname;
@@ -30,6 +34,9 @@ public class Student extends Author {
 
     @OneToMany
     private List<Club> clubs;
+
+    @OneToMany
+    private Set<Role> roles;
 
     public Integer getPromo() {
         return promo;
@@ -103,5 +110,56 @@ public class Student extends Author {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @JsonIgnore
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

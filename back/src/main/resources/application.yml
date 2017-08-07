@@ -31,3 +31,9 @@ storage:
 logging:
   level:
     DEBUG
+
+jwt:
+  secret: iseplive-secret
+#  tokenDuration: 604800
+  tokenDuration: 10
+  issuer: IsepLive

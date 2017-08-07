@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 public class ClubMember {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @OneToOne

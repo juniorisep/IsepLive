@@ -75,3 +75,26 @@ export const ProfileImage = (props) => {
     return <ImageStyle {...props} src="svg/user.svg" alt="profile-image"/>;
   return <Image {...props}/>
 }
+
+export const Text = styled.p`
+  font-size: 1em;
+  margin: ${props => props.m || 'auto'};
+  color: ${props => props.color || '#949494'};
+`;
+
+export const Title = styled.h1`
+  font-size: ${props => props.fontSize}em;
+  display: inline-block;
+  color: ${props => props.invert ? props.theme.main : props.theme.accent};
+  ${props => props.framed && `background: ${props.invert ? props.theme.accent : props.theme.main};`}
+  margin: 0;
+  margin-bottom: .5em;
+  padding: ${props => props.framed ? '.3em .4em' : 0};
+`;
+
+export const Subtitle = styled.h3`
+  color: #9f9f9f;
+  font-weight: normal;
+  font-size: 15px;
+  margin: 0;
+`;

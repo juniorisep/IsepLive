@@ -11,8 +11,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
-    "styled-components": "^2.1.2",
-    "url-join": "^2.0.2"
+    "styled-components": "^2.1.2"
   },
   "devDependencies": {
     "flow-bin": "^0.42.0",

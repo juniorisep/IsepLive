@@ -10,11 +10,16 @@ export const connect = (username, password) => {
   return axios.post('/auth', {
     username, password
   }).then(res => {
-    storeToken(res.data);
+    setToken(res.data);
   })
 }
 
-const storeToken = (token) => {
+export const setToken = (token) => {
   localStorage.setItem('token', token);
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
+
+export const logout = () => {
+  localStorage.removeItem('token');
+  delete axios.defaults.headers.common['Authorization'];
 }

@@ -11,6 +11,7 @@ import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,6 +103,17 @@ public class ClubService {
         Club club = clubRepository.findOne(id);
         if (club == null) throw new IllegalArgumentException("could not find club with id: "+id);
         return club;
+    }
+
+    /**
+     * Retrieve the list of clubs where the student is admin
+     *
+     * @param userId student id
+     * @return a club list
+     */
+    public List<Club> getClubAuthors(Long userId) {
+        Student student = studentService.getStudent(userId);
+        return clubRepository.findByAdminIs(student);
     }
 
     public void deleteClub(Long id) {

@@ -3,6 +3,7 @@ package com.iseplive.api.services;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,5 +63,10 @@ public class StudentService {
         imageUtils.saveJPG(image, 512, 512, path);
         student.setPhotoUrl(imageUtils.getPublicUrl(path));
         studentRepository.save(student);
+    }
+
+    public void getAuthors(Long userId) {
+        Student student = studentRepository.findOne(userId);
+        List<Author> authors = Collections.singletonList(authorRepository.findOne(userId));
     }
 }

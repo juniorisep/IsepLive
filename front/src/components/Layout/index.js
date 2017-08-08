@@ -37,6 +37,8 @@ import UserAgreement from '../../pages/userAgreement';
 import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
 import {FluidContent} from '../common';
 
+import * as authData from '../../data/auth';
+
 const Logo = styled.img `
   height: 50px;
   margin-right: 20px;
@@ -194,6 +196,11 @@ class Layout extends React.Component {
     this.setState({open: false});
   };
 
+  handleDisconnect = () => {
+    authData.logout();
+    this.setState({open: false});
+  }
+
   render() {
     const props = this.props;
     const classes = props.classes;
@@ -215,14 +222,14 @@ class Layout extends React.Component {
             <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
               <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
               <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
-              <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/connexion">Déconnexion</MenuItem>
+              <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
             </Menu>
           </Toolbar>
         </AppBar>
         {window.innerWidth < 1009 && <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>
           {navList(SideNav)}
         </Drawer>
-}
+        }
         <Switch>
           <Redirect path="/" exact to="/accueil"/>
           <Route path="/accueil" component={Home}/>

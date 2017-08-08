@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import * as authData from './data/auth';
+
 export const backUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
 
 const token = localStorage.getItem('token');
@@ -10,9 +12,9 @@ if (token != null) {
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
     // Do something with response data
-    const respAuth = response.headers['Authorization'];
-    if (respAuth) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${respAuth}`;
+    const respAuthToken = response.headers['Authorization'];
+    if (respAuthToken) {
+      authData.setToken(respAuthToken)
     }
     return response;
   }, function (error) {

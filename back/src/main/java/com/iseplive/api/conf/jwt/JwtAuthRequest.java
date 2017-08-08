@@ -5,15 +5,15 @@ package com.iseplive.api.conf.jwt;
  * back
  */
 public class JwtAuthRequest {
-    private String studentId;
+    private String username;
     private String password;
 
-    public String getStudentId() {
-        return studentId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

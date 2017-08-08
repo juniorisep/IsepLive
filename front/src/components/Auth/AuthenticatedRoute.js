@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Route, Redirect} from 'react-router';
-import {hasRole} from "../../data/users/services";
+import {hasRole} from "../../data/auth";
 
 type Props = {
   component: React.ReactClass <*>,

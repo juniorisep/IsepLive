@@ -51,9 +51,6 @@ public class JwtTokenUtil {
 
     public String generateToken(Student student) {
 
-        Calendar calendar = Calendar.getInstance(Locale.FRANCE); // gets a calendar using the default time zone and locale.
-        calendar.add(Calendar.SECOND, tokenDuration);
-
         String[] rolesArray = new String[student.getAuthorities().size()];
         List<String> roles = student.getAuthorities()
                 .stream()
@@ -61,19 +58,31 @@ public class JwtTokenUtil {
                 .collect(Collectors.toList());
         rolesArray = roles.toArray(rolesArray);
 
+        return generateTokenWithIdAndRolesArray(student.getId(), rolesArray);
+    }
+
+    private String generateTokenWithIdAndRolesArray(Long id, String[] roles) {
+        Calendar calendar = Calendar.getInstance(Locale.FRANCE); // gets a calendar using the default time zone and locale.
+        calendar.add(Calendar.SECOND, tokenDuration);
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer(issuer)
                     .withIssuedAt(new Date())
                     .withExpiresAt(calendar.getTime())
-                    .withClaim(CLAIM_KEY_ID, student.getId())
-                    .withArrayClaim(CLAIM_KEY_ROLES, rolesArray)
+                    .withClaim(CLAIM_KEY_ID, id)
+                    .withArrayClaim(CLAIM_KEY_ROLES, roles)
                     .sign(algorithm);
             return token;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String refreshToken(DecodedJWT jwt) {
+        Long id = jwt.getClaim(CLAIM_KEY_ID).asLong();
+        String[] roles = jwt.getClaim(CLAIM_KEY_ROLES).asArray(String.class);
+        return generateTokenWithIdAndRolesArray(id, roles);
     }
 }

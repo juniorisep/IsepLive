@@ -7,6 +7,7 @@ import com.iseplive.api.dao.event.*;
 import com.iseplive.api.dao.media.*;
 import com.iseplive.api.dao.poll.*;
 import com.iseplive.api.dao.post.*;
+import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class DatabaseSeeder {
     }
 
     private boolean isDatabaseSeeded() {
-        User user = StudentRepository.findOne(1L);
+        Student user = StudentRepository.findOne(1L);
         // if it's found, the database is already seeded
         return user != null;
     }

@@ -92,7 +92,7 @@ function PostTitleView({ post }) {
     )
   }
   return (
-    <Flex>
+    <Flex mb="10px">
       <Box>
         {
           post.title &&

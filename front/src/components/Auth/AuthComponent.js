@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {hasRole} from "../../data/users/services";
+import {hasRole} from "../../data/auth";
 
 class Auth extends Component {
   render() {

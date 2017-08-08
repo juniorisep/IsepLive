@@ -74,12 +74,19 @@ class Poll extends Component {
         <TopBar>Sondage</TopBar>
         <Main>
           <Question>{poll.name}</Question>
-          {poll.answers.map(a => {
-            return (<Answer key={a.id} vote={this.state.answer} total={total} onClick={() => this.handleVote(a)} answer={a}/>);
-          })
-}
-          {this.state.voted && <Caption>{total}
-            votes</Caption>}
+          {
+            poll.answers.map(a => {
+              return (
+                <Answer
+                  key={a.id}
+                  vote={this.state.answer}
+                  total={total}
+                  onClick={() => this.handleVote(a)}
+                  answer={a}/>
+              );
+            })
+          }
+          { this.state.voted && <Caption>{total} votes</Caption> }
         </Main>
       </Wrapper>
     );
@@ -132,9 +139,10 @@ function Answer(props) {
     <AnswerStyle voted={props.vote} onClick={props.onClick}>
       <AnswerText vote={props.vote && props.vote.id === answer.id}>
         {answer.content}
-        {props.vote && <span>- {answer.votesNb}
-          vote{answer.votesNb !== 1 && 's'}</span>
-}
+        {
+          props.vote &&
+          <span> - {answer.votesNb} vote{answer.votesNb !== 1 && 's'}</span>
+        }
       </AnswerText>
       <AnswerBar style={{
         width: (props.vote

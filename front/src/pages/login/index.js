@@ -14,6 +14,8 @@ import styled from 'styled-components';
 
 import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
 
+import * as authData from '../../data/auth';
+
 const Container = styled.div `
   display: flex;
   align-items: center;
@@ -190,6 +192,19 @@ export default class Login extends Component {
     this.setState({open: false});
   };
 
+  handleLoginForm = (key, event) => {
+    this.setState({ [key]: event.target.value });
+  }
+
+  handleConnect = () => {
+    const { username, password } = this.state;
+    authData.connect(username, password).then(res => {
+      this.handleRequestClose();
+    }).catch(err => {
+      alert('wooops')
+    })
+  }
+
   render() {
     return (
       <Container>
@@ -214,14 +229,19 @@ export default class Login extends Component {
           <AccessContainer>
             <ButtonContainer>
               <BigButton // style={CUSTOM_STYLES.btn}
-               onClick={() => this.setState({open: true})}>Se connecter</BigButton>
+                onClick={() => this.setState({open: true})}>Se connecter</BigButton>
             </ButtonContainer>
             <ButtonContainer>
               <BigButton component={NavLink} to="/accueil">Accès visiteur</BigButton>
             </ButtonContainer>
           </AccessContainer>
         </Content>
-        <LoginForm open={this.state.open} handleRequestClose={this.handleRequestClose}/>
+        <LoginForm
+          open={this.state.open}
+          handleRequestClose={this.handleRequestClose}
+          onChange={this.handleLoginForm}
+          onConnexion={this.handleConnect}
+        />
       </Container>
     );
   }
@@ -238,14 +258,14 @@ function LoginForm(props) {
         }}/>
       </DialogTitle>
       <DialogContent>
-        <TextField type="text" label="Nom d'utilisateur" fullWidth/>
-        <TextField type="password" label="Mot de passe" fullWidth/>
+        <TextField type="text" label="Nom d'utilisateur" fullWidth onChange={(e) => props.onChange('username', e)} />
+        <TextField type="password" label="Mot de passe" fullWidth onChange={(e) => props.onChange('password', e)}/>
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleRequestClose} color="primary">
           Mot de passe oublié
         </Button>
-        <Button onClick={props.handleRequestClose} color="accent">
+        <Button onClick={props.onConnexion} color="accent">
           Connexion
         </Button>
       </DialogActions>

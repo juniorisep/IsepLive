@@ -17,7 +17,7 @@ import Menu, {MenuItem} from 'material-ui/Menu';
 import Drawer from 'material-ui/Drawer';
 import {ListItem, ListItemText} from 'material-ui/List';
 
-// import Auth from '../../components/Auth/AuthComponent';
+import Auth from '../../components/Auth/AuthComponent';
 import AuthenticatedRoute from '../../components/Auth/AuthenticatedRoute';
 
 import Home from '../../pages/home';
@@ -219,11 +219,18 @@ class Layout extends React.Component {
                 <span>Ely</span>
               </div>
             </Profile>
-            <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
-              <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
-              <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
-              <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
-            </Menu>
+            <Auth roles={['ROLE_USER']}>
+              <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
+                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
+                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
+                <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
+              </Menu>
+            </Auth>
+            <Auth not>
+              <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
+                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/connexion">Accueil</MenuItem>
+              </Menu>
+            </Auth>
           </Toolbar>
         </AppBar>
         {window.innerWidth < 1009 && <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>

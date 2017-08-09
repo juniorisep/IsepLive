@@ -9,6 +9,8 @@ import Menu, {MenuItem} from 'material-ui/Menu';
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 
 import * as postData from '../../data/post';
+import * as authData from '../../data/auth';
+import * as userData from '../../data/users/student';
 import {PostDTO} from '../../data/post/type';
 
 import {
@@ -63,7 +65,27 @@ class PublishBoxView extends Component {
     selectedIndex: -1,
     mediaMenuOpen: false,
     authorMenuOpen: false,
-    authorId: 1,
+    author: null,
+    authorList: [],
+  }
+
+  componentDidMount() {
+    if (authData.isLoggedIn()) {
+      const id = authData.getUser().id;
+      const author = { id, name: 'Moi' };
+      this.setState({ author, authorList: [author], type: 'student' });
+      // TODO: Rework
+      userData.getClubAuthors().then(res => {
+        const authors = res.data.map(a => {
+          return {
+            id: a.id,
+            name: 'Club '+a.name,
+            type: a.authorType,
+          }
+        })
+        this.setState({ authorList: [...this.state.authorList, ...authors] });
+      })
+    }
   }
 
   onMessageChange = (event) => {
@@ -72,11 +94,14 @@ class PublishBoxView extends Component {
 
   onPublish = () => {
     const dto: PostDTO = {
-      authorId: this.state.authorId,
+      authorId: this.state.author.id,
       content: this.state.message,
       title: null
     }
-    postData.createPost(dto).then(res => res.data.id).then(postData.publishPost).then(res => {
+    postData.createPost(dto)
+    .then(res => res.data.id)
+    .then(postData.publishPost)
+    .then(res => {
       this.setState({message: ''});
     }).then(this.props.refreshPosts);
   }
@@ -104,8 +129,8 @@ class PublishBoxView extends Component {
     this.setState({ authorMenuOpen: false });
   }
 
-  handleAuthorSelect = (authorId: number) => {
-    this.setState({ authorId, authorMenuOpen: false });
+  handleAuthorSelect = (author) => {
+    this.setState({ author, authorMenuOpen: false });
   }
 
   changeAuthor = (event) => {
@@ -124,7 +149,7 @@ class PublishBoxView extends Component {
           </Box>
           <Box ml="auto">
             <Button onClick={this.changeAuthor}>
-              <SendAs name="Guillaume Carré" />
+              <SendAs name={this.state.author && this.state.author.name} />
             </Button>
           </Box>
           <Box ml="10px">
@@ -138,14 +163,18 @@ class PublishBoxView extends Component {
           open={this.state.authorMenuOpen}
           onRequestClose={this.handleAuthorMenuClose}
         >
-          <MenuItem
-            onClick={() => this.handleAuthorSelect(1)}
-            selected={this.state.authorId === 1}>
-            <SendAs name="Guillaume Carré" c="black" />
-          </MenuItem>
-          <MenuItem
-            onClick={() => this.handleAuthorSelect(4)}
-            selected={this.state.authorId === 4}>Club Isep Live</MenuItem>
+          {
+            this.state.authorList.map(a => {
+              return (
+                <MenuItem
+                  key={a.id}
+                  onClick={() => this.handleAuthorSelect(a)}
+                  selected={this.state.author == a}>
+                  <SendAs name={a.name} c="black" />
+                </MenuItem>
+              );
+            })
+          }
         </Menu>
         <Menu
           anchorEl={this.state.anchorEl}

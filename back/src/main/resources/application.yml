@@ -18,7 +18,7 @@ security:
     enabled: false
 
 storage:
-  url: "/tmp"
+  url: "storage"
   club:
     url: "/club"
   event:

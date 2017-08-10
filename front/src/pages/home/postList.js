@@ -80,7 +80,7 @@ const IframeWrap = styled.div`
 
 function PostTitleView({ post }) {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
-  if (post.author.authorType == 'student') {
+  if (post.author.authorType === 'student') {
     return (
       <Flex align="center" mb="10px">
         <Box mr="10px"><ProfileImage src={post.author.photoUrl} alt="logo-profile" w="40px" /></Box>
@@ -122,7 +122,7 @@ export default function PostListView(props) {
     <PostList>
       {
         props.posts.map((p, i) => {
-          const invert = i % 2 == 1;
+          const invert = i % 2 === 1;
           if (p.media) {
             switch (p.media.mediaType) {
               case 'poll':

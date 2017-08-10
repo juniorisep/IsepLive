@@ -140,12 +140,12 @@ class PublishBoxView extends Component {
         >
           <MenuItem
             onClick={() => this.handleAuthorSelect(1)}
-            selected={this.state.authorId == 1}>
+            selected={this.state.authorId === 1}>
             <SendAs name="Guillaume Carré" c="black" />
           </MenuItem>
           <MenuItem
             onClick={() => this.handleAuthorSelect(4)}
-            selected={this.state.authorId == 4}>Club Isep Live</MenuItem>
+            selected={this.state.authorId === 4}>Club Isep Live</MenuItem>
         </Menu>
         <Menu
           anchorEl={this.state.anchorEl}

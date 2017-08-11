@@ -226,11 +226,11 @@ class Layout extends React.Component {
                 <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
               </Menu>
             </Auth>
-            <Auth not>
+{/*  TODO Why ???          <Auth not>
               <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
                 <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/connexion">Accueil</MenuItem>
               </Menu>
-            </Auth>
+            </Auth> */}
           </Toolbar>
         </AppBar>
         {window.innerWidth < 1009 && <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>

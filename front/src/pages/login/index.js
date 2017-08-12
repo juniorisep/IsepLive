@@ -209,7 +209,7 @@ export default class Login extends Component {
     return (
       <Container>
         <BackgroundContainer>
-          <Background url="img/background.jpg"/> {/* <Overlay /> */}
+          <Background url="/img/background.jpg"/> {/* <Overlay /> */}
         </BackgroundContainer>
         <Content>
           <TitleContainer>

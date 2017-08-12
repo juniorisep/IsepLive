@@ -11,15 +11,16 @@ import {
   Title,
 } from '../../../components/common';
 
+
 export default function ClubDetailView(props) {
   return (
     <div>
       <FluidContent>
-        <Flex wrap>
+        <Flex>
           <Box>
             <Image src={props.logoUrl} w="150px" />
           </Box>
-          <Box p={2}>
+          <Box ml={2}>
             <Title invert>{props.name}</Title>
             <Text>{props.description}</Text>
           </Box>

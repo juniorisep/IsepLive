@@ -8,7 +8,7 @@ class NotFound extends Component {
   render() {
     return (
       <div>
-        <Header url="img/404.jpg">
+        <Header url="/img/404.jpg">
           <Filler h={152}/>
           <Banner>
             <h1>404</h1>

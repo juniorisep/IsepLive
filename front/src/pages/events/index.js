@@ -54,7 +54,7 @@ const Event = (props) => {
               <h3>Date de l'event</h3>
             </Box>
             <Box ml="auto">
-              <img src="img/iseplive.jpg" alt="" width="40px"/>
+              <img src="/img/iseplive.jpg" alt="" width="40px"/>
             </Box>
           </Flex>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
@@ -68,7 +68,7 @@ class Events extends Component {
   render() {
     return (
       <div>
-        <Header url="img/background.jpg">
+        <Header url="/img/background.jpg">
           <Filler h={50}/>
           <Banner>
             <h1>Evenements</h1>
@@ -89,7 +89,7 @@ class Events extends Component {
           </Flex>
           <EventsList>
             {'-----'.split('').map(e => {
-              return <Event coverUrl="img/background.jpg"/>
+              return <Event coverUrl="/img/background.jpg"/>
             })
 }
           </EventsList>

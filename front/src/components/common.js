@@ -78,6 +78,7 @@ export const ProfileImage = (props) => {
 
 export const Text = styled.p`
   font-size: 1em;
+  line-height: 1.2;
   margin: ${props => props.m || 'auto'};
   color: ${props => props.color || '#949494'};
 `;

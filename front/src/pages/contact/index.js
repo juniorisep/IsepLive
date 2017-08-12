@@ -8,7 +8,7 @@ class Contact extends Component {
   render() {
     return (
       <div>
-        <Header url="img/background.jpg">
+        <Header url="/img/background.jpg">
           <Filler h={50}/>
           <Banner>
             <h1>Contact</h1>

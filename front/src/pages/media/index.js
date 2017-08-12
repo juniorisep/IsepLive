@@ -83,7 +83,7 @@ class Media extends Component {
   render() {
     return (
       <div>
-        <Header url="img/background.jpg">
+        <Header url="/img/background.jpg">
           <Filler h={50}/>
           <Banner>
             <h1>Media</h1>
@@ -131,7 +131,7 @@ class Media extends Component {
                 1, 1 / 2,
                 1 / 3
               ]} p={2}>
-                <Album url="img/background.jpg" text="New Album" onClick={this.toggleGallerie}/>
+                <Album url="/img/background.jpg" text="New Album" onClick={this.toggleGallerie}/>
               </Box>
             })
 }
@@ -143,7 +143,7 @@ class Media extends Component {
                 1, 1 / 2,
                 1 / 3
               ]} p={2}>
-                <Album url="img/background.jpg" text="New Album"/>
+                <Album url="/img/background.jpg" text="New Album"/>
               </Box>
             })
 }

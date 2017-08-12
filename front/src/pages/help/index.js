@@ -8,7 +8,7 @@ class Help extends Component {
   render() {
     return (
       <div>
-        <Header url="img/background.jpg">
+        <Header url="/img/background.jpg">
           <Filler h={50}/>
           <Banner>
             <h1>Besoin d'aide ?</h1>

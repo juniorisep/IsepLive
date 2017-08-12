@@ -15,17 +15,16 @@ import {
 
 const ClubTile = (props) => {
   const ClubStyle = styled.div `
-    padding: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     > img {
       width: 100%;
-      padding: 5px;
     }
     > p {
+      padding: 10px;
       margin: 0;
       text-align: center;
       font-size: 1.2em;
-      padding-bottom: 5px;
+      font-weight: bold;
       color: ${props => props.theme.main};
     }
   `;

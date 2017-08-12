@@ -53,7 +53,7 @@ const IconName = styled.h3 `
 `;
 
 const Background = styled.div `
-  background: url(img/background.jpg);
+  background: url(/img/background.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -87,7 +87,7 @@ const Center = styled.div`
 export default function Home(props) {
   return (
     <div>
-      <Header url="img/background.jpg">
+      <Header url="/img/background.jpg">
         <Filler h="200"/>
         <FluidContent p="0">
           <SearchBar placeholder="Rechercher"/>
@@ -148,7 +148,7 @@ export default function Home(props) {
           <SectionTitle fontSize={2} framed>L'EQUIPE</SectionTitle>
           <Flex wrap>
             <Box w={[ 1, 1 / 2 ]} p={2}>
-              <img src="img/background.jpg" alt="" width="100%"/>
+              <img src="/img/background.jpg" alt="" width="100%"/>
             </Box>
             <Box w={[ 1, 1 / 2 ]} p={2}>
               <Text>

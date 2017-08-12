@@ -19,7 +19,7 @@ import {
 } from '../../components/common';
 
 import Time from '../../components/Time';
-import  PostListView from './postList';
+import PostListView from '../../components/PostList';
 
 import PublishBoxView from './publishBox';
 

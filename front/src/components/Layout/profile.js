@@ -15,10 +15,6 @@ const Profile = styled.div `
   margin: 5px 0;
   margin-left: 5px;
 
-  @media (max-width: 63em) {
-    margin-left: auto;
-  }
-
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     cursor: pointer;
@@ -37,6 +33,10 @@ const Profile = styled.div `
     display: block;
     font-weight: bold;
     padding: 2px;
+  }
+
+  @media (max-width: 40em) {
+    margin-left: auto;
   }
 `;
 

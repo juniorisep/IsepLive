@@ -1,5 +1,6 @@
 package com.iseplive.api.entity.club;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class ClubMember {
     private Long id;
 
     @OneToOne
+    @JsonIgnore
     private Club club;
 
     @OneToOne

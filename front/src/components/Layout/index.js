@@ -24,6 +24,7 @@ import Home from '../../pages/home';
 import Media from '../../pages/media';
 import AddressBook from '../../pages/addressbook';
 import Club from '../../pages/club';
+import ClubDetail from '../../pages/club/clubDetail';
 import Events from '../../pages/events';
 import NotFound from '../../pages/404';
 import Resume from '../../pages/resume';
@@ -179,7 +180,7 @@ class Layout extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Logo
-              src="svg/iseplive.svg"
+              src="/svg/iseplive.svg"
               alt="isep-live-logo"
               onClick={() => this.setState({sidebarOpen: true})} />
             <NavMenu>
@@ -211,15 +212,16 @@ class Layout extends React.Component {
           <Route path="/accueil" component={Home}/>
           <Route path="/media" component={Media}/>
           <Route path="/annuaire" component={AddressBook}/>
-          <Route path="/associations" component={Club}/>
+          <Route exact path="/associations" component={Club}/>
+          <Route path="/associations/:id" component={ClubDetail}/>
           <Route path="/evenements" component={Events}/>
           <Route path="/profile" component={Resume}/>
           <Route path="/whoarewe" component={Whoarewe}/>
-          <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin}/>
           <Route path="/contact" component={Contact}/>
           <Route path="/aide" component={Help}/>
           <Route path="/convention-utilisation" component={UserAgreement}/>
           <Route path="/mentions-legales" component={LegalNotice}/>
+          <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin}/>
           <Route path="*" component={NotFound}/>
         </Switch>
         <Footer>
@@ -233,41 +235,37 @@ class Layout extends React.Component {
                 <p>75 006 PARIS</p>
                 <p>iseplive@gmail.com</p>
               </Box>
-              <Box w={[
-                1, 1, 2 / 6
-              ]} p={2}>
+              <Box w={[ 1, 1, 2 / 6 ]} p={2}>
                 <SocialBox>
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
                   <Flex>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="svg/facebook.svg" alt="Facebook logo"/></a>
+                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/svg/facebook.svg" alt="Facebook logo"/></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="svg/twitter.svg" alt="Twitter logo"/></a>
+                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="/svg/twitter.svg" alt="Twitter logo"/></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="svg/instagram.svg" alt="Instagram logo"/></a>
+                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="/svg/instagram.svg" alt="Instagram logo"/></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="" target="_blank" rel="noopener noreferrer"><img src="svg/snapchat.svg" alt="Snapchat logo"/></a>
+                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/svg/snapchat.svg" alt="Snapchat logo"/></a>
                     </Box>
                   </Flex>
                 </SocialBox>
               </Box>
-              <Box w={[
-                1, 1, 2 / 6
-              ]} p={2}>
+              <Box w={[ 1, 1, 2 / 6 ]} p={2}>
                 <SocialBox>
                   <h2>Partenaires</h2>
                   <Flex>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%"/></a>
+                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%"/></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/alten.png" alt="Alten logo"/></a>
+                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/alten.png" alt="Alten logo"/></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="img/partenaires/cosmoz.png" alt="Cosmoz logo"/></a>
+                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo"/></a>
                     </Box>
                   </Flex>
                 </SocialBox>

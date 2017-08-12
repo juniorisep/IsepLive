@@ -6,8 +6,10 @@ import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
 import com.iseplive.api.dao.club.ClubRoleRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
+import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.constants.PublishStateEnum;
+import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
@@ -50,6 +52,9 @@ public class ClubService {
 
     @Autowired
     ImageUtils imageUtils;
+
+    @Autowired
+    PostRepository postRepository;
 
     @Value("${storage.club.url}")
     public String clubLogoStorage;
@@ -120,4 +125,17 @@ public class ClubService {
         clubRepository.delete(id);
     }
 
+    public List<ClubMember> getMembers(Long id) {
+        return clubMemberRepository.findByClubId(id);
+    }
+
+    public List<Post> getPosts(Long id) {
+        return postRepository.findByAuthorIdOrderByCreationDateDesc(id);
+    }
+
+    public ClubRole createRole(String role) {
+        ClubRole clubRole = new ClubRole();
+        clubRole.setName(role);
+        return clubRoleRepository.save(clubRole);
+    }
 }

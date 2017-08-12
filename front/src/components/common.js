@@ -72,7 +72,7 @@ const ImageStyle = styled.img `
 export const Image = (props) => <ImageStyle {...props} src={backUrl + props.src}/>
 export const ProfileImage = (props) => {
   if (!props.src)
-    return <ImageStyle {...props} src="svg/user.svg" alt="profile-image"/>;
+    return <ImageStyle {...props} src="/svg/user.svg" alt="profile-image"/>;
   return <Image {...props}/>
 }
 

@@ -2,8 +2,10 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.constants.PublishStateEnum;
+import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
+import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.services.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,12 @@ public class ClubController {
         return clubService.createClub(clubDTO);
     }
 
+    @PostMapping("/role/{role}")
+    public ClubRole createRole(@PathVariable String role) {
+        return clubService.createRole(role);
+    }
+
+
     @GetMapping("/{id}")
     public Club getClub(@PathVariable Long id) {
         return clubService.getClub(id);
@@ -55,6 +63,16 @@ public class ClubController {
     @PutMapping("/{id}/member/{role}/{student}")
     public ClubMember addMember(@PathVariable Long id, @PathVariable Long role, @PathVariable Long student) {
         return clubService.addMember(id, role, student);
+    }
+
+    @GetMapping("/{id}/member")
+    public List<ClubMember> getMembers(@PathVariable Long id) {
+        return clubService.getMembers(id);
+    }
+
+    @GetMapping("/{id}/post")
+    public List<Post> getPosts(@PathVariable Long id) {
+        return clubService.getPosts(id);
     }
 
 

@@ -2,6 +2,7 @@ package com.iseplive.api.dao.post;
 
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.Post;
+import javafx.geometry.Pos;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -29,5 +30,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
     List<Post> findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc
             (PublishStateEnum publishState, Boolean isPinned, Boolean isPrivate);
+
+    List<Post> findByAuthorIdOrderByCreationDateDesc(Long author_id);
 
 }

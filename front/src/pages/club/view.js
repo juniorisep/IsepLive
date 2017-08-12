@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import {Flex, Box} from 'grid-styled';
+import { Link } from 'react-router-dom';
 import {
   FluidContent,
   Header,
@@ -40,7 +41,7 @@ class Club extends Component {
   render() {
     return (
       <div>
-        <Header url="img/background.jpg">
+        <Header url="/img/background.jpg">
           <Filler h={50}/>
           <Banner>
             <h1>Associations</h1>
@@ -52,17 +53,17 @@ class Club extends Component {
         </Header>
         <FluidContent>
           <Flex wrap>
-            {this.props.clubs.map(e => {
-              return (
-                <Box w={[
-                  1, 1 / 3,
-                  1 / 4
-                ]} p={2}>
-                  <ClubTile url={e.logoUrl} name={e.name}/>
-                </Box>
-              )
-            })
-}
+            {
+              this.props.clubs.map(e => {
+                return (
+                  <Box key={e.id} w={[ 1, 1 / 3, 1 / 4 ]} p={2}>
+                    <Link to={`/associations/${e.id}`}>
+                      <ClubTile url={e.logoUrl} name={e.name}/>
+                    </Link>
+                  </Box>
+                  )
+              })
+            }
           </Flex>
         </FluidContent>
       </div>

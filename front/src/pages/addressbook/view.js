@@ -69,7 +69,7 @@ class AddressBook extends Component {
         <FluidContent>
           <Flex align="center">
             <Box flex="0 0 auto">
-              8 personnes correspondent à votre recherche</Box>
+            8 personnes correspondent à votre recherche</Box>
             <Box ml="auto">
               <Button color="primary" raised>Modifier l'Affichage</Button>
             </Box>
@@ -78,17 +78,15 @@ class AddressBook extends Component {
             </Box>
           </Flex>
           <Flex wrap>
-            {this.props.students.map(e => {
-              return (
-                <Box w={[
-                  1, 1 / 3,
-                  1 / 5
-                ]} p={2}>
-                  <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo}/>
-                </Box>
-              )
-            })
-}
+            {
+              this.props.students.map(e => {
+                return (
+                  <Box w={[ 1, 1 / 3, 1 / 5 ]} p={2}>
+                    <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo}/>
+                  </Box>
+                )
+              })
+            }
           </Flex>
         </FluidContent>
       </div>

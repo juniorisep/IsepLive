@@ -12,7 +12,6 @@ public class StudentDTO {
     private String lastname;
     private Date birthDate;
     private String phone;
-    private Long photoId;
     private String bio;
 
     public Integer getPromo() {
@@ -53,14 +52,6 @@ public class StudentDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public Long getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(Long photoId) {
-        this.photoId = photoId;
     }
 
     public String getBio() {

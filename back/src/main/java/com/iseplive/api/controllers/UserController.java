@@ -42,6 +42,11 @@ public class UserController {
         return studentService.createStudent(dto);
     }
 
+    @GetMapping("/student/me")
+    public Student getLoggedStudent(@AuthenticationPrincipal Long studid) {
+        return studentService.getStudent(studid);
+    }
+
     @GetMapping("/student/clubs/admin")
     public List<Club> getClubAuthors(@AuthenticationPrincipal Long studentId) {
         return clubService.getClubAuthors(studentId);

@@ -7,3 +7,7 @@ export function getStudents() {
 export function getClubAuthors() {
   return axios.get('/user/student/clubs/admin');
 }
+
+export function getLoggedUser() {
+  return axios.get('/user/student/me')
+}

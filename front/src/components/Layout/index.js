@@ -39,42 +39,12 @@ import {FluidContent} from '../common';
 
 import * as authData from '../../data/auth';
 
+import Profile from './profile';
+
 const Logo = styled.img `
   height: 50px;
   margin-right: 20px;
   cursor: pointer;
-`;
-
-const Profile = styled.div `
-  display: flex;
-  padding: 5px;
-  border-radius: 5px;
-  margin: 5px 0;
-  margin-left: 5px;
-
-  @media (max-width: 63em) {
-    margin-left: auto;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-  }
-
-  > img {
-    height: 40px;
-    margin-right: 5px;
-  }
-  > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  > div > span {
-    display: block;
-    font-weight: bold;
-    padding: 2px;
-  }
 `;
 
 const Footer = styled.footer `
@@ -208,29 +178,28 @@ class Layout extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Logo src="svg/iseplive.svg" alt="isep live logo" onClick={() => this.setState({sidebarOpen: true})}/>
+            <Logo
+              src="svg/iseplive.svg"
+              alt="isep-live-logo"
+              onClick={() => this.setState({sidebarOpen: true})} />
             <NavMenu>
               {navList(Nav)}
             </NavMenu>
-            <Profile onClick={this.handleClick}>
-              <img src="https://numeris-isep.fr/img/team//amalric.resized.jpg" alt=""/>
-              <div>
-                <span>Victor</span>
-                <span>Ely</span>
-              </div>
-            </Profile>
+
             <Auth roles={['ROLE_USER']}>
-              <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
+              <Profile onClick={this.handleClick} />
+              <Menu id="simple-menu"
+                anchorEl={this.state.anchorEl}
+                open={this.state.open}
+                onRequestClose={this.handleRequestClose} >
                 <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
                 <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
                 <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
               </Menu>
             </Auth>
-{/*  TODO Why ???          <Auth not>
-              <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
-                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/connexion">Accueil</MenuItem>
-              </Menu>
-            </Auth> */}
+            <Auth not>
+              <Button component={NavLink} to="/connexion">Accueil</Button>
+            </Auth>
           </Toolbar>
         </AppBar>
         {window.innerWidth < 1009 && <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>

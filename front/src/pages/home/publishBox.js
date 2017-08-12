@@ -78,20 +78,11 @@ class PublishBoxView extends Component {
     if (authData.isLoggedIn()) {
       postData.getAuthors().then(res => {
         const authors = res.data.map(a => {
-          if (a.authorType === 'club') {
-            return {
-              id: a.id,
-              name: 'Club '+a.name,
-              image: a.logoUrl,
-              type: a.authorType,
-            }
-          } else {
-            return {
-              id: a.id,
-              name: 'Moi',
-              image: a.photoUrl,
-              type: a.authorType,
-            }
+          return {
+            id: a.id,
+            name: a.authorType === 'student' ? 'Moi' : a.name,
+            image: a.authorType === 'club' ? a.logoUrl : a.photoUrl,
+            type: a.authorType,
           }
         })
         this.setState({ authorList: authors, author: authors[0] });

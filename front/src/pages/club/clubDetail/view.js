@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import {Flex, Box} from 'grid-styled';
 import Tabs, { Tab } from 'material-ui/Tabs';
+import MUIButton from 'material-ui/Button';
+import ExploreAction from 'material-ui-icons/Explore';
 
 import {
   FluidContent,
@@ -11,6 +13,14 @@ import {
   Title,
 } from '../../../components/common';
 
+const Explore = styled(ExploreAction)`
+  margin-right: 10px;
+`;
+
+
+const Button = styled(MUIButton)`
+  margin-top: ${props => props.mt || '0'};
+`;
 
 export default function ClubDetailView(props) {
   return (
@@ -23,6 +33,7 @@ export default function ClubDetailView(props) {
           <Box ml={3}>
             <Title invert>{props.name}</Title>
             <Text>{props.description}</Text>
+            <Button href={props.website} color="accent" mt="15px"><Explore /> Site internet</Button>
           </Box>
         </Flex>
       </FluidContent>

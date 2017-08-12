@@ -21,8 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -69,7 +68,7 @@ public class ClubService {
         if (admin == null) {
             throw new IllegalArgumentException("this student id doesn't exist");
         }
-        club.setAdmin(admin);
+        club.setAdmins(Collections.singletonList(admin));
         return authorRepository.save(club);
     }
 
@@ -117,7 +116,7 @@ public class ClubService {
      * @return a club list
      */
     public List<Club> getClubAuthors(Student student) {
-        return clubRepository.findByAdminIs(student);
+        return clubRepository.findByAdminsContains(student);
     }
 
     public void deleteClub(Long id) {
@@ -136,5 +135,27 @@ public class ClubService {
         ClubRole clubRole = new ClubRole();
         clubRole.setName(role);
         return clubRoleRepository.save(clubRole);
+    }
+
+    public List<Student> getAdmins(Long clubId) {
+        Club club = getClub(clubId);
+        return club.getAdmins();
+    }
+
+    public void addAdmin(Long clubId, Long studId) {
+        Student student = studentService.getStudent(studId);
+        Club club = getClub(clubId);
+        club.getAdmins().add(student);
+        clubRepository.save(club);
+    }
+
+    public void removeAdmin(Long clubId, Long studId) {
+        Club club = getClub(clubId);
+        Student student = studentService.getStudent(studId);
+        boolean removed = club.getAdmins().remove(student);
+        if (!removed) {
+            throw new IllegalArgumentException("This student is not admin on the club with id: "+clubId);
+        }
+        clubRepository.save(club);
     }
 }

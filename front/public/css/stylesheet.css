@@ -15,9 +15,9 @@ html, body, div#root {
   box-sizing: border-box;
 }
 
-a, a:hover, a:visited {
-    color: inherit;
-    text-decoration: inherit;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {

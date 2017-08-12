@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import * as pollData from '../../data/media/poll';
+import * as authData from '../../data/auth';
 
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   background: white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 `;
 
-const TopBar = styled.div `
+const TopBar = styled.div`
   background: ${props => props.theme.main};
   padding: 15px;
   font-size: 25px;
@@ -16,18 +17,18 @@ const TopBar = styled.div `
   color: ${props => props.theme.accent};
 `;
 
-const Question = styled.h1 `
+const Question = styled.h1`
   color: ${props => props.theme.main};
   margin: 0;
   margin-bottom: 20px;
   font-size: 20px;
 `;
 
-const Main = styled.div `
+const Main = styled.div`
   padding: 20px;
 `;
 
-const Caption = styled.p `
+const Caption = styled.p`
   margin: 0;
   color: ${props => props.theme.main};
   font-size: 15px;
@@ -43,11 +44,15 @@ class Poll extends Component {
   }
 
   componentDidMount() {
-    pollData.getVote(this.state.data.id).then(res => {
-      if (res.data) {
-        this.setState({voted: true, answer: res.data.answer});
-      }
-    })
+    if (!authData.isLoggedIn()) {
+      this.setState({ voted: true });
+    } else {
+      pollData.getVote(this.state.data.id).then(res => {
+        if (res.data) {
+          this.setState({voted: true, answer: res.data.answer});
+        }
+      })
+    }
   }
 
   handleVote = (ans) => {
@@ -79,6 +84,7 @@ class Poll extends Component {
               return (
                 <Answer
                   key={a.id}
+                  showVote={this.state.voted}
                   vote={this.state.answer}
                   total={total}
                   onClick={() => this.handleVote(a)}
@@ -86,7 +92,7 @@ class Poll extends Component {
               );
             })
           }
-          { this.state.voted && <Caption>{total} votes</Caption> }
+          { this.state.voted && <Caption>{total} vote{total !== 1 && 's'}</Caption> }
         </Main>
       </Wrapper>
     );
@@ -136,16 +142,16 @@ function Answer(props) {
 
   const percent = (answer.votesNb / props.total) * 100;
   return (
-    <AnswerStyle voted={props.vote} onClick={props.onClick}>
+    <AnswerStyle voted={props.showVote} onClick={props.onClick}>
       <AnswerText vote={props.vote && props.vote.id === answer.id}>
         {answer.content}
         {
-          props.vote &&
-          <span> - {answer.votesNb} vote{answer.votesNb !== 1 && 's'}</span>
+          props.showVote &&
+          <span> - {percent}%</span>
         }
       </AnswerText>
       <AnswerBar style={{
-        width: (props.vote
+        width: (props.showVote
           ? percent
           : 0) + '%'
       }}/>

@@ -6,6 +6,7 @@ import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
+import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,21 @@ public class ClubController {
     @PutMapping("/{id}/member/{role}/{student}")
     public ClubMember addMember(@PathVariable Long id, @PathVariable Long role, @PathVariable Long student) {
         return clubService.addMember(id, role, student);
+    }
+
+    @GetMapping("/{id}/admins")
+    public List<Student> getAdmins(@PathVariable Long id) {
+        return clubService.getAdmins(id);
+    }
+
+    @PutMapping("/{id}/admin/{stud}")
+    public void addAdmin(@PathVariable Long id, @PathVariable Long stud) {
+        clubService.addAdmin(id, stud);
+    }
+
+    @DeleteMapping("/{id}/admin/{stud}")
+    public void deleteAdmin(@PathVariable Long id, @PathVariable Long stud) {
+        clubService.removeAdmin(id, stud);
     }
 
     @GetMapping("/{id}/member")

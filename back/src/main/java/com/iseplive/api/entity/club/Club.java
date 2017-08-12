@@ -23,16 +23,16 @@ public class Club extends Author {
     private String website;
 
     @JsonIgnore
-    @OneToOne
-    private Student admin;
-
-    @JsonIgnore
     @OneToMany(mappedBy = "club")
     private List<ClubMember> members;
 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     private PublishStateEnum publishState;
+
+    @JsonIgnore
+    @ManyToMany
+    private List<Student> admins;
 
     private String logoUrl;
     private String logoThumbUrl;
@@ -77,14 +77,6 @@ public class Club extends Author {
         this.publishState = publishState;
     }
 
-    public Student getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Student admin) {
-        this.admin = admin;
-    }
-
     public List<ClubMember> getMembers() {
         return members;
     }
@@ -107,5 +99,13 @@ public class Club extends Author {
 
     public void setLogoThumbUrl(String logoThumbUrl) {
         this.logoThumbUrl = logoThumbUrl;
+    }
+
+    public List<Student> getAdmins() {
+        return admins;
+    }
+
+    public void setAdmins(List<Student> admins) {
+        this.admins = admins;
     }
 }

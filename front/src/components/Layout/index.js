@@ -199,7 +199,7 @@ class Layout extends React.Component {
               </Menu>
             </Auth>
             <Auth not>
-              <Button component={NavLink} to="/connexion">Accueil</Button>
+              <Button color="contrast" component={NavLink} to="/connexion">Accueil</Button>
             </Auth>
           </Toolbar>
         </AppBar>

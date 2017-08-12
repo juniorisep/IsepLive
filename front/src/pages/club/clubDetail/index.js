@@ -14,6 +14,7 @@ class ClubDetail extends Component {
     logoUrl: '',
     name: '',
     description: '',
+    website: '',
     members: [],
     posts: [],
   }
@@ -26,8 +27,8 @@ class ClubDetail extends Component {
   requestClubDetail() {
     clubData.getClub(this.state.id)
     .then(res => {
-      const { logoUrl, description, name } = res.data;
-      this.setState({ logoUrl, description, name });
+      const { logoUrl, description, name, website } = res.data;
+      this.setState({ logoUrl, description, name, website });
     })
   }
 

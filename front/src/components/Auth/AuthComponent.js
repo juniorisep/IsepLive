@@ -8,7 +8,7 @@ class Auth extends Component {
     if (not && !isLoggedIn()) {
       return <span>{children}</span>;
     }
-    if (!roles && !not) return <span>{children}</span>;
+    if (!roles && !not && isLoggedIn()) return <span>{children}</span>;
     if (roles && isLoggedIn() && hasRole(roles)) {
       return <span>{children}</span>;
     }

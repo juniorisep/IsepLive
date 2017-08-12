@@ -42,11 +42,6 @@ import * as authData from '../../data/auth';
 
 import Profile from './profile';
 
-const PageWrapper = styled.div`
-  position: relative;
-  z-index: -1;
-`;
-
 const Logo = styled.img `
   height: 50px;
   margin-right: 20px;
@@ -182,7 +177,7 @@ class Layout extends React.Component {
     const classes = props.classes;
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Logo
               src="/svg/iseplive.svg"
@@ -212,25 +207,23 @@ class Layout extends React.Component {
           {navList(SideNav)}
         </Drawer>
         }
-        <PageWrapper>
-          <Switch>
-            <Redirect path="/" exact to="/accueil"/>
-            <Route path="/accueil" component={Home}/>
-            <Route path="/media" component={Media}/>
-            <Route path="/annuaire" component={AddressBook}/>
-            <Route exact path="/associations" component={Club}/>
-            <Route path="/associations/:id" component={ClubDetail}/>
-            <Route path="/evenements" component={Events}/>
-            <Route path="/profile" component={Resume}/>
-            <Route path="/whoarewe" component={Whoarewe}/>
-            <Route path="/contact" component={Contact}/>
-            <Route path="/aide" component={Help}/>
-            <Route path="/convention-utilisation" component={UserAgreement}/>
-            <Route path="/mentions-legales" component={LegalNotice}/>
-            <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin}/>
-            <Route path="*" component={NotFound}/>
-          </Switch>
-        </PageWrapper>
+        <Switch>
+          <Redirect path="/" exact to="/accueil"/>
+          <Route path="/accueil" component={Home}/>
+          <Route path="/media" component={Media}/>
+          <Route path="/annuaire" component={AddressBook}/>
+          <Route exact path="/associations" component={Club}/>
+          <Route path="/associations/:id" component={ClubDetail}/>
+          <Route path="/evenements" component={Events}/>
+          <Route path="/profile" component={Resume}/>
+          <Route path="/whoarewe" component={Whoarewe}/>
+          <Route path="/contact" component={Contact}/>
+          <Route path="/aide" component={Help}/>
+          <Route path="/convention-utilisation" component={UserAgreement}/>
+          <Route path="/mentions-legales" component={LegalNotice}/>
+          <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin}/>
+          <Route path="*" component={NotFound}/>
+        </Switch>
         <Footer>
           <FluidContent>
             <Flex wrap>

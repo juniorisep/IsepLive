@@ -52,7 +52,7 @@ export default function MembersTab(props) {
         {
           props.members.map(m => {
             return (
-              <Box w={[ 1, 1 / 3, 1 / 5 ]} p={2}>
+              <Box key={m.id} w={[ 1, 1 / 3, 1 / 5 ]} p={2}>
                 <Member
                   url={m.member.photoUrl}
                   name={m.member.firstname + ' ' + m.member.lastname}

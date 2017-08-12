@@ -20,7 +20,7 @@ export default function ClubDetailView(props) {
           <Box>
             <Image src={props.logoUrl} w="150px" />
           </Box>
-          <Box ml={2}>
+          <Box ml={3}>
             <Title invert>{props.name}</Title>
             <Text>{props.description}</Text>
           </Box>

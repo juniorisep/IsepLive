@@ -69,7 +69,7 @@ const ImageStyle = styled.img `
   margin-left: ${props => props.ml || 'auto'};
 `;
 
-export const Image = (props) => <ImageStyle {...props} src={backUrl + props.src}/>
+export const Image = (props) => <ImageStyle {...props} src={props.src && backUrl + props.src}/>
 export const ProfileImage = (props) => {
   if (!props.src)
     return <ImageStyle {...props} src="/svg/user.svg" alt="profile-image"/>;

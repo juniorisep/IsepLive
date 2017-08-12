@@ -52,7 +52,7 @@ const IconName = styled.h3 `
   color: ${props => props.theme.accent};
 `;
 
-const Background = styled.div `
+const Background = styled.div`
   background: url(/img/background.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;

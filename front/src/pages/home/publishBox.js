@@ -10,7 +10,6 @@ import AddCircleIcon from 'material-ui-icons/AddCircle';
 
 import * as postData from '../../data/post';
 import * as authData from '../../data/auth';
-import * as userData from '../../data/users/student';
 import {PostDTO} from '../../data/post/type';
 
 import {
@@ -25,7 +24,7 @@ const PublishBox = styled.div`
   padding: 20px;
 `;
 
-const MessageBox = styled.textarea `
+const TitleBox = styled.input`
   font-family: 'Roboto';
   font-size: 1.3em;
   padding: .4em;
@@ -33,8 +32,12 @@ const MessageBox = styled.textarea `
   outline: 0;
   border-radius: 5px;
   width: 100%;
+  margin-bottom: ${props => props.m || '5px'};
+`;
+
+let MessageBox = TitleBox.withComponent('textarea');
+MessageBox = MessageBox.extend`
   resize: vertical;
-  margin-bottom: 5px;
 `;
 
 function SendAs(props) {
@@ -50,10 +53,11 @@ function SendAs(props) {
       background: rgba(255, 255, 255, 0.4);
     }
   `;
+  const author = props.author;
   return (
     <Flex align="center">
-      <Box mr="10px"><ProfileImage w="20px" /></Box>
-      <Box><Text color={props.c || 'white'} m="0">{props.name}</Text></Box>
+      <Box mr="10px"><ProfileImage w="20px" src={author && author.image} /></Box>
+      <Box><Text color={props.c || 'white'} m="0">{author && author.name}</Text></Box>
     </Flex>
   )
 }
@@ -61,6 +65,7 @@ function SendAs(props) {
 class PublishBoxView extends Component {
 
   state = {
+    title: null,
     message: '',
     selectedIndex: -1,
     mediaMenuOpen: false,
@@ -71,38 +76,48 @@ class PublishBoxView extends Component {
 
   componentDidMount() {
     if (authData.isLoggedIn()) {
-      const id = authData.getUser().id;
-      const author = { id, name: 'Moi' };
-      this.setState({ author, authorList: [author], type: 'student' });
-      // TODO: Rework
-      userData.getClubAuthors().then(res => {
+      postData.getAuthors().then(res => {
         const authors = res.data.map(a => {
-          return {
-            id: a.id,
-            name: 'Club '+a.name,
-            type: a.authorType,
+          if (a.authorType === 'club') {
+            return {
+              id: a.id,
+              name: 'Club '+a.name,
+              image: a.logoUrl,
+              type: a.authorType,
+            }
+          } else {
+            return {
+              id: a.id,
+              name: 'Moi',
+              image: a.photoUrl,
+              type: a.authorType,
+            }
           }
         })
-        this.setState({ authorList: [...this.state.authorList, ...authors] });
+        this.setState({ authorList: authors, author: authors[0] });
       })
     }
   }
 
+  onTitleChange = (event) => {
+    this.setState({ title: event.target.value });
+  }
+
   onMessageChange = (event) => {
-    this.setState({message: event.target.value});
+    this.setState({ message: event.target.value });
   }
 
   onPublish = () => {
     const dto: PostDTO = {
       authorId: this.state.author.id,
       content: this.state.message,
-      title: null
+      title: this.state.title
     }
     postData.createPost(dto)
     .then(res => res.data.id)
     .then(postData.publishPost)
     .then(res => {
-      this.setState({message: ''});
+      this.setState({ title: null, message: '' });
     }).then(this.props.refreshPosts);
   }
 
@@ -130,17 +145,47 @@ class PublishBoxView extends Component {
   }
 
   handleAuthorSelect = (author) => {
-    this.setState({ author, authorMenuOpen: false });
+    this.setState({
+      title: null, message: '',
+      author, authorMenuOpen: false
+    });
   }
 
   changeAuthor = (event) => {
     this.setState({ authorMenuOpen: true, anchorEl: event.currentTarget });
   }
 
+  canPublish() {
+    const { author, title, message } = this.state;
+    if (author && author.type === 'club') {
+      if (title && message && title !== '' && message !== '') {
+        return true;
+      }
+    } else {
+      if (message && message !== '') {
+        return true
+      }
+    }
+    return false;
+  }
+
   render() {
+    const { author } = this.state;
+    const canPublish = this.canPublish();
     return (
       <PublishBox>
-        <MessageBox placeholder="Tapez votre message" onChange={this.onMessageChange} value={this.state.message}/>
+        {
+          author && author.type == 'club' &&
+          <TitleBox
+            placeholder="Titre"
+            m="15px"
+            onChange={this.onTitleChange}
+            value={this.state.title} />
+        }
+        <MessageBox
+          placeholder="Tapez votre message"
+          onChange={this.onMessageChange}
+          value={this.state.message}/>
         <Flex align="center">
           <Box>
             <IconButton color="contrast" onClick={this.openMediaMenu}>
@@ -149,11 +194,11 @@ class PublishBoxView extends Component {
           </Box>
           <Box ml="auto">
             <Button onClick={this.changeAuthor}>
-              <SendAs name={this.state.author && this.state.author.name} />
+              <SendAs author={this.state.author} />
             </Button>
           </Box>
           <Box ml="10px">
-            <Button raised color="accent" style={{ float: "right" }} onClick={this.onPublish} disabled={this.state.message === ''}>Publier</Button>
+            <Button raised color="accent" style={{ float: "right" }} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
           </Box>
         </Flex>
 
@@ -170,7 +215,7 @@ class PublishBoxView extends Component {
                   key={a.id}
                   onClick={() => this.handleAuthorSelect(a)}
                   selected={this.state.author == a}>
-                  <SendAs name={a.name} c="black" />
+                  <SendAs author={a} c="black" />
                 </MenuItem>
               );
             })

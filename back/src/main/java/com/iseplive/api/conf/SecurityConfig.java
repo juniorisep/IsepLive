@@ -50,18 +50,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                    // only /auth in public
-                    .antMatchers(
-                            HttpMethod.GET,
-                            "/post/**",
-                            "/poll/**",
-                            "/club/**",
-                            "/media/**"
-                    ).permitAll()
-                    .antMatchers(
-                            "/auth/**"
-                    ).permitAll()
-                    .anyRequest().authenticated();
+                // only /auth in public
+                .antMatchers(HttpMethod.GET, "/post/authors").authenticated()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/post/**",
+                        "/poll/**",
+                        "/club/**",
+                        "/media/**"
+                ).permitAll()
+                .antMatchers("/auth/**").permitAll()
+
+                .anyRequest().authenticated();
 
         http
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

@@ -12,6 +12,7 @@ import com.iseplive.api.dto.PostDTO;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +49,9 @@ public class PostService {
 
     @Autowired
     AuthorRepository authorRepository;
+
+    @Autowired
+    ClubService clubService;
 
     public Pageable createPage(int page) {
         return new PageRequest(page, 5);
@@ -141,5 +146,13 @@ public class PostService {
         Post post = getPost(id);
         post.setPinned(pinned);
         postRepository.save(post);
+    }
+
+    public List<Author> getAuthors(Long studId) {
+        List<Author> authors = new ArrayList<>();
+        Student student = studentService.getStudent(studId);
+        authors.add(student);
+        authors.addAll(clubService.getClubAuthors(student));
+        return authors;
     }
 }

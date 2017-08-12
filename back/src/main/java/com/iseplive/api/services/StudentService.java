@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
@@ -43,7 +44,7 @@ public class StudentService {
         if (student != null) {
             return student;
         }
-        throw new RuntimeException("could not find the student with id: "+id);
+        throw new IllegalArgumentException("could not find the student with id: "+id);
     }
 
     public Student createStudent(StudentDTO dto) {
@@ -63,10 +64,5 @@ public class StudentService {
         imageUtils.saveJPG(image, 512, 512, path);
         student.setPhotoUrl(imageUtils.getPublicUrl(path));
         studentRepository.save(student);
-    }
-
-    public void getAuthors(Long userId) {
-        Student student = studentRepository.findOne(userId);
-        List<Author> authors = Collections.singletonList(authorRepository.findOne(userId));
     }
 }

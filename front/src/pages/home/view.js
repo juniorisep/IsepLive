@@ -20,6 +20,7 @@ import {
 
 import Time from '../../components/Time';
 import PostListView from '../../components/PostList';
+import Auth from '../../components/Auth/AuthComponent';
 
 import PublishBoxView from './publishBox';
 
@@ -128,8 +129,10 @@ export default function Home(props) {
       <Background>
         <Overlay/>
         <FluidContent>
-          <PublishBoxView refreshPosts={props.refreshPosts}/>
-          <Separator/>
+          <Auth>
+            <PublishBoxView refreshPosts={props.refreshPosts}/>
+            <Separator/>
+          </Auth>
           <PostSection>
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
             <PostListView posts={props.posts} />

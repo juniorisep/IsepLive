@@ -113,11 +113,10 @@ public class ClubService {
     /**
      * Retrieve the list of clubs where the student is admin
      *
-     * @param userId student id
+     * @param student student id
      * @return a club list
      */
-    public List<Club> getClubAuthors(Long userId) {
-        Student student = studentService.getStudent(userId);
+    public List<Club> getClubAuthors(Student student) {
         return clubRepository.findByAdminIs(student);
     }
 

@@ -24,9 +24,6 @@ public class UserController {
     @Autowired
     StudentService studentService;
 
-    @Autowired
-    ClubService clubService;
-
     @GetMapping("/student")
     public List<Student> getAll() {
         return studentService.getAll();
@@ -45,11 +42,6 @@ public class UserController {
     @GetMapping("/student/me")
     public Student getLoggedStudent(@AuthenticationPrincipal Long studid) {
         return studentService.getStudent(studid);
-    }
-
-    @GetMapping("/student/clubs/admin")
-    public List<Club> getClubAuthors(@AuthenticationPrincipal Long studentId) {
-        return clubService.getClubAuthors(studentId);
     }
 
 }

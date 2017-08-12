@@ -5,9 +5,12 @@ import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
+import com.iseplive.api.entity.club.Club;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +39,11 @@ public class PostController {
     @GetMapping("/pinned")
     public List<Post> getPinnedPosts() {
         return postService.getPinnedPosts();
+    }
+
+    @GetMapping("/authors")
+    public List<Author> getAuthors(@AuthenticationPrincipal Long studentId) {
+        return postService.getAuthors(studentId);
     }
 
     @GetMapping("/{id}")

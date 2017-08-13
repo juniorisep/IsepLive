@@ -22,3 +22,7 @@ export function publishPost(id: number) {
 export function getAuthors() {
   return axios.get('/post/authors');
 }
+
+export function addMedia(id: number, mediaId: number) {
+  return axios.put(`/post/${id}/embed/${mediaId}`);
+}

@@ -128,7 +128,7 @@ export default function PostListView(props) {
             switch (p.media.mediaType) {
               case 'poll':
                 return (
-                  <Post key={i} invert={invert}>
+                  <Post key={p.id} invert={invert}>
                     <Box w={[ 1 ]}>
                       <PostText>
                         <PostTitleView post={p} />
@@ -139,7 +139,7 @@ export default function PostListView(props) {
                 )
               case 'videoEmbed':
                 return (
-                  <Post key={i} invert={invert}>
+                  <Post key={p.id} invert={invert}>
                     <Box w={[ 1, 1/2 ]}>
                       <PostContent bg>
                         <IframeWrap>
@@ -156,7 +156,7 @@ export default function PostListView(props) {
             }
           } else {
             return (
-              <Post key={i} invert={invert}>
+              <Post key={p.id} invert={invert}>
                 <Box w={[ 1 ]}>
                   <PostTextView post={p} />
                 </Box>

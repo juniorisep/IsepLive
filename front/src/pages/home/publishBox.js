@@ -1,5 +1,4 @@
-
-
+// @flow
 import React, {Component} from 'react';
 
 import styled from 'styled-components';
@@ -11,8 +10,12 @@ import Menu, {MenuItem} from 'material-ui/Menu';
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 
 import * as postData from '../../data/post';
+import * as pollData from '../../data/media/poll';
 import * as authData from '../../data/auth';
 import {PostDTO} from '../../data/post/type';
+import {PollDTO} from '../../data/media/type';
+
+import {MediaDialog, MediaCreator, PollForm } from './mediaForms';
 
 import {
   Filler,
@@ -74,6 +77,8 @@ class PublishBoxView extends Component {
     authorMenuOpen: false,
     author: null,
     authorList: [],
+    mediaCreatorOpen: false,
+    form: null,
   }
 
   componentDidMount() {
@@ -101,17 +106,45 @@ class PublishBoxView extends Component {
   }
 
   onPublish = () => {
+
     const dto: PostDTO = {
       authorId: this.state.author.id,
       content: this.state.message,
       title: this.state.title
     }
+    let postId;
     postData.createPost(dto)
-    .then(res => res.data.id)
+    .then(res => {
+      postId = res.data.id;
+      return res.data.id
+    })
     .then(postData.publishPost)
     .then(res => {
       this.setState({ title: null, message: '' });
-    }).then(this.props.refreshPosts);
+    }).then(() => {
+      if (this.state.mediaSelected) {
+        this.createMedia()
+        .then(res => res.data.id)
+        .then(id => {
+          console.log('media', id);
+          return id;
+        })
+        .then((mediaId) => postData.addMedia(postId, mediaId))
+        .then(this.closeMediaCreator)
+        .then(this.props.refreshPosts);
+        return;
+      }
+      this.props.refreshPosts();
+    })
+
+
+  }
+
+  createMedia = () => {
+    switch (this.state.mediaSelected) {
+      case 'poll':
+        return pollData.createPoll(this.state.form);
+    }
   }
 
   handleMediaSelect = (item) => {
@@ -122,6 +155,7 @@ class PublishBoxView extends Component {
         this.inputFile.click();
         break;
     }
+    this.setState({ mediaSelected: item, mediaCreatorOpen: true });
     this.handleMediaMenuClose();
   }
 
@@ -144,8 +178,18 @@ class PublishBoxView extends Component {
     });
   }
 
+
   changeAuthor = (event) => {
     this.setState({ authorMenuOpen: true, anchorEl: event.currentTarget });
+  }
+
+  closeMediaCreator = () => {
+    this.setState({ mediaCreatorOpen: false, form: null, mediaSelected: null });
+  }
+
+  onFormChange = (form) => {
+    console.log(form);
+    this.setState({ form });
   }
 
   canPublish() {
@@ -166,65 +210,86 @@ class PublishBoxView extends Component {
     const { author } = this.state;
     const canPublish = this.canPublish();
     return (
-      <PublishBox>
-        {
-          author && author.type === 'club' &&
-          <TitleBox
-            placeholder="Titre"
-            m="15px"
-            onChange={this.onTitleChange}
-            value={this.state.title} />
-        }
-        <MessageBox
-          placeholder="Tapez votre message"
-          onChange={this.onMessageChange}
-          value={this.state.message}/>
-        <Flex align="center">
-          <Box>
-            <IconButton color="contrast" onClick={this.openMediaMenu}>
-              <AddCircleIcon/>
-            </IconButton>
-          </Box>
-          <Box ml="auto">
-            <Button onClick={this.changeAuthor}>
-              <SendAs author={this.state.author} />
-            </Button>
-          </Box>
-          <Box ml="10px">
-            <Button raised color="accent" style={{ float: "right" }} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
-          </Box>
-        </Flex>
-
-        <input ref={inputFile => this.inputFile = inputFile} accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{display: 'none'}} />
-        <Menu
-          anchorEl={this.state.anchorEl}
-          open={this.state.authorMenuOpen}
-          onRequestClose={this.handleAuthorMenuClose}
-        >
+      <div>
+        <PublishBox>
           {
-            this.state.authorList.map(a => {
-              return (
-                <MenuItem
-                  key={a.id}
-                  onClick={() => this.handleAuthorSelect(a)}
-                  selected={this.state.author === a}>
-                  <SendAs author={a} c="black" />
-                </MenuItem>
-              );
-            })
+            author && author.type == 'club' &&
+            <TitleBox
+              placeholder="Titre"
+              m="15px"
+              onChange={this.onTitleChange}
+              value={this.state.title} />
           }
-        </Menu>
-        <Menu
-          anchorEl={this.state.anchorEl}
-          open={this.state.mediaMenuOpen}
-          onRequestClose={this.handleMediaMenuClose}
-        >
-          <MenuItem onClick={() => this.handleMediaSelect('poll')}>Sondage</MenuItem>
-          <MenuItem onClick={() => this.handleMediaSelect('gallery')}>Gallerie</MenuItem>
-          <MenuItem onClick={() => this.handleMediaSelect('videoEmbed')}>Vid. FB/YT</MenuItem>
-          <MenuItem onClick={() => this.handleMediaSelect('file')}>Fichier</MenuItem>
-        </Menu>
-      </PublishBox>
+          <MessageBox
+            placeholder="Tapez votre message"
+            onChange={this.onMessageChange}
+            value={this.state.message}/>
+          <Flex align="center">
+            <Box>
+              <IconButton color="contrast" onClick={this.openMediaMenu}>
+                <AddCircleIcon/>
+              </IconButton>
+            </Box>
+            <Box ml="auto">
+              <Button onClick={this.changeAuthor}>
+                <SendAs author={this.state.author} />
+              </Button>
+            </Box>
+            <Box ml="10px">
+              <Button raised color="accent" style={{ float: "right" }} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
+            </Box>
+          </Flex>
+
+          <input
+            id="file"
+            type="file"
+            ref={inputFile => this.inputFile = inputFile}
+            accept="jpg,jpeg,JPG,JPEG"
+            multiple
+            style={{display: 'none'}}
+          />
+          <Menu
+            anchorEl={this.state.anchorEl}
+            open={this.state.authorMenuOpen}
+            onRequestClose={this.handleAuthorMenuClose}>
+            {
+              this.state.authorList.map(a => {
+                return (
+                  <MenuItem
+                    key={a.id}
+                    onClick={() => this.handleAuthorSelect(a)}
+                    selected={this.state.author == a}>
+                    <SendAs author={a} c="black" />
+                  </MenuItem>
+                );
+              })
+            }
+          </Menu>
+          <Menu
+            anchorEl={this.state.anchorEl}
+            open={this.state.mediaMenuOpen}
+            onRequestClose={this.handleMediaMenuClose}>
+            <MenuItem onClick={() => this.handleMediaSelect('poll')}>Sondage</MenuItem>
+            <MenuItem onClick={() => this.handleMediaSelect('gallery')}>Gallerie</MenuItem>
+            <MenuItem onClick={() => this.handleMediaSelect('videoEmbed')}>Vid. FB/YT</MenuItem>
+            <MenuItem onClick={() => this.handleMediaSelect('file')}>Fichier</MenuItem>
+          </Menu>
+          {/* <MediaDialog
+            open={this.state.dialogOpen}
+            handleRequestClose={this.closeDialogMedia}
+            onCreate={this.onCreateMedia}
+            title="Sondage"
+            >
+
+          </MediaDialog> */}
+        </PublishBox>
+        <MediaCreator
+          title="Sondage"
+          show={this.state.mediaCreatorOpen}
+          onDelete={this.closeMediaCreator}>
+          { this.state.mediaSelected === 'poll' && <PollForm update={this.onFormChange} /> }
+        </MediaCreator>
+      </div>
     );
   }
 }

@@ -1,6 +1,11 @@
 // @flow
-
 import axios from 'axios';
+
+import { PollDTO } from './type';
+
+export function createPoll(poll: PollDTO) {
+  return axios.post('/poll', poll);
+}
 
 export function getPoll(id) {
   return axios.get(`/poll/${id}`);

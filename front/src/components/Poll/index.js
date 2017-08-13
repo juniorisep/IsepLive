@@ -42,10 +42,11 @@ class Poll extends Component {
   state = {
     voted: false,
     answer: null,
-    data: this.props.data
+    data: this.props.data,
   }
 
   componentDidMount() {
+    console.log(this.props.data);
     if (!authData.isLoggedIn()) {
       this.setState({ voted: true });
     } else {

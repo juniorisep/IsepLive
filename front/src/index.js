@@ -34,7 +34,7 @@ const theme = createMuiTheme({
 const styledTheme = {
   main: MAIN_COLOR,
   accent: SECONDARY_COLOR
-}
+};
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
@@ -48,7 +48,7 @@ const App = () => (
       </Router>
     </ThemeProvider>
   </MuiThemeProvider>
-)
+);
 
 ReactDOM.render(
   <App />, document.getElementById('root'));

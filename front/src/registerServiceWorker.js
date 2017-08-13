@@ -28,21 +28,21 @@ export default function register() {
                 // It's the perfect time to display a
                 // "Content is cached for offline use." message.
                 console.log('Content is cached for offline use.');
-              }
-            }
+              };
+            };
           };
         };
       }).catch(error => {
         console.error('Error during service worker registration:', error);
       });
     });
-  }
-}
+  };
+};
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration => {
       registration.unregister();
     });
-  }
-}
+  };
+};

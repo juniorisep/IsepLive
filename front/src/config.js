@@ -9,7 +9,7 @@ export const backUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:80
 const token = localStorage.getItem('token');
 if (token != null) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
+};
 
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
@@ -17,7 +17,7 @@ axios.interceptors.response.use(function (response) {
   const respAuthToken = response.headers['Authorization'];
   if (respAuthToken) {
     authData.setToken(respAuthToken)
-  }
+  };
   return response;
 }, function (error) {
   // Do something with response error

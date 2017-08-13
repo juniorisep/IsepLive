@@ -5,16 +5,14 @@ import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 
 import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
-
-import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
 
 import styled from 'styled-components';
 
 import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
 
 import * as authData from '../../data/auth';
+
+import LoginForm from '../../components/LoginForm'
 
 const Container = styled.div `
   display: flex;
@@ -185,11 +183,11 @@ const BigButton = styled(Button)`
 
 export default class Login extends Component {
   state = {
-    open: false
+    connexionOpen: false
   };
 
   handleRequestClose = () => {
-    this.setState({open: false});
+    this.setState({connexionOpen: false});
   };
 
   handleLoginForm = (key, event) => {
@@ -229,7 +227,7 @@ export default class Login extends Component {
           <AccessContainer>
             <ButtonContainer>
               <BigButton // style={CUSTOM_STYLES.btn}
-                onClick={() => this.setState({open: true})}>Se connecter</BigButton>
+                onClick={() => this.setState({connexionOpen: true})}>Se connecter</BigButton>
             </ButtonContainer>
             <ButtonContainer>
               <BigButton component={NavLink} to="/accueil">Accès visiteur</BigButton>
@@ -237,7 +235,7 @@ export default class Login extends Component {
           </AccessContainer>
         </Content>
         <LoginForm
-          open={this.state.open}
+          open={this.state.connexionOpen}
           handleRequestClose={this.handleRequestClose}
           onChange={this.handleLoginForm}
           onConnexion={this.handleConnect}
@@ -245,30 +243,4 @@ export default class Login extends Component {
       </Container>
     );
   }
-}
-
-function LoginForm(props) {
-  return (
-    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
-      <DialogTitle style={{
-        textAlign: 'center'
-      }}>
-        <img alt="Isep Live" src="svg/iseplive.svg" style={{
-          height: '200px'
-        }}/>
-      </DialogTitle>
-      <DialogContent>
-        <TextField type="text" label="Nom d'utilisateur" fullWidth onChange={(e) => props.onChange('username', e)} />
-        <TextField type="password" label="Mot de passe" fullWidth onChange={(e) => props.onChange('password', e)}/>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={props.handleRequestClose} color="primary">
-          Mot de passe oublié
-        </Button>
-        <Button onClick={props.onConnexion} color="accent">
-          Connexion
-        </Button>
-      </DialogActions>
-    </Dialog>
-  )
 }

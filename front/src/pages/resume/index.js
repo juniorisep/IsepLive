@@ -24,7 +24,7 @@ const Person = (props) => {
   `;
   return (
     <PersonStyle>
-      <img src={props.url} alt="person-image"/>
+      <img src={props.url} alt="person"/>
     </PersonStyle>
   )
 }

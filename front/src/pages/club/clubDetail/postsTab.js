@@ -17,7 +17,7 @@ import PostList from '../../../components/PostList';
 export default function PostsTab(props) {
   return (
     <div>
-      {props.posts.length == 0 && <Flex><Text>Aucun posts</Text></Flex>}
+      {props.posts.length === 0 && <Flex><Text>Aucun posts</Text></Flex>}
       <PostList posts={props.posts} />
     </div>
   );

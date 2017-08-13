@@ -27,7 +27,8 @@ export const MediaDialog = (props) => (
   <Dialog
     open={props.open}
     transition={Slide}
-    onRequestClose={props.handleRequestClose}>
+    onRequestClose={props.handleRequestClose}
+  >
     <DialogTitle>{props.title}</DialogTitle>
     <DialogContent>
       {props.children}
@@ -59,40 +60,40 @@ export function MediaCreator(props) {
         </Flex>
         {props.children}
       </MediaCreatorWrap>
-    )
-  }
+    );
+  };
   return null;
-}
+};
 
 export class PollForm extends Component {
   state = {
     title: '',
     answers: [],
-  }
+  };
 
   addAnswer = () => {
     const {answers} = this.state;
     this.setState({answers: [...answers, '']});
-  }
+  };
 
   deleteAnswer = (index) => {
     const {answers} = this.state;
     answers.splice(index, 1);
     this.setState({answers});
     this.props.update(this.state);
-  }
+  };
 
   changeAnswer = (event, index) => {
     const {answers} = this.state;
     answers[index] = event.target.value;
     this.setState({answers});
     this.props.update(this.state);
-  }
+  };
 
   changeQues = (event) => {
     this.setState({title: event.target.value});
     this.props.update(this.state);
-  }
+  };
 
   render() {
     const {answers} = this.state;
@@ -106,7 +107,8 @@ export class PollForm extends Component {
                 <TextField
                   fullWidth
                   label={`Réponse ${index + 1}`}
-                  onChange={(e) => this.changeAnswer(e, index)} />
+                  onChange={(e) => this.changeAnswer(e, index)}
+                />
               </Box>
               <Box mb="-15px">
                 <IconButton onClick={() => this.deleteAnswer(index)}>
@@ -119,5 +121,5 @@ export class PollForm extends Component {
         <Button color="accent" onClick={this.addAnswer}>Ajouter une réponse</Button>
       </FormWrapper>
     );
-  }
-}
+  };
+};

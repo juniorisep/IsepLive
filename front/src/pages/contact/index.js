@@ -21,7 +21,7 @@ class Contact extends Component {
         <FluidContent></FluidContent>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Contact;

@@ -13,6 +13,7 @@ class Club extends Component {
   state = {
     open: false
   };
+
   handleRequestClose = () => {
     this.setState({open: false});
   };
@@ -80,7 +81,7 @@ class Club extends Component {
         </Paper>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Club;

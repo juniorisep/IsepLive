@@ -59,8 +59,8 @@ function SendAs(props) {
       <Box mr="10px"><ProfileImage w="20px" src={author && author.image} /></Box>
       <Box><Text color={props.c || 'white'} m="0">{author && author.name}</Text></Box>
     </Flex>
-  )
-}
+  );
+};
 
 class PublishBoxView extends Component {
 
@@ -74,7 +74,7 @@ class PublishBoxView extends Component {
     authorList: [],
     mediaCreatorOpen: false,
     form: null,
-  }
+  };
 
   componentDidMount() {
     if (authData.isLoggedIn()) {
@@ -85,28 +85,27 @@ class PublishBoxView extends Component {
             name: a.authorType === 'student' ? 'Moi' : a.name,
             image: a.authorType === 'club' ? a.logoUrl : a.photoUrl,
             type: a.authorType,
-          }
-        })
+          };
+        });
         this.setState({authorList: authors, author: authors[0]});
-      })
-    }
-  }
+      });
+    };
+  };
 
   onTitleChange = (event) => {
     this.setState({title: event.target.value});
-  }
+  };
 
   onMessageChange = (event) => {
     this.setState({message: event.target.value});
-  }
+  };
 
   onPublish = () => {
-
     const dto: PostDTO = {
       authorId: this.state.author.id,
       content: this.state.message,
       title: this.state.title
-    }
+    };
     let postId;
     postData.createPost(dto)
       .then(res => {
@@ -127,19 +126,17 @@ class PublishBoxView extends Component {
           .then(this.closeMediaCreator)
           .then(this.props.refreshPosts);
         return;
-      }
+      };
       this.props.refreshPosts();
-    })
-
-
-  }
+    });
+  };
 
   createMedia = () => {
     switch (this.state.mediaSelected) {
       case 'poll':
         return pollData.createPoll(this.state.form);
-    }
-  }
+    };
+  };
 
   handleMediaSelect = (item) => {
     switch (item) {
@@ -148,56 +145,56 @@ class PublishBoxView extends Component {
       case 'file':
         this.inputFile.click();
         break;
-    }
+    };
     this.setState({mediaSelected: item, mediaCreatorOpen: true});
     this.handleMediaMenuClose();
-  }
+  };
 
   handleMediaMenuClose = () => {
     this.setState({mediaMenuOpen: false});
-  }
+  };
 
   openMediaMenu = (event) => {
     this.setState({mediaMenuOpen: true, anchorEl: event.currentTarget});
-  }
+  };
 
   handleAuthorMenuClose = () => {
     this.setState({authorMenuOpen: false});
-  }
+  };
 
   handleAuthorSelect = (author) => {
     this.setState({
       title: null, message: '',
       author, authorMenuOpen: false
     });
-  }
+  };
 
 
   changeAuthor = (event) => {
     this.setState({authorMenuOpen: true, anchorEl: event.currentTarget});
-  }
+  };
 
   closeMediaCreator = () => {
     this.setState({mediaCreatorOpen: false, form: null, mediaSelected: null});
-  }
+  };
 
   onFormChange = (form) => {
     this.setState({form});
-  }
+  };
 
   canPublish() {
     const {author, title, message} = this.state;
     if (author && author.type === 'club') {
       if (title && message && title !== '' && message !== '') {
         return true;
-      }
+      };
     } else {
       if (message && message !== '') {
         return true
-      }
-    }
+      };
+    };
     return false;
-  }
+  };
 
   render() {
     const {author} = this.state;
@@ -211,12 +208,14 @@ class PublishBoxView extends Component {
               placeholder="Titre"
               m="15px"
               onChange={this.onTitleChange}
-              value={this.state.title} />
+              value={this.state.title}
+            />
           }
           <MessageBox
             placeholder="Tapez votre message"
             onChange={this.onMessageChange}
-            value={this.state.message} />
+            value={this.state.message}
+          />
           <Flex align="center">
             <Box>
               <IconButton color="contrast" onClick={this.openMediaMenu}>
@@ -232,7 +231,6 @@ class PublishBoxView extends Component {
               <Button raised color="accent" style={{float: "right"}} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
             </Box>
           </Flex>
-
           <input
             id="file"
             type="file"
@@ -240,7 +238,7 @@ class PublishBoxView extends Component {
             accept="jpg,jpeg,JPG,JPEG"
             multiple
             style={{display: 'none'}}
-           />
+          />
           <Menu
             anchorEl={this.state.anchorEl}
             open={this.state.authorMenuOpen}
@@ -284,7 +282,7 @@ class PublishBoxView extends Component {
         </MediaCreator>
       </div>
     );
-  }
-}
+  };
+};
 
 export default PublishBoxView;

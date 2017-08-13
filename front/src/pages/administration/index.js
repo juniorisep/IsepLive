@@ -30,8 +30,7 @@ class Admin extends Component {
       <div>
         <FluidContent>
           <Paper>
-            <Tabs index={this.state.index} onChange={this.handleChange} indicatorColor="primary" textColor="primary"
-                  centered>
+            <Tabs index={this.state.index} onChange={this.handleChange} indicatorColor="primary" textColor="primary" centered>
               <Tab label="Utilisateurs" />
               <Tab label="Associations" />
               <Tab label="ISEP D'OR" />
@@ -49,7 +48,7 @@ class Admin extends Component {
         </FluidContent>
       </div>
     );
-  }
+  };
 };
 
 export default Admin;

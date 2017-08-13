@@ -3,14 +3,14 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 
-const Controls = styled.div `
+const Controls = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
   background: white;
 `;
 
-const Wrapper = styled.div `
+const Wrapper = styled.div`
   position: relative;
   width: 100%;
   video {
@@ -25,13 +25,13 @@ const Wrapper = styled.div `
   }
 `;
 
-const PlayPause = styled.div `
+const PlayPause = styled.div`
   width: 20px;
   height: 20px;
   background: red;
 `;
 
-const ProgressBar = styled.div `
+const ProgressBar = styled.div`
   border-radius: 20px;
   height: 20px;
   background: red;
@@ -43,7 +43,7 @@ class Video extends Component {
     isPlaying: false,
     vidLenght: 0,
     currentTime: 0
-  }
+  };
 
   componentDidMount() {
     if (this.video.canPlayType) {
@@ -55,8 +55,8 @@ class Video extends Component {
       this.video.addEventListener('timeupdate', () => {
         this.setState({currentTime: this.video.currentTime});
       });
-    }
-  }
+    };
+  };
 
   togglePlay = () => {
     if (this.video.paused || this.video.ended) {
@@ -65,14 +65,14 @@ class Video extends Component {
     } else {
       this.setState({isPlaying: false});
       this.video.pause();
-    }
-  }
+    };
+  };
 
   render() {
     const props = this.props;
     const progressStyle = {
       width: ((this.state.currentTime / this.state.vidLenght) * 100) + '%'
-    }
+    };
     return (
       <Wrapper>
         <video poster={props.poster} ref={(v) => this.video = v} controls preload="metadata">
@@ -89,7 +89,7 @@ class Video extends Component {
         </Controls>
       </Wrapper>
     );
-  }
-}
+  };
+};
 
 export default Video;

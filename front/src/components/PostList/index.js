@@ -30,7 +30,6 @@ const Post = styled.li`
   }
 `;
 
-
 const PostContent = styled.div`
   height: 100%;
   position: relative;
@@ -84,7 +83,6 @@ const FavoriteAction = styled(Favorite)`
   width: 15px !important;
 `;
 
-
 function PostTitleView({post}) {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
   if (post.author.authorType === 'student') {
@@ -96,8 +94,8 @@ function PostTitleView({post}) {
           <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
         </Box>
       </Flex>
-    )
-  }
+    );
+  };
   return (
     <Flex mb="10px">
       <Box>
@@ -111,8 +109,8 @@ function PostTitleView({post}) {
         <Author data={post.author} />
       </Box>
     </Flex>
-  )
-}
+  );
+};
 
 function PostTextView({post, handleLike}) {
   return (
@@ -124,16 +122,16 @@ function PostTextView({post, handleLike}) {
         <Button dense color="accent" onClick={() => handleLike(post)}>{post.nbLikes} j'aime</Button>
       </PostActions>
     </PostText>
-  )
-}
+  );
+};
 
 function PostTextContent(props) {
   return (
     <div>
       {props.content.split('\n').map((par, i) => <Text key={i} mb={2}>{par}</Text>)}
     </div>
-  )
-}
+  );
+};
 
 export default function PostListView(props) {
   return (
@@ -158,15 +156,14 @@ export default function PostListView(props) {
                       </PostText>
                     </Box>
                   </Post>
-                )
+                );
               case 'videoEmbed':
                 return (
                   <Post key={p.id} invert={invert}>
                     <Box w={[1, 1 / 2]}>
                       <PostContent bg>
                         <IframeWrap>
-                          <iframe src={p.media.url}
-                                  scrolling="no" allowTransparency allowFullScreen></iframe>
+                          <iframe src={p.media.url} scrolling="no" allowTransparency allowFullScreen></iframe>
                         </IframeWrap>
                       </PostContent>
                     </Box>
@@ -174,8 +171,8 @@ export default function PostListView(props) {
                       <PostTextView post={p} handleLike={props.handleLike} />
                     </Box>
                   </Post>
-                )
-            }
+                );
+            };
           } else {
             return (
               <Post key={p.id} invert={invert}>
@@ -183,10 +180,10 @@ export default function PostListView(props) {
                   <PostTextView post={p} handleLike={props.handleLike} />
                 </Box>
               </Post>
-            )
-          }
+            );
+          };
         })
       }
     </PostList>
-  )
-}
+  );
+};

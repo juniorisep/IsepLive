@@ -8,7 +8,7 @@ import {Box, Flex} from 'grid-styled';
 import {ProfileImage, Text,} from '../../../components/common';
 
 const Member = (props) => {
-  const MemberStyle = styled.div `
+  const MemberStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     > div {
       padding: 10px;
@@ -37,8 +37,8 @@ const Member = (props) => {
         <p className="role">{props.role}</p>
       </div>
     </MemberStyle>
-  )
-}
+  );
+};
 
 export default function MembersTab(props) {
   return (
@@ -53,7 +53,8 @@ export default function MembersTab(props) {
                   url={m.member.photoUrl}
                   name={m.member.firstname + ' ' + m.member.lastname}
                   role={m.role.name}
-                  promotion={m.member.promo} />
+                  promotion={m.member.promo}
+                />
               </Box>
             )
           })
@@ -61,4 +62,4 @@ export default function MembersTab(props) {
       </Flex>
     </div>
   );
-}
+};

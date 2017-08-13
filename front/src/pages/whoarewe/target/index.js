@@ -9,7 +9,7 @@ class Target extends Component {
         <h1>Nos objectifs</h1>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Target;

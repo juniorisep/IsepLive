@@ -19,20 +19,20 @@ class ClubDetail extends Component {
     website: '',
     members: [],
     posts: [],
-  }
+  };
 
   componentDidMount() {
     this.requestClubDetail();
     this.loadMembers();
-  }
+  };
 
   requestClubDetail() {
     clubData.getClub(this.state.id)
       .then(res => {
         const {logoUrl, description, name, website} = res.data;
         this.setState({logoUrl, description, name, website});
-      })
-  }
+      });
+  };
 
   handleChangeTab = (event, index) => {
     this.setState({tabIndex: index});
@@ -41,22 +41,22 @@ class ClubDetail extends Component {
         return this.loadMembers();
       case 1:
         return this.loadPosts();
-    }
-  }
+    };
+  };
 
   loadMembers = () => {
     clubData.getMembers(this.state.id)
       .then(res => {
         this.setState({members: res.data});
-      })
-  }
+      });
+  };
 
   loadPosts = () => {
     clubData.getPosts(this.state.id)
       .then(res => {
         this.setState({posts: res.data});
-      })
-  }
+      });
+  };
 
   renderTab = () => {
     switch (this.state.tabIndex) {
@@ -64,8 +64,8 @@ class ClubDetail extends Component {
         return <MembersTab members={this.state.members} />;
       case 1:
         return <PostsTab posts={this.state.posts} />;
-    }
-  }
+    };
+  };
 
   render() {
     return (
@@ -73,9 +73,9 @@ class ClubDetail extends Component {
         {...this.state}
         changeTab={this.handleChangeTab}
         renderTab={this.renderTab}
-       />
+      />
     );
-  }
-}
+  };
+};
 
 export default ClubDetail;

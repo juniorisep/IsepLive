@@ -11,7 +11,7 @@ let id = 0;
 function createData(name, promotion, association) {
   id += 1;
   return {id, name, promotion, association};
-}
+};
 
 const data = [
   createData('Victor ELY', 2018, 'Junior ISEP'),
@@ -63,7 +63,7 @@ class Users extends Component {
         </Table>
       </Paper>
     );
-  }
-}
+  };
+};
 
 export default Users;

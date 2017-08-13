@@ -9,7 +9,7 @@ class HallOfFame extends Component {
         <h1>All of Fame</h1>
       </div>
     );
-  }
-}
+  };
+};
 
 export default HallOfFame;

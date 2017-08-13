@@ -64,7 +64,7 @@ class Whoarewe extends Component {
         <FluidContent></FluidContent>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Whoarewe;

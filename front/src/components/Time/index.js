@@ -15,8 +15,8 @@ export default function Time(props: {
     const {date, format} = props;
     let datetime = moment(date);
     return datetime.format(format);
-  }
+  };
   const datetime = formatDate();
 
   return <time dateTime={datetime}>{datetime}</time>
-}
+};

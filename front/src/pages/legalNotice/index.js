@@ -21,7 +21,7 @@ class LegalNotice extends Component {
         <FluidContent></FluidContent>
       </div>
     );
-  }
-}
+  };
+};
 
 export default LegalNotice;

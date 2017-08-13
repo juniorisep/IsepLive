@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 
 import {Image, ProfileImage} from '../common';
 
-const Sub = styled.div `
+const Sub = styled.div`
   font-size: 15px;
   color: ${props => props.theme.main};
   text-align: right;
@@ -26,13 +26,13 @@ export default function Author(props) {
             <Sub>{a.name}</Sub>
           </Flex>
         </Link>
-      )
+      );
     case 'student':
       return (
         <Flex direction="column">
           <ProfileImage src={a.photoUrl} alt="logo-profile" w="40px" ml="auto" />
           <Sub>{a.firstname}<br />{a.lastname}</Sub>
         </Flex>
-      )
-  }
-}
+      );
+  };
+};

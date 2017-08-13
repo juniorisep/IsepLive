@@ -30,5 +30,5 @@ export default function LoginForm(props) {
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};

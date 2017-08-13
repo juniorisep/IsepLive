@@ -7,7 +7,7 @@ import {hasRole} from "../../data/auth";
 type Props = {
   component: React.ReactClass<*>,
   [key: string]: any, // allow any props
-}
+};
 
 const AuthenticatedRoute = ({
     component: Component,

@@ -8,7 +8,7 @@ import {ProfileImage,} from '../common';
 import * as userData from '../../data/users/student';
 
 
-const Profile = styled.div `
+const Profile = styled.div`
   display: flex;
   padding: 5px;
   border-radius: 5px;
@@ -46,14 +46,14 @@ class ProfileMenu extends Component {
     photoUrl: '',
     firstname: '',
     lastname: ''
-  }
+  };
 
   componentDidMount() {
     userData.getLoggedUser().then(res => {
       const {photoUrl, firstname, lastname} = res.data;
       this.setState({photoUrl, firstname, lastname});
-    })
-  }
+    });
+  };
 
   render() {
     const {photoUrl, firstname, lastname} = this.state;
@@ -66,7 +66,7 @@ class ProfileMenu extends Component {
         </div>
       </Profile>
     );
-  }
-}
+  };
+};
 
 export default ProfileMenu;

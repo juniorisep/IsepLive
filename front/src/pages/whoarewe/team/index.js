@@ -9,7 +9,7 @@ class Team extends Component {
         <h1>Notre équipe</h1>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Team;

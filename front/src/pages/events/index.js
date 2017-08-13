@@ -6,13 +6,13 @@ import {Box, Flex} from 'grid-styled';
 import {Banner, Filler, FluidContent, Header, SearchBar} from '../../components/common';
 import Button from 'material-ui/Button';
 
-const EventsList = styled.ul `
+const EventsList = styled.ul`
   padding: 0;
   margin: 20px 0;
 `;
 
 const Event = (props) => {
-  const EventStyle = styled.li `
+  const EventStyle = styled.li`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     > ${Flex} > ${Box} {
@@ -62,8 +62,8 @@ const Event = (props) => {
         </Box>
       </Flex>
     </EventStyle>
-  )
-}
+  );
+};
 
 class Events extends Component {
   render() {
@@ -97,7 +97,7 @@ class Events extends Component {
         </FluidContent>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Events;

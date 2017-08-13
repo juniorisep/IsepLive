@@ -14,7 +14,6 @@ const Explore = styled(ExploreAction)`
   margin-right: 10px;
 `;
 
-
 const Button = styled(MUIButton)`
   margin-top: ${props => props.mt || '0'};
 `;
@@ -49,5 +48,5 @@ export default function ClubDetailView(props) {
         {props.renderTab()}
       </FluidContent>
     </div>
-  )
-}
+  );
+};

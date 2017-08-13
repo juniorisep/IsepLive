@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {Banner, Filler, FluidContent, Header, Image, SearchBar} from '../../components/common';
 
 const ClubTile = (props) => {
-  const ClubStyle = styled.div `
+  const ClubStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     > img {
       width: 100%;
@@ -26,8 +26,8 @@ const ClubTile = (props) => {
       <Image src={props.url} mb="5px" />
       <p>{props.name}</p>
     </ClubStyle>
-  )
-}
+  );
+};
 
 class Club extends Component {
   render() {
@@ -60,7 +60,7 @@ class Club extends Component {
         </FluidContent>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Club;

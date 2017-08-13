@@ -17,7 +17,7 @@ import PublishBoxView from './publishBox';
   justify-content: space-between;
 `; */
 
-const FakeIcon = styled.div `
+const FakeIcon = styled.div`
   margin: 0 auto;
   width: 100px;
   height: 100px;
@@ -26,7 +26,7 @@ const FakeIcon = styled.div `
   border-radius: 100px;
 `;
 
-const Icon = styled.img `
+const Icon = styled.img`
   display: block;
   margin: 0 auto;
   width: 100px;
@@ -34,7 +34,7 @@ const Icon = styled.img `
   margin-bottom: 10px;
 `;
 
-const IconName = styled.h3 `
+const IconName = styled.h3`
   text-align: center;
   margin: 0;
   margin-bottom: 10px;
@@ -49,7 +49,7 @@ const Background = styled.div`
   background-position: center;
   position: relative;
 `;
-const Overlay = styled.div `
+const Overlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -174,4 +174,4 @@ export default function Home(props) {
       </FluidContent> */}
     </div>
   );
-}
+};

@@ -7,7 +7,7 @@ import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from '../
 import Button from 'material-ui/Button';
 
 const Person = (props) => {
-  const PersonStyle = styled.div `
+  const PersonStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     > div {
       padding: 10px;
@@ -29,8 +29,8 @@ const Person = (props) => {
         <p>Promo {props.promotion}</p>
       </div>
     </PersonStyle>
-  )
-}
+  );
+};
 
 class AddressBook extends Component {
   render() {
@@ -84,7 +84,7 @@ class AddressBook extends Component {
         </FluidContent>
       </div>
     );
-  }
-}
+  };
+};
 
 export default AddressBook;

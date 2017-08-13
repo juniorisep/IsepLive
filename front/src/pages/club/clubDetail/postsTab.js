@@ -15,5 +15,4 @@ export default function PostsTab(props) {
       <PostList posts={props.posts} />
     </div>
   );
-
-}
+};

@@ -43,7 +43,7 @@ class Poll extends Component {
     voted: false,
     answer: null,
     data: this.props.data,
-  }
+  };
 
   componentDidMount() {
     if (!authData.isLoggedIn()) {
@@ -52,10 +52,10 @@ class Poll extends Component {
       pollData.getVote(this.state.data.id).then(res => {
         if (res.data) {
           this.setState({voted: true, answer: res.data.answer});
-        }
-      })
-    }
-  }
+        };
+      });
+    };
+  };
 
   handleVote = (ans) => {
     if (!this.state.voted) {
@@ -63,15 +63,15 @@ class Poll extends Component {
       pollData.vote(this.state.data.id, ans.id).then(res => {
         pollData.getPoll(this.props.data.id).then(res => {
           this.setState({data: res.data});
-        })
+        });
       });
-    }
-  }
+    };
+  };
 
   getTotal() {
     const poll = this.state.data;
     return poll.answers.reduce((acc, x) => acc + x.votesNb, 0);
-  }
+  };
 
   render() {
     const poll = this.state.data;
@@ -98,19 +98,19 @@ class Poll extends Component {
         </Main>
       </Wrapper>
     );
-  }
-}
+  };
+};
 
 export default Poll;
 
-const AnswerStyle = styled.div `
+const AnswerStyle = styled.div`
   position: relative;
   background: rgba(63, 81, 181, 0.43);
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
 
-  ${props => !props.voted && `
+  ${props => !props.voted &&`
     &:hover {
       background: rgba(63, 81, 181, 0.7);
       color: white;
@@ -119,7 +119,7 @@ const AnswerStyle = styled.div `
   `}
 `;
 
-const AnswerText = styled.div `
+const AnswerText = styled.div`
   padding: 10px 15px;
   color: ${props => props.vote
   ? props.theme.accent
@@ -128,7 +128,7 @@ const AnswerText = styled.div `
   z-index: 1;
 `;
 
-const AnswerBar = styled.div `
+const AnswerBar = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -158,5 +158,5 @@ function Answer(props) {
           : 0) + '%'
       }} />
     </AnswerStyle>
-  )
-}
+  );
+};

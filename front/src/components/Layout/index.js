@@ -28,7 +28,7 @@ import ClubDetail from '../../pages/club/clubDetail';
 import Events from '../../pages/events';
 import NotFound from '../../pages/404';
 import Resume from '../../pages/resume';
-import Whoarewe from '../../pages/whoArewe';
+import Whoarewe from '../../pages/whoAreWe';
 import Admin from '../../pages/administration';
 import Contact from '../../pages/contact';
 import Help from '../../pages/help';
@@ -41,15 +41,15 @@ import {FluidContent} from '../common';
 import * as authData from '../../data/auth';
 
 import Profile from './profile';
-import LoginForm from '../LoginForm'
+import LoginForm from '../LoginForm';
 
-const Logo = styled.img `
+const Logo = styled.img`
   height: 50px;
   margin-right: 20px;
   cursor: pointer;
 `;
 
-const Footer = styled.footer `
+const Footer = styled.footer`
   background: ${MAIN_COLOR};
   padding: 20px;
   color: white;
@@ -59,7 +59,7 @@ const Footer = styled.footer `
   }
 `;
 
-const LinksBar = styled.div `
+const LinksBar = styled.div`
   background: ${SECONDARY_COLOR};
   color: white;
   padding: 10px 0;
@@ -71,7 +71,7 @@ const LinksBar = styled.div `
   }
 `;
 
-const NavMenu = styled.div `
+const NavMenu = styled.div`
   flex: 1 1 auto;
   > div {
     display: flex;
@@ -91,7 +91,7 @@ const NavMenu = styled.div `
     display: none;
   }
 `;
-const SocialBox = styled.div `
+const SocialBox = styled.div`
   width: 100%;
   text-align: center;
   > h2 {
@@ -122,8 +122,8 @@ function Nav(props) {
         color: SECONDARY_COLOR
       }}>{props.children}</Button>
     </div>
-  )
-}
+  );
+};
 
 function SideNav(props) {
   return (
@@ -132,8 +132,8 @@ function SideNav(props) {
         <ListItemText primary={props.children} />
       </ListItem>
     </NavLink>
-  )
-}
+  );
+};
 
 const navList = (Component) => (
   <div>
@@ -144,7 +144,7 @@ const navList = (Component) => (
     <Component to="/evenements">Evenements</Component>
     <Component to="/whoarewe">Qui sommes-nous ?</Component>
   </div>
-)
+);
 
 class Layout extends React.Component {
 
@@ -153,13 +153,13 @@ class Layout extends React.Component {
     anchorEl: undefined,
     open: false,
     connexionOpen: false
-  }
+  };
 
   Profile = undefined;
 
   handleSideBarClose = () => {
     this.setState({sidebarOpen: false});
-  }
+  };
 
   handleClick = event => {
     this.setState({open: true, anchorEl: event.currentTarget});
@@ -173,7 +173,7 @@ class Layout extends React.Component {
   handleDisconnect = () => {
     authData.logout();
     this.setState({open: false});
-  }
+  };
 
   handleConnect = () => {
     const {username, password} = this.state;
@@ -181,8 +181,8 @@ class Layout extends React.Component {
       this.handleRequestClose();
     }).catch(err => {
       alert('wooops')
-    })
-  }
+    });
+  };
 
   render() {
     const props = this.props;
@@ -198,15 +198,14 @@ class Layout extends React.Component {
             <NavMenu>
               {navList(Nav)}
             </NavMenu>
-
             <Auth roles={['ROLE_USER']}>
               <Profile onClick={this.handleClick} />
               <Menu id="simple-menu"
-                    anchorEl={this.state.anchorEl}
-                    open={this.state.open}
-                    onRequestClose={this.handleRequestClose}>
-                <MenuItem onClick={this.handleRequestClose} component={NavLink}
-                          to="/administration">Administration</MenuItem>
+                anchorEl={this.state.anchorEl}
+                open={this.state.open}
+                onRequestClose={this.handleRequestClose}
+              >
+                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
                 <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
                 <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
               </Menu>
@@ -214,9 +213,10 @@ class Layout extends React.Component {
             <Auth not>
               <Button color="contrast" onClick={this.handleClick}>Menu</Button>
               <Menu id="simple-menu"
-                    anchorEl={this.state.anchorEl}
-                    open={this.state.open}
-                    onRequestClose={this.handleRequestClose}>
+                anchorEl={this.state.anchorEl}
+                open={this.state.open}
+                onRequestClose={this.handleRequestClose}
+              >
                 <MenuItem onClick={() => this.setState({connexionOpen: true})}>Se connecter</MenuItem>
                 <MenuItem component={NavLink} to="/connexion">Accueil</MenuItem>
               </Menu>
@@ -230,8 +230,7 @@ class Layout extends React.Component {
           </Toolbar>
         </AppBar>
         {window.innerWidth < 1009 &&
-        <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose}
-                onClick={this.handleSideBarClose}>
+        <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>
           {navList(SideNav)}
         </Drawer>
         }
@@ -268,20 +267,16 @@ class Layout extends React.Component {
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
                   <Flex>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank"
-                         rel="noopener noreferrer"><img src="/svg/facebook.svg" alt="Facebook logo" /></a>
+                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/svg/facebook.svg" alt="Facebook logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img
-                        src="/svg/twitter.svg" alt="Twitter logo" /></a>
+                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="/svg/twitter.svg" alt="Twitter logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img
-                        src="/svg/instagram.svg" alt="Instagram logo" /></a>
+                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="/svg/instagram.svg" alt="Instagram logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/svg/snapchat.svg"
-                                                                                alt="Snapchat logo" /></a>
+                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/svg/snapchat.svg" alt="Snapchat logo" /></a>
                     </Box>
                   </Flex>
                 </SocialBox>
@@ -291,16 +286,13 @@ class Layout extends React.Component {
                   <h2>Partenaires</h2>
                   <Flex>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img
-                        src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%" /></a>
+                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img
-                        src="/img/partenaires/alten.png" alt="Alten logo" /></a>
+                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/alten.png" alt="Alten logo" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank"
-                         rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo" /></a>
+                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo" /></a>
                     </Box>
                   </Flex>
                 </SocialBox>
@@ -328,8 +320,8 @@ class Layout extends React.Component {
         </LinksBar>
       </div>
     );
-  }
-}
+  };
+};
 
 Layout.propTypes = {
   classes: PropTypes.object.isRequired

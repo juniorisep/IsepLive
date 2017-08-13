@@ -16,7 +16,7 @@ import {Box, Flex} from 'grid-styled';
 import {Banner, Filler, FluidContent, Header, SearchBar} from '../../components/common';
 
 const Person = (props) => {
-  const PersonStyle = styled.div `
+  const PersonStyle = styled.div`
     > img {
       box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
       width: 100%;
@@ -26,8 +26,8 @@ const Person = (props) => {
     <PersonStyle>
       <img src={props.url} alt="person" />
     </PersonStyle>
-  )
-}
+  );
+};
 
 class Resume extends Component {
   state = {
@@ -150,8 +150,8 @@ class Resume extends Component {
         </FluidContent>
       </div>
     );
-  }
-}
+  };
+};
 
 function UpdateResume(props) {
   return (
@@ -175,7 +175,7 @@ function UpdateResume(props) {
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
 export default Resume;

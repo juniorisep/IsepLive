@@ -13,7 +13,7 @@ import {Banner, Filler, FluidContent, Header, SearchBar, Separator} from '../../
 import Gallery from '../../components/Gallery';
 
 const Album = (props) => {
-  const AlbumStyle = styled.div `
+  const AlbumStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     div.image {
@@ -34,11 +34,11 @@ const Album = (props) => {
       <div className="image"></div>
       <div className="caption">{props.text}</div>
     </AlbumStyle>
-  )
+  );
 };
 
 const DateSeparator = (props) => {
-  const Title = styled.h2 `
+  const Title = styled.h2`
     margin-right: 20px;
     color: ${props => props.theme.main};
   `;
@@ -51,8 +51,8 @@ const DateSeparator = (props) => {
         <Separator m="0" />
       </Box>
     </Flex>
-  )
-}
+  );
+};
 
 class Media extends Component {
   state = {
@@ -60,13 +60,13 @@ class Media extends Component {
     photos: true,
     videos: false,
     gazettes: false
-  }
+  };
 
   toggleGallerie = () => {
     this.setState({
       showGallerie: !this.state.showGallerie
-    })
-  }
+    });
+  };
 
   handleChange = name => (event, checked) => {
     this.setState({[name]: checked});
@@ -96,21 +96,21 @@ class Media extends Component {
               <FormControlLabel control={< Switch checked={
                 this.state.photos
               }
-                                                  onChange={
-                                                    this.handleChange('photos')
-                                                  } />} label="Photos" />
+                onChange={
+                  this.handleChange('photos')
+                } />} label="Photos" />
               <FormControlLabel control={< Switch checked={
                 this.state.videos
               }
-                                                  onChange={
-                                                    this.handleChange('videos')
-                                                  } />} label="Vidéos" />
+                onChange={
+                  this.handleChange('videos')
+                } />} label="Vidéos" />
               <FormControlLabel control={< Switch checked={
                 this.state.gazettes
               }
-                                                  onChange={
-                                                    this.handleChange('gazettes')
-                                                  } />} label="Gazettes" />
+                onChange={
+                  this.handleChange('gazettes')
+                } />} label="Gazettes" />
             </Box>
             <Box ml="auto">
               <Button color="primary" raised>Modifier l'affichage</Button>
@@ -144,7 +144,7 @@ class Media extends Component {
         <Gallery visible={this.state.showGallerie} onEscKey={this.toggleGallerie} />
       </div>
     );
-  }
-}
+  };
+};
 
 export default Media;

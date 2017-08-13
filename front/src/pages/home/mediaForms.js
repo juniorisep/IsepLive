@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {Box, Flex} from 'grid-styled';
 
-import {Title,} from 'components/common';
+import {Title} from 'components/common';
 
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';

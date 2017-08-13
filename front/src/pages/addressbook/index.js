@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 
 import AddressBookView from './view';
 
-import * as studentData from '../../data/users/student';
+import * as studentData from 'data/users/student';
 
 class AddressBook extends Component {
 

@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
-import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'components/common';
 import Button from 'material-ui/Button';
 
 const Person = (props) => {

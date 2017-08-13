@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 import {Link} from 'react-router-dom';
-import {Banner, Filler, FluidContent, Header, Image, SearchBar} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, Image, SearchBar} from 'components/common';
 
 const ClubTile = (props) => {
   const ClubStyle = styled.div`

@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 
-import {Banner, Filler, FluidContent, Header, SearchBar} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
 
 import Paper from 'material-ui/Paper';
 import Tabs, {Tab} from 'material-ui/Tabs';

@@ -9,14 +9,14 @@ import IconButton from 'material-ui/IconButton';
 import Menu, {MenuItem} from 'material-ui/Menu';
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 
-import * as postData from '../../data/post';
-import * as pollData from '../../data/media/poll';
-import * as authData from '../../data/auth';
-import {PostDTO} from '../../data/post/type';
+import * as postData from 'data/post';
+import * as pollData from 'data/media/poll';
+import * as authData from 'data/auth';
+import {PostDTO} from 'data/post/type';
 
 import {MediaCreator, PollForm} from './mediaForms';
 
-import {ProfileImage, Text,} from '../../components/common';
+import {ProfileImage, Text,} from 'components/common';
 
 const PublishBox = styled.div`
   background: ${props => props.theme.main};

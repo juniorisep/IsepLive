@@ -3,9 +3,9 @@
 import React from 'react';
 import {Flex} from 'grid-styled';
 
-import {Text,} from '../../../components/common';
+import {Text,} from 'components/common';
 
-import PostList from '../../../components/PostList';
+import PostList from 'components/PostList';
 
 
 export default function PostsTab(props) {

@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 
-import {hasRole, isLoggedIn} from "../../data/auth";
+import {hasRole, isLoggedIn} from "data/auth";
 
 class Auth extends Component {
   render() {

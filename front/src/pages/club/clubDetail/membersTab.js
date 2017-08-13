@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 
-import {ProfileImage, Text,} from '../../../components/common';
+import {ProfileImage, Text,} from 'components/common';
 
 const Member = (props) => {
   const MemberStyle = styled.div`

@@ -8,9 +8,9 @@ import Button from 'material-ui/Button';
 import {FormControlLabel} from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 
-import {Banner, Filler, FluidContent, Header, SearchBar, Separator} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, SearchBar, Separator} from 'components/common';
 
-import Gallery from '../../components/Gallery';
+import Gallery from 'components/Gallery';
 
 const Album = (props) => {
   const AlbumStyle = styled.div`

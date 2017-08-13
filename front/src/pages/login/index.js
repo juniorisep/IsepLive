@@ -8,11 +8,11 @@ import Button from 'material-ui/Button';
 
 import styled from 'styled-components';
 
-import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
+import {MAIN_COLOR, SECONDARY_COLOR} from 'colors';
 
-import * as authData from '../../data/auth';
+import * as authData from 'data/auth';
 
-import LoginForm from '../../components/LoginForm'
+import LoginForm from 'components/LoginForm'
 
 const Container = styled.div`
   display: flex;

@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 
 import ClubView from './view';
 
-import * as clubData from '../../data/club';
+import * as clubData from 'data/club';
 
 class Club extends Component {
 

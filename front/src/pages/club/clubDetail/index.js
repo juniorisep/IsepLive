@@ -6,7 +6,7 @@ import ClubDetailView from './view';
 import MembersTab from './membersTab';
 import PostsTab from './postsTab';
 
-import * as clubData from '../../../data/club';
+import * as clubData from 'data/club';
 
 class ClubDetail extends Component {
 

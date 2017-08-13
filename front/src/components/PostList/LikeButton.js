@@ -9,8 +9,8 @@ import { FormControlLabel } from 'material-ui/Form';
 import NotLiked from 'material-ui-icons/FavoriteBorder';
 import Liked from 'material-ui-icons/Favorite';
 
-import * as authData from '../../data/auth';
-import * as postData from '../../data/post';
+import * as authData from 'data/auth';
+import * as postData from 'data/post';
 
 
 const CustomCheckbox = styled(Checkbox)`

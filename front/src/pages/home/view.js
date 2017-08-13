@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 import Button from 'material-ui/Button';
 
-import {Filler, FluidContent, Header, SearchBar, Separator, Title,} from '../../components/common';
-import PostListView from '../../components/PostList';
-import Auth from '../../components/Auth/AuthComponent';
+import {Filler, FluidContent, Header, SearchBar, Separator, Title,} from 'components/common';
+import PostListView from 'components/PostList';
+import Auth from 'components/Auth/AuthComponent';
 
 import PublishBoxView from './publishBox';
 

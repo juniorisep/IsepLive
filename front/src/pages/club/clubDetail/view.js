@@ -8,7 +8,7 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import MUIButton from 'material-ui/Button';
 import ExploreAction from 'material-ui-icons/Explore';
 
-import {FluidContent, Image, ScrollToTopOnMount, Text, Title,} from '../../../components/common';
+import {FluidContent, Image, ScrollToTopOnMount, Text, Title,} from 'components/common';
 
 const Explore = styled(ExploreAction)`
   margin-right: 10px;

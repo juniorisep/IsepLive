@@ -17,28 +17,28 @@ import Menu, {MenuItem} from 'material-ui/Menu';
 import Drawer from 'material-ui/Drawer';
 import {ListItem, ListItemText} from 'material-ui/List';
 
-import Auth from '../../components/Auth/AuthComponent';
-import AuthenticatedRoute from '../../components/Auth/AuthenticatedRoute';
+import Auth from 'components/Auth/AuthComponent';
+import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
 
-import Home from '../../pages/home';
-import Media from '../../pages/media';
-import AddressBook from '../../pages/addressbook';
-import Club from '../../pages/club';
-import ClubDetail from '../../pages/club/clubDetail';
-import Events from '../../pages/events';
-import NotFound from '../../pages/404';
-import Resume from '../../pages/resume';
-import Whoarewe from '../../pages/whoAreWe';
-import Admin from '../../pages/administration';
-import Contact from '../../pages/contact';
-import Help from '../../pages/help';
-import LegalNotice from '../../pages/legalNotice';
-import UserAgreement from '../../pages/userAgreement';
+import Home from 'pages/home';
+import Media from 'pages/media';
+import AddressBook from 'pages/addressbook';
+import Club from 'pages/club';
+import ClubDetail from 'pages/club/clubDetail';
+import Events from 'pages/events';
+import NotFound from 'pages/404';
+import Resume from 'pages/resume';
+import Whoarewe from 'pages/whoAreWe';
+import Admin from 'pages/administration';
+import Contact from 'pages/contact';
+import Help from 'pages/help';
+import LegalNotice from 'pages/legalNotice';
+import UserAgreement from 'pages/userAgreement';
 
-import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
+import {MAIN_COLOR, SECONDARY_COLOR} from 'colors';
 import {FluidContent} from '../common';
 
-import * as authData from '../../data/auth';
+import * as authData from 'data/auth';
 
 import Profile from './profile';
 import LoginForm from '../LoginForm';

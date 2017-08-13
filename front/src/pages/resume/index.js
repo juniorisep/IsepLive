@@ -13,7 +13,7 @@ import TextField from 'material-ui/TextField';
 
 import {Box, Flex} from 'grid-styled';
 
-import {Banner, Filler, FluidContent, Header, SearchBar} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
 
 const Person = (props) => {
   const PersonStyle = styled.div`

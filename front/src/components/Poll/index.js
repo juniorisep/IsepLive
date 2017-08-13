@@ -3,8 +3,8 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 
-import * as pollData from '../../data/media/poll';
-import * as authData from '../../data/auth';
+import * as pollData from 'data/media/poll';
+import * as authData from 'data/auth';
 
 const Wrapper = styled.div`
   background: white;

@@ -13,6 +13,9 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import Menu, {MenuItem} from 'material-ui/Menu';
+import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
+import Slide from 'material-ui/transitions/Slide';
+import TextField from 'material-ui/TextField';
 
 import Drawer from 'material-ui/Drawer';
 import {ListItem, ListItemText} from 'material-ui/List';
@@ -150,7 +153,8 @@ class Layout extends React.Component {
   state = {
     sidebarOpen: false,
     anchorEl: undefined,
-    open: false
+    open: false,
+    openConnexion: false
   }
 
   Profile = undefined;
@@ -165,11 +169,21 @@ class Layout extends React.Component {
 
   handleRequestClose = () => {
     this.setState({open: false});
+    this.setState({openConnexion: false});
   };
 
   handleDisconnect = () => {
     authData.logout();
     this.setState({open: false});
+  }
+
+  handleConnect = () => {
+    const { username, password } = this.state;
+    authData.connect(username, password).then(res => {
+      this.handleRequestClose();
+    }).catch(err => {
+      alert('wooops')
+    })
   }
 
   render() {
@@ -199,7 +213,20 @@ class Layout extends React.Component {
               </Menu>
             </Auth>
             <Auth not>
-              <Button color="contrast" component={NavLink} to="/connexion">Accueil</Button>
+              <Button color="contrast" onClick={this.handleClick}>Menu</Button>
+              <Menu id="simple-menu"
+                anchorEl={this.state.anchorEl}
+                open={this.state.open}
+                onRequestClose={this.handleRequestClose} >
+                <MenuItem onClick={() => this.setState({openConnexion: true})}>Se connecter</MenuItem>
+                <MenuItem component={NavLink} to="/connexion">Accueil</MenuItem>
+              </Menu>
+              <LoginForm
+                open={this.state.openConnexion}
+                handleRequestClose={this.handleRequestClose}
+                onChange={this.handleLoginForm}
+                onConnexion={this.handleConnect}
+              />
             </Auth>
           </Toolbar>
         </AppBar>
@@ -294,6 +321,32 @@ class Layout extends React.Component {
       </div>
     );
   }
+}
+
+function LoginForm(props) {
+  return (
+    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+      <DialogTitle style={{
+        textAlign: 'center'
+      }}>
+        <img alt="Isep Live" src="/svg/iseplive.svg" style={{
+          height: '200px'
+        }}/>
+      </DialogTitle>
+      <DialogContent>
+        <TextField type="text" label="Nom d'utilisateur" fullWidth onChange={(e) => props.onChange('username', e)} />
+        <TextField type="password" label="Mot de passe" fullWidth onChange={(e) => props.onChange('password', e)}/>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={props.handleRequestClose} color="primary">
+          Mot de passe oublié
+        </Button>
+        <Button onClick={props.onConnexion} color="accent">
+          Connexion
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
 }
 
 Layout.propTypes = {

@@ -123,7 +123,7 @@ export default function Home(props) {
           </Auth>
           <PostSection>
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
-            <PostListView posts={props.posts} handleLike={props.handleLike} />
+            <PostListView posts={props.posts} />
             {
               !props.lastPage &&
               <Center>

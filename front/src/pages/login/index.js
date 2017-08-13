@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 
@@ -206,6 +206,10 @@ export default class Login extends Component {
   render() {
     return (
       <Container>
+        {
+          authData.isLoggedIn() &&
+          <Redirect to="/accueil" />
+        }
         <BackgroundContainer>
           <Background url="/img/background.jpg" /> {/* <Overlay  /> */}
         </BackgroundContainer>

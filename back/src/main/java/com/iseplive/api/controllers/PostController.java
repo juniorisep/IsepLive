@@ -23,72 +23,72 @@ import java.util.List;
 @RequestMapping("/post")
 public class PostController {
 
-  @Autowired
-  PostService postService;
+    @Autowired
+    PostService postService;
 
-  @GetMapping
-  public Page<PostView> getPosts(@RequestParam(defaultValue = "0") int page) {
-    return postService.getPosts(page);
-  }
+    @GetMapping
+    public Page<PostView> getPosts(@RequestParam(defaultValue = "0") int page) {
+        return postService.getPosts(page);
+    }
 
-  @PostMapping
-  public Post createPost(@RequestBody PostDTO post) {
-    return postService.createPost(post);
-  }
+    @PostMapping
+    public Post createPost(@RequestBody PostDTO post) {
+        return postService.createPost(post);
+    }
 
-  @GetMapping("/pinned")
-  public List<Post> getPinnedPosts() {
-    return postService.getPinnedPosts();
-  }
+    @GetMapping("/pinned")
+    public List<Post> getPinnedPosts() {
+        return postService.getPinnedPosts();
+    }
 
-  @GetMapping("/authors")
-  public List<Author> getAuthors(@AuthenticationPrincipal Long studentId) {
-    return postService.getAuthors(studentId);
-  }
+    @GetMapping("/authors")
+    public List<Author> getAuthors(@AuthenticationPrincipal Long studentId) {
+        return postService.getAuthors(studentId);
+    }
 
-  @GetMapping("/{id}")
-  public Post getPost(@PathVariable Long id) {
-    return postService.getPost(id);
-  }
+    @GetMapping("/{id}")
+    public Post getPost(@PathVariable Long id) {
+        return postService.getPost(id);
+    }
 
-  @PutMapping("/{id}/pinned/{pinned}")
-  public void updatePost(@PathVariable Long id, @PathVariable Boolean pinned) {
-    postService.setPinnedPost(id, pinned);
-  }
+    @PutMapping("/{id}/pinned/{pinned}")
+    public void updatePost(@PathVariable Long id, @PathVariable Boolean pinned) {
+        postService.setPinnedPost(id, pinned);
+    }
 
-  @DeleteMapping("/{id}")
-  public void deletePost(@PathVariable Long id) {
-    postService.deletePost(id);
-  }
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+    }
 
-  @GetMapping("/{id}/comment")
-  public List<Comment> getComments(@PathVariable Long id) {
-    return postService.getComments(id);
-  }
+    @GetMapping("/{id}/comment")
+    public List<Comment> getComments(@PathVariable Long id) {
+        return postService.getComments(id);
+    }
 
-  @PutMapping("/{id}/comment")
-  public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto) {
-    return postService.commentPost(id, dto, 1L);
-  }
+    @PutMapping("/{id}/comment")
+    public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto) {
+        return postService.commentPost(id, dto, 1L);
+    }
 
-  @PutMapping("/{id}/like")
-  public void likePost(@PathVariable Long id) {
-    postService.addPostLike(id);
-  }
+    @PutMapping("/{id}/like")
+    public void likePost(@PathVariable Long id) {
+        postService.togglePostLike(id);
+    }
 
-  @PutMapping("/{id}/comment/{comId}/like")
-  public void likeComment(@PathVariable Long comId) {
-    postService.addCommentLike(comId);
-  }
+    @PutMapping("/{id}/comment/{comId}/like")
+    public void likeComment(@PathVariable Long comId) {
+        postService.toggleCommentLike(comId);
+    }
 
-  @PutMapping("/{id}/state/{state}")
-  public void setPublishState(@PathVariable("id") Long id, @PathVariable("state") PublishStateEnum state) {
-    postService.setPublishState(id, state);
-  }
+    @PutMapping("/{id}/state/{state}")
+    public void setPublishState(@PathVariable("id") Long id, @PathVariable("state") PublishStateEnum state) {
+        postService.setPublishState(id, state);
+    }
 
-  @PutMapping("/{id}/embed/{media}")
-  public void addMediaEmbed(@PathVariable Long id, @PathVariable Long media) {
-    postService.addMediaEmbed(id, media);
-  }
+    @PutMapping("/{id}/embed/{media}")
+    public void addMediaEmbed(@PathVariable Long id, @PathVariable Long media) {
+        postService.addMediaEmbed(id, media);
+    }
 
 }

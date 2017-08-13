@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 
 import Button from 'material-ui/Button';
-import Favorite from 'material-ui-icons/Favorite';
+
+import LikeButton from './LikeButton';
 
 import {ProfileImage, Subtitle, Text, Title,} from '../common';
 
@@ -72,18 +73,13 @@ const PostActions = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 20px;
+  padding: 10px;
   width: 100%;
   display: flex;
   align-items: center;
 `;
 
-const FavoriteAction = styled(Favorite)`
-  height: 15px !important;
-  width: 15px !important;
-`;
-
-function PostTitleView({post}) {
+function PostTitleView({ post }) {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
   if (post.author.authorType === 'student') {
     return (
@@ -119,7 +115,9 @@ function PostTextView({post, handleLike}) {
       <PostTextContent content={post.content} />
       <PostActions>
         <Button dense color="accent">Voir plus</Button>
-        <Button dense color="accent" onClick={() => handleLike(post)}>{post.nbLikes} j'aime</Button>
+        <Box ml="auto">
+          <LikeButton post={post} />
+        </Box>
       </PostActions>
     </PostText>
   );
@@ -151,7 +149,9 @@ export default function PostListView(props) {
                         <Poll data={p.media} />
                         <PostActions>
                           <Button dense color="accent">Voir plus</Button>
-                          <Button dense color="accent" onClick={() => props.handleLike(p)}>{p.nbLikes} j'aime</Button>
+                          <Box ml="auto">
+                            <LikeButton post={p} />
+                          </Box>
                         </PostActions>
                       </PostText>
                     </Box>

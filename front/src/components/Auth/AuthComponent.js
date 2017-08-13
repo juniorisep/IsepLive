@@ -1,3 +1,5 @@
+// @flow
+
 import React, {Component} from 'react';
 
 import { isLoggedIn, hasRole} from "../../data/auth";

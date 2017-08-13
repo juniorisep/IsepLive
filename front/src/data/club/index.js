@@ -1,3 +1,5 @@
+// @flow
+
 import axios from 'axios';
 
 export function getClubs() {
@@ -13,5 +15,5 @@ export function getMembers(id) {
 }
 
 export function getPosts(id) {
-  return axios.get(`/club/${id}/post`);  
+  return axios.get(`/club/${id}/post`);
 }

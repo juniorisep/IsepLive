@@ -1,3 +1,5 @@
+// @flow
+
 import axios from 'axios';
 
 export function getStudents() {

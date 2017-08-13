@@ -1,4 +1,5 @@
 // @flow
+
 import axios from 'axios';
 
 export const hasRole = (roles) => {

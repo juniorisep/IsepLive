@@ -13,69 +13,69 @@ import java.util.Date;
 @Entity
 public class VoteDor {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @OneToOne
-    private SessionDor session;
+  @OneToOne
+  private SessionDor session;
 
-    @OneToOne
-    private Student student;
+  @OneToOne
+  private Student student;
 
-    @OneToOne
-    private Employee employee;
+  @OneToOne
+  private Employee employee;
 
-    @OneToOne
-    private QuestionDor questionDor;
+  @OneToOne
+  private QuestionDor questionDor;
 
-    private Date date;
+  private Date date;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Student getStudent() {
-        return student;
-    }
+  public Student getStudent() {
+    return student;
+  }
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+  public void setStudent(Student student) {
+    this.student = student;
+  }
 
-    public Employee getEmployee() {
-        return employee;
-    }
+  public Employee getEmployee() {
+    return employee;
+  }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 
-    public QuestionDor getQuestionDor() {
-        return questionDor;
-    }
+  public QuestionDor getQuestionDor() {
+    return questionDor;
+  }
 
-    public void setQuestionDor(QuestionDor questionDor) {
-        this.questionDor = questionDor;
-    }
+  public void setQuestionDor(QuestionDor questionDor) {
+    this.questionDor = questionDor;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+  public void setDate(Date date) {
+    this.date = date;
+  }
 
-    public SessionDor getSession() {
-        return session;
-    }
+  public SessionDor getSession() {
+    return session;
+  }
 
-    public void setSession(SessionDor session) {
-        this.session = session;
-    }
+  public void setSession(SessionDor session) {
+    this.session = session;
+  }
 }

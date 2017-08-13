@@ -7,9 +7,9 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
 
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 
-import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
+import {createMuiTheme, MuiThemeProvider} from 'material-ui/styles';
 import createPalette from 'material-ui/styles/palette';
 import indigo from 'material-ui/colors/indigo';
 import orange from 'material-ui/colors/orange';
@@ -24,6 +24,7 @@ import Login from './pages/login';
 import Layout from './components/Layout'
 
 import {backUrl} from './config';
+
 axios.defaults.baseURL = backUrl;
 
 const theme = createMuiTheme({
@@ -40,9 +41,9 @@ const App = () => (
     <ThemeProvider theme={styledTheme}>
       <Router>
         <Switch>
-          <Redirect path="/" exact to="/connexion"/>
-          <Route path="/connexion" component={Login}/>
-          <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout}/>
+          <Redirect path="/" exact to="/connexion" />
+          <Route path="/connexion" component={Login} />
+          <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} />
         </Switch>
       </Router>
     </ThemeProvider>
@@ -50,5 +51,5 @@ const App = () => (
 )
 
 ReactDOM.render(
-  <App/>, document.getElementById('root'));
+  <App />, document.getElementById('root'));
 registerServiceWorker();

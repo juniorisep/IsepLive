@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
+  @Autowired
+  JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    StudentService studentService;
+  @Autowired
+  StudentService studentService;
 
-    @PostMapping
-    public String getToken(@RequestBody JwtAuthRequest authRequest) {
-        Student student = studentService.getStudent(1L);
-        return jwtTokenUtil.generateToken(student);
-    }
+  @PostMapping
+  public String getToken(@RequestBody JwtAuthRequest authRequest) {
+    Student student = studentService.getStudent(1L);
+    return jwtTokenUtil.generateToken(student);
+  }
 }

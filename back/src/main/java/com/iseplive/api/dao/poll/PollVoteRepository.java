@@ -13,6 +13,6 @@ import java.util.List;
  */
 @Repository
 public interface PollVoteRepository extends CrudRepository<PollVote, Long> {
-    @Query("FROM PollVote WHERE answer.poll.id = ?1 AND student.id = ?2")
-    List<PollVote> checkUserAnsweredPoll(Long pollId, Long studentId);
+  @Query("FROM PollVote WHERE answer.poll.id = ?1 AND student.id = ?2")
+  List<PollVote> checkUserAnsweredPoll(Long pollId, Long studentId);
 }

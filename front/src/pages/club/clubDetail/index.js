@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import ClubDetailView from './view';
 import MembersTab from './membersTab';
@@ -18,7 +18,7 @@ class ClubDetail extends Component {
     description: '',
     website: '',
     members: [],
-    posts: [],
+    posts: [],
   }
 
   componentDidMount() {
@@ -28,38 +28,42 @@ class ClubDetail extends Component {
 
   requestClubDetail() {
     clubData.getClub(this.state.id)
-    .then(res => {
-      const { logoUrl, description, name, website } = res.data;
-      this.setState({ logoUrl, description, name, website });
-    })
+      .then(res => {
+        const {logoUrl, description, name, website} = res.data;
+        this.setState({logoUrl, description, name, website});
+      })
   }
 
   handleChangeTab = (event, index) => {
-    this.setState({ tabIndex: index });
+    this.setState({tabIndex: index});
     switch (index) {
-      case 0: return this.loadMembers();
-      case 1: return this.loadPosts();
+      case 0:
+        return this.loadMembers();
+      case 1:
+        return this.loadPosts();
     }
   }
 
   loadMembers = () => {
     clubData.getMembers(this.state.id)
-    .then(res => {
-      this.setState({ members: res.data });
-    })
+      .then(res => {
+        this.setState({members: res.data});
+      })
   }
 
   loadPosts = () => {
     clubData.getPosts(this.state.id)
-    .then(res => {
-      this.setState({ posts: res.data });
-    })
+      .then(res => {
+        this.setState({posts: res.data});
+      })
   }
 
   renderTab = () => {
     switch (this.state.tabIndex) {
-      case 0: return <MembersTab members={this.state.members} />;
-      case 1: return <PostsTab posts={this.state.posts} />;
+      case 0:
+        return <MembersTab members={this.state.members} />;
+      case 1:
+        return <PostsTab posts={this.state.posts} />;
     }
   }
 
@@ -69,7 +73,7 @@ class ClubDetail extends Component {
         {...this.state}
         changeTab={this.handleChangeTab}
         renderTab={this.renderTab}
-      />
+       />
     );
   }
 }

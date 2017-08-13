@@ -3,22 +3,12 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled';
+import {Box, Flex} from 'grid-styled';
 
 import Button from 'material-ui/Button';
 import Favorite from 'material-ui-icons/Favorite';
 
-import {
-  Separator,
-  FluidContent,
-  Header,
-  SearchBar,
-  Filler,
-  ProfileImage,
-  Text,
-  Title,
-  Subtitle,
-} from '../common';
+import {ProfileImage, Subtitle, Text, Title,} from '../common';
 
 import Time from '../Time';
 import Author from '../Author';
@@ -95,14 +85,14 @@ const FavoriteAction = styled(Favorite)`
 `;
 
 
-function PostTitleView({ post }) {
+function PostTitleView({post}) {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
   if (post.author.authorType === 'student') {
     return (
       <Flex align="center" mb="10px">
         <Box mr="10px"><ProfileImage src={post.author.photoUrl} alt="logo-profile" w="40px" /></Box>
         <Box>
-          <Title fontSize={1} invert >{post.author.firstname} {post.author.lastname}</Title>
+          <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
           <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
         </Box>
       </Flex>
@@ -124,7 +114,7 @@ function PostTitleView({ post }) {
   )
 }
 
-function PostTextView({ post, handleLike }) {
+function PostTextView({post, handleLike}) {
   return (
     <PostText>
       <PostTitleView post={post} />
@@ -140,7 +130,7 @@ function PostTextView({ post, handleLike }) {
 function PostTextContent(props) {
   return (
     <div>
-      { props.content.split('\n').map((par, i) => <Text key={i} mb={2}>{par}</Text>) }
+      {props.content.split('\n').map((par, i) => <Text key={i} mb={2}>{par}</Text>)}
     </div>
   )
 }
@@ -156,7 +146,7 @@ export default function PostListView(props) {
               case 'poll':
                 return (
                   <Post key={p.id} invert={invert}>
-                    <Box w={[ 1 ]}>
+                    <Box w={[1]}>
                       <PostText>
                         <PostTitleView post={p} />
                         <PostTextContent content={p.content} />
@@ -172,16 +162,16 @@ export default function PostListView(props) {
               case 'videoEmbed':
                 return (
                   <Post key={p.id} invert={invert}>
-                    <Box w={[ 1, 1/2 ]}>
+                    <Box w={[1, 1 / 2]}>
                       <PostContent bg>
                         <IframeWrap>
                           <iframe src={p.media.url}
-                          scrolling="no" allowTransparency allowFullScreen></iframe>
+                                  scrolling="no" allowTransparency allowFullScreen></iframe>
                         </IframeWrap>
                       </PostContent>
                     </Box>
-                    <Box w={[ 1, 1/2 ]}>
-                      <PostTextView post={p} handleLike={props.handleLike}/>
+                    <Box w={[1, 1 / 2]}>
+                      <PostTextView post={p} handleLike={props.handleLike} />
                     </Box>
                   </Post>
                 )
@@ -189,7 +179,7 @@ export default function PostListView(props) {
           } else {
             return (
               <Post key={p.id} invert={invert}>
-                <Box w={[ 1 ]}>
+                <Box w={[1]}>
                   <PostTextView post={p} handleLike={props.handleLike} />
                 </Box>
               </Post>

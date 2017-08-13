@@ -2,7 +2,9 @@ package com.iseplive.api.entity.poll;
 
 import com.iseplive.api.entity.media.Media;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 /**
@@ -13,24 +15,24 @@ import java.util.List;
 @DiscriminatorValue("poll")
 public class Poll extends Media {
 
-    private String name;
+  private String name;
 
-    @OneToMany(mappedBy = "poll")
-    private List<PollAnswer> answers;
+  @OneToMany(mappedBy = "poll")
+  private List<PollAnswer> answers;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public List<PollAnswer> getAnswers() {
-        return answers;
-    }
+  public List<PollAnswer> getAnswers() {
+    return answers;
+  }
 
-    public void setAnswers(List<PollAnswer> answers) {
-        this.answers = answers;
-    }
+  public void setAnswers(List<PollAnswer> answers) {
+    this.answers = answers;
+  }
 }

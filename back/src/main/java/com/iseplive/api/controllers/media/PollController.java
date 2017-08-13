@@ -15,31 +15,32 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/poll")
 public class PollController {
 
-    @Autowired
-    PollService pollService;
+  @Autowired
+  PollService pollService;
 
-    @GetMapping("/{id}")
-    public Poll getPoll(@PathVariable Long id) {
-        return pollService.getPoll(id);
-    }
+  @GetMapping("/{id}")
+  public Poll getPoll(@PathVariable Long id) {
+    return pollService.getPoll(id);
+  }
 
-    /**
-     * Check if poll has been answered
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id}/vote")
-    public PollVote getVote(@PathVariable Long id) {
-        return pollService.getVote(id, 1L);
-    }
+  /**
+   * Check if poll has been answered
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping("/{id}/vote")
+  public PollVote getVote(@PathVariable Long id) {
+    return pollService.getVote(id, 1L);
+  }
 
-    @PutMapping("/{id}/answer/{answerId}") // add student
-    public void vote(@PathVariable Long id, @PathVariable Long answerId) {
-        pollService.addVote(id, answerId, 1L);
-    }
+  @PutMapping("/{id}/answer/{answerId}") // add student
+  public void vote(@PathVariable Long id, @PathVariable Long answerId) {
+    pollService.addVote(id, answerId, 1L);
+  }
 
-    @PostMapping
-    public Poll createPoll(@RequestBody PollCreationDTO dto) {
-        return pollService.createPoll(dto);
-    }
+  @PostMapping
+  public Poll createPoll(@RequestBody PollCreationDTO dto) {
+    return pollService.createPoll(dto);
+  }
 }

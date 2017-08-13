@@ -12,5 +12,5 @@ import java.util.List;
  */
 @Repository
 public interface ImageRepository extends CrudRepository<Image, Long> {
-    List<Image> findImageByIdIn(List<Long> ids);
+  List<Image> findImageByIdIn(List<Long> ids);
 }

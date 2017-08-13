@@ -8,31 +8,31 @@ import java.util.List;
  * back
  */
 public class GalleryDTO {
-    private String name;
-    private Date creation;
-    private List<Long> images;
+  private String name;
+  private Date creation;
+  private List<Long> images;
 
-    public List<Long> getImages() {
-        return images;
-    }
+  public List<Long> getImages() {
+    return images;
+  }
 
-    public void setImages(List<Long> images) {
-        this.images = images;
-    }
+  public void setImages(List<Long> images) {
+    this.images = images;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Date getCreation() {
-        return creation;
-    }
+  public Date getCreation() {
+    return creation;
+  }
 
-    public void setCreation(Date creation) {
-        this.creation = creation;
-    }
+  public void setCreation(Date creation) {
+    this.creation = creation;
+  }
 }

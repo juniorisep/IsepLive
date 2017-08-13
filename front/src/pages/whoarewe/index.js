@@ -2,10 +2,10 @@
 
 import React, {Component} from 'react';
 
-import {FluidContent, Header, SearchBar, Filler, Banner} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, SearchBar} from '../../components/common';
 
 import Paper from 'material-ui/Paper';
-import Tabs, { Tab } from 'material-ui/Tabs';
+import Tabs, {Tab} from 'material-ui/Tabs';
 
 import Team from './team';
 import HallOfFame from './hallOfFame';
@@ -23,20 +23,20 @@ class Whoarewe extends Component {
   };
 
   handleChange = (event, index) => {
-    this.setState({ index });
+    this.setState({index});
   };
 
   render() {
     return (
       <div>
         <Header url="/img/background.jpg">
-          <Filler h={50}/>
+          <Filler h={50} />
           <Banner>
             <h1>Qui sommes-nous ?</h1>
             <p>Nos objectifs, Notre équipe, Notre histoire, Hall of Fame...</p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar placeholder="Rechercher"/>
+            <SearchBar placeholder="Rechercher" />
           </FluidContent>
         </Header>
         <Paper>

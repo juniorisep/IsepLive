@@ -4,11 +4,11 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import {NavLink, Route, Switch, Redirect} from 'react-router-dom';
+import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
-import {Flex, Box} from 'grid-styled';
+import {Box, Flex} from 'grid-styled';
 
-import {withStyles, createStyleSheet} from 'material-ui/styles';
+import {createStyleSheet, withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
@@ -129,7 +129,7 @@ function SideNav(props) {
   return (
     <NavLink to={props.to}>
       <ListItem button>
-        <ListItemText primary={props.children}/>
+        <ListItemText primary={props.children} />
       </ListItem>
     </NavLink>
   )
@@ -176,7 +176,7 @@ class Layout extends React.Component {
   }
 
   handleConnect = () => {
-    const { username, password } = this.state;
+    const {username, password} = this.state;
     authData.connect(username, password).then(res => {
       this.handleRequestClose();
     }).catch(err => {
@@ -189,7 +189,7 @@ class Layout extends React.Component {
     const classes = props.classes;
     return (
       <div className={classes.root}>
-        <AppBar style={{ position: 'relative' }}>
+        <AppBar style={{position: 'relative'}}>
           <Toolbar>
             <Logo
               src="/svg/iseplive.svg"
@@ -202,10 +202,11 @@ class Layout extends React.Component {
             <Auth roles={['ROLE_USER']}>
               <Profile onClick={this.handleClick} />
               <Menu id="simple-menu"
-                anchorEl={this.state.anchorEl}
-                open={this.state.open}
-                onRequestClose={this.handleRequestClose} >
-                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
+                    anchorEl={this.state.anchorEl}
+                    open={this.state.open}
+                    onRequestClose={this.handleRequestClose}>
+                <MenuItem onClick={this.handleRequestClose} component={NavLink}
+                          to="/administration">Administration</MenuItem>
                 <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
                 <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
               </Menu>
@@ -213,9 +214,9 @@ class Layout extends React.Component {
             <Auth not>
               <Button color="contrast" onClick={this.handleClick}>Menu</Button>
               <Menu id="simple-menu"
-                anchorEl={this.state.anchorEl}
-                open={this.state.open}
-                onRequestClose={this.handleRequestClose} >
+                    anchorEl={this.state.anchorEl}
+                    open={this.state.open}
+                    onRequestClose={this.handleRequestClose}>
                 <MenuItem onClick={() => this.setState({connexionOpen: true})}>Se connecter</MenuItem>
                 <MenuItem component={NavLink} to="/connexion">Accueil</MenuItem>
               </Menu>
@@ -224,30 +225,32 @@ class Layout extends React.Component {
                 handleRequestClose={this.handleRequestClose}
                 onChange={this.handleLoginForm}
                 onConnexion={this.handleConnect}
-              />
+               />
             </Auth>
           </Toolbar>
         </AppBar>
-        {window.innerWidth < 1009 && <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>
+        {window.innerWidth < 1009 &&
+        <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose}
+                onClick={this.handleSideBarClose}>
           {navList(SideNav)}
         </Drawer>
         }
         <Switch>
-          <Redirect path="/" exact to="/accueil"/>
-          <Route path="/accueil" component={Home}/>
-          <Route path="/media" component={Media}/>
-          <Route path="/annuaire" component={AddressBook}/>
-          <Route exact path="/associations" component={Club}/>
-          <Route path="/associations/:id" component={ClubDetail}/>
-          <Route path="/evenements" component={Events}/>
-          <Route path="/profile" component={Resume}/>
-          <Route path="/whoarewe" component={Whoarewe}/>
-          <Route path="/contact" component={Contact}/>
-          <Route path="/aide" component={Help}/>
-          <Route path="/convention-utilisation" component={UserAgreement}/>
-          <Route path="/mentions-legales" component={LegalNotice}/>
-          <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin}/>
-          <Route path="*" component={NotFound}/>
+          <Redirect path="/" exact to="/accueil" />
+          <Route path="/accueil" component={Home} />
+          <Route path="/media" component={Media} />
+          <Route path="/annuaire" component={AddressBook} />
+          <Route exact path="/associations" component={Club} />
+          <Route path="/associations/:id" component={ClubDetail} />
+          <Route path="/evenements" component={Events} />
+          <Route path="/profile" component={Resume} />
+          <Route path="/whoarewe" component={Whoarewe} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/aide" component={Help} />
+          <Route path="/convention-utilisation" component={UserAgreement} />
+          <Route path="/mentions-legales" component={LegalNotice} />
+          <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin} />
+          <Route path="*" component={NotFound} />
         </Switch>
         <Footer>
           <FluidContent>
@@ -260,37 +263,44 @@ class Layout extends React.Component {
                 <p>75 006 PARIS</p>
                 <p>iseplive@gmail.com</p>
               </Box>
-              <Box w={[ 1, 1, 2 / 6 ]} p={2}>
+              <Box w={[1, 1, 2 / 6]} p={2}>
                 <SocialBox>
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
                   <Flex>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/svg/facebook.svg" alt="Facebook logo"/></a>
+                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank"
+                         rel="noopener noreferrer"><img src="/svg/facebook.svg" alt="Facebook logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="/svg/twitter.svg" alt="Twitter logo"/></a>
+                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img
+                        src="/svg/twitter.svg" alt="Twitter logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="/svg/instagram.svg" alt="Instagram logo"/></a>
+                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img
+                        src="/svg/instagram.svg" alt="Instagram logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/svg/snapchat.svg" alt="Snapchat logo"/></a>
+                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/svg/snapchat.svg"
+                                                                                alt="Snapchat logo" /></a>
                     </Box>
                   </Flex>
                 </SocialBox>
               </Box>
-              <Box w={[ 1, 1, 2 / 6 ]} p={2}>
+              <Box w={[1, 1, 2 / 6]} p={2}>
                 <SocialBox>
                   <h2>Partenaires</h2>
                   <Flex>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%"/></a>
+                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img
+                        src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/alten.png" alt="Alten logo"/></a>
+                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img
+                        src="/img/partenaires/alten.png" alt="Alten logo" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo"/></a>
+                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank"
+                         rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo" /></a>
                     </Box>
                   </Flex>
                 </SocialBox>

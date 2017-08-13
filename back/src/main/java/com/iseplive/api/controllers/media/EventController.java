@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/event")
 public class EventController {
 
-    @Autowired
-    EventService eventService;
+  @Autowired
+  EventService eventService;
 
-    @PostMapping
-    public Event createEvent(@RequestBody EventDTO dto) {
-        return eventService.createEvent(dto);
-    }
+  @PostMapping
+  public Event createEvent(@RequestBody EventDTO dto) {
+    return eventService.createEvent(dto);
+  }
 }

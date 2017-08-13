@@ -17,32 +17,32 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EventService {
-    @Autowired
-    EventRepository eventRepository;
+  @Autowired
+  EventRepository eventRepository;
 
-    @Autowired
-    EventFactory eventFactory;
+  @Autowired
+  EventFactory eventFactory;
 
-    @Autowired
-    ClubService clubService;
+  @Autowired
+  ClubService clubService;
 
-    @Autowired
-    ImageService imageService;
+  @Autowired
+  ImageService imageService;
 
-    @Value("${storage.event.url}")
-    String eventBaseUrl;
+  @Value("${storage.event.url}")
+  String eventBaseUrl;
 
-    public Event createEvent(EventDTO dto) {
-        Event event = eventFactory.dtoToEntity(dto);
-        Club club = clubService.getClub(dto.getClubId());
-        if (club == null) {
-            throw new IllegalArgumentException("Could not find a club with id: "+dto.getClubId());
-        }
-        event.setClub(club);
-        if (dto.getImageId() != null) {
-            Image image = imageService.getImage(dto.getImageId());
-            event.setImage(image);
-        }
-        return eventRepository.save(event);
+  public Event createEvent(EventDTO dto) {
+    Event event = eventFactory.dtoToEntity(dto);
+    Club club = clubService.getClub(dto.getClubId());
+    if (club == null) {
+      throw new IllegalArgumentException("Could not find a club with id: " + dto.getClubId());
     }
+    event.setClub(club);
+    if (dto.getImageId() != null) {
+      Image image = imageService.getImage(dto.getImageId());
+      event.setImage(image);
+    }
+    return eventRepository.save(event);
+  }
 }

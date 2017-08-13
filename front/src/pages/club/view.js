@@ -2,16 +2,9 @@
 
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {Flex, Box} from 'grid-styled';
-import { Link } from 'react-router-dom';
-import {
-  FluidContent,
-  Header,
-  SearchBar,
-  Filler,
-  Banner,
-  Image
-} from '../../components/common';
+import {Box, Flex} from 'grid-styled';
+import {Link} from 'react-router-dom';
+import {Banner, Filler, FluidContent, Header, Image, SearchBar} from '../../components/common';
 
 const ClubTile = (props) => {
   const ClubStyle = styled.div `
@@ -30,7 +23,7 @@ const ClubTile = (props) => {
   `;
   return (
     <ClubStyle>
-      <Image src={props.url} mb="5px"/>
+      <Image src={props.url} mb="5px" />
       <p>{props.name}</p>
     </ClubStyle>
   )
@@ -41,13 +34,13 @@ class Club extends Component {
     return (
       <div>
         <Header url="/img/background.jpg">
-          <Filler h={50}/>
+          <Filler h={50} />
           <Banner>
             <h1>Associations</h1>
             <p>Participez à la vie étudiante de l'ISEP</p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar placeholder="Rechercher des associations"/>
+            <SearchBar placeholder="Rechercher des associations" />
           </FluidContent>
         </Header>
         <FluidContent>
@@ -55,12 +48,12 @@ class Club extends Component {
             {
               this.props.clubs.map(e => {
                 return (
-                  <Box key={e.id} w={[ 1, 1 / 3, 1 / 4 ]} p={2}>
+                  <Box key={e.id} w={[1, 1 / 3, 1 / 4]} p={2}>
                     <Link to={`/associations/${e.id}`}>
-                      <ClubTile url={e.logoUrl} name={e.name}/>
+                      <ClubTile url={e.logoUrl} name={e.name} />
                     </Link>
                   </Box>
-                  )
+                )
               })
             }
           </Flex>

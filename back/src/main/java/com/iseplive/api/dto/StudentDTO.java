@@ -7,58 +7,58 @@ import java.util.Date;
  * back
  */
 public class StudentDTO {
-    private Integer promo;
-    private String firstname;
-    private String lastname;
-    private Date birthDate;
-    private String phone;
-    private String bio;
+  private Integer promo;
+  private String firstname;
+  private String lastname;
+  private Date birthDate;
+  private String phone;
+  private String bio;
 
-    public Integer getPromo() {
-        return promo;
-    }
+  public Integer getPromo() {
+    return promo;
+  }
 
-    public void setPromo(Integer promo) {
-        this.promo = promo;
-    }
+  public void setPromo(Integer promo) {
+    this.promo = promo;
+  }
 
-    public String getFirstname() {
-        return firstname;
-    }
+  public String getFirstname() {
+    return firstname;
+  }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
 
-    public String getLastname() {
-        return lastname;
-    }
+  public String getLastname() {
+    return lastname;
+  }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
+  }
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+  public Date getBirthDate() {
+    return birthDate;
+  }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
+  public void setBirthDate(Date birthDate) {
+    this.birthDate = birthDate;
+  }
 
-    public String getPhone() {
-        return phone;
-    }
+  public String getPhone() {
+    return phone;
+  }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
 
-    public String getBio() {
-        return bio;
-    }
+  public String getBio() {
+    return bio;
+  }
 
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
 }

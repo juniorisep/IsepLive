@@ -10,37 +10,37 @@ import javax.persistence.*;
  */
 @Entity
 public class PollVote {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @OneToOne
-    private Student student;
+  @OneToOne
+  private Student student;
 
-    @OneToOne
-    private PollAnswer answer;
+  @OneToOne
+  private PollAnswer answer;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Student getStudent() {
-        return student;
-    }
+  public Student getStudent() {
+    return student;
+  }
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+  public void setStudent(Student student) {
+    this.student = student;
+  }
 
-    public PollAnswer getAnswer() {
-        return answer;
-    }
+  public PollAnswer getAnswer() {
+    return answer;
+  }
 
-    public void setAnswer(PollAnswer answer) {
-        this.answer = answer;
-    }
+  public void setAnswer(PollAnswer answer) {
+    this.answer = answer;
+  }
 }

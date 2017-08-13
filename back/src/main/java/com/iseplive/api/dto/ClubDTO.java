@@ -7,49 +7,49 @@ import java.util.Date;
  * back
  */
 public class ClubDTO {
-    private String name;
-    private String description;
-    private Date creation;
-    private String website;
-    private Long adminId;
+  private String name;
+  private String description;
+  private Date creation;
+  private String website;
+  private Long adminId;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public Date getCreation() {
-        return creation;
-    }
+  public Date getCreation() {
+    return creation;
+  }
 
-    public void setCreation(Date creation) {
-        this.creation = creation;
-    }
+  public void setCreation(Date creation) {
+    this.creation = creation;
+  }
 
-    public String getWebsite() {
-        return website;
-    }
+  public String getWebsite() {
+    return website;
+  }
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
+  public void setWebsite(String website) {
+    this.website = website;
+  }
 
-    public Long getAdminId() {
-        return adminId;
-    }
+  public Long getAdminId() {
+    return adminId;
+  }
 
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
-    }
+  public void setAdminId(Long adminId) {
+    this.adminId = adminId;
+  }
 }

@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import {Flex, Box} from 'grid-styled';
+import {Box, Flex} from 'grid-styled';
 
-import {
-  Title,
-} from '../../components/common';
+import {Title,} from '../../components/common';
 
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -73,31 +71,31 @@ export class PollForm extends Component {
   }
 
   addAnswer = () => {
-    const { answers } = this.state;
-    this.setState({ answers: [ ...answers, '' ] });
+    const {answers} = this.state;
+    this.setState({answers: [...answers, '']});
   }
 
   deleteAnswer = (index) => {
-    const { answers } = this.state;
+    const {answers} = this.state;
     answers.splice(index, 1);
-    this.setState({ answers });
+    this.setState({answers});
     this.props.update(this.state);
   }
 
   changeAnswer = (event, index) => {
-    const { answers } = this.state;
+    const {answers} = this.state;
     answers[index] = event.target.value;
-    this.setState({ answers });
+    this.setState({answers});
     this.props.update(this.state);
   }
 
   changeQues = (event) => {
-    this.setState({ title: event.target.value });
+    this.setState({title: event.target.value});
     this.props.update(this.state);
   }
 
   render() {
-    const { answers } = this.state;
+    const {answers} = this.state;
     return (
       <FormWrapper>
         <TextField fullWidth label="Question" onChange={this.changeQues} />
@@ -107,7 +105,7 @@ export class PollForm extends Component {
               <Box flex="1 1 auto">
                 <TextField
                   fullWidth
-                  label={`Réponse ${index+1}`}
+                  label={`Réponse ${index + 1}`}
                   onChange={(e) => this.changeAnswer(e, index)} />
               </Box>
               <Box mb="-15px">

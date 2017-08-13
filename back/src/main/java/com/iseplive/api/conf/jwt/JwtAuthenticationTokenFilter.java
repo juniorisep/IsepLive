@@ -1,7 +1,6 @@
 package com.iseplive.api.conf.jwt;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,36 +18,36 @@ import java.io.IOException;
  */
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+  @Autowired
+  private JwtTokenUtil jwtTokenUtil;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String authToken = request.getHeader("Authorization");
+  @Override
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    String authToken = request.getHeader("Authorization");
 
-        if (authToken != null) {
-            DecodedJWT jwt;
-            if (authToken.startsWith("Bearer ")) {
-                authToken = authToken.substring(7);
-                try {
-                    jwt = jwtTokenUtil.decodeToken(authToken);
-                } catch (JWTVerificationException e) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-                    return;
-                }
-            } else {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "authentication schema not found");
-                return;
-            }
-
-            if (jwt != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                JwtAuthenticationToken authentication = new JwtAuthenticationToken(jwt);
-                authentication.setAuthenticated(true);
-                response.setHeader("Authorization", jwtTokenUtil.refreshToken(jwt));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+    if (authToken != null) {
+      DecodedJWT jwt;
+      if (authToken.startsWith("Bearer ")) {
+        authToken = authToken.substring(7);
+        try {
+          jwt = jwtTokenUtil.decodeToken(authToken);
+        } catch (JWTVerificationException e) {
+          response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+          return;
         }
+      } else {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "authentication schema not found");
+        return;
+      }
 
-        chain.doFilter(request, response);
+      if (jwt != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        JwtAuthenticationToken authentication = new JwtAuthenticationToken(jwt);
+        authentication.setAuthenticated(true);
+        response.setHeader("Authorization", jwtTokenUtil.refreshToken(jwt));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+      }
     }
+
+    chain.doFilter(request, response);
+  }
 }

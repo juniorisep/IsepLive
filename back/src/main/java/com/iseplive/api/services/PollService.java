@@ -19,59 +19,59 @@ import java.util.List;
  */
 @Service
 public class PollService {
-    @Autowired
-    PollRepository pollRepository;
+  @Autowired
+  PollRepository pollRepository;
 
-    @Autowired
-    PollAnswerRepository pollAnswerRepository;
+  @Autowired
+  PollAnswerRepository pollAnswerRepository;
 
-    @Autowired
-    PollVoteRepository pollVoteRepository;
+  @Autowired
+  PollVoteRepository pollVoteRepository;
 
-    @Autowired
-    StudentService studentService;
+  @Autowired
+  StudentService studentService;
 
-    public void addVote(Long pollId, Long pollAnswId, Long studentId) {
-        if (checkAlreadyVoted(pollId, studentId)) {
-            throw new IllegalArgumentException("This poll has already been answered");
-        }
-        PollAnswer pollAnswer = pollAnswerRepository.findOne(pollAnswId);
-        Student student = studentService.getStudent(studentId);
-        PollVote pollVote = new PollVote();
-        pollVote.setAnswer(pollAnswer);
-        pollVote.setStudent(student);
-        pollVoteRepository.save(pollVote);
+  public void addVote(Long pollId, Long pollAnswId, Long studentId) {
+    if (checkAlreadyVoted(pollId, studentId)) {
+      throw new IllegalArgumentException("This poll has already been answered");
     }
+    PollAnswer pollAnswer = pollAnswerRepository.findOne(pollAnswId);
+    Student student = studentService.getStudent(studentId);
+    PollVote pollVote = new PollVote();
+    pollVote.setAnswer(pollAnswer);
+    pollVote.setStudent(student);
+    pollVoteRepository.save(pollVote);
+  }
 
-    public boolean checkAlreadyVoted(Long pollId, Long studenId) {
-        return !pollVoteRepository.checkUserAnsweredPoll(pollId, studenId).isEmpty();
+  public boolean checkAlreadyVoted(Long pollId, Long studenId) {
+    return !pollVoteRepository.checkUserAnsweredPoll(pollId, studenId).isEmpty();
+  }
+
+  public Poll createPoll(PollCreationDTO pollDTO) {
+    // Create poll
+    Poll poll = new Poll();
+    poll.setName(pollDTO.getTitle());
+    Poll saved = pollRepository.save(poll);
+
+    // Add answers
+    pollDTO.getAnswers().forEach(q -> {
+      PollAnswer pollAnswer = new PollAnswer();
+      pollAnswer.setPoll(poll);
+      pollAnswer.setContent(q);
+      pollAnswerRepository.save(pollAnswer);
+    });
+    return pollRepository.findOne(saved.getId());
+  }
+
+  public Poll getPoll(Long pollId) {
+    return pollRepository.findOne(pollId);
+  }
+
+  public PollVote getVote(Long pollId, long studentId) {
+    List<PollVote> pollVoteList = pollVoteRepository.checkUserAnsweredPoll(pollId, studentId);
+    if (!pollVoteList.isEmpty()) {
+      return pollVoteList.get(0);
     }
-
-    public Poll createPoll(PollCreationDTO pollDTO) {
-        // Create poll
-        Poll poll = new Poll();
-        poll.setName(pollDTO.getTitle());
-        Poll saved = pollRepository.save(poll);
-
-        // Add answers
-        pollDTO.getAnswers().forEach(q -> {
-            PollAnswer pollAnswer = new PollAnswer();
-            pollAnswer.setPoll(poll);
-            pollAnswer.setContent(q);
-            pollAnswerRepository.save(pollAnswer);
-        });
-        return pollRepository.findOne(saved.getId());
-    }
-
-    public Poll getPoll(Long pollId) {
-        return pollRepository.findOne(pollId);
-    }
-
-    public PollVote getVote(Long pollId, long studentId) {
-        List<PollVote> pollVoteList = pollVoteRepository.checkUserAnsweredPoll(pollId, studentId);
-        if (!pollVoteList.isEmpty()) {
-            return pollVoteList.get(0);
-        }
-        return null;
-    }
+    return null;
+  }
 }

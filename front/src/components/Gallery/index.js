@@ -38,7 +38,8 @@ class Gallery extends Component {
 
   state = {
     cIndex: 0,
-    photos: [ < img src = "/img/background.jpg" alt = "" />, < img src = "/img/background.jpg" alt = "" />, < img src = "/img/background.jpg" alt = "" />
+    photos: [< img src="/img/background.jpg" alt="" />, < img src="/img/background.jpg" alt="" />,
+      < img src="/img/background.jpg" alt="" />
     ]
   }
 
@@ -89,7 +90,7 @@ class Gallery extends Component {
               {p}
             </Image>
           })
-}
+          }
         </Images>
       </Wrapper>
     );

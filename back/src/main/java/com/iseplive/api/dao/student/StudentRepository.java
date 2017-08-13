@@ -10,5 +10,5 @@ import java.util.List;
  * back
  */
 public interface StudentRepository extends CrudRepository<Student, Long> {
-    List<Student> findAll();
+  List<Student> findAll();
 }

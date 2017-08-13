@@ -11,9 +11,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 @EnableAutoConfiguration
 @ComponentScan
 public class IsepliveApplication {
-	public static void main(String[] args) {
-		ConfigurableApplicationContext ac = SpringApplication.run(IsepliveApplication.class, args);
-		DatabaseSeeder tdbs = ac.getBeanFactory().createBean(DatabaseSeeder.class);
-		tdbs.seedDatabase();
-	}
+  public static void main(String[] args) {
+    ConfigurableApplicationContext ac = SpringApplication.run(IsepliveApplication.class, args);
+    DatabaseSeeder tdbs = ac.getBeanFactory().createBean(DatabaseSeeder.class);
+    tdbs.seedDatabase();
+  }
 }

@@ -7,22 +7,22 @@ import java.util.List;
  * back
  */
 public class PollCreationDTO {
-    private String title;
-    private List<String> answers;
+  private String title;
+  private List<String> answers;
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public List<String> getAnswers() {
-        return answers;
-    }
+  public List<String> getAnswers() {
+    return answers;
+  }
 
-    public void setAnswers(List<String> answers) {
-        this.answers = answers;
-    }
+  public void setAnswers(List<String> answers) {
+    this.answers = answers;
+  }
 }

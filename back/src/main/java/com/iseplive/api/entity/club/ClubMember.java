@@ -3,7 +3,10 @@ package com.iseplive.api.entity.club;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.user.Student;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -11,49 +14,49 @@ import javax.persistence.*;
  */
 @Entity
 public class ClubMember {
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    @OneToOne
-    @JsonIgnore
-    private Club club;
+  @OneToOne
+  @JsonIgnore
+  private Club club;
 
-    @OneToOne
-    private ClubRole role;
+  @OneToOne
+  private ClubRole role;
 
-    @OneToOne
-    private Student member;
+  @OneToOne
+  private Student member;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Student getMember() {
-        return member;
-    }
+  public Student getMember() {
+    return member;
+  }
 
-    public void setMember(Student member) {
-        this.member = member;
-    }
+  public void setMember(Student member) {
+    this.member = member;
+  }
 
-    public ClubRole getRole() {
-        return role;
-    }
+  public ClubRole getRole() {
+    return role;
+  }
 
-    public void setRole(ClubRole role) {
-        this.role = role;
-    }
+  public void setRole(ClubRole role) {
+    this.role = role;
+  }
 
-    public Club getClub() {
-        return club;
-    }
+  public Club getClub() {
+    return club;
+  }
 
-    public void setClub(Club club) {
-        this.club = club;
-    }
+  public void setClub(Club club) {
+    this.club = club;
+  }
 }

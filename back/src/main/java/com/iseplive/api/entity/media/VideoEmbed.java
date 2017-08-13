@@ -14,22 +14,22 @@ import javax.persistence.Entity;
 @DiscriminatorValue(MediaType.VIDEO_EMBED)
 public class VideoEmbed extends Media {
 
-    private VideoEmbedEnum type;
-    private String url;
+  private VideoEmbedEnum type;
+  private String url;
 
-    public VideoEmbedEnum getType() {
-        return type;
-    }
+  public VideoEmbedEnum getType() {
+    return type;
+  }
 
-    public void setType(VideoEmbedEnum type) {
-        this.type = type;
-    }
+  public void setType(VideoEmbedEnum type) {
+    this.type = type;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }

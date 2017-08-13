@@ -1,15 +1,9 @@
 // @flow
 
 import React from 'react';
-import styled from 'styled-components';
-import {Flex, Box} from 'grid-styled';
+import {Flex} from 'grid-styled';
 
-import {
-  FluidContent,
-  Image,
-  Text,
-  Title,
-} from '../../../components/common';
+import {Text,} from '../../../components/common';
 
 import PostList from '../../../components/PostList';
 

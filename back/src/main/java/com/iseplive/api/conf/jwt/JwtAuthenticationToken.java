@@ -2,7 +2,6 @@ package com.iseplive.api.conf.jwt;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.iseplive.api.entity.user.Student;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,58 +17,58 @@ import java.util.Map;
  */
 public class JwtAuthenticationToken implements Authentication {
 
-    private final List<GrantedAuthority> authorities;
-    private final Map<String, Claim> claims;
-    private DecodedJWT jwt;
-    private boolean isAuthenticated;
+  private final List<GrantedAuthority> authorities;
+  private final Map<String, Claim> claims;
+  private DecodedJWT jwt;
+  private boolean isAuthenticated;
 
-    public JwtAuthenticationToken(DecodedJWT jwt) {
-        List<GrantedAuthority> tmp = new ArrayList<>();
-        List<String> roles = jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ROLES).asList(String.class);
-        if (roles != null) {
-            for (String role : roles) {
-                tmp.add(new SimpleGrantedAuthority(role));
-            }
-        }
-
-        this.jwt = jwt;
-        this.authorities = Collections.unmodifiableList(tmp);
-        this.claims = jwt.getClaims();
-        this.isAuthenticated = false;
+  public JwtAuthenticationToken(DecodedJWT jwt) {
+    List<GrantedAuthority> tmp = new ArrayList<>();
+    List<String> roles = jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ROLES).asList(String.class);
+    if (roles != null) {
+      for (String role : roles) {
+        tmp.add(new SimpleGrantedAuthority(role));
+      }
     }
 
-    @Override
-    public List<GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
+    this.jwt = jwt;
+    this.authorities = Collections.unmodifiableList(tmp);
+    this.claims = jwt.getClaims();
+    this.isAuthenticated = false;
+  }
 
-    @Override
-    public Object getCredentials() {
-        return "";
-    }
+  @Override
+  public List<GrantedAuthority> getAuthorities() {
+    return authorities;
+  }
 
-    @Override
-    public Object getDetails() {
-        return claims;
-    }
+  @Override
+  public Object getCredentials() {
+    return "";
+  }
 
-    @Override
-    public Object getPrincipal() {
-        return jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ID).asLong();
-    }
+  @Override
+  public Object getDetails() {
+    return claims;
+  }
 
-    @Override
-    public boolean isAuthenticated() {
-        return isAuthenticated;
-    }
+  @Override
+  public Object getPrincipal() {
+    return jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ID).asLong();
+  }
 
-    @Override
-    public void setAuthenticated(boolean b) throws IllegalArgumentException {
-        this.isAuthenticated = b;
-    }
+  @Override
+  public boolean isAuthenticated() {
+    return isAuthenticated;
+  }
 
-    @Override
-    public String getName() {
-        return jwt.getSubject();
-    }
+  @Override
+  public void setAuthenticated(boolean b) throws IllegalArgumentException {
+    this.isAuthenticated = b;
+  }
+
+  @Override
+  public String getName() {
+    return jwt.getSubject();
+  }
 }

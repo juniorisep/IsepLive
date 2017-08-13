@@ -2,20 +2,13 @@
 
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {Flex, Box} from 'grid-styled';
+import {Box, Flex} from 'grid-styled';
 
 import Button from 'material-ui/Button';
 import {FormControlLabel} from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 
-import {
-  Separator,
-  FluidContent,
-  Header,
-  SearchBar,
-  Filler,
-  Banner
-} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, SearchBar, Separator} from '../../components/common';
 
 import Gallery from '../../components/Gallery';
 
@@ -55,7 +48,7 @@ const DateSeparator = (props) => {
         <Title>{props.date}</Title>
       </Box>
       <Box flex="1 1 auto">
-        <Separator m="0"/>
+        <Separator m="0" />
       </Box>
     </Flex>
   )
@@ -83,7 +76,7 @@ class Media extends Component {
     return (
       <div>
         <Header url="/img/background.jpg">
-          <Filler h={50}/>
+          <Filler h={50} />
           <Banner>
             <h1>Media</h1>
             <p>
@@ -91,7 +84,7 @@ class Media extends Component {
             </p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar placeholder="Rechercher des medias"/>
+            <SearchBar placeholder="Rechercher des medias" />
           </FluidContent>
         </Header>
         <FluidContent>
@@ -100,55 +93,55 @@ class Media extends Component {
               <Button color="primary" raised>Trier par</Button>
             </Box>
             <Box>
-              <FormControlLabel control={< Switch checked = {
+              <FormControlLabel control={< Switch checked={
                 this.state.photos
               }
-              onChange = {
-                this.handleChange('photos')
-              } />} label="Photos"/>
-              <FormControlLabel control={< Switch checked = {
+                                                  onChange={
+                                                    this.handleChange('photos')
+                                                  } />} label="Photos" />
+              <FormControlLabel control={< Switch checked={
                 this.state.videos
               }
-              onChange = {
-                this.handleChange('videos')
-              } />} label="Vidéos"/>
-              <FormControlLabel control={< Switch checked = {
+                                                  onChange={
+                                                    this.handleChange('videos')
+                                                  } />} label="Vidéos" />
+              <FormControlLabel control={< Switch checked={
                 this.state.gazettes
               }
-              onChange = {
-                this.handleChange('gazettes')
-              } />} label="Gazettes"/>
+                                                  onChange={
+                                                    this.handleChange('gazettes')
+                                                  } />} label="Gazettes" />
             </Box>
             <Box ml="auto">
               <Button color="primary" raised>Modifier l'affichage</Button>
             </Box>
           </Flex>
-          <DateSeparator date="Juillet 2017"/>
+          <DateSeparator date="Juillet 2017" />
           <Flex wrap>
             {'123456789'.split('').map(e => {
               return <Box w={[
                 1, 1 / 2,
                 1 / 3
               ]} p={2}>
-                <Album url="/img/background.jpg" text="New Album" onClick={this.toggleGallerie}/>
+                <Album url="/img/background.jpg" text="New Album" onClick={this.toggleGallerie} />
               </Box>
             })
-}
+            }
           </Flex>
-          <DateSeparator date="Aout 2017"/>
+          <DateSeparator date="Aout 2017" />
           <Flex wrap>
             {'123'.split('').map(e => {
               return <Box w={[
                 1, 1 / 2,
                 1 / 3
               ]} p={2}>
-                <Album url="/img/background.jpg" text="New Album"/>
+                <Album url="/img/background.jpg" text="New Album" />
               </Box>
             })
-}
+            }
           </Flex>
         </FluidContent>
-        <Gallery visible={this.state.showGallerie} onEscKey={this.toggleGallerie}/>
+        <Gallery visible={this.state.showGallerie} onEscKey={this.toggleGallerie} />
       </div>
     );
   }

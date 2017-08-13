@@ -19,7 +19,7 @@ class AddressBook extends Component {
   }
 
   render() {
-    return (<AddressBookView students={this.state.students}/>);
+    return (<AddressBookView students={this.state.students} />);
   }
 }
 

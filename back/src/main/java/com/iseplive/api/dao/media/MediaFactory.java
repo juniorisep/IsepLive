@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MediaFactory {
-    public VideoEmbed dtoToVideoEmbedEntity(VideoEmbedDTO dto) {
-        VideoEmbed videoEmbed = new VideoEmbed();
-        videoEmbed.setType(dto.getType());
-        videoEmbed.setUrl(dto.getUrl());
-        return videoEmbed;
-    }
+  public VideoEmbed dtoToVideoEmbedEntity(VideoEmbedDTO dto) {
+    VideoEmbed videoEmbed = new VideoEmbed();
+    videoEmbed.setType(dto.getType());
+    videoEmbed.setUrl(dto.getUrl());
+    return videoEmbed;
+  }
 }

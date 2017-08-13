@@ -2,8 +2,8 @@
 
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {Flex, Box} from 'grid-styled';
-import {FluidContent, Header, SearchBar, Filler, Banner} from '../../components/common';
+import {Box, Flex} from 'grid-styled';
+import {Banner, Filler, FluidContent, Header, SearchBar} from '../../components/common';
 import Button from 'material-ui/Button';
 
 const EventsList = styled.ul `
@@ -54,10 +54,11 @@ const Event = (props) => {
               <h3>Date de l'event</h3>
             </Box>
             <Box ml="auto">
-              <img src="/img/iseplive.jpg" alt="" width="40px"/>
+              <img src="/img/iseplive.jpg" alt="" width="40px" />
             </Box>
           </Flex>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
         </Box>
       </Flex>
     </EventStyle>
@@ -69,13 +70,13 @@ class Events extends Component {
     return (
       <div>
         <Header url="/img/background.jpg">
-          <Filler h={50}/>
+          <Filler h={50} />
           <Banner>
             <h1>Evenements</h1>
             <p>Il faut parfois prendre une pause dans ses études...</p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar placeholder="Rechercher des évenements"/>
+            <SearchBar placeholder="Rechercher des évenements" />
           </FluidContent>
         </Header>
         <FluidContent>
@@ -89,9 +90,9 @@ class Events extends Component {
           </Flex>
           <EventsList>
             {'-----'.split('').map(e => {
-              return <Event coverUrl="/img/background.jpg"/>
+              return <Event coverUrl="/img/background.jpg" />
             })
-}
+            }
           </EventsList>
         </FluidContent>
       </div>

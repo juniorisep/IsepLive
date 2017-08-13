@@ -7,22 +7,22 @@ import com.iseplive.api.constants.VideoEmbedEnum;
  * back
  */
 public class VideoEmbedDTO {
-    private VideoEmbedEnum type;
-    private String url;
+  private VideoEmbedEnum type;
+  private String url;
 
-    public VideoEmbedEnum getType() {
-        return type;
-    }
+  public VideoEmbedEnum getType() {
+    return type;
+  }
 
-    public void setType(VideoEmbedEnum type) {
-        this.type = type;
-    }
+  public void setType(VideoEmbedEnum type) {
+    this.type = type;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }

@@ -14,19 +14,19 @@ import java.util.List;
 @Service
 public class ImageService {
 
-    @Autowired
-    ImageRepository imageRepository;
+  @Autowired
+  ImageRepository imageRepository;
 
 
-    public Image getImage(Long id) {
-        Image img = imageRepository.findOne(id);
-        if (img != null) {
-            return img;
-        }
-        throw new RuntimeException("could not get the image with id: "+id);
+  public Image getImage(Long id) {
+    Image img = imageRepository.findOne(id);
+    if (img != null) {
+      return img;
     }
+    throw new RuntimeException("could not get the image with id: " + id);
+  }
 
-    public List<Image> getImages(List<Long> ids) {
-        return imageRepository.findImageByIdIn(ids);
-    }
+  public List<Image> getImages(List<Long> ids) {
+    return imageRepository.findImageByIdIn(ids);
+  }
 }

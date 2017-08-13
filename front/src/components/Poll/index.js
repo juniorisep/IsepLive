@@ -47,7 +47,7 @@ class Poll extends Component {
 
   componentDidMount() {
     if (!authData.isLoggedIn()) {
-      this.setState({ voted: true });
+      this.setState({voted: true});
     } else {
       pollData.getVote(this.state.data.id).then(res => {
         if (res.data) {
@@ -90,11 +90,11 @@ class Poll extends Component {
                   vote={this.state.answer}
                   total={total}
                   onClick={() => this.handleVote(a)}
-                  answer={a}/>
+                  answer={a} />
               );
             })
           }
-          { this.state.voted && <Caption>{total} vote{total !== 1 && 's'}</Caption> }
+          {this.state.voted && <Caption>{total} vote{total !== 1 && 's'}</Caption>}
         </Main>
       </Wrapper>
     );
@@ -156,7 +156,7 @@ function Answer(props) {
         width: (props.showVote
           ? percent
           : 0) + '%'
-      }}/>
+      }} />
     </AnswerStyle>
   )
 }

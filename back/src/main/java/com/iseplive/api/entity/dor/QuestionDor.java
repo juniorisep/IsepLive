@@ -11,88 +11,88 @@ import javax.persistence.Id;
  */
 @Entity
 public class QuestionDor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private Integer position;
-    private String title;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  private Integer position;
+  private String title;
 
-    private Boolean enableEvent;
-    private Boolean enableClub;
-    private Boolean enableStudent;
-    private Boolean enableEmployee;
-    private Boolean enableParty;
-    private Integer promo;
+  private Boolean enableEvent;
+  private Boolean enableClub;
+  private Boolean enableStudent;
+  private Boolean enableEmployee;
+  private Boolean enableParty;
+  private Integer promo;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Integer getPosition() {
-        return position;
-    }
+  public Integer getPosition() {
+    return position;
+  }
 
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
+  public void setPosition(Integer position) {
+    this.position = position;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public Boolean getEnableEvent() {
-        return enableEvent;
-    }
+  public Boolean getEnableEvent() {
+    return enableEvent;
+  }
 
-    public void setEnableEvent(Boolean enableEvent) {
-        this.enableEvent = enableEvent;
-    }
+  public void setEnableEvent(Boolean enableEvent) {
+    this.enableEvent = enableEvent;
+  }
 
-    public Boolean getEnableClub() {
-        return enableClub;
-    }
+  public Boolean getEnableClub() {
+    return enableClub;
+  }
 
-    public void setEnableClub(Boolean enableClub) {
-        this.enableClub = enableClub;
-    }
+  public void setEnableClub(Boolean enableClub) {
+    this.enableClub = enableClub;
+  }
 
-    public Boolean getEnableStudent() {
-        return enableStudent;
-    }
+  public Boolean getEnableStudent() {
+    return enableStudent;
+  }
 
-    public void setEnableStudent(Boolean enableStudent) {
-        this.enableStudent = enableStudent;
-    }
+  public void setEnableStudent(Boolean enableStudent) {
+    this.enableStudent = enableStudent;
+  }
 
-    public Boolean getEnableEmployee() {
-        return enableEmployee;
-    }
+  public Boolean getEnableEmployee() {
+    return enableEmployee;
+  }
 
-    public void setEnableEmployee(Boolean enableEmployee) {
-        this.enableEmployee = enableEmployee;
-    }
+  public void setEnableEmployee(Boolean enableEmployee) {
+    this.enableEmployee = enableEmployee;
+  }
 
-    public Boolean getEnableParty() {
-        return enableParty;
-    }
+  public Boolean getEnableParty() {
+    return enableParty;
+  }
 
-    public void setEnableParty(Boolean enableParty) {
-        this.enableParty = enableParty;
-    }
+  public void setEnableParty(Boolean enableParty) {
+    this.enableParty = enableParty;
+  }
 
-    public Integer getPromo() {
-        return promo;
-    }
+  public Integer getPromo() {
+    return promo;
+  }
 
-    public void setPromo(Integer promo) {
-        this.promo = promo;
-    }
+  public void setPromo(Integer promo) {
+    this.promo = promo;
+  }
 }

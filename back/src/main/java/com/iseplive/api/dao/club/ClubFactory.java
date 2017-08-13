@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ClubFactory {
-    public Club dtoToEntity(ClubDTO dto) {
-        Club club = new Club();
-        club.setName(dto.getName());
-        club.setDescription(dto.getDescription());
-        club.setCreation(dto.getCreation());
-        club.setWebsite(dto.getWebsite());
-        return club;
-    }
+  public Club dtoToEntity(ClubDTO dto) {
+    Club club = new Club();
+    club.setName(dto.getName());
+    club.setDescription(dto.getDescription());
+    club.setCreation(dto.getCreation());
+    club.setWebsite(dto.getWebsite());
+    return club;
+  }
 }

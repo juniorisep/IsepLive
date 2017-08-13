@@ -6,23 +6,23 @@ package com.iseplive.api.constants;
  */
 public enum ImageTypeEnum {
 
-    /**
-     * Standard images
-     */
-    STANDALONE,
+  /**
+   * Standard images
+   */
+  STANDALONE,
 
-    /**
-     * Images linked to a gallery
-     */
-    GALLERY,
+  /**
+   * Images linked to a gallery
+   */
+  GALLERY,
 
-    /**
-     * Logo of clubs
-     */
-    CLUB,
+  /**
+   * Logo of clubs
+   */
+  CLUB,
 
-    /**
-     * Profile images
-     */
-    CONTACT
+  /**
+   * Profile images
+   */
+  CONTACT
 }

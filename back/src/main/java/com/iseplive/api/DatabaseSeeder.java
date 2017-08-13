@@ -1,13 +1,9 @@
 package com.iseplive.api;
 
+import com.iseplive.api.dao.poll.PollRepository;
+import com.iseplive.api.dao.post.PostRepository;
+import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
-import com.iseplive.api.entity.*;
-import com.iseplive.api.dao.student.*;
-import com.iseplive.api.dao.club.*;
-import com.iseplive.api.dao.event.*;
-import com.iseplive.api.dao.media.*;
-import com.iseplive.api.dao.poll.*;
-import com.iseplive.api.dao.post.*;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.ClubService;
 import com.iseplive.api.services.EventService;
@@ -16,59 +12,59 @@ import com.iseplive.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Date;
 
 @Service
 public class DatabaseSeeder {
 
-    @Autowired
-    private StudentRepository studentRepository;
+  @Autowired
+  private StudentRepository studentRepository;
 
-    @Autowired
-    private StudentService studentService;
+  @Autowired
+  private StudentService studentService;
 
-    @Autowired
-    private ClubService clubService;
+  @Autowired
+  private ClubService clubService;
 
-    @Autowired
-    private EventService eventService;
+  @Autowired
+  private EventService eventService;
 
-    @Autowired
-    private MediaService mediaService;
+  @Autowired
+  private MediaService mediaService;
 
-    @Autowired
-    private PollRepository PollRepository;
+  @Autowired
+  private PollRepository PollRepository;
 
-    @Autowired
-    private PostRepository PostRepository;
+  @Autowired
+  private PostRepository PostRepository;
 
-    public void seedDatabase() {
-        if (isDatabaseSeeded()) {
-            System.out.println("Database is already seeded. Exiting seeder.");
-            return;
-        }
-
-        runSeedDatabase();
-
-        System.out.println("Database successfully initialized ! Exiting seeder \uD83D\uDC4D");
+  public void seedDatabase() {
+    if (isDatabaseSeeded()) {
+      System.out.println("Database is already seeded. Exiting seeder.");
+      return;
     }
 
-    private boolean isDatabaseSeeded() {
-        Student user = studentRepository.findOne(1L);
-        // if it's found, the database is already seeded
-        return user != null;
-    }
-    private void runSeedDatabase() {
-        // TODO
-        StudentDTO studentDTO = new StudentDTO();
-        studentDTO.setFirstname("Guillaume");
-        studentDTO.setLastname("Carré");
-        studentDTO.setBirthDate(new Date());
-        studentDTO.setPromo(2018);
+    runSeedDatabase();
 
-        studentService.createStudent(studentDTO);
+    System.out.println("Database successfully initialized ! Exiting seeder \uD83D\uDC4D");
+  }
+
+  private boolean isDatabaseSeeded() {
+    Student user = studentRepository.findOne(1L);
+    // if it's found, the database is already seeded
+    return user != null;
+  }
+
+  private void runSeedDatabase() {
+    // TODO
+    StudentDTO studentDTO = new StudentDTO();
+    studentDTO.setFirstname("Guillaume");
+    studentDTO.setLastname("Carré");
+    studentDTO.setBirthDate(new Date());
+    studentDTO.setPromo(2018);
+
+    studentService.createStudent(studentDTO);
 
 
-    }
+  }
 }

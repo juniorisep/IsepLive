@@ -30,17 +30,18 @@ class Admin extends Component {
       <div>
         <FluidContent>
           <Paper>
-            <Tabs index={this.state.index} onChange={this.handleChange} indicatorColor="primary" textColor="primary" centered>
-              <Tab label="Utilisateurs"/>
-              <Tab label="Associations"/>
-              <Tab label="ISEP D'OR"/>
+            <Tabs index={this.state.index} onChange={this.handleChange} indicatorColor="primary" textColor="primary"
+                  centered>
+              <Tab label="Utilisateurs" />
+              <Tab label="Associations" />
+              <Tab label="ISEP D'OR" />
             </Tabs>
           </Paper>
           {this.state.index === 0 && <TabContainer>
-            <Users/>
+            <Users />
           </TabContainer>}
           {this.state.index === 1 && <TabContainer>
-            <Club/>
+            <Club />
           </TabContainer>}
           {this.state.index === 2 && <TabContainer>
             {'Item Three'}

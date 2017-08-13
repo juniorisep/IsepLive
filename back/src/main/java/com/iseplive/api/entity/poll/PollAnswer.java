@@ -11,47 +11,47 @@ import java.util.List;
  */
 @Entity
 public class PollAnswer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String content;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  private String content;
 
-    @OneToOne
-    private Poll poll;
+  @OneToOne
+  private Poll poll;
 
-    @OneToMany(mappedBy = "answer")
-    private List<PollVote> votes;
+  @OneToMany(mappedBy = "answer")
+  private List<PollVote> votes;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    @JsonIgnore
-    public Poll getPoll() {
-        return poll;
-    }
+  @JsonIgnore
+  public Poll getPoll() {
+    return poll;
+  }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
-    }
+  public void setPoll(Poll poll) {
+    this.poll = poll;
+  }
 
-    public int getVotesNb() {
-        return votes.size();
-    }
+  public int getVotesNb() {
+    return votes.size();
+  }
 
-    public void setVotes(List<PollVote> votes) {
-        this.votes = votes;
-    }
+  public void setVotes(List<PollVote> votes) {
+    this.votes = votes;
+  }
 }

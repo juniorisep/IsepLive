@@ -13,13 +13,13 @@ if (token != null) {
 
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
-    // Do something with response data
-    const respAuthToken = response.headers['Authorization'];
-    if (respAuthToken) {
-      authData.setToken(respAuthToken)
-    }
-    return response;
-  }, function (error) {
-    // Do something with response error
-    return Promise.reject(error);
+  // Do something with response data
+  const respAuthToken = response.headers['Authorization'];
+  if (respAuthToken) {
+    authData.setToken(respAuthToken)
+  }
+  return response;
+}, function (error) {
+  // Do something with response error
+  return Promise.reject(error);
 });

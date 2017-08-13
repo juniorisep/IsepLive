@@ -5,25 +5,25 @@ import {Route, Redirect} from 'react-router';
 import {hasRole} from "../../data/auth";
 
 type Props = {
-  component: React.ReactClass <*>,
-  [key : string]: any, // allow any props
+  component: React.ReactClass<*>,
+  [key: string]: any, // allow any props
 }
 
 const AuthenticatedRoute = ({
-  component: Component,
-  roles,
-  ...rest
-} : Props) => {
+    component: Component,
+    roles,
+    ...rest
+  }: Props) => {
   const authenticated = hasRole(roles);
   return (
     <Route {...rest} render={props => (authenticated
-      ? (<Component {...props}/>)
+      ? (<Component {...props} />)
       : (<Redirect to={{
         pathname: '/connexion',
         state: {
           from: props.location
         }
-      }}/>))}/>
+      }} />))} />
   );
 };
 

@@ -23,66 +23,66 @@ import java.util.stream.Collectors;
 @Service
 public class JwtTokenUtil {
 
-    public static final String CLAIM_KEY_ID = "id";
-    public static final String CLAIM_KEY_ROLES = "roles";
+  public static final String CLAIM_KEY_ID = "id";
+  public static final String CLAIM_KEY_ROLES = "roles";
 
-    @Value("${jwt.secret}")
-    private String secret;
+  @Value("${jwt.secret}")
+  private String secret;
 
-    @Value("${jwt.issuer}")
-    private String issuer;
+  @Value("${jwt.issuer}")
+  private String issuer;
 
-    @Value("${jwt.tokenDuration}")
-    private int tokenDuration;
+  @Value("${jwt.tokenDuration}")
+  private int tokenDuration;
 
-    public DecodedJWT decodeToken(String token) {
-        DecodedJWT jwt = null;
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer(issuer)
-                    .build(); //Reusable verifier instance
-            jwt = verifier.verify(token);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return jwt;
+  public DecodedJWT decodeToken(String token) {
+    DecodedJWT jwt = null;
+    try {
+      Algorithm algorithm = Algorithm.HMAC256(secret);
+      JWTVerifier verifier = JWT.require(algorithm)
+        .withIssuer(issuer)
+        .build(); //Reusable verifier instance
+      jwt = verifier.verify(token);
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
     }
+    return jwt;
+  }
 
-    public String generateToken(Student student) {
+  public String generateToken(Student student) {
 
-        String[] rolesArray = new String[student.getAuthorities().size()];
-        List<String> roles = student.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        rolesArray = roles.toArray(rolesArray);
+    String[] rolesArray = new String[student.getAuthorities().size()];
+    List<String> roles = student.getAuthorities()
+      .stream()
+      .map(GrantedAuthority::getAuthority)
+      .collect(Collectors.toList());
+    rolesArray = roles.toArray(rolesArray);
 
-        return generateTokenWithIdAndRolesArray(student.getId(), rolesArray);
+    return generateTokenWithIdAndRolesArray(student.getId(), rolesArray);
+  }
+
+  private String generateTokenWithIdAndRolesArray(Long id, String[] roles) {
+    Calendar calendar = Calendar.getInstance(Locale.FRANCE); // gets a calendar using the default time zone and locale.
+    calendar.add(Calendar.SECOND, tokenDuration);
+    try {
+      Algorithm algorithm = Algorithm.HMAC256(secret);
+      String token = JWT.create()
+        .withIssuer(issuer)
+        .withIssuedAt(new Date())
+        .withExpiresAt(calendar.getTime())
+        .withClaim(CLAIM_KEY_ID, id)
+        .withArrayClaim(CLAIM_KEY_ROLES, roles)
+        .sign(algorithm);
+      return token;
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
     }
+    return null;
+  }
 
-    private String generateTokenWithIdAndRolesArray(Long id, String[] roles) {
-        Calendar calendar = Calendar.getInstance(Locale.FRANCE); // gets a calendar using the default time zone and locale.
-        calendar.add(Calendar.SECOND, tokenDuration);
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
-                    .withIssuer(issuer)
-                    .withIssuedAt(new Date())
-                    .withExpiresAt(calendar.getTime())
-                    .withClaim(CLAIM_KEY_ID, id)
-                    .withArrayClaim(CLAIM_KEY_ROLES, roles)
-                    .sign(algorithm);
-            return token;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String refreshToken(DecodedJWT jwt) {
-        Long id = jwt.getClaim(CLAIM_KEY_ID).asLong();
-        String[] roles = jwt.getClaim(CLAIM_KEY_ROLES).asArray(String.class);
-        return generateTokenWithIdAndRolesArray(id, roles);
-    }
+  public String refreshToken(DecodedJWT jwt) {
+    Long id = jwt.getClaim(CLAIM_KEY_ID).asLong();
+    String[] roles = jwt.getClaim(CLAIM_KEY_ROLES).asArray(String.class);
+    return generateTokenWithIdAndRolesArray(id, roles);
+  }
 }

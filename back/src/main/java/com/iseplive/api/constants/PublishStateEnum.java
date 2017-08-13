@@ -5,18 +5,18 @@ package com.iseplive.api.constants;
  * back
  */
 public enum PublishStateEnum {
-    /**
-     * Item not published yer
-     */
-    WAITING,
+  /**
+   * Item not published yer
+   */
+  WAITING,
 
-    /**
-     * Item available
-     */
-    PUBLISHED,
+  /**
+   * Item available
+   */
+  PUBLISHED,
 
-    /**
-     * Item archived
-     */
-    ARCHIVED
+  /**
+   * Item archived
+   */
+  ARCHIVED
 }

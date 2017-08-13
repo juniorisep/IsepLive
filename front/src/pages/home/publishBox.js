@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 
 import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled';
+import {Box, Flex} from 'grid-styled';
 
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
@@ -13,15 +13,10 @@ import * as postData from '../../data/post';
 import * as pollData from '../../data/media/poll';
 import * as authData from '../../data/auth';
 import {PostDTO} from '../../data/post/type';
-import {PollDTO} from '../../data/media/type';
 
-import {MediaDialog, MediaCreator, PollForm } from './mediaForms';
+import {MediaCreator, PollForm} from './mediaForms';
 
-import {
-  Filler,
-  ProfileImage,
-  Text,
-} from '../../components/common';
+import {ProfileImage, Text,} from '../../components/common';
 
 const PublishBox = styled.div`
   background: ${props => props.theme.main};
@@ -37,7 +32,7 @@ const TitleBox = styled.input`
   outline: 0;
   border-radius: 5px;
   width: 100%;
-  margin-bottom: ${props => props.m || '5px'};
+  margin-bottom: ${props => props.m || '5px'};
 `;
 
 let MessageBox = TitleBox.withComponent('textarea');
@@ -92,20 +87,20 @@ class PublishBoxView extends Component {
             type: a.authorType,
           }
         })
-        this.setState({ authorList: authors, author: authors[0] });
+        this.setState({authorList: authors, author: authors[0]});
       })
     }
   }
 
   onTitleChange = (event) => {
-    this.setState({ title: event.target.value });
+    this.setState({title: event.target.value});
   }
 
   onMessageChange = (event) => {
-    this.setState({ message: event.target.value });
+    this.setState({message: event.target.value});
   }
 
-  onPublish = () => {
+  onPublish = () => {
 
     const dto: PostDTO = {
       authorId: this.state.author.id,
@@ -114,23 +109,23 @@ class PublishBoxView extends Component {
     }
     let postId;
     postData.createPost(dto)
-    .then(res => {
-      postId = res.data.id;
-      return res.data.id
-    })
-    .then(postData.publishPost)
-    .then(res => {
-      this.setState({ title: null, message: '' });
-    }).then(() => {
+      .then(res => {
+        postId = res.data.id;
+        return res.data.id
+      })
+      .then(postData.publishPost)
+      .then(res => {
+        this.setState({title: null, message: ''});
+      }).then(() => {
       if (this.state.mediaSelected) {
         this.createMedia()
-        .then(res => res.data.id)
-        .then(id => {
-          return id;
-        })
-        .then((mediaId) => postData.addMedia(postId, mediaId))
-        .then(this.closeMediaCreator)
-        .then(this.props.refreshPosts);
+          .then(res => res.data.id)
+          .then(id => {
+            return id;
+          })
+          .then((mediaId) => postData.addMedia(postId, mediaId))
+          .then(this.closeMediaCreator)
+          .then(this.props.refreshPosts);
         return;
       }
       this.props.refreshPosts();
@@ -154,7 +149,7 @@ class PublishBoxView extends Component {
         this.inputFile.click();
         break;
     }
-    this.setState({ mediaSelected: item, mediaCreatorOpen: true });
+    this.setState({mediaSelected: item, mediaCreatorOpen: true});
     this.handleMediaMenuClose();
   }
 
@@ -167,7 +162,7 @@ class PublishBoxView extends Component {
   }
 
   handleAuthorMenuClose = () => {
-    this.setState({ authorMenuOpen: false });
+    this.setState({authorMenuOpen: false});
   }
 
   handleAuthorSelect = (author) => {
@@ -179,19 +174,19 @@ class PublishBoxView extends Component {
 
 
   changeAuthor = (event) => {
-    this.setState({ authorMenuOpen: true, anchorEl: event.currentTarget });
+    this.setState({authorMenuOpen: true, anchorEl: event.currentTarget});
   }
 
   closeMediaCreator = () => {
-    this.setState({ mediaCreatorOpen: false, form: null, mediaSelected: null });
+    this.setState({mediaCreatorOpen: false, form: null, mediaSelected: null});
   }
 
   onFormChange = (form) => {
-    this.setState({ form });
+    this.setState({form});
   }
 
   canPublish() {
-    const { author, title, message } = this.state;
+    const {author, title, message} = this.state;
     if (author && author.type === 'club') {
       if (title && message && title !== '' && message !== '') {
         return true;
@@ -205,7 +200,7 @@ class PublishBoxView extends Component {
   }
 
   render() {
-    const { author } = this.state;
+    const {author} = this.state;
     const canPublish = this.canPublish();
     return (
       <div>
@@ -221,11 +216,11 @@ class PublishBoxView extends Component {
           <MessageBox
             placeholder="Tapez votre message"
             onChange={this.onMessageChange}
-            value={this.state.message}/>
+            value={this.state.message} />
           <Flex align="center">
             <Box>
               <IconButton color="contrast" onClick={this.openMediaMenu}>
-                <AddCircleIcon/>
+                <AddCircleIcon />
               </IconButton>
             </Box>
             <Box ml="auto">
@@ -234,7 +229,7 @@ class PublishBoxView extends Component {
               </Button>
             </Box>
             <Box ml="10px">
-              <Button raised color="accent" style={{ float: "right" }} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
+              <Button raised color="accent" style={{float: "right"}} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
             </Box>
           </Flex>
 
@@ -245,7 +240,7 @@ class PublishBoxView extends Component {
             accept="jpg,jpeg,JPG,JPEG"
             multiple
             style={{display: 'none'}}
-          />
+           />
           <Menu
             anchorEl={this.state.anchorEl}
             open={this.state.authorMenuOpen}
@@ -285,7 +280,7 @@ class PublishBoxView extends Component {
           title="Sondage"
           show={this.state.mediaCreatorOpen}
           onDelete={this.closeMediaCreator}>
-          { this.state.mediaSelected === 'poll' && <PollForm update={this.onFormChange} /> }
+          {this.state.mediaSelected === 'poll' && <PollForm update={this.onFormChange} />}
         </MediaCreator>
       </div>
     );

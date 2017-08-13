@@ -1,37 +1,35 @@
 package com.iseplive.api.dto;
 
-import java.util.Date;
-
 /**
  * Created by Guillaume on 27/07/2017.
  * back
  */
 public class PostDTO {
-    private String title;
-    private String content;
-    private Long authorId;
+  private String title;
+  private String content;
+  private Long authorId;
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    public Long getAuthorId() {
-        return authorId;
-    }
+  public Long getAuthorId() {
+    return authorId;
+  }
 
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
+  public void setAuthorId(Long authorId) {
+    this.authorId = authorId;
+  }
 }

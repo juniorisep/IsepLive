@@ -1,24 +1,12 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
-import {Flex, Box} from 'grid-styled';
+import {Box, Flex} from 'grid-styled';
 import Button from 'material-ui/Button';
 
-import {
-  Separator,
-  FluidContent,
-  Header,
-  SearchBar,
-  Filler,
-  ProfileImage,
-  Text,
-  Title,
-  Subtitle,
-} from '../../components/common';
-
-import Time from '../../components/Time';
+import {Filler, FluidContent, Header, SearchBar, Separator, Title,} from '../../components/common';
 import PostListView from '../../components/PostList';
 import Auth from '../../components/Auth/AuthComponent';
 
@@ -89,9 +77,9 @@ export default function Home(props) {
   return (
     <div>
       <Header url="/img/background.jpg">
-        <Filler h="200"/>
+        <Filler h="200" />
         <FluidContent p="0">
-          <SearchBar placeholder="Rechercher"/>
+          <SearchBar placeholder="Rechercher" />
         </FluidContent>
       </Header>
       <FluidContent>
@@ -100,38 +88,38 @@ export default function Home(props) {
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Video.svg"/>
+            <Icon src="svg/Video.svg" />
             <IconName>Videos</IconName>
           </Box>
           <Box w={[
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Photo.svg"/>
+            <Icon src="svg/Photo.svg" />
             <IconName>Photos</IconName>
           </Box>
           <Box w={[
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Gazette.svg"/>
+            <Icon src="svg/Gazette.svg" />
             <IconName>Gazettes</IconName>
           </Box>
           <Box w={[
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Evenement.svg"/>
+            <Icon src="svg/Evenement.svg" />
             <IconName>Evenements</IconName>
           </Box>
         </Flex>
       </FluidContent>
       <Background>
-        <Overlay/>
+        <Overlay />
         <FluidContent>
           <Auth>
-            <PublishBoxView refreshPosts={props.refreshPosts}/>
-            <Separator/>
+            <PublishBoxView refreshPosts={props.refreshPosts} />
+            <Separator />
           </Auth>
           <PostSection>
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
@@ -151,7 +139,7 @@ export default function Home(props) {
           <SectionTitle fontSize={2} framed>L'EQUIPE</SectionTitle>
           <Flex wrap>
             <Box w={[ 1, 1 / 2 ]} p={2}>
-              <img src="/img/background.jpg" alt="" width="100%"/>
+              <img src="/img/background.jpg" alt="" width="100%" />
             </Box>
             <Box w={[ 1, 1 / 2 ]} p={2}>
               <Text>
@@ -163,23 +151,23 @@ export default function Home(props) {
             </Box>
           </Flex>
         </About>
-        <Separator />
+        <Separator  />
           <SectionTitle fontSize={2} framed>SUIVEZ-NOUS</SectionTitle>
           <Flex wrap justify="space-between">
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <FakeIcon  />
             <IconName>Facebook</IconName>
           </Box>
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <FakeIcon  />
             <IconName>Twitter</IconName>
           </Box>
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <FakeIcon  />
             <IconName>Instagram</IconName>
           </Box>
           <Box w={[1, 1/2, 1/4]}>
-            <FakeIcon />
+            <FakeIcon  />
             <IconName>Snapchat</IconName>
           </Box>
         </Flex>

@@ -2,15 +2,8 @@
 
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {Flex, Box} from 'grid-styled';
-import {
-  FluidContent,
-  Header,
-  SearchBar,
-  Filler,
-  Banner,
-  ProfileImage
-} from '../../components/common';
+import {Box, Flex} from 'grid-styled';
+import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from '../../components/common';
 import Button from 'material-ui/Button';
 
 const Person = (props) => {
@@ -30,7 +23,7 @@ const Person = (props) => {
   `;
   return (
     <PersonStyle>
-      <ProfileImage src={props.url} w="100%"/> {/* <img src={props.url} alt="person-image"/> */}
+      <ProfileImage src={props.url} w="100%" /> {/* <img src={props.url} alt="person-image" /> */}
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>
@@ -44,7 +37,7 @@ class AddressBook extends Component {
     return (
       <div>
         <Header url="/img/background.jpg">
-          <Filler h={50}/>
+          <Filler h={50} />
           <Banner>
             <h1>Annuaire</h1>
             <p>Si vous voulez stalker, c'est ici que ça se passe !</p>
@@ -52,7 +45,7 @@ class AddressBook extends Component {
           <FluidContent p="0">
             <Flex align="center">
               <Box flex="1 1 auto">
-                <SearchBar placeholder="Rechercher des ami(e)s"/>
+                <SearchBar placeholder="Rechercher des ami(e)s" />
               </Box>
               <Box flex="0 0 auto" ml="10px">
                 <Button color="primary" raised>Genre</Button>
@@ -69,7 +62,7 @@ class AddressBook extends Component {
         <FluidContent>
           <Flex align="center">
             <Box flex="0 0 auto">
-            8 personnes correspondent à votre recherche</Box>
+              8 personnes correspondent à votre recherche</Box>
             <Box ml="auto">
               <Button color="primary" raised>Modifier l'Affichage</Button>
             </Box>
@@ -81,8 +74,8 @@ class AddressBook extends Component {
             {
               this.props.students.map(e => {
                 return (
-                  <Box w={[ 1, 1 / 3, 1 / 5 ]} p={2}>
-                    <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo}/>
+                  <Box w={[1, 1 / 3, 1 / 5]} p={2}>
+                    <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo} />
                   </Box>
                 )
               })

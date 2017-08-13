@@ -11,9 +11,9 @@ import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dia
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
-import {Flex, Box} from 'grid-styled';
+import {Box, Flex} from 'grid-styled';
 
-import {FluidContent, Header, SearchBar, Filler, Banner} from '../../components/common';
+import {Banner, Filler, FluidContent, Header, SearchBar} from '../../components/common';
 
 const Person = (props) => {
   const PersonStyle = styled.div `
@@ -24,7 +24,7 @@ const Person = (props) => {
   `;
   return (
     <PersonStyle>
-      <img src={props.url} alt="person"/>
+      <img src={props.url} alt="person" />
     </PersonStyle>
   )
 }
@@ -42,13 +42,13 @@ class Resume extends Component {
     return (
       <div>
         <Header url="/img/background.jpg">
-          <Filler h={50}/>
+          <Filler h={50} />
           <Banner>
             <h1>Profil</h1>
             <p>Ton petit jardin secret</p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar placeholder="Rechercher"/>
+            <SearchBar placeholder="Rechercher" />
           </FluidContent>
         </Header>
         <FluidContent>
@@ -56,7 +56,7 @@ class Resume extends Component {
             <Box p={2} width={[
               1, 1 / 4
             ]}>
-              <Person url="https://numeris-isep.fr/img/team//amalric.resized.jpg"/>
+              <Person url="https://numeris-isep.fr/img/team//amalric.resized.jpg" />
             </Box>
             <Box p={2} width={[
               1, 3 / 4
@@ -146,7 +146,7 @@ class Resume extends Component {
               </Paper>
             </Box>
           </Flex>
-          <UpdateResume open={this.state.open} handleRequestClose={this.handleRequestClose}/>
+          <UpdateResume open={this.state.open} handleRequestClose={this.handleRequestClose} />
         </FluidContent>
       </div>
     );
@@ -162,12 +162,12 @@ function UpdateResume(props) {
         {"Modifier vos informations"}
       </DialogTitle>
       <DialogContent>
-        <TextField type="text" label="Email" fullWidth/>
-        <TextField type="text" label="Téléphone" fullWidth/>
-        <TextField type="text" label="Adresse" fullWidth/>
-        <TextField type="text" label="Date de naissance" fullWidth/>
-        <TextField type="text" label="Lien Facebook" fullWidth/>
-        <TextField type="text" label="Lien Instagram" fullWidth/>
+        <TextField type="text" label="Email" fullWidth />
+        <TextField type="text" label="Téléphone" fullWidth />
+        <TextField type="text" label="Adresse" fullWidth />
+        <TextField type="text" label="Date de naissance" fullWidth />
+        <TextField type="text" label="Lien Facebook" fullWidth />
+        <TextField type="text" label="Lien Instagram" fullWidth />
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleRequestClose} color="accent">

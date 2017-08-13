@@ -5,11 +5,11 @@ package com.iseplive.api.constants;
  * back
  */
 public interface MediaType {
-    String GALLERY = "gallery";
-    String GAZETTE = "gazette";
-    String VIDEO = "video";
-    String VIDEO_EMBED = "videoEmbed";
-    String IMAGE = "image";
-    String POLL = "poll";
-    String EVENT = "event";
+  String GALLERY = "gallery";
+  String GAZETTE = "gazette";
+  String VIDEO = "video";
+  String VIDEO_EMBED = "videoEmbed";
+  String IMAGE = "image";
+  String POLL = "poll";
+  String EVENT = "event";
 }

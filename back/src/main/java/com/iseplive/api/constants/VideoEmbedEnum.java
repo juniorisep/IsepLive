@@ -5,5 +5,5 @@ package com.iseplive.api.constants;
  * back
  */
 public enum VideoEmbedEnum {
-    YOUTUBE, FACEBOOK
+  YOUTUBE, FACEBOOK
 }

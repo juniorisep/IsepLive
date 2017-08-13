@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AuthService {
-    @Autowired
-    StudentService studentService;
+  @Autowired
+  StudentService studentService;
 
-    public boolean isUserAnonymous() {
-        return SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal().equals("anonymousUser");
-    }
+  public boolean isUserAnonymous() {
+    return SecurityContextHolder.getContext().getAuthentication()
+      .getPrincipal().equals("anonymousUser");
+  }
 
-    public Student getLoggedUser() {
-        if (!isUserAnonymous()) {
-            Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return studentService.getStudent(id);
-        }
-        return null;
+  public Student getLoggedUser() {
+    if (!isUserAnonymous()) {
+      Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      return studentService.getStudent(id);
     }
+    return null;
+  }
 }

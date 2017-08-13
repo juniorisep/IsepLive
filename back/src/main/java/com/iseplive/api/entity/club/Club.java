@@ -17,95 +17,95 @@ import java.util.List;
 @DiscriminatorValue("club")
 public class Club extends Author {
 
-    private String name;
-    private String description;
-    private Date creation;
-    private String website;
+  private String name;
+  private String description;
+  private Date creation;
+  private String website;
 
-    @JsonIgnore
-    @ManyToMany
-    private List<ClubMember> members;
+  @JsonIgnore
+  @ManyToMany
+  private List<ClubMember> members;
 
-    @JsonIgnore
-    @Enumerated(EnumType.STRING)
-    private PublishStateEnum publishState;
+  @JsonIgnore
+  @Enumerated(EnumType.STRING)
+  private PublishStateEnum publishState;
 
-    @JsonIgnore
-    @ManyToMany
-    private List<Student> admins;
+  @JsonIgnore
+  @ManyToMany
+  private List<Student> admins;
 
-    private String logoUrl;
-    private String logoThumbUrl;
+  private String logoUrl;
+  private String logoThumbUrl;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public Date getCreation() {
-        return creation;
-    }
+  public Date getCreation() {
+    return creation;
+  }
 
-    public void setCreation(Date creation) {
-        this.creation = creation;
-    }
+  public void setCreation(Date creation) {
+    this.creation = creation;
+  }
 
-    public String getWebsite() {
-        return website;
-    }
+  public String getWebsite() {
+    return website;
+  }
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
+  public void setWebsite(String website) {
+    this.website = website;
+  }
 
-    public PublishStateEnum getPublishState() {
-        return publishState;
-    }
+  public PublishStateEnum getPublishState() {
+    return publishState;
+  }
 
-    public void setPublishState(PublishStateEnum publishState) {
-        this.publishState = publishState;
-    }
+  public void setPublishState(PublishStateEnum publishState) {
+    this.publishState = publishState;
+  }
 
-    public List<ClubMember> getMembers() {
-        return members;
-    }
+  public List<ClubMember> getMembers() {
+    return members;
+  }
 
-    public void setMembers(List<ClubMember> members) {
-        this.members = members;
-    }
+  public void setMembers(List<ClubMember> members) {
+    this.members = members;
+  }
 
-    public String getLogoUrl() {
-        return logoUrl;
-    }
+  public String getLogoUrl() {
+    return logoUrl;
+  }
 
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
+  public void setLogoUrl(String logoUrl) {
+    this.logoUrl = logoUrl;
+  }
 
-    public String getLogoThumbUrl() {
-        return logoThumbUrl;
-    }
+  public String getLogoThumbUrl() {
+    return logoThumbUrl;
+  }
 
-    public void setLogoThumbUrl(String logoThumbUrl) {
-        this.logoThumbUrl = logoThumbUrl;
-    }
+  public void setLogoThumbUrl(String logoThumbUrl) {
+    this.logoThumbUrl = logoThumbUrl;
+  }
 
-    public List<Student> getAdmins() {
-        return admins;
-    }
+  public List<Student> getAdmins() {
+    return admins;
+  }
 
-    public void setAdmins(List<Student> admins) {
-        this.admins = admins;
-    }
+  public void setAdmins(List<Student> admins) {
+    this.admins = admins;
+  }
 }

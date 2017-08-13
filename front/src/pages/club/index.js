@@ -19,7 +19,7 @@ class Club extends Component {
   }
 
   render() {
-    return (<ClubView clubs={this.state.clubs}/>);
+    return (<ClubView clubs={this.state.clubs} />);
   }
 }
 

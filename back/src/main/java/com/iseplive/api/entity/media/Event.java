@@ -4,7 +4,10 @@ import com.iseplive.api.constants.MediaType;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.util.Date;
 
 /**
@@ -15,74 +18,74 @@ import java.util.Date;
 @DiscriminatorValue(MediaType.EVENT)
 public class Event extends Media {
 
-    private String title;
-    private String location;
-    private Date date;
+  private String title;
+  private String location;
+  private Date date;
 
-    private PublishStateEnum publishState;
+  private PublishStateEnum publishState;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+  @Column(columnDefinition = "TEXT")
+  private String description;
 
-    @OneToOne
-    private Club club;
+  @OneToOne
+  private Club club;
 
-    @OneToOne
-    private Image image;
+  @OneToOne
+  private Image image;
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public String getLocation() {
-        return location;
-    }
+  public String getLocation() {
+    return location;
+  }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+  public void setLocation(String location) {
+    this.location = location;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+  public void setDate(Date date) {
+    this.date = date;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public Club getClub() {
-        return club;
-    }
+  public Club getClub() {
+    return club;
+  }
 
-    public void setClub(Club club) {
-        this.club = club;
-    }
+  public void setClub(Club club) {
+    this.club = club;
+  }
 
-    public Image getImage() {
-        return image;
-    }
+  public Image getImage() {
+    return image;
+  }
 
-    public void setImage(Image image) {
-        this.image = image;
-    }
+  public void setImage(Image image) {
+    this.image = image;
+  }
 
-    public PublishStateEnum getPublishState() {
-        return publishState;
-    }
+  public PublishStateEnum getPublishState() {
+    return publishState;
+  }
 
-    public void setPublishState(PublishStateEnum publishState) {
-        this.publishState = publishState;
-    }
+  public void setPublishState(PublishStateEnum publishState) {
+    this.publishState = publishState;
+  }
 }

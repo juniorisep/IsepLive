@@ -16,6 +16,7 @@ class Club extends Component {
   handleRequestClose = () => {
     this.setState({open: false});
   };
+
   render() {
     return (
       <div>
@@ -27,15 +28,15 @@ class Club extends Component {
             {"Ajouter une nouvelle association"}
           </DialogTitle>
           <DialogContent>
-            <TextField type="text" label="Nom de l'association" fullWidth/>
-            <TextField type="text" label="date de création" fullWidth/>
-            <TextField type="text" label="Description" fullWidth/>
-            <TextField type="text" label="Email" fullWidth/>
-            <TextField type="text" label="Nom du président" fullWidth/>
-            <br/><br/>
+            <TextField type="text" label="Nom de l'association" fullWidth />
+            <TextField type="text" label="date de création" fullWidth />
+            <TextField type="text" label="Description" fullWidth />
+            <TextField type="text" label="Email" fullWidth />
+            <TextField type="text" label="Nom du président" fullWidth />
+            <br /><br />
             <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{
               display: 'none'
-            }}/>
+            }} />
             <label htmlFor="file">
               <Button raised component="span">
                 Télécharger son logo
@@ -51,7 +52,7 @@ class Club extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <br/><br/>
+        <br /><br />
         <Paper>
           <Table>
             <TableHead>

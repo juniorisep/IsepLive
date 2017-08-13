@@ -76,15 +76,15 @@ class Video extends Component {
     return (
       <Wrapper>
         <video poster={props.poster} ref={(v) => this.video = v} controls preload="metadata">
-          <source src={props.source} type="video/mp4"/>
+          <source src={props.source} type="video/mp4" />
         </video>
         <Controls>
           <PlayPause onClick={this.togglePlay}>{this.state.isPlaying
-              ? 'p'
-              : '>'
-}</PlayPause>
+            ? 'p'
+            : '>'
+          }</PlayPause>
           <progress value={this.state.currentTime} min="0" max={this.state.vidLenght}>
-            {/* <ProgressBar style={progressStyle} /> */}
+            {/* <ProgressBar style={progressStyle}  /> */}
           </progress>
         </Controls>
       </Wrapper>

@@ -15,11 +15,11 @@ export default function LoginForm(props) {
       }}>
         <img alt="Isep Live" src="/svg/iseplive.svg" style={{
           height: '200px'
-        }}/>
+        }} />
       </DialogTitle>
       <DialogContent>
         <TextField type="text" label="Nom d'utilisateur" fullWidth onChange={(e) => props.onChange('username', e)} />
-        <TextField type="password" label="Mot de passe" fullWidth onChange={(e) => props.onChange('password', e)}/>
+        <TextField type="password" label="Mot de passe" fullWidth onChange={(e) => props.onChange('password', e)} />
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleRequestClose} color="primary">

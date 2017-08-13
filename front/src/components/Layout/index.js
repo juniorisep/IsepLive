@@ -28,7 +28,7 @@ import ClubDetail from '../../pages/club/clubDetail';
 import Events from '../../pages/events';
 import NotFound from '../../pages/404';
 import Resume from '../../pages/resume';
-import Whoarewe from '../../pages/whoAreWe';
+import Whoarewe from '../../pages/whoArewe';
 import Admin from '../../pages/administration';
 import Contact from '../../pages/contact';
 import Help from '../../pages/help';

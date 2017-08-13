@@ -1,5 +1,6 @@
 package com.iseplive.api;
 
+import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.entity.*;
 import com.iseplive.api.dao.student.*;
 import com.iseplive.api.dao.club.*;
@@ -8,29 +9,33 @@ import com.iseplive.api.dao.media.*;
 import com.iseplive.api.dao.poll.*;
 import com.iseplive.api.dao.post.*;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.services.ClubService;
+import com.iseplive.api.services.EventService;
+import com.iseplive.api.services.MediaService;
+import com.iseplive.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DatabaseSeeder {
 
     @Autowired
-    private StudentRepository StudentRepository;
+    private StudentRepository studentRepository;
 
     @Autowired
-    private ClubRepository ClubRepository;
+    private StudentService studentService;
 
     @Autowired
-    private EventRepository EventRepository;
+    private ClubService clubService;
 
     @Autowired
-    private MediaRepository MediaRepository;
+    private EventService eventService;
+
+    @Autowired
+    private MediaService mediaService;
 
     @Autowired
     private PollRepository PollRepository;
@@ -50,11 +55,20 @@ public class DatabaseSeeder {
     }
 
     private boolean isDatabaseSeeded() {
-        Student user = StudentRepository.findOne(1L);
+        Student user = studentRepository.findOne(1L);
         // if it's found, the database is already seeded
         return user != null;
     }
     private void runSeedDatabase() {
         // TODO
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setFirstname("Guillaume");
+        studentDTO.setLastname("Carré");
+        studentDTO.setBirthDate(new Date());
+        studentDTO.setPromo(2018);
+
+        studentService.createStudent(studentDTO);
+
+
     }
 }

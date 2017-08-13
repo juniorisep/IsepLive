@@ -3,6 +3,7 @@ package com.iseplive.api.controllers;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
@@ -27,7 +28,7 @@ public class PostController {
     PostService postService;
 
     @GetMapping
-    public Page<Post> getPosts(@RequestParam(defaultValue = "0") int page) {
+    public Page<PostView> getPosts(@RequestParam(defaultValue = "0") int page) {
         return postService.getPosts(page);
     }
 

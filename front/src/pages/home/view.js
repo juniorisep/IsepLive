@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
 import {Flex, Box} from 'grid-styled';
@@ -135,7 +135,7 @@ export default function Home(props) {
           </Auth>
           <PostSection>
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
-            <PostListView posts={props.posts} />
+            <PostListView posts={props.posts} handleLike={props.handleLike} />
             {
               !props.lastPage &&
               <Center>

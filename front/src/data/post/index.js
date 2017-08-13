@@ -26,3 +26,7 @@ export function getAuthors() {
 export function addMedia(id: number, mediaId: number) {
   return axios.put(`/post/${id}/embed/${mediaId}`);
 }
+
+export function likePost(id: number) {
+  return axios.put(`/post/${id}/like`);
+}

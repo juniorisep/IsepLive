@@ -23,7 +23,7 @@ public class Club extends Author {
     private String website;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "club")
+    @ManyToMany
     private List<ClubMember> members;
 
     @JsonIgnore

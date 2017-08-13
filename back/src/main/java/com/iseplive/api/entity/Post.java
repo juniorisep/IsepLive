@@ -5,7 +5,7 @@ import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 import java.util.*;
@@ -39,7 +39,7 @@ public class Post {
     private List<Comment> comments = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany
+    @ManyToMany
     private Set<Student> like = new HashSet<>();
 
     @JsonIgnore
@@ -110,10 +110,6 @@ public class Post {
         this.comments = comments;
     }
 
-    public int getLikes() {
-        return like.size();
-    }
-
     public Set<Student> getLike() {
         return like;
     }
@@ -137,4 +133,5 @@ public class Post {
     public void setPinned(Boolean pinned) {
         isPinned = pinned;
     }
+
 }

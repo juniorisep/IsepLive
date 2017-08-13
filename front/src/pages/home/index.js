@@ -38,8 +38,23 @@ class Home extends Component {
     })
   }
 
+  handleLike = (post) => {
+    if (!post.isLiked) {
+      postData.likePost(post.id)
+      .then(this.refreshPosts);
+    }
+  }
+
   render() {
-    return (<HomeView posts={this.state.posts} lastPage={this.state.lastPage} onSeeMore={this.seeMore} refreshPosts={this.refreshPosts}/>);
+    return (
+      <HomeView
+        posts={this.state.posts}
+        lastPage={this.state.lastPage}
+        onSeeMore={this.seeMore}
+        refreshPosts={this.refreshPosts}
+        handleLike={this.handleLike}        
+      />
+    );
   }
 }
 

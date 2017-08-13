@@ -1,6 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.IllegalArgumentException;
+import com.iseplive.api.conf.jwt.JwtAuthenticationToken;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
@@ -9,15 +10,19 @@ import com.iseplive.api.dao.post.PostFactory;
 import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +36,9 @@ import java.util.Set;
  */
 @Service
 public class PostService {
+
+    @Autowired
+    AuthService authService;
 
     @Autowired
     PostRepository postRepository;
@@ -57,8 +65,9 @@ public class PostService {
         return new PageRequest(page, 5);
     }
 
-    public Page<Post> getPosts(int page) {
-        return postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, createPage(page));
+    public Page<PostView> getPosts(int page) {
+        Page<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, createPage(page));
+        return posts.map(post -> postFactory.entityToView(post));
     }
 
     public Page<Post> getPublicPosts(int page) {
@@ -154,5 +163,11 @@ public class PostService {
         authors.add(student);
         authors.addAll(clubService.getClubAuthors(student));
         return authors;
+    }
+
+    public Boolean isPostLiked(Post post) {
+        if (authService.isUserAnonymous()) return false;
+        Student student = authService.getLoggedUser();
+        return post.getLike().contains(student);
     }
 }

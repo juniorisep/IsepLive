@@ -1,6 +1,7 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
+
 import styled from 'styled-components';
 import {backUrl} from '../config';
 
@@ -81,6 +82,7 @@ export const Text = styled.p`
   font-size: 1em;
   line-height: 1.2;
   margin: ${props => props.m || 'auto'};
+  margin-bottom: ${props => props.mb || 0}em;
   color: ${props => props.color || '#949494'};
 `;
 
@@ -100,3 +102,13 @@ export const Subtitle = styled.h3`
   font-size: 15px;
   margin: 0;
 `;
+
+export class ScrollToTopOnMount extends Component {
+  componentDidMount(prevProps) {
+    window.scrollTo(0, 0)
+  }
+
+  render() {
+    return null
+  }
+}

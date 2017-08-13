@@ -70,7 +70,6 @@ class Media extends Component {
   }
 
   toggleGallerie = () => {
-    console.log("toggle");
     this.setState({
       showGallerie: !this.state.showGallerie
     })

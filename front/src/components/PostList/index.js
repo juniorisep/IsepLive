@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
 
 import Button from 'material-ui/Button';
-
+import Favorite from 'material-ui-icons/Favorite';
 
 import {
   Separator,
@@ -33,7 +33,6 @@ const Post = styled.li`
   background: white;
   margin-bottom: 20px;
   display: flex;
-  min-height: 300px;
   flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
 
   @media (max-width: 40em) {
@@ -54,6 +53,8 @@ const PostContent = styled.div`
 
 const PostText = PostContent.extend`
   padding: 20px;
+  padding-bottom: 70px;
+
   @media (max-width: 40em) {
     height: auto;
   }
@@ -76,6 +77,21 @@ const IframeWrap = styled.div`
     width: 100%;
     height: 100%;
   }
+`;
+
+const PostActions = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const FavoriteAction = styled(Favorite)`
+  height: 15px !important;
+  width: 15px !important;
 `;
 
 
@@ -108,13 +124,24 @@ function PostTitleView({ post }) {
   )
 }
 
-function PostTextView({ post }) {
+function PostTextView({ post, handleLike }) {
   return (
     <PostText>
       <PostTitleView post={post} />
-      { post.content.split('\n').map((par, i) => <Text key={i}>{par}</Text>) }
-      <Button color="accent">Voir plus</Button>
+      <PostTextContent content={post.content} />
+      <PostActions>
+        <Button dense color="accent">Voir plus</Button>
+        <Button dense color="accent" onClick={() => handleLike(post)}>{post.nbLikes} j'aime</Button>
+      </PostActions>
     </PostText>
+  )
+}
+
+function PostTextContent(props) {
+  return (
+    <div>
+      { props.content.split('\n').map((par, i) => <Text key={i} mb={2}>{par}</Text>) }
+    </div>
   )
 }
 
@@ -132,7 +159,12 @@ export default function PostListView(props) {
                     <Box w={[ 1 ]}>
                       <PostText>
                         <PostTitleView post={p} />
+                        <PostTextContent content={p.content} />
                         <Poll data={p.media} />
+                        <PostActions>
+                          <Button dense color="accent">Voir plus</Button>
+                          <Button dense color="accent" onClick={() => props.handleLike(p)}>{p.nbLikes} j'aime</Button>
+                        </PostActions>
                       </PostText>
                     </Box>
                   </Post>
@@ -149,7 +181,7 @@ export default function PostListView(props) {
                       </PostContent>
                     </Box>
                     <Box w={[ 1, 1/2 ]}>
-                      <PostTextView post={p} />
+                      <PostTextView post={p} handleLike={props.handleLike}/>
                     </Box>
                   </Post>
                 )
@@ -158,7 +190,7 @@ export default function PostListView(props) {
             return (
               <Post key={p.id} invert={invert}>
                 <Box w={[ 1 ]}>
-                  <PostTextView post={p} />
+                  <PostTextView post={p} handleLike={props.handleLike} />
                 </Box>
               </Post>
             )

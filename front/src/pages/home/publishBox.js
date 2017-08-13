@@ -126,7 +126,6 @@ class PublishBoxView extends Component {
         this.createMedia()
         .then(res => res.data.id)
         .then(id => {
-          console.log('media', id);
           return id;
         })
         .then((mediaId) => postData.addMedia(postId, mediaId))
@@ -188,7 +187,6 @@ class PublishBoxView extends Component {
   }
 
   onFormChange = (form) => {
-    console.log(form);
     this.setState({ form });
   }
 

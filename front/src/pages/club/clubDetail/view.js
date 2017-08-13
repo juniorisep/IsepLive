@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
 import {Flex, Box} from 'grid-styled';
@@ -13,6 +13,7 @@ import {
   Image,
   Text,
   Title,
+  ScrollToTopOnMount,
 } from '../../../components/common';
 
 const Explore = styled(ExploreAction)`
@@ -27,6 +28,7 @@ const Button = styled(MUIButton)`
 export default function ClubDetailView(props) {
   return (
     <div>
+      <ScrollToTopOnMount />
       <FluidContent>
         <Flex>
           <Box>

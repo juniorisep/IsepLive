@@ -4,6 +4,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {Flex} from 'grid-styled';
 
+import {Link} from 'react-router-dom';
+
 import {Image, ProfileImage} from '../common';
 
 const Sub = styled.div `
@@ -18,10 +20,12 @@ export default function Author(props) {
   switch (a.authorType) {
     case 'club':
       return (
-        <Flex direction="column">
-          <Image src={a.logoUrl} alt="logo-club" w="40px" ml="auto"/>
-          <Sub>{a.name}</Sub>
-        </Flex>
+        <Link to={`/associations/${a.id}`}>
+          <Flex direction="column">
+            <Image src={a.logoUrl} alt="logo-club" w="40px" ml="auto"/>
+            <Sub>{a.name}</Sub>
+          </Flex>
+        </Link>
       )
     case 'student':
       return (

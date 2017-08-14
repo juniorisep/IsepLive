@@ -104,3 +104,45 @@ export class PollForm extends Component {
     );
   };
 };
+
+const PreviewImage = styled.img`
+  max-width: 100%;
+`;
+
+export class ImageForm extends Component {
+  state = {
+    imagePreview: null
+  }
+
+  handleImageSelect = (event) => {
+    const reader = new FileReader();
+    const file = event.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreview: reader.result
+      });
+    }
+
+    this.props.update({ file });
+    reader.readAsDataURL(file)
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.imagePreview && <PreviewImage src={this.state.imagePreview} alt="" /> }
+        <input
+          accept="jpg,jpeg,JPG,JPEG"
+          id="file"
+          type="file"
+          style={{ display: 'none' }}
+          onChange={this.handleImageSelect}/>
+        <label htmlFor="file">
+          <AddButton component="span" color="accent" onClick={this.addAnswer}>Choisir une image</AddButton>
+        </label>
+      </div>
+    );
+  }
+}

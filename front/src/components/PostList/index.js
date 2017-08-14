@@ -9,7 +9,13 @@ import Button from 'material-ui/Button';
 
 import LikeButton from './LikeButton';
 
-import {ProfileImage, Subtitle, Text, Title,} from '../common';
+import {
+  ProfileImage,
+  Subtitle,
+  Text,
+  BgImage,
+  Title,
+} from '../common';
 
 import Time from '../Time';
 import Author from '../Author';
@@ -157,6 +163,17 @@ export default function PostListView(props) {
                     </Box>
                   </Post>
                 );
+              case 'image':
+                return (
+                  <Post key={p.id} invert={invert}>
+                    <Box w={[1, 1 / 2]}>
+                      <BgImage src={p.media.fullSizeUrl} mh="250px" />
+                    </Box>
+                    <Box w={[1, 1 / 2]}>
+                      <PostTextView post={p} />
+                    </Box>
+                  </Post>
+                )
               case 'videoEmbed':
                 return (
                   <Post key={p.id} invert={invert}>
@@ -168,7 +185,7 @@ export default function PostListView(props) {
                       </PostContent>
                     </Box>
                     <Box w={[1, 1 / 2]}>
-                      <PostTextView post={p} handleLike={props.handleLike} />
+                      <PostTextView post={p} />
                     </Box>
                   </Post>
                 );
@@ -177,7 +194,7 @@ export default function PostListView(props) {
             return (
               <Post key={p.id} invert={invert}>
                 <Box w={[1]}>
-                  <PostTextView post={p} handleLike={props.handleLike} />
+                  <PostTextView post={p} />
                 </Box>
               </Post>
             );

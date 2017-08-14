@@ -69,6 +69,7 @@ export const Banner = styled.div`
 const ImageStyle = styled.img`
   width: ${props => props.w};
   margin-left: ${props => props.ml || 'auto'};
+  vertical-align: middle;
 `;
 
 export const Image = (props) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
@@ -77,6 +78,21 @@ export const ProfileImage = (props) => {
     return <ImageStyle {...props} src="/svg/user.svg" alt="profile-image" />;
   return <Image {...props} />;
 };
+
+const BgImageStyle = styled.div`
+  background: url(${props => props.src});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  min-height: ${props => props.mh || '100%'};
+`;
+
+export const BgImage = (props) => {
+  console.log(backUrl+props.src);
+  return <BgImageStyle {...props} src={props.src && backUrl + props.src} />
+}
 
 export const Text = styled.p`
   font-size: 1em;

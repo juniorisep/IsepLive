@@ -11,12 +11,19 @@ import AddCircleIcon from 'material-ui-icons/AddCircle';
 
 import * as postData from 'data/post';
 import * as pollData from 'data/media/poll';
+import * as imageData from 'data/media/image';
 import * as authData from 'data/auth';
 import {PostDTO} from 'data/post/type';
 
-import {MediaCreator, PollForm} from './mediaForms';
+import {
+  MediaCreator,
+  PollForm, ImageForm,
+} from './mediaForms';
 
-import {ProfileImage, Text,} from 'components/common';
+import {
+  ProfileImage,
+  Text,
+} from 'components/common';
 
 const PublishBox = styled.div`
   background: ${props => props.theme.main};
@@ -62,6 +69,29 @@ function SendAs(props) {
   );
 };
 
+const studentMediaList = [
+  {
+    id: 'poll',
+    name: 'Sondage',
+  },
+  {
+    id: 'image',
+    name: 'Image',
+  },
+  {
+    id: 'file',
+    name: 'Pièce jointe',
+  },
+  {
+    id: 'video',
+    name: 'Video',
+  },
+  {
+    id: 'videoEmbed',
+    name: 'Video FB/YT',
+  },
+]
+
 class PublishBoxView extends Component {
 
   state = {
@@ -74,6 +104,7 @@ class PublishBoxView extends Component {
     authorList: [],
     mediaCreatorOpen: false,
     form: null,
+    mediaSelected: null,
   };
 
   componentDidMount() {
@@ -114,7 +145,7 @@ class PublishBoxView extends Component {
       })
       .then(postData.publishPost)
       .then(res => {
-        this.setState({title: null, message: ''});
+        this.setState({title: '', message: ''});
       }).then(() => {
       if (this.state.mediaSelected) {
         this.createMedia()
@@ -132,20 +163,15 @@ class PublishBoxView extends Component {
   };
 
   createMedia = () => {
-    switch (this.state.mediaSelected) {
+    switch (this.state.mediaSelected.id) {
       case 'poll':
         return pollData.createPoll(this.state.form);
+      case 'image':
+        return imageData.createImage(this.state.form.file);
     };
   };
 
   handleMediaSelect = (item) => {
-    switch (item) {
-      case 'poll':
-        break;
-      case 'file':
-        this.inputFile.click();
-        break;
-    };
     this.setState({mediaSelected: item, mediaCreatorOpen: true});
     this.handleMediaMenuClose();
   };
@@ -196,6 +222,16 @@ class PublishBoxView extends Component {
     return false;
   };
 
+  renderForm() {
+    switch (this.state.mediaSelected.id) {
+      case 'poll':
+        return <PollForm update={this.onFormChange} />;
+      case 'image':
+        return <ImageForm update={this.onFormChange} />;
+      default:
+    }
+  }
+
   render() {
     const {author} = this.state;
     const canPublish = this.canPublish();
@@ -216,12 +252,15 @@ class PublishBoxView extends Component {
             onChange={this.onMessageChange}
             value={this.state.message}
           />
-          <MediaCreator
-            title="Sondage"
-            show={this.state.mediaCreatorOpen}
-            onDelete={this.closeMediaCreator}>
-            {this.state.mediaSelected === 'poll' && <PollForm update={this.onFormChange} />}
-          </MediaCreator>
+          {
+            this.state.mediaSelected &&
+            <MediaCreator
+              title={this.state.mediaSelected.name}
+              show={this.state.mediaCreatorOpen}
+              onDelete={this.closeMediaCreator}>
+              {this.renderForm()}
+            </MediaCreator>
+          }
           <Flex align="center">
             <Box>
               <IconButton color="contrast" onClick={this.openMediaMenu}>
@@ -266,10 +305,11 @@ class PublishBoxView extends Component {
             anchorEl={this.state.anchorEl}
             open={this.state.mediaMenuOpen}
             onRequestClose={this.handleMediaMenuClose}>
-            <MenuItem onClick={() => this.handleMediaSelect('poll')}>Sondage</MenuItem>
-            <MenuItem onClick={() => this.handleMediaSelect('gallery')}>Gallerie</MenuItem>
-            <MenuItem onClick={() => this.handleMediaSelect('videoEmbed')}>Vid. FB/YT</MenuItem>
-            <MenuItem onClick={() => this.handleMediaSelect('file')}>Fichier</MenuItem>
+            {
+              studentMediaList.map(l => {
+                return <MenuItem onClick={() => this.handleMediaSelect(l)}>{l.name}</MenuItem>
+              })
+            }
           </Menu>
         </PublishBox>
       </div>

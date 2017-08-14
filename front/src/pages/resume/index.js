@@ -15,6 +15,8 @@ import {Box, Flex} from 'grid-styled';
 
 import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
 
+import * as userData from 'data/users/student';
+
 const Person = (props) => {
   const PersonStyle = styled.div`
     > img {
@@ -31,14 +33,25 @@ const Person = (props) => {
 
 class Resume extends Component {
   state = {
-    open: false
+    open: false,
+    photoUrl: '',
+    firstname: '',
+    lastname: ''
   };
 
   handleRequestClose = () => {
     this.setState({open: false});
   };
 
+  componentDidMount() {
+    userData.getLoggedUser().then(res => {
+      const {photoUrl, firstname, lastname} = res.data;
+      this.setState({photoUrl, firstname, lastname});
+    });
+  };
+
   render() {
+    const {photoUrl, firstname, lastname} = this.state;
     return (
       <div>
         <Header url="/img/background.jpg">
@@ -56,7 +69,7 @@ class Resume extends Component {
             <Box p={2} width={[
               1, 1 / 4
             ]}>
-              <Person url="https://numeris-isep.fr/img/team//amalric.resized.jpg" />
+              <Person src={photoUrl} />
             </Box>
             <Box p={2} width={[
               1, 3 / 4
@@ -66,7 +79,8 @@ class Resume extends Component {
                 borderRadius: '10px'
               }}>
                 <Typography type="headline" component="h3">
-                  Antoine Ratel
+                  <span>{firstname}</span>
+                  <span>{lastname}</span>
                   <Button raised color="primary" style={{
                     float: 'right'
                   }} onClick={() => this.setState({open: true})}>

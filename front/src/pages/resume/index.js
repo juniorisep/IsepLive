@@ -36,7 +36,8 @@ class Resume extends Component {
     open: false,
     photoUrl: '',
     firstname: '',
-    lastname: ''
+    lastname: '',
+    phone: '',
   };
 
   handleRequestClose = () => {
@@ -45,13 +46,13 @@ class Resume extends Component {
 
   componentDidMount() {
     userData.getLoggedUser().then(res => {
-      const {photoUrl, firstname, lastname} = res.data;
-      this.setState({photoUrl, firstname, lastname});
+      const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo} = res.data;
+      this.setState({photoUrl, firstname, lastname, phone, studentId, birthDate, promo});
     });
   };
 
   render() {
-    const {photoUrl, firstname, lastname} = this.state;
+    const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo} = this.state;
     return (
       <div>
         <Header url="/img/background.jpg">
@@ -88,13 +89,13 @@ class Resume extends Component {
                   </Button>
                 </Typography>
                 <Typography type="body1" component="p">
-                  Promotion :
+                  Promotion : <span>{promo}</span>
                 </Typography>
                 <Typography type="body1" component="p">
-                  Numéro ISEP :
+                  Numéro ISEP : <span>{studentId}</span>
                 </Typography>
                 <Typography type="body1" component="p">
-                  Téléphone :
+                  Téléphone : <span>{phone}</span>
                 </Typography>
                 <Typography type="body1" component="p">
                   Adresse :
@@ -106,7 +107,7 @@ class Resume extends Component {
                   Mail ISEP :
                 </Typography>
                 <Typography type="body1" component="p">
-                  Date de naissance :
+                  Date de naissance : <span>{birthDate}</span>
                 </Typography>
               </Paper>
             </Box>

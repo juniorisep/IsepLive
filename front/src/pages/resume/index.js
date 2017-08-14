@@ -12,8 +12,16 @@ import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
 import {Box, Flex} from 'grid-styled';
+import Time from 'components/Time';
 
-import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  ProfileImage,
+  SearchBar,
+} from 'components/common';
 
 import * as userData from 'data/users/student';
 
@@ -21,12 +29,11 @@ const Person = (props) => {
   const PersonStyle = styled.div`
     > img {
       box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-      width: 100%;
     }
   `;
   return (
     <PersonStyle>
-      <img src={props.url} alt="person" />
+      <ProfileImage src={props.url} w="100%" />
     </PersonStyle>
   );
 };
@@ -70,9 +77,7 @@ class Resume extends Component {
         </Header>
         <FluidContent>
           <Flex wrap>
-            <Box p={2} width={[
-              1, 1 / 4
-            ]}>
+            <Box p={2} width={[ 1, 1 / 4 ]}>
               <Person src={photoUrl} />
             </Box>
             <Box p={2} width={[
@@ -110,7 +115,7 @@ class Resume extends Component {
                   Mail ISEP :
                 </Typography>
                 <Typography type="body1" component="p">
-                  Date de naissance : <span>{birthDate}</span>
+                  Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" />
                 </Typography>
               </Paper>
             </Box>

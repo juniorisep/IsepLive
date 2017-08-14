@@ -38,6 +38,9 @@ class Resume extends Component {
     firstname: '',
     lastname: '',
     phone: '',
+    studentId: '',
+    birthDate: '',
+    promo: '',
   };
 
   handleRequestClose = () => {

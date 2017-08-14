@@ -7,8 +7,10 @@ import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
 import com.iseplive.api.dao.club.ClubRoleRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
+import com.iseplive.api.dao.post.PostFactory;
 import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.ClubDTO;
+import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -35,7 +38,6 @@ public class ClubService {
 
   @Autowired
   ClubRepository clubRepository;
-
 
   @Autowired
   ClubRoleRepository clubRoleRepository;
@@ -55,12 +57,14 @@ public class ClubService {
   @Autowired
   PostRepository postRepository;
 
+  @Autowired
+  PostFactory postFactory;
+
   @Value("${storage.club.url}")
   public String clubLogoStorage;
 
   public Club createClub(ClubDTO dto) {
     Club club = clubFactory.dtoToEntity(dto);
-    club.setPublishState(PublishStateEnum.WAITING);
     if (dto.getAdminId() == null) {
       throw new IllegalArgumentException("The id of the admin cannot be null");
     }
@@ -93,14 +97,8 @@ public class ClubService {
     return clubRoleRepository.findOne(id);
   }
 
-  public void setPublishState(Long id, PublishStateEnum state) {
-    Club club = getClub(id);
-    club.setPublishState(state);
-    authorRepository.save(club);
-  }
-
   public List<Club> getAll() {
-    return clubRepository.findByPublishStateOrderByName(PublishStateEnum.PUBLISHED);
+    return clubRepository.findAllByOrderByName();
   }
 
   public Club getClub(Long id) {
@@ -127,8 +125,11 @@ public class ClubService {
     return clubMemberRepository.findByClubId(id);
   }
 
-  public List<Post> getPosts(Long id) {
-    return postRepository.findByAuthorIdOrderByCreationDateDesc(id);
+  public List<PostView> getPosts(Long id) {
+    List<Post> posts = postRepository.findByAuthorIdOrderByCreationDateDesc(id);
+    return posts.stream()
+      .map(p -> postFactory.entityToView(p))
+      .collect(Collectors.toList());
   }
 
   public ClubRole createRole(String role) {

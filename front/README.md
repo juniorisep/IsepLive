@@ -2,8 +2,7 @@
 
 ## Installation :
 
-You need install node.js
+You need to have node.js installed
 
-`npm install`
-
-`npm start`
+- `npm install` install dependencies
+- `npm start` start development server

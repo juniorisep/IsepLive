@@ -27,10 +27,6 @@ public class Club extends Author {
   private List<ClubMember> members;
 
   @JsonIgnore
-  @Enumerated(EnumType.STRING)
-  private PublishStateEnum publishState;
-
-  @JsonIgnore
   @ManyToMany
   private List<Student> admins;
 
@@ -67,14 +63,6 @@ public class Club extends Author {
 
   public void setWebsite(String website) {
     this.website = website;
-  }
-
-  public PublishStateEnum getPublishState() {
-    return publishState;
-  }
-
-  public void setPublishState(PublishStateEnum publishState) {
-    this.publishState = publishState;
   }
 
   public List<ClubMember> getMembers() {

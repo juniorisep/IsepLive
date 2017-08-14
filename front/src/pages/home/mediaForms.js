@@ -6,12 +6,14 @@ import {Title} from 'components/common';
 
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
-import Slide from 'material-ui/transitions/Slide';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 
 import styled from 'styled-components';
+
+const AddButton = styled(Button)`
+  margin-top: 10px;
+`;
 
 const FormWrapper = styled.div`
   width: 100%;
@@ -21,37 +23,16 @@ const MediaCreatorWrap = styled.div`
   background: white;
   padding: 20px;
   margin-bottom: 20px;
+  margin-top: 10px;
+  border-radius: 5px;
 `;
-
-export const MediaDialog = (props) => (
-  <Dialog
-    open={props.open}
-    transition={Slide}
-    onRequestClose={props.handleRequestClose}
-  >
-    <DialogTitle>{props.title}</DialogTitle>
-    <DialogContent>
-      {props.children}
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={props.handleRequestClose} color="primary">
-        Annuler
-      </Button>
-      <Button onClick={props.onCreate} color="accent">
-        Créer
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
 
 export function MediaCreator(props) {
   if (props.show) {
     return (
       <MediaCreatorWrap>
         <Flex align="center">
-          <Box>
-            <Title invert fontSize={1.5}>{props.title}</Title>
-          </Box>
+          <Title invert fontSize={1.7}>{props.title}</Title>
           <Box ml="auto">
             <IconButton onClick={props.onDelete}>
               <DeleteIcon />
@@ -118,7 +99,7 @@ export class PollForm extends Component {
             </Flex>
           })
         }
-        <Button color="accent" onClick={this.addAnswer}>Ajouter une réponse</Button>
+        <AddButton color="accent" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
       </FormWrapper>
     );
   };

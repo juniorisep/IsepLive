@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Repository
 public interface ClubRepository extends CrudRepository<Club, Long> {
-  List<Club> findByPublishStateOrderByName(PublishStateEnum publishState);
+  List<Club> findAllByOrderByName();
 
   List<Club> findByAdminsContains(Student admin);
 }

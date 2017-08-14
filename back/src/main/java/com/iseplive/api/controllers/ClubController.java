@@ -2,6 +2,7 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dto.ClubDTO;
+import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
@@ -56,11 +57,6 @@ public class ClubController {
     return clubService.setClubLogo(file, id);
   }
 
-  @PutMapping("/{id}/state/{state}")
-  public void setPublishState(@PathVariable("id") Long id, @PathVariable("state") PublishStateEnum state) {
-    clubService.setPublishState(id, state);
-  }
-
   @PutMapping("/{id}/member/{role}/{student}")
   public ClubMember addMember(@PathVariable Long id, @PathVariable Long role, @PathVariable Long student) {
     return clubService.addMember(id, role, student);
@@ -87,7 +83,7 @@ public class ClubController {
   }
 
   @GetMapping("/{id}/post")
-  public List<Post> getPosts(@PathVariable Long id) {
+  public List<PostView> getPosts(@PathVariable Long id) {
     return clubService.getPosts(id);
   }
 

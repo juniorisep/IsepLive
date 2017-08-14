@@ -10,7 +10,7 @@ import {Filler, FluidContent, Header, SearchBar, Separator, Title,} from 'compon
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 
-import PublishBoxView from './publishBox';
+import PublishBoxView from './PublishBox';
 
 /* const IconMenu = styled.div`
   display: flex;

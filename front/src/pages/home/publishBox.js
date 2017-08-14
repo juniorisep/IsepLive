@@ -216,6 +216,12 @@ class PublishBoxView extends Component {
             onChange={this.onMessageChange}
             value={this.state.message}
           />
+          <MediaCreator
+            title="Sondage"
+            show={this.state.mediaCreatorOpen}
+            onDelete={this.closeMediaCreator}>
+            {this.state.mediaSelected === 'poll' && <PollForm update={this.onFormChange} />}
+          </MediaCreator>
           <Flex align="center">
             <Box>
               <IconButton color="contrast" onClick={this.openMediaMenu}>
@@ -265,21 +271,7 @@ class PublishBoxView extends Component {
             <MenuItem onClick={() => this.handleMediaSelect('videoEmbed')}>Vid. FB/YT</MenuItem>
             <MenuItem onClick={() => this.handleMediaSelect('file')}>Fichier</MenuItem>
           </Menu>
-          {/* <MediaDialog
-            open={this.state.dialogOpen}
-            handleRequestClose={this.closeDialogMedia}
-            onCreate={this.onCreateMedia}
-            title="Sondage"
-            >
-
-          </MediaDialog> */}
         </PublishBox>
-        <MediaCreator
-          title="Sondage"
-          show={this.state.mediaCreatorOpen}
-          onDelete={this.closeMediaCreator}>
-          {this.state.mediaSelected === 'poll' && <PollForm update={this.onFormChange} />}
-        </MediaCreator>
       </div>
     );
   };

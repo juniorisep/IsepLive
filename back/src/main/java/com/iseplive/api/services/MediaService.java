@@ -70,7 +70,7 @@ public class MediaService {
     String path = imageUtils.resolvePath(imageDir, name, false);
     String pathThumb = imageUtils.resolvePath(imageDir, name, true);
     imageUtils.saveJPG(file, 1280, path);
-    imageUtils.saveJPG(file, 256, pathThumb);
+    imageUtils.saveJPG(file, 512, pathThumb);
 
     image.setFullSizeUrl(imageUtils.getPublicUrl(path));
     image.setThumbUrl(imageUtils.getPublicUrl(pathThumb));

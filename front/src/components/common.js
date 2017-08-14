@@ -94,6 +94,10 @@ export const BgImage = (props) => {
   return <BgImageStyle {...props} src={props.src && backUrl + props.src} />
 }
 
+export const ImageLink = (props) => {
+  return <a href={backUrl + props.src}>{props.children}</a>;
+}
+
 export const Text = styled.p`
   font-size: 1em;
   line-height: 1.2;

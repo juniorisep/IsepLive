@@ -15,6 +15,7 @@ import {
   Text,
   BgImage,
   Title,
+  ImageLink,
 } from '../common';
 
 import Time from '../Time';
@@ -30,6 +31,7 @@ const Post = styled.li`
   background: white;
   margin-bottom: 20px;
   display: flex;
+  overflow: hidden;
   flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
 
   @media (max-width: 40em) {
@@ -47,9 +49,10 @@ const PostContent = styled.div`
   }
 `;
 
-const PostText = PostContent.extend`
+const PostText = Box.extend`
   padding: 20px;
   padding-bottom: 70px;
+  position: relative;
 
   @media (max-width: 40em) {
     height: auto;
@@ -114,9 +117,9 @@ function PostTitleView({ post }) {
   );
 };
 
-function PostTextView({post, handleLike}) {
+function PostTextView({post, handleLike, ...other}) {
   return (
-    <PostText>
+    <PostText {...other}>
       <PostTitleView post={post} />
       <PostTextContent content={post.content} />
       <PostActions>
@@ -148,30 +151,31 @@ export default function PostListView(props) {
               case 'poll':
                 return (
                   <Post key={p.id} invert={invert}>
-                    <Box w={[1]}>
-                      <PostText>
-                        <PostTitleView post={p} />
-                        <PostTextContent content={p.content} />
-                        <Poll data={p.media} />
-                        <PostActions>
-                          <Button dense color="accent">Voir plus</Button>
-                          <Box ml="auto">
-                            <LikeButton post={p} />
-                          </Box>
-                        </PostActions>
-                      </PostText>
+                    <Box w={[1, 1 / 2]}>
+                      <Poll data={p.media} />
                     </Box>
+                    <PostTextView post={p} w={[1, 1 / 2]} />
+                    {/* <PostText w={[1, 1/2]}>
+                      <PostTitleView post={p} />
+                      <PostTextContent content={p.content} />
+                      <PostActions>
+                        <Button dense color="accent">Voir plus</Button>
+                        <Box ml="auto">
+                      <LikeButton post={p} />
+                        </Box>
+                      </PostActions>
+                    </PostText> */}
                   </Post>
                 );
               case 'image':
                 return (
                   <Post key={p.id} invert={invert}>
                     <Box w={[1, 1 / 2]}>
-                      <BgImage src={p.media.fullSizeUrl} mh="250px" />
+                      <ImageLink src={p.media.fullSizeUrl}>
+                        <BgImage src={p.media.thumbUrl} mh="250px" />
+                      </ImageLink>
                     </Box>
-                    <Box w={[1, 1 / 2]}>
-                      <PostTextView post={p} />
-                    </Box>
+                    <PostTextView post={p} w={[1, 1 / 2]} />
                   </Post>
                 )
               case 'videoEmbed':
@@ -184,18 +188,14 @@ export default function PostListView(props) {
                         </IframeWrap>
                       </PostContent>
                     </Box>
-                    <Box w={[1, 1 / 2]}>
-                      <PostTextView post={p} />
-                    </Box>
+                    <PostTextView post={p} w={[1, 1 / 2]} />
                   </Post>
                 );
             };
           } else {
             return (
               <Post key={p.id} invert={invert}>
-                <Box w={[1]}>
-                  <PostTextView post={p} />
-                </Box>
+                <PostTextView post={p} w={[1]} />
               </Post>
             );
           };

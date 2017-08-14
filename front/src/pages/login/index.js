@@ -8,7 +8,7 @@ import Button from 'material-ui/Button';
 
 import styled from 'styled-components';
 
-import {MAIN_COLOR, SECONDARY_COLOR} from 'colors';
+import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
 
 import * as authData from 'data/auth';
 

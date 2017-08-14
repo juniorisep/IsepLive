@@ -35,7 +35,7 @@ import Help from 'pages/help';
 import LegalNotice from 'pages/legalNotice';
 import UserAgreement from 'pages/userAgreement';
 
-import {MAIN_COLOR, SECONDARY_COLOR} from 'colors';
+import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
 import {FluidContent} from '../common';
 
 import * as authData from 'data/auth';
@@ -91,6 +91,7 @@ const NavMenu = styled.div`
     display: none;
   }
 `;
+
 const SocialBox = styled.div`
   width: 100%;
   text-align: center;

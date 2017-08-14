@@ -57,6 +57,9 @@ const Footer = styled.footer`
     margin: 0;
     margin-bottom: 5px;
   }
+  h4 {
+    text-transform: uppercase;
+  }
 `;
 
 const LinksBar = styled.div`

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Site d'ISEPLive développé par Junior ISEP",
+  "main": "src/index.js",
   "dependencies": {
     "axios": "^0.16.2",
     "grid-styled": "^2.0.0-10",
@@ -14,16 +15,24 @@
     "react-router-dom": "^4.1.2",
     "styled-components": "^2.1.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+http://git.dev.juniorisep.com/vely/IsepLive"
+  },
   "devDependencies": {
     "flow-bin": "^0.52.0",
     "npm-run-all": "^4.0.2",
-    "react-scripts": "1.0.11"
+    "react-scripts": "1.0.11",
+    "stylelint": "^8.0.0",
+    "stylelint-config-standard": "^17.0.0",
+    "stylelint-processor-styled-components": "^0.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "lint:css": "stylelint './src/**/*.js'",
     "flow": "flow --show-all-errors"
   }
 }

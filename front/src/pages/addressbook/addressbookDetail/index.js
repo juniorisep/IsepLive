@@ -9,7 +9,7 @@ import AdressbookDetailView from './view'
 class AdressbookDetail extends Component {
 
   state = {
-    studentId: this.props.match.params.id,
+    id: this.props.match.params.id,
     photoUrl: '',
     firstname: '',
     lastname: '',

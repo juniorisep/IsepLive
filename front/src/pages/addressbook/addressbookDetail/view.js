@@ -4,6 +4,6 @@ import React from 'react';
 
 export default function AdressbookDetailView(props) {
   return (
-    <div>Coucou</div>
+    <div>{props.bio}</div>
   );
 };

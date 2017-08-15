@@ -54,7 +54,7 @@ export class PollForm extends Component {
     title: '',
     answers: ['', ''],
     multiAnswers: false,
-    endDate: new Date().getTime(),
+    endDate: new Date().getTime() + 24 * 3600 * 1000,
   };
 
   addAnswer = () => {
@@ -65,32 +65,35 @@ export class PollForm extends Component {
   deleteAnswer = (index) => {
     const {answers} = this.state;
     answers.splice(index, 1);
+    this.props.update({...this.state, answers});
     this.setState({answers});
-    this.props.update(this.state);
   };
 
   changeAnswer = (event, index) => {
     const {answers} = this.state;
     answers[index] = event.target.value;
+    this.props.update({...this.state, answers});
     this.setState({answers});
-    this.props.update(this.state);
   };
 
   changeDuration = (event) => {
     const dur = +event.target.value;
     const now = new Date().getTime();
-    this.setState({ endDate: now + (dur * 3600 * 1000) });
-    this.props.update(this.state);
+    this.props.update({
+      ...this.state,
+      endDate: now + (dur * 3600 * 1000)
+    });
+    this.setState({endDate: now + (dur * 3600 * 1000)});
   }
 
   changeMultiAnswer = () => {
+    this.props.update({...this.state, multiAnswers: !this.state.multiAnswers});
     this.setState({ multiAnswers: !this.state.multiAnswers });
-    this.props.update(this.state);
   }
 
   changeQues = (event) => {
+    this.props.update({...this.state, title: event.target.value});
     this.setState({title: event.target.value});
-    this.props.update(this.state);
   };
 
   render() {

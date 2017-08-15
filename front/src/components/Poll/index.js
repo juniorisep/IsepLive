@@ -101,7 +101,6 @@ class Poll extends Component {
           <Question>{poll.name}</Question>
           {
             poll.answers.map(a => {
-              console.log(a, this.state.answers, this.state.answers.includes(a));
               return (
                 <Answer
                   key={a.id}

@@ -320,7 +320,7 @@ class PublishBoxView extends Component {
             onRequestClose={this.handleMediaMenuClose}>
             {
               studentMediaList.map(l => {
-                return <MenuItem onClick={() => this.handleMediaSelect(l)}>{l.name}</MenuItem>
+                return <MenuItem key={l.name} onClick={() => this.handleMediaSelect(l)}>{l.name}</MenuItem>
               })
             }
           </Menu>

@@ -1,6 +1,6 @@
 package com.iseplive.api.dao.poll;
 
-import com.iseplive.api.entity.poll.PollAnswer;
+import com.iseplive.api.entity.media.poll.PollAnswer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

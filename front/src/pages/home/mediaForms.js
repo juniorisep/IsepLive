@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 
 import {Box, Flex} from 'grid-styled';
 
-import {Title} from 'components/common';
+import {Title, Text} from 'components/common';
 
 import Menu, {MenuItem} from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
+import Switch from 'material-ui/Switch';
+import { FormControlLabel } from 'material-ui/Form';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
@@ -50,7 +52,9 @@ export function MediaCreator(props) {
 export class PollForm extends Component {
   state = {
     title: '',
-    answers: [],
+    answers: ['', ''],
+    multiAnswers: false,
+    endDate: new Date().getTime(),
   };
 
   addAnswer = () => {
@@ -71,6 +75,18 @@ export class PollForm extends Component {
     this.setState({answers});
     this.props.update(this.state);
   };
+
+  changeDuration = (event) => {
+    const dur = +event.target.value;
+    const now = new Date().getTime();
+    this.setState({ endDate: now + (dur * 3600 * 1000) });
+    this.props.update(this.state);
+  }
+
+  changeMultiAnswer = () => {
+    this.setState({ multiAnswers: !this.state.multiAnswers });
+    this.props.update(this.state);
+  }
 
   changeQues = (event) => {
     this.setState({title: event.target.value});
@@ -93,14 +109,33 @@ export class PollForm extends Component {
                 />
               </Box>
               <Box mb="-15px">
-                <IconButton onClick={() => this.deleteAnswer(index)}>
-                  <DeleteIcon />
-                </IconButton>
+                {
+                  index > 1 &&
+                  <IconButton onClick={() => this.deleteAnswer(index)}>
+                    <DeleteIcon />
+                  </IconButton>
+                }
               </Box>
             </Flex>
           })
         }
         <AddButton color="accent" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
+        <Flex wrap>
+          <Box width={1} mt={2}>
+            <TextField fullWidth label="Durée (h)" onChange={this.changeDuration} />
+          </Box>
+          <Box width={1}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.multiAnswers}
+                  onChange={this.changeMultiAnswer}
+                />
+              }
+              label="Autorise plusieurs réponses"
+            />
+          </Box>
+        </Flex>
       </FormWrapper>
     );
   };

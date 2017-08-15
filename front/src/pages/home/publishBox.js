@@ -90,10 +90,10 @@ const studentMediaList = [
     id: 'video',
     name: 'Video',
   },
-  {
-    id: 'videoEmbed',
-    name: 'Video FB/YT',
-  },
+  // {
+  //   id: 'videoEmbed',
+  //   name: 'Video FB/YT',
+  // },
 ]
 
 class PublishBoxView extends Component {
@@ -135,35 +135,41 @@ class PublishBoxView extends Component {
     this.setState({message: event.target.value});
   };
 
-  onPublish = () => {
+  publishPost() {
     const dto: PostDTO = {
       authorId: this.state.author.id,
       content: this.state.message,
       title: this.state.title
     };
-    let postId;
-    postData.createPost(dto)
-      .then(res => {
-        postId = res.data.id;
-        return res.data.id
-      })
-      .then(postData.publishPost)
-      .then(res => {
-        this.setState({title: '', message: ''});
-      }).then(() => {
-      if (this.state.mediaSelected) {
-        this.createMedia()
-          .then(res => res.data.id)
-          .then(id => {
-            return id;
-          })
-          .then((mediaId) => postData.addMedia(postId, mediaId))
-          .then(this.closeMediaCreator)
-          .then(this.props.refreshPosts);
-        return;
-      };
-      this.props.refreshPosts();
-    });
+    return postData.createPost(dto)
+      .then(res => res.data.id)
+      .then(id => {
+        return postData.publishPost(id)
+        .then(() => id);
+      });
+  }
+
+  onPublish = () => {
+    if (this.state.mediaSelected) {
+      this.createMedia()
+        .then(res => res.data.id)
+        .then(mediaId => {
+          return this.publishPost()
+            .then((postId) => ({ mediaId, postId }));
+        })
+        .then((ids) => {
+          return postData.addMedia(ids.postId, ids.mediaId)
+          .then(() => ids.postId)
+        })
+        .then(this.closeMediaCreator)
+        .then(res => {
+          this.setState({title: '', message: ''})
+        })
+        .then(this.props.refreshPosts);
+      return;
+    };
+    this.publishPost();
+    this.props.refreshPosts();
   };
 
   createMedia = () => {

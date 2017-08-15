@@ -1,5 +1,6 @@
 package com.iseplive.api.dto;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,6 +10,8 @@ import java.util.List;
 public class PollCreationDTO {
   private String title;
   private List<String> answers;
+  private Date endDate;
+  private Boolean isMultiAnswers;
 
   public String getTitle() {
     return title;
@@ -24,5 +27,21 @@ public class PollCreationDTO {
 
   public void setAnswers(List<String> answers) {
     this.answers = answers;
+  }
+
+  public Boolean getMultiAnswers() {
+    return isMultiAnswers;
+  }
+
+  public void setMultiAnswers(Boolean multiAnswers) {
+    isMultiAnswers = multiAnswers;
+  }
+
+  public Date getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
   }
 }

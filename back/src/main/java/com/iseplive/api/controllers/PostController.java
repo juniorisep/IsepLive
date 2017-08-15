@@ -67,8 +67,8 @@ public class PostController {
   }
 
   @PutMapping("/{id}/comment")
-  public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto) {
-    return postService.commentPost(id, dto, 1L);
+  public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto, @AuthenticationPrincipal Long studId) {
+    return postService.commentPost(id, dto, studId);
   }
 
   @PutMapping("/{id}/like")

@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios';
-import {PostDTO} from './type';
+import type {PostDTO} from './type';
 
 export function getPosts(page: number) {
   return axios.get(`/post?page=${page}`);

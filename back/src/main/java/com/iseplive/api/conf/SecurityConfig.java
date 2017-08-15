@@ -36,8 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .and()
 
       .authorizeRequests()
-      // only /auth in public
-      .antMatchers(HttpMethod.GET, "/post/authors").authenticated()
+
+      .antMatchers(
+        HttpMethod.GET,
+        "/post/authors",
+        "/poll/{\\d+}/vote"
+      ).authenticated()
+
+      // /auth and get method in public
       .antMatchers(
         HttpMethod.GET,
         "/post/**",
@@ -45,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/club/**",
         "/media/**"
       ).permitAll()
+
       .antMatchers("/auth/**").permitAll()
 
       .anyRequest().authenticated();

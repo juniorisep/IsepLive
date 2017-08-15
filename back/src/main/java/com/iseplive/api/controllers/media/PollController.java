@@ -1,11 +1,14 @@
 package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.dto.PollCreationDTO;
-import com.iseplive.api.entity.poll.Poll;
-import com.iseplive.api.entity.poll.PollVote;
+import com.iseplive.api.entity.media.poll.Poll;
+import com.iseplive.api.entity.media.poll.PollVote;
 import com.iseplive.api.services.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by Guillaume on 31/07/2017.
@@ -30,13 +33,13 @@ public class PollController {
    * @return
    */
   @GetMapping("/{id}/vote")
-  public PollVote getVote(@PathVariable Long id) {
-    return pollService.getVote(id, 1L);
+  public List<PollVote> getVote(@PathVariable Long id, @AuthenticationPrincipal Long studId) {
+    return pollService.getVote(id, studId);
   }
 
   @PutMapping("/{id}/answer/{answerId}") // add student
-  public void vote(@PathVariable Long id, @PathVariable Long answerId) {
-    pollService.addVote(id, answerId, 1L);
+  public void vote(@PathVariable Long id, @PathVariable Long answerId, @AuthenticationPrincipal Long studId) {
+    pollService.addVote(id, answerId, studId);
   }
 
   @PostMapping

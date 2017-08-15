@@ -2,6 +2,7 @@ package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.conf.NotFoundException;
 import com.iseplive.api.dto.VideoEmbedDTO;
+import com.iseplive.api.entity.media.Attachment;
 import com.iseplive.api.entity.media.Gallery;
 import com.iseplive.api.entity.media.Image;
 import com.iseplive.api.entity.media.Media;
@@ -39,15 +40,20 @@ public class MediaController {
     return mediaService.addImage(image);
   }
 
+  @PostMapping("/attachment")
+  public List<Attachment> addFiles(@RequestParam("files") List<MultipartFile> files) {
+    return null;
+  }
+
   @PutMapping("/image/{id}/match/{student}")
   public Image identifyStudentInImage(@PathVariable Long id, @PathVariable Long student) {
     return mediaService.identifyStudentInImage(id, student);
   }
 
-  @PostMapping("/videoEmbed")
-  public VideoEmbed addVideoEmbed(@RequestBody VideoEmbedDTO dto) {
-    return mediaService.createVideoEmbed(dto);
-  }
+//  @PostMapping("/videoEmbed")
+//  public VideoEmbed addVideoEmbed(@RequestBody VideoEmbedDTO dto) {
+//    return mediaService.createVideoEmbed(dto);
+//  }
 
   @PostMapping("/gallery/{name}")
   public Gallery createGallery(@PathVariable String name, @RequestParam("images") List<MultipartFile> images) {
@@ -55,7 +61,7 @@ public class MediaController {
   }
 
   @PostMapping("/gazette")
-  public void createGazette() {
+  public void createGazette(@RequestParam("file") MultipartFile file) {
 
   }
 

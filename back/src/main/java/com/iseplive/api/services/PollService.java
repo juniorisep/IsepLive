@@ -4,9 +4,9 @@ import com.iseplive.api.dao.poll.PollAnswerRepository;
 import com.iseplive.api.dao.poll.PollRepository;
 import com.iseplive.api.dao.poll.PollVoteRepository;
 import com.iseplive.api.dto.PollCreationDTO;
-import com.iseplive.api.entity.poll.Poll;
-import com.iseplive.api.entity.poll.PollAnswer;
-import com.iseplive.api.entity.poll.PollVote;
+import com.iseplive.api.entity.media.poll.Poll;
+import com.iseplive.api.entity.media.poll.PollAnswer;
+import com.iseplive.api.entity.media.poll.PollVote;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,8 @@ public class PollService {
   StudentService studentService;
 
   public void addVote(Long pollId, Long pollAnswId, Long studentId) {
-    if (checkAlreadyVoted(pollId, studentId)) {
+    Poll poll = getPoll(pollId);
+    if (!poll.getMultiAnswers() && checkAlreadyVoted(pollId, studentId)) {
       throw new IllegalArgumentException("This poll has already been answered");
     }
     PollAnswer pollAnswer = pollAnswerRepository.findOne(pollAnswId);
@@ -51,6 +52,8 @@ public class PollService {
     // Create poll
     Poll poll = new Poll();
     poll.setName(pollDTO.getTitle());
+    poll.setEndDate(pollDTO.getEndDate());
+    poll.setMultiAnswers(pollDTO.getMultiAnswers());
     Poll saved = pollRepository.save(poll);
 
     // Add answers
@@ -67,11 +70,7 @@ public class PollService {
     return pollRepository.findOne(pollId);
   }
 
-  public PollVote getVote(Long pollId, long studentId) {
-    List<PollVote> pollVoteList = pollVoteRepository.checkUserAnsweredPoll(pollId, studentId);
-    if (!pollVoteList.isEmpty()) {
-      return pollVoteList.get(0);
-    }
-    return null;
+  public List<PollVote> getVote(Long pollId, long studentId) {
+    return pollVoteRepository.checkUserAnsweredPoll(pollId, studentId);
   }
 }

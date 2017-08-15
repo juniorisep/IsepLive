@@ -2,6 +2,9 @@
 
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import * as moment from 'moment';
+import {Flex, Box} from 'grid-styled';
+import {Text} from '../common';
 
 import * as pollData from 'data/media/poll';
 import * as authData from 'data/auth';
@@ -40,32 +43,46 @@ const Caption = styled.p`
 class Poll extends Component {
 
   state = {
-    voted: false,
-    answer: null,
+    showVote: false,
+    answers: [],
     data: this.props.data,
+    ended: false,
   };
 
   componentDidMount() {
+
+    if (this.isEnded()) {
+      this.setState({ showVote: true, ended: true });
+    }
+
     if (!authData.isLoggedIn()) {
-      this.setState({voted: true});
+      this.setState({showVote: true});
     } else {
-      pollData.getVote(this.state.data.id).then(res => {
-        if (res.data) {
-          this.setState({voted: true, answer: res.data.answer});
-        };
+      pollData.getVotes(this.state.data.id).then(res => {
+        if (res.data.length > 0) {
+          this.setState({showVote: true, answers: res.data.map(d => d.answer)});
+        }
       });
     };
   };
 
+  isEnded = () => {
+    return this.state.data.endDate < new Date().getTime();
+  }
+
   handleVote = (ans) => {
-    if (!this.state.voted) {
-      this.setState({voted: true, answer: ans});
-      pollData.vote(this.state.data.id, ans.id).then(res => {
-        pollData.getPoll(this.props.data.id).then(res => {
-          this.setState({data: res.data});
-        });
-      });
-    };
+    const { showVote, data, answers } = this.state;
+    if (!this.isEnded()) {
+      if (!showVote || (data.multiAnswers &&
+        answers.length < data.answers.length)) {
+          this.setState({showVote: true, answers: [...answers, ans]});
+          pollData.vote(data.id, ans.id).then(res => {
+            pollData.getPoll(this.props.data.id).then(res => {
+              this.setState({data: res.data});
+            });
+          });
+        };
+    }
   };
 
   getTotal() {
@@ -76,6 +93,7 @@ class Poll extends Component {
   render() {
     const poll = this.state.data;
     const total = this.getTotal();
+    const remainDate = moment(poll.endDate).fromNow();
     return (
       <Wrapper>
         <TopBar>Sondage</TopBar>
@@ -83,18 +101,30 @@ class Poll extends Component {
           <Question>{poll.name}</Question>
           {
             poll.answers.map(a => {
+              console.log(a, this.state.answers, this.state.answers.includes(a));
               return (
                 <Answer
                   key={a.id}
-                  showVote={this.state.voted}
-                  vote={this.state.answer}
+                  showVote={this.state.showVote || this.isEnded()}
+                  voted={this.state.answers.filter(as => as.id === a.id).length > 0}
                   total={total}
+                  multiAnswers={poll.multiAnswers}
+                  ended={this.isEnded()}
                   onClick={() => this.handleVote(a)}
                   answer={a} />
               );
             })
           }
-          {this.state.voted && <Caption>{total} vote{total !== 1 && 's'}</Caption>}
+          <Flex>
+            <Box>
+              <Text fontSize={0.4}>
+                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé' }
+              </Text>
+            </Box>
+            <Box ml="auto">
+              {this.state.showVote && <Caption>{total} vote{total !== 1 && 's'}</Caption>}
+            </Box>
+          </Flex>
         </Main>
       </Wrapper>
     );
@@ -109,20 +139,18 @@ const AnswerStyle = styled.div`
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
-  ${props => !props.voted &&`
-    &:hover {
+  &:hover {
+    ${props => (props.selectable || !props.showVote) &&`
       background: rgba(63, 81, 181, 0.7);
       color: white;
       cursor: pointer;
-    }
-  `}
+    `}
+  }
 `;
 
 const AnswerText = styled.div`
   padding: 10px 15px;
-  color: ${props => props.vote
-  ? props.theme.accent
-  : 'white'};
+  color: ${props => props.voted ? props.theme.accent : 'white'};
   position: relative;
   z-index: 1;
 `;
@@ -141,10 +169,13 @@ const AnswerBar = styled.div`
 function Answer(props) {
   const answer = props.answer;
 
-  const percent = (answer.votesNb / props.total) * 100;
+  const percent = props.total > 0 ? Math.round((answer.votesNb / props.total) * 100) : 0;
   return (
-    <AnswerStyle voted={props.showVote} onClick={props.onClick}>
-      <AnswerText vote={props.vote && props.vote.id === answer.id}>
+    <AnswerStyle
+      showVote={props.showVote}
+      selectable={!props.voted && props.multiAnswers && !props.ended}
+      onClick={props.onClick}>
+      <AnswerText voted={props.voted}>
         {answer.content}
         {
           props.showVote &&
@@ -152,9 +183,7 @@ function Answer(props) {
         }
       </AnswerText>
       <AnswerBar style={{
-        width: (props.showVote
-          ? percent
-          : 0) + '%'
+        width: (props.showVote ? percent : 0) + '%'
       }} />
     </AnswerStyle>
   );

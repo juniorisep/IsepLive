@@ -2,12 +2,14 @@
 
 import React, {Component} from 'react';
 
+import {FluidContent} from 'components/common';
+
 class Team extends Component {
   render() {
     return (
-      <div>
-        <h1>Notre équipe</h1>
-      </div>
+      <FluidContent>
+        <img src="/img/team.jpg" alt="Team" width="100%" />
+      </FluidContent>
     );
   };
 };

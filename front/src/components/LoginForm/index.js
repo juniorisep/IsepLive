@@ -13,7 +13,7 @@ export default function LoginForm(props) {
       <DialogTitle style={{
         textAlign: 'center'
       }}>
-        <img alt="Isep Live" src="/svg/iseplive.svg" style={{
+        <img alt="Isep Live" src="/img/svg/iseplive.svg" style={{
           height: '200px'
         }} />
       </DialogTitle>

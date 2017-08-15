@@ -208,7 +208,7 @@ class Layout extends React.Component {
         <AppBar style={{position: 'relative'}}>
           <Toolbar>
             <Logo
-              src="/svg/iseplive.svg"
+              src="/img/svg/iseplive.svg"
               alt="isep-live-logo"
               onClick={() => this.setState({sidebarOpen: true})} />
             <NavMenu>
@@ -284,16 +284,16 @@ class Layout extends React.Component {
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
                   <Flex>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/svg/facebook.svg" alt="Facebook logo" /></a>
+                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/img/svg/facebook.svg" alt="Facebook logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="/svg/twitter.svg" alt="Twitter logo" /></a>
+                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="/img/svg/twitter.svg" alt="Twitter logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="/svg/instagram.svg" alt="Instagram logo" /></a>
+                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="/img/svg/instagram.svg" alt="Instagram logo" /></a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/svg/snapchat.svg" alt="Snapchat logo" /></a>
+                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/img/svg/snapchat.svg" alt="Snapchat logo" /></a>
                     </Box>
                   </Flex>
                 </SocialBox>

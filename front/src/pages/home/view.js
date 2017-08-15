@@ -88,28 +88,28 @@ export default function Home(props) {
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Video.svg" />
+            <Icon src="/img/svg/Video.svg" />
             <IconName>Videos</IconName>
           </Box>
           <Box w={[
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Photo.svg" />
+            <Icon src="/img/svg/Photo.svg" />
             <IconName>Photos</IconName>
           </Box>
           <Box w={[
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Gazette.svg" />
+            <Icon src="/img/svg/Gazette.svg" />
             <IconName>Gazettes</IconName>
           </Box>
           <Box w={[
             1, 1 / 2,
             1 / 4
           ]}>
-            <Icon src="svg/Evenement.svg" />
+            <Icon src="/img/svg/Evenement.svg" />
             <IconName>Evenements</IconName>
           </Box>
         </Flex>

@@ -13,12 +13,13 @@ import AddCircleIcon from 'material-ui-icons/AddCircle';
 import * as postData from 'data/post';
 import * as pollData from 'data/media/poll';
 import * as imageData from 'data/media/image';
+import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
 import {PostDTO} from 'data/post/type';
 
 import {
   MediaCreator,
-  PollForm, ImageForm,
+  PollForm, ImageForm, VideoEmbedForm,
 } from './mediaForms';
 
 import {
@@ -171,6 +172,8 @@ class PublishBoxView extends Component {
         return pollData.createPoll(this.state.form);
       case 'image':
         return imageData.createImage(this.state.form.file);
+      case 'videoEmbed':
+        return videoData.createVideoEmbed(this.state.form);
     };
   };
 
@@ -231,7 +234,8 @@ class PublishBoxView extends Component {
         return <PollForm update={this.onFormChange} />;
       case 'image':
         return <ImageForm update={this.onFormChange} />;
-      default:
+      case 'videoEmbed':
+        return <VideoEmbedForm update={this.onFormChange} />;
     }
   }
 

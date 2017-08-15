@@ -4,6 +4,7 @@ import {Box, Flex} from 'grid-styled';
 
 import {Title} from 'components/common';
 
+import Menu, {MenuItem} from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
@@ -144,5 +145,63 @@ export class ImageForm extends Component {
         </label>
       </div>
     );
+  }
+}
+
+export class VideoEmbedForm extends Component {
+  state = {
+    openTypeMenu: false,
+    type: 'YOUTUBE',
+    id: '',
+  }
+
+  changeUrl = (event) => {
+    const id = event.target.value;
+    this.setState({ id });
+    this.update(id, this.state.type);
+  }
+
+  changeType = (type) => {
+    this.setState({ type });
+    this.closeMenu();
+    this.update(this.state.id, type);
+  }
+
+  update = (id, type) => {
+    const ytUrl = `https://www.youtube.com/embed/${id}`;
+    this.props.update({
+      url: type === 'YOUTUBE' ? ytUrl : id,
+      type: type
+    });
+  }
+
+  closeMenu = () => {
+    this.setState({ openTypeMenu: false });
+  }
+
+  openMenu = (e) => {
+    this.setState({ openTypeMenu: true, anchorEl: e.target });
+  }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <Button color="accent" onClick={this.openMenu}>Choisir Type</Button> {this.state.type === 'YOUTUBE' ? 'Youtube' : 'Facebook'}
+        </div>
+        <Menu
+          anchorEl={this.state.anchorEl}
+          open={this.state.openTypeMenu}
+          onRequestClose={this.closeMenu}>
+          <MenuItem
+            onClick={() => this.changeType('YOUTUBE')}
+            selected={this.state.type === 'YOUTUBE'}>Youtube</MenuItem>
+          <MenuItem
+            onClick={() => this.changeType('FACEBOOK')}
+            selected={this.state.type === 'FACEBOOK'}>Facebook</MenuItem>
+        </Menu>
+        <TextField label="ID de la Video" fullWidth onChange={this.changeUrl} />
+      </div>
+    )
   }
 }

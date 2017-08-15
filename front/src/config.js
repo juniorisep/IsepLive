@@ -6,6 +6,8 @@ import * as authData from './data/auth';
 
 export const backUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
 
+export const FACEBOOK_APP_ID = "1801340870119533";
+
 const token = localStorage.getItem('token');
 if (token != null) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-import {PollDTO} from './type';
+import type {PollDTO} from './type';
 
 export function createPoll(poll: PollDTO) {
   return axios.post('/poll', poll);

@@ -135,3 +135,38 @@ export class ScrollToTopOnMount extends Component {
     return null
   };
 };
+
+const IframeWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  top: 50%;
+  margin-top: -28.1%;
+
+  > iframe {
+    border: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const FacebookVideo = (props) => {
+  return (
+    <IframeWrap>
+      <iframe src={props.url} scrolling="no" allowTransparency allowFullScreen></iframe>
+    </IframeWrap>
+  )
+}
+
+const Iframe = styled.iframe`
+  width: 100%;
+  height: 100%;
+`;
+export const YoutubeVideo = (props) => {
+  return <Iframe src={props.url} scrolling="no" allowTransparency allowFullScreen frameBorder="0"></Iframe>;
+}

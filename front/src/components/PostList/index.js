@@ -6,8 +6,10 @@ import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 
 import Button from 'material-ui/Button';
-
+import FacebookPlayer from 'react-facebook-player';
 import LikeButton from './LikeButton';
+
+import {FACEBOOK_APP_ID} from 'config';
 
 import {
   ProfileImage,
@@ -16,6 +18,8 @@ import {
   BgImage,
   Title,
   ImageLink,
+  YoutubeVideo,
+  FacebookVideo,
 } from '../common';
 
 import Time from '../Time';
@@ -40,12 +44,12 @@ const Post = styled.li`
 `;
 
 const PostContent = styled.div`
-  height: 100%;
+  height: ${props => props.fb ? 'auto' : '250px'};
   position: relative;
-  ${props => props.bg && 'background: black;'}
+  ${props => props.fb && 'background: black;'}
 
   @media (max-width: 40em) {
-    height: 300px;
+    height: ${props => props.fb ? 'auto': '300px'};
   }
 `;
 
@@ -56,25 +60,6 @@ const PostText = Box.extend`
 
   @media (max-width: 40em) {
     height: auto;
-  }
-`;
-
-const IframeWrap = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 56.25%;
-  top: 50%;
-  margin-top: -28.1%;
-
-  > iframe {
-    border: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
   }
 `;
 
@@ -155,16 +140,6 @@ export default function PostListView(props) {
                       <Poll data={p.media} />
                     </Box>
                     <PostTextView post={p} w={[1, 1 / 2]} />
-                    {/* <PostText w={[1, 1/2]}>
-                      <PostTitleView post={p} />
-                      <PostTextContent content={p.content} />
-                      <PostActions>
-                        <Button dense color="accent">Voir plus</Button>
-                        <Box ml="auto">
-                      <LikeButton post={p} />
-                        </Box>
-                      </PostActions>
-                    </PostText> */}
                   </Post>
                 );
               case 'image':
@@ -182,10 +157,17 @@ export default function PostListView(props) {
                 return (
                   <Post key={p.id} invert={invert}>
                     <Box w={[1, 1 / 2]}>
-                      <PostContent bg>
-                        <IframeWrap>
-                          <iframe src={p.media.url} scrolling="no" allowTransparency allowFullScreen></iframe>
-                        </IframeWrap>
+                      <PostContent fb={p.media.type === 'FACEBOOK'}>
+                        {
+                          p.media.type === 'FACEBOOK' ?
+                            // <FacebookVideo url={p.media.url} />
+                              <FacebookPlayer
+                                appId={FACEBOOK_APP_ID}
+                                videoId={p.media.url}
+                              />
+                          :
+                          <YoutubeVideo url={p.media.url} />
+                        }
                       </PostContent>
                     </Box>
                     <PostTextView post={p} w={[1, 1 / 2]} />

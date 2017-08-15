@@ -64,7 +64,5 @@ public class DatabaseSeeder {
     studentDTO.setPromo(2018);
 
     studentService.createStudent(studentDTO);
-
-
   }
 }

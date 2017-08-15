@@ -48,6 +48,7 @@ class Resume extends Component {
     studentId: '',
     birthDate: '',
     promo: '',
+    bio: '',
   };
 
   handleRequestClose = () => {
@@ -56,13 +57,13 @@ class Resume extends Component {
 
   componentDidMount() {
     userData.getLoggedUser().then(res => {
-      const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo} = res.data;
-      this.setState({photoUrl, firstname, lastname, phone, studentId, birthDate, promo});
+      const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo, bio} = res.data;
+      this.setState({photoUrl, firstname, lastname, phone, studentId, birthDate, promo, bio});
     });
   };
 
   render() {
-    const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo} = this.state;
+    const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo, bio} = this.state;
     return (
       <div>
         <Header url="/img/background.jpg">

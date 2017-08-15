@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'components/common';
 import Button from 'material-ui/Button';
+import {Link} from 'react-router-dom';
 
 const Person = (props) => {
   const PersonStyle = styled.div`
@@ -77,8 +78,10 @@ class AddressBook extends Component {
             {
               this.props.students.map(e => {
                 return (
-                  <Box w={[1, 1 / 3, 1 / 5]} p={2}>
-                    <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo} />
+                  <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
+                    <Link to={`/annuaire/${e.id}`}>
+                      <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo} />
+                    </Link>
                   </Box>
                 )
               })

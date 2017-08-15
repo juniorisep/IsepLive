@@ -41,7 +41,6 @@ public class ClubController {
     return clubService.createRole(role);
   }
 
-
   @GetMapping("/{id}")
   public Club getClub(@PathVariable Long id) {
     return clubService.getClub(id);
@@ -86,6 +85,4 @@ public class ClubController {
   public List<PostView> getPosts(@PathVariable Long id) {
     return clubService.getPosts(id);
   }
-
-
 }

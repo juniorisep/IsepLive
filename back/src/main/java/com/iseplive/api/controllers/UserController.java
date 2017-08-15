@@ -31,6 +31,11 @@ public class UserController {
     studentService.addProfileImage(id, image);
   }
 
+  @GetMapping("/student/{id}")
+  public Student getStudent(@PathVariable Long id) {
+    return studentService.getStudent(id);
+  }
+
   @PostMapping("/student")
   public Student createStudent(@RequestBody StudentDTO dto) {
     return studentService.createStudent(dto);

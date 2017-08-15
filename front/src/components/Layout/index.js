@@ -23,6 +23,7 @@ import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
 import Home from 'pages/home';
 import Media from 'pages/media';
 import AddressBook from 'pages/addressbook';
+import AddressBookDetail from 'pages/addressbook/addressbookDetail';
 import Club from 'pages/club';
 import ClubDetail from 'pages/club/clubDetail';
 import Events from 'pages/events';
@@ -253,7 +254,8 @@ class Layout extends React.Component {
           <Redirect path="/" exact to="/accueil" />
           <Route path="/accueil" component={Home} />
           <Route path="/media" component={Media} />
-          <Route path="/annuaire" component={AddressBook} />
+          <Route exact path="/annuaire" component={AddressBook} />
+          <Route path="/annuaire/:id" component={AddressBookDetail} />
           <Route exact path="/associations" component={Club} />
           <Route path="/associations/:id" component={ClubDetail} />
           <Route path="/evenements" component={Events} />

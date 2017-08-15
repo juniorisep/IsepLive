@@ -16,6 +16,7 @@ const Album = (props) => {
   const AlbumStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+
     div.image {
       width: 100%;
       height: 200px;
@@ -24,6 +25,7 @@ const Album = (props) => {
       background-size: cover;
       background-position: center;
     }
+
     div.caption {
       padding: 10px;
       color: ${props => props.theme.main};

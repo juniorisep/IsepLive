@@ -13,10 +13,12 @@ const Controls = styled.div`
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
+
   video {
     width: 100%;
     height: 100%;
   }
+
   ${Controls} {
     position: absolute;
     left: 0;

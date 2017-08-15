@@ -29,6 +29,7 @@ const Image = styled.div`
   top: 50%;
   transition: transform .5s ease;
   transform: translateY(-50%) translateX(-${props => props.pos * 100}%);
+
   img {
     width: 100%;
   }

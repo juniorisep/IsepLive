@@ -109,7 +109,6 @@ const AnswerStyle = styled.div`
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
-
   ${props => !props.voted &&`
     &:hover {
       background: rgba(63, 81, 181, 0.7);
@@ -136,7 +135,7 @@ const AnswerBar = styled.div`
   height: 100%;
   background: ${props => props.theme.main};
   border-radius: 5px;
-  transition: width .5s ease;
+  transition: width 0.5s ease;
 `;
 
 function Answer(props) {

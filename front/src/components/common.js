@@ -21,6 +21,7 @@ export const FluidContent = styled.div`
   margin: 0 auto;
   padding: ${props => props.p || '50px'};
   position: relative;
+
   @media (max-width: 40em) {
     padding: 5%;
   }
@@ -52,6 +53,7 @@ export const Banner = styled.div`
   padding: 30px;
   margin: 0 -20px;
   margin-bottom: 50px;
+
   > h1 {
     font-size: 2em;
     font-weight: normal;
@@ -59,6 +61,7 @@ export const Banner = styled.div`
     margin-bottom: 10px;
     color: white;
   }
+
   > p {
     color: ${props => props.theme.accent};
     font-size: 1em;

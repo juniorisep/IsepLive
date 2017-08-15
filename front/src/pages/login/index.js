@@ -91,6 +91,7 @@ const TitleContainer = styled.div`
   flex: 1;
   text-align: center;
   padding: 50px;
+
   @media screen and (max-width: 500px) {
     padding: 0;
     margin-bottom: 20px;
@@ -99,6 +100,7 @@ const TitleContainer = styled.div`
 
 const TitleHeader = styled.div`
   text-align: left;
+
   @media (max-width: 1100px) {
     text-align: center;
   }
@@ -156,10 +158,12 @@ const AccessContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   padding: 30px;
+
   @media screen and (max-width: 500px) {
     margin-bottom: 100px;
   }
 `;
+
 const ButtonContainer = styled.div`
   width: 100%;
   text-align: center;

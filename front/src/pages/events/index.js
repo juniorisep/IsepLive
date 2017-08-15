@@ -15,9 +15,11 @@ const Event = (props) => {
   const EventStyle = styled.li`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
+
     > ${Flex} > ${Box} {
       min-height: 250px;
     }
+
     .image {
       width: 100%;
       height: 100%;
@@ -27,12 +29,15 @@ const Event = (props) => {
       background-position: center;
     }
 
-    h2, h3 {
+    h2,
+    h3 {
       margin: 0;
       margin-bottom: 10px;
       font-weight: normal;
     }
-    p, h3 { color: #7a7a7a; }
+
+    p,
+    h3 { color: #7a7a7a; }
     h3.lieu { color: ${props => props.theme.main}; }
   `;
 

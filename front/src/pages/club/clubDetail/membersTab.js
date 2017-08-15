@@ -9,14 +9,17 @@ import {ProfileImage, Text,} from 'components/common';
 
 const Member = (props) => {
   const MemberStyle = styled.div`
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
     > div {
       padding: 10px;
       color: ${props => props.theme.main};
     }
+
     > div p {
       margin: 0;
     }
+
     > div p.name {
       font-weight: bold;
       margin-bottom: 5px;
@@ -25,7 +28,7 @@ const Member = (props) => {
     .role {
       margin-top: 5px;
       font-weight: bold;
-      color: ${props => props.theme.accent}
+      color: ${props => props.theme.accent};
     }
   `;
   return (

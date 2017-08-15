@@ -53,10 +53,13 @@ const Footer = styled.footer`
   background: ${MAIN_COLOR};
   padding: 20px;
   color: white;
-  p, h4 {
+
+  p,
+  h4 {
     margin: 0;
     margin-bottom: 5px;
   }
+
   h4 {
     text-transform: uppercase;
   }
@@ -67,6 +70,7 @@ const LinksBar = styled.div`
   color: white;
   padding: 10px 0;
   font-weight: bold;
+
   > div {
     max-width: 1100px;
     margin: 0 auto;
@@ -76,20 +80,25 @@ const LinksBar = styled.div`
 
 const NavMenu = styled.div`
   flex: 1 1 auto;
+
   > div {
     display: flex;
   }
+
   > div > div a {
     margin: 0 5px;
   }
+
   > div > div {
     flex: 1 1 auto;
     text-align: center;
     border-right: 2px solid white;
   }
+
   > div > div:first-child {
     border-left: 2px solid white;
   }
+
   @media (max-width: 63em) {
     display: none;
   }
@@ -98,6 +107,7 @@ const NavMenu = styled.div`
 const SocialBox = styled.div`
   width: 100%;
   text-align: center;
+
   > h2 {
     margin: 0;
     margin-bottom: 5px;
@@ -105,6 +115,7 @@ const SocialBox = styled.div`
     color: white;
     font-size: 11px;
   }
+
   img {
     width: 100%;
   }

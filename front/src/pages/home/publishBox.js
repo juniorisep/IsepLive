@@ -35,7 +35,7 @@ const PublishBox = styled.div`
 const TitleBox = styled.input`
   font-family: 'Roboto';
   font-size: 1.3em;
-  padding: .4em;
+  padding: 0.4em;
   border: 5px solid transparent;
   outline: 0;
   border-radius: 5px;
@@ -53,10 +53,12 @@ function SendAs(props) {
     padding: 5px;
     display: inline-block;
     border-radius: 5px;
+
     &:hover {
       cursor: pointer;
       background: rgba(255, 255, 255, 0.2);
     }
+
     &:active {
       background: rgba(255, 255, 255, 0.4);
     }

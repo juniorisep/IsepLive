@@ -24,11 +24,13 @@ const Profile = styled.div`
     height: 40px;
     margin-right: 5px;
   }
+
   > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
   > div > span {
     display: block;
     font-weight: bold;

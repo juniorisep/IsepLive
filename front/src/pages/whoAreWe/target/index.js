@@ -21,6 +21,7 @@ class Target extends Component {
   render() {
     return (
       <FluidContent style={{textAlign: 'center'}}>
+        <h1 style={{color: '#ffc000'}}>Nos objectifs</h1>
         <Flex wrap>
           <Box width={1 / 3} p={1}>
             <Paper elevation={4} style={{padding: 20}}>

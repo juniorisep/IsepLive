@@ -39,7 +39,7 @@ public class SwaggerConfiguration {
           .description("Auth header")
           .modelRef(new ModelRef("string"))
           .parameterType("header")
-          .defaultValue("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sImlzcyI6IklzZXBMaXZlIiwiaWQiOjEsImV4cCI6MTUwMjgzNTg2NiwiaWF0IjoxNTAyMjMxMDY2fQ.Ct4uVc6a8a6_ECdR3yZ4JPAGFqFMZvWU1bRMGKxArLQ")
+          .defaultValue("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sImlzcyI6IklzZXBMaXZlIiwiaWQiOjEsImV4cCI6MTU1NDcxODk2NSwiaWF0IjoxNTAyODc4OTY1fQ.p7KdAF_f5mCIfcyzQ7hW5_pEfdwfbIoH9eRLit4D_AM")
           .required(true)
           .build()));
   }

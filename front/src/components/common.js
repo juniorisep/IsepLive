@@ -102,7 +102,7 @@ export const ImageLink = (props) => {
 }
 
 export const Text = styled.p`
-  font-size: 1em;
+  font-size: ${props => props.fs || '1em'};
   line-height: 1.2;
   margin: ${props => props.m || 'auto'};
   margin-bottom: ${props => props.mb || 0}em;

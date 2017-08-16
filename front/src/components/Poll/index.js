@@ -114,9 +114,10 @@ class Poll extends Component {
               );
             })
           }
+          {poll.multiAnswers && <Text fs="0.8em" mb={0.5}>Plusieurs réponses possibles</Text>}
           <Flex>
             <Box>
-              <Text fontSize={0.4}>
+              <Text>
                 {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé' }
               </Text>
             </Box>

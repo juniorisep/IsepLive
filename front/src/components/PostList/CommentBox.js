@@ -39,7 +39,7 @@ class CommentBox extends Component {
     }
 
     if (event.key === 'Enter') {
-      if (!this.state.shift) {
+      if (!this.state.shift && this.state.message !== '') {
         this.props.onComment(this.state.message);
         this.setState({ message: '' });
       }

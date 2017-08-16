@@ -25,6 +25,9 @@ class CommentBox extends Component {
   }
 
   keyDown = (event) => {
+    if (event.key === 'Enter' && !this.state.shift) {
+      event.preventDefault();
+    }
     if (event.key === 'Shift') {
       this.setState({ shift: true });
     }
@@ -52,7 +55,6 @@ class CommentBox extends Component {
       <div>
         <Input
           type="text"
-          innerRef={r => this.input = r}
           placeholder="Appuyez sur Entré pour envoyer..."
           value={this.state.message}
           onKeyUp={this.keyUp}

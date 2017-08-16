@@ -47,8 +47,8 @@ public class PostController {
   }
 
   @GetMapping("/{id}")
-  public Post getPost(@PathVariable Long id) {
-    return postService.getPost(id);
+  public PostView getPost(@PathVariable Long id) {
+    return postService.getPostView(id);
   }
 
   @PutMapping("/{id}/pinned/{pinned}")

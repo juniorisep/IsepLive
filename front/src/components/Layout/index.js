@@ -21,6 +21,7 @@ import Auth from 'components/Auth/AuthComponent';
 import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
 
 import Home from 'pages/home';
+import PostDetail from 'pages/home/PostDetail';
 import Media from 'pages/media';
 import AddressBook from 'pages/addressbook';
 import AddressBookDetail from 'pages/addressbook/addressbookDetail';
@@ -241,18 +242,19 @@ class Layout extends React.Component {
                 handleRequestClose={this.handleRequestClose}
                 onChange={this.handleLoginForm}
                 onConnexion={this.handleConnect}
-               />
+              />
             </Auth>
           </Toolbar>
         </AppBar>
         {window.innerWidth < 1009 &&
-        <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>
-          {navList(SideNav)}
-        </Drawer>
+          <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>
+            {navList(SideNav)}
+          </Drawer>
         }
         <Switch>
           <Redirect path="/" exact to="/accueil" />
           <Route path="/accueil" component={Home} />
+          <Route path="/post/:id" component={PostDetail} />
           <Route path="/media" component={Media} />
           <Route exact path="/annuaire" component={AddressBook} />
           <Route path="/annuaire/:id" component={AddressBookDetail} />

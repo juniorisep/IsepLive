@@ -27,8 +27,8 @@ const Label = styled.span`
 
 class LikeButton extends Component {
   state = {
-    liked: this.props.post.liked,
-    likes: this.props.post.nbLikes,
+    liked: this.props.liked,
+    likes: this.props.likes,
   }
 
   handleLike = () => {
@@ -37,7 +37,8 @@ class LikeButton extends Component {
         liked: !this.state.liked,
         likes: this.state.likes + (this.state.liked ? -1 : 1)
       });
-      postData.toggleLikePost(this.props.post.id);
+      this.props.toggleLike();
+      // postData.toggleLikePost(this.props.post.id);
     }
   }
 

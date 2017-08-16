@@ -15,6 +15,7 @@ import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -175,5 +176,10 @@ public class PostService {
     if (authService.isUserAnonymous()) return false;
     Student student = authService.getLoggedUser();
     return post.getLike().contains(student);
+  }
+
+  public PostView getPostView(Long id) {
+    Post post = getPost(id);
+    return postFactory.entityToView(post);
   }
 }

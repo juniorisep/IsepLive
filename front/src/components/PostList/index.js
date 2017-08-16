@@ -1,15 +1,25 @@
 // @flow
 
-import React from 'react';
+import React, {Component} from 'react';
 
 import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
+
+import {NavLink} from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 import FacebookPlayer from 'react-facebook-player';
 
 import LikeButton from './LikeButton';
 import EditButton from './EditButton';
+import PostTitleView from './PostTitleView';
+
+import * as postData from 'data/post';
+
+
+import PollPost from './Posts/PollPost';
+import ImagePost from './Posts/ImagePost';
+import TextPost from './Posts/TextPost';
 
 import {FACEBOOK_APP_ID} from 'config';
 
@@ -32,11 +42,12 @@ const PostList = styled.ul`
   padding: 0;
 `;
 
-const Post = styled.li`
+export const Post = styled.li`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   background: white;
   margin-bottom: 20px;
   display: flex;
+  flex-wrap: wrap;
   overflow: hidden;
   flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
 
@@ -55,7 +66,7 @@ const PostContent = styled.div`
   }
 `;
 
-const PostText = Box.extend`
+export const PostText = Box.extend`
   padding: 20px;
   padding-bottom: 70px;
   position: relative;
@@ -65,7 +76,7 @@ const PostText = Box.extend`
   }
 `;
 
-const PostActions = styled.div`
+export const PostActions = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -75,63 +86,66 @@ const PostActions = styled.div`
   align-items: center;
 `;
 
-function PostTitleView({ post }) {
-  const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
-  if (post.author.authorType === 'student') {
+export class PostTextView extends Component {
+
+  toggleLike = () => {
+    postData.toggleLikePost(this.props.post.id);
+  }
+
+  render() {
+    const {post, refresh, preview} = this.props;
     return (
-      <Flex align="center" mb="10px">
-        <Box mr="10px"><ProfileImage src={post.author.photoUrl} alt="logo-profile" w="40px" /></Box>
-        <Box>
-          <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
-          <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
-        </Box>
-      </Flex>
-    );
-  };
-  return (
-    <Flex mb="10px">
-      <Box>
-        {
-          post.title &&
-          <Title fontSize={2} invert>{post.title}</Title>
-        }
-        <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
-      </Box>
-      <Box ml="auto">
-        <Author data={post.author} />
-      </Box>
-    </Flex>
-  );
-};
-
-function PostTextView({post, refresh, ...other}) {
-  return (
-    <PostText {...other}>
-      <PostTitleView post={post} />
-      <PostTextContent content={post.content} />
-      <PostActions>
-        <Button dense color="accent">Voir plus</Button>
-        {
-          post.hasWriteAccess &&
-          <Box ml="5px">
-            <EditButton post={post} refresh={refresh} />
+      <PostText w={this.props.w}>
+        <PostTitleView post={post} />
+        <PostTextContent content={post.content} preview={!preview} />
+        <PostActions>
+          {
+            !preview &&
+            <Button dense color="accent" component={NavLink} to={`/post/${post.id}`}>
+              Voir plus
+            </Button>
+          }
+          {
+            post.hasWriteAccess &&
+            <Box ml="5px">
+              <EditButton post={post} refresh={refresh} />
+            </Box>
+          }
+          <Box ml="auto">
+            <LikeButton liked={post.liked} likes={post.nbLikes} toggleLike={this.toggleLike} />
           </Box>
-        }
-        <Box ml="auto">
-          <LikeButton post={post} />
-        </Box>
-      </PostActions>
-    </PostText>
-  );
+        </PostActions>
+      </PostText>
+    );
+  }
 };
 
-function PostTextContent(props) {
+export function PostTextContent(props) {
+  const text = props.preview ? props.content
+  .slice(0, 200)
+  .split('\n')
+  .slice(0,3) : props.content.split('\n');
   return (
     <div>
-      {props.content.split('\n').map((par, i) => <Text key={i} mb={2}>{par}</Text>)}
+      { text.map((par, i) => <Text key={i} mb={1}>{par}</Text>) }
     </div>
   );
 };
+
+export function PostView(props) {
+  if (props.post.media) {
+    switch (props.post.media.mediaType) {
+      case 'poll':
+        return <PollPost {...props} />;
+      case 'image':
+        return <ImagePost {...props} />;
+      default:
+        return null;
+    }
+  } else {
+    return <TextPost {...props} />
+  }
+}
 
 export default function PostListView(props) {
   return (
@@ -139,58 +153,40 @@ export default function PostListView(props) {
       {
         props.posts.map((p, i) => {
           const invert = i % 2 === 1;
-          if (p.media) {
-            switch (p.media.mediaType) {
-              case 'poll':
-                return (
-                  <Post key={p.id} invert={invert}>
-                    <Box w={[1, 1 / 2]}>
-                      <Poll data={p.media} />
-                    </Box>
-                    <PostTextView post={p} refresh={props.refreshPosts} w={[1, 1 / 2]} />
-                  </Post>
-                );
-              case 'image':
-                return (
-                  <Post key={p.id} invert={invert}>
-                    <Box w={[1, 1 / 2]}>
-                      <ImageLink src={p.media.fullSizeUrl}>
-                        <BgImage src={p.media.thumbUrl} mh="250px" />
-                      </ImageLink>
-                    </Box>
-                    <PostTextView post={p} refresh={props.refreshPosts} w={[1, 1 / 2]} />
-                  </Post>
-                )
-              case 'videoEmbed':
-                return (
-                  <Post key={p.id} invert={invert}>
-                    <Box w={[1, 1 / 2]}>
-                      <PostContent fb={p.media.type === 'FACEBOOK'}>
-                        {
-                          p.media.type === 'FACEBOOK' ?
-                            // <FacebookVideo url={p.media.url} />
-                              <FacebookPlayer
-                                appId={FACEBOOK_APP_ID}
-                                videoId={p.media.url}
-                              />
-                          :
-                          <YoutubeVideo url={p.media.url} />
-                        }
-                      </PostContent>
-                    </Box>
-                    <PostTextView refresh={props.refresh} post={p} w={[1, 1 / 2]} />
-                  </Post>
-                );
-            };
-          } else {
-            return (
-              <Post key={p.id} invert={invert}>
-                <PostTextView refresh={props.refreshPosts} post={p} w={[1]} />
-              </Post>
-            );
-          };
+          return (
+            <PostView
+              key={p.id}
+              preview={false}
+              post={p}
+              list={true}
+              invert={invert}
+              refresh={props.refreshPosts}
+            />
+          );
         })
       }
     </PostList>
   );
 };
+
+
+//     case 'videoEmbed':
+//       return (
+//         <Post key={p.id} invert={invert}>
+//           <Box w={[1, 1 / 2]}>
+//             <PostContent fb={p.media.type === 'FACEBOOK'}>
+//               {
+//                 p.media.type === 'FACEBOOK' ?
+//                   // <FacebookVideo url={p.media.url} />
+//                     <FacebookPlayer
+//                       appId={FACEBOOK_APP_ID}
+//                       videoId={p.media.url}
+//                     />
+//                 :
+//                 <YoutubeVideo url={p.media.url} />
+//               }
+//             </PostContent>
+//           </Box>
+//           <PostTextView refresh={props.refresh} post={p} w={[1, 1 / 2]} />
+//         </Post>
+//       );

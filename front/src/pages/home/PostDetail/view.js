@@ -7,11 +7,15 @@ import {Box, Flex} from 'grid-styled';
 import {
   FluidContent,
   Title,
+  ProfileImage,
 } from 'components/common';
 
 import {
   PostView,
 } from 'components/PostList';
+
+import Comment from 'components/PostList/Comment';
+import CommentBox from 'components/PostList/CommentBox';
 
 const Background = styled.div`
   background: url(/img/background.jpg);
@@ -32,7 +36,6 @@ const PostActions = Flex.extend`
 `;
 
 export default function PostDetailView(props) {
-  console.log(props.post);
   return (
     <div>
       <Background>
@@ -45,6 +48,19 @@ export default function PostDetailView(props) {
       </Background>
       <FluidContent>
         <Title>Commentaires</Title>
+        {
+          props.comments.map(c => {
+            return <Comment key={c.id} comment={c} toggleLike={props.toggleLikeCom} />
+          })
+        }
+        <Flex mt="30px">
+          <Box>
+            <ProfileImage w="60px"/>
+          </Box>
+          <Box flex="1 1 auto" ml="20px">
+            <CommentBox onComment={props.onComment} />
+          </Box>
+        </Flex>
       </FluidContent>
     </div>
   );

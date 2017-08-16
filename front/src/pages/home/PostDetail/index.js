@@ -13,18 +13,28 @@ class PostDetail extends Component {
 
   componentDidMount() {
     this.postId = this.props.match.params.id;
-    this.refresh();
+    this.refreshPost();
+    this.refreshCom();
   }
 
-  refresh = () => {
+  refreshPost = () => {
     postData.getPost(this.postId)
     .then(res => {
       this.setState({ post: res.data });
     })
   }
+  refreshCom = () => {
+    postData.getComments(this.postId)
+    .then(res => this.setState({ comments: res.data }))
+  }
 
-  toggleLike = () => {
-    postData.toggleLikePost(this.postId);
+  toggleLikeCom = (comId: number) => {
+    postData.toggleLikeComment(this.postId, comId);
+  }
+
+  comment = (message: string) => {
+    postData.comment(this.postId, message)
+    .then(this.refreshCom);
   }
 
   render() {
@@ -33,7 +43,8 @@ class PostDetail extends Component {
         post={this.state.post}
         comments={this.state.comments}
         refresh={this.refresh}
-        toggleLike={this.toggleLike}
+        toggleLikeCom={this.toggleLikeCom}
+        onComment={this.comment}
       />
     );
   }

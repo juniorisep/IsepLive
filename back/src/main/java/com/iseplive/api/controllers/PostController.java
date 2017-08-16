@@ -3,6 +3,7 @@ package com.iseplive.api.controllers;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.view.CommentView;
 import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
@@ -62,7 +63,7 @@ public class PostController {
   }
 
   @GetMapping("/{id}/comment")
-  public List<Comment> getComments(@PathVariable Long id) {
+  public List<CommentView> getComments(@PathVariable Long id) {
     return postService.getComments(id);
   }
 
@@ -77,7 +78,7 @@ public class PostController {
   }
 
   @PutMapping("/{id}/comment/{comId}/like")
-  public void likeComment(@PathVariable Long comId) {
+  public void toggleCommentLike(@PathVariable Long comId) {
     postService.toggleCommentLike(comId);
   }
 

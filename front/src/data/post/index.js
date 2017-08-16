@@ -11,6 +11,18 @@ export function getPost(id: number) {
   return axios.get(`/post/${id}`);
 };
 
+export function getComments(postId: number) {
+  return axios.get(`/post/${postId}/comment`);
+}
+
+export function comment(postId: number, message: string) {
+  return axios.put(`/post/${postId}/comment`, { message });
+}
+
+export function toggleLikeComment(postId: number, comId: number) {
+  return axios.put(`/post/${postId}/comment/${comId}/like`);
+}
+
 export function deletePost(id: number) {
   return axios.delete(`/post/${id}`);
 }

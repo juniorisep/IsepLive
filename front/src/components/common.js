@@ -75,8 +75,12 @@ const ImageStyle = styled.img`
   vertical-align: middle;
 `;
 
-export const Image = (props) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
-export const ProfileImage = (props) => {
+type ImageType = {
+  src?: string, alt?: string, w?: string | number, ml?: string
+}
+
+export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
+export const ProfileImage = (props: ImageType) => {
   if (!props.src)
     return <ImageStyle {...props} src="/img/svg/user.svg" alt="profile-image" />;
   return <Image {...props} />;

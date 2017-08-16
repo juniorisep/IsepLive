@@ -3,12 +3,10 @@ package com.iseplive.api.services;
 import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.media.MediaRepository;
-import com.iseplive.api.dao.post.AuthorRepository;
-import com.iseplive.api.dao.post.CommentRepository;
-import com.iseplive.api.dao.post.PostFactory;
-import com.iseplive.api.dao.post.PostRepository;
+import com.iseplive.api.dao.post.*;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.view.CommentView;
 import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
@@ -26,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 28/07/2017.
@@ -42,6 +41,9 @@ public class PostService {
 
   @Autowired
   PostFactory postFactory;
+
+  @Autowired
+  CommentFactory commentFactory;
 
   @Autowired
   CommentRepository commentRepository;
@@ -88,9 +90,12 @@ public class PostService {
     return postRepository.save(post);
   }
 
-  public List<Comment> getComments(Long postId) {
+  public List<CommentView> getComments(Long postId) {
     Post post = getPost(postId);
-    return post.getComments();
+    return post.getComments()
+      .stream()
+      .map(c -> commentFactory.entityToView(c))
+      .collect(Collectors.toList());
   }
 
   public void deletePost(Long postId) {
@@ -176,6 +181,12 @@ public class PostService {
     if (authService.isUserAnonymous()) return false;
     Student student = authService.getLoggedUser();
     return post.getLike().contains(student);
+  }
+
+  public Boolean isCommentLiked(Comment comment) {
+    if (authService.isUserAnonymous()) return false;
+    Student student = authService.getLoggedUser();
+    return comment.getLike().contains(student);
   }
 
   public PostView getPostView(Long id) {

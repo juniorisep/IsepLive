@@ -5,6 +5,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 
+import {Link} from 'react-router-dom';
+
 import {ProfileImage, Text,} from 'components/common';
 
 const Member = (props) => {
@@ -52,12 +54,14 @@ export default function MembersTab(props) {
           props.members.map(m => {
             return (
               <Box key={m.id} w={[1, 1 / 3, 1 / 5]} p={2}>
-                <Member
-                  url={m.member.photoUrl}
-                  name={m.member.firstname + ' ' + m.member.lastname}
-                  role={m.role.name}
-                  promotion={m.member.promo}
-                />
+              <Link to={`/annuaire/${m.member.id}`}>
+                  <Member
+                    url={m.member.photoUrl}
+                    name={m.member.firstname + ' ' + m.member.lastname}
+                    role={m.role.name}
+                    promotion={m.member.promo}
+                  />
+                </Link>
               </Box>
             )
           })

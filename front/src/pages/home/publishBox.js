@@ -99,7 +99,7 @@ const studentMediaList = [
 class PublishBoxView extends Component {
 
   state = {
-    title: null,
+    title: '',
     message: '',
     selectedIndex: -1,
     mediaMenuOpen: false,
@@ -168,8 +168,11 @@ class PublishBoxView extends Component {
         .then(this.props.refreshPosts);
       return;
     };
-    this.publishPost();
-    this.props.refreshPosts();
+    this.publishPost()
+    .then(res => {
+      this.setState({title: '', message: ''})
+    })
+    .then(this.props.refreshPosts);
   };
 
   createMedia = () => {
@@ -202,7 +205,7 @@ class PublishBoxView extends Component {
 
   handleAuthorSelect = (author) => {
     this.setState({
-      title: null, message: '',
+      title: '', message: '',
       author, authorMenuOpen: false
     });
   };

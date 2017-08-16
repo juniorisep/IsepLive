@@ -30,7 +30,7 @@ public class Comment {
   @Column(length = 500)
   private String message;
 
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.ALL)
   private Set<Student> like = new HashSet<>();
 
   public Long getId() {

@@ -11,6 +11,7 @@ import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 
 import PublishBoxView from './publishBox';
+import Loader from 'components/Loader';
 
 /* const IconMenu = styled.div`
   display: flex;
@@ -123,13 +124,17 @@ export default function Home(props) {
           </Auth>
           <PostSection>
             <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
-            <PostListView posts={props.posts} />
-            {
-              !props.lastPage &&
-              <Center>
-                <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
-              </Center>
-            }
+            <Loader loading={props.isLoading}>
+              <div>
+                <PostListView posts={props.posts} refreshPosts={props.refreshPosts} />
+                {
+                  !props.lastPage &&
+                  <Center>
+                    <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+                  </Center>
+                }
+              </div>
+            </Loader>
           </PostSection>
         </FluidContent>
       </Background>

@@ -19,7 +19,7 @@ public class PollAnswer {
   @OneToOne
   private Poll poll;
 
-  @OneToMany(mappedBy = "answer")
+  @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
   private List<PollVote> votes;
 
   public Long getId() {

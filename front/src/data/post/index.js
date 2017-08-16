@@ -11,6 +11,10 @@ export function getPost(id: number) {
   return axios.get(`/post/${id}`);
 };
 
+export function deletePost(id: number) {
+  return axios.delete(`/post/${id}`);
+}
+
 export function createPost(post: PostDTO) {
   return axios.post('/post', post);
 };

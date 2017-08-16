@@ -95,7 +95,6 @@ public class PostService {
   public void deletePost(Long postId) {
     Post post = getPost(postId);
     // TODO: delete the ressource associated to the media (stored on disk)
-    mediaRepository.delete(post.getMedia());
     postRepository.delete(postId);
   }
 

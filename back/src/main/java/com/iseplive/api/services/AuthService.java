@@ -19,6 +19,13 @@ public class AuthService {
       .getPrincipal().equals("anonymousUser");
   }
 
+  public Long getLoggedId() {
+    if (!isUserAnonymous()) {
+      return (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+    return null;
+  }
+
   public Student getLoggedUser() {
     if (!isUserAnonymous()) {
       Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

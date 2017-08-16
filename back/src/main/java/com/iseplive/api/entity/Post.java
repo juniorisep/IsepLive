@@ -27,18 +27,18 @@ public class Post {
   @Column(columnDefinition = "TEXT")
   private String content;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   private Media media;
 
   @OneToOne
   private Author author;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "post")
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
   private List<Comment> comments = new ArrayList<>();
 
   @JsonIgnore
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.ALL)
   private Set<Student> like = new HashSet<>();
 
   @JsonIgnore

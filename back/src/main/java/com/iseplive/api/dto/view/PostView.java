@@ -18,6 +18,7 @@ public class PostView {
   private Author author;
   private Integer nbLikes;
   private Boolean isLiked;
+  private Boolean hasWriteAccess;
 
   public Long getId() {
     return id;
@@ -81,5 +82,13 @@ public class PostView {
 
   public void setLiked(Boolean liked) {
     isLiked = liked;
+  }
+
+  public Boolean getHasWriteAccess() {
+    return hasWriteAccess;
+  }
+
+  public void setHasWriteAccess(Boolean hasWriteAccess) {
+    this.hasWriteAccess = hasWriteAccess;
   }
 }

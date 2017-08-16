@@ -7,7 +7,9 @@ import {Box, Flex} from 'grid-styled';
 
 import Button from 'material-ui/Button';
 import FacebookPlayer from 'react-facebook-player';
+
 import LikeButton from './LikeButton';
+import EditButton from './EditButton';
 
 import {FACEBOOK_APP_ID} from 'config';
 
@@ -102,13 +104,19 @@ function PostTitleView({ post }) {
   );
 };
 
-function PostTextView({post, handleLike, ...other}) {
+function PostTextView({post, refresh, ...other}) {
   return (
     <PostText {...other}>
       <PostTitleView post={post} />
       <PostTextContent content={post.content} />
       <PostActions>
         <Button dense color="accent">Voir plus</Button>
+        {
+          post.hasWriteAccess &&
+          <Box ml="5px">
+            <EditButton post={post} refresh={refresh} />
+          </Box>
+        }
         <Box ml="auto">
           <LikeButton post={post} />
         </Box>
@@ -139,7 +147,7 @@ export default function PostListView(props) {
                     <Box w={[1, 1 / 2]}>
                       <Poll data={p.media} />
                     </Box>
-                    <PostTextView post={p} w={[1, 1 / 2]} />
+                    <PostTextView post={p} refresh={props.refreshPosts} w={[1, 1 / 2]} />
                   </Post>
                 );
               case 'image':
@@ -150,7 +158,7 @@ export default function PostListView(props) {
                         <BgImage src={p.media.thumbUrl} mh="250px" />
                       </ImageLink>
                     </Box>
-                    <PostTextView post={p} w={[1, 1 / 2]} />
+                    <PostTextView post={p} refresh={props.refreshPosts} w={[1, 1 / 2]} />
                   </Post>
                 )
               case 'videoEmbed':
@@ -170,14 +178,14 @@ export default function PostListView(props) {
                         }
                       </PostContent>
                     </Box>
-                    <PostTextView post={p} w={[1, 1 / 2]} />
+                    <PostTextView refresh={props.refresh} post={p} w={[1, 1 / 2]} />
                   </Post>
                 );
             };
           } else {
             return (
               <Post key={p.id} invert={invert}>
-                <PostTextView post={p} w={[1]} />
+                <PostTextView refresh={props.refreshPosts} post={p} w={[1]} />
               </Post>
             );
           };

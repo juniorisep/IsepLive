@@ -3,6 +3,7 @@ package com.iseplive.api.entity.media.poll;
 import com.iseplive.api.entity.media.Media;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -21,7 +22,7 @@ public class Poll extends Media {
   private Date endDate;
   private Boolean isMultiAnswers;
 
-  @OneToMany(mappedBy = "poll")
+  @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL)
   private List<PollAnswer> answers;
 
   public String getName() {

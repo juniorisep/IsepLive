@@ -12,7 +12,6 @@ import java.util.Set;
  */
 public class CommentView {
   private Long id;
-  private Post post;
   private Student student;
   private Date creation;
   private String message;
@@ -25,14 +24,6 @@ public class CommentView {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Post getPost() {
-    return post;
-  }
-
-  public void setPost(Post post) {
-    this.post = post;
   }
 
   public Student getStudent() {

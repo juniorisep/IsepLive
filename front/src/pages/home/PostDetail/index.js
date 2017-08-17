@@ -15,6 +15,13 @@ class PostDetail extends Component {
     this.postId = this.props.match.params.id;
     this.refreshPost();
     this.refreshCom();
+    this.autoRefresh = setInterval(() => {
+      this.refreshCom();
+    }, 30000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.autoRefresh);
   }
 
   refreshPost = () => {

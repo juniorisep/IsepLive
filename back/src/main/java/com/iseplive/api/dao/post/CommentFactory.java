@@ -23,7 +23,6 @@ public class CommentFactory {
     commentView.setCreation(comment.getCreation());
     commentView.setLikes(comment.getLike());
     commentView.setMessage(comment.getMessage());
-    commentView.setPost(comment.getPost());
     commentView.setStudent(comment.getStudent());
 
     commentView.setLiked(postService.isCommentLiked(comment));

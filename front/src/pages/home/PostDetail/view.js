@@ -8,6 +8,7 @@ import {
   FluidContent,
   Title,
   ProfileImage,
+  ScrollToTopOnMount,
 } from 'components/common';
 
 import {
@@ -38,6 +39,7 @@ const PostActions = Flex.extend`
 export default function PostDetailView(props) {
   return (
     <div>
+      <ScrollToTopOnMount />
       <Background>
         <FluidContent>
           {

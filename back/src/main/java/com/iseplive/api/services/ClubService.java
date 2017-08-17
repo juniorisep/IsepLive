@@ -1,7 +1,6 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.IllegalArgumentException;
-import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.club.ClubFactory;
 import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
@@ -16,7 +15,7 @@ import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.entity.user.Student;
-import com.iseplive.api.utils.ImageUtils;
+import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -52,7 +51,7 @@ public class ClubService {
   StudentService studentService;
 
   @Autowired
-  ImageUtils imageUtils;
+  MediaUtils imageUtils;
 
   @Autowired
   PostRepository postRepository;
@@ -80,7 +79,7 @@ public class ClubService {
     Club club = getClub(clubId);
     String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
     imageUtils.saveJPG(file, 256, path);
-    club.setLogoUrl(imageUtils.getPublicUrl(path));
+    club.setLogoUrl(imageUtils.getPublicUrlImage(path));
     return authorRepository.save(club);
   }
 

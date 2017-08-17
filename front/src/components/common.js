@@ -174,3 +174,13 @@ const Iframe = styled.iframe`
 export const YoutubeVideo = (props) => {
   return <Iframe src={props.url} scrolling="no" allowTransparency allowFullScreen frameBorder="0"></Iframe>;
 }
+
+
+const VideoStyle = styled.video`
+  width: 100%;
+  min-height: ${props => props.mh || '300px'};
+`;
+
+export const Video = (props) => {
+  return <VideoStyle src={backUrl + props.url} poster={props.poster} controls mh={props.mh}></VideoStyle>;
+}

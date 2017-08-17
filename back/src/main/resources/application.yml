@@ -27,6 +27,8 @@ storage:
     url: "/image"
   student:
     url: "/student"
+  video:
+    url: "/video"
 
 logging:
   level:

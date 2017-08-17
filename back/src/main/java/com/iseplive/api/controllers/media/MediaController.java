@@ -1,14 +1,9 @@
 package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.conf.NotFoundException;
-import com.iseplive.api.dto.VideoEmbedDTO;
-import com.iseplive.api.entity.media.Attachment;
-import com.iseplive.api.entity.media.Gallery;
-import com.iseplive.api.entity.media.Image;
-import com.iseplive.api.entity.media.Media;
-import com.iseplive.api.entity.media.VideoEmbed;
+import com.iseplive.api.entity.media.*;
 import com.iseplive.api.services.MediaService;
-import com.iseplive.api.utils.ImageUtils;
+import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +20,7 @@ import java.util.List;
 @RequestMapping("/media")
 public class MediaController {
   @Autowired
-  ImageUtils imageUtils;
+  MediaUtils mediaUtils;
 
   @Autowired
   MediaService mediaService;
@@ -43,6 +38,11 @@ public class MediaController {
   @PostMapping("/attachment")
   public List<Attachment> addFiles(@RequestParam("files") List<MultipartFile> files) {
     return null;
+  }
+
+  @PostMapping("/video")
+  public Video uploadVideo(@RequestParam("name") String name, @RequestParam("video") MultipartFile video) {
+    return mediaService.uploadVideo(name, video);
   }
 
   @PutMapping("/image/{id}/match/{student}")
@@ -67,13 +67,20 @@ public class MediaController {
 
   @GetMapping("/ressource/{type}/{filename:.+}")
   public FileSystemResource downloadRessource(@PathVariable String type, @PathVariable String filename) {
-    String baseUrl = imageUtils.getBaseUrl();
+    String baseUrl = mediaUtils.getBaseUrl();
     File file = new File(baseUrl + "/" + type + "/" + filename);
     if (!file.exists()) {
       System.out.println(file.getPath());
       throw new NotFoundException("Cannot find this file");
     }
     return new FileSystemResource(file);
+  }
+
+  @DeleteMapping("/ressource/{type}/{filename:.+}")
+  public boolean deleteRessource(@PathVariable String type, @PathVariable String filename) {
+    String baseUrl = mediaUtils.getBaseUrl();
+    File file = new File(baseUrl + "/" + type + "/" + filename);
+    return file.delete();
   }
 
 }

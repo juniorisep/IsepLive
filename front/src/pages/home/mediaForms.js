@@ -179,7 +179,7 @@ export class ImageForm extends Component {
           style={{ display: 'none' }}
           onChange={this.handleImageSelect}/>
         <label htmlFor="file">
-          <AddButton component="span" color="accent" onClick={this.addAnswer}>Choisir une image</AddButton>
+          <AddButton component="span" color="accent">Choisir une image</AddButton>
         </label>
       </div>
     );
@@ -241,5 +241,45 @@ export class VideoEmbedForm extends Component {
         <TextField label="ID de la Video" fullWidth onChange={this.changeUrl} />
       </div>
     )
+  }
+}
+
+export class VideoForm extends Component {
+
+  state = {
+    name: '',
+    video: null,
+  }
+
+  handleVideoSelect = (event) => {
+    const video = event.target.files[0];
+    this.setState({ video });
+    if (this.state.name === '') {
+      this.props.update({...this.state, video, name: video.name });
+      return this.setState({ name: video.name });
+    }
+    this.props.update({...this.state, video });
+  }
+
+  changeName = (event) => {
+    const name = event.target.value;
+    this.props.update({ ...this.state, name});
+    this.setState({ name });
+  }
+
+  render() {
+    return (
+      <div>
+        <TextField label="Nom" value={this.state.name} onChange={this.changeName} />
+        <input
+          id="file"
+          type="file"
+          style={{ display: 'none' }}
+          onChange={this.handleVideoSelect}/>
+        <label htmlFor="file">
+          <AddButton component="span" color="accent">Choisir une video</AddButton>
+        </label>
+      </div>
+    );
   }
 }

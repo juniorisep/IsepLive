@@ -23,7 +23,7 @@ import java.util.Arrays;
  * back
  */
 @Service
-public class ImageUtils {
+public class MediaUtils {
 
   private final Logger LOG = LoggerFactory.getLogger(ImageService.class);
 
@@ -39,18 +39,26 @@ public class ImageUtils {
     return dir + "/" + sanitizePath(name);
   }
 
-  public String getPublicUrl(String path) {
+  public String getPublicUrlImage(String path) {
     return publicBaseUrl + path + ".jpg";
   }
 
-  public String randomName() {
+  public String getPublicUrl(String path) {
+    return publicBaseUrl + path;
+  }
+
+  public String randomName(int length) {
     String random = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     StringBuilder out = new StringBuilder();
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < length; i++) {
       int pos = (int) (Math.random() * random.length());
       out.append(random.charAt(pos));
     }
     return out.toString();
+  }
+
+  public String randomName() {
+    return randomName(30);
   }
 
   /**
@@ -111,7 +119,7 @@ public class ImageUtils {
     return name.replaceAll(" ", "-");
   }
 
-  private String getPath(String url) {
+  public String getPath(String url) {
     return baseUrl + url;
   }
 }

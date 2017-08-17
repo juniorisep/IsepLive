@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 public class Video extends Media {
   private String url;
   private String name;
-  private Integer views;
+  private Integer views = 0;
 
   public String getUrl() {
     return url;

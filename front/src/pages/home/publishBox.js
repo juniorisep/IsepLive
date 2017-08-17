@@ -19,7 +19,7 @@ import {PostDTO} from 'data/post/type';
 
 import {
   MediaCreator,
-  PollForm, ImageForm, VideoEmbedForm,
+  PollForm, ImageForm, VideoEmbedForm, VideoForm,
 } from './mediaForms';
 
 import {
@@ -183,6 +183,8 @@ class PublishBoxView extends Component {
         return imageData.createImage(this.state.form.file);
       case 'videoEmbed':
         return videoData.createVideoEmbed(this.state.form);
+      case 'video':
+        return videoData.createVideo(this.state.form);
     };
   };
 
@@ -245,6 +247,8 @@ class PublishBoxView extends Component {
         return <ImageForm update={this.onFormChange} />;
       case 'videoEmbed':
         return <VideoEmbedForm update={this.onFormChange} />;
+      case 'video':
+        return <VideoForm update={this.onFormChange} />;
     }
   }
 

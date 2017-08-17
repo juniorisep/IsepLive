@@ -20,6 +20,7 @@ import * as postData from 'data/post';
 import PollPost from './Posts/PollPost';
 import ImagePost from './Posts/ImagePost';
 import TextPost from './Posts/TextPost';
+import VideoPost from './Posts/VideoPost';
 
 import {FACEBOOK_APP_ID} from 'config';
 
@@ -139,6 +140,8 @@ export function PostView(props) {
         return <PollPost {...props} />;
       case 'image':
         return <ImagePost {...props} />;
+      case 'video':
+        return <VideoPost {...props} />;
       default:
         return null;
     }

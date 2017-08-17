@@ -11,7 +11,7 @@ class TextPost extends Component {
     return (
       <Post invert={props.invert}>
         <PostTextView
-          refresh={props.refreshPosts}
+          refresh={props.refresh}
           post={props.post}
           w={[1]}
           preview={props.preview}/>

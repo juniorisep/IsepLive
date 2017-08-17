@@ -13,3 +13,8 @@ export type VideoEmbedDTO = {
   type: VideoEmbedType,
   url: string,
 }
+
+export type VideoDTO = {
+  name: string,
+  video: File,
+}

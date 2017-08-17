@@ -29,7 +29,7 @@ class ImagePost extends Component {
         </Box>
         <PostTextView
           post={props.post}
-          refresh={props.refreshPosts}
+          refresh={props.refresh}
           w={size}
           preview={props.preview}
         />

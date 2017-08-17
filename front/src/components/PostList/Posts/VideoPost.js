@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
-
-import {Box} from 'grid-styled';
-
-import Poll from 'components/Poll';
-
+import {Flex, Box} from 'grid-styled';
 import {
   Post,
   PostTextView,
 } from 'components/PostList';
 
-class PollPost extends Component {
+import {
+  Video,
+} from 'components/common';
+
+class VideoPost extends Component {
   render() {
     const props = this.props;
     const size = props.preview ? [1] : [1, 1/2];
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Poll data={props.post.media} />
+          <Video url={props.post.media.url} mh="300px" />
         </Box>
         <PostTextView
-          post={props.post}
-          preview={props.preview}
           refresh={props.refresh}
-          w={size} />
+          post={props.post}
+          w={size}
+          preview={props.preview}/>
       </Post>
     );
   }
 }
 
-export default PollPost;
+export default VideoPost;

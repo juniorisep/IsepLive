@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import * as authData from './data/auth';
 
-export const backUrl = process.env.REACT_APP_BACKEND_URL || "http://192.168.1.22:8080";
+export const backUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
 
 export const FACEBOOK_APP_ID = "1801340870119533";
 

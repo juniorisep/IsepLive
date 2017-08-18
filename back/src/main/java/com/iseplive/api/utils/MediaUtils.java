@@ -30,7 +30,7 @@ public class MediaUtils {
   @Value("${storage.url}")
   private String baseUrl;
 
-  private final String publicBaseUrl = "/media/ressource";
+  private final String publicBaseUrl = "/storage";
 
   public String resolvePath(String dir, String name, boolean thumb) {
     if (thumb) {

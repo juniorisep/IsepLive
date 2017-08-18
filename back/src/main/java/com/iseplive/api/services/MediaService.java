@@ -99,7 +99,7 @@ public class MediaService {
   public Video uploadVideo(String name, MultipartFile videoFile) {
     String random = mediaUtils.randomName();
     String videoPath = mediaUtils.resolvePath(
-      videoDir, random + "_" + videoFile.getOriginalFilename(), false);
+      videoDir, random + "_" + videoFile.getName() + ".mp4", false);
     try {
       Path path = Paths.get(mediaUtils.getPath(videoPath));
       Files.createDirectories(path.getParent());

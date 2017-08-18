@@ -6,8 +6,13 @@ import com.iseplive.api.services.MediaService;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpRange;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import java.io.File;
 import java.util.List;
@@ -65,16 +70,25 @@ public class MediaController {
 
   }
 
-  @GetMapping("/ressource/{type}/{filename:.+}")
-  public FileSystemResource downloadRessource(@PathVariable String type, @PathVariable String filename) {
-    String baseUrl = mediaUtils.getBaseUrl();
-    File file = new File(baseUrl + "/" + type + "/" + filename);
-    if (!file.exists()) {
-      System.out.println(file.getPath());
-      throw new NotFoundException("Cannot find this file");
-    }
-    return new FileSystemResource(file);
-  }
+//  @GetMapping(value = "/ressource/video/{filename:.+}", produces = "video/png", headers = "Accept-range: byte")
+//  public FileSystemResource streamVideo(@PathVariable String filename, HttpRange range) {
+//
+//    String baseUrl = mediaUtils.getBaseUrl();
+//    File file = new File(baseUrl + "/video/" + filename);
+//    return new FileSystemResource(file);
+//  }
+
+//  @GetMapping("/ressource/{type}/{filename:.+}")
+//  public FileSystemResource downloadRessource(@PathVariable String type, @PathVariable String filename) {
+//    String baseUrl = mediaUtils.getBaseUrl();
+//    File file = new File(baseUrl + "/" + type + "/" + filename);
+//    if (!file.exists()) {
+//      System.out.println(file.getPath());
+//      throw new NotFoundException("Cannot find this file");
+//    }
+//    ResourceHttpRequestHandler r = new ResourceHttpRequestHandler();
+//    return new FileSystemResource(file);
+//  }
 
   @DeleteMapping("/ressource/{type}/{filename:.+}")
   public boolean deleteRessource(@PathVariable String type, @PathVariable String filename) {

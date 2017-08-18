@@ -178,9 +178,12 @@ export const YoutubeVideo = (props) => {
 
 const VideoStyle = styled.video`
   width: 100%;
-  min-height: ${props => props.mh || '300px'};
+  vertical-align: middle;
 `;
 
 export const Video = (props) => {
-  return <VideoStyle src={backUrl + props.url} poster={props.poster} controls mh={props.mh}></VideoStyle>;
+  return (
+    <VideoStyle preload src={backUrl + props.url} type="video/mp4" controls>
+    </VideoStyle>
+  );
 }

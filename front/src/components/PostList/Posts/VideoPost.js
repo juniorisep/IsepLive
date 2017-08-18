@@ -16,7 +16,7 @@ class VideoPost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Video url={props.post.media.url} mh="300px" />
+          <Video url={props.post.media.url} />
         </Box>
         <PostTextView
           refresh={props.refresh}

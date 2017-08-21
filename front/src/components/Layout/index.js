@@ -123,14 +123,14 @@ const SocialBox = styled.div`
   }
 `;
 
-const styleSheet = createStyleSheet('Layout', {
+const styles = {
   root: {
-    width: '100%'
+    width: '100%',
   },
   flex: {
-    flex: 1
-  }
-});
+    flex: 1,
+  },
+};
 
 function Nav(props) {
   return (
@@ -346,4 +346,4 @@ Layout.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styleSheet)(Layout);
+export default withStyles(styles)(Layout);

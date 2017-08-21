@@ -346,4 +346,4 @@ Layout.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Layout);
+export default withStyles(styles, { name: 'Layout' })(Layout);

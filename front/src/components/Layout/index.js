@@ -8,7 +8,7 @@ import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 
-import {createStyleSheet, withStyles} from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
@@ -135,7 +135,10 @@ const styles = {
 function Nav(props) {
   return (
     <div>
-      <Button color="contrast" component={NavLink} to={props.to} activeStyle={{
+      <Button color="contrast"
+        component={NavLink}
+        to={props.to}
+        activeStyle={{
         color: SECONDARY_COLOR
       }}>{props.children}</Button>
     </div>
@@ -305,7 +308,7 @@ class Layout extends React.Component {
                   <h2>Partenaires</h2>
                   <Flex>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" width="100%" /></a>
+                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
                       <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/alten.png" alt="Alten logo" /></a>

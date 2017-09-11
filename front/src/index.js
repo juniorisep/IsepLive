@@ -10,7 +10,6 @@ import registerServiceWorker from './registerServiceWorker';
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 
 import {createMuiTheme, MuiThemeProvider} from 'material-ui/styles';
-import createPalette from 'material-ui/styles/palette';
 import indigo from 'material-ui/colors/indigo';
 import orange from 'material-ui/colors/orange';
 
@@ -21,19 +20,19 @@ import AuthenticatedRoute from './components/Auth/AuthenticatedRoute';
 import {MAIN_COLOR, SECONDARY_COLOR} from './colors';
 
 import Login from './pages/login';
-import Layout from './components/Layout'
+import Layout from './components/Layout';
 
 import {backUrl} from './config';
 
 axios.defaults.baseURL = backUrl;
 
 const theme = createMuiTheme({
-  palette: createPalette({primary: indigo, accent: orange})
+  palette: {primary: indigo, secondary: orange}
 });
 
 const styledTheme = {
   main: MAIN_COLOR,
-  accent: SECONDARY_COLOR
+  secondary: SECONDARY_COLOR
 };
 
 const App = () => (

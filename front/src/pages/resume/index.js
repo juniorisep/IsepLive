@@ -129,7 +129,7 @@ class Resume extends Component {
                   Citation
                 </Typography>
                 <Typography type="body1" component="p">
-                  ryituoyipuoiùpuogypiftuodryitfuo
+                  {bio}
                 </Typography>
               </Paper>
             </Box>

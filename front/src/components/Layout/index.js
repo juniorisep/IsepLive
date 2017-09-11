@@ -262,7 +262,7 @@ class Layout extends React.Component {
           <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={UserAgreement} />
           <Route path="/mentions-legales" component={LegalNotice} />
-          <Route roles={['ROLE_ADMIN']} path="/administration" component={Admin} />
+          <AuthenticatedRoute roles={['ROLE_USER']} path="/administration" component={Admin} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer>

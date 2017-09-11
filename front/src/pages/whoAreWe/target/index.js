@@ -23,35 +23,35 @@ class Target extends Component {
       <FluidContent style={{textAlign: 'center'}}>
         <h1 style={{color: '#ffc000'}}>Nos objectifs</h1>
         <Flex wrap>
-          <Box width={1 / 3} p={1}>
+          <Box width={1 / 3} p={2}>
             <Paper elevation={4} style={{padding: 20}}>
               <Circle />
               <h4>Objectif 1</h4>
               <p>tuykflgmhijopjihougiyoufit</p>
             </Paper>
           </Box>
-          <Box width={1 / 3} p={1}>
+          <Box width={1 / 3} p={2}>
             <Paper elevation={4} style={{padding: 20}}>
               <Circle />
               <h4>Objectif 2</h4>
               <p>tuykflgmhijopjihougiyoufit</p>
             </Paper>
           </Box>
-          <Box width={1 / 3} p={1}>
+          <Box width={1 / 3} p={2}>
             <Paper elevation={4} style={{padding: 20}}>
               <Circle />
               <h4>Objectif 3</h4>
               <p>tuykflgmhijopjihougiyoufit</p>
             </Paper>
           </Box>
-          <Box ml='15%' width={1 / 3} p={1}>
+          <Box ml='15%' width={1 / 3} p={2}>
             <Paper elevation={4} style={{padding: 20}}>
               <Circle />
               <h4>Objectif 4</h4>
               <p>tuykflgmhijopjihougiyoufit</p>
             </Paper>
           </Box>
-          <Box width={1 / 3} p={1}>
+          <Box width={1 / 3} p={2}>
             <Paper elevation={4} style={{padding: 20}}>
               <Circle />
               <h4>Objectif 5</h4>

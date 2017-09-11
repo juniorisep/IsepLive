@@ -231,15 +231,7 @@ class Layout extends React.Component {
               </Menu>
             </Auth>
             <Auth not>
-              <Button color="contrast" onClick={this.handleClick}>Menu</Button>
-              <Menu id="simple-menu"
-                anchorEl={this.state.anchorEl}
-                open={this.state.open}
-                onRequestClose={this.handleRequestClose}
-              >
-                <MenuItem onClick={() => this.setState({connexionOpen: true})}>Se connecter</MenuItem>
-                <MenuItem component={NavLink} to="/connexion">Accueil</MenuItem>
-              </Menu>
+              <Button color="contrast" onClick={() => this.setState({connexionOpen: true})}>Se connecter</Button>
               <LoginForm
                 open={this.state.connexionOpen}
                 handleRequestClose={this.handleRequestClose}

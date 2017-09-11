@@ -32,7 +32,7 @@ const theme = createMuiTheme({
 
 const styledTheme = {
   main: MAIN_COLOR,
-  secondary: SECONDARY_COLOR
+  accent: SECONDARY_COLOR
 };
 
 const App = () => (

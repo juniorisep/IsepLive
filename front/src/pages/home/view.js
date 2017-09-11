@@ -130,7 +130,7 @@ export default function Home(props) {
                 {
                   !props.lastPage &&
                   <Center>
-                    <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+                    <Button color="secondary" raised onClick={props.onSeeMore}>Voir plus</Button>
                   </Center>
                 }
               </div>

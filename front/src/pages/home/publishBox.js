@@ -293,7 +293,7 @@ class PublishBoxView extends Component {
               </Button>
             </Box>
             <Box ml="10px">
-              <Button raised color="accent" style={{float: "right"}} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
+              <Button raised color="secondary" style={{float: "right"}} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
             </Box>
           </Flex>
           <input

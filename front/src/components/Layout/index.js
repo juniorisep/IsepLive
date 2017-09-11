@@ -262,7 +262,7 @@ class Layout extends React.Component {
           <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={UserAgreement} />
           <Route path="/mentions-legales" component={LegalNotice} />
-          <AuthenticatedRoute roles={['ROLE_ADMIN']} path="/administration" component={Admin} />
+          <Route roles={['ROLE_ADMIN']} path="/administration" component={Admin} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer>
@@ -306,7 +306,7 @@ class Layout extends React.Component {
                       <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/alten.png" alt="Alten logo" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.facebook.com/cosmozbde/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo" /></a>
+                      <a href="https://aupontier.wixsite.com/cosmozbde2017" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo" /></a>
                     </Box>
                   </Flex>
                 </SocialBox>

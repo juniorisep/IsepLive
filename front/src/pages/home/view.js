@@ -27,7 +27,7 @@ const FakeIcon = styled.div`
   border-radius: 100px;
 `;
 
-const Icon = styled.img`
+/*const Icon = styled.img`
   display: block;
   margin: 0 auto;
   width: 100px;
@@ -40,7 +40,7 @@ const IconName = styled.h3`
   margin: 0;
   margin-bottom: 10px;
   color: ${props => props.theme.accent};
-`;
+`;*/
 
 const Background = styled.div`
   background: url(/img/background.jpg);
@@ -50,6 +50,7 @@ const Background = styled.div`
   background-position: center;
   position: relative;
 `;
+
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -60,9 +61,9 @@ const Overlay = styled.div`
   opacity: 0.6;
 `;
 
-const About = styled.div`
+/*const About = styled.div`
   margin-bottom: 50px;
-`;
+`;*/
 
 const PostSection = styled.div`
   margin: 30px 0;

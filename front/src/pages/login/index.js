@@ -13,6 +13,7 @@ import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
 import * as authData from 'data/auth';
 
 import LoginForm from 'components/LoginForm'
+import SlideShow from 'components/SlideShow';
 
 const Container = styled.div`
   display: flex;
@@ -185,6 +186,7 @@ const BigButton = styled(Button)`
   },
 }*/
 
+
 export default class Login extends Component {
   state = {
     connexionOpen: false
@@ -208,6 +210,7 @@ export default class Login extends Component {
   };
 
   render() {
+    const images = [1,2,3,4,5].map(e => `img/login/${e}.jpg`);
     return (
       <Container>
         {
@@ -215,7 +218,12 @@ export default class Login extends Component {
           <Redirect to="/accueil" />
         }
         <BackgroundContainer>
-          <Background url="/img/background.jpg" /> {/* <Overlay  /> */}
+
+          <SlideShow
+            items={images}
+            duration={2}
+          />
+          {/* <Background url="/img/background.jpg" /> {/* <Overlay  /> */}
         </BackgroundContainer>
         <Content>
           <TitleContainer>

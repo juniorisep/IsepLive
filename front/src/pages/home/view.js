@@ -82,7 +82,7 @@ export default function Home(props) {
         <Filler h={50} />
         <Banner>
           <h1>Accueil</h1>
-          <p>Bienvenue sur le site d'Isep Live</p>
+          <p>Bienvenue sur le site d'ISEPLive</p>
         </Banner>
         <FluidContent p="0">
           <SearchBar placeholder="Rechercher" />

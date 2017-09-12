@@ -221,7 +221,7 @@ export default class Login extends Component {
 
           <SlideShow
             items={images}
-            duration={2}
+            duration={5}
           />
           {/* <Background url="/img/background.jpg" /> {/* <Overlay  /> */}
         </BackgroundContainer>

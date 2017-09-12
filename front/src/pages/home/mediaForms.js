@@ -122,7 +122,7 @@ export class PollForm extends Component {
             </Flex>
           })
         }
-        <AddButton color="secondary" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
+        <AddButton color="accent" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
         <Flex wrap>
           <Box width={1} mt={2}>
             <TextField fullWidth label="Durée (h)" onChange={this.changeDuration} />
@@ -179,7 +179,7 @@ export class ImageForm extends Component {
           style={{ display: 'none' }}
           onChange={this.handleImageSelect}/>
         <label htmlFor="file">
-          <AddButton component="span" color="secondary">Choisir une image</AddButton>
+          <AddButton component="span" color="accent">Choisir une image</AddButton>
         </label>
       </div>
     );
@@ -225,7 +225,7 @@ export class VideoEmbedForm extends Component {
     return (
       <div>
         <div>
-          <Button color="secondary" onClick={this.openMenu}>Choisir Type</Button> {this.state.type === 'YOUTUBE' ? 'Youtube' : 'Facebook'}
+          <Button color="accent" onClick={this.openMenu}>Choisir Type</Button> {this.state.type === 'YOUTUBE' ? 'Youtube' : 'Facebook'}
         </div>
         <Menu
           anchorEl={this.state.anchorEl}
@@ -277,7 +277,7 @@ export class VideoForm extends Component {
           style={{ display: 'none' }}
           onChange={this.handleVideoSelect}/>
         <label htmlFor="file">
-          <AddButton component="span" color="secondary">Choisir une video</AddButton>
+          <AddButton component="span" color="accent">Choisir une video</AddButton>
         </label>
       </div>
     );

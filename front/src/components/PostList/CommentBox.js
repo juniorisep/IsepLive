@@ -76,17 +76,17 @@ class CommentBox extends Component {
     const { editorState } = this.state;
     return (
       <div>
-        <div style={{margin: 20, border: '1px solid black'}}>
+        {/* <div style={{margin: 20, border: '1px solid black'}}>
           <Editor
             editorState={editorState}
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
             onEditorStateChange={this.onEditorStateChange}
           />
-        </div>
-        <div style={{textAlign: 'center'}}>
+          </div>
+          <div style={{textAlign: 'center'}}>
           <Button style={STYLE_BUTTON} onClick={this.onConfirm}>Ajouter</Button>
-        </div>
+        </div> */}
         <Input
           type="text"
           placeholder="Appuyez sur Entré pour envoyer..."

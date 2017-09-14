@@ -29,6 +29,8 @@ storage:
     url: "/student"
   video:
     url: "/video"
+  gazette:
+    url: "/gazette"
 
 logging:
   level:

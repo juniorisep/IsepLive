@@ -15,8 +15,12 @@ import java.util.Date;
 public class Gazette extends Media {
 
   private String title;
-  private Date date;
   private String url;
+
+  @Override
+  public void setCreation(Date creation) {
+    super.setCreation(creation);
+  }
 
   public String getTitle() {
     return title;
@@ -24,14 +28,6 @@ public class Gazette extends Media {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
   }
 
   public String getUrl() {

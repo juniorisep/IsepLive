@@ -19,7 +19,7 @@ import {PostDTO} from 'data/post/type';
 
 import {
   MediaCreator,
-  PollForm, ImageForm, VideoEmbedForm, VideoForm,
+  PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm
 } from './mediaForms';
 
 import {
@@ -73,7 +73,7 @@ function SendAs(props) {
   );
 };
 
-const studentMediaList = [
+const mediaAvailable = [
   {
     id: 'poll',
     name: 'Sondage',
@@ -185,6 +185,8 @@ class PublishBoxView extends Component {
         return videoData.createVideoEmbed(this.state.form);
       case 'video':
         return videoData.createVideo(this.state.form);
+      case 'gallery':
+        return imageData.createGallery(this.state.form);
     };
   };
 
@@ -239,6 +241,17 @@ class PublishBoxView extends Component {
     return false;
   };
 
+  getMediaPublishList() {
+    const {author} = this.state;
+    if (author && author.type === 'club') {
+      return [
+        ...mediaAvailable,
+        { id: 'gallery', name: 'Gallerie' },
+      ];
+    }
+    return mediaAvailable;
+  }
+
   renderForm() {
     switch (this.state.mediaSelected.id) {
       case 'poll':
@@ -249,6 +262,8 @@ class PublishBoxView extends Component {
         return <VideoEmbedForm update={this.onFormChange} />;
       case 'video':
         return <VideoForm update={this.onFormChange} />;
+      case 'gallery':
+        return <GalleryForm update={this.onFormChange} />;
     }
   }
 
@@ -326,7 +341,7 @@ class PublishBoxView extends Component {
             open={this.state.mediaMenuOpen}
             onRequestClose={this.handleMediaMenuClose}>
             {
-              studentMediaList.map(l => {
+              this.getMediaPublishList().map(l => {
                 return <MenuItem key={l.name} onClick={() => this.handleMediaSelect(l)}>{l.name}</MenuItem>
               })
             }

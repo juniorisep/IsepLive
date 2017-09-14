@@ -22,8 +22,6 @@ public class Event extends Media {
   private String location;
   private Date date;
 
-  private PublishStateEnum publishState;
-
   @Column(columnDefinition = "TEXT")
   private String description;
 
@@ -32,6 +30,11 @@ public class Event extends Media {
 
   @OneToOne
   private Image image;
+
+  @Override
+  public void setCreation(Date creation) {
+    super.setCreation(creation);
+  }
 
   public String getTitle() {
     return title;
@@ -81,11 +84,4 @@ public class Event extends Media {
     this.image = image;
   }
 
-  public PublishStateEnum getPublishState() {
-    return publishState;
-  }
-
-  public void setPublishState(PublishStateEnum publishState) {
-    this.publishState = publishState;
-  }
 }

@@ -4,6 +4,7 @@ import com.iseplive.api.constants.MediaType;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Date;
 
 /**
  * Created by Guillaume on 29/07/2017.
@@ -15,6 +16,11 @@ public class Video extends Media {
   private String url;
   private String name;
   private Integer views = 0;
+
+  @Override
+  public void setCreation(Date creation) {
+    super.setCreation(creation);
+  }
 
   public String getUrl() {
     return url;

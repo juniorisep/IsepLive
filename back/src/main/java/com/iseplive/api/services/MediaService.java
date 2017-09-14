@@ -48,16 +48,33 @@ public class MediaService {
   @Value("${storage.video.url}")
   String videoDir;
 
+  @Value("${storage.gazette.url}")
+  String gazetteDir;
+
   public List<Media> getAllGalleryGazetteVideo() {
     return mediaRepository.findAllByMediaTypeIn(
-      Arrays.asList(MediaType.IMAGE, MediaType.GAZETTE, MediaType.VIDEO)
+      Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO)
     );
+  }
+
+  public Gazette createGazette(String title, MultipartFile file) {
+    String random = mediaUtils.randomName();
+    String gazettePath = mediaUtils.resolvePath(
+      gazetteDir, random + "_" + title + ".pdf", false);
+
+    mediaUtils.saveFile(gazettePath, file);
+
+    Gazette gazette = new Gazette();
+    gazette.setCreation(new Date());
+    gazette.setTitle(title);
+    gazette.setUrl(mediaUtils.getPublicUrl(gazettePath));
+    return mediaRepository.save(gazette);
   }
 
   public Gallery createGallery(String name, List<MultipartFile> files) {
     Gallery gallery = new Gallery();
-    gallery.setCreation(new Date());
     gallery.setName(name);
+    gallery.setCreation(new Date());
 
     List<Image> images = new ArrayList<>();
     files.forEach(file -> {
@@ -100,24 +117,11 @@ public class MediaService {
     String random = mediaUtils.randomName();
     String videoPath = mediaUtils.resolvePath(
       videoDir, random + "_" + videoFile.getName() + ".mp4", false);
-    try {
-      Path path = Paths.get(mediaUtils.getPath(videoPath));
-      Files.createDirectories(path.getParent());
-      File out = path.toFile();
-      boolean created = out.createNewFile();
 
-      if (!created) {
-        throw new FileException("could not create file: " + mediaUtils.getPath(videoPath));
-      }
-
-      byte[] bytes = videoFile.getBytes();
-      Files.write(path, bytes);
-
-    } catch (IOException e) {
-      throw new FileException("could not create file: " + mediaUtils.getPath(videoPath));
-    }
+    mediaUtils.saveFile(videoPath, videoFile);
 
     Video video = new Video();
+    video.setCreation(new Date());
     video.setName(name);
     video.setUrl(mediaUtils.getPublicUrl(videoPath));
     return mediaRepository.save(video);

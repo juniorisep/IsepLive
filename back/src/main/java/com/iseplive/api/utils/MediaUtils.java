@@ -1,5 +1,6 @@
 package com.iseplive.api.utils;
 
+import com.iseplive.api.conf.FileException;
 import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.services.ImageService;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -59,6 +61,32 @@ public class MediaUtils {
 
   public String randomName() {
     return randomName(30);
+  }
+
+  /**
+   * saveFile saves the file to the path specified
+   * and creates new directories if needed.
+   *
+   * @param filePath
+   * @param file
+   */
+  public void saveFile(String filePath, MultipartFile file) {
+    try {
+      Path path = Paths.get(getPath(filePath));
+      Files.createDirectories(path.getParent());
+      File out = path.toFile();
+      boolean created = out.createNewFile();
+
+      if (!created) {
+        throw new FileException("could not create file: " + getPath(filePath));
+      }
+
+      byte[] bytes = file.getBytes();
+      Files.write(path, bytes);
+
+    } catch (IOException e) {
+      throw new FileException("could not create file: " + getPath(filePath), e);
+    }
   }
 
   /**

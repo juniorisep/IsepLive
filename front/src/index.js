@@ -21,6 +21,7 @@ import {MAIN_COLOR, SECONDARY_COLOR} from './colors';
 
 import Login from './pages/login';
 import Layout from './components/Layout';
+import AlertCenter from 'components/Alert';
 
 import {backUrl} from './config';
 
@@ -38,13 +39,16 @@ const styledTheme = {
 const App = () => (
   <MuiThemeProvider theme={theme}>
     <ThemeProvider theme={styledTheme}>
-      <Router>
-        <Switch>
-          <Redirect path="/" exact to="/connexion" />
-          <Route path="/connexion" component={Login} />
-          <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} />
-        </Switch>
-      </Router>
+      <div>
+        <Router>
+          <Switch>
+            <Redirect path="/" exact to="/connexion" />
+            <Route path="/connexion" component={Login} />
+            <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} />
+          </Switch>
+        </Router>
+        <AlertCenter />
+      </div>
     </ThemeProvider>
   </MuiThemeProvider>
 );

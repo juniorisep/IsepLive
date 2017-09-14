@@ -40,11 +40,6 @@ public class MediaController {
     return mediaService.addImage(image);
   }
 
-  @PostMapping("/attachment")
-  public List<Attachment> addFiles(@RequestParam("files") List<MultipartFile> files) {
-    return null;
-  }
-
   @PostMapping("/video")
   public Video uploadVideo(@RequestParam("name") String name, @RequestParam("video") MultipartFile video) {
     return mediaService.uploadVideo(name, video);
@@ -60,14 +55,14 @@ public class MediaController {
 //    return mediaService.createVideoEmbed(dto);
 //  }
 
-  @PostMapping("/gallery/{name}")
-  public Gallery createGallery(@PathVariable String name, @RequestParam("images") List<MultipartFile> images) {
+  @PostMapping("/gallery")
+  public Gallery createGallery(@RequestParam("name") String name, @RequestParam("images[]") List<MultipartFile> images) {
     return mediaService.createGallery(name, images);
   }
 
   @PostMapping("/gazette")
-  public void createGazette(@RequestParam("file") MultipartFile file) {
-
+  public Gazette createGazette(@RequestParam("title") String title, @RequestParam("file") MultipartFile file) {
+    return mediaService.createGazette(title, file);
   }
 
 //  @GetMapping(value = "/ressource/video/{filename:.+}", produces = "video/png", headers = "Accept-range: byte")

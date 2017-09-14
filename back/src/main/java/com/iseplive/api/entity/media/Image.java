@@ -19,17 +19,13 @@ public class Image extends Media {
 
   private String thumbUrl;
   private String fullSizeUrl;
-  private Date creation;
 
   @OneToMany
   private Set<Student> matched;
 
-  public Date getCreation() {
-    return creation;
-  }
-
+  @Override
   public void setCreation(Date creation) {
-    this.creation = creation;
+    super.setCreation(creation);
   }
 
   public Set<Student> getMatched() {

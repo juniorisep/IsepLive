@@ -270,14 +270,63 @@ export class VideoForm extends Component {
   render() {
     return (
       <div>
-        <TextField label="Nom" value={this.state.name} onChange={this.changeName} />
+        <div>
+          <TextField fullWidth label="Nom" value={this.state.name} onChange={this.changeName} />
+        </div>
         <input
           id="file"
           type="file"
           style={{ display: 'none' }}
+          accept=".mp4,.mov"
           onChange={this.handleVideoSelect}/>
         <label htmlFor="file">
           <AddButton component="span" color="accent">Choisir une video</AddButton>
+        </label>
+      </div>
+    );
+  }
+}
+
+export class GalleryForm extends Component {
+
+  state = {
+    title: '',
+    images: null,
+  }
+
+  handleFileSelect = (event) => {
+    const images = event.target.files;
+    this.update({ images });
+  }
+
+  changeTitle = (event) => {
+    const title = event.target.value;
+    this.update({ title });
+  }
+
+  update(state) {
+    this.setState({ ...state });
+    this.props.update({ ...this.state, ...state });
+  }
+
+  render() {
+    const { images } = this.state;
+    const p = (word) => word + (images.length != 1 ? 's' : '');
+    return (
+      <div>
+        <div>
+          {images && <Text>{images.length} {p('image')} {p('sélectionnée')}</Text>}
+          <TextField fullWidth label="Nom" value={this.state.name} onChange={this.changeTitle} />
+        </div>
+        <input
+          id="file"
+          type="file"
+          style={{ display: 'none' }}
+          accept=".png,.jpg,.jpeg"
+          multiple
+          onChange={this.handleFileSelect}/>
+        <label htmlFor="file">
+          <AddButton component="span" color="accent">Ajouter des images</AddButton>
         </label>
       </div>
     );

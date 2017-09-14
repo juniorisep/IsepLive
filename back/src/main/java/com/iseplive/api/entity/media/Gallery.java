@@ -18,17 +18,12 @@ public class Gallery extends Media {
 
   private String name;
 
-  private Date creation;
-
   @OneToMany
   private List<Image> images;
 
-  public Date getCreation() {
-    return creation;
-  }
-
+  @Override
   public void setCreation(Date creation) {
-    this.creation = creation;
+    super.setCreation(creation);
   }
 
   public List<Image> getImages() {

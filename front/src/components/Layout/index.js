@@ -31,11 +31,11 @@ import Events from 'pages/events';
 import NotFound from 'pages/404';
 import Resume from 'pages/resume';
 import Whoarewe from 'pages/whoAreWe';
-import Admin from 'pages/administration';
 import Contact from 'pages/contact';
 import Help from 'pages/help';
 import LegalNotice from 'pages/legalNotice';
 import UserAgreement from 'pages/userAgreement';
+import Admin from 'pages/administration';
 
 import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
 import {FluidContent} from '../common';
@@ -262,7 +262,7 @@ class Layout extends React.Component {
           <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={UserAgreement} />
           <Route path="/mentions-legales" component={LegalNotice} />
-          <AuthenticatedRoute roles={['ROLE_USER']} path="/administration" component={Admin} />
+          <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/administration" component={Admin} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer>

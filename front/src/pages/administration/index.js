@@ -22,10 +22,11 @@ import MailIcon from 'material-ui-icons/Mail';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ReportIcon from 'material-ui-icons/Report';
 
-import {NavLink, Route, Switch} from 'react-router-dom';
+import {NavLink, Route, Switch, Redirect} from 'react-router-dom';
 
 import Users from './users';
 import Club from './club';
+import Home from './home';
 
 const mailFolderListItems = (
   <div>
@@ -205,7 +206,8 @@ class MiniDrawer extends React.Component {
           </Drawer>
           <main className={classes.content}>
             <Switch>
-              <Route path={`${match.url}/accueil`} component={Users} />
+              <Redirect path={`${match.url}`} exact to={`${match.url}/accueil`} />
+              <Route path={`${match.url}/accueil`} component={Home} />
               <Route path={`${match.url}/utilisateurs`} component={Users} />
               <Route path={`${match.url}/associations`} component={Club} />
               <Route path={`${match.url}/publications`} component={Users} />

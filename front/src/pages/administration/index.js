@@ -27,6 +27,7 @@ import {NavLink, Route, Switch, Redirect} from 'react-router-dom';
 import Users from './users';
 import Club from './club';
 import Home from './home';
+import ClubDetail from './club/clubDetail'
 
 const mailFolderListItems = (
   <div>
@@ -211,6 +212,7 @@ class MiniDrawer extends React.Component {
               <Route path={`${match.url}/utilisateurs`} component={Users} />
               <Route path={`${match.url}/associations`} component={Club} />
               <Route path={`${match.url}/publications`} component={Users} />
+              <Route path={`${match.url}/associations/:id`} component={ClubDetail} />
             </Switch>
           </main>
         </div>

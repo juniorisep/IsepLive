@@ -5,6 +5,18 @@ import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 import {Link} from 'react-router-dom';
 import {FluidContent, Image} from 'components/common';
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
+
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import Slide from 'material-ui/transitions/Slide';
+import TextField from 'material-ui/TextField';
+
 
 const ClubTile = (props) => {
   const ClubStyle = styled.div`
@@ -31,10 +43,26 @@ const ClubTile = (props) => {
   );
 };
 
-class Club extends Component {
+export default class Club extends Component {
+  state = {
+    open: false,
+  };
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     return (
       <div>
+        <Button fab color="primary" aria-label="add" style={{float: 'right'}} onClick={() => this.setState({ open: true })}>
+          <AddIcon />
+        </Button>
+        <AddClubForm
+          open={this.state.open}
+          handleRequestClose={this.handleRequestClose}
+          onChange={this.handleAddClubForm}
+        />
         <FluidContent>
           <Flex wrap>
             {
@@ -55,4 +83,25 @@ class Club extends Component {
   };
 };
 
-export default Club;
+function AddClubForm(props) {
+  return (
+    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+      <DialogTitle>Ajouter une association</DialogTitle>
+      <DialogContent>
+        <TextField type="text" label="Nom" fullWidth />
+        <TextField type="text" label="Date de création" fullWidth />
+        <TextField type="text" label="Président" fullWidth />
+        <TextField type="text" label="Description" fullWidth />
+        <TextField type="text" label="Site Internet" fullWidth />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={props.handleRequestClose} color="primary">
+          Annuler
+        </Button>
+        <Button color="accent">
+          Ajouter
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

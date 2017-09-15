@@ -93,6 +93,12 @@ function AddClubForm(props) {
         <TextField type="text" label="Président" fullWidth />
         <TextField type="text" label="Description" fullWidth />
         <TextField type="text" label="Site Internet" fullWidth />
+        <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{display: 'none'}} />
+        <label htmlFor="file">
+          <Button raised component="span">
+            Ajouter logo
+          </Button>
+        </label>
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleRequestClose} color="primary">

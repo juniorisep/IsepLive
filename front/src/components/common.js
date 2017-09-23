@@ -97,7 +97,6 @@ const BgImageStyle = styled.div`
 `;
 
 export const BgImage = (props) => {
-  console.log(backUrl+props.src);
   return <BgImageStyle {...props} src={props.src && backUrl + props.src} />
 }
 

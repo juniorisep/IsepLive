@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Flex, Box} from 'grid-styled';
+import styled from 'styled-components';
 import {
   Post,
   PostTextView,
@@ -7,8 +8,32 @@ import {
 
 import {
   Text,
-  Image,
+  BgImage,
 } from 'components/common';
+
+
+import Time from '../../Time';
+
+const Header = styled.div`
+  color: ${props => props.theme.accent};
+  padding: 15px;
+  font-size: 1.4em;
+  font-weight: bold;
+`;
+
+const Gallery = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  height: 300px;
+  margin: 5px;
+`;
+
+const WrapImage = styled.div`
+  width: 33%;
+  height: 33%;
+  margin: 5px;
+`;
 
 class GalleryPost extends Component {
   render() {
@@ -17,13 +42,18 @@ class GalleryPost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Text>Nom gallerie: {props.post.media.name}</Text>
-          <Text>Nb photos: {props.post.media.images.length}</Text>
-          {
-            props.post.media.images.map(img => {
-              return <Image src={img.thumbUrl} w="80px" />;
-            })
-          }
+          <Header>{props.post.media.name}</Header>
+          <Gallery>
+            {
+              props.post.media.images.map(img => {
+                return (
+                  <WrapImage>
+                    <BgImage src={img.thumbUrl} />
+                  </WrapImage>
+                );
+              })
+            }
+          </Gallery>
         </Box>
         <PostTextView
           refresh={props.refresh}

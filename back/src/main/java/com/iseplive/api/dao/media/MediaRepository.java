@@ -4,6 +4,7 @@ import com.iseplive.api.entity.media.Media;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,5 +13,5 @@ import java.util.List;
  */
 @Repository
 public interface MediaRepository extends CrudRepository<Media, Long> {
-  List<Media> findAllByMediaTypeIn(List<String> mediaType);
+  List<Media> findAllByMediaTypeInAndPost_Author_AuthorType(Collection<String> mediaType, String post_author_authorType);
 }

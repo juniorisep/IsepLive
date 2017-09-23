@@ -52,8 +52,9 @@ public class MediaService {
   String gazetteDir;
 
   public List<Media> getAllGalleryGazetteVideo() {
-    return mediaRepository.findAllByMediaTypeIn(
-      Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO)
+    return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorType(
+      Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),
+      "club"
     );
   }
 

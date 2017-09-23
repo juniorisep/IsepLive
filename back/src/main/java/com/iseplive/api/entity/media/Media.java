@@ -1,5 +1,8 @@
 package com.iseplive.api.entity.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iseplive.api.entity.Post;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,6 +19,9 @@ public abstract class Media {
 
   @Column(insertable = false, updatable = false)
   private String mediaType;
+
+  @OneToOne(mappedBy = "media")
+  private Post post;
 
   private Date creation;
 
@@ -37,5 +43,9 @@ public abstract class Media {
 
   public void setCreation(Date creation) {
     this.creation = creation;
+  }
+
+  public Long getPostId() {
+    return post != null ? post.getId() : 0;
   }
 }

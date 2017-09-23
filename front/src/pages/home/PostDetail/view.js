@@ -9,6 +9,7 @@ import {
   Title,
   ProfileImage,
   ScrollToTopOnMount,
+  Text,
 } from 'components/common';
 
 import {
@@ -50,6 +51,7 @@ export default function PostDetailView(props) {
       </Background>
       <FluidContent>
         <Title>Commentaires</Title>
+        { props.comments.length == 0 && <Text>Pas de commentaire pour le moment !</Text> }
         {
           props.comments.map(c => {
             return <Comment key={c.id} comment={c} toggleLike={props.toggleLikeCom} />

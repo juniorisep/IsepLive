@@ -18,7 +18,8 @@ import {
   FluidContent,
   Header,
   SearchBar,
-  Separator
+  Separator,
+  Title
 } from 'components/common';
 
 import Gallery from 'components/Gallery';
@@ -48,8 +49,8 @@ class MediaView extends Component {
   state = {
     showGallerie: false,
     photos: true,
-    videos: false,
-    gazettes: false
+    videos: true,
+    gazettes: true
   };
 
   toggleGallerie = () => {
@@ -61,6 +62,26 @@ class MediaView extends Component {
   handleChange = name => (event, checked) => {
     this.setState({[name]: checked});
   };
+
+  filterMedia(mediaType) {
+    const  { photos, videos, gazettes } = this.state;
+    switch (mediaType) {
+      case 'gallery':
+        return photos;
+      case 'video':
+        return videos;
+      case 'gazettes':
+        return gazettes;
+    }
+    return true;
+  }
+
+  processMediaList() {
+    return this.props.medias.map(mg => {
+      const medias = mg.medias.filter(m => this.filterMedia(m.mediaType));
+      return { ...mg, medias };
+    }).filter(mg => mg.medias.length > 0)
+  }
 
   render() {
     return (
@@ -79,10 +100,7 @@ class MediaView extends Component {
         </Header>
         <FluidContent>
           <Flex align="center" wrap>
-            <Box mr="40px">
-              <Button color="primary" raised>Trier par</Button>
-            </Box>
-            <Box>
+            <Box mb={2}>
               <FormControlLabel control={
                 <Switch
                   checked={ this.state.photos }
@@ -100,21 +118,17 @@ class MediaView extends Component {
                   onChange={ this.handleChange('gazettes') } />
               } label="Gazettes" />
             </Box>
-            <Box ml="auto">
-              <Button color="primary" raised>Modifier l'affichage</Button>
-            </Box>
           </Flex>
 
           {
-            this.props.medias.map(m => {
+            this.processMediaList().map(m => {
               return (
-                <div>
+                <div key={m.date}>
                   <DateSeparator date={<Time date={m.date} format="MMMM YYYY" />} />
                   <Flex wrap>
                     {
                       m.medias.map(e => {
-                        console.log(e);
-                        return <Box w={[ 1, 1 / 2, 1 / 3 ]} p={2}>
+                        return <Box key={e.id} w={[ 1, 1 / 2, 1 / 3 ]} p={2}>
                           <Link to={`/post/${e.postId}`}>
                             { e.mediaType == 'video' && <Video {...e} /> }
                             { e.mediaType == 'gallery' && <Album url="/img/background.jpg" {...e} /> }

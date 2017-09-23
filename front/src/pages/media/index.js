@@ -17,7 +17,6 @@ class Media extends Component {
 
   requestMedia() {
     mediaData.getAllGroupedMedia().then(medias => {
-      console.log(medias);
       this.setState({ medias: medias });
     })
   }

@@ -88,35 +88,35 @@ export default function Home(props) {
           <SearchBar placeholder="Rechercher" />
         </FluidContent>
       </Header>
-{/*      <FluidContent>
+      {/*      <FluidContent>
         <Flex wrap justify="space-between">
           <Box w={[
-            1, 1 / 2,
-            1 / 4
+        1, 1 / 2,
+        1 / 4
           ]}>
-            <Icon src="/img/svg/Video.svg" />
-            <IconName>Videos</IconName>
+        <Icon src="/img/svg/Video.svg" />
+        <IconName>Videos</IconName>
           </Box>
           <Box w={[
-            1, 1 / 2,
-            1 / 4
+        1, 1 / 2,
+        1 / 4
           ]}>
-            <Icon src="/img/svg/Photo.svg" />
-            <IconName>Photos</IconName>
+        <Icon src="/img/svg/Photo.svg" />
+        <IconName>Photos</IconName>
           </Box>
           <Box w={[
-            1, 1 / 2,
-            1 / 4
+        1, 1 / 2,
+        1 / 4
           ]}>
-            <Icon src="/img/svg/Gazette.svg" />
-            <IconName>Gazettes</IconName>
+        <Icon src="/img/svg/Gazette.svg" />
+        <IconName>Gazettes</IconName>
           </Box>
           <Box w={[
-            1, 1 / 2,
-            1 / 4
+        1, 1 / 2,
+        1 / 4
           ]}>
-            <Icon src="/img/svg/Evenement.svg" />
-            <IconName>Evenements</IconName>
+        <Icon src="/img/svg/Evenement.svg" />
+        <IconName>Evenements</IconName>
           </Box>
         </Flex>
       </FluidContent*/}

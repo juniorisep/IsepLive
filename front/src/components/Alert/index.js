@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import Snackbar from 'material-ui/Snackbar';
-import { withStyles } from 'material-ui/styles';
 import { MAIN_COLOR } from '../../colors';
 
 export default class AlertCenter extends Component {
@@ -36,6 +35,7 @@ export default class AlertCenter extends Component {
 
     return (
       <Snackbar
+        style={{ pointerEvents: 'none' }}
         SnackbarContentProps={{
           style: SNACKBAR_STYLE
         }}

@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * back
  */
 @Configuration
-@EnableWebMvc
 public class Config extends WebMvcConfigurerAdapter {
 
   @Value("${storage.url}")

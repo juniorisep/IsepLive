@@ -49,7 +49,7 @@ class AddressBook extends Component {
           <FluidContent p="0">
             <Flex align="center">
               <Box flex="1 1 auto">
-                <SearchBar placeholder="Rechercher des ami(e)s" />
+                <SearchBar placeholder="Rechercher des ami(e)s" onChange={(e) => this.props.onSearch(e.target.value)} />
               </Box>
               <Box flex="0 0 auto" ml="10px">
                 <Button color="primary" raised>Genre</Button>

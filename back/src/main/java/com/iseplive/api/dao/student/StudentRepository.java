@@ -1,6 +1,9 @@
 package com.iseplive.api.dao.student;
 
 import com.iseplive.api.entity.user.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -10,5 +13,8 @@ import java.util.List;
  * back
  */
 public interface StudentRepository extends CrudRepository<Student, Long> {
-  List<Student> findAll();
+  Page<Student> findAll(Pageable pageable);
+
+  @Query("select s from Student s where lower(concat(s.firstname, ' ', s.lastname)) like %?1%")
+  Page<Student> searchStudent(String name, Pageable pageable);
 }

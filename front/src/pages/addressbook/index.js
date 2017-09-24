@@ -14,12 +14,23 @@ class AddressBook extends Component {
 
   componentDidMount() {
     studentData.getStudents().then(res => {
-      this.setState({students: res.data});
+      this.setState({students: res.data.content});
     });
   };
 
+  searchStudents = (name) => {
+    studentData.searchStudents(name).then(res => {
+      this.setState({ students: res.data.content });
+    })
+  }
+
   render() {
-    return (<AddressBookView students={this.state.students} />);
+    return (
+      <AddressBookView
+        students={this.state.students}
+        onSearch={this.searchStudents}
+      />
+    );
   };
 };
 

@@ -7,6 +7,9 @@ import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'com
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
 
+import {FormControlLabel} from 'material-ui/Form';
+import Switch from 'material-ui/Switch';
+
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -47,7 +50,9 @@ const Person = (props) => {
 
 export default class AddressBook extends Component {
   state = {
-  open: false,
+    genre: true,
+    promo: true,
+    groupe: true
   };
 
   handleClickOpen = () => {
@@ -57,6 +62,11 @@ export default class AddressBook extends Component {
   handleRequestClose = () => {
     this.setState({ open: false });
   };
+
+  handleChange = name => (event, checked) => {
+    this.setState({ [name]: checked });
+  };
+
   render() {
     return (
       <div>
@@ -78,14 +88,27 @@ export default class AddressBook extends Component {
           <Flex align="center">
             <Box flex="0 0 auto">
               8 personnes correspondent à votre recherche</Box>
-            <Box ml="auto">
-              <Button color="primary" raised onClick={this.handleClickOpen}>Trier par</Button>
-            </Box>
-            <SearchFilter
-              open={this.state.open}
-              handleRequestClose={this.handleRequestClose}
-              onChange={this.handleChangeFilter}
-            />
+              <Box mb={2}>
+                <FormControlLabel control={< Switch checked={
+                  this.state.genre
+                }
+                  onChange={
+                    this.handleChange('genre')
+                  } />} label="genre" />
+                <FormControlLabel control={< Switch checked={
+                  this.state.promo
+                }
+                  onChange={
+                    this.handleChange('promo')
+                  } />} label="promotion" />
+                <FormControlLabel control={< Switch checked={
+                  this.state.groupe
+                }
+                  onChange={
+                    this.handleChange('groupe')
+                  } />} label="groupe" />
+
+              </Box>
           </Flex>
           <Flex wrap>
             {
@@ -104,33 +127,4 @@ export default class AddressBook extends Component {
       </div>
     );
   };
-};
-
-function SearchFilter(props) {
-  return (
-    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
-      <DialogTitle>Trier par</DialogTitle>
-      <DialogContent>
-        <Flex align="center">
-          <Box flex="0 0 auto" ml="10px">
-            <Button color="primary" raised>Genre</Button> {/* TODO Trier par prends ces arguments */}
-          </Box>
-          <Box flex="0 0 auto" ml="10px">
-            <Button color="primary" raised>Promotion</Button>
-          </Box>
-          <Box flex="0 0 auto" ml="10px">
-            <Button color="primary" raised>Groupe</Button>
-          </Box>
-        </Flex>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={props.handleRequestClose} color="primary">
-          Annuler
-        </Button>
-        <Button color="accent">
-          Valider
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
 };

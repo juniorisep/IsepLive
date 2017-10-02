@@ -78,29 +78,27 @@ export default class AddressBook extends Component {
         </Header>
         <FluidContent>
           <Flex align="center">
-            <Box flex="0 0 auto">
-              8 personnes correspondent à votre recherche</Box>
-              <Box mb={2}>
-                <FormControlLabel control={< Switch checked={
-                  this.state.genre
-                }
-                  onChange={
-                    this.handleChange('genre')
-                  } />} label="genre" />
-                <FormControlLabel control={< Switch checked={
-                  this.state.promo
-                }
-                  onChange={
-                    this.handleChange('promo')
-                  } />} label="promotion" />
-                <FormControlLabel control={< Switch checked={
-                  this.state.groupe
-                }
-                  onChange={
-                    this.handleChange('groupe')
-                  } />} label="groupe" />
+            <Box mb={2}>
+              <FormControlLabel control={< Switch checked={
+                this.state.genre
+              }
+                onChange={
+                  this.handleChange('genre')
+                } />} label="genre" />
+              <FormControlLabel control={< Switch checked={
+                this.state.promo
+              }
+                onChange={
+                  this.handleChange('promo')
+                } />} label="promotion" />
+              <FormControlLabel control={< Switch checked={
+                this.state.groupe
+              }
+                onChange={
+                  this.handleChange('groupe')
+                } />} label="groupe" />
 
-              </Box>
+            </Box>
           </Flex>
           <Flex wrap>
             {

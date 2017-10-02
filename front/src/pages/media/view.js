@@ -50,7 +50,7 @@ class MediaView extends Component {
     showGallerie: false,
     photos: true,
     videos: true,
-    gazettes: true
+    gazettes: true,
   };
 
   toggleGallerie = () => {

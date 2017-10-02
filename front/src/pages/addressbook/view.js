@@ -7,17 +7,17 @@ import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'com
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
 
-import {FormControlLabel} from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
-
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
+import { FormControl } from 'material-ui/Form';
+import Select from 'material-ui/Select';
+import Input, { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+
 
 const Person = (props) => {
   const PersonStyle = styled.div`
@@ -48,15 +48,46 @@ const Person = (props) => {
   );
 };
 
+const STYLE_CONTAINER = {
+  display: 'flex',
+  flexWrap: 'wrap',
+}
+
+const STYLE_FORMCONTROL = {
+  minWidth: 120,
+  maxWidth: 300,
+}
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const years = [
+  '2017',
+  '2018',
+  '2019',
+  '2020',
+  '2021',
+];
+
 export default class AddressBook extends Component {
   state = {
     genre: true,
-    promo: true,
-    groupe: true
+    promo: false,
+    groupe: false,
+    open: false,
+    year: [],
   };
 
-  handleChange = name => (event, checked) => {
-    this.setState({ [name]: checked });
+  handleChange = event => {
+    this.setState({ year: event.target.value });
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
   };
 
   render() {
@@ -78,26 +109,58 @@ export default class AddressBook extends Component {
         </Header>
         <FluidContent>
           <Flex align="center">
-            <Box mb={2}>
-              <FormControlLabel control={< Switch checked={
-                this.state.genre
-              }
-                onChange={
-                  this.handleChange('genre')
-                } />} label="genre" />
-              <FormControlLabel control={< Switch checked={
-                this.state.promo
-              }
-                onChange={
-                  this.handleChange('promo')
-                } />} label="promotion" />
-              <FormControlLabel control={< Switch checked={
-                this.state.groupe
-              }
-                onChange={
-                  this.handleChange('groupe')
-                } />} label="groupe" />
-
+            <Box flex="0 0 auto" ml="10px">
+              <Button color="primary" raised>Genre</Button>
+            </Box>
+            <Box flex="0 0 auto" ml="10px">
+              <Button color="primary" raised onClick={this.handleClickOpen}>Promotion</Button>
+            </Box>
+            <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
+              <DialogTitle>{"Trier par promotion"}</DialogTitle>
+              <DialogContent>
+                <div style={STYLE_CONTAINER}>
+                  <FormControl style={STYLE_FORMCONTROL}>
+                    <InputLabel htmlFor="year-multiple">Promotion</InputLabel>
+                    <Select
+                      multiple
+                      value={this.state.year}
+                      onChange={this.handleChange}
+                      input={<Input id="year-multiple" />}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                            width: 200,
+                          },
+                        },
+                      }}
+                    >
+                      {years.map(year => (
+                        <MenuItem
+                          key={year}
+                          value={year}
+                          style={{
+                            fontWeight: this.state.year.indexOf(year) !== -1 ? '500' : '400',
+                          }}
+                        >
+                          {year}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleRequestClose} color="primary">
+                  Annuler
+                </Button>
+                <Button onClick={this.handleRequestClose} color="primary">
+                  Valider
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Box flex="0 0 auto" ml="10px">
+              <Button color="primary" raised>Groupe</Button>
             </Box>
           </Flex>
           <Flex wrap>

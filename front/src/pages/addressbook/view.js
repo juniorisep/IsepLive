@@ -55,14 +55,6 @@ export default class AddressBook extends Component {
     groupe: true
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleRequestClose = () => {
-    this.setState({ open: false });
-  };
-
   handleChange = name => (event, checked) => {
     this.setState({ [name]: checked });
   };

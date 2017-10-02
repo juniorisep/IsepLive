@@ -7,6 +7,15 @@ import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'com
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
 
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import Slide from 'material-ui/transitions/Slide';
+import TextField from 'material-ui/TextField';
+
 const Person = (props) => {
   const PersonStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -36,7 +45,18 @@ const Person = (props) => {
   );
 };
 
-class AddressBook extends Component {
+export default class AddressBook extends Component {
+  state = {
+  open: false,
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
   render() {
     return (
       <div>
@@ -51,15 +71,6 @@ class AddressBook extends Component {
               <Box flex="1 1 auto">
                 <SearchBar placeholder="Rechercher des ami(e)s" onChange={(e) => this.props.onSearch(e.target.value)} />
               </Box>
-              <Box flex="0 0 auto" ml="10px">
-                <Button color="primary" raised>Genre</Button>
-              </Box>
-              <Box flex="0 0 auto" ml="10px">
-                <Button color="primary" raised>Promotion</Button>
-              </Box>
-              <Box flex="0 0 auto" ml="10px">
-                <Button color="primary" raised>Groupe</Button>
-              </Box>
             </Flex>
           </FluidContent>
         </Header>
@@ -68,11 +79,13 @@ class AddressBook extends Component {
             <Box flex="0 0 auto">
               8 personnes correspondent à votre recherche</Box>
             <Box ml="auto">
-              <Button color="primary" raised>Modifier l'Affichage</Button>
+              <Button color="primary" raised onClick={this.handleClickOpen}>Trier par</Button>
             </Box>
-            <Box ml="10px">
-              <Button color="primary" raised>Trier par</Button>
-            </Box>
+            <SearchFilter
+              open={this.state.open}
+              handleRequestClose={this.handleRequestClose}
+              onChange={this.handleChangeFilter}
+            />
           </Flex>
           <Flex wrap>
             {
@@ -93,4 +106,31 @@ class AddressBook extends Component {
   };
 };
 
-export default AddressBook;
+function SearchFilter(props) {
+  return (
+    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+      <DialogTitle>Trier par</DialogTitle>
+      <DialogContent>
+        <Flex align="center">
+          <Box flex="0 0 auto" ml="10px">
+            <Button color="primary" raised>Genre</Button> {/* TODO Trier par prends ces arguments */}
+          </Box>
+          <Box flex="0 0 auto" ml="10px">
+            <Button color="primary" raised>Promotion</Button>
+          </Box>
+          <Box flex="0 0 auto" ml="10px">
+            <Button color="primary" raised>Groupe</Button>
+          </Box>
+        </Flex>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={props.handleRequestClose} color="primary">
+          Annuler
+        </Button>
+        <Button color="accent">
+          Valider
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

@@ -109,13 +109,10 @@ export default class AddressBook extends Component {
         </Header>
         <FluidContent>
           <Flex align="center">
-            <Box flex="0 0 auto" ml="10px">
-              <Button color="primary" raised>Genre</Button>
-            </Box>
-            <Box flex="0 0 auto" ml="10px">
+            <Box flex="0 0 auto" ml="auto">
               <Button color="primary" raised onClick={this.handleClickOpen}>Promotion</Button>
             </Box>
-            <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
+            <Dialog open={this.state.open} onRequestClose={this.handleRequestClose} transition={Slide}>
               <DialogTitle>{"Trier par promotion"}</DialogTitle>
               <DialogContent>
                 <div style={STYLE_CONTAINER}>
@@ -159,9 +156,6 @@ export default class AddressBook extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
-            <Box flex="0 0 auto" ml="10px">
-              <Button color="primary" raised>Groupe</Button>
-            </Box>
           </Flex>
           <Flex wrap>
             {

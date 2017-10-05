@@ -97,7 +97,7 @@ class Events extends Component {
             {
               this.props.events.map(e => {
                 return (
-                  <div key={e.id}>
+                  <div key={e.id}> {/* TODO Link */}
                     <Event coverUrl={e.thumbUrl} />
                   </div>
                 )

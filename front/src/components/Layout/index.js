@@ -4,18 +4,18 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
-import {withStyles} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
-import Menu, {MenuItem} from 'material-ui/Menu';
+import Menu, { MenuItem } from 'material-ui/Menu';
 
 import Drawer from 'material-ui/Drawer';
-import {ListItem, ListItemText} from 'material-ui/List';
+import { ListItem, ListItemText } from 'material-ui/List';
 
 import Auth from 'components/Auth/AuthComponent';
 import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
@@ -37,8 +37,8 @@ import LegalNotice from 'pages/legalNotice';
 import UserAgreement from 'pages/userAgreement';
 import Admin from 'pages/administration';
 
-import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
-import {FluidContent} from '../common';
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+import { FluidContent } from '../common';
 
 import * as authData from 'data/auth';
 
@@ -139,8 +139,8 @@ function Nav(props) {
         component={NavLink}
         to={props.to}
         activeStyle={{
-        color: SECONDARY_COLOR
-      }}>{props.children}</Button>
+          color: SECONDARY_COLOR
+        }}>{props.children}</Button>
     </div>
   );
 };
@@ -178,25 +178,25 @@ class Layout extends React.Component {
   Profile = undefined;
 
   handleSideBarClose = () => {
-    this.setState({sidebarOpen: false});
+    this.setState({ sidebarOpen: false });
   };
 
   handleClick = event => {
-    this.setState({open: true, anchorEl: event.currentTarget});
+    this.setState({ open: true, anchorEl: event.currentTarget });
   };
 
   handleRequestClose = () => {
-    this.setState({open: false});
-    this.setState({connexionOpen: false});
+    this.setState({ open: false });
+    this.setState({ connexionOpen: false });
   };
 
   handleDisconnect = () => {
     authData.logout();
-    this.setState({open: false});
+    this.setState({ open: false });
   };
 
   handleConnect = () => {
-    const {username, password} = this.state;
+    const { username, password } = this.state;
     authData.connect(username, password).then(res => {
       this.handleRequestClose();
     }).catch(err => {
@@ -209,12 +209,12 @@ class Layout extends React.Component {
     const classes = props.classes;
     return (
       <div className={classes.root}>
-        <AppBar style={{position: 'relative'}}>
+        <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Logo
               src="/img/svg/iseplive.svg"
               alt="isep-live-logo"
-              onClick={() => this.setState({sidebarOpen: true})} />
+              onClick={() => this.setState({ sidebarOpen: true })} />
             <NavMenu>
               {navList(Nav)}
             </NavMenu>
@@ -231,7 +231,7 @@ class Layout extends React.Component {
               </Menu>
             </Auth>
             <Auth not>
-              <Button color="contrast" onClick={() => this.setState({connexionOpen: true})}>Se connecter</Button>
+              <Button color="contrast" onClick={() => this.setState({ connexionOpen: true })}>Se connecter</Button>
               <LoginForm
                 open={this.state.connexionOpen}
                 handleRequestClose={this.handleRequestClose}

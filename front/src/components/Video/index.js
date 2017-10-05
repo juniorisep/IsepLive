@@ -1,6 +1,6 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const Controls = styled.div`
@@ -51,11 +51,11 @@ class Video extends Component {
     if (this.video.canPlayType) {
       this.video.controls = false;
       this.video.addEventListener('loadedmetadata', () => {
-        this.setState({vidLenght: this.video.duration});
+        this.setState({ vidLenght: this.video.duration });
       });
 
       this.video.addEventListener('timeupdate', () => {
-        this.setState({currentTime: this.video.currentTime});
+        this.setState({ currentTime: this.video.currentTime });
       });
     };
   };
@@ -63,9 +63,9 @@ class Video extends Component {
   togglePlay = () => {
     if (this.video.paused || this.video.ended) {
       this.video.play();
-      this.setState({isPlaying: true});
+      this.setState({ isPlaying: true });
     } else {
-      this.setState({isPlaying: false});
+      this.setState({ isPlaying: false });
       this.video.pause();
     };
   };

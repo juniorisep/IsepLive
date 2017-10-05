@@ -31,7 +31,6 @@ class Home extends Component {
         page: this.state.page + 1,
         lastPage: res.data.last
       });
-      alert.sendAlert('Posts received with success');
     });
   };
 

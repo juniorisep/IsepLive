@@ -66,10 +66,11 @@ const years = [
 export default class AddressBook extends Component {
   state = {
     year: [],
+    alpha: '',
   };
 
-  handleChange = event => {
-    this.setState({ year: event.target.value });
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
   };
 
   render() {
@@ -98,7 +99,7 @@ export default class AddressBook extends Component {
                   <Select
                     multiple
                     value={this.state.year}
-                    onChange={this.handleChange}
+                    onChange={this.handleChange('year')}
                     input={<Input id="year-multiple" />}
                     MenuProps={{
                       PaperProps: {
@@ -120,6 +121,21 @@ export default class AddressBook extends Component {
                         {year}
                       </MenuItem>
                     ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </Box>
+            <Box flex="0 0 auto" ml="10px">
+              <div style={STYLE_CONTAINER}>
+                <FormControl style={STYLE_FORMCONTROL}>
+                  <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
+                  <Select
+                    value={this.state.alpha}
+                    onChange={this.handleChange('alpha')}
+                    input={<Input id="alpha-simple" />}
+                  >
+                    <MenuItem value='a'>a -> z</MenuItem>
+                    <MenuItem value='z'>z -> a</MenuItem>
                   </Select>
                 </FormControl>
               </div>

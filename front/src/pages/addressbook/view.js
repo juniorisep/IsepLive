@@ -7,12 +7,6 @@ import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'com
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
 
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from 'material-ui/Dialog';
-import Slide from 'material-ui/transitions/Slide';
 import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
@@ -71,23 +65,11 @@ const years = [
 
 export default class AddressBook extends Component {
   state = {
-    genre: true,
-    promo: false,
-    groupe: false,
-    open: false,
     year: [],
   };
 
   handleChange = event => {
     this.setState({ year: event.target.value });
-  };
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleRequestClose = () => {
-    this.setState({ open: false });
   };
 
   render() {
@@ -110,52 +92,38 @@ export default class AddressBook extends Component {
         <FluidContent>
           <Flex align="center">
             <Box flex="0 0 auto" ml="auto">
-              <Button color="primary" raised onClick={this.handleClickOpen}>Promotion</Button>
-            </Box>
-            <Dialog open={this.state.open} onRequestClose={this.handleRequestClose} transition={Slide}>
-              <DialogTitle>{"Trier par promotion"}</DialogTitle>
-              <DialogContent>
-                <div style={STYLE_CONTAINER}>
-                  <FormControl style={STYLE_FORMCONTROL}>
-                    <InputLabel htmlFor="year-multiple">Promotion</InputLabel>
-                    <Select
-                      multiple
-                      value={this.state.year}
-                      onChange={this.handleChange}
-                      input={<Input id="year-multiple" />}
-                      MenuProps={{
-                        PaperProps: {
-                          style: {
-                            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                            width: 200,
-                          },
+              <div style={STYLE_CONTAINER}>
+                <FormControl style={STYLE_FORMCONTROL}>
+                  <InputLabel htmlFor="year-multiple">Promotion</InputLabel>
+                  <Select
+                    multiple
+                    value={this.state.year}
+                    onChange={this.handleChange}
+                    input={<Input id="year-multiple" />}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                          width: 200,
                         },
-                      }}
-                    >
-                      {years.map(year => (
-                        <MenuItem
-                          key={year}
-                          value={year}
-                          style={{
-                            fontWeight: this.state.year.indexOf(year) !== -1 ? '500' : '400',
-                          }}
-                        >
-                          {year}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleRequestClose} color="primary">
-                  Annuler
-                </Button>
-                <Button onClick={this.handleRequestClose} color="primary">
-                  Valider
-                </Button>
-              </DialogActions>
-            </Dialog>
+                      },
+                    }}
+                  >
+                    {years.map(year => (
+                      <MenuItem
+                        key={year}
+                        value={year}
+                        style={{
+                          fontWeight: this.state.year.indexOf(year) !== -1 ? '500' : '400',
+                        }}
+                      >
+                        {year}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </Box>
           </Flex>
           <Flex wrap>
             {

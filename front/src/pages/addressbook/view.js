@@ -7,7 +7,7 @@ import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'com
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
 
-import { FormControl } from 'material-ui/Form';
+import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
@@ -122,6 +122,7 @@ export default class AddressBook extends Component {
                       </MenuItem>
                     ))}
                   </Select>
+                  <FormHelperText>Sélection multiple</FormHelperText>
                 </FormControl>
               </div>
             </Box>
@@ -137,6 +138,7 @@ export default class AddressBook extends Component {
                     <MenuItem value='a'>a -> z</MenuItem>
                     <MenuItem value='z'>z -> a</MenuItem>
                   </Select>
+                  <FormHelperText>Sélection simple</FormHelperText>
                 </FormControl>
               </div>
             </Box>

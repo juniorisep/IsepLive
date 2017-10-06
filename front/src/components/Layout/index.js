@@ -28,6 +28,7 @@ import AddressBookDetail from 'pages/addressbook/addressbookDetail';
 import Club from 'pages/club';
 import ClubDetail from 'pages/club/clubDetail';
 import Events from 'pages/events';
+import EventDetail from 'pages/events/eventDetail';
 import NotFound from 'pages/404';
 import Resume from 'pages/resume';
 import Whoarewe from 'pages/whoAreWe';
@@ -256,6 +257,7 @@ class Layout extends React.Component {
           <Route exact path="/associations" component={Club} />
           <Route path="/associations/:id" component={ClubDetail} />
           <Route path="/evenements" component={Events} />
+          <Route path="/evenements/:id" component={EventDetail} />
           <Route path="/profile" component={Resume} />
           <Route path="/whoarewe" component={Whoarewe} />
           <Route path="/contact" component={Contact} />

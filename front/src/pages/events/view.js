@@ -6,6 +6,8 @@ import {Box, Flex} from 'grid-styled';
 import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
 import Button from 'material-ui/Button';
 
+import {Link} from 'react-router-dom';
+
 const EventsList = styled.ul`
   padding: 0;
   margin: 20px 0;
@@ -97,8 +99,10 @@ class Events extends Component {
             {
               this.props.events.map(e => {
                 return (
-                  <div key={e.id}> {/* TODO Link */}
-                    <Event coverUrl={e.thumbUrl} />
+                  <div key={e.id}>
+                    <Link to={`/evenements/${e.id}`}>
+                      <Event coverUrl={e.thumbUrl} />
+                    </Link>
                   </div>
                 )
               })

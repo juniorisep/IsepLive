@@ -128,7 +128,7 @@ export default function Home(props) {
             <Separator />
           </Auth>
           <PostSection>
-            <SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>
+            {/*<SectionTitle fontSize={2} framed>A LA UNE...</SectionTitle>*/}
             <Loader loading={props.isLoading}>
               <div>
                 <PostListView posts={props.posts} refreshPosts={props.refreshPosts} />

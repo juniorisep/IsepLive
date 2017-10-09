@@ -1,3 +1,5 @@
+// @flow
+
 import React, {Component} from 'react';
 
 import {Box, Flex} from 'grid-styled';

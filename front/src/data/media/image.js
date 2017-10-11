@@ -10,7 +10,7 @@ export function createImage(file) {
 
 export function createGallery(form) {
   var data = new FormData();
-  data.append('title', form.title);
+  data.append('name', form.title);
   for (var i = 0; i < form.images.length; i++) {
     data.append('images[]', form.images[i]);
   }

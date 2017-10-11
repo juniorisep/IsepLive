@@ -12,7 +12,7 @@ import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
 import Time from 'components/Time';
-
+import {backUrl } from '../../../config';
 import {
   FluidContent,
   ProfileImage,
@@ -24,9 +24,10 @@ const Person = (props) => {
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
   `;
+  console.log(backUrl);
   return (
     <PersonStyle>
-      <ProfileImage src={props.url} w="100%" />
+      <ProfileImage src={backUrl+props.url} w="100%" />
     </PersonStyle>
   );
 };

@@ -124,14 +124,9 @@ const SocialBox = styled.div`
   }
 `;
 
-const styles = {
-  root: {
-    width: '100%',
-  },
-  flex: {
-    flex: 1,
-  },
-};
+const Root = styled.div`
+  width: 100%;
+`;
 
 function Nav(props) {
   return (
@@ -209,7 +204,7 @@ class Layout extends React.Component {
     const props = this.props;
     const classes = props.classes;
     return (
-      <div className={classes.root}>
+      <Root>
         <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Logo
@@ -334,7 +329,7 @@ class Layout extends React.Component {
             }}>Contact</Button>
           </div>
         </LinksBar>
-      </div>
+      </Root>
     );
   };
 };
@@ -343,4 +338,4 @@ Layout.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { name: 'Layout' })(Layout);
+export default Layout;

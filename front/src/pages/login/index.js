@@ -22,31 +22,6 @@ const Container = styled.div`
   min-height: 100%;
 `;
 
-const Background = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: url(${props => props.url});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: scroll;
-  z-index: -2;
-`;
-
-/* const Overlay = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: ${MAIN_COLOR};
-  opacity: 0.7;
-  z-index: -1;
-`; */
-
 const BackgroundContainer = styled.div`
   position: absolute;
   width: 100%;
@@ -177,16 +152,6 @@ const BigButton = styled(Button)`
   background: ${MAIN_COLOR} !important;
 `;
 
-/*const CUSTOM_STYLES = {
-  btn: {
-    background: MAIN_COLOR,
-    color: 'white',
-    marginBottom: 10,
-    fontSize: 20,
-  },
-}*/
-
-
 export default class Login extends Component {
   state = {
     connexionOpen: false
@@ -218,12 +183,10 @@ export default class Login extends Component {
           <Redirect to="/accueil" />
         }
         <BackgroundContainer>
-
           <SlideShow
             items={images}
             duration={5}
           />
-          {/* <Background url="/img/background.jpg" /> {/* <Overlay  /> */}
         </BackgroundContainer>
         <Content>
           <TitleContainer>

@@ -12,25 +12,17 @@ import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
 import Time from 'components/Time';
-import {backUrl } from '../../../config';
+import { backUrl } from '../../../config';
 import {
   FluidContent,
   ProfileImage,
 } from 'components/common';
 
-const Person = (props) => {
-  const PersonStyle = styled.div`
-    > img {
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-  `;
-  console.log(backUrl);
-  return (
-    <PersonStyle>
-      <ProfileImage src={backUrl+props.url} w="100%" />
-    </PersonStyle>
-  );
-};
+const PersonStyle = styled.div`
+  > img {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+`;
 
 export default function AdressbookDetailView(props) {
   return (
@@ -38,7 +30,9 @@ export default function AdressbookDetailView(props) {
       <FluidContent>
         <Flex wrap>
           <Box p={2} width={[ 1, 1 / 4 ]}>
-            <Person src={props.photoUrl} />
+            <PersonStyle>
+              <ProfileImage src={props.photoUrl} w="100%" />
+            </PersonStyle>
           </Box>
           <Box p={2} width={[
             1, 3 / 4

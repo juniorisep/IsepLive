@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 
 import styled from 'styled-components';
-import {ProfileImage,} from '../common';
+import {ProfileImage} from '../common';
 
 import * as userData from 'data/users/student';
 

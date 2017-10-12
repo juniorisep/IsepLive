@@ -11,9 +11,7 @@ import Team from './team';
 import HallOfFame from './hallOfFame';
 import Target from './target';
 
-const TabContainer = props => <div style={{
-  padding: 20
-}}>
+const TabContainer = props => <div>
   {props.children}
 </div>;
 
@@ -61,7 +59,6 @@ class Whoarewe extends Component {
             <HallOfFame />
           </TabContainer>}
         </Paper>
-        <FluidContent></FluidContent>
       </div>
     );
   };

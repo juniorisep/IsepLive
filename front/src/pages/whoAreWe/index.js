@@ -7,6 +7,8 @@ import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common
 import Paper from 'material-ui/Paper';
 import Tabs, {Tab} from 'material-ui/Tabs';
 
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+
 import Team from './team';
 import HallOfFame from './hallOfFame';
 import Target from './target';
@@ -41,8 +43,8 @@ class Whoarewe extends Component {
           <Tabs
             index={this.state.index}
             onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
+            indicatorColor={SECONDARY_COLOR}
+            textColor={MAIN_COLOR}
             centered
           >
             <Tab label="Nos objectifs" />

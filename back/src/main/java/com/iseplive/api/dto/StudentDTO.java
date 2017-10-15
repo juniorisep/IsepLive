@@ -13,6 +13,9 @@ public class StudentDTO {
   private Date birthDate;
   private String phone;
   private String bio;
+  private String mail;
+  private String mailISEP;
+  private String address;
 
   public Integer getPromo() {
     return promo;
@@ -60,5 +63,29 @@ public class StudentDTO {
 
   public void setBio(String bio) {
     this.bio = bio;
+  }
+
+  public String getMail() {
+    return mail;
+  }
+
+  public void setMail(String mail) {
+    this.mail = mail;
+  }
+
+  public String getMailISEP() {
+    return mailISEP;
+  }
+
+  public void setMailISEP(String mailISEP) {
+    this.mailISEP = mailISEP;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 }

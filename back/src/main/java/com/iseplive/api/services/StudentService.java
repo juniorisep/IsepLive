@@ -56,6 +56,9 @@ public class StudentService {
     student.setLastname(dto.getLastname());
     student.setPhone(dto.getPhone());
     student.setPromo(dto.getPromo());
+    student.setAddress(dto.getAddress());
+    student.setMail(dto.getMail());
+    student.setMailISEP(dto.getMailISEP());
     return authorRepository.save(student);
   }
 

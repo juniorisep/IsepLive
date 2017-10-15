@@ -27,7 +27,10 @@ public class Student extends Author implements UserDetails {
   private String lastname;
   private Date birthDate;
   private String phone;
+  private String address;
   private String studentId;
+  private String mail;
+  private String mailISEP;
 
   private String photoUrl;
 
@@ -163,5 +166,29 @@ public class Student extends Author implements UserDetails {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getMail() {
+    return mail;
+  }
+
+  public void setMail(String mail) {
+    this.mail = mail;
+  }
+
+  public String getMailISEP() {
+    return mailISEP;
+  }
+
+  public void setMailISEP(String mailISEP) {
+    this.mailISEP = mailISEP;
   }
 }

@@ -1,11 +1,11 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
+import { Banner, Filler, FluidContent, Header, SearchBar } from 'components/common';
 
 import Paper from 'material-ui/Paper';
-import Tabs, {Tab} from 'material-ui/Tabs';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 
@@ -23,7 +23,7 @@ class Whoarewe extends Component {
   };
 
   handleChange = (event, index) => {
-    this.setState({index});
+    this.setState({ index });
   };
 
   render() {
@@ -41,7 +41,7 @@ class Whoarewe extends Component {
         </Header>
         <Paper>
           <Tabs
-            index={this.state.index}
+            value={this.state.index}
             onChange={this.handleChange}
             indicatorColor={SECONDARY_COLOR}
             textColor={MAIN_COLOR}

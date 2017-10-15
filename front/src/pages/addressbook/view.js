@@ -3,13 +3,22 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
-import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar } from 'components/common';
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  ProfileImage,
+  SearchBar,
+  Text
+} from 'components/common';
 import { Link } from 'react-router-dom';
 
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
+import { MAIN_COLOR } from '../../colors';
 
 
 const Person = (props) => {
@@ -36,6 +45,7 @@ const Person = (props) => {
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>
+        <p></p>
       </div>
     </PersonStyle>
   );
@@ -65,7 +75,7 @@ const years = [
 export default class AddressBook extends Component {
   state = {
     year: [],
-    alpha: '',
+    alpha: 'a',
   };
 
   handleChange = name => event => {
@@ -84,13 +94,16 @@ export default class AddressBook extends Component {
           <FluidContent p="0">
             <Flex align="center">
               <Box flex="1 1 auto">
-                <SearchBar placeholder="Rechercher des ami(e)s" onChange={(e) => this.props.onSearch(e.target.value)} />
+                <SearchBar placeholder="Rechercher des ami(e)s" onChange={this.props.onSearch} />
               </Box>
             </Flex>
           </FluidContent>
         </Header>
         <FluidContent>
           <Flex align="center">
+            <Box>
+              {this.props.isSearching && <Text>{this.props.students.length} étudiants trouvé</Text>}
+            </Box>
             <Box flex="0 0 auto" ml="auto">
               <div style={STYLE_CONTAINER}>
                 <FormControl style={STYLE_FORMCONTROL}>
@@ -109,17 +122,20 @@ export default class AddressBook extends Component {
                       },
                     }}
                   >
-                    {years.map(year => (
-                      <MenuItem
-                        key={year}
-                        value={year}
-                        style={{
-                          fontWeight: this.state.year.indexOf(year) !== -1 ? '500' : '400',
-                        }}
-                      >
-                        {year}
-                      </MenuItem>
-                    ))}
+                    {
+                      years.map(year => (
+                        <MenuItem
+                          key={year}
+                          value={year}
+                          style={{
+                            fontWeight: 500,
+                            color: this.state.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
+                          }}
+                        >
+                          {year}
+                        </MenuItem>
+                      ))
+                    }
                   </Select>
                   <FormHelperText>Sélection multiple</FormHelperText>
                 </FormControl>
@@ -134,7 +150,7 @@ export default class AddressBook extends Component {
                     onChange={this.handleChange('alpha')}
                     input={<Input id="alpha-simple" />}
                   >
-                    <MenuItem value='a' defaultChecked>Az</MenuItem>
+                    <MenuItem value='a'>Az</MenuItem>
                     <MenuItem value='z'>Za</MenuItem>
                   </Select>
                   <FormHelperText>Sélection simple</FormHelperText>

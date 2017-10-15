@@ -3,24 +3,14 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
 import Button from 'material-ui/Button';
 
-import {Banner, Filler, FluidContent, Header, SearchBar, Separator, Title} from 'components/common';
+import {Banner, Filler, FluidContent, Header, SearchBar, Separator} from 'components/common';
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
-
-const FakeIcon = styled.div`
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
-  background: ${props => props.theme.main};
-  margin-bottom: 10px;
-  border-radius: 100px;
-`;
 
 const Background = styled.div`
   background: url(/img/background.jpg);

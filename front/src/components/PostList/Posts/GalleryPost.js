@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import {Flex, Box} from 'grid-styled';
+import {Box} from 'grid-styled';
 import styled from 'styled-components';
 import {
   Post,
@@ -9,12 +9,8 @@ import {
 } from 'components/PostList';
 
 import {
-  Text,
   BgImage,
 } from 'components/common';
-
-
-import Time from '../../Time';
 
 const Header = styled.div`
   color: ${props => props.theme.accent};

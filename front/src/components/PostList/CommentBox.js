@@ -6,8 +6,6 @@ import styled from 'styled-components';
 
 import { EditorState } from 'draft-js';
 
-import Button from 'material-ui/Button';
-
 const Input = styled.textarea`
   border: 2px solid #999999;
   border-radius: 5px;
@@ -22,13 +20,6 @@ const Input = styled.textarea`
     border-color: ${props => props.theme.main};
   }
 `;
-
-const STYLE_BUTTON = {
-  maxWidth: 300,
-  margin: '10px auto',
-  backgroundColor: '#ffc000',
-  color: '#e6e6e6',
-};
 
 class CommentBox extends Component {
   state = {
@@ -63,14 +54,7 @@ class CommentBox extends Component {
     this.setState({ message: event.target.value });
   };
 
-  onEditorStateChange: Function = (editorState) => {
-    this.setState({
-      editorState,
-    });
-  };
-
   render() {
-    const { editorState } = this.state;
     return (
       <div>
         <Input

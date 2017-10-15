@@ -3,12 +3,11 @@
 import React, {Component} from 'react';
 
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
+import {Box} from 'grid-styled';
 
 import {NavLink} from 'react-router-dom';
 
 import Button from 'material-ui/Button';
-import FacebookPlayer from 'react-facebook-player';
 
 import LikeButton from './LikeButton';
 import EditButton from './EditButton';
@@ -16,29 +15,13 @@ import PostTitleView from './PostTitleView';
 
 import * as postData from 'data/post';
 
-
 import PollPost from './Posts/PollPost';
 import ImagePost from './Posts/ImagePost';
 import TextPost from './Posts/TextPost';
 import VideoPost from './Posts/VideoPost';
 import GalleryPost from './Posts/GalleryPost';
 
-import {FACEBOOK_APP_ID} from 'config';
-
-import {
-  ProfileImage,
-  Subtitle,
-  Text,
-  BgImage,
-  Title,
-  ImageLink,
-  YoutubeVideo,
-  FacebookVideo,
-} from '../common';
-
-import Time from '../Time';
-import Author from '../Author';
-import Poll from '../Poll';
+import {Text} from '../common';
 
 const PostList = styled.ul`
   padding: 0;

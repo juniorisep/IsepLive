@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import {Flex, Box} from 'grid-styled';
+import {Box} from 'grid-styled';
 import {
   Post,
   PostTextView,

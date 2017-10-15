@@ -23,7 +23,7 @@ class HallOfFame extends Component {
         <h1 style={{color: '#ffc000'}}>All of Fame</h1>
         <Flex wrap>
           <Box width={1} p={2}>
-            <Paper elevation={4} style={{padding: 20}}>
+            <Paper elevation={4} style={{padding: 20, borderRadius: '10px'}}>
               <p>tuykflgmhijopjihougiyoufit</p>
             </Paper>
           </Box>

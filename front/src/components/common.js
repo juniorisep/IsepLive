@@ -161,7 +161,7 @@ const IframeWrap = styled.div`
 export const FacebookVideo = (props) => {
   return (
     <IframeWrap>
-      <iframe src={props.url} scrolling="no" allowTransparency allowFullScreen></iframe>
+      <iframe src={props.url} scrolling="no" allowTransparency allowFullScreen />
     </IframeWrap>
   )
 }

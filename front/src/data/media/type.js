@@ -19,22 +19,15 @@ export type VideoDTO = {
   video: File,
 }
 
-export type Media = {
-  id: number,
-  mediaType: string,
-  media: Gallery | Video | Gazette,
+export type Image = {
+  thumbUrl: string,
+  fullSizeUrl: string,
   creation: Date,
 }
 
 export type Gallery = {
   name: string,
   images: Image[],
-}
-
-export type Image = {
-  thumbUrl: string,
-  fullSizeUrl: string,
-  creation: Date,
 }
 
 export type Video = {
@@ -46,4 +39,11 @@ export type Video = {
 export type Gazette = {
   title: string,
   url: string,
+}
+
+export type Media = {
+  id: number,
+  mediaType: string,
+  media: Gallery | Video | Gazette,
+  creation: Date,
 }

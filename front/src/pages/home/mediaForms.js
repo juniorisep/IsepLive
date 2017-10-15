@@ -313,7 +313,7 @@ export class GalleryForm extends Component {
 
   render() {
     const { images } = this.state;
-    const p = (word) => word + (images.length != 1 ? 's' : '');
+    const p = (word) => word + (images.length !== 1 ? 's' : '');
     return (
       <div>
         <div>

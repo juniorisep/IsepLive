@@ -6,14 +6,11 @@ import styled from 'styled-components';
 import {Flex} from 'grid-styled';
 
 import Checkbox from 'material-ui/Checkbox';
-import { FormControlLabel } from 'material-ui/Form';
 
 import NotLiked from 'material-ui-icons/FavoriteBorder';
 import Liked from 'material-ui-icons/Favorite';
 
 import * as authData from 'data/auth';
-import * as postData from 'data/post';
-
 
 const CustomCheckbox = styled(Checkbox)`
   color: ${props => props.theme.accent} !important;
@@ -45,7 +42,6 @@ class LikeButton extends Component {
   }
 
   render() {
-    const { post } = this.props;
     return (
       <Flex align="center">
         <Label onClick={this.handleLike}>{this.state.likes} j'aime</Label>

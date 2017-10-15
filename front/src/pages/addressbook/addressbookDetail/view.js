@@ -8,11 +8,8 @@ import {Box, Flex} from 'grid-styled';
 
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
-import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
 
 import Time from 'components/Time';
-import { backUrl } from '../../../config';
 import {
   FluidContent,
   ProfileImage,

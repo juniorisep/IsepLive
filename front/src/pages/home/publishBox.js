@@ -274,7 +274,7 @@ class PublishBoxView extends Component {
       <div>
         <PublishBox>
           {
-            author && author.type == 'club' &&
+            author && author.type === 'club' &&
             <TitleBox
               placeholder="Titre"
               m="15px"
@@ -329,7 +329,7 @@ class PublishBoxView extends Component {
                   <MenuItem
                     key={a.id}
                     onClick={() => this.handleAuthorSelect(a)}
-                    selected={this.state.author == a}>
+                    selected={this.state.author === a}>
                     <SendAs author={a} c="black" />
                   </MenuItem>
                 );

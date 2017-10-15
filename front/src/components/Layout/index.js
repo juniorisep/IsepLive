@@ -8,7 +8,6 @@ import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
-import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
@@ -201,8 +200,6 @@ class Layout extends React.Component {
   };
 
   render() {
-    const props = this.props;
-    const classes = props.classes;
     return (
       <Root>
         <AppBar style={{ position: 'relative' }}>

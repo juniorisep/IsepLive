@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 
-import Button from 'material-ui/Button';
 import {FormControlLabel} from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 
@@ -18,8 +17,7 @@ import {
   FluidContent,
   Header,
   SearchBar,
-  Separator,
-  Title
+  Separator
 } from 'components/common';
 
 import Gallery from 'components/Gallery';
@@ -130,8 +128,8 @@ class MediaView extends Component {
                       m.medias.map(e => {
                         return <Box key={e.id} w={[ 1, 1 / 2, 1 / 3 ]} p={2}>
                           <Link to={`/post/${e.postId}`}>
-                            { e.mediaType == 'video' && <Video {...e} /> }
-                            { e.mediaType == 'gallery' && <Album url="/img/background.jpg" {...e} /> }
+                            { e.mediaType === 'video' && <Video {...e} /> }
+                            { e.mediaType === 'gallery' && <Album url="/img/background.jpg" {...e} /> }
                           </Link>
                         </Box>
                       })

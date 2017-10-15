@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom';
 import {
   ProfileImage,
   Subtitle,
-  Text,
   Title,
 } from '../common';
 

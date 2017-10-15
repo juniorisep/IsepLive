@@ -1,15 +1,19 @@
 // @flow
 
 import React, { Component } from 'react';
-import {Box} from 'grid-styled';
+import { Box } from 'grid-styled';
+import { GridList, GridListTile } from 'material-ui/GridList';
+
 import styled from 'styled-components';
+
+
 import {
   Post,
   PostTextView,
 } from 'components/PostList';
 
 import {
-  BgImage,
+  BgImage
 } from 'components/common';
 
 const Header = styled.div`
@@ -20,11 +24,8 @@ const Header = styled.div`
 `;
 
 const Gallery = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  width: 100%;
-  height: 300px;
-  margin: 5px;
+  margin: 10px;
+  min-height: 300px; 
 `;
 
 const WrapImage = styled.div`
@@ -34,14 +35,27 @@ const WrapImage = styled.div`
 `;
 
 class GalleryPost extends Component {
+
   render() {
     const props = this.props;
-    const size = props.preview ? [1] : [1, 1/2];
+    const size = props.preview ? [1] : [1, 1 / 2];
+    const cols = props.preview ? 5 : 3;
     return (
       <Post invert={props.invert}>
         <Box w={size}>
           <Header>{props.post.media.name}</Header>
           <Gallery>
+            <GridList cellHeight={160} cols={cols}>
+              {
+                props.post.media.images.map(img => (
+                  <GridListTile key={img.id} cols={1}>
+                    <BgImage src={img.thumbUrl} alt="image" />
+                  </GridListTile>
+                ))
+              }
+            </GridList>
+          </Gallery>
+          {/* <Gallery>
             {
               props.post.media.images.map(img => {
                 return (
@@ -51,13 +65,13 @@ class GalleryPost extends Component {
                 );
               })
             }
-          </Gallery>
+          </Gallery> */}
         </Box>
         <PostTextView
           refresh={props.refresh}
           post={props.post}
           w={size}
-          preview={props.preview}/>
+          preview={props.preview} />
       </Post>
     );
   }

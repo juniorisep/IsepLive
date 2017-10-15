@@ -1,10 +1,10 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
-import {Banner, Filler, FluidContent, Header, ProfileImage, SearchBar} from 'components/common';
-import {Link} from 'react-router-dom';
+import { Box, Flex } from 'grid-styled';
+import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar } from 'components/common';
+import { Link } from 'react-router-dom';
 
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
@@ -98,7 +98,7 @@ export default class AddressBook extends Component {
                   <Select
                     multiple
                     value={this.state.year}
-                    onChange={this.handleChange('year')}
+                    onChange={this.handleChange("year")}
                     input={<Input id="year-multiple" />}
                     MenuProps={{
                       PaperProps: {
@@ -134,8 +134,8 @@ export default class AddressBook extends Component {
                     onChange={this.handleChange('alpha')}
                     input={<Input id="alpha-simple" />}
                   >
-                    <MenuItem value='a'>a -> z</MenuItem>
-                    <MenuItem value='z'>z -> a</MenuItem>
+                    <MenuItem value='a' defaultChecked>Az</MenuItem>
+                    <MenuItem value='z'>Za</MenuItem>
                   </Select>
                   <FormHelperText>Sélection simple</FormHelperText>
                 </FormControl>

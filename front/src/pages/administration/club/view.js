@@ -1,10 +1,10 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
-import {Link} from 'react-router-dom';
-import {FluidContent, Image} from 'components/common';
+import { Box, Flex } from 'grid-styled';
+import { Link } from 'react-router-dom';
+import { FluidContent, Image } from 'components/common';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 
@@ -55,7 +55,7 @@ export default class Club extends Component {
   render() {
     return (
       <div>
-        <Button fab color="primary" aria-label="add" style={{float: 'right'}} onClick={() => this.setState({ open: true })}>
+        <Button fab color="primary" aria-label="add" style={{ float: 'right', zIndex: 2 }} onClick={() => this.setState({ open: true })}>
           <AddIcon />
         </Button>
         <AddClubForm
@@ -93,7 +93,7 @@ function AddClubForm(props) {
         <TextField type="text" label="Président" fullWidth />
         <TextField type="text" label="Description" fullWidth />
         <TextField type="text" label="Site Internet" fullWidth />
-        <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{display: 'none'}} />
+        <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{ display: 'none' }} />
         <label htmlFor="file">
           <Button raised component="span">
             Ajouter logo

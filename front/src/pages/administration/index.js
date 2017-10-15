@@ -22,7 +22,7 @@ import MailIcon from 'material-ui-icons/Mail';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ReportIcon from 'material-ui-icons/Report';
 
-import {NavLink, Route, Switch, Redirect} from 'react-router-dom';
+import { NavLink, Route, Switch, Redirect } from 'react-router-dom';
 
 import Users from './users';
 import Club from './club';
@@ -34,7 +34,7 @@ const mailFolderListItems = (
     <ListItem button
       component={NavLink}
       to="/administration/accueil"
-      >
+    >
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>
@@ -43,7 +43,7 @@ const mailFolderListItems = (
     <ListItem button
       component={NavLink}
       to="/administration/associations"
-      >
+    >
       <ListItemIcon>
         <StarIcon />
       </ListItemIcon>
@@ -52,7 +52,7 @@ const mailFolderListItems = (
     <ListItem button
       component={NavLink}
       to="/administration/utilisateurs"
-      >
+    >
       <ListItemIcon>
         <SendIcon />
       </ListItemIcon>
@@ -61,7 +61,7 @@ const mailFolderListItems = (
     <ListItem button
       component={NavLink}
       to="/administration/publications"
-      >
+    >
       <ListItemIcon>
         <ReportIcon />
       </ListItemIcon>
@@ -76,7 +76,6 @@ const styles = theme => ({
   root: {
     width: '100%',
     height: 430,
-    marginTop: theme.spacing.unit * 3,
     zIndex: 1,
     overflow: 'hidden',
   },
@@ -155,7 +154,7 @@ const styles = theme => ({
 
 class MiniDrawer extends React.Component {
   state = {
-    open: true,
+    open: false,
   };
 
   handleDrawerOpen = () => {
@@ -168,7 +167,7 @@ class MiniDrawer extends React.Component {
 
   render() {
     const classes = this.props.classes;
-    const {match} = this.props;
+    const { match } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
@@ -210,7 +209,7 @@ class MiniDrawer extends React.Component {
               <Redirect path={`${match.url}`} exact to={`${match.url}/accueil`} />
               <Route path={`${match.url}/accueil`} component={Home} />
               <Route path={`${match.url}/utilisateurs`} component={Users} />
-              <Route path={`${match.url}/associations`} component={Club} />
+              <Route exact path={`${match.url}/associations`} component={Club} />
               <Route path={`${match.url}/publications`} component={Users} />
               <Route path={`${match.url}/associations/:id`} component={ClubDetail} />
             </Switch>

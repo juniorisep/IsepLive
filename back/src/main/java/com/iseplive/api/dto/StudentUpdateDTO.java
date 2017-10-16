@@ -3,43 +3,16 @@ package com.iseplive.api.dto;
 import java.util.Date;
 
 /**
- * Created by Guillaume on 29/07/2017.
+ * Created by Guillaume on 16/10/2017.
  * back
  */
-public class StudentDTO {
-  private Integer promo;
-  private String firstname;
-  private String lastname;
+public class StudentUpdateDTO {
+  private Long id;
   private Date birthDate;
   private String phone;
   private String bio;
   private String mail;
-  private String mailISEP;
   private String address;
-
-  public Integer getPromo() {
-    return promo;
-  }
-
-  public void setPromo(Integer promo) {
-    this.promo = promo;
-  }
-
-  public String getFirstname() {
-    return firstname;
-  }
-
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
-  public String getLastname() {
-    return lastname;
-  }
-
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
 
   public Date getBirthDate() {
     return birthDate;
@@ -73,14 +46,6 @@ public class StudentDTO {
     this.mail = mail;
   }
 
-  public String getMailISEP() {
-    return mailISEP;
-  }
-
-  public void setMailISEP(String mailISEP) {
-    this.mailISEP = mailISEP;
-  }
-
   public String getAddress() {
     return address;
   }
@@ -89,4 +54,11 @@ public class StudentDTO {
     this.address = address;
   }
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 }

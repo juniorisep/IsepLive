@@ -8,6 +8,7 @@ public class PostDTO {
   private String title;
   private String content;
   private Long authorId;
+  private Boolean isPrivate;
 
   public String getTitle() {
     return title;
@@ -31,5 +32,13 @@ public class PostDTO {
 
   public void setAuthorId(Long authorId) {
     this.authorId = authorId;
+  }
+
+  public Boolean getPrivate() {
+    return isPrivate;
+  }
+
+  public void setPrivate(Boolean aPrivate) {
+    isPrivate = aPrivate;
   }
 }

@@ -2,6 +2,7 @@ package com.iseplive.api;
 
 import com.iseplive.api.dao.poll.PollRepository;
 import com.iseplive.api.dao.post.PostRepository;
+import com.iseplive.api.dao.student.RoleRepository;
 import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.entity.user.Student;
@@ -22,6 +23,9 @@ public class DatabaseSeeder {
 
   @Autowired
   private StudentService studentService;
+
+  @Autowired
+  private RoleRepository roleRepository;
 
   @Autowired
   private ClubService clubService;
@@ -50,9 +54,12 @@ public class DatabaseSeeder {
   }
 
   private boolean isDatabaseSeeded() {
+
     Student user = studentRepository.findOne(1L);
     // if it's found, the database is already seeded
+
     return user != null;
+
   }
 
   private void runSeedDatabase() {
@@ -64,5 +71,6 @@ public class DatabaseSeeder {
     studentDTO.setPromo(2018);
 
     studentService.createStudent(studentDTO);
+
   }
 }

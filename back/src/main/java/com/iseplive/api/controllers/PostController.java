@@ -1,5 +1,6 @@
 package com.iseplive.api.controllers;
 
+import com.iseplive.api.conf.jwt.AuthUser;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
@@ -43,8 +44,8 @@ public class PostController {
   }
 
   @GetMapping("/authors")
-  public List<Author> getAuthors(@AuthenticationPrincipal Long studentId) {
-    return postService.getAuthors(studentId);
+  public List<Author> getAuthors(@AuthenticationPrincipal AuthUser auth) {
+    return postService.getAuthors(auth.getId());
   }
 
   @GetMapping("/{id}")
@@ -68,8 +69,8 @@ public class PostController {
   }
 
   @PutMapping("/{id}/comment")
-  public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto, @AuthenticationPrincipal Long studId) {
-    return postService.commentPost(id, dto, studId);
+  public Comment commentPost(@PathVariable Long id, @RequestBody CommentDTO dto, @AuthenticationPrincipal AuthUser auth) {
+    return postService.commentPost(id, dto, auth.getId());
   }
 
   @PutMapping("/{id}/like")

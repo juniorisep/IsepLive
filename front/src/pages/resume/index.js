@@ -1,17 +1,17 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
-import Paper from 'material-ui/Paper';
+//import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 import Time from 'components/Time';
 
 import {
@@ -21,6 +21,9 @@ import {
   Header,
   ProfileImage,
   SearchBar,
+  Paper,
+  Text,
+  Title,
 } from 'components/common';
 
 import * as userData from 'data/users/student';
@@ -49,21 +52,35 @@ class Resume extends Component {
     birthDate: '',
     promo: '',
     bio: '',
+    address: '',
+    email: '',
+    emailISEP: '',
   };
 
   handleRequestClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
   };
 
   componentDidMount() {
     userData.getLoggedUser().then(res => {
-      const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo, bio} = res.data;
-      this.setState({photoUrl, firstname, lastname, phone, studentId, birthDate, promo, bio});
+      this.setState({ ...res.data });
     });
   };
 
   render() {
-    const {photoUrl, firstname, lastname, phone, studentId, birthDate, promo, bio} = this.state;
+    const {
+      photoUrl,
+      firstname,
+      lastname,
+      phone,
+      studentId,
+      birthDate,
+      promo,
+      bio,
+      address,
+      email,
+      emailISEP,
+    } = this.state;
     return (
       <div>
         <Header url="/img/background.jpg">
@@ -78,95 +95,60 @@ class Resume extends Component {
         </Header>
         <FluidContent>
           <Flex wrap>
-            <Box p={2} width={[ 1, 1 / 4 ]}>
+            <Box p={2} width={[1, 1 / 4]}>
               <Person src={photoUrl} />
             </Box>
             <Box p={2} width={[
               1, 3 / 4
             ]}>
-              <Paper elevation={4} style={{
-                padding: 20,
-                borderRadius: '10px'
-              }}>
-                <Typography type="headline" component="h3">
-                  <span>{firstname}</span>
-                  <span>{lastname}</span>
-                  <Button raised color="primary" style={{
-                    float: 'right'
-                  }} onClick={() => this.setState({open: true})}>
-                    Modifier
-                  </Button>
-                </Typography>
-                <Typography type="body1" component="p">
-                  Promotion : <span>{promo}</span>
-                </Typography>
-                <Typography type="body1" component="p">
-                  Numéro ISEP : <span>{studentId}</span>
-                </Typography>
-                <Typography type="body1" component="p">
-                  Téléphone : <span>{phone}</span>
-                </Typography>
-                <Typography type="body1" component="p">
-                  Adresse :
-                </Typography>
-                <Typography type="body1" component="p">
-                  Mail :
-                </Typography>
-                <Typography type="body1" component="p">
-                  Mail ISEP :
-                </Typography>
-                <Typography type="body1" component="p">
-                  Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" />
-                </Typography>
+              <Paper p="20px">
+                <Flex>
+                  <Box>
+                    <Title>
+                      {firstname} {lastname}
+                    </Title>
+                  </Box>
+                  <Box ml="auto">
+                    <Button raised color="primary">Modifier</Button>
+                  </Box>
+                </Flex>
+                <Text>Promotion : <span>{promo}</span></Text>
+                <Text>Numéro ISEP : <span>{studentId}</span></Text>
+                <Text>Téléphone : <span>{phone}</span></Text>
+                <Text>Adresse : <span>{address}</span></Text>
+                <Text>Mail : <span>{email}</span></Text>
+                <Text>Mail ISEP : <span>{emailISEP}</span></Text>
+                <Text>Date de naissance: <Time time={birthDate} format="DD/MM/YYYY" /></Text>
               </Paper>
             </Box>
             <Box p={2} width={1}>
-              <Paper elevation={4} style={{
-                padding: 20,
-                borderRadius: '10px'
-              }}>
-                <Typography type="headline" component="h3">
-                  Citation
-                </Typography>
-                <Typography type="body1" component="p">
-                  {bio}
-                </Typography>
+              <Paper p="20px">
+                <Title fontSize={1.3} invert>Citation</Title>
+                <Text>{bio || <i>Pas de bio</i>}</Text>
               </Paper>
             </Box>
             <Box p={2} width={1}>
-              <Paper elevation={4} style={{
-                padding: 20,
-                borderRadius: '10px'
-              }}>
-                <Typography type="headline" component="h3">
-                  Associations
-                </Typography>
-                <Typography type="body1" component="p">
-                  ryituoyipuoiùpuogypiftuodryitfuoygi
-                </Typography>
+              <Paper p="20px">
+                <Title fontSize={1.3} invert>Associations</Title>
+                <Text>ryituoyipuoiùpuogypiftuodryitfuoygi</Text>
               </Paper>
             </Box>
             <Box p={2} width={1}>
-              <Paper elevation={4} style={{
-                padding: 20,
-                borderRadius: '10px'
-              }}>
-                <Typography type="headline" component="h3">
-                  Publications
-                  <Button raised color="primary" style={{
-                    float: 'right'
-                  }}>
-                    Modifier
-                  </Button>
-                  <Button color="accent" style={{
-                    float: 'right'
-                  }}>
-                    Supprimer
-                  </Button>
-                </Typography>
-                <Typography type="body1" component="p">
-                  ryituoyipuoiùpuogypiftuodryitfuoygi
-                </Typography>
+              <Paper p="20px">
+                <Flex>
+                  <Box>
+                    <Title fontSize={1.3} invert>Publications</Title>
+                  </Box>
+                  <Box ml="auto">
+                    <Button raised color="primary">
+                      Modifier
+                    </Button>
+                    <Button color="accent">
+                      Supprimer
+                    </Button>
+                  </Box>
+                </Flex>
+                <Text>hjdshfjkdshf</Text>
               </Paper>
             </Box>
           </Flex>

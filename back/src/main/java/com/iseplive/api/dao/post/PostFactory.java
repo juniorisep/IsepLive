@@ -27,6 +27,7 @@ public class PostFactory {
     Post p = new Post();
     p.setTitle(post.getTitle());
     p.setContent(post.getContent());
+    p.setPrivate(post.getPrivate());
     return p;
   }
 

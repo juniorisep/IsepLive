@@ -1,9 +1,10 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
-import {backUrl} from '../config';
+
+import { backUrl } from '../config';
 
 export const Separator = styled.div`
   width: 100%;
@@ -76,7 +77,7 @@ const ImageStyle = styled.img`
 `;
 
 type ImageType = {
-  src?: string, alt?: string, w?: string | number, ml?: string
+  src?: string, alt?: string, w?: string | number, ml?: string
 }
 
 export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
@@ -186,3 +187,9 @@ export const Video = (props) => {
     </VideoStyle>
   );
 }
+
+export const Paper = styled.div`
+  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: ${({ p }) => p};
+`;

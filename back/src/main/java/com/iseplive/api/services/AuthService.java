@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.jwt.AuthUser;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,20 +16,21 @@ public class AuthService {
   StudentService studentService;
 
   public boolean isUserAnonymous() {
+    // by default spring security set the principal as "anonymousUser"
     return SecurityContextHolder.getContext().getAuthentication()
       .getPrincipal().equals("anonymousUser");
   }
 
   public Long getLoggedId() {
     if (!isUserAnonymous()) {
-      return (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      return ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     }
     return null;
   }
 
   public Student getLoggedUser() {
     if (!isUserAnonymous()) {
-      Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      Long id = ((AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
       return studentService.getStudent(id);
     }
     return null;

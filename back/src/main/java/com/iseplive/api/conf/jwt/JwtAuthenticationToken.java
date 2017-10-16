@@ -54,7 +54,10 @@ public class JwtAuthenticationToken implements Authentication {
 
   @Override
   public Object getPrincipal() {
-    return jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ID).asLong();
+    AuthUser authUser = new AuthUser();
+    authUser.setId(jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ID).asLong());
+    authUser.setRights(jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ROLES).asList(String.class));
+    return authUser;
   }
 
   @Override

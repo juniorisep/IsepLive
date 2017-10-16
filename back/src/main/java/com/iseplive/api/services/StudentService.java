@@ -2,7 +2,9 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.conf.IllegalArgumentException;
 import com.iseplive.api.dao.post.AuthorRepository;
+import com.iseplive.api.dao.student.StudentFactory;
 import com.iseplive.api.dao.student.StudentRepository;
+import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.utils.MediaUtils;
@@ -12,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -30,6 +30,9 @@ public class StudentService {
 
   @Autowired
   MediaUtils imageUtils;
+
+  @Autowired
+  StudentFactory studentFactory;
 
   @Value("${storage.student.url}")
   String studentImageStorage;
@@ -49,16 +52,7 @@ public class StudentService {
   }
 
   public Student createStudent(StudentDTO dto) {
-    Student student = new Student();
-    student.setBio(dto.getBio());
-    student.setBirthDate(dto.getBirthDate());
-    student.setFirstname(dto.getFirstname());
-    student.setLastname(dto.getLastname());
-    student.setPhone(dto.getPhone());
-    student.setPromo(dto.getPromo());
-    student.setAddress(dto.getAddress());
-    student.setMail(dto.getMail());
-    student.setMailISEP(dto.getMailISEP());
+    Student student = studentFactory.dtoToEntity(dto);
     return authorRepository.save(student);
   }
 
@@ -72,5 +66,11 @@ public class StudentService {
 
   public Page<Student> search(String name, int page) {
     return studentRepository.searchStudent(name.toLowerCase(), new PageRequest(page, RESULTS_PER_PAGE));
+  }
+
+  public Student updateStudent(StudentUpdateDTO dto, Long id) {
+    Student student = studentFactory.updateDtoToEntity(dto);
+    student.setId(id);
+    return studentRepository.save(student);
   }
 }

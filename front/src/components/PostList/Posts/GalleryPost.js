@@ -13,7 +13,8 @@ import {
 } from 'components/PostList';
 
 import {
-  BgImage
+  BgImage,
+  Paper,
 } from 'components/common';
 
 const Header = styled.div`
@@ -25,7 +26,7 @@ const Header = styled.div`
 
 const Gallery = styled.div`
   margin: 10px;
-  min-height: 300px; 
+  min-height: 300px;
 `;
 
 const WrapImage = styled.div`
@@ -43,18 +44,20 @@ class GalleryPost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Header>{props.post.media.name}</Header>
-          <Gallery>
-            <GridList cellHeight={160} cols={cols}>
-              {
-                props.post.media.images.map(img => (
-                  <GridListTile key={img.id} cols={1}>
-                    <BgImage src={img.thumbUrl} alt="image" />
-                  </GridListTile>
-                ))
-              }
-            </GridList>
-          </Gallery>
+          <Paper style={{ height: '100%' }}>
+            <Header>{props.post.media.name}</Header>
+            <Gallery>
+              <GridList cellHeight={160} cols={cols}>
+                {
+                  props.post.media.images.map(img => (
+                    <GridListTile key={img.id} cols={1}>
+                      <BgImage src={img.thumbUrl} alt="image" />
+                    </GridListTile>
+                  ))
+                }
+              </GridList>
+            </Gallery>
+          </Paper>
           {/* <Gallery>
             {
               props.post.media.images.map(img => {

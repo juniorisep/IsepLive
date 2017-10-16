@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from 'material-ui/Button';
 
-import {Banner, Filler, FluidContent, Header, SearchBar, Separator} from 'components/common';
+import { Banner, Filler, FluidContent, Header, SearchBar, Separator } from 'components/common';
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 
@@ -52,8 +52,9 @@ export default function Home(props) {
           <SearchBar placeholder="Rechercher" />
         </FluidContent>
       </Header>
-      <Background>
-        <Overlay />
+      {/* <Background> */}
+      {/* <Overlay /> */}
+      <div style={{ background: '#F9F9F9' }}>
         <FluidContent>
           <Auth>
             <PublishBoxView refreshPosts={props.refreshPosts} />
@@ -73,7 +74,8 @@ export default function Home(props) {
             </Loader>
           </PostSection>
         </FluidContent>
-      </Background>
+      </div>
+      {/* </Background> */}
     </div>
   );
 };

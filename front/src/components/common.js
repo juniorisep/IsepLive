@@ -191,5 +191,5 @@ export const Video = (props) => {
 export const Paper = styled.div`
   box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
   background: white;
-  padding: ${({ p }) => p};
+  padding: ${({ p }) => p || 0};
 `;

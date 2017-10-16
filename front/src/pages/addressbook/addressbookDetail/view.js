@@ -52,13 +52,13 @@ export default function AdressbookDetailView(props) {
                 Téléphone : <span>{props.phone}</span>
               </Typography>
               <Typography type="body1" component="p">
-                Adresse :
+                Adresse : <span>{props.adress}</span>
               </Typography>
               <Typography type="body1" component="p">
-                Mail :
+                Mail : <span>{props.mail}</span>
               </Typography>
               <Typography type="body1" component="p">
-                Mail ISEP :
+                Mail ISEP : <span>{props.mailISEP}</span>
               </Typography>
               <Typography type="body1" component="p">
                 Date de naissance : <Time time={props.birthDate} format="DD/MM/YYYY" />

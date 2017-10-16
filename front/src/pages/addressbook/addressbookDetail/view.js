@@ -52,7 +52,7 @@ export default function AdressbookDetailView(props) {
                 Téléphone : <span>{props.phone}</span>
               </Typography>
               <Typography type="body1" component="p">
-                Adresse : <span>{props.adress}</span>
+                Adresse : <span>{props.address}</span>
               </Typography>
               <Typography type="body1" component="p">
                 Mail : <span>{props.mail}</span>

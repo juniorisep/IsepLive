@@ -104,7 +104,7 @@ class Resume extends Component {
                     </Title>
                   </Box>
                   <Box ml="auto">
-                    <Button raised color="primary">Modifier</Button>
+                    <Button raised color="primary" onClick={() => this.setState({open: true})}>Modifier</Button>
                   </Box>
                 </Flex>
                 <Text>Promotion : <span>{promo}</span></Text>
@@ -113,7 +113,7 @@ class Resume extends Component {
                 <Text>Adresse : <span>{address}</span></Text>
                 <Text>Mail : <span>{mail}</span></Text>
                 <Text>Mail ISEP : <span>{mailISEP}</span></Text>
-                <Text>Date de naissance: <Time time={birthDate} format="DD/MM/YYYY" /></Text>
+                <Text>Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" /></Text>
               </Paper>
             </Box>
             <Box p={2} width={1}>

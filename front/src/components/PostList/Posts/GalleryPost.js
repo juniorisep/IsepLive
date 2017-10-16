@@ -6,7 +6,6 @@ import { GridList, GridListTile } from 'material-ui/GridList';
 
 import styled from 'styled-components';
 
-
 import {
   Post,
   PostTextView,

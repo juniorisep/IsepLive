@@ -28,18 +28,11 @@ import {
 
 import * as userData from 'data/users/student';
 
-const Person = (props) => {
-  const PersonStyle = styled.div`
-    > img {
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-  `;
-  return (
-    <PersonStyle>
-      <ProfileImage src={props.url} w="100%" />
-    </PersonStyle>
-  );
-};
+const PersonStyle = styled.div`
+  > img {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+`;
 
 class Resume extends Component {
   state = {
@@ -96,7 +89,9 @@ class Resume extends Component {
         <FluidContent>
           <Flex wrap>
             <Box p={2} width={[1, 1 / 4]}>
-              <Person src={photoUrl} />
+              <PersonStyle>
+                <ProfileImage src={photoUrl} w="100%" />
+              </PersonStyle>
             </Box>
             <Box p={2} width={[
               1, 3 / 4

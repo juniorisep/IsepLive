@@ -211,18 +211,20 @@ class Layout extends React.Component {
             <NavMenu>
               {navList(Nav)}
             </NavMenu>
-            <Auth roles={['ROLE_USER']}>
-              <Profile onClick={this.handleClick} />
-              <Menu id="simple-menu"
-                anchorEl={this.state.anchorEl}
-                open={this.state.open}
-                onRequestClose={this.handleRequestClose}
-              >
-                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
-                <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
-                <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
-              </Menu>
-            </Auth>
+            <span style={{ marginLeft: 'auto' }}>
+              <Auth roles={['ROLE_USER']}>
+                <Profile onClick={this.handleClick} />
+                <Menu id="simple-menu"
+                  anchorEl={this.state.anchorEl}
+                  open={this.state.open}
+                  onRequestClose={this.handleRequestClose}
+                >
+                  <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
+                  <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
+                  <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
+                </Menu>
+              </Auth>
+            </span>
             <Auth not>
               <Button color="contrast" onClick={() => this.setState({ connexionOpen: true })}>Se connecter</Button>
               <LoginForm

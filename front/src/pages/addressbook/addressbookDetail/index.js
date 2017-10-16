@@ -17,6 +17,9 @@ class AdressbookDetail extends Component {
     birthDate: '',
     promo: '',
     bio: '',
+    address: '',
+    mail: '',
+    mailISEP: '',
   };
 
   componentDidMount() {
@@ -26,8 +29,8 @@ class AdressbookDetail extends Component {
   requestAdressbookDetail() {
     studentData.getStudent(this.state.id)
       .then(res => {
-        const {photoUrl, firstname, lastname, phone, birthDate, promo, bio} = res.data;
-        this.setState({photoUrl, firstname, lastname, phone, birthDate, promo, bio});
+        const {photoUrl, firstname, lastname, phone, birthDate, promo, bio, address, mail, mailISEP} = res.data;
+        this.setState({photoUrl, firstname, lastname, phone, birthDate, promo, bio, address, mail, mailISEP});
       });
   };
 

@@ -78,8 +78,8 @@ class Resume extends Component {
       promo,
       bio,
       address,
-      email,
-      emailISEP,
+      mail,
+      mailISEP,
     } = this.state;
     return (
       <div>
@@ -116,8 +116,8 @@ class Resume extends Component {
                 <Text>Numéro ISEP : <span>{studentId}</span></Text>
                 <Text>Téléphone : <span>{phone}</span></Text>
                 <Text>Adresse : <span>{address}</span></Text>
-                <Text>Mail : <span>{email}</span></Text>
-                <Text>Mail ISEP : <span>{emailISEP}</span></Text>
+                <Text>Mail : <span>{mail}</span></Text>
+                <Text>Mail ISEP : <span>{mailISEP}</span></Text>
                 <Text>Date de naissance: <Time time={birthDate} format="DD/MM/YYYY" /></Text>
               </Paper>
             </Box>

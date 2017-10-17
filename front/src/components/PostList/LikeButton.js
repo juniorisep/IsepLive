@@ -3,16 +3,17 @@
 import React, { Component } from 'react';
 
 import styled from 'styled-components';
-import {Flex} from 'grid-styled';
+import { Flex } from 'grid-styled';
 
 import Checkbox from 'material-ui/Checkbox';
 
 import NotLiked from 'material-ui-icons/FavoriteBorder';
 import Liked from 'material-ui-icons/Favorite';
+import Dialog, { DialogTitle } from 'material-ui/Dialog';
 
 import * as authData from 'data/auth';
 
-const CustomCheckbox = styled(Checkbox)`
+const CustomCheckbox = styled(Checkbox) `
   color: ${props => props.theme.accent} !important;
 `;
 
@@ -23,6 +24,15 @@ const Label = styled.span`
   font-size: 13px;
   font-weight: 500;
 `;
+
+const LikesPanel = props => {
+  return (
+    <Dialog>
+      <DialogTitle>Set backup account</DialogTitle>
+
+    </Dialog>
+  )
+}
 
 class LikeButton extends Component {
   state = {
@@ -41,10 +51,14 @@ class LikeButton extends Component {
     }
   }
 
+  showLikes = () => {
+    alert('not implemented')
+  }
+
   render() {
     return (
       <Flex align="center">
-        <Label onClick={this.handleLike}>{this.state.likes} j'aime</Label>
+        <Label onClick={this.showLikes}>{this.state.likes} j'aime</Label>
         <CustomCheckbox
           icon={<NotLiked />}
           checkedIcon={<Liked />}

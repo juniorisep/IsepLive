@@ -62,7 +62,7 @@ export const Video = (props) => {
   return (
     <VideoStyle>
       <div className="image">
-        <img src="/img/svg/play.svg"/>
+        <img src="/img/svg/play.svg" alt="play" />
       </div>
       <div className="caption">
         <Title invert fontSize={1.3} >{props.name}</Title>

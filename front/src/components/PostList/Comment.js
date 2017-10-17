@@ -1,8 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import {Flex, Box} from 'grid-styled';
-import {Link} from 'react-router-dom';
+import { Flex, Box } from 'grid-styled';
+import { Link } from 'react-router-dom';
 
 import {
   ProfileImage,
@@ -17,7 +17,7 @@ class Comment extends Component {
   renderLikes() {
     const likes = this.props.comment.likes;
     const peoples = likes.map(l => {
-      return <Link to={`/annuaire/${l.id}`}><Title fontSize={1} invert>{l.firstname} {l.lastname.slice(0,1).toUpperCase()}.</Title></Link>;
+      return <Link to={`/annuaire/${l.id}`}><Title fontSize={1} invert>{l.firstname} {l.lastname.slice(0, 1).toUpperCase()}.</Title></Link>;
     })
     const list = peoples;
     if (peoples.length > 0) {

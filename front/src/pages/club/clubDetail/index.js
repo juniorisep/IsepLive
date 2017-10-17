@@ -1,6 +1,6 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import ClubDetailView from './view';
 import MembersTab from './membersTab';
@@ -29,32 +29,34 @@ class ClubDetail extends Component {
   requestClubDetail() {
     clubData.getClub(this.state.id)
       .then(res => {
-        const {logoUrl, description, name, website} = res.data;
-        this.setState({logoUrl, description, name, website});
+        const { logoUrl, description, name, website } = res.data;
+        this.setState({ logoUrl, description, name, website });
       });
   };
 
-  handleChangeTab = (event, index) => {
-    this.setState({tabIndex: index});
+  handleChangeTab = (event: Event, index: number) => {
+    this.setState({ tabIndex: index });
     switch (index) {
       case 0:
         return this.loadMembers();
       case 1:
         return this.loadPosts();
-    };
-  };
+      default:
+        return;
+    }
+  }
 
   loadMembers = () => {
     clubData.getMembers(this.state.id)
       .then(res => {
-        this.setState({members: res.data});
+        this.setState({ members: res.data });
       });
   };
 
   loadPosts = () => {
     clubData.getPosts(this.state.id)
       .then(res => {
-        this.setState({posts: res.data});
+        this.setState({ posts: res.data });
       });
   };
 
@@ -64,8 +66,10 @@ class ClubDetail extends Component {
         return <MembersTab members={this.state.members} />;
       case 1:
         return <PostsTab posts={this.state.posts} />;
-    };
-  };
+      default:
+        return null;
+    }
+  }
 
   render() {
     return (

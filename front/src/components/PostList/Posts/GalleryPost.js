@@ -28,11 +28,6 @@ const Gallery = styled.div`
   min-height: 300px;
 `;
 
-const WrapImage = styled.div`
-  width: 33%;
-  height: 33%;
-  margin: 5px;
-`;
 
 class GalleryPost extends Component {
 
@@ -57,17 +52,6 @@ class GalleryPost extends Component {
               </GridList>
             </Gallery>
           </Paper>
-          {/* <Gallery>
-            {
-              props.post.media.images.map(img => {
-                return (
-                  <WrapImage>
-                    <BgImage src={img.thumbUrl} />
-                  </WrapImage>
-                );
-              })
-            }
-          </Gallery> */}
         </Box>
         <PostTextView
           refresh={props.refresh}

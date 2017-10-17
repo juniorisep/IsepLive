@@ -11,6 +11,9 @@ import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/D
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import PostListView from 'components/PostList';
+import { FormControlLabel } from 'material-ui/Form';
+import Checkbox from 'material-ui/Checkbox';
+
 
 import { Box, Flex } from 'grid-styled';
 import Time from 'components/Time';
@@ -169,6 +172,17 @@ class Resume extends Component {
             </Box>
             <Box p={2} width={1}>
               <Paper p="20px">
+                <Title fontSize={1.3} invert>Parametres</Title>
+                <div>
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label={<Text>Notification lorsqu'une association publie un post.</Text>}
+                  />
+                </div>
+              </Paper>
+            </Box>
+            <Box p={2} width={1}>
+              <Paper p="20px">
                 <Title fontSize={1.3} invert>Citation</Title>
                 <Text>{bio || <i>Pas de bio</i>}</Text>
               </Paper>
@@ -180,29 +194,10 @@ class Resume extends Component {
               </Paper>
             </Box>
             <Box p={2}>
-
               <Title fontSize={1.5} invert>Publications</Title>
               {posts.length === 0 && <Text>Aucune publication</Text>}
               <PostListView posts={posts} refreshPosts={this.refreshPosts} />
-            </Box>
-
-            {/* <Box p={2} width={1}>
-              <Paper p="20px">
-                <Flex>
-                  <Box>
-                  </Box>
-                  <Box ml="auto">
-                    <Button raised color="primary">
-                      Modifier
-                    </Button>
-                    <Button color="accent">
-                      Supprimer
-                    </Button>
-                  </Box>
-                </Flex>
-                <Text>hjdshfjkdshf</Text>
-              </Paper>
-            </Box> */}
+            </Box> d
           </Flex>
           <UpdateResume
             open={this.state.open}

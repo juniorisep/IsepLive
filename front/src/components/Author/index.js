@@ -2,11 +2,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {Flex} from 'grid-styled';
+import { Flex } from 'grid-styled';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import {Image, ProfileImage} from '../common';
+import { Image, ProfileImage } from '../common';
 
 const Sub = styled.div`
   font-size: 15px;
@@ -34,5 +34,7 @@ export default function Author(props) {
           <Sub>{a.firstname}<br />{a.lastname}</Sub>
         </Flex>
       );
-  };
-};
+    default:
+      return null;
+  }
+}

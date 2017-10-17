@@ -115,7 +115,7 @@ class Resume extends Component {
 
     const {
       data: {
-        photoUrl,
+      photoUrl,
       firstname,
       lastname,
       phone,
@@ -197,7 +197,7 @@ class Resume extends Component {
               <Title fontSize={1.5} invert>Publications</Title>
               {posts.length === 0 && <Text>Aucune publication</Text>}
               <PostListView posts={posts} refreshPosts={this.refreshPosts} />
-            </Box> d
+            </Box>
           </Flex>
           <UpdateResume
             open={this.state.open}

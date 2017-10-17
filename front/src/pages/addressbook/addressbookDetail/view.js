@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import {Box, Flex} from 'grid-styled';
 
 import Typography from 'material-ui/Typography';
+import PostListView from 'components/PostList';
 
 import Time from 'components/Time';
 import {
@@ -79,15 +80,9 @@ export default function AdressbookDetailView(props) {
               <Text>ryituoyipuoiùpuogypiftuodryitfuoygi</Text>
             </Paper>
           </Box>
-          <Box p={2} width={1}>
-            <Paper p="20px">
-              <Flex>
-                <Box>
-                  <Title fontSize={1.3} invert>Publications</Title>
-                </Box>
-              </Flex>
-              <Text>hjdshfjkdshf</Text>
-            </Paper>
+          <Box p={2}>
+            <Title fontSize={1.5} invert>Publications</Title>
+            <Text>Aucune publication</Text>
           </Box>
         </Flex>
       </FluidContent>

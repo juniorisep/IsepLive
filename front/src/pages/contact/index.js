@@ -7,9 +7,6 @@ import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-// API_KEY_GOOGLE: AIzaSyA2PjbZfTlgzBMgpuPUuJ0_9kFf-_nOxdM
-// Google_Maps: https://github.com/tomchentw/react-google-maps
-
 class Contact extends Component {
   render() {
     return (

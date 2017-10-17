@@ -14,6 +14,8 @@ import TextField from 'material-ui/TextField';
 import { Box, Flex } from 'grid-styled';
 import Time from 'components/Time';
 
+import * as userData from '../../data/users/student';
+
 import {
   Banner,
   Filler,
@@ -26,7 +28,6 @@ import {
   Title,
 } from 'components/common';
 
-import * as userData from 'data/users/student';
 
 const PersonStyle = styled.div`
   > img {
@@ -42,21 +43,52 @@ class Resume extends Component {
     lastname: '',
     phone: '',
     studentId: '',
-    birthDate: '',
+    birthDate: null,
     promo: '',
     bio: '',
     address: '',
-    email: '',
-    emailISEP: '',
+    mail: '',
+    mailISEP: '',
+    instagram: '',
+    facebook: '',
+    data: null,
   };
 
   handleRequestClose = () => {
     this.setState({ open: false });
   };
 
+  handleChange = (name: string) => ({ target }) => {
+    this.setState({ [name]: target.value });
+  }
+
+  handleUpdate = () => {
+    const {
+      phone,
+      birthDate,
+      bio,
+      address,
+      mail,
+      mailISEP,
+      instagram,
+      facebook
+    } = this.state;
+    userData.updateStudent({
+      ...this.state.data,
+      phone,
+      birthDate,
+      bio,
+      address,
+      mail,
+      mailISEP,
+      instagram,
+      facebook
+    }).then(() => this.setState({ open: false }))
+  }
+
   componentDidMount() {
     userData.getLoggedUser().then(res => {
-      this.setState({ ...res.data });
+      this.setState({ ...res.data, data: res.data });
     });
   };
 
@@ -82,9 +114,6 @@ class Resume extends Component {
             <h1>Profil</h1>
             <p>Ton petit jardin secret</p>
           </Banner>
-          <FluidContent p="0">
-            <SearchBar placeholder="Rechercher" />
-          </FluidContent>
         </Header>
         <FluidContent>
           <Flex wrap>
@@ -104,7 +133,7 @@ class Resume extends Component {
                     </Title>
                   </Box>
                   <Box ml="auto">
-                    <Button raised color="primary" onClick={() => this.setState({open: true})}>Modifier</Button>
+                    <Button raised color="primary" onClick={() => this.setState({ open: true })}>Modifier</Button>
                   </Box>
                 </Flex>
                 <Text>Promotion : <span>{promo}</span></Text>
@@ -147,7 +176,12 @@ class Resume extends Component {
               </Paper>
             </Box>
           </Flex>
-          <UpdateResume open={this.state.open} handleRequestClose={this.handleRequestClose} />
+          <UpdateResume
+            open={this.state.open}
+            handleRequestClose={this.handleRequestClose}
+            handleChange={this.handleChange}
+            handleUpdate={this.handleUpdate}
+            data={this.state} />
         </FluidContent>
       </div>
     );
@@ -163,15 +197,15 @@ function UpdateResume(props) {
         {"Modifier vos informations"}
       </DialogTitle>
       <DialogContent>
-        <TextField type="text" label="Email" fullWidth />
-        <TextField type="text" label="Téléphone" fullWidth />
-        <TextField type="text" label="Adresse" fullWidth />
-        <TextField type="text" label="Date de naissance" fullWidth />
-        <TextField type="text" label="Lien Facebook" fullWidth />
-        <TextField type="text" label="Lien Instagram" fullWidth />
+        <TextField label="Email" value={props.data.mail} fullWidth onChange={props.handleChange('mail')} />
+        <TextField label="Téléphone" value={props.data.phone} fullWidth onChange={props.handleChange('phone')} />
+        <TextField label="Adresse" value={props.data.address} fullWidth onChange={props.handleChange('address')} />
+        <TextField label="Date de naissance" value={props.data.birthDate} fullWidth onChange={props.handleChange('birthDate')} />
+        <TextField label="Lien Facebook" value={props.data.facebook} fullWidth onChange={props.handleChange('facebook')} />
+        <TextField label="Lien Instagram" value={props.data.instagram} fullWidth onChange={props.handleChange('instagram')} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleRequestClose} color="accent">
+        <Button onClick={props.handleUpdate} color="accent">
           Valider
         </Button>
       </DialogActions>

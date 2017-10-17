@@ -2,7 +2,7 @@
 
 export type StudentUpdateDTO = {
   id: ?number,
-  birthDate: Date,
+  birthDate: ?Date,
   phone: ?string,
   bio: ?string,
   mail: string,

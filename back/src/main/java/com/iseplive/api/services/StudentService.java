@@ -69,8 +69,8 @@ public class StudentService {
   }
 
   public Student updateStudent(StudentUpdateDTO dto, Long id) {
-    Student student = studentFactory.updateDtoToEntity(dto);
-    student.setId(id);
+    Student student = studentRepository.findOne(id);
+    studentFactory.updateDtoToEntity(student, dto);
     return studentRepository.save(student);
   }
 }

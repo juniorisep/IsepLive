@@ -25,14 +25,11 @@ public class StudentFactory {
     return student;
   }
 
-  public Student updateDtoToEntity(StudentUpdateDTO dto) {
-    Student student = new Student();
-    student.setId(dto.getId());
+  public void updateDtoToEntity(Student student, StudentUpdateDTO dto) {
     student.setBio(dto.getBio());
     student.setBirthDate(dto.getBirthDate());
     student.setPhone(dto.getPhone());
     student.setAddress(dto.getAddress());
     student.setMail(dto.getMail());
-    return student;
   }
 }

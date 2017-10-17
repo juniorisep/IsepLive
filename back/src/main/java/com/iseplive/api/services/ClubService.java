@@ -6,11 +6,7 @@ import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
 import com.iseplive.api.dao.club.ClubRoleRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
-import com.iseplive.api.dao.post.PostFactory;
-import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.ClubDTO;
-import com.iseplive.api.dto.view.PostView;
-import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
@@ -23,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -52,12 +47,6 @@ public class ClubService {
 
   @Autowired
   MediaUtils imageUtils;
-
-  @Autowired
-  PostRepository postRepository;
-
-  @Autowired
-  PostFactory postFactory;
 
   @Value("${storage.club.url}")
   public String clubLogoStorage;
@@ -122,13 +111,6 @@ public class ClubService {
 
   public List<ClubMember> getMembers(Long id) {
     return clubMemberRepository.findByClubId(id);
-  }
-
-  public List<PostView> getPosts(Long id) {
-    List<Post> posts = postRepository.findByAuthorIdOrderByCreationDateDesc(id);
-    return posts.stream()
-      .map(p -> postFactory.entityToView(p))
-      .collect(Collectors.toList());
   }
 
   public ClubRole createRole(String role) {

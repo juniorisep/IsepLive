@@ -20,5 +20,9 @@ export function getStudent(id: number) {
 };
 
 export function getLoggedUser() {
-  return axios.get('/user/student/me')
+  return axios.get('/user/student/me');
 };
+
+export function getPosts(id: number) {
+  return axios.get(`/user/student/${id}/post`);
+}

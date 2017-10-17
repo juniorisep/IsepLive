@@ -10,11 +10,13 @@ import Button from 'material-ui/Button';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
+import PostListView from 'components/PostList';
 
 import { Box, Flex } from 'grid-styled';
 import Time from 'components/Time';
 
 import * as userData from '../../data/users/student';
+import * as authData from '../../data/auth';
 
 import {
   Banner,
@@ -38,20 +40,8 @@ const PersonStyle = styled.div`
 class Resume extends Component {
   state = {
     open: false,
-    photoUrl: '',
-    firstname: '',
-    lastname: '',
-    phone: '',
-    studentId: '',
-    birthDate: null,
-    promo: '',
-    bio: '',
-    address: '',
-    mail: '',
-    mailISEP: '',
-    instagram: '',
-    facebook: '',
     data: null,
+    posts: [],
   };
 
   handleRequestClose = () => {
@@ -59,42 +49,70 @@ class Resume extends Component {
   };
 
   handleChange = (name: string) => ({ target }) => {
-    this.setState({ [name]: target.value });
+    this.setState({
+      data: {
+        ...this.state.data,
+        [name]: target.value
+      }
+    });
   }
 
   handleUpdate = () => {
-    const {
-      phone,
-      birthDate,
-      bio,
-      address,
-      mail,
-      mailISEP,
-      instagram,
-      facebook
-    } = this.state;
-    userData.updateStudent({
-      ...this.state.data,
-      phone,
-      birthDate,
-      bio,
-      address,
-      mail,
-      mailISEP,
-      instagram,
-      facebook
-    }).then(() => this.setState({ open: false }))
+    if (this.state.data) {
+      const {
+        phone,
+        birthDate,
+        bio,
+        address,
+        mail,
+        mailISEP,
+        instagram,
+        facebook,
+        snapchat,
+        twitter,
+      } = this.state.data;
+      userData.updateStudent({
+        ...this.state.data,
+        phone,
+        birthDate,
+        bio,
+        address,
+        mail,
+        mailISEP,
+        instagram,
+        facebook,
+        snapchat,
+        twitter,
+      }).then(() => this.setState({ open: false }))
+    }
   }
 
   componentDidMount() {
-    userData.getLoggedUser().then(res => {
-      this.setState({ ...res.data, data: res.data });
-    });
+    this.getUserData();
+    this.refreshPosts();
   };
 
+  getUserData = async () => {
+    const { data } = await userData.getLoggedUser();
+    this.setState({ data });
+  }
+
+  refreshPosts = async () => {
+    const user = await authData.getUser();
+    console.log(user)
+    const { data } = await userData.getPosts(user.id);
+    this.setState({ posts: data });
+  }
+
   render() {
+
+    if (!this.state.data) {
+      return null;
+    }
+
     const {
-      photoUrl,
+      data: {
+        photoUrl,
       firstname,
       lastname,
       phone,
@@ -105,6 +123,8 @@ class Resume extends Component {
       address,
       mail,
       mailISEP,
+      },
+      posts,
     } = this.state;
     return (
       <div>
@@ -133,7 +153,9 @@ class Resume extends Component {
                     </Title>
                   </Box>
                   <Box ml="auto">
-                    <Button raised color="primary" onClick={() => this.setState({ open: true })}>Modifier</Button>
+                    <Button raised color="primary" onClick={() => this.setState({ open: true })}>
+                      Modifier
+                    </Button>
                   </Box>
                 </Flex>
                 <Text>Promotion : <span>{promo}</span></Text>
@@ -157,11 +179,17 @@ class Resume extends Component {
                 <Text>ryituoyipuoiùpuogypiftuodryitfuoygi</Text>
               </Paper>
             </Box>
-            <Box p={2} width={1}>
+            <Box p={2}>
+
+              <Title fontSize={1.5} invert>Publications</Title>
+              {posts.length === 0 && <Text>Aucune publication</Text>}
+              <PostListView posts={posts} refreshPosts={this.refreshPosts} />
+            </Box>
+
+            {/* <Box p={2} width={1}>
               <Paper p="20px">
                 <Flex>
                   <Box>
-                    <Title fontSize={1.3} invert>Publications</Title>
                   </Box>
                   <Box ml="auto">
                     <Button raised color="primary">
@@ -174,14 +202,14 @@ class Resume extends Component {
                 </Flex>
                 <Text>hjdshfjkdshf</Text>
               </Paper>
-            </Box>
+            </Box> */}
           </Flex>
           <UpdateResume
             open={this.state.open}
             handleRequestClose={this.handleRequestClose}
             handleChange={this.handleChange}
             handleUpdate={this.handleUpdate}
-            data={this.state} />
+            data={this.state.data} />
         </FluidContent>
       </div>
     );
@@ -197,12 +225,14 @@ function UpdateResume(props) {
         {"Modifier vos informations"}
       </DialogTitle>
       <DialogContent>
-        <TextField label="Email" value={props.data.mail} fullWidth onChange={props.handleChange('mail')} />
-        <TextField label="Téléphone" value={props.data.phone} fullWidth onChange={props.handleChange('phone')} />
-        <TextField label="Adresse" value={props.data.address} fullWidth onChange={props.handleChange('address')} />
-        <TextField label="Date de naissance" value={props.data.birthDate} fullWidth onChange={props.handleChange('birthDate')} />
-        <TextField label="Lien Facebook" value={props.data.facebook} fullWidth onChange={props.handleChange('facebook')} />
-        <TextField label="Lien Instagram" value={props.data.instagram} fullWidth onChange={props.handleChange('instagram')} />
+        <TextField margin="normal" label="Email" value={props.data.mail} fullWidth onChange={props.handleChange('mail')} />
+        <TextField margin="normal" label="Téléphone" value={props.data.phone} fullWidth onChange={props.handleChange('phone')} />
+        <TextField margin="normal" label="Adresse" value={props.data.address} fullWidth onChange={props.handleChange('address')} />
+        <TextField margin="normal" label="Date de naissance" value={props.data.birthDate} fullWidth onChange={props.handleChange('birthDate')} />
+        <TextField margin="normal" label="Lien Facebook" value={props.data.facebook} fullWidth onChange={props.handleChange('facebook')} />
+        <TextField margin="normal" label="Lien Twitter" value={props.data.twitter} fullWidth onChange={props.handleChange('twitter')} />
+        <TextField margin="normal" label="Lien Instagram" value={props.data.instagram} fullWidth onChange={props.handleChange('instagram')} />
+        <TextField margin="normal" label="Lien Snapchat" value={props.data.snapchat} fullWidth onChange={props.handleChange('snapchat')} />
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleUpdate} color="accent">

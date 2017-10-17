@@ -13,7 +13,6 @@ import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -192,5 +191,12 @@ public class PostService {
   public PostView getPostView(Long id) {
     Post post = getPost(id);
     return postFactory.entityToView(post);
+  }
+
+  public List<PostView> getPostsAuthor(Long id) {
+    List<Post> posts =  postRepository.findByAuthorIdOrderByCreationDateDesc(id);
+    return posts.stream()
+      .map(p -> postFactory.entityToView(p))
+      .collect(Collectors.toList());
   }
 }

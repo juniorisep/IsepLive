@@ -1,14 +1,13 @@
 package com.iseplive.api.controllers;
 
-import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.dto.view.PostView;
-import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.ClubService;
+import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +24,9 @@ public class ClubController {
 
   @Autowired
   ClubService clubService;
+
+  @Autowired
+  PostService postService;
 
   @GetMapping
   public List<Club> listClubs() {
@@ -83,6 +85,6 @@ public class ClubController {
 
   @GetMapping("/{id}/post")
   public List<PostView> getPosts(@PathVariable Long id) {
-    return clubService.getPosts(id);
+    return postService.getPostsAuthor(id);
   }
 }

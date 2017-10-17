@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-export const hasRole = (roles) => {
+export const hasRole = (roles: Array<string>) => {
   return roles.includes('ROLE_USER');
 };
 
@@ -10,7 +10,7 @@ export const isLoggedIn = () => {
   return !!localStorage.getItem('token');
 };
 
-export const connect = (username, password) => {
+export const connect = (username: string, password: string) => {
   delete axios.defaults.headers.common['Authorization'];
   return axios.post('/auth', {
     username, password
@@ -19,7 +19,7 @@ export const connect = (username, password) => {
   });
 };
 
-export const setToken = (token) => {
+export const setToken = (token: string) => {
   localStorage.setItem('token', token);
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
@@ -31,6 +31,9 @@ export const logout = () => {
 
 export const getUser = () => {
   const token = localStorage.getItem('token');
-  const rawdata = token.split('.')[1];
+  let rawdata = '';
+  if (token) {
+    rawdata = token.split('.')[1];
+  }
   return JSON.parse(atob(rawdata));
 };

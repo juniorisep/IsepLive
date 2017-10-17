@@ -8,7 +8,17 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import MUIButton from 'material-ui/Button';
 import ExploreAction from 'material-ui-icons/Explore';
 
-import { FluidContent, Image, Text, Title, Header, Banner, Filler, SearchBar } from 'components/common';
+import {
+  FluidContent,
+  Image,
+  Text,
+  Title,
+  Header,
+  Banner,
+  Filler,
+  SearchBar,
+  ScrollToTopOnMount,
+} from 'components/common';
 
 const Explore = styled(ExploreAction) `
   margin-right: 10px;
@@ -21,6 +31,7 @@ const Button = styled(MUIButton) `
 export default function ClubDetailView(props) {
   return (
     <div>
+      <ScrollToTopOnMount />
       <Header url="/img/background.jpg">
         <Filler h={50} />
         <Banner>

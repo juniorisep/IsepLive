@@ -1,11 +1,12 @@
 package com.iseplive.api.entity.club;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class Club extends Author {
   private String description;
   private Date creation;
   private String website;
+  // true if it is iseplive's club.
+  private Boolean isAdmin;
 
   @JsonIgnore
   @ManyToMany
@@ -95,5 +98,13 @@ public class Club extends Author {
 
   public void setAdmins(List<Student> admins) {
     this.admins = admins;
+  }
+
+  public Boolean getAdmin() {
+    return isAdmin;
+  }
+
+  public void setAdmin(Boolean admin) {
+    isAdmin = admin;
   }
 }

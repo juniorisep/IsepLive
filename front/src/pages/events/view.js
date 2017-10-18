@@ -1,10 +1,18 @@
 // @flow
 
 import React, {Component} from 'react';
+
 import styled from 'styled-components';
+
 import {Box, Flex} from 'grid-styled';
+
 import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
+
 import Button from 'material-ui/Button';
+import { FormControl } from 'material-ui/Form';
+import Select from 'material-ui/Select';
+import Input, { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
 
 import {Link, NavLink} from 'react-router-dom';
 
@@ -73,6 +81,13 @@ const Event = (props) => {
 };
 
 class Events extends Component {
+  state = {
+    alpha: 'futur',
+  };
+
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
   render() {
     return (
       <div>
@@ -87,12 +102,19 @@ class Events extends Component {
           </FluidContent>
         </Header>
         <FluidContent>
-          <Flex>
-            <Box mr="10px">
-              <Button color="primary">Evenements à venir</Button>
-            </Box>
-            <Box>
-              <Button color="accent">Evenements passés</Button>
+          <Flex align="center">
+            <Box flex="0 0 auto" ml="auto">
+              <FormControl>
+                <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
+                <Select
+                  value={this.state.alpha}
+                  onChange={this.handleChange('alpha')}
+                  input={<Input id="alpha-simple" />}
+                >
+                  <MenuItem value='futur'>Evenements à venir</MenuItem>
+                  <MenuItem value='past'>Evenements passés</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
             <Box>
               <Button color="primary" component={NavLink} to="/evenements/calendrier">Calendrier</Button>

@@ -14,7 +14,6 @@ import PostListView from 'components/PostList';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
-
 import { Box, Flex } from 'grid-styled';
 import Time from 'components/Time';
 
@@ -32,7 +31,6 @@ import {
   Text,
   Title,
 } from 'components/common';
-
 
 const PersonStyle = styled.div`
   > img {
@@ -176,7 +174,7 @@ class Resume extends Component {
                 <div>
                   <FormControlLabel
                     control={<Checkbox />}
-                    label={<Text>Notification lorsqu'une association publie un post.</Text>}
+                    label={<Text>Notification lorsqu'une association publie un post / évènement.</Text>}
                   />
                 </div>
               </Paper>

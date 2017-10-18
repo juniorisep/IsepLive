@@ -6,7 +6,7 @@ import {Box, Flex} from 'grid-styled';
 import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
 import Button from 'material-ui/Button';
 
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 const EventsList = styled.ul`
   padding: 0;
@@ -93,6 +93,9 @@ class Events extends Component {
             </Box>
             <Box>
               <Button color="accent">Evenements passés</Button>
+            </Box>
+            <Box>
+              <Button color="primary" component={NavLink} to="/evenements/calendrier">Calendrier</Button>
             </Box>
           </Flex>
           <EventsList>

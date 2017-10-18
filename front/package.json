@@ -12,6 +12,7 @@
     "material-ui-icons": "^1.0.0-beta.15",
     "moment": "^2.19.1",
     "react": "^16.0.0",
+    "react-big-calendar": "^0.16.1",
     "react-dom": "^16.0.0",
     "react-facebook-player": "^0.1.0",
     "react-router-dom": "^4.2.2",

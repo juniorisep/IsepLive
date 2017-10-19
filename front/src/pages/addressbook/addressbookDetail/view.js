@@ -20,6 +20,7 @@ import {
   Paper,
   Text,
   Title,
+  ScrollToTopOnMount
 } from 'components/common';
 
 const PersonStyle = styled.div`
@@ -31,6 +32,7 @@ const PersonStyle = styled.div`
 export default function AdressbookDetailView(props) {
   return (
     <div>
+      <ScrollToTopOnMount />
       <Header url="/img/background.jpg">
         <Filler h={50} />
         <Banner>

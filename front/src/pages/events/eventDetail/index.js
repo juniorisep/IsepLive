@@ -1,13 +1,14 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
+import { Banner, Filler, FluidContent, Header, SearchBar, ScrollToTopOnMount } from 'components/common';
 
 class EventDetail extends Component {
   render() {
     return (
       <div>
+        <ScrollToTopOnMount />
         <Header url="/img/background.jpg">
           <Filler h={50} />
           <Banner>

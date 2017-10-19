@@ -50,7 +50,7 @@ export default function ClubDetailView(props) {
           <Box ml={3}>
             <Title invert>{props.name}</Title>
             <Text>{props.description}</Text>
-            <Button href={props.website} color="accent" mt="15px"><Explore /> Site internet</Button>
+            <Button href={props.website} target="_blank" rel="noopener noreferrer" color="accent" mt="15px"><Explore /> Site internet</Button>
           </Box>
         </Flex>
       </FluidContent>

@@ -1,6 +1,6 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -9,7 +9,7 @@ import moment from 'moment';
 
 import events from './events';
 
-import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
+import { Banner, Filler, FluidContent, Header, SearchBar, ScrollToTopOnMount } from 'components/common';
 
 BigCalendar.momentLocalizer(moment);
 
@@ -19,6 +19,7 @@ class CalendarEvents extends Component {
   render() {
     return (
       <div>
+        <ScrollToTopOnMount />
         <Header url="/img/background.jpg">
           <Filler h={50} />
           <Banner>

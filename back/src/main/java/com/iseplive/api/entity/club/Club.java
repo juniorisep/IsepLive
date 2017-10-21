@@ -6,6 +6,7 @@ import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,7 @@ public class Club extends Author {
   private List<ClubMember> members;
 
   @JsonIgnore
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   private List<Student> admins;
 
   private String logoUrl;

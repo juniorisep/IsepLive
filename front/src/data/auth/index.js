@@ -5,6 +5,10 @@ import type { Token, TokenSet, TokenPayload, RefreshToken } from './type';
 
 export const hasRole = (roles: Array<string>) => {
   const user = getUser();
+
+  // bypass 
+  return true;
+
   if (user) {
     return roles.filter(r => user.roles.includes(r)).length > 0;
   }
@@ -16,8 +20,7 @@ export const isLoggedIn = () => {
 };
 
 export const connect = (username: string, password: string) => {
-  delete axios.defaults.headers.common['Authorization'];
-  delete axios.defaults.headers.common['X-Refresh-Token'];
+  logout();
   return axios.post('/auth', {
     username, password
   }).then(res => {
@@ -37,6 +40,7 @@ export const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
   delete axios.defaults.headers.common['Authorization'];
+  delete axios.defaults.headers.common['X-Refresh-Token'];
 };
 
 export const getUser = (): ?TokenPayload => {
@@ -44,13 +48,12 @@ export const getUser = (): ?TokenPayload => {
   let rawdata = '';
   if (token) {
     rawdata = token.split('.')[1];
-    const tokenJson: Token = JSON.parse(atob(rawdata));
-    console.log(tokenJson)
-    return JSON.parse(tokenJson.payload);
+    try {
+      const tokenJson: Token = JSON.parse(atob(rawdata));
+      return JSON.parse(tokenJson.payload);
+    } catch (e) {
+      return null;
+    }
   }
   return null;
 };
-
-export const refreshTokens = () => {
-
-}

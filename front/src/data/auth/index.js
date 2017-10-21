@@ -52,6 +52,7 @@ export const getUser = (): ?TokenPayload => {
       const tokenJson: Token = JSON.parse(atob(rawdata));
       return JSON.parse(tokenJson.payload);
     } catch (e) {
+      logout()
       return null;
     }
   }

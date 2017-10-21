@@ -131,7 +131,6 @@ public class JwtTokenUtil {
     List<Long> clubs = clubService.getAdminClubs(student)
       .stream()
       .sorted(Comparator.comparing(Club::getName))
-      .filter(club -> club.getAdmins().contains(student))
       .map(Author::getId)
       .collect(Collectors.toList());
 

@@ -8,6 +8,8 @@ import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
+import axios from 'axios';
+
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
@@ -174,6 +176,27 @@ class Layout extends React.Component {
   };
 
   Profile = undefined;
+
+  componenDidMount() {
+    axios.interceptors.response.use(function (response) {
+      // Do something with response data
+      const token = response.headers['Authorization'];
+      const refreshToken = response.headers['X-Refresh-Token'];
+      if (token && refreshToken) {
+        authData.setToken({ token, refreshToken });
+      };
+      return response;
+    }, function (error) {
+
+      if (error.response.status === 403) {
+        authData.logout();
+        this.props.history.push('/');
+      }
+
+      // Do something with response error
+      return Promise.reject(error);
+    });
+  }
 
   handleSideBarClose = () => {
     this.setState({ sidebarOpen: false });

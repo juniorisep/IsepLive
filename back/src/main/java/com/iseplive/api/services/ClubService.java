@@ -140,4 +140,8 @@ public class ClubService {
     }
     clubRepository.save(club);
   }
+
+  public List<Club> getAdminClubs(Student student) {
+    return clubRepository.findByAdminsContains(student);
+  }
 }

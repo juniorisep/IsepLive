@@ -17,6 +17,7 @@ export const isLoggedIn = () => {
 
 export const connect = (username: string, password: string) => {
   delete axios.defaults.headers.common['Authorization'];
+  delete axios.defaults.headers.common['X-Refresh-Token'];
   return axios.post('/auth', {
     username, password
   }).then(res => {
@@ -44,6 +45,7 @@ export const getUser = (): ?TokenPayload => {
   if (token) {
     rawdata = token.split('.')[1];
     const tokenJson: Token = JSON.parse(atob(rawdata));
+    console.log(tokenJson)
     return JSON.parse(tokenJson.payload);
   }
   return null;

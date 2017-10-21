@@ -1,14 +1,12 @@
 package com.iseplive.api.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.iseplive.api.entity.club.Club;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,9 +34,6 @@ public class Student extends Author implements UserDetails {
 
   @Column(length = 300)
   private String bio;
-
-  @OneToMany(fetch = FetchType.EAGER)
-  private List<Club> clubs;
 
   @ManyToMany(fetch = FetchType.EAGER)
   private Set<Role> roles;
@@ -89,15 +84,6 @@ public class Student extends Author implements UserDetails {
 
   public void setBio(String bio) {
     this.bio = bio;
-  }
-
-  @JsonIgnore
-  public List<Club> getClubs() {
-    return clubs;
-  }
-
-  public void setClubs(List<Club> clubs) {
-    this.clubs = clubs;
   }
 
   public String getPhotoUrl() {

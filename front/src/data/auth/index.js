@@ -1,9 +1,14 @@
 // @flow
 
 import axios from 'axios';
+import type { Token, TokenSet, TokenPayload, RefreshToken } from './type';
 
 export const hasRole = (roles: Array<string>) => {
-  return roles.includes('ROLE_USER');
+  const user = getUser();
+  if (user) {
+    return roles.filter(r => user.roles.includes(r)).length > 0;
+  }
+  return false;
 };
 
 export const isLoggedIn = () => {
@@ -19,21 +24,31 @@ export const connect = (username: string, password: string) => {
   });
 };
 
-export const setToken = (token: string) => {
-  localStorage.setItem('token', token);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+export const setToken = (tokenSet: TokenSet) => {
+  // console.log(tokenSet);
+  localStorage.setItem('token', tokenSet.token);
+  localStorage.setItem('refreshToken', tokenSet.refreshToken);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${tokenSet.token}`;
+  axios.defaults.headers.common['X-Refresh-Token'] = tokenSet.refreshToken;
 };
 
 export const logout = () => {
   localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
   delete axios.defaults.headers.common['Authorization'];
 };
 
-export const getUser = () => {
+export const getUser = (): ?TokenPayload => {
   const token = localStorage.getItem('token');
   let rawdata = '';
   if (token) {
     rawdata = token.split('.')[1];
+    const tokenJson: Token = JSON.parse(atob(rawdata));
+    return JSON.parse(tokenJson.payload);
   }
-  return JSON.parse(atob(rawdata));
+  return null;
 };
+
+export const refreshTokens = () => {
+
+}

@@ -1,6 +1,6 @@
 package com.iseplive.api.controllers.media;
 
-import com.iseplive.api.conf.jwt.AuthUser;
+import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dto.PollCreationDTO;
 import com.iseplive.api.entity.media.poll.Poll;
 import com.iseplive.api.entity.media.poll.PollVote;
@@ -34,12 +34,12 @@ public class PollController {
    * @return
    */
   @GetMapping("/{id}/vote")
-  public List<PollVote> getVote(@PathVariable Long id, @AuthenticationPrincipal AuthUser auth) {
+  public List<PollVote> getVote(@PathVariable Long id, @AuthenticationPrincipal TokenPayload auth) {
     return pollService.getVote(id, auth.getId());
   }
 
   @PutMapping("/{id}/answer/{answerId}") // add student
-  public void vote(@PathVariable Long id, @PathVariable Long answerId, @AuthenticationPrincipal AuthUser auth) {
+  public void vote(@PathVariable Long id, @PathVariable Long answerId, @AuthenticationPrincipal TokenPayload auth) {
     pollService.addVote(id, answerId, auth.getId());
   }
 

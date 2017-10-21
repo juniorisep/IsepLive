@@ -4,7 +4,6 @@ import com.iseplive.api.dao.poll.PollRepository;
 import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dao.student.RoleRepository;
 import com.iseplive.api.dao.student.StudentRepository;
-import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.ClubService;
 import com.iseplive.api.services.EventService;
@@ -64,13 +63,14 @@ public class DatabaseSeeder {
 
   private void runSeedDatabase() {
     // TODO
-    StudentDTO studentDTO = new StudentDTO();
-    studentDTO.setFirstname("Guillaume");
-    studentDTO.setLastname("Carré");
-    studentDTO.setBirthDate(new Date());
-    studentDTO.setPromo(2018);
+    Student student = new Student();
+    student.setFirstname("Guillaume");
+    student.setLastname("Carré");
+    student.setBirthDate(new Date());
+    student.setPromo(2018);
+//    Role roleStudent = roleRepository.findByRole(Roles.STUDENT);
+//    Role roleAdmin = roleRepository.findByRole(Roles.ADMIN);
 
-    studentService.createStudent(studentDTO);
-
+    studentRepository.save(student);
   }
 }

@@ -3,15 +3,24 @@ package com.iseplive.api.conf.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.services.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.DatatypeConverter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -23,11 +32,19 @@ import java.util.stream.Collectors;
 @Service
 public class JwtTokenUtil {
 
-  public static final String CLAIM_KEY_ID = "id";
-  public static final String CLAIM_KEY_ROLES = "roles";
+  @Autowired
+  StudentService studentService;
+
+  public static final String CLAIM_PAYLOAD = "payload";
+  public static final String CLAIM_USER_ID = "userID";
+  private static final String SECRET_HASHING_ALGORITHM = "SHA-256";
+  private final Locale locale = Locale.FRANCE;
 
   @Value("${jwt.secret}")
   private String secret;
+
+  @Value("${jwt.refreshSecret}")
+  private String refreshSecret;
 
   @Value("${jwt.issuer}")
   private String issuer;
@@ -35,7 +52,10 @@ public class JwtTokenUtil {
   @Value("${jwt.tokenDuration}")
   private int tokenDuration;
 
-  public DecodedJWT decodeToken(String token) {
+  @Value("${jwt.refreshTokenDuration}")
+  private int refreshTokenDuration;
+
+  public DecodedJWT decodeToken(String token) throws JWTVerificationException {
     DecodedJWT jwt = null;
     try {
       Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -49,40 +69,124 @@ public class JwtTokenUtil {
     return jwt;
   }
 
-  public String generateToken(Student student) {
-
-    String[] rolesArray = new String[student.getAuthorities().size()];
-    List<String> roles = student.getAuthorities()
-      .stream()
-      .map(GrantedAuthority::getAuthority)
-      .collect(Collectors.toList());
-    rolesArray = roles.toArray(rolesArray);
-
-    return generateTokenWithIdAndRolesArray(student.getId(), rolesArray);
+  public TokenSet generateToken(Student student) {
+    TokenPayload tokenPayload = generatePayload(student);
+    String token = generateToken(tokenPayload);
+    String refreshToken = generateRefreshToken(tokenPayload);
+    return new TokenSet(token, refreshToken);
   }
 
-  private String generateTokenWithIdAndRolesArray(Long id, String[] roles) {
-    Calendar calendar = Calendar.getInstance(Locale.FRANCE); // gets a calendar using the default time zone and locale.
-    calendar.add(Calendar.SECOND, tokenDuration);
+  public String refreshToken(DecodedJWT jwt) {
+    String payloadString = jwt.getClaim(CLAIM_PAYLOAD).asString();
     try {
-      Algorithm algorithm = Algorithm.HMAC256(secret);
-      String token = JWT.create()
-        .withIssuer(issuer)
-        .withIssuedAt(new Date())
-        .withExpiresAt(calendar.getTime())
-        .withClaim(CLAIM_KEY_ID, id)
-        .withArrayClaim(CLAIM_KEY_ROLES, roles)
-        .sign(algorithm);
-      return token;
+      TokenPayload tokenPayload = new ObjectMapper().readValue(payloadString, TokenPayload.class);
+      return generateToken(tokenPayload);
+    } catch (IOException e) {
+
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
+   * Refresh the set of tokens (token + refresh token)
+   * throws if the refresh token is not valid -> login needed
+   *
+   * @param token the refresh token
+   * @return a set of new tokens
+   * @throws JWTVerificationException
+   */
+  public TokenSet refreshWithToken(String token) throws JWTVerificationException {
+    try {
+      DecodedJWT decodedJWT = JWT.decode(token);
+      Long id = decodedJWT.getClaim(CLAIM_USER_ID).asLong();
+      Student student = studentService.getStudent(id);
+      TokenPayload tokenPayload = generatePayload(student);
+      String secret = generateRefreshSecret(tokenPayload);
+      if (secret != null) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        JWTVerifier verifier = JWT.require(algorithm)
+          .withIssuer(issuer)
+          .build(); //Reusable verifier instance
+        verifier.verify(token);
+      }
+      return generateToken(student);
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
     return null;
   }
 
-  public String refreshToken(DecodedJWT jwt) {
-    Long id = jwt.getClaim(CLAIM_KEY_ID).asLong();
-    String[] roles = jwt.getClaim(CLAIM_KEY_ROLES).asArray(String.class);
-    return generateTokenWithIdAndRolesArray(id, roles);
+  private TokenPayload generatePayload(Student student) {
+    List<String> roles = student.getAuthorities()
+      .stream()
+      .map(GrantedAuthority::getAuthority)
+      .collect(Collectors.toList());
+    List<Long> clubs = student.getClubs()
+      .stream()
+      .filter(club -> club.getAdmins().contains(student))
+      .map(Author::getId)
+      .collect(Collectors.toList());
+
+    TokenPayload tokenPayload = new TokenPayload();
+    tokenPayload.setId(student.getId());
+    tokenPayload.setRoles(roles);
+    tokenPayload.setClubsAdmin(clubs);
+    return tokenPayload;
+  }
+
+  private String generateToken(TokenPayload tokenPayload) {
+    Calendar calendar = Calendar.getInstance(locale); // gets a calendar using the default time zone and locale.
+    calendar.add(Calendar.SECOND, tokenDuration);
+
+    try {
+      String payload = new ObjectMapper().writeValueAsString(tokenPayload);
+      Algorithm algorithm = Algorithm.HMAC256(secret);
+      return JWT.create()
+        .withIssuer(issuer)
+        .withIssuedAt(Calendar.getInstance(locale).getTime())
+        .withExpiresAt(calendar.getTime())
+        .withClaim(CLAIM_PAYLOAD, payload)
+        .sign(algorithm);
+    } catch (JsonProcessingException | UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private String generateRefreshSecret(TokenPayload tokenPayload) {
+    try {
+      MessageDigest messageDigest = MessageDigest.getInstance(SECRET_HASHING_ALGORITHM);
+      String encryptedString = DatatypeConverter.printHexBinary(
+        messageDigest.digest(tokenPayload.toString().getBytes("UTF-8")));
+      return encryptedString + refreshSecret;
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private String generateRefreshToken(TokenPayload tokenPayload) {
+    Calendar calendar = Calendar.getInstance(locale); // gets a calendar using the default time zone and locale.
+    calendar.add(Calendar.SECOND, refreshTokenDuration);
+    try {
+      String secret = generateRefreshSecret(tokenPayload);
+      if (secret != null) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.create()
+          .withIssuer(issuer)
+          .withIssuedAt(Calendar.getInstance(locale).getTime())
+          .withExpiresAt(calendar.getTime())
+          .withClaim(CLAIM_USER_ID, tokenPayload.getId())
+          .sign(algorithm);
+      } else {
+        throw new JWTVerificationException("Could not generate secret");
+      }
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

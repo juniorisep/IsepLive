@@ -168,7 +168,9 @@ class Layout extends React.Component {
     sidebarOpen: false,
     anchorEl: undefined,
     open: false,
-    connexionOpen: false
+    connexionOpen: false,
+    username: '',
+    password: '',
   };
 
   Profile = undefined;
@@ -213,7 +215,7 @@ class Layout extends React.Component {
               {navList(Nav)}
             </NavMenu>
             <span style={{ marginLeft: 'auto' }}>
-              <Auth roles={['ROLE_USER']}>
+              <Auth roles={['ROLE_STUDENT']}>
                 <Profile onClick={this.handleClick} />
                 <Menu id="simple-menu"
                   anchorEl={this.state.anchorEl}
@@ -260,7 +262,8 @@ class Layout extends React.Component {
           <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={UserAgreement} />
           <Route path="/mentions-legales" component={LegalNotice} />
-          <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/administration" component={Admin} />
+          {/* <AuthenticatedRoute roles={['ROLE_STUDENT', 'ROLE_ADMIN']} path="/administration" component={Admin} /> */}
+          <Route path="/administration" component={Admin} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer>

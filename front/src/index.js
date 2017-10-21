@@ -47,7 +47,8 @@ const App = () => (
           <Switch>
             <Redirect path="/" exact to="/connexion" />
             <Route path="/connexion" component={Login} />
-            <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} />
+            {/* <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} /> */}
+            {<Route path="/" component={Layout} />}
           </Switch>
         </Router>
         <AlertCenter />

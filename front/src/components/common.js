@@ -181,10 +181,9 @@ const VideoStyle = styled.video`
   vertical-align: middle;
 `;
 
-export const Video = (props) => {
+export const Video = props => {
   return (
-    <VideoStyle preload src={backUrl + props.url} type="video/mp4" controls>
-    </VideoStyle>
+    <VideoStyle preload='preload' src={backUrl + props.url} type="video/mp4" controls />
   );
 }
 

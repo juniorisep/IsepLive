@@ -1,18 +1,18 @@
 // @flow
 
 import React from 'react';
-import {Route, Redirect} from 'react-router';
-import {hasRole} from "data/auth";
+import { Route, Redirect } from 'react-router';
+import { hasRole } from "data/auth";
 
 type Props = {
-  component: React.ReactClass<*>,
+  component: React.Component<*>,
   [key: string]: any, // allow any props
 };
 
 const AuthenticatedRoute = ({
-    component: Component,
-    roles,
-    ...rest
+  component: Component,
+  roles,
+  ...rest
   }: Props) => {
   const authenticated = hasRole(roles);
   return (

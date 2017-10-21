@@ -5,10 +5,7 @@ import com.iseplive.api.entity.club.Club;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -40,10 +37,10 @@ public class Student extends Author implements UserDetails {
   @Column(length = 300)
   private String bio;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   private List<Club> clubs;
 
-  @OneToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   private Set<Role> roles;
 
   public Integer getPromo() {

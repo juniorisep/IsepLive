@@ -1,6 +1,6 @@
 package com.iseplive.api.controllers;
 
-import com.iseplive.api.conf.jwt.AuthUser;
+import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.dto.view.PostView;
@@ -60,12 +60,12 @@ public class UserController {
   }
 
   @PutMapping("/student")
-  public Student updateStudent(@AuthenticationPrincipal AuthUser auth, @RequestBody StudentUpdateDTO dto) {
+  public Student updateStudent(@AuthenticationPrincipal TokenPayload auth, @RequestBody StudentUpdateDTO dto) {
     return studentService.updateStudent(dto, auth.getId());
   }
 
   @GetMapping("/student/me")
-  public Student getLoggedStudent(@AuthenticationPrincipal AuthUser auth) {
+  public Student getLoggedStudent(@AuthenticationPrincipal TokenPayload auth) {
     return studentService.getStudent(auth.getId());
   }
 

@@ -2,10 +2,12 @@ package com.iseplive.api.conf.jwt;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,21 +19,25 @@ import java.util.Map;
  */
 public class JwtAuthenticationToken implements Authentication {
 
+  private TokenPayload tokenPayload;
+
   private final List<GrantedAuthority> authorities;
   private final Map<String, Claim> claims;
-  private DecodedJWT jwt;
   private boolean isAuthenticated;
 
   public JwtAuthenticationToken(DecodedJWT jwt) {
     List<GrantedAuthority> tmp = new ArrayList<>();
-    List<String> roles = jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ROLES).asList(String.class);
-    if (roles != null) {
-      for (String role : roles) {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      this.tokenPayload = mapper.readValue(jwt.getClaim(JwtTokenUtil.CLAIM_PAYLOAD).asString(), TokenPayload.class);
+
+      for (String role : tokenPayload.getRoles()) {
         tmp.add(new SimpleGrantedAuthority(role));
       }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    this.jwt = jwt;
     this.authorities = Collections.unmodifiableList(tmp);
     this.claims = jwt.getClaims();
     this.isAuthenticated = false;
@@ -54,10 +60,7 @@ public class JwtAuthenticationToken implements Authentication {
 
   @Override
   public Object getPrincipal() {
-    AuthUser authUser = new AuthUser();
-    authUser.setId(jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ID).asLong());
-    authUser.setRights(jwt.getClaim(JwtTokenUtil.CLAIM_KEY_ROLES).asList(String.class));
-    return authUser;
+    return tokenPayload;
   }
 
   @Override
@@ -72,6 +75,6 @@ public class JwtAuthenticationToken implements Authentication {
 
   @Override
   public String getName() {
-    return jwt.getSubject();
+    return null;
   }
 }

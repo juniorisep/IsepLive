@@ -37,8 +37,10 @@ logging:
     DEBUG
 
 jwt:
-  secret: iseplive-secret
-  tokenDuration: 51840000
+  secret: 1jmhvPXhI40vqAnm
+  refreshSecret: fIH3ZmRmqH2LT6vH
+  tokenDuration: 600 # 10 min
+  refreshTokenDuration: 604800 # 7 jours
 #  tokenDuration: 604800 # 7 jours
 #  tokenDuration: 10
   issuer: IsepLive

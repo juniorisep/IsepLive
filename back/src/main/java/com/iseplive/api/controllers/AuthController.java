@@ -2,6 +2,7 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.conf.jwt.JwtAuthRequest;
 import com.iseplive.api.conf.jwt.JwtTokenUtil;
+import com.iseplive.api.conf.jwt.TokenSet;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class AuthController {
   StudentService studentService;
 
   @PostMapping
-  public String getToken(@RequestBody JwtAuthRequest authRequest) {
+  public TokenSet getToken(@RequestBody JwtAuthRequest authRequest) {
     Student student = studentService.getStudent(1L);
     return jwtTokenUtil.generateToken(student);
   }

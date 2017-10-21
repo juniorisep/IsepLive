@@ -100,7 +100,6 @@ class Resume extends Component {
 
   refreshPosts = async () => {
     const user = await authData.getUser();
-    console.log(user)
     const { data } = await userData.getPosts(user.id);
     this.setState({ posts: data });
   }

@@ -9,16 +9,20 @@ export const backUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:80
 export const FACEBOOK_APP_ID = "";
 
 const token = localStorage.getItem('token');
-if (token != null) {
+const refreshToken = localStorage.getItem('refreshToken');
+if (token && refreshToken) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  axios.defaults.headers.common['X-Refresh-Token'] = refreshToken;
 };
 
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
   // Do something with response data
-  const respAuthToken = response.headers['Authorization'];
-  if (respAuthToken) {
-    authData.setToken(respAuthToken)
+  const token = response.headers['Authorization'];
+  const refreshToken = response.headers['X-Refresh-Token'];
+  console.log(refreshToken)
+  if (token && refreshToken) {
+    authData.setToken({ token, refreshToken });
   };
   return response;
 }, function (error) {

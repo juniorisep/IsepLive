@@ -20,7 +20,6 @@ axios.interceptors.response.use(function (response) {
   // Do something with response data
   const token = response.headers['Authorization'];
   const refreshToken = response.headers['X-Refresh-Token'];
-  console.log(refreshToken)
   if (token && refreshToken) {
     authData.setToken({ token, refreshToken });
   };

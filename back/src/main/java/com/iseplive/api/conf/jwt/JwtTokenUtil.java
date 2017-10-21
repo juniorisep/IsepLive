@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.StudentService;
@@ -21,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -82,7 +84,6 @@ public class JwtTokenUtil {
       TokenPayload tokenPayload = new ObjectMapper().readValue(payloadString, TokenPayload.class);
       return generateToken(tokenPayload);
     } catch (IOException e) {
-
       e.printStackTrace();
     }
     return null;
@@ -120,10 +121,12 @@ public class JwtTokenUtil {
   private TokenPayload generatePayload(Student student) {
     List<String> roles = student.getAuthorities()
       .stream()
+      .sorted(Comparator.comparing(GrantedAuthority::getAuthority))
       .map(GrantedAuthority::getAuthority)
       .collect(Collectors.toList());
     List<Long> clubs = student.getClubs()
       .stream()
+      .sorted(Comparator.comparing(Club::getName))
       .filter(club -> club.getAdmins().contains(student))
       .map(Author::getId)
       .collect(Collectors.toList());

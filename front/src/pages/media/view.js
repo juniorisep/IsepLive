@@ -1,16 +1,16 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
-import {FormControlLabel} from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Time from 'components/Time';
-
+import Loader from 'components/Loader';
 import {
   Banner,
   Filler,
@@ -58,11 +58,11 @@ class MediaView extends Component {
   };
 
   handleChange = name => (event, checked) => {
-    this.setState({[name]: checked});
+    this.setState({ [name]: checked });
   };
 
   filterMedia(mediaType) {
-    const  { photos, videos, gazettes } = this.state;
+    const { photos, videos, gazettes } = this.state;
     switch (mediaType) {
       case 'gallery':
         return photos;
@@ -101,44 +101,45 @@ class MediaView extends Component {
             <Box mb={2}>
               <FormControlLabel control={
                 <Switch
-                  checked={ this.state.photos }
-                  onChange={ this.handleChange('photos') }
+                  checked={this.state.photos}
+                  onChange={this.handleChange('photos')}
                 />
               } label="Photos" />
               <FormControlLabel control={
                 <Switch
                   checked={this.state.videos}
-                  onChange={ this.handleChange('videos') } />
+                  onChange={this.handleChange('videos')} />
               } label="Vidéos" />
               <FormControlLabel control={
                 <Switch
-                  checked={ this.state.gazettes }
-                  onChange={ this.handleChange('gazettes') } />
+                  checked={this.state.gazettes}
+                  onChange={this.handleChange('gazettes')} />
               } label="Gazettes" />
             </Box>
           </Flex>
-
-          {
-            this.processMediaList().map(m => {
-              return (
-                <div key={m.date}>
-                  <DateSeparator date={<Time date={m.date} format="MMMM YYYY" />} />
-                  <Flex wrap>
-                    {
-                      m.medias.map(e => {
-                        return <Box key={e.id} w={[ 1, 1 / 2, 1 / 3 ]} p={2}>
-                          <Link to={`/post/${e.postId}`}>
-                            { e.mediaType === 'video' && <Video {...e} /> }
-                            { e.mediaType === 'gallery' && <Album url="/img/background.jpg" {...e} /> }
-                          </Link>
-                        </Box>
-                      })
-                    }
-                  </Flex>
-                </div>
-              )
-            })
-          }
+          <Loader loading={this.props.isLoading}>
+            {
+              this.processMediaList().map(m => {
+                return (
+                  <div key={m.date}>
+                    <DateSeparator date={<Time date={m.date} format="MMMM YYYY" />} />
+                    <Flex wrap>
+                      {
+                        m.medias.map(e => {
+                          return <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
+                            <Link to={`/post/${e.postId}`}>
+                              {e.mediaType === 'video' && <Video {...e} />}
+                              {e.mediaType === 'gallery' && <Album url="/img/background.jpg" {...e} />}
+                            </Link>
+                          </Box>
+                        })
+                      }
+                    </Flex>
+                  </div>
+                )
+              })
+            }
+          </Loader>
         </FluidContent>
         <Gallery visible={this.state.showGallerie} onEscKey={this.toggleGallerie} />
       </div>

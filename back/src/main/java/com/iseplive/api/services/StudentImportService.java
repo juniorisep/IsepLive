@@ -42,11 +42,13 @@ public class StudentImportService {
           String firstname = cols[0];
           String lastname = cols[1];
           String studentId = cols[2];
+          Integer promo = Integer.parseInt(cols[3]);
 
           Student student = new Student();
           student.setFirstname(firstname);
           student.setLastname(lastname);
           student.setStudentId(studentId);
+          student.setPromo(promo);
 
           students.put(studentId, student);
         }
@@ -57,10 +59,14 @@ public class StudentImportService {
       for (MultipartFile photo: photos) {
         String fullname = photo.getOriginalFilename();
         String name = fullname.split("\\.")[0];
+        // if student exist in csv
         if (students.get(name) != null) {
-          studentService.createStudent(students.get(name));
-          studentService.addProfileImage(name, photo);
-          students.remove(name);
+          // If student has already been imported don't import it twice
+          if (studentService.getStudent(name) == null) {
+            studentService.createStudent(students.get(name));
+            studentService.addProfileImage(name, photo);
+            students.remove(name);
+          }
         }
       }
 

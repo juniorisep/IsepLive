@@ -51,6 +51,10 @@ public class StudentService {
     throw new IllegalArgumentException("could not find the student with id: " + id);
   }
 
+  public Student getStudent(String studentId) {
+    return studentRepository.findFirstByStudentId(studentId);
+  }
+
   public Student createStudent(StudentDTO dto) {
     Student student = studentFactory.dtoToEntity(dto);
     return authorRepository.save(student);

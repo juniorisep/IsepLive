@@ -39,13 +39,13 @@ const Person = (props) => {
       margin-bottom: 5px;
     }
   `;
+
   return (
     <PersonStyle>
       <ProfileImage src={props.url} w="100%" /> {/* <img src={props.url} alt="person-image" /> */}
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>
-        <p></p>
       </div>
     </PersonStyle>
   );
@@ -164,7 +164,10 @@ export default class AddressBook extends Component {
                 return (
                   <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
                     <Link to={`/annuaire/${e.id}`}>
-                      <Person url={e.photoUrl} name={e.firstname + ' ' + e.lastname} promotion={e.promo} />
+                      <Person
+                        url={e.photoUrl}
+                        name={e.firstname + ' ' + e.lastname}
+                        promotion={e.promo} />
                     </Link>
                   </Box>
                 )

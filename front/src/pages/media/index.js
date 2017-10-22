@@ -1,6 +1,6 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import MediaView from './view';
 
@@ -10,6 +10,7 @@ class Media extends Component {
 
   state = {
     medias: [],
+    isLoading: false,
   }
 
   componentDidMount() {
@@ -18,13 +19,15 @@ class Media extends Component {
 
   requestMedia() {
     mediaData.getAllGroupedMedia().then(medias => {
-      this.setState({ medias: medias });
+      this.setState({ medias: medias, isLoading: false });
     })
   }
 
   render() {
     return (
-      <MediaView medias={this.state.medias} />
+      <MediaView
+        medias={this.state.medias}
+        isLoading={this.state.isLoading} />
     );
   }
 }

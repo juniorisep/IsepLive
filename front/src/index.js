@@ -15,7 +15,7 @@ import orange from 'material-ui/colors/orange';
 
 import { ThemeProvider } from 'styled-components';
 
-import AuthenticatedRoute from './components/Auth/AuthenticatedRoute';
+// import AuthenticatedRoute from './components/Auth/AuthenticatedRoute';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
 

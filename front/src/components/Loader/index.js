@@ -4,11 +4,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import {Title} from 'components/common';
+import { Title } from 'components/common';
 
 const Img = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 40px;
+  height: 40px;
 `;
 
 const Wrap = styled.div`
@@ -20,6 +20,7 @@ const Wrap = styled.div`
 `;
 
 const Box = styled.div`
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: white;
   border-radius: 80px;
   padding: 20px;
@@ -31,9 +32,8 @@ const Loader = (props) => {
     return (
       <Wrap>
         <Box>
-          <Img src="/img/svg/loader/loader.svg" />
+          <Img src="/img/svg/loader/tail-spin.svg" />
         </Box>
-        <Title fontSize={1}>Chargement en cours...</Title>
       </Wrap>
     );
   }

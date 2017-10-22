@@ -49,42 +49,13 @@ class Resume extends Component {
     this.setState({ open: false });
   };
 
-  handleChange = (name: string) => ({ target }) => {
-    this.setState({
-      data: {
-        ...this.state.data,
-        [name]: target.value
-      }
-    });
-  }
-
-  handleUpdate = () => {
+  handleUpdate = (form) => {
     if (this.state.data) {
-      const {
-        phone,
-        birthDate,
-        bio,
-        address,
-        mail,
-        mailISEP,
-        instagram,
-        facebook,
-        snapchat,
-        twitter,
-      } = this.state.data;
-      userData.updateStudent({
-        ...this.state.data,
-        phone,
-        birthDate,
-        bio,
-        address,
-        mail,
-        mailISEP,
-        instagram,
-        facebook,
-        snapchat,
-        twitter,
-      }).then(() => this.setState({ open: false }))
+      userData.updateStudent(form)
+        .then(() => {
+          this.setState({ open: false })
+          this.getUserData();
+        })
     }
   }
 
@@ -173,7 +144,7 @@ class Resume extends Component {
                 <div>
                   <FormControlLabel
                     control={<Checkbox />}
-                    label={<Text>Notification lorsqu'une association publie un post / évènement.</Text>}
+                    label="Notification lorsqu'une association publie un post / évènement."
                   />
                 </div>
               </Paper>
@@ -190,7 +161,7 @@ class Resume extends Component {
                 <Text>ryituoyipuoiùpuogypiftuodryitfuoygi</Text>
               </Paper>
             </Box>
-            <Box p={2}>
+            <Box p={2} w={1}>
               <Title fontSize={1.5} invert>Publications</Title>
               {posts.length === 0 && <Text>Aucune publication</Text>}
               <PostListView posts={posts} refreshPosts={this.refreshPosts} />
@@ -199,7 +170,6 @@ class Resume extends Component {
           <UpdateResume
             open={this.state.open}
             handleRequestClose={this.handleRequestClose}
-            handleChange={this.handleChange}
             handleUpdate={this.handleUpdate}
             data={this.state.data} />
         </FluidContent>
@@ -208,31 +178,56 @@ class Resume extends Component {
   };
 };
 
-function UpdateResume(props) {
-  return (
-    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
-      <DialogTitle style={{
-        textAlign: 'center'
-      }}>
-        {"Modifier vos informations"}
-      </DialogTitle>
-      <DialogContent>
-        <TextField margin="normal" label="Email" value={props.data.mail} fullWidth onChange={props.handleChange('mail')} />
-        <TextField margin="normal" label="Téléphone" value={props.data.phone} fullWidth onChange={props.handleChange('phone')} />
-        <TextField margin="normal" label="Adresse" value={props.data.address} fullWidth onChange={props.handleChange('address')} />
-        <TextField margin="normal" label="Date de naissance" value={props.data.birthDate} fullWidth onChange={props.handleChange('birthDate')} />
-        <TextField margin="normal" label="Lien Facebook" value={props.data.facebook} fullWidth onChange={props.handleChange('facebook')} />
-        <TextField margin="normal" label="Lien Twitter" value={props.data.twitter} fullWidth onChange={props.handleChange('twitter')} />
-        <TextField margin="normal" label="Lien Instagram" value={props.data.instagram} fullWidth onChange={props.handleChange('instagram')} />
-        <TextField margin="normal" label="Lien Snapchat" value={props.data.snapchat} fullWidth onChange={props.handleChange('snapchat')} />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={props.handleUpdate} color="accent">
-          Valider
+class UpdateResume extends React.Component {
+  state = {
+    form: this.props.data,
+  }
+
+  handleChange = (name: string) => ({ target }) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: target.value,
+      }
+    });
+  }
+
+  render() {
+    const props = this.props;
+    let data = this.state.form;
+    return (
+      <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+        <DialogTitle style={{
+          textAlign: 'center'
+        }}>
+          {"Modifier vos informations"}
+        </DialogTitle>
+        <DialogContent>
+          <TextField margin="normal" label="Email" value={data.mail} fullWidth onChange={this.handleChange('mail')} />
+          <TextField margin="normal" label="Téléphone" value={data.phone} fullWidth onChange={this.handleChange('phone')} />
+          <TextField margin="normal" label="Adresse" value={data.address} fullWidth onChange={this.handleChange('address')} />
+          <TextField margin="normal" label="Date de naissance" value={data.birthDate} fullWidth onChange={this.handleChange('birthDate')} />
+          <TextField
+            multiline
+            rows="4"
+            margin="normal"
+            label="Bio"
+            value={data.bio || ''}
+            fullWidth
+            onChange={this.handleChange('bio')} />
+          <TextField margin="normal" label="Lien Facebook" value={data.facebook} fullWidth onChange={this.handleChange('facebook')} />
+          <TextField margin="normal" label="Lien Twitter" value={data.twitter} fullWidth onChange={this.handleChange('twitter')} />
+          <TextField margin="normal" label="Lien Instagram" value={data.instagram} fullWidth onChange={this.handleChange('instagram')} />
+          <TextField margin="normal" label="Lien Snapchat" value={data.snapchat} fullWidth onChange={this.handleChange('snapchat')} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => props.handleUpdate(data)} color="accent">
+            Valider
         </Button>
-      </DialogActions>
-    </Dialog>
-  );
+        </DialogActions>
+      </Dialog>
+    );
+  }
 };
 
 export default Resume;

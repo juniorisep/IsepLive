@@ -56,11 +56,19 @@ public class StudentService {
     return authorRepository.save(student);
   }
 
-  public void addProfileImage(Long id, MultipartFile image) {
-    Student student = getStudent(id);
+  public Student createStudent(Student student) {
+    return authorRepository.save(student);
+  }
+
+  public void addProfileImage(String studentId, MultipartFile image) {
+    Student student = studentRepository.findFirstByStudentId(studentId);
     String path = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), false);
-    imageUtils.saveJPG(image, 512, 512, path);
+    String pathThumb = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), true);
+    imageUtils.saveJPG(image, 512, path);
+    imageUtils.saveJPG(image, 128, pathThumb);
+
     student.setPhotoUrl(imageUtils.getPublicUrlImage(path));
+    student.setPhotoUrlThumb(imageUtils.getPublicUrlImage(pathThumb));
     studentRepository.save(student);
   }
 

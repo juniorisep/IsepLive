@@ -31,6 +31,7 @@ public class Student extends Author implements UserDetails {
   private String twitter;
 
   private String photoUrl;
+  private String photoUrlThumb;
 
   @Column(length = 300)
   private String bio;
@@ -200,5 +201,13 @@ public class Student extends Author implements UserDetails {
 
   public void setTwitter(String twitter) {
     this.twitter = twitter;
+  }
+
+  public String getPhotoUrlThumb() {
+    return photoUrlThumb;
+  }
+
+  public void setPhotoUrlThumb(String photoUrlThumb) {
+    this.photoUrlThumb = photoUrlThumb;
   }
 }

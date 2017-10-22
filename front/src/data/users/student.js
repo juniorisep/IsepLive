@@ -26,3 +26,12 @@ export function getLoggedUser() {
 export function getPosts(id: number) {
   return axios.get(`/user/student/${id}/post`);
 }
+
+export function importStudents(csv, photos, onUploadProgress) {
+  let form = new FormData();
+  form.append('csv', csv);
+  for (var index = 0; index < photos.length; index++) {
+    form.append('images[]', photos[index]);
+  }
+  return axios.post('/user/student/import', form, { onUploadProgress });
+}

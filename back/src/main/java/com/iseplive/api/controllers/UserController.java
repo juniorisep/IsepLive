@@ -6,6 +6,7 @@ import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.PostService;
+import com.iseplive.api.services.StudentImportService;
 import com.iseplive.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Guillaume on 29/07/2017.
@@ -29,6 +31,9 @@ public class UserController {
   @Autowired
   PostService postService;
 
+  @Autowired
+  StudentImportService studentImportService;
+
   @GetMapping("/student")
   public Page<Student> getAll(@RequestParam(defaultValue = "0") int page) {
     return studentService.getAll(page);
@@ -37,11 +42,6 @@ public class UserController {
   @GetMapping("/student/search")
   public Page<Student> searchStudents(String name, @RequestParam(defaultValue = "0") int page) {
     return studentService.search(name, page);
-  }
-
-  @PostMapping("/student/{id}/image")
-  public void addProfileImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) {
-    studentService.addProfileImage(id, image);
   }
 
   @GetMapping("/student/{id}/post")
@@ -67,6 +67,12 @@ public class UserController {
   @GetMapping("/student/me")
   public Student getLoggedStudent(@AuthenticationPrincipal TokenPayload auth) {
     return studentService.getStudent(auth.getId());
+  }
+
+  @PostMapping("/student/import")
+  public Map<String, Student> importStudents(@RequestParam("csv") MultipartFile csv,
+                                             @RequestParam("images[]") List<MultipartFile> photos) {
+    return studentImportService.importStudents(csv, photos);
   }
 
 }

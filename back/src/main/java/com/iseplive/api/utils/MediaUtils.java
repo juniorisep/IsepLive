@@ -97,7 +97,7 @@ public class MediaUtils {
    * @param newWidth
    * @param outputPath
    */
-  public void saveJPG(MultipartFile image, int newWidth, int newHeight, String outputPath) {
+  public void saveJPG(MultipartFile image, int newWidth, String outputPath) {
     try {
       // verify it is an image
       if (!Arrays.asList("image/png", "image/jpeg").contains(image.getContentType())) {
@@ -130,10 +130,6 @@ public class MediaUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  public void saveJPG(MultipartFile image, int scaledWidth, String outputPath) {
-    saveJPG(image, scaledWidth, 0, outputPath);
   }
 
 

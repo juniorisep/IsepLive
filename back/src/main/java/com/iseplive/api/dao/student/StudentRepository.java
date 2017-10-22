@@ -17,4 +17,6 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
 
   @Query("select s from Student s where lower(concat(s.firstname, ' ', s.lastname)) like %?1%")
   Page<Student> searchStudent(String name, Pageable pageable);
+
+  Student findFirstByStudentId(String studentId);
 }

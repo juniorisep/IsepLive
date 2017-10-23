@@ -13,13 +13,29 @@ class AddressBook extends Component {
     isSearching: false,
     promotionFilter: [],
     sort: 'a',
+    page: 0,
+    lastPage: false,
+    isLoading: true,
   };
 
   componentDidMount() {
-    studentData.getStudents().then(res => {
-      this.setState({ students: res.data.content });
-    });
-  };
+    this.getStudents();
+  }
+
+  getStudents() {
+    if (this.state.page === 0) {
+      this.setState({ isLoading: true });
+    }
+    studentData.getStudents(this.state.page)
+      .then(res => {
+        this.setState({
+          isLoading: false,
+          students: this.state.students.concat(res.data.content),
+          page: this.state.page + 1,
+          lastPage: res.data.last
+        });
+      });
+  }
 
   searchStudents = ({ target }) => {
     this.setState({ isSearching: target.value !== '' })
@@ -35,6 +51,8 @@ class AddressBook extends Component {
   render() {
     return (
       <AddressBookView
+        loading={this.state.isLoading}
+        lastPage={this.state.lastPage}
         students={this.state.students}
         onSearch={this.searchStudents}
         isSearching={this.state.isSearching}

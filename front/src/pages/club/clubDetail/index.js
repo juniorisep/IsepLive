@@ -19,6 +19,8 @@ class ClubDetail extends Component {
     website: '',
     members: [],
     posts: [],
+    postsLoading: false,
+    membersLoading: false,
   };
 
   componentDidMount() {
@@ -47,25 +49,27 @@ class ClubDetail extends Component {
   }
 
   loadMembers = () => {
+    this.setState({ membersLoading: true });
     clubData.getMembers(this.state.id)
       .then(res => {
-        this.setState({ members: res.data });
+        this.setState({ members: res.data, membersLoading: false });
       });
   };
 
   loadPosts = () => {
+    this.setState({ postsLoading: true });
     clubData.getPosts(this.state.id)
       .then(res => {
-        this.setState({ posts: res.data });
+        this.setState({ posts: res.data, postsLoading: false });
       });
   };
 
   renderTab = () => {
     switch (this.state.tabIndex) {
       case 0:
-        return <MembersTab members={this.state.members} />;
+        return <MembersTab members={this.state.members} loading={this.state.membersLoading} />;
       case 1:
-        return <PostsTab posts={this.state.posts} />;
+        return <PostsTab posts={this.state.posts} loading={this.state.postsLoading} />;
       default:
         return null;
     }

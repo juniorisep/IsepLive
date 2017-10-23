@@ -3,8 +3,8 @@
 import axios from 'axios';
 import type { StudentUpdateDTO } from './type';
 
-export function getStudents() {
-  return axios.get('/user/student');
+export function getStudents(page = 0) {
+  return axios.get(`/user/student?page=${page}`);
 };
 
 export function updateStudent(form: StudentUpdateDTO) {

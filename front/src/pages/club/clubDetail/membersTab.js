@@ -8,6 +8,7 @@ import { Box, Flex } from 'grid-styled';
 import { Link } from 'react-router-dom';
 
 import { ProfileImage, Text, } from 'components/common';
+import Loader from 'components/Loader';
 
 const Member = (props) => {
   const MemberStyle = styled.div`
@@ -47,7 +48,7 @@ const Member = (props) => {
 
 export default function MembersTab(props) {
   return (
-    <div>
+    <Loader loading={props.loading}>
       <Flex wrap>
         {props.members.length === 0 && <Text>Aucun membres</Text>}
         {
@@ -67,6 +68,6 @@ export default function MembersTab(props) {
           })
         }
       </Flex>
-    </div>
+    </Loader>
   );
 };

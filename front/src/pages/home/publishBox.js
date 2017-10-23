@@ -8,6 +8,11 @@ import { Box, Flex } from 'grid-styled';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
+import {
+  FormControlLabel,
+} from 'material-ui/Form';
+import Checkbox from 'material-ui/Checkbox';
+
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 
 import * as postData from 'data/post';
@@ -15,7 +20,7 @@ import * as pollData from 'data/media/poll';
 import * as imageData from 'data/media/image';
 import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
-import { PostDTO } from 'data/post/type';
+import type { PostDTO } from 'data/post/type';
 
 import {
   MediaCreator,
@@ -101,6 +106,7 @@ class PublishBoxView extends Component {
   state = {
     title: '',
     message: '',
+    isPrivateMessage: false,
     selectedIndex: -1,
     mediaMenuOpen: false,
     authorMenuOpen: false,
@@ -135,11 +141,16 @@ class PublishBoxView extends Component {
     this.setState({ message: event.target.value });
   };
 
+  onPrivateToggle = () => {
+    this.setState({ isPrivateMessage: !this.state.isPrivateMessage })
+  }
+
   publishPost() {
     const dto: PostDTO = {
       authorId: this.state.author.id,
       content: this.state.message,
-      title: this.state.title
+      title: this.state.title,
+      private: this.state.isPrivateMessage,
     };
     return postData.createPost(dto)
       .then(res => res.data.id)
@@ -303,6 +314,17 @@ class PublishBoxView extends Component {
               </IconButton>
             </Box>
             <Box ml="auto">
+              <FormControlLabel
+                color="accent"
+                control={
+                  <Checkbox
+                    value={this.state.isPrivateMessage}
+                    style={{ color: 'white' }}
+                    onChange={this.onPrivateToggle} />
+                }
+                label={<span style={{ color: 'white', fontWeight: 'bold' }}>PRIVEE</span>} />
+            </Box>
+            <Box ml="5px">
               <Button onClick={this.changeAuthor}>
                 <SendAs author={this.state.author} />
               </Button>

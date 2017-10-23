@@ -6,6 +6,7 @@ import { Box, Flex } from 'grid-styled';
 
 import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
+import Button from 'material-ui/Button';
 
 import { Link } from 'react-router-dom';
 
@@ -140,6 +141,12 @@ class MediaView extends Component {
               })
             }
           </Loader>
+          {
+            !this.props.lastPage &&
+            <div style={{ textAlign: 'center' }}>
+              <Button color="accent" onClick={this.props.seeMore}>Voir plus</Button>
+            </div>
+          }
         </FluidContent>
         <Gallery visible={this.state.showGallerie} onEscKey={this.toggleGallerie} />
       </div>

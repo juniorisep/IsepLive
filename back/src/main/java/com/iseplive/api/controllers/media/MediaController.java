@@ -1,18 +1,13 @@
 package com.iseplive.api.controllers.media;
 
-import com.iseplive.api.conf.NotFoundException;
 import com.iseplive.api.entity.media.*;
+import com.iseplive.api.services.AuthService;
 import com.iseplive.api.services.MediaService;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpRange;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import java.io.File;
 import java.util.List;
@@ -30,9 +25,15 @@ public class MediaController {
   @Autowired
   MediaService mediaService;
 
+  @Autowired
+  AuthService authService;
+
   @GetMapping
-  public List<Media> getAllMedia() {
-    return mediaService.getAllGalleryGazetteVideo();
+  public Page<Media> getAllMedia(@RequestParam(defaultValue = "0") int page) {
+    if (authService.isUserAnonymous()) {
+      return mediaService.getAllGalleryGazetteVideoPublic(page);
+    }
+    return mediaService.getAllGalleryGazetteVideo(page);
   }
 
   @PostMapping("/image")

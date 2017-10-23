@@ -16,7 +16,7 @@ const Wrap = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-height: 400px;
+  min-height: ${props => props.mh};
 `;
 
 const Box = styled.div`
@@ -30,7 +30,7 @@ const Box = styled.div`
 const Loader = (props) => {
   if (props.loading) {
     return (
-      <Wrap>
+      <Wrap mh={props.mh || '400px'}>
         <Box>
           <Img src="/img/svg/loader/tail-spin.svg" />
         </Box>

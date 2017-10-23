@@ -35,7 +35,7 @@ public class UserController {
   StudentImportService studentImportService;
 
   @GetMapping("/student")
-  public Page<Student> getAll(@RequestParam(defaultValue = "0") int page) {
+  public Page<Student> getAllStudents(@RequestParam(defaultValue = "0") int page) {
     return studentService.getAll(page);
   }
 

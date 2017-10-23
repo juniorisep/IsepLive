@@ -52,8 +52,6 @@ export default function Home(props) {
           <SearchBar placeholder="Rechercher" />
         </FluidContent>
       </Header>
-      {/* <Background> */}
-      {/* <Overlay /> */}
       <div style={{ background: '#F9F9F9' }}>
         <FluidContent>
           <Auth>
@@ -75,7 +73,6 @@ export default function Home(props) {
           </PostSection>
         </FluidContent>
       </div>
-      {/* </Background> */}
     </div>
   );
 };

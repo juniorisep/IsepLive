@@ -1,6 +1,5 @@
 package com.iseplive.api.services;
 
-import com.iseplive.api.conf.FileException;
 import com.iseplive.api.constants.MediaType;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
@@ -10,14 +9,11 @@ import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -51,10 +47,19 @@ public class MediaService {
   @Value("${storage.gazette.url}")
   String gazetteDir;
 
-  public List<Media> getAllGalleryGazetteVideo() {
-    return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorType(
+  private final int ALL_MEDIA_PAGE_SIZE = 20;
+
+  public Page<Media> getAllGalleryGazetteVideoPublic(int page) {
+    return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeAndPost_isPrivateOrderByCreationDesc(
       Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),
-      "club"
+      "club", false, new PageRequest(page, ALL_MEDIA_PAGE_SIZE)
+    );
+  }
+
+  public Page<Media> getAllGalleryGazetteVideo(int page) {
+    return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeOrderByCreationDesc(
+      Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),
+      "club", new PageRequest(page, ALL_MEDIA_PAGE_SIZE)
     );
   }
 

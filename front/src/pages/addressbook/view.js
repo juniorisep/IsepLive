@@ -3,6 +3,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
+import { Link } from 'react-router-dom';
+
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Select from 'material-ui/Select';
+import Input, { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+import Button from 'material-ui/Button';
+
 import {
   Banner,
   Filler,
@@ -12,14 +20,8 @@ import {
   SearchBar,
   Text
 } from 'components/common';
-import { Link } from 'react-router-dom';
-
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Select from 'material-ui/Select';
-import Input, { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
 import { MAIN_COLOR } from '../../colors';
-
+import Loader from 'components/Loader';
 
 const Person = (props) => {
   const PersonStyle = styled.div`
@@ -158,22 +160,30 @@ export default class AddressBook extends Component {
               </div>
             </Box>
           </Flex>
-          <Flex wrap>
+          <Loader loading={this.props.loading}>
+            <Flex wrap>
+              {
+                this.props.students.map(e => {
+                  return (
+                    <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
+                      <Link to={`/annuaire/${e.id}`}>
+                        <Person
+                          url={e.photoUrl}
+                          name={e.firstname + ' ' + e.lastname}
+                          promotion={e.promo} />
+                      </Link>
+                    </Box>
+                  )
+                })
+              }
+            </Flex>
             {
-              this.props.students.map(e => {
-                return (
-                  <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
-                    <Link to={`/annuaire/${e.id}`}>
-                      <Person
-                        url={e.photoUrl}
-                        name={e.firstname + ' ' + e.lastname}
-                        promotion={e.promo} />
-                    </Link>
-                  </Box>
-                )
-              })
+              !this.props.lastPage &&
+              <div style={{ textAlign: 'center' }}>
+                <Button color="accent" onClick={this.props.onSeeMore}>Voir plus</Button>
+              </div>
             }
-          </Flex>
+          </Loader>
         </FluidContent>
       </div>
     );

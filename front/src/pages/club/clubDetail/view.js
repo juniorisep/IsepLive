@@ -32,16 +32,6 @@ export default function ClubDetailView(props) {
   return (
     <div>
       <ScrollToTopOnMount />
-      <Header url="/img/background.jpg">
-        <Filler h={50} />
-        <Banner>
-          <h1>Associations</h1>
-          <p>Participez à la vie étudiante de l'ISEP</p>
-        </Banner>
-        <FluidContent p="0">
-          <SearchBar placeholder="Rechercher des associations" />
-        </FluidContent>
-      </Header>
       <FluidContent>
         <Flex>
           <Box>

@@ -9,8 +9,10 @@ import * as mediaData from 'data/media';
 class Media extends Component {
 
   state = {
-    medias: [],
     isLoading: false,
+    medias: [],
+    page: 0,
+    lastPage: false,
   }
 
   componentDidMount() {
@@ -18,16 +20,31 @@ class Media extends Component {
   }
 
   requestMedia() {
-    mediaData.getAllGroupedMedia().then(medias => {
-      this.setState({ medias: medias, isLoading: false });
-    })
+    if (this.state.page === 0) {
+      this.setState({ isLoading: true });
+    }
+    mediaData.getAllMedia(this.state.page)
+      .then(res => {
+        this.setState({
+          medias: this.state.medias.concat(res.data.content),
+          isLoading: false,
+          page: this.state.page + 1,
+          lastPage: res.data.last,
+        });
+      })
+  }
+
+  onSeeMore = () => {
+    this.requestMedia();
   }
 
   render() {
     return (
       <MediaView
-        medias={this.state.medias}
-        isLoading={this.state.isLoading} />
+        medias={mediaData.groupMedia(this.state.medias)}
+        isLoading={this.state.isLoading}
+        lastPage={this.state.lastPage}
+        seeMore={this.onSeeMore} />
     );
   }
 }

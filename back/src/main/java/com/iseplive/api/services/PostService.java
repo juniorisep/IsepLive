@@ -68,16 +68,19 @@ public class PostService {
     return posts.map(post -> postFactory.entityToView(post));
   }
 
-  public Page<Post> getPublicPosts(int page) {
-    return postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, false, createPage(page));
+  public Page<PostView> getPublicPosts(int page) {
+    Page<Post> posts = postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, false, createPage(page));
+    return posts.map(post -> postFactory.entityToView(post));
   }
 
-  public List<Post> getPinnedPosts() {
-    return postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false);
+  public List<PostView> getPinnedPosts() {
+    List<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false);
+    return posts.stream().map(post -> postFactory.entityToView(post)).collect(Collectors.toList());
   }
 
-  public List<Post> getPublicPinnedPosts() {
-    return postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, true, false);
+  public List<PostView> getPublicPinnedPosts() {
+    List<Post> posts = postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, true, false);
+    return posts.stream().map(post -> postFactory.entityToView(post)).collect(Collectors.toList());
   }
 
   public Post createPost(PostDTO postDTO) {
@@ -190,6 +193,9 @@ public class PostService {
 
   public PostView getPostView(Long id) {
     Post post = getPost(id);
+    if (post.getPrivate() && authService.isUserAnonymous()) {
+      return null;
+    }
     return postFactory.entityToView(post);
   }
 

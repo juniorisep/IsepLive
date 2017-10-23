@@ -9,6 +9,7 @@ import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.user.Author;
+import com.iseplive.api.services.AuthService;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,8 +29,14 @@ public class PostController {
   @Autowired
   PostService postService;
 
+  @Autowired
+  AuthService authService;
+
   @GetMapping
   public Page<PostView> getPosts(@RequestParam(defaultValue = "0") int page) {
+    if (authService.isUserAnonymous()) {
+      return postService.getPublicPosts(page);
+    }
     return postService.getPosts(page);
   }
 
@@ -39,7 +46,10 @@ public class PostController {
   }
 
   @GetMapping("/pinned")
-  public List<Post> getPinnedPosts() {
+  public List<PostView> getPinnedPosts() {
+    if (authService.isUserAnonymous()) {
+      return postService.getPublicPinnedPosts();
+    }
     return postService.getPinnedPosts();
   }
 

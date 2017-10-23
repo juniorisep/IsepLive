@@ -35,7 +35,7 @@ const Member = (props) => {
   `;
   return (
     <MemberStyle>
-      <ProfileImage src={props.url} sz="100%" />
+      <ProfileImage src={props.url} sz="100%" mh="200px" />
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>

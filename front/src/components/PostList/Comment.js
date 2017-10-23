@@ -30,7 +30,7 @@ class Comment extends Component {
     return (
       <Flex mb={3}>
         <Box>
-          <ProfileImage src={props.student.photoUrl} w="60px" />
+          <ProfileImage src={props.student.photoUrl} sz="60px" />
         </Box>
         <Box ml="20px" mt="5px">
           <Link to={`/annuaire/${props.student.id}`}>

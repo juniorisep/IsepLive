@@ -33,9 +33,11 @@ import {
 } from 'components/common';
 
 const PersonStyle = styled.div`
-  > img {
+  > div {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
+  width: 100%;
+  height: 100%;
 `;
 
 class Resume extends Component {
@@ -110,7 +112,7 @@ class Resume extends Component {
           <Flex wrap>
             <Box p={2} width={[1, 1 / 4]}>
               <PersonStyle>
-                <ProfileImage src={photoUrl} w="100%" />
+                <ProfileImage src={photoUrl} sz="100%" mh="200px" />
               </PersonStyle>
             </Box>
             <Box p={2} width={[

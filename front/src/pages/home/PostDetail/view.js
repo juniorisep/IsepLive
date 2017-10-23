@@ -51,7 +51,7 @@ export default function PostDetailView(props) {
         }
         <Flex mt="30px">
           <Box>
-            <ProfileImage w="60px"/>
+            <ProfileImage sz="60px"/>
           </Box>
           <Box flex="1 1 auto" ml="20px">
             <CommentBox onComment={props.onComment} />

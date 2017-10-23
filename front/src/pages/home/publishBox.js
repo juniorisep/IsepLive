@@ -1,13 +1,13 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-import Menu, {MenuItem} from 'material-ui/Menu';
+import Menu, { MenuItem } from 'material-ui/Menu';
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 
 import * as postData from 'data/post';
@@ -15,7 +15,7 @@ import * as pollData from 'data/media/poll';
 import * as imageData from 'data/media/image';
 import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
-import {PostDTO} from 'data/post/type';
+import { PostDTO } from 'data/post/type';
 
 import {
   MediaCreator,
@@ -67,7 +67,7 @@ function SendAs(props) {
   const author = props.author;
   return (
     <Flex align="center">
-      <Box mr="10px"><ProfileImage w="20px" src={author && author.image} /></Box>
+      <Box mr="10px"><ProfileImage sz="20px" src={author && author.image} /></Box>
       <Box><Text color={props.c || 'white'} m="0">{author && author.name}</Text></Box>
     </Flex>
   );
@@ -122,17 +122,17 @@ class PublishBoxView extends Component {
             type: a.authorType,
           };
         });
-        this.setState({authorList: authors, author: authors[0]});
+        this.setState({ authorList: authors, author: authors[0] });
       });
     };
   };
 
   onTitleChange = (event) => {
-    this.setState({title: event.target.value});
+    this.setState({ title: event.target.value });
   };
 
   onMessageChange = (event) => {
-    this.setState({message: event.target.value});
+    this.setState({ message: event.target.value });
   };
 
   publishPost() {
@@ -145,7 +145,7 @@ class PublishBoxView extends Component {
       .then(res => res.data.id)
       .then(id => {
         return postData.publishPost(id)
-        .then(() => id);
+          .then(() => id);
       });
   }
 
@@ -159,20 +159,20 @@ class PublishBoxView extends Component {
         })
         .then((ids) => {
           return postData.addMedia(ids.postId, ids.mediaId)
-          .then(() => ids.postId)
+            .then(() => ids.postId)
         })
         .then(this.closeMediaCreator)
         .then(res => {
-          this.setState({title: '', message: ''})
+          this.setState({ title: '', message: '' })
         })
         .then(this.props.refreshPosts);
       return;
     };
     this.publishPost()
-    .then(res => {
-      this.setState({title: '', message: ''})
-    })
-    .then(this.props.refreshPosts);
+      .then(res => {
+        this.setState({ title: '', message: '' })
+      })
+      .then(this.props.refreshPosts);
   };
 
   createMedia = () => {
@@ -191,20 +191,20 @@ class PublishBoxView extends Component {
   };
 
   handleMediaSelect = (item) => {
-    this.setState({mediaSelected: item, mediaCreatorOpen: true});
+    this.setState({ mediaSelected: item, mediaCreatorOpen: true });
     this.handleMediaMenuClose();
   };
 
   handleMediaMenuClose = () => {
-    this.setState({mediaMenuOpen: false});
+    this.setState({ mediaMenuOpen: false });
   };
 
   openMediaMenu = (event) => {
-    this.setState({mediaMenuOpen: true, anchorEl: event.currentTarget});
+    this.setState({ mediaMenuOpen: true, anchorEl: event.currentTarget });
   };
 
   handleAuthorMenuClose = () => {
-    this.setState({authorMenuOpen: false});
+    this.setState({ authorMenuOpen: false });
   };
 
   handleAuthorSelect = (author) => {
@@ -216,19 +216,19 @@ class PublishBoxView extends Component {
 
 
   changeAuthor = (event) => {
-    this.setState({authorMenuOpen: true, anchorEl: event.currentTarget});
+    this.setState({ authorMenuOpen: true, anchorEl: event.currentTarget });
   };
 
   closeMediaCreator = () => {
-    this.setState({mediaCreatorOpen: false, form: null, mediaSelected: null});
+    this.setState({ mediaCreatorOpen: false, form: null, mediaSelected: null });
   };
 
   onFormChange = (form) => {
-    this.setState({form});
+    this.setState({ form });
   };
 
   canPublish() {
-    const {author, title, message} = this.state;
+    const { author, title, message } = this.state;
     if (author && author.type === 'club') {
       if (title && message && title !== '' && message !== '') {
         return true;
@@ -242,7 +242,7 @@ class PublishBoxView extends Component {
   };
 
   getMediaPublishList() {
-    const {author} = this.state;
+    const { author } = this.state;
     if (author && author.type === 'club') {
       return [
         ...mediaAvailable,
@@ -268,7 +268,7 @@ class PublishBoxView extends Component {
   }
 
   render() {
-    const {author} = this.state;
+    const { author } = this.state;
     const canPublish = this.canPublish();
     return (
       <div>
@@ -308,7 +308,7 @@ class PublishBoxView extends Component {
               </Button>
             </Box>
             <Box ml="10px">
-              <Button raised color="accent" style={{float: "right"}} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
+              <Button raised color="accent" style={{ float: "right" }} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
             </Box>
           </Flex>
           <input
@@ -317,7 +317,7 @@ class PublishBoxView extends Component {
             ref={inputFile => this.inputFile = inputFile}
             accept="jpg,jpeg,JPG,JPEG"
             multiple
-            style={{display: 'none'}}
+            style={{ display: 'none' }}
           />
           <Menu
             anchorEl={this.state.anchorEl}

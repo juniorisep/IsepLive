@@ -1,9 +1,9 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
-import {ProfileImage} from '../common';
+import { ProfileImage } from '../common';
 
 import * as userData from 'data/users/student';
 
@@ -20,8 +20,7 @@ const Profile = styled.div`
     cursor: pointer;
   }
 
-  > img {
-    height: 40px;
+  .image {
     margin-right: 5px;
   }
 
@@ -52,16 +51,16 @@ class ProfileMenu extends Component {
 
   componentDidMount() {
     userData.getLoggedUser().then(res => {
-      const {photoUrl, firstname, lastname} = res.data;
-      this.setState({photoUrl, firstname, lastname});
+      const { photoUrl, firstname, lastname } = res.data;
+      this.setState({ photoUrl, firstname, lastname });
     });
   };
 
   render() {
-    const {photoUrl, firstname, lastname} = this.state;
+    const { photoUrl, firstname, lastname } = this.state;
     return (
       <Profile onClick={this.props.onClick}>
-        <ProfileImage src={photoUrl} w="40px" />
+        <ProfileImage className="image" src={photoUrl} sz="40px" />
         <div>
           <span>{firstname}</span>
           <span>{lastname}</span>

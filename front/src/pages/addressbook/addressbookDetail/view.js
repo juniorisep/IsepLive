@@ -4,7 +4,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
 import Typography from 'material-ui/Typography';
 import PostListView from 'components/PostList';
@@ -27,6 +27,8 @@ const PersonStyle = styled.div`
   > img {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
+  width: 100%;
+  height: 100%;
 `;
 
 export default function AdressbookDetailView(props) {
@@ -47,7 +49,7 @@ export default function AdressbookDetailView(props) {
         <Flex wrap>
           <Box p={2} width={[1, 1 / 4]}>
             <PersonStyle>
-              <ProfileImage src={props.photoUrl} w="100%" />
+              <ProfileImage src={props.photoUrl} sz="100%" mh="200px" />
             </PersonStyle>
           </Box>
           <Box p={2} width={[

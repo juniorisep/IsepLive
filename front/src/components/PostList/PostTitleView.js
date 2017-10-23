@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
   ProfileImage,
@@ -21,7 +21,7 @@ export default function PostTitleView({ post }) {
     return (
       <Flex align="center" mb="10px">
         <Box mr="10px">
-          <ProfileImage src={post.author.photoUrl} alt="logo-profile" w="40px" />
+          <ProfileImage src={post.author.photoUrl} sz="40px" />
         </Box>
         <Box>
           <Link to={`/annuaire/${post.author.id}`}>

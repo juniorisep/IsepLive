@@ -42,7 +42,7 @@ const Person = (props) => {
 
   return (
     <PersonStyle>
-      <ProfileImage src={props.url} w="100%" /> {/* <img src={props.url} alt="person-image" /> */}
+      <ProfileImage src={props.url} sz="100%" mh="200px" /> {/* <img src={props.url} alt="person-image" /> */}
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>

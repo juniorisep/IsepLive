@@ -81,10 +81,22 @@ type ImageType = {
 }
 
 export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
+
+const BgImageProfileStyle = styled.div`
+  background: url(${({ src }) => src});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: ${({ sz }) => sz};
+  height: ${({ sz, h }) => h || sz};
+  margin-left: ${props => props.ml || 'auto'};
+  min-height: ${props => props.mh || '100%'};  
+`;
+
 export const ProfileImage = (props: ImageType) => {
   if (!props.src)
-    return <ImageStyle {...props} src="/img/svg/user.svg" alt="profile-image" />;
-  return <Image {...props} />;
+    return <BgImageProfileStyle {...props} src="/img/svg/user.svg" />;
+  return <BgImageProfileStyle {...props} src={props.src && backUrl + props.src} />;
 };
 
 const BgImageStyle = styled.div`

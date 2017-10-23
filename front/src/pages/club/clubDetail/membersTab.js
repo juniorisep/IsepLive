@@ -3,11 +3,11 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import {ProfileImage, Text,} from 'components/common';
+import { ProfileImage, Text, } from 'components/common';
 
 const Member = (props) => {
   const MemberStyle = styled.div`
@@ -35,7 +35,7 @@ const Member = (props) => {
   `;
   return (
     <MemberStyle>
-      <ProfileImage src={props.url} w="100%" />
+      <ProfileImage src={props.url} sz="100%" />
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>
@@ -54,7 +54,7 @@ export default function MembersTab(props) {
           props.members.map(m => {
             return (
               <Box key={m.id} w={[1, 1 / 3, 1 / 5]} p={2}>
-              <Link to={`/annuaire/${m.member.id}`}>
+                <Link to={`/annuaire/${m.member.id}`}>
                   <Member
                     url={m.member.photoUrl}
                     name={m.member.firstname + ' ' + m.member.lastname}

@@ -1,6 +1,6 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import * as studentData from 'data/users/student';
 
@@ -10,35 +10,34 @@ class AdressbookDetail extends Component {
 
   state = {
     id: this.props.match.params.id,
-    photoUrl: '',
-    firstname: '',
-    lastname: '',
-    phone: '',
-    birthDate: '',
-    promo: '',
-    bio: '',
-    address: '',
-    mail: '',
-    mailISEP: '',
+    data: null,
+    posts: [],
   };
 
   componentDidMount() {
-    this.requestAdressbookDetail();
+    this.getUserData();
+    this.refreshPosts();
   };
 
-  requestAdressbookDetail() {
-    studentData.getStudent(this.state.id)
-      .then(res => {
-        const {photoUrl, firstname, lastname, phone, birthDate, promo, bio, address, mail, mailISEP} = res.data;
-        this.setState({photoUrl, firstname, lastname, phone, birthDate, promo, bio, address, mail, mailISEP});
-      });
-  };
+  getUserData = async () => {
+    const { data } = await studentData.getStudent(this.state.id);
+    this.setState({ data });
+  }
+
+  refreshPosts = async () => {
+    const { data } = await studentData.getPosts(this.state.id);
+    this.setState({ posts: data });
+  }
 
   render() {
+    if (!this.state.data) {
+      return null;
+    }
     return (
       <AdressbookDetailView
-        {...this.state}
-      />
+        data={this.state.data}
+        posts={this.state.posts}
+        refreshPosts={this.refreshPosts} />
     );
   };
 };

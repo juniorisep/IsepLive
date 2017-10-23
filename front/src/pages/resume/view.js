@@ -35,7 +35,7 @@ const PersonStyle = styled.div`
   height: 100%;
 `;
 
-export default function AdressbookDetailView(props) {
+export default function ResumeView(props) {
   const {
     data: {
     photoUrl,
@@ -78,6 +78,11 @@ export default function AdressbookDetailView(props) {
                     {firstname} {lastname}
                   </Title>
                 </Box>
+                <Box ml="auto">
+                  <Button raised color="primary" onClick={props.onModify}>
+                    Modifier
+                </Button>
+                </Box>
               </Flex>
               <Text>Promotion : <span>{promo}</span></Text>
               <Text>Numéro ISEP : <span>{studentId}</span></Text>
@@ -86,6 +91,17 @@ export default function AdressbookDetailView(props) {
               <Text>Mail : <span>{mail}</span></Text>
               <Text>Mail ISEP : <span>{mailISEP}</span></Text>
               <Text>Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" /></Text>
+            </Paper>
+          </Box>
+          <Box p={2} width={1}>
+            <Paper p="20px">
+              <Title fontSize={1.3} invert>Parametres</Title>
+              <div>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Notification lorsqu'une association publie un post / évènement."
+                />
+              </div>
             </Paper>
           </Box>
           <Box p={2} width={1}>
@@ -106,7 +122,65 @@ export default function AdressbookDetailView(props) {
             <PostListView posts={posts} refreshPosts={props.refreshPosts} />
           </Box>
         </Flex>
+        <UpdateResume
+          open={props.open}
+          handleRequestClose={props.handleRequestClose}
+          handleUpdate={props.handleUpdate}
+          data={props.data} />
       </FluidContent>
     </div>
   );
 }
+
+
+class UpdateResume extends React.Component {
+  state = {
+    form: this.props.data,
+  }
+
+  handleChange = (name: string) => ({ target }) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [name]: target.value,
+      }
+    });
+  }
+
+  render() {
+    const props = this.props;
+    let data = this.state.form;
+    return (
+      <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+        <DialogTitle style={{
+          textAlign: 'center'
+        }}>
+          {"Modifier vos informations"}
+        </DialogTitle>
+        <DialogContent>
+          <TextField margin="normal" label="Email" value={data.mail} fullWidth onChange={this.handleChange('mail')} />
+          <TextField margin="normal" label="Téléphone" value={data.phone} fullWidth onChange={this.handleChange('phone')} />
+          <TextField margin="normal" label="Adresse" value={data.address} fullWidth onChange={this.handleChange('address')} />
+          <TextField margin="normal" label="Date de naissance" value={data.birthDate} fullWidth onChange={this.handleChange('birthDate')} />
+          <TextField
+            multiline
+            rows="4"
+            margin="normal"
+            label="Bio"
+            value={data.bio || ''}
+            fullWidth
+            onChange={this.handleChange('bio')} />
+          <TextField margin="normal" label="Lien Facebook" value={data.facebook} fullWidth onChange={this.handleChange('facebook')} />
+          <TextField margin="normal" label="Lien Twitter" value={data.twitter} fullWidth onChange={this.handleChange('twitter')} />
+          <TextField margin="normal" label="Lien Instagram" value={data.instagram} fullWidth onChange={this.handleChange('instagram')} />
+          <TextField margin="normal" label="Lien Snapchat" value={data.snapchat} fullWidth onChange={this.handleChange('snapchat')} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => props.handleUpdate(data)} color="accent">
+            Valider
+        </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+};

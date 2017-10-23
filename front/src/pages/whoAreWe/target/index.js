@@ -6,7 +6,6 @@ import { FluidContent, ScrollToTopOnMount } from 'components/common';
 
 import Paper from 'material-ui/Paper';
 
-import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
 class Target extends Component {

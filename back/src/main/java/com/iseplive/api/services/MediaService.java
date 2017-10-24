@@ -47,6 +47,9 @@ public class MediaService {
   @Value("${storage.gazette.url}")
   String gazetteDir;
 
+  @Value("${storage.document.url}")
+  String documentDir;
+
   private final int ALL_MEDIA_PAGE_SIZE = 20;
 
   public Page<Media> getAllGalleryGazetteVideoPublic(int page) {
@@ -75,6 +78,20 @@ public class MediaService {
     gazette.setTitle(title);
     gazette.setUrl(mediaUtils.getPublicUrl(gazettePath));
     return mediaRepository.save(gazette);
+  }
+
+  public Document createDocument(String name, MultipartFile fileUploaded) {
+    String random = mediaUtils.randomName();
+    String documentPath = mediaUtils.resolvePath(
+      documentDir, random + "_" + name, false);
+
+    mediaUtils.saveFile(documentPath, fileUploaded);
+
+    Document document = new Document();
+    document.setCreation(new Date());
+    document.setName(name);
+    document.setPath(mediaUtils.getPublicUrl(documentPath));
+    return mediaRepository.save(document);
   }
 
   public Gallery createGallery(String name, List<MultipartFile> files) {

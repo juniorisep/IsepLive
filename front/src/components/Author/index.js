@@ -22,7 +22,7 @@ export default function Author(props) {
       return (
         <Link to={`/associations/${a.id}`}>
           <Flex direction="column">
-            <Image src={a.logoUrl} alt="logo-club" w="40px" ml="auto" />
+            <Image src={a.logoUrl} alt="logo-club" w="60px" ml="auto" />
             <Sub>{a.name}</Sub>
           </Flex>
         </Link>

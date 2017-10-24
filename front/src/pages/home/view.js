@@ -20,6 +20,8 @@ import Auth from 'components/Auth/AuthComponent';
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
 
+import { BACKGROUND_COLOR } from '../../colors';
+
 const Background = styled.div`
   background: url(/img/background.jpg);
   background-repeat: no-repeat;
@@ -60,7 +62,7 @@ export default function Home(props) {
           <SearchBar placeholder="Rechercher" />
         </FluidContent>
       </Header>
-      <div style={{ background: '#F9F9F9' }}>
+      <div style={{ background: BACKGROUND_COLOR }}>
         <FluidContent>
           <Auth>
             <PublishBoxView refreshPosts={props.refreshPosts} />

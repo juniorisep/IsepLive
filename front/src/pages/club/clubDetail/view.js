@@ -20,6 +20,8 @@ import {
   ScrollToTopOnMount,
 } from 'components/common';
 
+import { BACKGROUND_COLOR } from '../../../colors';
+
 const Explore = styled(ExploreAction) `
   margin-right: 10px;
 `;
@@ -30,7 +32,7 @@ const Button = styled(MUIButton) `
 
 export default function ClubDetailView(props) {
   return (
-    <div>
+    <div style={{ background: BACKGROUND_COLOR }}>
       <ScrollToTopOnMount />
       <FluidContent>
         <Flex>

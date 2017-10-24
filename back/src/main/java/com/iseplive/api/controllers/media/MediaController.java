@@ -66,6 +66,11 @@ public class MediaController {
     return mediaService.createGazette(title, file);
   }
 
+  @PostMapping("/document")
+  public Document createDocument(@RequestParam("name") String name, @RequestParam("document") MultipartFile document) {
+    return mediaService.createDocument(name, document);
+  }
+
 //  @GetMapping(value = "/ressource/video/{filename:.+}", produces = "video/png", headers = "Accept-range: byte")
 //  public FileSystemResource streamVideo(@PathVariable String filename, HttpRange range) {
 //

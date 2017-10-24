@@ -12,4 +12,5 @@ public interface MediaType {
   String IMAGE = "image";
   String POLL = "poll";
   String EVENT = "event";
+  String DOCUMENT = "DOCUMENT";
 }

@@ -1,7 +1,7 @@
 package com.iseplive.api.entity.media.poll;
 
+import com.iseplive.api.constants.MediaType;
 import com.iseplive.api.entity.media.Media;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -15,14 +15,14 @@ import java.util.List;
  * back
  */
 @Entity
-@DiscriminatorValue("poll")
+@DiscriminatorValue(MediaType.POLL)
 public class Poll extends Media {
 
   private String name;
   private Date endDate;
   private Boolean isMultiAnswers;
 
-  @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = MediaType.POLL, cascade = CascadeType.ALL)
   private List<PollAnswer> answers;
 
   public String getName() {

@@ -54,13 +54,6 @@ export default function AdressbookDetailView(props) {
   } = props;
   return (
     <div>
-      <Header url="/img/background.jpg">
-        <Filler h={50} />
-        <Banner>
-          <h1>Profil</h1>
-          <p>Ton petit jardin secret</p>
-        </Banner>
-      </Header>
       <FluidContent>
         <Flex wrap>
           <Box p={2} width={[1, 1 / 4]}>

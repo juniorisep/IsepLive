@@ -117,7 +117,7 @@ public class MediaUtils {
 
       // Scale output
       Graphics2D g2d = outputImage.createGraphics();
-      g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+      g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
       g2d.drawImage(inputImage, 0, 0, newWidth, scaledHeight, null);
       g2d.dispose();
 

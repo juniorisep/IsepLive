@@ -23,33 +23,38 @@ class AddressBook extends Component {
     this.getStudents();
   }
 
-  getStudents() {
+  getStudents = async () => {
     if (this.state.page === 0) {
       this.setState({ isLoading: true });
     }
-    studentData.getStudents(this.state.page)
-      .then(res => {
-        this.setState({
-          isLoading: false,
-          students: this.state.students.concat(res.data.content),
-          page: this.state.page + 1,
-          lastPage: res.data.last
-        });
-      });
+    const { search, promotionFilter, sort, page } = this.state;
+    let res = await studentData.searchStudents(search, promotionFilter, sort, page);
+    this.setState({
+      isLoading: false,
+      students: this.state.students.concat(res.data.content),
+      page: this.state.page + 1,
+      lastPage: res.data.last
+    });
+  }
+
+  onSeeMore = () => {
+    this.getStudents();
   }
 
   searchStudents = ({ target }) => {
     const search = target.value;
-    const { promotionFilter, sort } = this.state;
+    const { students, promotionFilter, sort } = this.state;
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
     }
     this.searchTimeout = setTimeout(async () => {
-      const res = await studentData.searchStudents(search, promotionFilter, sort);
+      const res = await studentData.searchStudents(search, promotionFilter, sort, 0);
       this.setState({
         search,
         students: res.data.content,
         isSearching: search !== '',
+        page: 1,
+        lastPage: res.data.last,
       });
     }, 300)
   }
@@ -58,21 +63,25 @@ class AddressBook extends Component {
     console.log(event)
     const sort = event.target.value;
     const { search, promotionFilter } = this.state;
-    const res = await studentData.searchStudents(search, promotionFilter, sort);
+    const res = await studentData.searchStudents(search, promotionFilter, sort, 0);
     this.setState({
       sort,
+      page: 1,
       students: res.data.content,
+      lastPage: res.data.last,
     });
   }
 
   handlePromoFilter = async (event) => {
     const promotionFilter = event.target.value;
     const { search, sort } = this.state;
-    const res = await studentData.searchStudents(search, promotionFilter, sort);
+    const res = await studentData.searchStudents(search, promotionFilter, sort, 0);
     this.setState({
       promotionFilter,
       students: res.data.content,
       isSearching: promotionFilter.length > 0,
+      page: 1,
+      lastPage: res.data.last,
     });
   }
 
@@ -88,6 +97,7 @@ class AddressBook extends Component {
         onSort={this.handleSort}
         onPromoFilter={this.handlePromoFilter}
         isSearching={this.state.isSearching}
+        onSeeMore={this.onSeeMore}
       />
     );
   };

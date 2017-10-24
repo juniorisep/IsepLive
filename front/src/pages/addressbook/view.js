@@ -24,34 +24,27 @@ import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
 const Person = (props) => {
-  const PersonStyle = styled.div`
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-
-    > div {
-      padding: 10px;
-      color: ${props => props.theme.main};
-    }
-
-    > div p {
+  const MainText = styled.div`
+    padding: 10px;
+    color: ${props => props.theme.main};
+    p {
       margin: 0;
     }
-
-    > div p.name {
+    p.name {
       font-weight: bold;
       margin-bottom: 5px;
     }
   `;
-
   return (
-    <PersonStyle>
-      <ProfileImage src={props.url} sz="100%" mh="200px" /> {/* <img src={props.url} alt="person-image" /> */}
-      <div>
+    <div style={{ boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)' }}>
+      <ProfileImage src={props.url} sz="100%" mh="200px" />
+      <MainText>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>
-      </div>
-    </PersonStyle>
+      </MainText>
+    </div>
   );
-};
+}
 
 const STYLE_CONTAINER = {
   display: 'flex',
@@ -160,7 +153,7 @@ export default class AddressBook extends Component {
                     <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
                       <Link to={`/annuaire/${e.id}`}>
                         <Person
-                          url={e.photoUrl}
+                          url={e.photoUrlThumb}
                           name={e.firstname + ' ' + e.lastname}
                           promotion={e.promo} />
                       </Link>

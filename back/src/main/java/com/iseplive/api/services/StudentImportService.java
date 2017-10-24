@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +24,13 @@ public class StudentImportService {
 
   private final String CSV_SEPARATOR = ",";
 
-  private final int CSV_NUM_COLUMNS = 3;
+  private final int CSV_NUM_COLUMNS = 4;
 
   @Autowired
   StudentService studentService;
+
+  @Autowired
+  StudentRepository studentRepository;
 
   public Map<String, Student> importStudents(MultipartFile csv, List<MultipartFile> photos) {
 
@@ -56,19 +61,7 @@ public class StudentImportService {
         lineNum++;
       }
 
-      for (MultipartFile photo: photos) {
-        String fullname = photo.getOriginalFilename();
-        String name = fullname.split("\\.")[0];
-        // if student exist in csv
-        if (students.get(name) != null) {
-          // If student has already been imported don't import it twice
-          if (studentService.getStudent(name) == null) {
-            studentService.createStudent(students.get(name));
-            studentService.addProfileImage(name, photo);
-            students.remove(name);
-          }
-        }
-      }
+      createStudents(photos, students);
 
       return students;
 
@@ -77,6 +70,32 @@ public class StudentImportService {
       e.printStackTrace();
     }
     return null;
+  }
+
+  private void createStudents(List<MultipartFile> photos, Map<String, Student> students) {
+
+    List<Student> studentsToCreate = new ArrayList<>();
+    Map<String, MultipartFile> photosToAdd = new HashMap<>();
+
+    for (MultipartFile photo: photos) {
+      String fullname = photo.getOriginalFilename();
+      String idIsep = fullname.split("\\.")[0];
+      // if student exist in csv
+      Student student = students.get(idIsep);
+      if (student != null) {
+        // If student has already been imported don't import it twice
+        if (studentService.getStudent(idIsep) == null) {
+          studentsToCreate.add(student);
+          photosToAdd.put(idIsep, photo);
+          students.remove(idIsep);
+        }
+      }
+    }
+
+    studentRepository.save(studentsToCreate);
+    for (Student s: studentsToCreate) {
+      studentService.addProfileImage(s.getStudentId(), photosToAdd.get(s.getStudentId()));
+    }
   }
 
 }

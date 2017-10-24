@@ -8,8 +8,8 @@ spring:
       ddl-auto: update
   http:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 2000MB
+      max-request-size: 2000MB
 
 server:
   port: 8080

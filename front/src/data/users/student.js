@@ -11,9 +11,10 @@ export function updateStudent(form: StudentUpdateDTO) {
   return axios.put('/user/student', form);
 }
 
-export function searchStudents(name: string, promotionFilter: number[], sort: string) {
+export function searchStudents(
+  name: string, promotionFilter: number[], sort: string, page: number = 0) {
   const promos = promotionFilter.join(',');
-  return axios.get(`/user/student/search?name=${name}&promos=${promos}&sort=${sort}`);
+  return axios.get(`/user/student/search?name=${name}&promos=${promos}&sort=${sort}&page=${page}`);
 }
 
 export function getStudent(id: number) {

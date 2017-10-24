@@ -42,7 +42,7 @@ public class StudentService {
   @Value("${storage.student.url}")
   String studentImageStorage;
 
-  final int RESULTS_PER_PAGE = 50;
+  final int RESULTS_PER_PAGE = 20;
 
   public Page<Student> getAll(int page) {
     return studentRepository.findAll(new PageRequest(page, RESULTS_PER_PAGE));
@@ -74,7 +74,7 @@ public class StudentService {
     String path = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), false);
     String pathThumb = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), true);
     imageUtils.saveJPG(image, 512, path);
-    imageUtils.saveJPG(image, 128, pathThumb);
+    imageUtils.saveJPG(image, 384, pathThumb);
 
     student.setPhotoUrl(imageUtils.getPublicUrlImage(path));
     student.setPhotoUrlThumb(imageUtils.getPublicUrlImage(pathThumb));
@@ -83,6 +83,14 @@ public class StudentService {
 
   public Page<Student> search(String name, String promos, String sort, int page) {
     Sort.Direction direction = sort.equals("a") ? Sort.Direction.ASC : Sort.Direction.DESC;
+    PageRequest pageRequest = new PageRequest(
+      page,
+      RESULTS_PER_PAGE,
+      new Sort(
+        new Sort.Order(Sort.Direction.DESC, "promo"),
+        new Sort.Order(direction, "lastname")
+      )
+    );
     if (!promos.equals("")) {
       List<Integer> promoInt = Arrays.stream(promos.split(","))
         .map(Integer::decode)
@@ -90,12 +98,12 @@ public class StudentService {
       return studentRepository.searchStudent(
         name.toLowerCase(),
         promoInt,
-        new PageRequest(page, RESULTS_PER_PAGE, direction, "lastname")
+        pageRequest
       );
     }
     return studentRepository.searchStudent(
       name.toLowerCase(),
-      new PageRequest(page, RESULTS_PER_PAGE, direction, "lastname")
+      pageRequest
     );
   }
 

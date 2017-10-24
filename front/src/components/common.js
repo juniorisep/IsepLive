@@ -90,7 +90,7 @@ const BgImageProfileStyle = styled.div`
   width: ${({ sz }) => sz};
   height: ${({ sz, h }) => h || sz};
   margin-left: ${props => props.ml || 'auto'};
-  min-height: ${props => props.mh || '100%'};  
+  min-height: ${props => props.mh || '100%'};
 `;
 
 export const ProfileImage = (props: ImageType) => {

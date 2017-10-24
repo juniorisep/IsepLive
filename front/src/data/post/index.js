@@ -7,6 +7,10 @@ export function getPosts(page: number) {
   return axios.get(`/post?page=${page}`);
 };
 
+export function getPinnedPosts() {
+  return axios.get('/post/pinned');
+}
+
 export function getPost(id: number) {
   return axios.get(`/post/${id}`);
 };
@@ -30,6 +34,10 @@ export function deletePost(id: number) {
 export function createPost(post: PostDTO) {
   return axios.post('/post', post);
 };
+
+export function pinPost(id: number, state: boolean) {
+  return axios.put(`/post/${id}/pinned/${state ? 'true' : 'false'}`)
+}
 
 export function publishPost(id: number) {
   return axios.put(`/post/${id}/state/PUBLISHED`);

@@ -322,7 +322,7 @@ class PublishBoxView extends Component {
                     style={{ color: 'white' }}
                     onChange={this.onPrivateToggle} />
                 }
-                label={<span style={{ color: 'white', fontWeight: 'bold' }}>PRIVEE</span>} />
+                label={<span style={{ color: 'white', fontWeight: 'bold' }}>PRIVÉ</span>} />
             </Box>
             <Box ml="5px">
               <Button onClick={this.changeAuthor}>

@@ -5,7 +5,15 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from 'material-ui/Button';
 
-import { Banner, Filler, FluidContent, Header, SearchBar, Separator } from 'components/common';
+import {
+  Title,
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  SearchBar,
+  Separator,
+} from 'components/common';
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 
@@ -61,6 +69,14 @@ export default function Home(props) {
           <PostSection>
             <Loader loading={props.isLoading}>
               <div>
+                {
+                  props.pinnedPosts.length > 0 &&
+                  <div>
+                    <Title invert>Articles accrochés</Title>
+                    <PostListView posts={props.pinnedPosts} refreshPosts={props.refreshPosts} />
+                    <Separator />
+                  </div>
+                }
                 <PostListView posts={props.posts} refreshPosts={props.refreshPosts} />
                 {
                   !props.lastPage &&

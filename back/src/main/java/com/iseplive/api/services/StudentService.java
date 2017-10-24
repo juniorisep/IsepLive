@@ -1,12 +1,14 @@
 package com.iseplive.api.services;
 
-import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.dao.post.AuthorRepository;
+import com.iseplive.api.dao.student.RoleRepository;
 import com.iseplive.api.dao.student.StudentFactory;
 import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
+import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +40,9 @@ public class StudentService {
 
   @Autowired
   StudentFactory studentFactory;
+
+  @Autowired
+  RoleRepository roleRepository;
 
   @Value("${storage.student.url}")
   String studentImageStorage;
@@ -111,5 +116,9 @@ public class StudentService {
     Student student = studentRepository.findOne(id);
     studentFactory.updateDtoToEntity(student, dto);
     return studentRepository.save(student);
+  }
+
+  public Role getRole(String role) {
+    return roleRepository.findByRole(role);
   }
 }

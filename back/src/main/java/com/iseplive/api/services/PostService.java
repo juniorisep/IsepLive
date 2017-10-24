@@ -74,7 +74,7 @@ public class PostService {
   }
 
   public List<PostView> getPinnedPosts() {
-    List<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false);
+    List<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, true);
     return posts.stream().map(post -> postFactory.entityToView(post)).collect(Collectors.toList());
   }
 

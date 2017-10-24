@@ -64,7 +64,7 @@ public class PostController {
   }
 
   @PutMapping("/{id}/pinned/{pinned}")
-  public void updatePost(@PathVariable Long id, @PathVariable Boolean pinned) {
+  public void pinPost(@PathVariable Long id, @PathVariable Boolean pinned) {
     postService.setPinnedPost(id, pinned);
   }
 

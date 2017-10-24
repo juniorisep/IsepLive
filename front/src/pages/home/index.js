@@ -11,6 +11,7 @@ class Home extends Component {
 
   state = {
     posts: [],
+    pinnedPosts: [],
     page: 0,
     lastPage: false,
     isLoading: true,
@@ -18,6 +19,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.getPosts();
+    this.getPinnedPosts();
   };
 
   getPosts() {
@@ -34,6 +36,11 @@ class Home extends Component {
     });
   };
 
+  getPinnedPosts = async () => {
+    let res = await postData.getPinnedPosts();
+    this.setState({ pinnedPosts: res.data });
+  }
+
   seeMore = () => {
     this.getPosts();
   };
@@ -46,12 +53,14 @@ class Home extends Component {
         lastPage: res.data.last
       });
     });
+    this.getPinnedPosts();
   };
 
   render() {
     return (
       <HomeView
         posts={this.state.posts}
+        pinnedPosts={this.state.pinnedPosts}
         lastPage={this.state.lastPage}
         onSeeMore={this.seeMore}
         refreshPosts={this.refreshPosts}

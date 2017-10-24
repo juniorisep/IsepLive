@@ -82,7 +82,7 @@ type ImageType = {
 
 export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
 
-const BgImageProfileStyle = props => (
+export const BgImageProfileStyle = props => (
   <div style={{
     backgroundImage: `url(${props.src})`,
     backgroundRepeat: 'no-repeat',

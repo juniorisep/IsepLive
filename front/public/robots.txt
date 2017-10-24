@@ -1,4 +1,3 @@
-# Sitemap: ..........
+# Sitemap: http://iseplive.fr
 
 User-agent : *
-Disallow : /administration

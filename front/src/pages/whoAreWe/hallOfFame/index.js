@@ -23,12 +23,8 @@ class HallOfFame extends Component {
         <ScrollToTopOnMount />
         <FluidContent style={{ textAlign: 'center' }}>
           <h1 style={{ color: '#ffc000' }}>All of Fame</h1>
+          <h3>Tous les héros ne portent pas de capes</h3>
           <Flex wrap>
-            <Box width={1} p={2}>
-              <Paper elevation={4} style={{ padding: 20, borderRadius: '10px' }}>
-                <p>tuykflgmhijopjihougiyoufit</p>
-              </Paper>
-            </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <PersonStyle>
                 <ProfileImage src="" sz="100%" />
@@ -41,7 +37,8 @@ class HallOfFame extends Component {
                 padding: 20,
                 borderRadius: '10px'
               }}>
-                <p>fukglhjiùopihglyfutkygliuhmj</p>
+                <h3>Dieu - 2016</h3>
+                <p>Créée IsepLive le 1 juin 2006 à la suite de l'annonce du ministre chinois de la culture Sun Jiazheng : le ouvernement chinois a décidé la création de la "journée du Partimoine culturel" en Chine, qui sera célébrée chaque année le deuxième samedi du mois de juin.</p>
               </Paper>
             </Box>
             <Box p={2} width={[
@@ -51,8 +48,80 @@ class HallOfFame extends Component {
                 padding: 20,
                 borderRadius: '10px'
               }}>
-                <p>fukglhjiùopihglyfutkygliuhmj</p>
+                <h3>Chaos - 2006 / 2012</h3>
+                <p>Nous avons été un peu long au démarrage.</p>
               </Paper>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+          </Flex>
+          <h3>Les didacteurs</h3>
+          <Flex wrap>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+          </Flex>
+          <h3>Les rambos</h3>
+          <Flex wrap>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
+            </Box>
+            <Box p={2} width={[1, 1 / 4]}>
+              <PersonStyle>
+                <ProfileImage src="" sz="100%" />
+              </PersonStyle>
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <PersonStyle>

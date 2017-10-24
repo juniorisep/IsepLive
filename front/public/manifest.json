@@ -11,6 +11,6 @@
   ],
   "start_url": "./connexion",
   "display": "standalone",
-  "theme_color": "#1b3b82",
+  "theme_color": "#3f51b5",
   "background_color": "#ffffff"
 }

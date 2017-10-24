@@ -40,8 +40,9 @@ public class UserController {
   }
 
   @GetMapping("/student/search")
-  public Page<Student> searchStudents(String name, @RequestParam(defaultValue = "0") int page) {
-    return studentService.search(name, page);
+  public Page<Student> searchStudents(String name, String promos, String sort,
+                                      @RequestParam(defaultValue = "0") int page) {
+    return studentService.search(name, promos, sort, page);
   }
 
   @GetMapping("/student/{id}/post")

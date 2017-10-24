@@ -75,14 +75,6 @@ const years = [
 ];
 
 export default class AddressBook extends Component {
-  state = {
-    year: [],
-    alpha: 'a',
-  };
-
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
 
   render() {
     return (
@@ -109,11 +101,11 @@ export default class AddressBook extends Component {
             <Box flex="0 0 auto" ml="auto">
               <div style={STYLE_CONTAINER}>
                 <FormControl style={STYLE_FORMCONTROL}>
-                  <InputLabel htmlFor="year-multiple">Promotion</InputLabel>
+                  <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
                   <Select
                     multiple
-                    value={this.state.year}
-                    onChange={this.handleChange("year")}
+                    value={this.props.year}
+                    onChange={this.props.onPromoFilter}
                     input={<Input id="year-multiple" />}
                     MenuProps={{
                       PaperProps: {
@@ -131,7 +123,7 @@ export default class AddressBook extends Component {
                           value={year}
                           style={{
                             fontWeight: 500,
-                            color: this.state.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
+                            color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
                           }}
                         >
                           {year}
@@ -148,8 +140,8 @@ export default class AddressBook extends Component {
                 <FormControl style={STYLE_FORMCONTROL}>
                   <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
                   <Select
-                    value={this.state.alpha}
-                    onChange={this.handleChange('alpha')}
+                    value={this.props.alpha}
+                    onChange={this.props.onSort}
                     input={<Input id="alpha-simple" />}
                   >
                     <MenuItem value='a'>Az</MenuItem>

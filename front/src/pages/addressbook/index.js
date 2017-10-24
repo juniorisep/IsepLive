@@ -11,6 +11,7 @@ class AddressBook extends Component {
   state = {
     students: [],
     isSearching: false,
+    search: '',
     promotionFilter: [],
     sort: 'a',
     page: 0,
@@ -38,23 +39,54 @@ class AddressBook extends Component {
   }
 
   searchStudents = ({ target }) => {
-    this.setState({ isSearching: target.value !== '' })
+    const search = target.value;
+    const { promotionFilter, sort } = this.state;
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
     }
     this.searchTimeout = setTimeout(async () => {
-      const res = await studentData.searchStudents(target.value);
-      this.setState({ students: res.data.content });
-    }, 1000)
+      const res = await studentData.searchStudents(search, promotionFilter, sort);
+      this.setState({
+        search,
+        students: res.data.content,
+        isSearching: search !== '',
+      });
+    }, 300)
+  }
+
+  handleSort = async (event) => {
+    console.log(event)
+    const sort = event.target.value;
+    const { search, promotionFilter } = this.state;
+    const res = await studentData.searchStudents(search, promotionFilter, sort);
+    this.setState({
+      sort,
+      students: res.data.content,
+    });
+  }
+
+  handlePromoFilter = async (event) => {
+    const promotionFilter = event.target.value;
+    const { search, sort } = this.state;
+    const res = await studentData.searchStudents(search, promotionFilter, sort);
+    this.setState({
+      promotionFilter,
+      students: res.data.content,
+      isSearching: promotionFilter.length > 0,
+    });
   }
 
   render() {
     return (
       <AddressBookView
+        alpha={this.state.sort}
+        year={this.state.promotionFilter}
         loading={this.state.isLoading}
         lastPage={this.state.lastPage}
         students={this.state.students}
         onSearch={this.searchStudents}
+        onSort={this.handleSort}
+        onPromoFilter={this.handlePromoFilter}
         isSearching={this.state.isSearching}
       />
     );

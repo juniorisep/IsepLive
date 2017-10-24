@@ -17,6 +17,7 @@ class AddressBook extends Component {
     page: 0,
     lastPage: false,
     isLoading: true,
+    total: 0,
   };
 
   componentDidMount() {
@@ -33,7 +34,8 @@ class AddressBook extends Component {
       isLoading: false,
       students: this.state.students.concat(res.data.content),
       page: this.state.page + 1,
-      lastPage: res.data.last
+      lastPage: res.data.last,
+      total: res.data.totalElements,
     });
   }
 
@@ -55,6 +57,7 @@ class AddressBook extends Component {
         isSearching: search !== '',
         page: 1,
         lastPage: res.data.last,
+        total: res.data.totalElements,
       });
     }, 300)
   }
@@ -69,6 +72,7 @@ class AddressBook extends Component {
       page: 1,
       students: res.data.content,
       lastPage: res.data.last,
+      total: res.data.totalElements,
     });
   }
 
@@ -82,6 +86,7 @@ class AddressBook extends Component {
       isSearching: promotionFilter.length > 0,
       page: 1,
       lastPage: res.data.last,
+      total: res.data.totalElements,
     });
   }
 
@@ -98,6 +103,7 @@ class AddressBook extends Component {
         onPromoFilter={this.handlePromoFilter}
         isSearching={this.state.isSearching}
         onSeeMore={this.onSeeMore}
+        total={this.state.total}
       />
     );
   };

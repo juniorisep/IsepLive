@@ -1,6 +1,6 @@
 package com.iseplive.api.services;
 
-import com.iseplive.api.conf.IllegalArgumentException;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.dao.event.EventFactory;
 import com.iseplive.api.dao.event.EventRepository;
 import com.iseplive.api.dto.EventDTO;

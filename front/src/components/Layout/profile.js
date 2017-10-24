@@ -20,17 +20,14 @@ const Profile = styled.div`
     cursor: pointer;
   }
 
-  .image {
-    margin-right: 5px;
-  }
-
-  > div {
+  > .infos {
+    margin-left: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
-  > div > span {
+  > .infos > span {
     display: block;
     font-weight: bold;
     padding: 2px;
@@ -60,8 +57,8 @@ class ProfileMenu extends Component {
     const { photoUrl, firstname, lastname } = this.state;
     return (
       <Profile onClick={this.props.onClick}>
-        <ProfileImage className="image" src={photoUrl} sz="40px" />
-        <div>
+        <ProfileImage src={photoUrl} sz="40px" />
+        <div className="infos">
           <span>{firstname}</span>
           <span>{lastname}</span>
         </div>

@@ -1,6 +1,6 @@
 package com.iseplive.api.services;
 
-import com.iseplive.api.conf.IllegalArgumentException;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.student.StudentFactory;
 import com.iseplive.api.dao.student.StudentRepository;

@@ -92,7 +92,7 @@ export const BgImageProfileStyle = props => (
     height: props.h || props.sz,
     marginLeft: props.ml || 'auto',
     minHeight: props.mh || '100%',
-  }}></div >
+  }}></div>
 );
 
 export const ProfileImage = (props: ImageType) => {

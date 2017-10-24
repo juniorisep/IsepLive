@@ -59,13 +59,11 @@ const STYLE_FORMCONTROL = {
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-const years = [
-  '2017',
-  '2018',
-  '2019',
-  '2020',
-  '2021',
-];
+const now = new Date().getFullYear();
+let years = [];
+for (var i = 1; i < 6; i++) {
+  years.push(now + i);
+}
 
 export default class AddressBook extends Component {
 
@@ -89,7 +87,7 @@ export default class AddressBook extends Component {
         <FluidContent>
           <Flex align="center">
             <Box>
-              {this.props.isSearching && <Text>{this.props.students.length} étudiants trouvé</Text>}
+              {this.props.isSearching && <Text>{this.props.total} étudiants trouvé</Text>}
             </Box>
             <Box flex="0 0 auto" ml="auto">
               <div style={STYLE_CONTAINER}>

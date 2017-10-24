@@ -1,7 +1,7 @@
 package com.iseplive.api.utils;
 
-import com.iseplive.api.conf.FileException;
-import com.iseplive.api.conf.IllegalArgumentException;
+import com.iseplive.api.exceptions.FileException;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.services.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

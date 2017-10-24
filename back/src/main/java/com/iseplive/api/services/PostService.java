@@ -1,6 +1,6 @@
 package com.iseplive.api.services;
 
-import com.iseplive.api.conf.IllegalArgumentException;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dao.post.*;

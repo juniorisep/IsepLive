@@ -82,7 +82,7 @@ type ImageType = {
 
 export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
 
-const BgImageProfileStyle = styled.div`
+export const BgImageProfileStyle = styled.div`
   background: url(${({ src }) => src});
   background-repeat: no-repeat;
   background-size: cover;
@@ -111,11 +111,11 @@ const BgImageStyle = styled.div`
 
 export const BgImage = (props) => {
   return <BgImageStyle {...props} src={props.src && backUrl + props.src} />
-}
+};
 
 export const ImageLink = (props) => {
   return <a href={backUrl + props.src}>{props.children}</a>;
-}
+};
 
 export const Text = styled.p`
   font-size: ${props => props.fs || '1em'};
@@ -177,16 +177,16 @@ export const FacebookVideo = (props) => {
       <iframe src={props.url} scrolling="no" allowTransparency allowFullScreen />
     </IframeWrap>
   )
-}
+};
 
 const Iframe = styled.iframe`
   width: 100%;
   height: 100%;
 `;
+
 export const YoutubeVideo = (props) => {
   return <Iframe src={props.url} scrolling="no" allowTransparency allowFullScreen frameBorder="0"></Iframe>;
-}
-
+};
 
 const VideoStyle = styled.video`
   width: 100%;
@@ -197,7 +197,7 @@ export const Video = props => {
   return (
     <VideoStyle preload='preload' src={backUrl + props.url} type="video/mp4" controls />
   );
-}
+};
 
 export const Paper = styled.div`
   box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { FluidContent, ScrollToTopOnMount } from 'components/common';
+import { FluidContent, ScrollToTopOnMount, BgImageProfileStyle } from 'components/common';
 
 import Paper from 'material-ui/Paper';
 
@@ -13,7 +13,6 @@ import styled from 'styled-components';
 const BgImageStyle = styled.div`
   > img {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    background: url(${props => props.url});
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -43,20 +42,9 @@ const Person = (props) => {
     }
   `;
 
-  const ProfileImage = styled.div`
-    background: url(${({ src }) => src});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    width: ${({ sz }) => sz};
-    height: ${({ sz, h }) => h || sz};
-    margin-left: ${props => props.ml || 'auto'};
-    min-height: ${props => props.mh || '100%'};
-  `;
-
   return (
     <PersonStyle>
-      <ProfileImage {...props} src={props.url} sz="100%" mh="200px" /> {/* <img src={props.url} alt="person-image" /> */}
+      <BgImageProfileStyle {...props} src={props.url} sz="100%" mh="200px" /> {/* <img src={props.url} alt="person-image" /> */}
       <div>
         <p className="name">{props.name}</p>
         <p>{props.post}</p>

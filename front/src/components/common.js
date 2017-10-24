@@ -111,7 +111,7 @@ const BgImageStyle = styled.div`
 `;
 
 export const BgImage = (props) => {
-  return <BgImageStyle {...props} style={{ backgroundImage: props.src && backUrl + props.src }} />
+  return <BgImageStyle {...props} src={props.src && backUrl + props.src} />
 }
 
 export const ImageLink = (props) => {

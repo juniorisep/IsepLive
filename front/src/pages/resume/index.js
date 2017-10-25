@@ -7,6 +7,8 @@ import * as authData from '../../data/auth';
 
 import ResumeView from './view';
 
+import Loader from '../../components/Loader';
+
 
 class Resume extends Component {
   state = {
@@ -50,19 +52,17 @@ class Resume extends Component {
   }
 
   render() {
-    if (!this.state.data) {
-      return null;
-    }
-
     return (
-      <ResumeView
-        data={this.state.data}
-        posts={this.state.posts}
-        open={this.state.open}
-        onModify={this.onModify}
-        refreshPosts={this.refreshPosts}
-        handleRequestClose={this.handleRequestClose}
-        handleUpdate={this.handleUpdate} />
+      <Loader loading={!this.state.data}>
+        <ResumeView
+          data={this.state.data}
+          posts={this.state.posts}
+          open={this.state.open}
+          onModify={this.onModify}
+          refreshPosts={this.refreshPosts}
+          handleRequestClose={this.handleRequestClose}
+          handleUpdate={this.handleUpdate} />
+      </Loader>
     );
   };
 };

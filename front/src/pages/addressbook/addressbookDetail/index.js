@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import * as studentData from 'data/users/student';
 
 import AdressbookDetailView from './view'
+import Loader from '../../../components/Loader';
 
 class AdressbookDetail extends Component {
 
@@ -30,14 +31,13 @@ class AdressbookDetail extends Component {
   }
 
   render() {
-    if (!this.state.data) {
-      return null;
-    }
     return (
-      <AdressbookDetailView
-        data={this.state.data}
-        posts={this.state.posts}
-        refreshPosts={this.refreshPosts} />
+      <Loader loading={!this.state.data}>
+        <AdressbookDetailView
+          data={this.state.data}
+          posts={this.state.posts}
+          refreshPosts={this.refreshPosts} />
+      </Loader>
     );
   };
 };

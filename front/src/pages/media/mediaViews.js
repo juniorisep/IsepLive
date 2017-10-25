@@ -94,7 +94,7 @@ export const Gazette = (props) => {
   return (
     <GazetteStyle>
       <div className="image">
-        <img src="/img/svg/file-upload.svg" alt="file" />
+        <img src="/img/svg/gazette-icon.svg" alt="file" />
       </div>
       <div className="caption">
         <Title invert fontSize={1.3} >{props.title}</Title>

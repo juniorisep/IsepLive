@@ -17,6 +17,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 
+
 import {
   Banner,
   Filler,
@@ -55,53 +56,51 @@ export default function AdressbookDetailView(props) {
     posts,
   } = props;
   return (
-    <div>
-      <FluidContent>
-        <Flex wrap>
-          <Box p={2} width={[1, 1 / 4]}>
-            <PersonStyle>
-              <ProfileImage src={photoUrl} sz="100%" mh="200px" />
-            </PersonStyle>
-          </Box>
-          <Box p={2} width={[
-            1, 3 / 4
-          ]}>
-            <Paper p="20px">
-              <Flex>
-                <Box>
-                  <Title>
-                    {firstname} {lastname}
-                  </Title>
-                </Box>
-              </Flex>
-              <Text>Promotion : <span>{promo}</span></Text>
-              <Text>Numéro ISEP : <span>{studentId}</span></Text>
-              <Text>Téléphone : <span>{phone}</span></Text>
-              <Text>Adresse : <span>{address}</span></Text>
-              <Text>Mail : <span>{mail}</span></Text>
-              <Text>Mail ISEP : <span>{mailISEP}</span></Text>
-              <Text>Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" /></Text>
-            </Paper>
-          </Box>
-          <Box p={2} width={1}>
-            <Paper p="20px">
-              <Title fontSize={1.3} invert>Citation</Title>
-              <Text>{bio || <i>Pas de bio</i>}</Text>
-            </Paper>
-          </Box>
-          <Box p={2} width={1}>
-            <Paper p="20px">
-              <Title fontSize={1.3} invert>Associations</Title>
-              <Text>Not implemented</Text>
-            </Paper>
-          </Box>
-          <Box p={2} w={1}>
-            <Title fontSize={1.5} invert>Publications</Title>
-            {posts.length === 0 && <Text>Aucune publication</Text>}
-            <PostListView posts={posts} refreshPosts={props.refreshPosts} />
-          </Box>
-        </Flex>
-      </FluidContent>
-    </div>
+    <FluidContent>
+      <Flex wrap>
+        <Box p={2} width={[1, 1 / 4]}>
+          <PersonStyle>
+            <ProfileImage src={photoUrl} sz="100%" mh="200px" />
+          </PersonStyle>
+        </Box>
+        <Box p={2} width={[
+          1, 3 / 4
+        ]}>
+          <Paper p="20px">
+            <Flex>
+              <Box>
+                <Title>
+                  {firstname} {lastname}
+                </Title>
+              </Box>
+            </Flex>
+            <Text>Promotion : <span>{promo}</span></Text>
+            <Text>Numéro ISEP : <span>{studentId}</span></Text>
+            <Text>Téléphone : <span>{phone}</span></Text>
+            <Text>Adresse : <span>{address}</span></Text>
+            <Text>Mail : <span>{mail}</span></Text>
+            <Text>Mail ISEP : <span>{mailISEP}</span></Text>
+            <Text>Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" /></Text>
+          </Paper>
+        </Box>
+        <Box p={2} width={1}>
+          <Paper p="20px">
+            <Title fontSize={1.3} invert>Citation</Title>
+            <Text>{bio || <i>Pas de bio</i>}</Text>
+          </Paper>
+        </Box>
+        <Box p={2} width={1}>
+          <Paper p="20px">
+            <Title fontSize={1.3} invert>Associations</Title>
+            <Text>Not implemented</Text>
+          </Paper>
+        </Box>
+        <Box p={2} w={1}>
+          <Title fontSize={1.5} invert>Publications</Title>
+          {posts.length === 0 && <Text>Aucune publication</Text>}
+          <PostListView posts={posts} refreshPosts={props.refreshPosts} />
+        </Box>
+      </Flex>
+    </FluidContent>
   );
 }

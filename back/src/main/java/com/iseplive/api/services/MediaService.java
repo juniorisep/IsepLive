@@ -83,13 +83,14 @@ public class MediaService {
   public Document createDocument(String name, MultipartFile fileUploaded) {
     String random = mediaUtils.randomName();
     String documentPath = mediaUtils.resolvePath(
-      documentDir, random + "_" + name, false);
+      documentDir, random + "_" + fileUploaded.getOriginalFilename(), false);
 
     mediaUtils.saveFile(documentPath, fileUploaded);
 
     Document document = new Document();
     document.setCreation(new Date());
     document.setName(name);
+    document.setOriginalName(fileUploaded.getOriginalFilename());
     document.setPath(mediaUtils.getPublicUrl(documentPath));
     return mediaRepository.save(document);
   }

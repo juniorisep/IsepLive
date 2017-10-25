@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 public class Document extends Media {
   private String name;
   private String path;
+  private String originalName;
 
   public String getName() {
     return name;
@@ -29,5 +30,13 @@ public class Document extends Media {
 
   public void setPath(String path) {
     this.path = path;
+  }
+
+  public String getOriginalName() {
+    return originalName;
+  }
+
+  public void setOriginalName(String originalName) {
+    this.originalName = originalName;
   }
 }

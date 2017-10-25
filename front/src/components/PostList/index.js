@@ -1,11 +1,11 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
-import {Box} from 'grid-styled';
+import { Box } from 'grid-styled';
 
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 
@@ -20,8 +20,9 @@ import ImagePost from './Posts/ImagePost';
 import TextPost from './Posts/TextPost';
 import VideoPost from './Posts/VideoPost';
 import GalleryPost from './Posts/GalleryPost';
+import DocumentPost from './Posts/DocumentPost';
 
-import {Text} from '../common';
+import { Text } from '../common';
 
 const PostList = styled.ul`
   padding: 0;
@@ -47,7 +48,7 @@ const PostContent = styled.div`
   ${props => props.fb && 'background: black;'}
 
   @media (max-width: 40em) {
-    height: ${props => props.fb ? 'auto': '300px'};
+    height: ${props => props.fb ? 'auto' : '300px'};
   }
 `;
 
@@ -78,7 +79,7 @@ export class PostTextView extends Component {
   }
 
   render() {
-    const {post, refresh, preview} = this.props;
+    const { post, refresh, preview } = this.props;
     return (
       <PostText w={this.props.w}>
         <PostTitleView post={post} />
@@ -107,12 +108,12 @@ export class PostTextView extends Component {
 
 export function PostTextContent(props) {
   const text = props.preview ? props.content
-  .slice(0, 200)
-  .split('\n')
-  .slice(0,3) : props.content.split('\n');
+    .slice(0, 200)
+    .split('\n')
+    .slice(0, 3) : props.content.split('\n');
   return (
     <div>
-      { text.map((par, i) => <Text key={i} mb={1}>{par}</Text>) }
+      {text.map((par, i) => <Text key={i} mb={1}>{par}</Text>)}
     </div>
   );
 };
@@ -128,6 +129,8 @@ export function PostView(props) {
         return <VideoPost {...props} />;
       case 'gallery':
         return <GalleryPost { ...props} />;
+      case 'document':
+        return <DocumentPost { ...props} />;
       default:
         return null;
     }

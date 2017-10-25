@@ -16,6 +16,7 @@ import Checkbox from 'material-ui/Checkbox';
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 
 import * as postData from 'data/post';
+import * as mediaData from 'data/media';
 import * as pollData from 'data/media/poll';
 import * as imageData from 'data/media/image';
 import * as videoData from 'data/media/video';
@@ -24,7 +25,7 @@ import type { PostDTO } from 'data/post/type';
 
 import {
   MediaCreator,
-  PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm
+  PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm, DocumentForm
 } from './mediaForms';
 
 import {
@@ -88,7 +89,7 @@ const mediaAvailable = [
     name: 'Image',
   },
   {
-    id: 'file',
+    id: 'document',
     name: 'Pièce jointe',
   },
   {
@@ -186,21 +187,6 @@ class PublishBoxView extends Component {
       .then(this.props.refreshPosts);
   };
 
-  createMedia = () => {
-    switch (this.state.mediaSelected.id) {
-      case 'poll':
-        return pollData.createPoll(this.state.form);
-      case 'image':
-        return imageData.createImage(this.state.form.file);
-      case 'videoEmbed':
-        return videoData.createVideoEmbed(this.state.form);
-      case 'video':
-        return videoData.createVideo(this.state.form);
-      case 'gallery':
-        return imageData.createGallery(this.state.form);
-    };
-  };
-
   handleMediaSelect = (item) => {
     this.setState({ mediaSelected: item, mediaCreatorOpen: true });
     this.handleMediaMenuClose();
@@ -263,6 +249,23 @@ class PublishBoxView extends Component {
     return mediaAvailable;
   }
 
+  createMedia = () => {
+    switch (this.state.mediaSelected.id) {
+      case 'poll':
+        return pollData.createPoll(this.state.form);
+      case 'image':
+        return imageData.createImage(this.state.form.file);
+      case 'videoEmbed':
+        return videoData.createVideoEmbed(this.state.form);
+      case 'video':
+        return videoData.createVideo(this.state.form);
+      case 'gallery':
+        return imageData.createGallery(this.state.form);
+      case 'document':
+        return mediaData.createDocument(this.state.form);
+    };
+  };
+
   renderForm() {
     switch (this.state.mediaSelected.id) {
       case 'poll':
@@ -275,6 +278,8 @@ class PublishBoxView extends Component {
         return <VideoForm update={this.onFormChange} />;
       case 'gallery':
         return <GalleryForm update={this.onFormChange} />;
+      case 'document':
+        return <DocumentForm update={this.onFormChange} />;
     }
   }
 

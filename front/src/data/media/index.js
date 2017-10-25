@@ -24,3 +24,10 @@ export function groupMedia(list: Media[]) {
     .map(k => monthlyGrouped[k])
     .sort((a, b) => a.date < b.date ? 1 : -1);
 }
+
+export function createDocument({ name, document }) {
+  const form = new FormData();
+  form.append('name', name);
+  form.append('document', document);
+  return axios.post('/media/document', form);
+}

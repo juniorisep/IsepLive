@@ -1,12 +1,12 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
-import {Title, Text} from 'components/common';
+import { Title, Text } from 'components/common';
 
-import Menu, {MenuItem} from 'material-ui/Menu';
+import Menu, { MenuItem } from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel } from 'material-ui/Form';
@@ -16,7 +16,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 
 import styled from 'styled-components';
 
-const AddButton = styled(Button)`
+const AddButton = styled(Button) `
   margin-top: 10px;
 `;
 
@@ -31,6 +31,23 @@ const MediaCreatorWrap = styled.div`
   margin-top: 10px;
   border-radius: 5px;
 `;
+
+const FileUpload = (props) => {
+  return (
+    <div>
+      <input
+        id="file"
+        type="file"
+        style={{ display: 'none' }}
+        accept={props.accept ? props.accept.map(e => '.' + e).join(',') : null}
+        multiple={props.multiple}
+        onChange={(e) => props.onFile(e.target.files)} />
+      <label htmlFor="file">
+        <AddButton component="span" color="accent">{props.children}</AddButton>
+      </label>
+    </div>
+  );
+}
 
 export function MediaCreator(props) {
   if (props.show) {
@@ -60,22 +77,22 @@ export class PollForm extends Component {
   };
 
   addAnswer = () => {
-    const {answers} = this.state;
-    this.setState({answers: [...answers, '']});
+    const { answers } = this.state;
+    this.setState({ answers: [...answers, ''] });
   };
 
   deleteAnswer = (index) => {
-    const {answers} = this.state;
+    const { answers } = this.state;
     answers.splice(index, 1);
-    this.props.update({...this.state, answers});
-    this.setState({answers});
+    this.props.update({ ...this.state, answers });
+    this.setState({ answers });
   };
 
   changeAnswer = (event, index) => {
-    const {answers} = this.state;
+    const { answers } = this.state;
     answers[index] = event.target.value;
-    this.props.update({...this.state, answers});
-    this.setState({answers});
+    this.props.update({ ...this.state, answers });
+    this.setState({ answers });
   };
 
   changeDuration = (event) => {
@@ -85,21 +102,21 @@ export class PollForm extends Component {
       ...this.state,
       endDate: now + (dur * 3600 * 1000)
     });
-    this.setState({endDate: now + (dur * 3600 * 1000)});
+    this.setState({ endDate: now + (dur * 3600 * 1000) });
   }
 
   changeMultiAnswer = () => {
-    this.props.update({...this.state, multiAnswers: !this.state.multiAnswers});
+    this.props.update({ ...this.state, multiAnswers: !this.state.multiAnswers });
     this.setState({ multiAnswers: !this.state.multiAnswers });
   }
 
   changeQues = (event) => {
-    this.props.update({...this.state, title: event.target.value});
-    this.setState({title: event.target.value});
+    this.props.update({ ...this.state, title: event.target.value });
+    this.setState({ title: event.target.value });
   };
 
   render() {
-    const {answers} = this.state;
+    const { answers } = this.state;
     return (
       <FormWrapper>
         <TextField fullWidth label="Question" onChange={this.changeQues} />
@@ -148,6 +165,7 @@ export class PollForm extends Component {
 
 const PreviewImage = styled.img`
   max-width: 100%;
+  max-height: 300px;
 `;
 
 export class ImageForm extends Component {
@@ -155,9 +173,9 @@ export class ImageForm extends Component {
     imagePreview: null
   }
 
-  handleImageSelect = (event) => {
+  handleImageSelect = (files) => {
     const reader = new FileReader();
-    const file = event.target.files[0];
+    const file = files[0];
 
     reader.onloadend = () => {
       this.setState({
@@ -172,17 +190,18 @@ export class ImageForm extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.imagePreview && <PreviewImage src={this.state.imagePreview} alt="" /> }
-        <input
-          accept="jpg,jpeg,JPG,JPEG"
-          id="file"
-          type="file"
-          style={{ display: 'none' }}
-          onChange={this.handleImageSelect}/>
-        <label htmlFor="file">
-          <AddButton component="span" color="accent">Choisir une image</AddButton>
-        </label>
+      <div style={{ textAlign: 'center' }}>
+        {
+          this.state.imagePreview &&
+          <Flex justify="center">
+            <Box p={2}>
+              <PreviewImage src={this.state.imagePreview} alt="" />
+            </Box>
+          </Flex>
+        }
+        <FileUpload
+          accept={['jpg', 'jpeg', 'JPG', 'JPEG']}
+          onFile={this.handleImageSelect} >Choisir une image</FileUpload>
       </div>
     );
   }
@@ -257,15 +276,15 @@ export class VideoForm extends Component {
     const video = event.target.files[0];
     this.setState({ video });
     if (this.state.name === '') {
-      this.props.update({...this.state, video, name: video.name });
+      this.props.update({ ...this.state, video, name: video.name });
       return this.setState({ name: video.name });
     }
-    this.props.update({...this.state, video });
+    this.props.update({ ...this.state, video });
   }
 
   changeName = (event) => {
     const name = event.target.value;
-    this.props.update({ ...this.state, name});
+    this.props.update({ ...this.state, name });
     this.setState({ name });
   }
 
@@ -275,15 +294,7 @@ export class VideoForm extends Component {
         <div>
           <TextField fullWidth label="Nom" value={this.state.name} onChange={this.changeName} />
         </div>
-        <input
-          id="file"
-          type="file"
-          style={{ display: 'none' }}
-          accept=".mp4,.mov"
-          onChange={this.handleVideoSelect}/>
-        <label htmlFor="file">
-          <AddButton component="span" color="accent">Choisir une video</AddButton>
-        </label>
+        <FileUpload accept={['mp4', 'mov']} onFile={this.handleVideoSelect} >Choisir une video</FileUpload>
       </div>
     );
   }
@@ -326,10 +337,46 @@ export class GalleryForm extends Component {
           style={{ display: 'none' }}
           accept=".png,.jpg,.jpeg"
           multiple
-          onChange={this.handleFileSelect}/>
+          onChange={this.handleFileSelect} />
         <label htmlFor="file">
           <AddButton component="span" color="accent">Ajouter des images</AddButton>
         </label>
+      </div>
+    );
+  }
+}
+
+
+export class DocumentForm extends Component {
+
+  state = {
+    name: '',
+    document: null,
+  }
+
+  handleFileSelect = (files) => {
+    this.update({ document: files[0] });
+  }
+
+  changeName = (event) => {
+    const name = event.target.value;
+    this.update({ name });
+  }
+
+  update(state) {
+    this.setState({ ...state });
+    this.props.update({ ...this.state, ...state });
+  }
+
+  render() {
+    const { document } = this.state;
+    return (
+      <div>
+        <div>
+          {document && <Text>Fichier sélectionné: {document.name}</Text>}
+          <TextField fullWidth label="Nom" value={this.state.name} onChange={this.changeName} />
+        </div>
+        <FileUpload multiple onFile={this.handleFileSelect}>Ajouter un fichier</FileUpload>
       </div>
     );
   }

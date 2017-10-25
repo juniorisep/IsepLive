@@ -23,7 +23,7 @@ import {
 
 import Gallery from 'components/Gallery';
 
-import { Album, Video } from './mediaViews';
+import { Album, Video, Gazette } from './mediaViews';
 
 
 const DateSeparator = (props) => {
@@ -69,7 +69,7 @@ class MediaView extends Component {
         return photos;
       case 'video':
         return videos;
-      case 'gazettes':
+      case 'gazette':
         return gazettes;
     }
     return true;
@@ -131,6 +131,7 @@ class MediaView extends Component {
                             <Link to={`/post/${e.postId}`}>
                               {e.mediaType === 'video' && <Video {...e} />}
                               {e.mediaType === 'gallery' && <Album url="/img/background.jpg" {...e} />}
+                              {e.mediaType === 'gazette' && <Gazette {...e} />}
                             </Link>
                           </Box>
                         })

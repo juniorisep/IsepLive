@@ -51,7 +51,7 @@ class GazettePost extends Component {
           <Paper>
             <Background>
               <a href={backUrl + props.post.media.url}>
-                <FileLogo src="/img/svg/file-upload.svg" />
+                <FileLogo src="/img/svg/gazette-icon.svg" />
               </a>
               <FileName>{props.post.media.title}</FileName>
             </Background>

@@ -454,7 +454,6 @@ export class EventForm extends Component {
     const { file } = this.state;
     return (
       <div>
-        <pre>{JSON.stringify(this.state, null, 2)}</pre>
         <Flex>
           <Box w={[1, 1 / 2]} p={2}>
             <TextField fullWidth label="Titre" value={this.state.title} onChange={this.change('title')} />
@@ -466,7 +465,6 @@ export class EventForm extends Component {
         <Flex>
           <Box w={[1, 1 / 2]} p={2}>
             <DatePicker onChange={this.handleChangeDate} />
-            {/* <TextField fullWidth label="Date" value={this.state.date} onChange={this.change('date')} /> */}
           </Box>
           <Box w={[1, 1 / 2]} p={2}>
             <TextField fullWidth label="Description" multiline rows={5} value={this.state.description} onChange={this.change('description')} />

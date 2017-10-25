@@ -381,3 +381,38 @@ export class DocumentForm extends Component {
     );
   }
 }
+
+export class GazetteForm extends Component {
+
+  state = {
+    title: '',
+    file: null,
+  }
+
+  handleFileSelect = (files) => {
+    this.update({ file: files[0] });
+  }
+
+  changeName = (event) => {
+    const title = event.target.value;
+    this.update({ title });
+  }
+
+  update(state) {
+    this.setState({ ...state });
+    this.props.update({ ...this.state, ...state });
+  }
+
+  render() {
+    const { file } = this.state;
+    return (
+      <div>
+        <div>
+          {file && <Text>Fichier sélectionné: {file.name}</Text>}
+          <TextField fullWidth label="Nom" value={this.state.title} onChange={this.changeName} />
+        </div>
+        <FileUpload accept={['pdf']} onFile={this.handleFileSelect}>Ajouter un fichier</FileUpload>
+      </div>
+    );
+  }
+}

@@ -31,3 +31,10 @@ export function createDocument({ name, document }) {
   form.append('document', document);
   return axios.post('/media/document', form);
 }
+
+export function createGazette({ title, file }) {
+  const form = new FormData();
+  form.append('title', title);
+  form.append('file', file);
+  return axios.post('/media/gazette', form);
+}

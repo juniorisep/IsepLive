@@ -25,7 +25,7 @@ import type { PostDTO } from 'data/post/type';
 
 import {
   MediaCreator,
-  PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm, DocumentForm
+  PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm, DocumentForm, GazetteForm,
 } from './mediaForms';
 
 import {
@@ -127,6 +127,7 @@ class PublishBoxView extends Component {
             name: a.authorType === 'student' ? 'Moi' : a.name,
             image: a.authorType === 'club' ? a.logoUrl : a.photoUrl,
             type: a.authorType,
+            isAdmin: a.authorType === 'club' ? a.admin : false,
           };
         });
         this.setState({ authorList: authors, author: authors[0] });
@@ -241,10 +242,15 @@ class PublishBoxView extends Component {
   getMediaPublishList() {
     const { author } = this.state;
     if (author && author.type === 'club') {
-      return [
+      let list = [
         ...mediaAvailable,
         { id: 'gallery', name: 'Gallerie' },
       ];
+      console.log(author)
+      if (author.isAdmin) {
+        list.push({ id: 'gazette', name: 'Gazette' })
+      }
+      return list;
     }
     return mediaAvailable;
   }
@@ -263,6 +269,8 @@ class PublishBoxView extends Component {
         return imageData.createGallery(this.state.form);
       case 'document':
         return mediaData.createDocument(this.state.form);
+      case 'gazette':
+        return mediaData.createGazette(this.state.form);
     };
   };
 
@@ -280,6 +288,8 @@ class PublishBoxView extends Component {
         return <GalleryForm update={this.onFormChange} />;
       case 'document':
         return <DocumentForm update={this.onFormChange} />;
+      case 'gazette':
+        return <GazetteForm update={this.onFormChange} />;
     }
   }
 

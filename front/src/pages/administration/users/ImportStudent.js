@@ -52,7 +52,7 @@ export default class ImportStudents extends React.Component {
           <label htmlFor="photos">
             <Button component="span" raised color="primary">Photos</Button>
           </label>
-          {photos.length != 0 && <span>{photos.length} photo{photos.length != 1 && 's'} sélectionnée{photos.length != 1 && 's'}</span>}
+          {photos.length !== 0 && <span>{photos.length} photo{photos.length !== 1 && 's'} sélectionnée{photos.length !== 1 && 's'}</span>}
         </div>
         <br />
         {uploading && <LinearProgress mode="determinate" value={progress} />}

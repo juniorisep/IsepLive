@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * Created by Guillaume on 01/08/2017.
  * back
@@ -52,5 +54,9 @@ public class EventService {
 
     event.setImageUrl(mediaUtils.getPublicUrlImage(eventPath));
     return eventRepository.save(event);
+  }
+
+  public List<Event> getEvents() {
+    return eventRepository.findAll();
   }
 }

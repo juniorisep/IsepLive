@@ -12,7 +12,7 @@ export default function Time(props: {
   moment.locale('fr');
 
   const formatDate = (): string => {
-    const {date, format} = props;
+    const { date, format } = props;
     let datetime = moment(date);
     return datetime.format(format);
   };

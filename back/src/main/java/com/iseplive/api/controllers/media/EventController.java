@@ -7,11 +7,10 @@ import com.iseplive.api.services.EventService;
 import com.iseplive.api.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * Created by Guillaume on 31/07/2017.
@@ -33,5 +32,10 @@ public class EventController {
                            @AuthenticationPrincipal TokenPayload auth) {
     EventDTO eventDTO = jsonUtils.deserialize(event, EventDTO.class);
     return eventService.createEvent(file, eventDTO, auth);
+  }
+
+  @GetMapping
+  public List<Event> getEvents() {
+    return eventService.getEvents();
   }
 }

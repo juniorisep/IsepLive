@@ -1,12 +1,14 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
-import {Banner, Filler, FluidContent, Header, SearchBar} from 'components/common';
+import { Banner, Filler, FluidContent, Header, SearchBar, BgImage } from 'components/common';
+import Time from 'components/Time';
+import Author from 'components/Author';
 
 import Button from 'material-ui/Button';
 import { FormControl } from 'material-ui/Form';
@@ -23,7 +25,7 @@ import Dialog, {
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
-import {Link, NavLink} from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const EventsList = styled.ul`
   padding: 0;
@@ -39,15 +41,6 @@ const Event = (props) => {
       min-height: 250px;
     }
 
-    .image {
-      width: 100%;
-      height: 100%;
-      background: url(${props.coverUrl});
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-    }
-
     h2,
     h3 {
       margin: 0;
@@ -59,26 +52,24 @@ const Event = (props) => {
     h3 { color: #7a7a7a; }
     h3.lieu { color: ${props => props.theme.main}; }
   `;
-
+  const { event } = props;
   return (
-    <EventStyle coverUrl={props.coverUrl}>
+    <EventStyle>
       <Flex wrap>
-        <Box w={[
-          1, 1 / 2
-        ]}>
-          <div className="image"></div>
+        <Box w={[1, 1 / 2]}>
+          <BgImage src={event.imageUrl} />
         </Box>
-        <Box w={[
-          1, 1 / 2
-        ]} p="20px">
+        <Box w={[1, 1 / 2]} p="20px">
           <Flex>
             <Box>
-              <h2>Nom de l'event</h2>
-              <h3 className="lieu">Lieu de l'event</h3>
-              <h3>Date de l'event</h3>
+              <Link to={`/evenements/${event.id}`}>
+                <h2>{event.title}</h2>
+                <h3 className="lieu">{event.location}</h3>
+                <h3>Le <Time date={event.date} format="DD/MM/YYYY [à] HH[h]mm" /></h3>
+              </Link>
             </Box>
             <Box ml="auto">
-              <img src="/img/iseplive.jpg" alt="" width="40px" />
+              <Author data={event.club} />
             </Box>
           </Flex>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
@@ -146,9 +137,7 @@ export default class Events extends Component {
               this.props.events.map(e => {
                 return (
                   <div key={e.id}>
-                    <Link to={`/evenements/${e.id}`}>
-                      <Event coverUrl={e.thumbUrl} />
-                    </Link>
+                    <Event event={e} />
                   </div>
                 )
               })

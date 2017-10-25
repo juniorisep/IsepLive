@@ -25,7 +25,15 @@ import type { PostDTO } from 'data/post/type';
 
 import {
   MediaCreator,
-  PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm, DocumentForm, GazetteForm,
+
+  PollForm,
+  ImageForm,
+  VideoEmbedForm,
+  VideoForm,
+  GalleryForm,
+  DocumentForm,
+  GazetteForm,
+  EventForm,
 } from './mediaForms';
 
 import {
@@ -245,8 +253,8 @@ class PublishBoxView extends Component {
       let list = [
         ...mediaAvailable,
         { id: 'gallery', name: 'Gallerie' },
+        { id: 'event', name: 'Evenement' },
       ];
-      console.log(author)
       if (author.isAdmin) {
         list.push({ id: 'gazette', name: 'Gazette' })
       }
@@ -267,6 +275,8 @@ class PublishBoxView extends Component {
         return videoData.createVideo(this.state.form);
       case 'gallery':
         return imageData.createGallery(this.state.form);
+      case 'event':
+        return mediaData.createEvent(this.state.form, this.state.author.id);
       case 'document':
         return mediaData.createDocument(this.state.form);
       case 'gazette':
@@ -290,6 +300,8 @@ class PublishBoxView extends Component {
         return <DocumentForm update={this.onFormChange} />;
       case 'gazette':
         return <GazetteForm update={this.onFormChange} />;
+      case 'event':
+        return <EventForm update={this.onFormChange} />;
     }
   }
 

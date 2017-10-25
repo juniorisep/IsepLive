@@ -1,7 +1,6 @@
 package com.iseplive.api.entity.media;
 
 import com.iseplive.api.constants.MediaType;
-import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 
 import javax.persistence.Column;
@@ -28,8 +27,7 @@ public class Event extends Media {
   @OneToOne
   private Club club;
 
-  @OneToOne
-  private Image image;
+  private String imageUrl;
 
   @Override
   public void setCreation(Date creation) {
@@ -76,12 +74,11 @@ public class Event extends Media {
     this.club = club;
   }
 
-  public Image getImage() {
-    return image;
+  public String getImageUrl() {
+    return imageUrl;
   }
 
-  public void setImage(Image image) {
-    this.image = image;
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
-
 }

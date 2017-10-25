@@ -38,3 +38,16 @@ export function createGazette({ title, file }) {
   form.append('file', file);
   return axios.post('/media/gazette', form);
 }
+
+export function createEvent(state: any, authorId: number) {
+  const form = new FormData();
+  form.append('event', JSON.stringify({
+    title: state.title,
+    location: state.location,
+    date: state.date.getTime(),
+    description: state.description,
+    clubId: authorId,
+  }))
+  form.append('image', state.image);
+  return axios.post('/event', form);
+}

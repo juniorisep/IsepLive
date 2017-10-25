@@ -18,7 +18,8 @@ import {
   FluidContent,
   Header,
   SearchBar,
-  Separator
+  Separator,
+  Text,
 } from 'components/common';
 
 import Gallery from 'components/Gallery';
@@ -119,6 +120,12 @@ class MediaView extends Component {
             </Box>
           </Flex>
           <Loader loading={this.props.isLoading}>
+            {
+              this.processMediaList().length === 0 &&
+              <div style={{ textAlign: 'center' }}>
+                <Text>Aucun media</Text>
+              </div>
+            }
             {
               this.processMediaList().map(m => {
                 return (

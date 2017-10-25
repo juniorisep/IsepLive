@@ -12,7 +12,6 @@ public class EventDTO {
   private Date date;
   private String description;
   private Long clubId;
-  private Long imageId;
 
   public String getTitle() {
     return title;
@@ -54,11 +53,4 @@ public class EventDTO {
     this.clubId = clubId;
   }
 
-  public Long getImageId() {
-    return imageId;
-  }
-
-  public void setImageId(Long imageId) {
-    this.imageId = imageId;
-  }
 }

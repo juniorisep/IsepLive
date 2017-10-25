@@ -22,6 +22,7 @@ import VideoPost from './Posts/VideoPost';
 import GalleryPost from './Posts/GalleryPost';
 import DocumentPost from './Posts/DocumentPost';
 import GazettePost from './Posts/GazettePost';
+import EventPost from './Posts/EventPost';
 
 import { Text } from '../common';
 
@@ -130,6 +131,8 @@ export function PostView(props) {
         return <VideoPost {...props} />;
       case 'gallery':
         return <GalleryPost { ...props} />;
+      case 'event':
+        return <EventPost { ...props} />;
       case 'document':
         return <DocumentPost { ...props} />;
       case 'gazette':

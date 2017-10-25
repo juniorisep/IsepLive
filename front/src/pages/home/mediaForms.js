@@ -16,6 +16,8 @@ import DeleteIcon from 'material-ui-icons/Delete';
 
 import styled from 'styled-components';
 
+import DatePicker from '../../components/DatePicker';
+
 const AddButton = styled(Button) `
   margin-top: 10px;
 `;
@@ -307,9 +309,8 @@ export class GalleryForm extends Component {
     images: null,
   }
 
-  handleFileSelect = (event) => {
-    const images = event.target.files;
-    this.update({ images });
+  handleFileSelect = (files) => {
+    this.update({ images: files });
   }
 
   changeTitle = (event) => {
@@ -331,16 +332,10 @@ export class GalleryForm extends Component {
           {images && <Text>{images.length} {p('image')} {p('sélectionnée')}</Text>}
           <TextField fullWidth label="Nom" value={this.state.name} onChange={this.changeTitle} />
         </div>
-        <input
-          id="file"
-          type="file"
-          style={{ display: 'none' }}
-          accept=".png,.jpg,.jpeg"
+        <FileUpload
+          accept={['jpg', 'jpeg']}
           multiple
-          onChange={this.handleFileSelect} />
-        <label htmlFor="file">
-          <AddButton component="span" color="accent">Ajouter des images</AddButton>
-        </label>
+          onFile={this.handleFileSelect} >Ajouter des images</FileUpload>
       </div>
     );
   }
@@ -412,6 +407,82 @@ export class GazetteForm extends Component {
           <TextField fullWidth label="Nom" value={this.state.title} onChange={this.changeName} />
         </div>
         <FileUpload accept={['pdf']} onFile={this.handleFileSelect}>Ajouter un fichier</FileUpload>
+      </div>
+    );
+  }
+}
+
+export class EventForm extends Component {
+
+  state = {
+    title: '',
+    location: '',
+    date: new Date(),
+    description: '',
+    image: null,
+    imagePreview: null,
+  }
+
+  handleFileSelect = (files) => {
+    const reader = new FileReader();
+    const file = files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        imagePreview: reader.result,
+      });
+    }
+
+    reader.readAsDataURL(file)
+    this.update({ image: file });
+  }
+
+  change = name => event => {
+    this.update({ [name]: event.target.value });
+  }
+
+  update(state) {
+    this.setState({ ...state });
+    this.props.update({ ...this.state, ...state });
+  }
+
+  handleChangeDate = (date: Date) => {
+    this.update({ date });
+  }
+
+  render() {
+    const { file } = this.state;
+    return (
+      <div>
+        <pre>{JSON.stringify(this.state, null, 2)}</pre>
+        <Flex>
+          <Box w={[1, 1 / 2]} p={2}>
+            <TextField fullWidth label="Titre" value={this.state.title} onChange={this.change('title')} />
+          </Box>
+          <Box w={[1, 1 / 2]} p={2}>
+            <TextField fullWidth label="Lieu" value={this.state.location} onChange={this.change('location')} />
+          </Box>
+        </Flex>
+        <Flex>
+          <Box w={[1, 1 / 2]} p={2}>
+            <DatePicker onChange={this.handleChangeDate} />
+            {/* <TextField fullWidth label="Date" value={this.state.date} onChange={this.change('date')} /> */}
+          </Box>
+          <Box w={[1, 1 / 2]} p={2}>
+            <TextField fullWidth label="Description" multiline rows={5} value={this.state.description} onChange={this.change('description')} />
+          </Box>
+        </Flex>
+        <div style={{ textAlign: 'center' }}>
+          {
+            this.state.imagePreview &&
+            <Flex justify="center">
+              <Box p={2}>
+                <PreviewImage src={this.state.imagePreview} alt="" />
+              </Box>
+            </Flex>
+          }
+          <FileUpload accept={['jpg', 'jpeg']} onFile={this.handleFileSelect}>Ajouter une photo</FileUpload>
+        </div>
       </div>
     );
   }

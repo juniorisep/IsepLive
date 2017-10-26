@@ -130,10 +130,10 @@ public class PostService {
     postRepository.save(post);
   }
 
-  public void togglePostLike(Long postId) {
+  public void togglePostLike(Long postId, Long id) {
     Post post = postRepository.findOne(postId);
     Set<Student> students = post.getLike();
-    Student student = studentService.getStudent(1L);
+    Student student = studentService.getStudent(id);
 
     if (students.contains(student)) {
       students.remove(student);
@@ -144,10 +144,10 @@ public class PostService {
     }
   }
 
-  public void toggleCommentLike(Long comId) {
+  public void toggleCommentLike(Long comId, Long id) {
     Comment comment = commentRepository.findOne(comId);
     Set<Student> students = comment.getLike();
-    Student student = studentService.getStudent(1L);
+    Student student = studentService.getStudent(id);
     if (students.contains(student)) {
       students.remove(student);
       commentRepository.save(comment);

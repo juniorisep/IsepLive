@@ -84,13 +84,13 @@ public class PostController {
   }
 
   @PutMapping("/{id}/like")
-  public void likePost(@PathVariable Long id) {
-    postService.togglePostLike(id);
+  public void likePost(@PathVariable Long id, @AuthenticationPrincipal TokenPayload auth) {
+    postService.togglePostLike(id, auth.getId());
   }
 
   @PutMapping("/{id}/comment/{comId}/like")
-  public void toggleCommentLike(@PathVariable Long comId) {
-    postService.toggleCommentLike(comId);
+  public void toggleCommentLike(@PathVariable Long comId, @AuthenticationPrincipal TokenPayload auth) {
+    postService.toggleCommentLike(comId, auth.getId());
   }
 
   @PutMapping("/{id}/state/{state}")

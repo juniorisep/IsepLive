@@ -98,7 +98,7 @@ export default class Events extends Component {
         </Header>
         <FluidContent>
           <Flex align="center">
-            <Box flex="0 0 auto" ml="auto">
+            <Box flex="0 0 auto" ml="auto" p={2}>
               <FormControl>
                 <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
                 <Select
@@ -111,8 +111,18 @@ export default class Events extends Component {
                 </Select>
               </FormControl>
             </Box>
-            <Box>
+            <Box p={2}>
               <Button color="primary" component={NavLink} to="/evenements/calendrier">Calendrier</Button>
+            </Box>
+            <Box p={2}>
+              <Button fab color="primary" aria-label="add" onClick={() => this.setState({ open: true })}>
+                <AddIcon />
+              </Button>
+              <AddEventForm
+                open={this.state.open}
+                handleRequestClose={this.handleRequestClose}
+                onChange={this.handleAddEventForm}
+              />
             </Box>
           </Flex>
           <EventsList>

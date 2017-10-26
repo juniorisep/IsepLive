@@ -15,15 +15,6 @@ import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
-import AddIcon from 'material-ui-icons/Add';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
-import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
 
 import { Link, NavLink } from 'react-router-dom';
 
@@ -106,14 +97,6 @@ export default class Events extends Component {
           </FluidContent>
         </Header>
         <FluidContent>
-          <Button fab color="primary" aria-label="add" style={{ float: 'right', zIndex: 2 }} onClick={() => this.setState({ open: true })}>
-            <AddIcon />
-          </Button>
-          <AddEventForm
-            open={this.state.open}
-            handleRequestClose={this.handleRequestClose}
-            onChange={this.handleAddEventForm}
-          />
           <Flex align="center">
             <Box flex="0 0 auto" ml="auto">
               <FormControl>
@@ -147,32 +130,4 @@ export default class Events extends Component {
       </div>
     );
   };
-};
-
-function AddEventForm(props) {
-  return (
-    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
-      <DialogTitle>Ajouter un évènement</DialogTitle>
-      <DialogContent>
-        <TextField type="text" label="Nom" fullWidth />
-        <TextField type="text" label="Date de l'évènement" fullWidth />
-        <TextField type="text" label="Lieu de l'évènement" fullWidth />
-        <TextField type="text" label="Description" fullWidth />
-        <input accept="jpg,jpeg,JPG,JPEG" id="file" multiple type="file" style={{ display: 'none' }} />
-        <label htmlFor="file">
-          <Button raised component="span">
-            Ajouter l'affiche
-          </Button>
-        </label>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={props.handleRequestClose} color="primary">
-          Annuler
-        </Button>
-        <Button color="accent">
-          Ajouter
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
 };

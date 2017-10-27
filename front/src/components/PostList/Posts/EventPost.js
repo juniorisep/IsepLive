@@ -12,6 +12,9 @@ import {
   PostTextView,
 } from 'components/PostList';
 
+import CountDown from '../../Time/CountDown';
+import Time from '../../Time';
+
 import {
   BgImage,
   ImageLink,
@@ -41,7 +44,7 @@ const FileName = styled.h2`
 `;
 
 
-class DocumentPost extends Component {
+export default class EventPost extends Component {
   render() {
     const props = this.props;
     const size = props.preview ? [1] : [1, 1 / 2];
@@ -52,6 +55,9 @@ class DocumentPost extends Component {
             <Background>
               <FileLogo src="/img/svg/event.svg" />
               <FileName>{props.post.media.title}</FileName>
+              <CountDown date={props.post.media.date} fs=".8em" color="main" endDisplay={
+                <Time date={props.post.media.date} format="DD/MM/YYYY HH:mm" />
+              } />
             </Background>
           </Paper>
         </Box>
@@ -65,5 +71,3 @@ class DocumentPost extends Component {
     );
   }
 }
-
-export default DocumentPost;

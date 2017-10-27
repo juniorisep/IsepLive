@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 
 import Tooltip from 'material-ui/Tooltip';
-import { Box } from 'grid-styled';
+import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { backUrl } from '../../../config';
 
@@ -23,7 +23,7 @@ import {
 } from 'components/common';
 
 const Background = styled.div`
-  background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
+  // background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
   height: 250px;
   display: flex;
   flex-direction: column;
@@ -52,13 +52,15 @@ export default class EventPost extends Component {
       <Post invert={props.invert}>
         <Box w={size}>
           <Paper>
-            <Background>
-              <FileLogo src="/img/svg/event.svg" />
-              <FileName>{props.post.media.title}</FileName>
-              <CountDown date={props.post.media.date} fs=".8em" color="main" endDisplay={
-                <Time date={props.post.media.date} format="DD/MM/YYYY HH:mm" />
-              } />
-            </Background>
+            <BgImage src={props.post.media.imageUrl}>
+              <Background>
+                <FileLogo src="/img/svg/event.svg" />
+                <FileName>{props.post.media.title}</FileName>
+                <CountDown date={props.post.media.date} fs=".8em" endDisplay={
+                  <Time date={props.post.media.date} format="DD/MM/YYYY HH:mm" />
+                } />
+              </Background>
+            </BgImage>
           </Paper>
         </Box>
         <PostTextView

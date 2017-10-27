@@ -114,16 +114,6 @@ export default class Events extends Component {
             <Box p={2}>
               <Button color="primary" component={NavLink} to="/evenements/calendrier">Calendrier</Button>
             </Box>
-            <Box p={2}>
-              <Button fab color="primary" aria-label="add" onClick={() => this.setState({ open: true })}>
-                <AddIcon />
-              </Button>
-              <AddEventForm
-                open={this.state.open}
-                handleRequestClose={this.handleRequestClose}
-                onChange={this.handleAddEventForm}
-              />
-            </Box>
           </Flex>
           <EventsList>
             {

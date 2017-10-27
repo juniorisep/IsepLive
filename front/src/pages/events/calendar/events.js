@@ -1,3 +1,5 @@
+// @flow
+
 export default [
   {
     'title': 'All Day Event',

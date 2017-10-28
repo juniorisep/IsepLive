@@ -47,16 +47,45 @@ public class EventService {
     }
     event.setClub(club);
 
-    String random = mediaUtils.randomName();
-    String eventPath = mediaUtils.resolvePath(
-      eventBaseUrl, random + ".jpg", false);
-    mediaUtils.saveJPG(image, 512, eventPath);
+    String eventPath = createImageEvent(image);
 
     event.setImageUrl(mediaUtils.getPublicUrlImage(eventPath));
     return eventRepository.save(event);
   }
 
+  private String createImageEvent(MultipartFile image) {
+    String random = mediaUtils.randomName();
+    String eventPath = mediaUtils.resolvePath(
+      eventBaseUrl, random + ".jpg", false);
+    mediaUtils.saveJPG(image, 512, eventPath);
+    return eventPath;
+  }
+
   public List<Event> getEvents() {
     return eventRepository.findAll();
+  }
+
+  public Event getEvent(Long id) {
+    Event event = eventRepository.findOne(id);
+    if (event == null) {
+      throw new IllegalArgumentException("could not find event with id: "+id);
+    }
+    return event;
+  }
+
+  public Event updateEvent(Long id, EventDTO eventDTO, MultipartFile file) {
+    Event event = getEvent(id);
+
+    event.setTitle(eventDTO.getTitle());
+    event.setDescription(eventDTO.getDescription());
+    event.setLocation(eventDTO.getLocation());
+    event.setDate(eventDTO.getDate());
+
+    if (file != null) {
+      String eventPath = createImageEvent(file);
+      event.setImageUrl(mediaUtils.getPublicUrlImage(eventPath));
+    }
+
+    return eventRepository.save(event);
   }
 }

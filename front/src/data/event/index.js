@@ -6,6 +6,19 @@ export function getEvents() {
   return axios.get('/event');
 };
 
-export function getEvent(id) {
+export function getEvent(id: number) {
   return axios.get(`/event/${id}`);
 };
+
+export function updateEvent(id: number, data) {
+  const form = new FormData();
+  console.log(data)
+  form.append('event', JSON.stringify({
+    title: data.title,
+    location: data.location,
+    date: data.date,
+    description: data.description,
+  }))
+  form.append('image', data.image);
+  return axios.put(`/event/${id}`, form);
+}

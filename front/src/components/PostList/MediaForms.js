@@ -35,16 +35,17 @@ const MediaCreatorWrap = styled.div`
 `;
 
 const FileUpload = (props) => {
+  const hash = new Date().getTime().toString(32);
   return (
     <div>
       <input
-        id="file"
+        id={hash}
         type="file"
         style={{ display: 'none' }}
         accept={props.accept ? props.accept.map(e => '.' + e).join(',') : null}
         multiple={props.multiple}
         onChange={(e) => props.onFile(e.target.files)} />
-      <label htmlFor="file">
+      <label htmlFor={hash}>
         <AddButton component="span" color="accent">{props.children}</AddButton>
       </label>
     </div>
@@ -423,6 +424,12 @@ export class EventForm extends Component {
     imagePreview: null,
   }
 
+  componentDidMount() {
+    if (this.props.post) {
+      this.setState({ ...this.props.post.media });
+    }
+  }
+
   handleFileSelect = (files) => {
     const reader = new FileReader();
     const file = files[0];
@@ -452,27 +459,28 @@ export class EventForm extends Component {
 
   render() {
     const { file } = this.state;
+    const widthTF = this.props.fullw ? 1 : [1, 1, 1 / 2];
     return (
       <div>
-        <Flex>
-          <Box w={[1, 1 / 2]} p={2}>
+        <Flex wrap>
+          <Box w={widthTF} mb={2}>
             <TextField fullWidth label="Titre" value={this.state.title} onChange={this.change('title')} />
           </Box>
-          <Box w={[1, 1 / 2]} p={2}>
+          <Box w={widthTF} mb={2}>
             <TextField fullWidth label="Lieu" value={this.state.location} onChange={this.change('location')} />
           </Box>
         </Flex>
-        <Flex>
-          <Box w={[1, 1 / 2]} p={2}>
-            <DatePicker onChange={this.handleChangeDate} />
+        <Flex wrap>
+          <Box w={widthTF} mb={2}>
+            <DatePicker date={this.state.date} onChange={this.handleChangeDate} />
           </Box>
-          <Box w={[1, 1 / 2]} p={2}>
+          <Box w={widthTF} mb={2}>
             <TextField fullWidth label="Description" multiline rows={5} value={this.state.description} onChange={this.change('description')} />
           </Box>
         </Flex>
         <div style={{ textAlign: 'center' }}>
           {
-            this.state.imagePreview &&
+            this.state.image && this.state.imagePreview &&
             <Flex justify="center">
               <Box p={2}>
                 <PreviewImage src={this.state.imagePreview} alt="" />

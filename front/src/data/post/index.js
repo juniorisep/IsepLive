@@ -15,6 +15,10 @@ export function getPost(id: number) {
   return axios.get(`/post/${id}`);
 };
 
+export function updatePost(id: number, form) {
+  return axios.put(`/post/${id}`, form);
+}
+
 export function getComments(postId: number) {
   return axios.get(`/post/${postId}/comment`);
 }

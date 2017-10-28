@@ -34,7 +34,7 @@ import {
   DocumentForm,
   GazetteForm,
   EventForm,
-} from './mediaForms';
+} from 'components/PostList/MediaForms';
 
 import {
   ProfileImage,

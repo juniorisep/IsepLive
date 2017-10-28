@@ -4,6 +4,7 @@ import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.PostUpdateDTO;
 import com.iseplive.api.dto.view.CommentView;
 import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
@@ -61,6 +62,11 @@ public class PostController {
   @GetMapping("/{id}")
   public PostView getPost(@PathVariable Long id) {
     return postService.getPostView(id);
+  }
+
+  @PutMapping("/{id}")
+  public Post updatePost(@PathVariable Long id, @RequestBody PostUpdateDTO update) {
+    return postService.updatePost(id, update);
   }
 
   @PutMapping("/{id}/pinned/{pinned}")

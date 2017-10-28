@@ -27,7 +27,8 @@ class VideoPost extends Component {
           refresh={props.refresh}
           post={props.post}
           w={size}
-          preview={props.preview} />
+          preview={props.preview}
+          modify={props.modify} />
       </Post>
     );
   }

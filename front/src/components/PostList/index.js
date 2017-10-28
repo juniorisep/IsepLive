@@ -15,6 +15,8 @@ import PostTitleView from './PostTitleView';
 
 import * as postData from 'data/post';
 
+import ModifyPostModal from './ModifyPostModal';
+
 import PollPost from './Posts/PollPost';
 import ImagePost from './Posts/ImagePost';
 import TextPost from './Posts/TextPost';
@@ -81,7 +83,7 @@ export class PostTextView extends Component {
   }
 
   render() {
-    const { post, refresh, preview } = this.props;
+    const { post, refresh, preview, modify } = this.props;
     return (
       <PostText w={this.props.w}>
         <PostTitleView post={post} />
@@ -96,7 +98,7 @@ export class PostTextView extends Component {
           {
             post.hasWriteAccess &&
             <Box ml="5px">
-              <EditButton post={post} refresh={refresh} />
+              <EditButton post={post} refresh={refresh} modify={modify} />
             </Box>
           }
           <Box ml="auto">
@@ -145,25 +147,48 @@ export function PostView(props) {
   }
 }
 
-export default function PostListView(props) {
-  return (
-    <PostList>
-      {
-        props.posts.map((p, i) => {
-          return (
-            <PostView
-              key={p.id}
-              preview={false}
-              post={p}
-              list={true}
-              invert={i % 2 === 1}
-              refresh={props.refreshPosts}
-            />
-          );
-        })
-      }
-    </PostList>
-  );
+export default class PostListView extends React.Component {
+  state = {
+    postModified: null,
+    modifyEnable: false,
+  }
+
+  modifyPost = (postModified) => {
+    this.setState({ postModified, modifyEnable: true })
+  }
+
+  requestClose = () => {
+    this.setState({ modifyEnable: false });
+  }
+
+  render() {
+    const props = this.props;
+    return (
+      <PostList>
+        {
+          props.posts.map((p, i) => {
+            return (
+              <PostView
+                key={p.id}
+                preview={false}
+                post={p}
+                list={true}
+                invert={i % 2 === 1}
+                refresh={props.refreshPosts}
+                modify={this.modifyPost}
+              />
+            );
+          })
+        }
+        <ModifyPostModal
+          post={this.state.postModified}
+          open={this.state.modifyEnable}
+          refresh={props.refreshPosts}
+          modifyPost={this.modifyPost}
+          requestClose={this.requestClose} />
+      </PostList>
+    );
+  }
 };
 
 

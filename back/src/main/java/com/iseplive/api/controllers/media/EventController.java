@@ -38,4 +38,17 @@ public class EventController {
   public List<Event> getEvents() {
     return eventService.getEvents();
   }
+
+  @GetMapping("/{id}")
+  public Event getEvent(@PathVariable Long id) {
+    return eventService.getEvent(id);
+  }
+
+  @PutMapping("/{id}")
+  public Event updateEvent(@PathVariable Long id,
+                           @RequestParam(value = "image", required = false) MultipartFile file,
+                           @RequestParam("event") String event) {
+    EventDTO eventDTO = jsonUtils.deserialize(event, EventDTO.class);
+    return eventService.updateEvent(id, eventDTO, file);
+  }
 }

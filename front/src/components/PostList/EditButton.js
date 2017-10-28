@@ -32,6 +32,7 @@ class EditButton extends Component {
 
   handleEdit = () => {
     // TODO: to implement
+    this.props.modify(this.props.post);
     this.closeMenu();
   }
   handleDelete = () => {

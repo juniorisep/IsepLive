@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import {Box} from 'grid-styled';
+import { Box } from 'grid-styled';
 
 import Poll from 'components/Poll';
 
@@ -14,7 +14,7 @@ import {
 class PollPost extends Component {
   render() {
     const props = this.props;
-    const size = props.preview ? [1] : [1, 1/2];
+    const size = props.preview ? [1] : [1, 1 / 2];
     return (
       <Post invert={props.invert}>
         <Box w={size}>
@@ -24,6 +24,7 @@ class PollPost extends Component {
           post={props.post}
           preview={props.preview}
           refresh={props.refresh}
+          modify={props.modify}
           w={size} />
       </Post>
     );

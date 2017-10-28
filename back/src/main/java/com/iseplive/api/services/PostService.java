@@ -2,6 +2,7 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.Roles;
+import com.iseplive.api.dto.PostUpdateDTO;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.exceptions.AuthException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
@@ -216,5 +217,12 @@ public class PostService {
     return posts.stream()
       .map(p -> postFactory.entityToView(p))
       .collect(Collectors.toList());
+  }
+
+  public Post updatePost(Long id, PostUpdateDTO update) {
+    Post post = getPost(id);
+    post.setTitle(update.getTitle());
+    post.setContent(update.getContent());
+    return postRepository.save(post);
   }
 }

@@ -37,6 +37,7 @@ class ImagePost extends Component {
           refresh={props.refresh}
           w={size}
           preview={props.preview}
+          modify={props.modify}
         />
       </Post>
     );

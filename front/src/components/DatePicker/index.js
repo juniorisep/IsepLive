@@ -43,12 +43,11 @@ export default class DatePicker extends React.Component {
   }
 
   componentDidMount() {
-    this.setState(
-      this.getDateComp(this.props.date || new Date())
-    );
+
   }
 
-  getDateComp(date: Date) {
+  getDateComp(datetime: number) {
+    const date = new Date(datetime);
     return {
       hour: date.getHours(),
       minute: date.getMinutes(),
@@ -106,40 +105,43 @@ export default class DatePicker extends React.Component {
   }
 
   onChange = (name: string) => (value: string) => {
-    this.setState({ [name]: value });
+    const dateComps = this.getDateComp(this.props.date);
     const {
       hour, minute,
       day, month, year,
-    } = { ...this.state, [name]: value };
+    } = { ...dateComps, [name]: value };
     this.props.onChange(new Date(year, month, day, hour, minute))
   }
 
   render() {
+
     const hours = this.buildHours().map(e => ({ value: e, name: e }));
     const minutes = this.buildMinutes().map(e => ({ value: e, name: e }));
     const days = this.buildDays().map(e => ({ value: e, name: e }));
     const months = this.buildMonths().map(e => ({ value: e, name: e + 1 }));
     const years = this.buildYears().map(e => ({ value: e, name: e }));
+
     const {
       hour, minute,
       day, month, year,
-    } = this.state;
+    } = this.getDateComp(this.props.date || new Date().getTime());
+
     return (
       <div>
-        <Flex>
-          <Box p={1} w={1} >
+        <Flex wrap>
+          <Box p={1} w={[1 / 2, 1 / 5]} >
             <TimeSelect label="Heure" value={hour} items={hours} onChange={this.onChange('hour')} />
           </Box>
-          <Box p={1} w={1} >
+          <Box p={1} w={[1 / 2, 1 / 5]} >
             <TimeSelect label="Minute" value={minute} items={minutes} onChange={this.onChange('minute')} />
           </Box>
-          <Box p={1} w={1} >
+          <Box p={1} w={[1 / 3, 1 / 5]} >
             <TimeSelect label="Jour" value={day} items={days} onChange={this.onChange('day')} />
           </Box>
-          <Box p={1} w={1} >
+          <Box p={1} w={[1 / 3, 1 / 5]} >
             <TimeSelect label="Mois" value={month} items={months} onChange={this.onChange('month')} />
           </Box>
-          <Box p={1} w={1} >
+          <Box p={1} w={[1 / 3, 1 / 5]} >
             <TimeSelect label="Année" value={year} items={years} onChange={this.onChange('year')} />
           </Box>
         </Flex>

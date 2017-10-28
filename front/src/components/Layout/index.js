@@ -186,9 +186,15 @@ class Layout extends React.Component {
       return response;
     }, function (error) {
 
-      if (error.response.status === 403) {
-        authData.logout();
-        this.props.history.push('/');
+      switch (error.response.status) {
+        case 401:
+        case 403:
+          authData.logout();
+          this.props.history.push('/');
+          break;
+
+        default:
+          break;
       }
 
       // Do something with response error

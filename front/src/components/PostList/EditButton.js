@@ -7,16 +7,28 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import MoreIcon from 'material-ui-icons/MoreHoriz';
 
 import * as postData from 'data/post';
+import * as authData from 'data/auth';
 
 class EditButton extends Component {
 
   state = {
     openMenu: false,
     pin: this.props.post.pinned,
+    canPin: false,
   }
 
   openMenu = e => this.setState({ openMenu: true, anchorEl: e.target });
   closeMenu = () => this.setState({ openMenu: false });
+
+  componentDidMount() {
+    const post = this.props.post;
+    if (post.author.authorType === 'club') {
+      this.setState({ canPin: true });
+    }
+    if (authData.hasRole(['ROLE_ADMIN', 'ROLE_POST_MANAGER'])) {
+      this.setState({ canPin: true });
+    }
+  }
 
   handleEdit = () => {
     // TODO: to implement
@@ -37,6 +49,7 @@ class EditButton extends Component {
   }
 
   render() {
+    const { canPin } = this.state;
     return (
       <div>
         <IconButton color="accent" onClick={this.openMenu}>
@@ -48,7 +61,7 @@ class EditButton extends Component {
           onRequestClose={this.closeMenu}>
           <MenuItem onClick={this.handleEdit}>Modifier</MenuItem>
           <MenuItem onClick={this.handleDelete}>Supprimer</MenuItem>
-          <MenuItem onClick={this.pinPost}>{!this.state.pin ? 'Pin post' : 'Unpin post'}</MenuItem>
+          {canPin && <MenuItem onClick={this.pinPost}>{!this.state.pin ? 'Pin post' : 'Unpin post'}</MenuItem>}
         </Menu>
       </div>
     );

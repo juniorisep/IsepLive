@@ -64,8 +64,8 @@ public class PostController {
   }
 
   @PutMapping("/{id}/pinned/{pinned}")
-  public void pinPost(@PathVariable Long id, @PathVariable Boolean pinned) {
-    postService.setPinnedPost(id, pinned);
+  public void pinPost(@PathVariable Long id, @PathVariable Boolean pinned, @AuthenticationPrincipal TokenPayload auth) {
+    postService.setPinnedPost(id, pinned, auth);
   }
 
   @DeleteMapping("/{id}")

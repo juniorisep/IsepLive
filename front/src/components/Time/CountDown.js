@@ -40,6 +40,10 @@ export default class CountDown extends React.Component {
     }, 500);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
 
   render() {
     const { date } = this.props;

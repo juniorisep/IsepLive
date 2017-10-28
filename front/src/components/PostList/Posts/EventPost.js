@@ -24,7 +24,7 @@ import {
 
 const Background = styled.div`
   // background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
-  height: 250px;
+  padding: 50px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,6 +39,12 @@ const FileLogo = styled.img`
 const FileName = styled.h2`
   font-size: 1.3em;
   font-weight: bold;
+  color: white;
+  margin: 0;
+`;
+
+const Location = styled.h3`
+  font-size: .7em;
   color: white;
   margin: 0;
 `;
@@ -59,6 +65,7 @@ export default class EventPost extends Component {
                 <CountDown date={props.post.media.date} fs=".8em" endDisplay={
                   <Time date={props.post.media.date} format="DD/MM/YYYY HH:mm" />
                 } />
+                <Location>{props.post.media.location}</Location>
               </Background>
             </BgImage>
           </Paper>

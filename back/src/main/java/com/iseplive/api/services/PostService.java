@@ -1,5 +1,9 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.Roles;
+import com.iseplive.api.entity.club.Club;
+import com.iseplive.api.exceptions.AuthException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.media.MediaRepository;
@@ -165,10 +169,18 @@ public class PostService {
     return post;
   }
 
-  public void setPinnedPost(Long id, Boolean pinned) {
+  public void setPinnedPost(Long id, Boolean pinned, TokenPayload auth) {
     Post post = getPost(id);
-    post.setPinned(pinned);
-    postRepository.save(post);
+    boolean canPinPost = auth.getRoles().contains(Roles.ADMIN);
+    canPinPost |= auth.getRoles().contains(Roles.POST_MANAGER);
+    canPinPost |= post.getAuthor() instanceof Club;
+    if (canPinPost) {
+      post.setPinned(pinned);
+      postRepository.save(post);
+      return;
+    }
+
+    throw new AuthException("you are not allowed to pin this post");
   }
 
   public List<Author> getAuthors(Long studId) {

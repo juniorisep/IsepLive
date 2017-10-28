@@ -28,6 +28,7 @@ import {
   Paper,
   Text,
   Title,
+  ScrollToTopOnMount,
 } from 'components/common';
 
 const PersonStyle = styled.div`
@@ -57,6 +58,7 @@ export default function AdressbookDetailView(props) {
   } = props;
   return (
     <FluidContent>
+      <ScrollToTopOnMount />
       <Flex wrap>
         <Box p={2} width={[1, 1 / 4]}>
           <PersonStyle>

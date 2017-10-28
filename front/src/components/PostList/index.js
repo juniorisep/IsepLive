@@ -150,14 +150,13 @@ export default function PostListView(props) {
     <PostList>
       {
         props.posts.map((p, i) => {
-          const invert = i % 2 === 1;
           return (
             <PostView
               key={p.id}
               preview={false}
               post={p}
               list={true}
-              invert={invert}
+              invert={i % 2 === 1}
               refresh={props.refreshPosts}
             />
           );

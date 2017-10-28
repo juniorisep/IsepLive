@@ -15,6 +15,8 @@ import {
 import CountDown from '../../Time/CountDown';
 import Time from '../../Time';
 
+import { Link } from 'react-router-dom';
+
 import {
   BgImage,
   ImageLink,
@@ -60,7 +62,11 @@ export default class EventPost extends Component {
           <Paper>
             <BgImage src={props.post.media.imageUrl}>
               <Background>
-                <FileLogo src="/img/svg/event.svg" />
+                <Link to={`/evenements/${props.post.media.id}`}>
+                  <Tooltip title="Afficher l'évenement" placement="top">
+                    <FileLogo src="/img/svg/event.svg" />
+                  </Tooltip>
+                </Link>
                 <FileName>{props.post.media.title}</FileName>
                 <CountDown date={props.post.media.date} fs=".8em" endDisplay={
                   <Time date={props.post.media.date} format="DD/MM/YYYY HH:mm" />

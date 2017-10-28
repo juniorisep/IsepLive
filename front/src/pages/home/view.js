@@ -16,11 +16,12 @@ import {
 } from 'components/common';
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
+import BookmarkIcon from 'material-ui-icons/Bookmark';
 
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
 
-import { BACKGROUND_COLOR } from '../../colors';
+import { BACKGROUND_COLOR, MAIN_COLOR } from '../../colors';
 
 const Background = styled.div`
   background: url(/img/background.jpg);
@@ -74,9 +75,9 @@ export default function Home(props) {
                 {
                   props.pinnedPosts.length > 0 &&
                   <div>
-                    <Title invert>Articles accrochés</Title>
+                    <BookmarkIcon style={{ color: MAIN_COLOR }} />
                     <PostListView posts={props.pinnedPosts} refreshPosts={props.refreshPosts} />
-                    <Separator />
+                    <Filler h={50} />
                   </div>
                 }
                 <PostListView posts={props.posts} refreshPosts={props.refreshPosts} />

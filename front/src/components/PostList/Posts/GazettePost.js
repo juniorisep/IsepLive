@@ -51,7 +51,9 @@ class GazettePost extends Component {
           <Paper>
             <Background>
               <a href={backUrl + props.post.media.url}>
-                <FileLogo src="/img/svg/gazette-icon.svg" />
+                <Tooltip title="Télécharger la gazette" placement="top">
+                  <FileLogo src="/img/svg/gazette-icon.svg" />
+                </Tooltip>
               </a>
               <FileName>{props.post.media.title}</FileName>
             </Background>

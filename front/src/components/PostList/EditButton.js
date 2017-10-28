@@ -61,7 +61,7 @@ class EditButton extends Component {
           onRequestClose={this.closeMenu}>
           <MenuItem onClick={this.handleEdit}>Modifier</MenuItem>
           <MenuItem onClick={this.handleDelete}>Supprimer</MenuItem>
-          {canPin && <MenuItem onClick={this.pinPost}>{!this.state.pin ? 'Pin post' : 'Unpin post'}</MenuItem>}
+          {canPin && <MenuItem onClick={this.pinPost}>{!this.state.pin ? 'Pin' : 'Unpin'}</MenuItem>}
         </Menu>
       </div>
     );

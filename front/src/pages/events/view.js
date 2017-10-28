@@ -6,7 +6,16 @@ import styled from 'styled-components';
 
 import { Box, Flex } from 'grid-styled';
 
-import { Banner, Filler, FluidContent, Header, SearchBar, BgImage } from 'components/common';
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  SearchBar,
+  BgImage,
+  Text,
+} from 'components/common';
+
 import Time from 'components/Time';
 import Author from 'components/Author';
 
@@ -17,6 +26,8 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 
 import { Link, NavLink } from 'react-router-dom';
+
+import Loader from 'components/Loader';
 
 const EventsList = styled.ul`
   padding: 0;
@@ -71,17 +82,6 @@ const Event = (props) => {
 };
 
 export default class Events extends Component {
-  state = {
-    alpha: 'futur',
-    open: false,
-  };
-
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-  handleRequestClose = () => {
-    this.setState({ open: false });
-  };
   render() {
     return (
       <div>
@@ -99,14 +99,14 @@ export default class Events extends Component {
           <Flex align="center">
             <Box flex="0 0 auto" ml="auto" p={2}>
               <FormControl>
-                <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
+                <InputLabel htmlFor="alpha-simple">Evenements</InputLabel>
                 <Select
-                  value={this.state.alpha}
-                  onChange={this.handleChange('alpha')}
+                  value={this.props.eventsFilter}
+                  onChange={(e) => this.props.onModifyFilter(e.target.value)}
                   input={<Input id="alpha-simple" />}
                 >
-                  <MenuItem value='futur'>Evenements à venir</MenuItem>
-                  <MenuItem value='past'>Evenements passés</MenuItem>
+                  <MenuItem value='next'>à venir</MenuItem>
+                  <MenuItem value='past'>passés</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -115,15 +115,18 @@ export default class Events extends Component {
             </Box>
           </Flex>
           <EventsList>
-            {
-              this.props.events.map(e => {
-                return (
-                  <div key={e.id}>
-                    <Event event={e} />
-                  </div>
-                )
-              })
-            }
+            <Loader loading={this.props.isLoading}>
+              {this.props.events.length === 0 && <Text>Aucun évenement</Text>}
+              {
+                this.props.events.map(e => {
+                  return (
+                    <div key={e.id}>
+                      <Event event={e} />
+                    </div>
+                  )
+                })
+              }
+            </Loader>
           </EventsList>
         </FluidContent>
       </div>

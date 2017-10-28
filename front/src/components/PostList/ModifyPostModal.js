@@ -26,11 +26,14 @@ export default class ModifyPostModal extends React.Component {
       title,
       content,
     })
-    const media = this.props.post.media;
-    let resEvent = await eventData.updateEvent(media.id, media);
+    if (this.props.post.media) {
+      const media = this.props.post.media;
+      if (media.mediaType === 'event') {
+        let resEvent = await eventData.updateEvent(media.id, media);
+      }
+    }
     this.props.refresh();
     this.props.requestClose();
-
   }
 
   change = name => event => {
@@ -82,7 +85,7 @@ export default class ModifyPostModal extends React.Component {
               value={this.props.post.content}
               onChange={this.change('content')} />
             {
-              props.post.media.mediaType === 'event' &&
+              props.post.media && props.post.media.mediaType === 'event' &&
               <div>
                 <Title fontSize={1.4} invert>Evenement</Title>
                 <EventForm fullw post={this.props.post} update={this.changeMedia} />

@@ -7,7 +7,12 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
 
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import indigo from 'material-ui/colors/indigo';
@@ -24,6 +29,7 @@ import Layout from './components/Layout';
 import AlertCenter from 'components/Alert';
 
 import { backUrl } from './config';
+
 
 axios.defaults.baseURL = backUrl;
 
@@ -48,7 +54,7 @@ const App = () => (
             <Redirect path="/" exact to="/connexion" />
             <Route path="/connexion" component={Login} />
             {/* <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} /> */}
-            {<Route path="/" component={Layout} />}
+            <Route path="/" component={Layout} />
           </Switch>
         </Router>
         <AlertCenter />

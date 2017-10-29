@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import { NavLink, Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
@@ -162,6 +162,40 @@ const navList = (Component) => (
   </div>
 );
 
+
+const Intercept = (props) => {
+
+  axios.interceptors.response.use((response) => {
+    // Do something with response data
+    const token = response.headers['Authorization'];
+    const refreshToken = response.headers['X-Refresh-Token'];
+    if (token && refreshToken) {
+      authData.setToken({ token, refreshToken });
+    };
+    return response;
+  }, (error) => {
+
+    switch (error.response.status) {
+      case 401:
+      case 403:
+        authData.logout();
+        props.history.push('/');
+        break;
+
+      default:
+        break;
+    }
+
+    // Do something with response error
+    return Promise.reject(error);
+  });
+
+  return null;
+}
+
+const Interceptor = withRouter(Intercept);
+
+
 class Layout extends React.Component {
 
   state = {
@@ -175,31 +209,14 @@ class Layout extends React.Component {
 
   Profile = undefined;
 
-  componenDidMount() {
-    axios.interceptors.response.use(function (response) {
-      // Do something with response data
-      const token = response.headers['Authorization'];
-      const refreshToken = response.headers['X-Refresh-Token'];
-      if (token && refreshToken) {
-        authData.setToken({ token, refreshToken });
-      };
-      return response;
-    }, function (error) {
+  componentDidMount() {
+    this.setupNotifications();
+  }
 
-      switch (error.response.status) {
-        case 401:
-        case 403:
-          authData.logout();
-          this.props.history.push('/');
-          break;
+  setupNotifications() {
+    if (authData.isLoggedIn()) {
 
-        default:
-          break;
-      }
-
-      // Do something with response error
-      return Promise.reject(error);
-    });
+    }
   }
 
   handleSideBarClose = () => {
@@ -224,6 +241,7 @@ class Layout extends React.Component {
     const { username, password } = this.state;
     authData.connect(username, password).then(res => {
       this.handleRequestClose();
+      this.props.history.push('/')
     }).catch(err => {
       alert('wooops')
     });
@@ -232,6 +250,7 @@ class Layout extends React.Component {
   render() {
     return (
       <Root>
+        <Interceptor />
         <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Logo

@@ -25,7 +25,6 @@ import type { PostDTO } from 'data/post/type';
 
 import {
   MediaCreator,
-
   PollForm,
   ImageForm,
   VideoEmbedForm,

@@ -32,7 +32,7 @@ public class PostHandler extends TextWebSocketHandler {
     try {
       DecodedJWT jwt = jwtTokenUtil.decodeToken(message.getPayload());
       TokenPayload tokenPayload = jwtTokenUtil.getPayload(jwt);
-      postMessageService.addClient(tokenPayload.getId(), session);
+      postMessageService.addSession(tokenPayload.getId(), session);
     } catch (JWTVerificationException e) {
 //      LOG.error("token invalid: {}", e);
       session.close();

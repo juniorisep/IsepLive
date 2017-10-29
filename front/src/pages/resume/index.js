@@ -47,6 +47,16 @@ class Resume extends Component {
     this.setState({ posts: data });
   }
 
+  toggleNotif = async () => {
+    const res = await userData.toggleNotifications();
+    this.setState({
+      data: {
+        ...this.state.data,
+        allowNotifications: !this.state.data.allowNotifications,
+      }
+    })
+  }
+
   onModify = () => {
     this.setState({ open: true })
   }
@@ -60,6 +70,7 @@ class Resume extends Component {
           open={this.state.open}
           onModify={this.onModify}
           refreshPosts={this.refreshPosts}
+          toggleNotif={this.toggleNotif}
           handleRequestClose={this.handleRequestClose}
           handleUpdate={this.handleUpdate} />
       </Loader>

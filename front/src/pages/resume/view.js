@@ -51,6 +51,7 @@ export default function ResumeView(props) {
     address,
     mail,
     mailISEP,
+    allowNotifications,
     },
     posts,
   } = props;
@@ -100,7 +101,7 @@ export default function ResumeView(props) {
               <Title fontSize={1.3} invert>Parametres</Title>
               <div>
                 <FormControlLabel
-                  control={<Checkbox />}
+                  control={<Checkbox checked={allowNotifications} onChange={props.toggleNotif} />}
                   label="Notification lorsqu'une association publie un post / évènement."
                 />
               </div>

@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.student.RoleRepository;
 import com.iseplive.api.dao.student.StudentFactory;
@@ -120,5 +121,11 @@ public class StudentService {
 
   public Role getRole(String role) {
     return roleRepository.findByRole(role);
+  }
+
+  public void toggleNotifications(TokenPayload tokenPayload) {
+    Student student = getStudent(tokenPayload.getId());
+    student.setAllowNotifications(!student.getAllowNotifications());
+    studentRepository.save(student);
   }
 }

@@ -29,6 +29,10 @@ export function getPosts(id: number) {
   return axios.get(`/user/student/${id}/post`);
 }
 
+export function toggleNotifications() {
+  return axios.put('/user/student/notification');
+}
+
 export function importStudents(csv, photos, onUploadProgress) {
   let form = new FormData();
   form.append('csv', csv);

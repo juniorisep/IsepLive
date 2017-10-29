@@ -76,4 +76,9 @@ public class UserController {
     return studentImportService.importStudents(csv, photos);
   }
 
+  @PutMapping("/student/notification")
+  public void toggleNotification(@AuthenticationPrincipal TokenPayload auth) {
+    studentService.toggleNotifications(auth);
+  }
+
 }

@@ -24,10 +24,9 @@ public class PostMessageService {
   @Autowired
   private JsonUtils jsonUtils;
 
-  public void addClient(Long id, WebSocketSession session) {
+  public void addSession(Long id, WebSocketSession session) {
     clients.computeIfAbsent(id, k -> ConcurrentHashMap.newKeySet());
     clients.get(id).add(session);
-    System.out.println("id: "+ id +" add: " +clients);
   }
 
   public void removeSession(WebSocketSession session) {
@@ -36,7 +35,6 @@ public class PostMessageService {
         clients.get(id).remove(session);
       }
     });
-    System.out.println("remove: "+clients);
   }
 
   public void broadcastPost(Long senderId, Post p) {

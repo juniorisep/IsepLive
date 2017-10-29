@@ -82,6 +82,16 @@ public class JwtTokenUtil {
     return new TokenSet(token, refreshToken);
   }
 
+  public TokenPayload getPayload(DecodedJWT jwt) {
+    String payload = jwt.getClaim(CLAIM_PAYLOAD).asString();
+    try {
+      return new ObjectMapper().readValue(payload, TokenPayload.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   public String refreshToken(DecodedJWT jwt) {
     String payloadString = jwt.getClaim(CLAIM_PAYLOAD).asString();
     try {

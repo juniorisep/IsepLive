@@ -20,7 +20,12 @@ class Home extends Component {
   componentDidMount() {
     this.getPosts();
     this.getPinnedPosts();
-  };
+    document.addEventListener('new-post', this.refreshPosts.bind(this));
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('new-post', this.refreshPosts.bind(this))
+  }
 
   getPosts() {
     if (this.state.page === 0) {
@@ -46,6 +51,7 @@ class Home extends Component {
   };
 
   refreshPosts = () => {
+    console.log('refresh')
     postData.getPosts(0).then(res => {
       this.setState({
         posts: res.data.content,

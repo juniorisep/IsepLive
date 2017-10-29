@@ -29,6 +29,7 @@ public class Student extends Author implements UserDetails {
   private String facebook;
   private String instagram;
   private String twitter;
+  private Boolean allowNotifications;
 
   private String photoUrl;
   private String photoUrlThumb;
@@ -209,5 +210,13 @@ public class Student extends Author implements UserDetails {
 
   public void setPhotoUrlThumb(String photoUrlThumb) {
     this.photoUrlThumb = photoUrlThumb;
+  }
+
+  public Boolean getAllowNotifications() {
+    return allowNotifications;
+  }
+
+  public void setAllowNotifications(Boolean allowNotifications) {
+    this.allowNotifications = allowNotifications;
   }
 }

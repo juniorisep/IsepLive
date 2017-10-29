@@ -29,7 +29,6 @@ export const connect = (username: string, password: string) => {
 };
 
 export const setToken = (tokenSet: TokenSet) => {
-  // console.log(tokenSet);
   localStorage.setItem('token', tokenSet.token);
   localStorage.setItem('refreshToken', tokenSet.refreshToken);
   axios.defaults.headers.common['Authorization'] = `Bearer ${tokenSet.token}`;

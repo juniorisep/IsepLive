@@ -18,6 +18,7 @@ import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.websocket.PostMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -64,6 +65,9 @@ public class PostService {
   @Autowired
   ClubService clubService;
 
+  @Autowired
+  PostMessageService postMessageService;
+
   public Pageable createPage(int page) {
     return new PageRequest(page, 5);
   }
@@ -88,13 +92,16 @@ public class PostService {
     return posts.stream().map(post -> postFactory.entityToView(post)).collect(Collectors.toList());
   }
 
-  public Post createPost(PostDTO postDTO) {
+  public Post createPost(TokenPayload auth, PostDTO postDTO) {
     Post post = postFactory.dtoToEntity(postDTO);
     // TODO: check if authorId is allowed to be used by the user logged in
     post.setAuthor(authorRepository.findOne(postDTO.getAuthorId()));
     post.setCreationDate(new Date());
     post.setPublishState(PublishStateEnum.WAITING);
-    return postRepository.save(post);
+
+    post = postRepository.save(post);
+    postMessageService.broadcastPost(auth.getId(), post);
+    return post;
   }
 
   public List<CommentView> getComments(Long postId) {

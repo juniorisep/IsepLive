@@ -42,8 +42,8 @@ public class PostController {
   }
 
   @PostMapping
-  public Post createPost(@RequestBody PostDTO post) {
-    return postService.createPost(post);
+  public Post createPost(@RequestBody PostDTO post, @AuthenticationPrincipal TokenPayload auth) {
+    return postService.createPost(auth, post);
   }
 
   @GetMapping("/pinned")

@@ -16,7 +16,15 @@ public class JsonUtils {
     try {
       return new ObjectMapper().readValue(raw, type);
     } catch (IOException e) {
-      throw new IllegalArgumentException("could not serialize data");
+      throw new IllegalArgumentException("could not deserialize data", e);
+    }
+  }
+
+  public String serialize(Object obj) {
+    try {
+      return new ObjectMapper().writeValueAsString(obj);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("could not serialize data", e);
     }
   }
 }

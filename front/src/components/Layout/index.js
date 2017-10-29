@@ -39,9 +39,11 @@ import UserAgreement from 'pages/userAgreement';
 import Admin from 'pages/administration';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+import { backUrl, wsUrl } from '../../config';
 import { FluidContent } from '../common';
 
 import * as authData from 'data/auth';
+import * as userData from 'data/users/student';
 
 import Profile from './profile';
 import LoginForm from '../LoginForm';
@@ -167,23 +169,24 @@ const Intercept = (props) => {
 
   axios.interceptors.response.use((response) => {
     // Do something with response data
-    const token = response.headers['Authorization'];
-    const refreshToken = response.headers['X-Refresh-Token'];
+    const token = response.headers['authorization'];
+    const refreshToken = response.headers['x-refresh-token'];
     if (token && refreshToken) {
       authData.setToken({ token, refreshToken });
     };
     return response;
   }, (error) => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+        case 403:
+          authData.logout();
+          props.history.push('/');
+          break;
 
-    switch (error.response.status) {
-      case 401:
-      case 403:
-        authData.logout();
-        props.history.push('/');
-        break;
-
-      default:
-        break;
+        default:
+          break;
+      }
     }
 
     // Do something with response error
@@ -210,12 +213,61 @@ class Layout extends React.Component {
   Profile = undefined;
 
   componentDidMount() {
+    this.restartWS = true;
     this.setupNotifications();
   }
 
-  setupNotifications() {
-    if (authData.isLoggedIn()) {
+  componentWillUnmount() {
+    if (this.conn) {
+      this.restartWS = false;
+      this.conn.close();
+      clearTimeout(this.restartTimeout);
+    }
+  }
 
+  initWebsocket() {
+    this.conn = new WebSocket(wsUrl + '/ws/post/websocket');
+    this.conn.onopen = () => {
+      this.conn.send(localStorage.getItem('token'));
+    }
+
+    this.conn.onmessage = (msg) => {
+      console.log("message", msg)
+      try {
+        const message = JSON.parse(msg.data);
+        const authorData = message.author;
+        const body = authorData.authorType === 'club' ? message.title : message.content;
+        const image = authorData.authorType === 'club' ? authorData.logoThumbUrl : authorData.photoUrlThumb;
+
+        Notification.requestPermission(function (status) {
+          // console.log(status); // les notifications ne seront affichées que si "autorisées"
+          const n = new Notification("Nouveau Post !", { body, icon: backUrl + image }); // this also shows the notification
+          const postEvent = new CustomEvent('new-post');
+          document.dispatchEvent(postEvent);
+        });
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    this.conn.onclose = (e) => {
+      console.log('closing ws', e)
+      if (this.restartWS) {
+        this.restartTimeout = setTimeout(() => {
+          this.initWebsocket();
+        }, 5000);
+      }
+    }
+  }
+
+  setupNotifications = async () => {
+    if (authData.isLoggedIn()) {
+      const res = await userData.getLoggedUser();
+      if (res.data.allowNotifications) {
+        if (window.WebSocket) {
+          this.initWebsocket();
+        }
+      }
     }
   }
 

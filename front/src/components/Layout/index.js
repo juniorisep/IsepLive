@@ -306,7 +306,7 @@ class Layout extends React.Component {
         <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Logo
-              src="/img/svg/iseplive.svg"
+              src="/img/layout/iseplive.png"
               alt="isep-live-logo"
               onClick={() => this.setState({ sidebarOpen: true })} />
             <NavMenu>
@@ -399,13 +399,13 @@ class Layout extends React.Component {
                   <h2>Partenaires</h2>
                   <Flex>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/juniorisep.png" alt="Junior ISEP logo" /></a>
+                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/layout/juniorisep.png" alt="Junior ISEP logo" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/alten.png" alt="Alten logo" /></a>
+                      <a href="https://aupontier.wixsite.com/cosmozbde2017" target="_blank" rel="noopener noreferrer"><img src="/img/layout/cosmoz.png" alt="Cosmoz logo" /></a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://aupontier.wixsite.com/cosmozbde2017" target="_blank" rel="noopener noreferrer"><img src="/img/partenaires/cosmoz.png" alt="Cosmoz logo" /></a>
+                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/layout/isep.png" alt="Alten logo" /></a>
                     </Box>
                   </Flex>
                 </SocialBox>

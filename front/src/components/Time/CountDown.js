@@ -46,7 +46,6 @@ export default class CountDown extends React.Component {
     clearInterval(this.timer);
   }
 
-
   render() {
     const { date } = this.props;
     const { days, hours, minutes, seconds, isFinished } = this.state;

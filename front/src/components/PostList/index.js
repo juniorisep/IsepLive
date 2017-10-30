@@ -92,7 +92,7 @@ export class PostTextView extends Component {
           {
             !preview &&
             <Button dense color="accent" component={NavLink} to={`/post/${post.id}`}>
-              Voir plus
+              Commentaires
             </Button>
           }
           {

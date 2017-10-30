@@ -76,7 +76,7 @@ class HallOfFame extends Component {
                 borderRadius: '10px'
               }}>
                 <h3>Dieu - 2016</h3>
-                <p>Créée IsepLive le 1 juin 2006 à la suite de l'annonce du ministre chinois de la culture Sun Jiazheng : le ouvernement chinois a décidé la création de la "journée du Partimoine culturel" en Chine, qui sera célébrée chaque année le deuxième samedi du mois de juin.</p>
+                <p>Créée ISEPLive le 1 juin 2006 à la suite de l'annonce du ministre chinois de la culture Sun Jiazheng : le ouvernement chinois a décidé la création de la "journée du Partimoine culturel" en Chine, qui sera célébrée chaque année le deuxième samedi du mois de juin.</p>
               </Paper>
             </Box>
             <Box p={2} width={[
@@ -96,7 +96,7 @@ class HallOfFame extends Component {
               </BgImageStyle>
             </Box>
           </Flex>
-          <h3>Les didacteurs</h3>
+          <h3>Les dictateurs</h3>
           <Flex wrap>
             <Box p={2} width={[1, 1 / 4]}>
               <Person

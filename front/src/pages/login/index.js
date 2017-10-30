@@ -48,7 +48,7 @@ const Content = styled.div`
   }
 `;
 
-const Separator = styled.div`
+/*const Separator = styled.div`
   width: 0;
   border: 0;
   height: 50%;
@@ -61,7 +61,7 @@ const Separator = styled.div`
     border-top: 4px dashed ${SECONDARY_COLOR};
     margin-bottom: 50px;
   }
-`;
+`;*/
 
 const TitleContainer = styled.div`
   flex: 1;
@@ -202,7 +202,7 @@ export default class Login extends Component {
               <a href="https://www.isep.fr/" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/isep.png" alt="ISEP logo" /></a>
             </LogoPartner>
           </TitleContainer>
-          <Separator />
+          {/*<Separator />*/}
           <AccessContainer>
             <ButtonContainer>
               <BigButton // style={CUSTOM_STYLES.btn}

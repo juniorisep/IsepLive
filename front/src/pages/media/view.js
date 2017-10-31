@@ -149,7 +149,7 @@ class MediaView extends Component {
                 <FormControl style={STYLE_FORMCONTROL}>
                   <InputLabel htmlFor="year-multiple">Années</InputLabel>
                     <Select
-                      multiple
+                      multiple {/* TODO multiple do not work*/}
                       value={this.state.year}
                       onChange={this.handleChange}
                       input={<Input id="year-multiple" />}

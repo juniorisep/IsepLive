@@ -7,6 +7,10 @@ import { Box, Flex } from 'grid-styled';
 import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 import Button from 'material-ui/Button';
+import Input, { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Select from 'material-ui/Select';
 
 import { Link } from 'react-router-dom';
 
@@ -21,6 +25,8 @@ import {
   Separator,
   Text,
 } from 'components/common';
+
+import { MAIN_COLOR } from '../../colors';
 
 import Gallery from 'components/Gallery';
 
@@ -45,12 +51,32 @@ const DateSeparator = (props) => {
   );
 };
 
+const STYLE_CONTAINER = {
+  display: 'flex',
+  flexWrap: 'wrap',
+}
+
+const STYLE_FORMCONTROL = {
+  minWidth: 120,
+  maxWidth: 300,
+}
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const now = new Date().getFullYear();
+let years = [];
+for (var i = 1; i < 6; i++) {
+  years.push(now + i);
+}
+
 class MediaView extends Component {
   state = {
     showGallerie: false,
     photos: true,
     videos: true,
     gazettes: true,
+    year: [],
   };
 
   toggleGallerie = () => {
@@ -117,6 +143,40 @@ class MediaView extends Component {
                   checked={this.state.gazettes}
                   onChange={this.handleChange('gazettes')} />
               } label="Gazettes" />
+            </Box>
+            <Box mb={2}>
+              <div style={STYLE_CONTAINER}>
+                <FormControl style={STYLE_FORMCONTROL}>
+                  <InputLabel htmlFor="year-multiple">Années</InputLabel>
+                    <Select
+                      multiple
+                      value={this.state.year}
+                      onChange={this.handleChange}
+                      input={<Input id="year-multiple" />}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                            width: 200,
+                          },
+                        },
+                      }}
+                    >
+                      {years.map(year => (
+                        <MenuItem
+                          key={year}
+                          value={year}
+                          style={{
+                            fontWeight: this.state.year.indexOf(year) !== -1 ? '500' : '400',
+                          }}
+                        >
+                          {year}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  <FormHelperText>Sélection multiple</FormHelperText>
+                </FormControl>
+              </div>
             </Box>
           </Flex>
           <Loader loading={this.props.isLoading}>

@@ -410,6 +410,11 @@ class Layout extends React.Component {
                   </Flex>
                 </SocialBox>
               </Box>
+              <Box w={1} p={2}>
+                <SocialBox>
+                  <h2>Site Internet développé par Guillaume CARRE et Victor ELY</h2>
+                </SocialBox>
+              </Box>
             </Flex>
           </FluidContent>
         </Footer>

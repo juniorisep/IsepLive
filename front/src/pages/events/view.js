@@ -97,7 +97,7 @@ export default class Events extends Component {
         </Header>
         <FluidContent>
           <Flex align="center">
-            <Box flex="0 0 auto" ml="auto" p={2}>
+            <Box flex="0 0 auto" ml="auto">
               <FormControl>
                 <InputLabel htmlFor="alpha-simple">Evenements</InputLabel>
                 <Select
@@ -110,7 +110,7 @@ export default class Events extends Component {
                 </Select>
               </FormControl>
             </Box>
-            <Box p={2}>
+            <Box flex="0 0 auto" ml="10px">
               <Button color="primary" component={NavLink} to="/evenements/calendrier">Calendrier</Button>
             </Box>
           </Flex>

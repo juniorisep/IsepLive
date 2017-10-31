@@ -94,7 +94,7 @@ export default class AddressBook extends Component {
                 <FormControl style={STYLE_FORMCONTROL}>
                   <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
                   <Select
-                    multiple
+                    multiple {/* TODO multiple do not work*/}
                     value={this.props.year}
                     onChange={this.props.onPromoFilter}
                     input={<Input id="year-multiple" />}

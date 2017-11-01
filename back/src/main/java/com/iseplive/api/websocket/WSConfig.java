@@ -17,7 +17,7 @@ public class WSConfig implements WebSocketConfigurer {
 
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-    registry.addHandler(postHandler(), "/ws/post").setAllowedOrigins("*").withSockJS();
+    registry.addHandler(postHandler(), "/ws/post").setAllowedOrigins("*");
   }
 
   @Bean

@@ -224,7 +224,7 @@ class Layout extends React.Component {
   };
 
   initWebsocket() {
-    this.conn = new WebSocket(wsUrl + '/ws/post/websocket');
+    this.conn = new WebSocket(wsUrl + '/ws/post');
     this.conn.onopen = () => {
       this.conn.send(localStorage.getItem('token'));
     };

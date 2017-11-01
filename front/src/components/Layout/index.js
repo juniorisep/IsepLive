@@ -287,7 +287,8 @@ class Layout extends React.Component {
     this.setState({ open: false });
   };
 
-  handleConnect = () => {
+  handleConnect = (e) => {
+    e.preventDefault();
     const { username, password } = this.state;
     authData.connect(username, password).then(res => {
       this.handleRequestClose();

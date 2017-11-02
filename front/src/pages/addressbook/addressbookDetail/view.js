@@ -5,26 +5,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
-import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
-import Slide from 'material-ui/transitions/Slide';
-import TextField from 'material-ui/TextField';
-import { FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
-
-
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 
-
 import {
-  Banner,
-  Filler,
   FluidContent,
-  Header,
   ProfileImage,
-  SearchBar,
   Paper,
   Text,
   Title,

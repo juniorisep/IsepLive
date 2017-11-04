@@ -11,15 +11,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import Button from 'material-ui/Button';
 
-import {
-  Banner,
-  Filler,
-  FluidContent,
-  Header,
-  ProfileImage,
-  SearchBar,
-  Text
-} from 'components/common';
+import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Text } from 'components/common';
 import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
@@ -44,17 +36,17 @@ const Person = (props) => {
       </MainText>
     </div>
   );
-}
+};
 
 const STYLE_CONTAINER = {
   display: 'flex',
   flexWrap: 'wrap',
-}
+};
 
 const STYLE_FORMCONTROL = {
   minWidth: 120,
   maxWidth: 300,
-}
+};
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -63,10 +55,9 @@ const now = new Date().getFullYear();
 let years = [];
 for (var i = 1; i < 6; i++) {
   years.push(now + i);
-}
+};
 
 export default class AddressBook extends Component {
-
   render() {
     return (
       <div>

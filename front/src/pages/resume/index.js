@@ -27,9 +27,9 @@ class Resume extends Component {
         .then(() => {
           this.setState({ open: false })
           this.getUserData();
-        })
-    }
-  }
+        });
+    };
+  };
 
   componentDidMount() {
     this.getUserData();
@@ -39,13 +39,13 @@ class Resume extends Component {
   getUserData = async () => {
     const { data } = await userData.getLoggedUser();
     this.setState({ data });
-  }
+  };
 
   refreshPosts = async () => {
     const user = await authData.getUser();
     const { data } = await userData.getPosts(user.id);
     this.setState({ posts: data });
-  }
+  };
 
   toggleNotif = async () => {
     const res = await userData.toggleNotifications();
@@ -53,13 +53,13 @@ class Resume extends Component {
       data: {
         ...this.state.data,
         allowNotifications: !this.state.data.allowNotifications,
-      }
-    })
-  }
+      },
+    });
+  };
 
   onModify = () => {
     this.setState({ open: true })
-  }
+  };
 
   render() {
     return (

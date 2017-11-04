@@ -1,15 +1,14 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import ClubView from './view';
 
 import * as clubData from 'data/club';
 
 class Club extends Component {
-
   state = {
-    clubs: []
+    clubs: [],
   };
 
   componentDidMount() {

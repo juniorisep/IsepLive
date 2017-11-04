@@ -78,7 +78,7 @@ const ImageStyle = styled.img`
 
 type ImageType = {
   src?: string, alt?: string, w?: string | number, ml?: string
-}
+};
 
 export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
 
@@ -112,7 +112,7 @@ const BgImageStyle = styled.div`
 
 export const BgImage = (props) => {
   return <BgImageStyle {...props} src={props.src && backUrl + props.src} />
-}
+};
 
 export const ImageLink = (props) => {
   return <a href={backUrl + props.src}>{props.children}</a>;
@@ -177,7 +177,7 @@ export const FacebookVideo = (props) => {
     <IframeWrap>
       <iframe src={props.url} scrolling="no" allowTransparency allowFullScreen />
     </IframeWrap>
-  )
+  );
 };
 
 const Iframe = styled.iframe`

@@ -6,15 +6,9 @@ import { GridList, GridListTile } from 'material-ui/GridList';
 
 import styled from 'styled-components';
 
-import {
-  Post,
-  PostTextView,
-} from 'components/PostList';
+import { Post, PostTextView } from 'components/PostList';
 
-import {
-  BgImage,
-  Paper,
-} from 'components/common';
+import { BgImage, Paper } from 'components/common';
 
 const Header = styled.div`
   color: ${props => props.theme.accent};
@@ -28,9 +22,7 @@ const Gallery = styled.div`
   min-height: 300px;
 `;
 
-
 class GalleryPost extends Component {
-
   render() {
     const props = this.props;
     const size = props.preview ? [1] : [1, 1 / 2];
@@ -61,7 +53,7 @@ class GalleryPost extends Component {
           modify={props.modify} />
       </Post>
     );
-  }
-}
+  };
+};
 
 export default GalleryPost;

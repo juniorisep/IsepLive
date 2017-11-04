@@ -2,17 +2,13 @@
 
 import React from "react";
 
-import {
-  Title,
-} from "../../../components/common";
+import { Title } from "../../../components/common";
 import Button from 'material-ui/Button';
 import { LinearProgress } from 'material-ui/Progress';
 import { sendAlert } from '../../../components/Alert';
 import * as studentData from '../../../data/users/student';
 
-
 export default class ImportStudents extends React.Component {
-
   state = {
     csv: null,
     photos: [],
@@ -29,13 +25,13 @@ export default class ImportStudents extends React.Component {
     }).then(r => {
       sendAlert("Users imported")
       this.setState({ uploading: false, progress: 0 })
-    })
-  }
+    });
+  };
 
   handle = name => e => {
     let file = (name === 'csv') ? e.target.files[0] : e.target.files;
     this.setState({ [name]: file })
-  }
+  };
 
   render() {
     const { uploading, progress, csv, photos } = this.state;
@@ -61,5 +57,5 @@ export default class ImportStudents extends React.Component {
         <Button disabled={uploading || !csv || photos.length === 0} raised color="accent" onClick={this.importStudents}>Importer</Button>
       </div>
     );
-  }
-}
+  };
+};

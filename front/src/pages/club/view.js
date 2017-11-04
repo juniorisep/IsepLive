@@ -8,12 +8,7 @@ import {Banner, Filler, FluidContent, Header, Image, SearchBar} from 'components
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 
@@ -50,6 +45,7 @@ export default class Club extends Component {
   handleRequestClose = () => {
     this.setState({ open: false });
   };
+
   render() {
     return (
       <div>
@@ -81,7 +77,7 @@ export default class Club extends Component {
                       <ClubTile url={e.logoUrl} name={e.name} />
                     </Link>
                   </Box>
-                )
+                );
               })
             }
           </Flex>

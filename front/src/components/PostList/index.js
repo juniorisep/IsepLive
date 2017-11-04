@@ -80,7 +80,7 @@ export class PostTextView extends Component {
 
   toggleLike = () => {
     postData.toggleLikePost(this.props.post.id);
-  }
+  };
 
   render() {
     const { post, refresh, preview, modify } = this.props;
@@ -107,7 +107,7 @@ export class PostTextView extends Component {
         </PostActions>
       </PostText>
     );
-  }
+  };
 };
 
 export function PostTextContent(props) {
@@ -141,25 +141,25 @@ export function PostView(props) {
         return <GazettePost { ...props} />;
       default:
         return null;
-    }
+    };
   } else {
     return <TextPost {...props} />
-  }
-}
+  };
+};
 
 export default class PostListView extends React.Component {
   state = {
     postModified: null,
     modifyEnable: false,
-  }
+  };
 
   modifyPost = (postModified) => {
     this.setState({ postModified, modifyEnable: true })
-  }
+  };
 
   requestClose = () => {
     this.setState({ modifyEnable: false });
-  }
+  };
 
   render() {
     const props = this.props;
@@ -188,7 +188,7 @@ export default class PostListView extends React.Component {
           requestClose={this.requestClose} />
       </PostList>
     );
-  }
+  };
 };
 
 

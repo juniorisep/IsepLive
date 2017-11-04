@@ -2,16 +2,7 @@
 
 import React, { Component } from 'react';
 
-import {
-  Banner,
-  Filler,
-  FluidContent,
-  ScrollToTopOnMount,
-  BgImage,
-  Title,
-  Subtitle,
-  Text,
-} from 'components/common';
+import { Banner, Filler, FluidContent, ScrollToTopOnMount, BgImage, Title, Subtitle, Text } from 'components/common';
 import Loader from 'components/Loader';
 import Time from 'components/Time';
 import Author from 'components/Author';
@@ -26,18 +17,17 @@ const Head = styled.div`
 `
 
 class EventDetail extends Component {
-
   state = {
     event: null,
     isLoading: false,
-  }
+  };
 
   componentDidMount() {
     this.setState({ isLoading: true });
     eventData.getEvent(this.props.match.params.id).then(res => {
       this.setState({ event: res.data, isLoading: false });
-    })
-  }
+    });
+  };
 
   render() {
     const { event } = this.state;

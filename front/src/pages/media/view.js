@@ -16,15 +16,7 @@ import { Link } from 'react-router-dom';
 
 import Time from 'components/Time';
 import Loader from 'components/Loader';
-import {
-  Banner,
-  Filler,
-  FluidContent,
-  Header,
-  SearchBar,
-  Separator,
-  Text,
-} from 'components/common';
+import { Banner, Filler, FluidContent, Header, SearchBar, Separator, Text } from 'components/common';
 
 import { MAIN_COLOR } from '../../colors';
 
@@ -54,12 +46,12 @@ const DateSeparator = (props) => {
 const STYLE_CONTAINER = {
   display: 'flex',
   flexWrap: 'wrap',
-}
+};
 
 const STYLE_FORMCONTROL = {
   minWidth: 120,
   maxWidth: 300,
-}
+};
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -68,7 +60,7 @@ const now = new Date().getFullYear();
 let years = [];
 for (var i = 1; i < 6; i++) {
   years.push(now + i);
-}
+};
 
 class MediaView extends Component {
   state = {
@@ -98,16 +90,16 @@ class MediaView extends Component {
         return videos;
       case 'gazette':
         return gazettes;
-    }
+    };
     return true;
-  }
+  };
 
   processMediaList() {
     return this.props.medias.map(mg => {
       const medias = mg.medias.filter(m => this.filterMedia(m.mediaType));
       return { ...mg, medias };
-    }).filter(mg => mg.medias.length > 0)
-  }
+    }).filter(mg => mg.medias.length > 0);
+  };
 
   render() {
     return (

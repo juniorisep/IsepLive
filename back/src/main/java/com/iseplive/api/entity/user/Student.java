@@ -34,7 +34,7 @@ public class Student extends Author implements UserDetails {
   private String photoUrl;
   private String photoUrlThumb;
 
-  @Column(length = 300)
+  @Column(length = 300) // TODO Pas boquant ??
   private String bio;
 
   @ManyToMany(fetch = FetchType.EAGER)

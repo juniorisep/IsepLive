@@ -7,4 +7,4 @@ export type StudentUpdateDTO = {
   bio: ?string,
   mail: string,
   address: string,
-}
+};

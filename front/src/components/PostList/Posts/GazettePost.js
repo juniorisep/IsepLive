@@ -7,17 +7,9 @@ import { Box } from 'grid-styled';
 import styled from 'styled-components';
 import { backUrl } from '../../../config';
 
-import {
-  Post,
-  PostTextView,
-} from 'components/PostList';
+import { Post, PostTextView } from 'components/PostList';
 
-import {
-  BgImage,
-  ImageLink,
-  Paper,
-  Title,
-} from 'components/common';
+import { BgImage, ImageLink, Paper, Title } from 'components/common';
 
 const Background = styled.div`
   background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
@@ -39,7 +31,6 @@ const FileName = styled.h2`
   color: white;
   margin: 0;
 `;
-
 
 class GazettePost extends Component {
   render() {
@@ -68,7 +59,7 @@ class GazettePost extends Component {
         />
       </Post>
     );
-  }
-}
+  };
+};
 
 export default GazettePost;

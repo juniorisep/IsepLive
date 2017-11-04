@@ -5,9 +5,7 @@ import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
-import {
-  Title,
-} from "../../../components/common";
+import { Title } from "../../../components/common";
 
 import { Flex, Box } from "grid-styled";
 import ImportStudent from './ImportStudent';
@@ -28,7 +26,6 @@ const data = [
 ];
 
 class Users extends Component {
-
   render() {
     return (
       <Flex direction="column">
@@ -37,12 +34,7 @@ class Users extends Component {
         </Box>
         <Box p={2}>
           <Title invert>List eleves</Title>
-
           <Paper>
-
-
-
-
             <Table>
               <TableHead>
                 <TableRow>

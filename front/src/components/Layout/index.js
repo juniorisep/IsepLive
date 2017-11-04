@@ -186,21 +186,19 @@ const Intercept = (props) => {
 
         default:
           break;
-      }
-    }
+      };
+    };
 
     // Do something with response error
     return Promise.reject(error);
   });
 
   return null;
-}
+};
 
 const Interceptor = withRouter(Intercept);
 
-
 class Layout extends React.Component {
-
   state = {
     sidebarOpen: false,
     anchorEl: undefined,
@@ -215,21 +213,21 @@ class Layout extends React.Component {
   componentDidMount() {
     this.restartWS = true;
     this.setupNotifications();
-  }
+  };
 
   componentWillUnmount() {
     if (this.conn) {
       this.restartWS = false;
       this.conn.close();
       clearTimeout(this.restartTimeout);
-    }
-  }
+    };
+  };
 
   initWebsocket() {
     this.conn = new WebSocket(wsUrl + '/ws/post/websocket');
     this.conn.onopen = () => {
       this.conn.send(localStorage.getItem('token'));
-    }
+    };
 
     this.conn.onmessage = (msg) => {
       console.log("message", msg)
@@ -247,8 +245,8 @@ class Layout extends React.Component {
         });
       } catch (error) {
         console.log(error)
-      }
-    }
+      };
+    };
 
     this.conn.onclose = (e) => {
       console.log('closing ws', e)
@@ -256,9 +254,9 @@ class Layout extends React.Component {
         this.restartTimeout = setTimeout(() => {
           this.initWebsocket();
         }, 5000);
-      }
-    }
-  }
+      };
+    };
+  };
 
   setupNotifications = async () => {
     if (authData.isLoggedIn()) {
@@ -266,10 +264,10 @@ class Layout extends React.Component {
       if (res.data.allowNotifications) {
         if (window.WebSocket) {
           this.initWebsocket();
-        }
-      }
-    }
-  }
+        };
+      };
+    };
+  };
 
   handleSideBarClose = () => {
     this.setState({ sidebarOpen: false });

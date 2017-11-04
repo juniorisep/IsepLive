@@ -5,9 +5,7 @@ import styled from 'styled-components';
 
 import Time from 'components/Time';
 
-import {
-  Title, Text
-} from 'components/common';
+import { Title, Text } from 'components/common';
 
 const Cell = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -58,7 +56,7 @@ export const Video = (props) => {
       padding: 10px;
       color: ${props => props.theme.main};
     }
-  `
+  `;
   return (
     <VideoStyle>
       <div className="image">
@@ -69,8 +67,8 @@ export const Video = (props) => {
         <Text fs=".8em"><Time date={props.creation} format="DD/MM/YYYY" /></Text>
       </div>
     </VideoStyle>
-  )
-}
+  );
+};
 
 export const Gazette = (props) => {
   const GazetteStyle = Cell.extend`
@@ -90,7 +88,7 @@ export const Gazette = (props) => {
       padding: 10px;
       color: ${props => props.theme.main};
     }
-  `
+  `;
   return (
     <GazetteStyle>
       <div className="image">
@@ -101,5 +99,5 @@ export const Gazette = (props) => {
         <Text fs=".8em"><Time date={props.creation} format="DD/MM/YYYY" /></Text>
       </div>
     </GazetteStyle>
-  )
-}
+  );
+};

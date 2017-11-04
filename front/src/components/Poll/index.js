@@ -1,10 +1,10 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import * as moment from 'moment';
-import {Flex, Box} from 'grid-styled';
-import {Text} from '../common';
+import { Flex, Box } from 'grid-styled';
+import { Text } from '../common';
 
 import * as pollData from 'data/media/poll';
 import * as authData from 'data/auth';
@@ -41,7 +41,6 @@ const Caption = styled.p`
 `;
 
 class Poll extends Component {
-
   state = {
     showVote: false,
     answers: [],
@@ -53,7 +52,7 @@ class Poll extends Component {
 
     if (this.isEnded()) {
       this.setState({ showVote: true, ended: true });
-    }
+    };
 
     if (!authData.isLoggedIn()) {
       this.setState({showVote: true});
@@ -61,14 +60,14 @@ class Poll extends Component {
       pollData.getVotes(this.state.data.id).then(res => {
         if (res.data.length > 0) {
           this.setState({showVote: true, answers: res.data.map(d => d.answer)});
-        }
+        };
       });
     };
   };
 
   isEnded = () => {
     return this.state.data.endDate < new Date().getTime();
-  }
+  };
 
   handleVote = (ans) => {
     const { showVote, data, answers } = this.state;
@@ -81,8 +80,8 @@ class Poll extends Component {
               this.setState({data: res.data});
             });
           });
-        };
-    }
+      };
+    };
   };
 
   getTotal() {
@@ -168,7 +167,6 @@ const AnswerBar = styled.div`
 
 function Answer(props) {
   const answer = props.answer;
-
   const percent = props.total > 0 ? Math.round((answer.votesNb / props.total) * 100) : 0;
   return (
     <AnswerStyle

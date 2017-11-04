@@ -17,17 +17,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 
-import {
-  Banner,
-  Filler,
-  FluidContent,
-  Header,
-  ProfileImage,
-  SearchBar,
-  Paper,
-  Text,
-  Title,
-} from 'components/common';
+import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Paper, Text, Title } from 'components/common';
 
 const PersonStyle = styled.div`
   > div {
@@ -133,22 +123,22 @@ export default function ResumeView(props) {
       </FluidContent>
     </div>
   );
-}
+};
 
 
 class UpdateResume extends React.Component {
   state = {
     form: this.props.data,
-  }
+  };
 
   handleChange = (name: string) => ({ target }) => {
     this.setState({
       form: {
         ...this.state.form,
         [name]: target.value,
-      }
+      },
     });
-  }
+  };
 
   render() {
     const props = this.props;
@@ -185,5 +175,5 @@ class UpdateResume extends React.Component {
         </DialogActions>
       </Dialog>
     );
-  }
+  };
 };

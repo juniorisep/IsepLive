@@ -6,15 +6,7 @@ import styled from 'styled-components';
 
 import { Box, Flex } from 'grid-styled';
 
-import {
-  Banner,
-  Filler,
-  FluidContent,
-  Header,
-  SearchBar,
-  BgImage,
-  Text,
-} from 'components/common';
+import { Banner, Filler, FluidContent, Header, SearchBar, BgImage, Text } from 'components/common';
 
 import Time from 'components/Time';
 import Author from 'components/Author';

@@ -5,15 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from 'material-ui/Button';
 
-import {
-  Title,
-  Banner,
-  Filler,
-  FluidContent,
-  Header,
-  SearchBar,
-  Separator,
-} from 'components/common';
+import { Title, Banner, Filler, FluidContent, Header, SearchBar, Separator } from 'components/common';
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 import BookmarkIcon from 'material-ui-icons/Bookmark';

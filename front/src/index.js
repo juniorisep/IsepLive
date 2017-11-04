@@ -37,7 +37,7 @@ const theme = createMuiTheme({
   palette: {
     primary: indigo,
     secondary: orange
-  }
+  },
 });
 
 const styledTheme = {

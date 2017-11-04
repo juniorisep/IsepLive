@@ -3,19 +3,11 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
+import { Box, Flex } from 'grid-styled';
 
-import {
-  FluidContent,
-  Title,
-  ProfileImage,
-  ScrollToTopOnMount,
-  Text,
-} from 'components/common';
+import { FluidContent, Title, ProfileImage, ScrollToTopOnMount, Text } from 'components/common';
 
-import {
-  PostView,
-} from 'components/PostList';
+import { PostView } from 'components/PostList';
 
 import Comment from 'components/PostList/Comment';
 import CommentBox from 'components/PostList/CommentBox';
@@ -60,4 +52,4 @@ export default function PostDetailView(props) {
       </FluidContent>
     </div>
   );
-}
+};

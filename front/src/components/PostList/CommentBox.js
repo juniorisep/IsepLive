@@ -26,29 +26,29 @@ class CommentBox extends Component {
     message: '',
     shift: false,
     editorState: EditorState.createEmpty(),
-  }
+  };
 
   keyDown = (event) => {
     if (event.key === 'Enter' && !this.state.shift) {
       event.preventDefault();
-    }
+    };
     if (event.key === 'Shift') {
       this.setState({ shift: true });
-    }
-  }
+    };
+  };
 
   keyUp = (event) => {
     if (event.key === 'Shift') {
       this.setState({ shift: false });
-    }
+    };
 
     if (event.key === 'Enter') {
       if (!this.state.shift && this.state.message !== '') {
         this.props.onComment(this.state.message);
         this.setState({ message: '' });
-      }
-    }
-  }
+      };
+    };
+  };
 
   change = (event) => {
     this.setState({ message: event.target.value });
@@ -66,7 +66,7 @@ class CommentBox extends Component {
           onChange={this.change}/>
       </div>
     );
-  }
-}
+  };
+};
 
 export default CommentBox;

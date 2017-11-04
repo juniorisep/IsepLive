@@ -36,8 +36,8 @@ const Loader = (props) => {
         </Box>
       </Wrap>
     );
-  }
+  };
   return props.children;
-}
+};
 
 export default Loader;

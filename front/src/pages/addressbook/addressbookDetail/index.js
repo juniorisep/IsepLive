@@ -8,7 +8,6 @@ import AdressbookDetailView from './view'
 import Loader from '../../../components/Loader';
 
 class AdressbookDetail extends Component {
-
   state = {
     id: this.props.match.params.id,
     data: null,
@@ -23,12 +22,12 @@ class AdressbookDetail extends Component {
   getUserData = async () => {
     const { data } = await studentData.getStudent(this.state.id);
     this.setState({ data });
-  }
+  };
 
   refreshPosts = async () => {
     const { data } = await studentData.getPosts(this.state.id);
     this.setState({ posts: data });
-  }
+  };
 
   render() {
     return (

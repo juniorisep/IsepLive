@@ -10,22 +10,20 @@ const Style = styled.h3`
 `;
 
 export default class CountDown extends React.Component {
-
   state = {
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
     isFinished: false,
-  }
+  };
 
   componentDidMount() {
     const { date } = this.props;
-
     if (date - new Date().getTime() < 0) {
       this.setState({ isFinished: true });
       return;
-    }
+    };
 
     this.timer = setInterval(() => {
       const diff = date - new Date().getTime();
@@ -38,23 +36,22 @@ export default class CountDown extends React.Component {
       } else {
         this.setState({ isFinished: true });
         clearInterval(this.timer);
-      }
+      };
     }, 500);
-  }
+  };
 
   componentWillUnmount() {
     clearInterval(this.timer);
-  }
+  };
 
   render() {
     const { date } = this.props;
     const { days, hours, minutes, seconds, isFinished } = this.state;
-
     return (
       <Style {...this.props}>
         {isFinished && this.props.endDisplay}
         {!isFinished && `${days}j ${hours}h ${minutes}min ${seconds}s`}
       </Style>
-    )
-  }
-}
+    );
+  };
+};

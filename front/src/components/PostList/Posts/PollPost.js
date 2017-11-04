@@ -6,10 +6,7 @@ import { Box } from 'grid-styled';
 
 import Poll from 'components/Poll';
 
-import {
-  Post,
-  PostTextView,
-} from 'components/PostList';
+import { Post, PostTextView } from 'components/PostList';
 
 class PollPost extends Component {
   render() {
@@ -28,7 +25,7 @@ class PollPost extends Component {
           w={size} />
       </Post>
     );
-  }
-}
+  };
+};
 
 export default PollPost;

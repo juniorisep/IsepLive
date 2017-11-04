@@ -36,5 +36,5 @@ export default function Author(props) {
       );
     default:
       return null;
-  }
-}
+  };
+};

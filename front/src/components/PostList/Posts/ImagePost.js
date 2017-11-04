@@ -4,16 +4,9 @@ import React, { Component } from 'react';
 
 import { Box } from 'grid-styled';
 
-import {
-  Post,
-  PostTextView,
-} from 'components/PostList';
+import { Post, PostTextView } from 'components/PostList';
 
-import {
-  BgImage,
-  ImageLink,
-  Paper,
-} from 'components/common';
+import { BgImage, ImageLink, Paper } from 'components/common';
 
 class ImagePost extends Component {
   render() {
@@ -41,7 +34,7 @@ class ImagePost extends Component {
         />
       </Post>
     );
-  }
-}
+  };
+};
 
 export default ImagePost;

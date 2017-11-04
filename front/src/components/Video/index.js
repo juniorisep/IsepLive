@@ -40,11 +40,10 @@ const ProgressBar = styled.div`
 `;
 
 class Video extends Component {
-
   state = {
     isPlaying: false,
     vidLenght: 0,
-    currentTime: 0
+    currentTime: 0,
   };
 
   componentDidMount() {

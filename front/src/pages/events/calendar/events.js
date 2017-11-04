@@ -78,5 +78,5 @@ export default [
     'title': 'Multi-day Event',
     'start':new Date(2015, 3, 20, 19, 30, 0),
     'end': new Date(2015, 3, 22, 2, 0, 0)
-  }
-]
+  },
+];

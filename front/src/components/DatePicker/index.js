@@ -28,23 +28,20 @@ const TimeSelect = props => {
         }
       </Select>
     </FormControl>
-
-  )
-}
+  );
+};
 
 export default class DatePicker extends React.Component {
-
   state = {
     hour: 0,
     minute: 0,
     day: 0,
     month: 0,
     year: 0,
-  }
+  };
 
   componentDidMount() {
-
-  }
+  };
 
   getDateComp(datetime: number) {
     const date = new Date(datetime);
@@ -54,45 +51,45 @@ export default class DatePicker extends React.Component {
       day: date.getDate(),
       month: date.getMonth(),
       year: date.getFullYear(),
-    }
-  }
+    };
+  };
 
   daysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
-  }
+  };
 
   buildHours = () => {
     let hours = [];
     for (var i = 0; i < 24; i++) {
       hours.push(i);
-    }
+    };
     return hours;
-  }
+  };
 
   buildMinutes = () => {
     let minutes = [];
     for (var i = 0; i < 60; i++) {
       minutes.push(i);
-    }
+    };
     return minutes;
-  }
+  };
 
   buildDays = () => {
     const { month, year } = this.state;
     let days = [];
     for (var i = 0; i < this.daysInMonth(month, year); i++) {
       days.push(i + 1);
-    }
+    };
     return days;
-  }
+  };
 
   buildMonths = () => {
     let months = [];
     for (var i = 0; i < 12; i++) {
       months.push(i);
-    }
+    };
     return months;
-  }
+  };
 
   buildYears = () => {
     let years = [];
@@ -100,9 +97,9 @@ export default class DatePicker extends React.Component {
     let endYear = this.props.endYear || new Date().getFullYear() + 10;
     for (var i = startYear; i < endYear; i++) {
       years.push(i);
-    }
+    };
     return years;
-  }
+  };
 
   onChange = (name: string) => (value: string) => {
     const dateComps = this.getDateComp(this.props.date);
@@ -111,7 +108,7 @@ export default class DatePicker extends React.Component {
       day, month, year,
     } = { ...dateComps, [name]: value };
     this.props.onChange(new Date(year, month, day, hour, minute))
-  }
+  };
 
   render() {
 
@@ -147,5 +144,5 @@ export default class DatePicker extends React.Component {
         </Flex>
       </div>
     );
-  }
-}
+  };
+};

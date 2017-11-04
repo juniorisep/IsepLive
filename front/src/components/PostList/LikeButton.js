@@ -31,14 +31,14 @@ const LikesPanel = props => {
       <DialogTitle>Set backup account</DialogTitle>
 
     </Dialog>
-  )
-}
+  );
+};
 
 class LikeButton extends Component {
   state = {
     liked: this.props.liked,
     likes: this.props.likes,
-  }
+  };
 
   handleLike = () => {
     if (authData.isLoggedIn()) {
@@ -48,12 +48,12 @@ class LikeButton extends Component {
       });
       this.props.toggleLike();
       // postData.toggleLikePost(this.props.post.id);
-    }
-  }
+    };
+  };
 
   showLikes = () => {
     alert('not implemented')
-  }
+  };
 
   render() {
     return (
@@ -66,7 +66,7 @@ class LikeButton extends Component {
           onChange={this.handleLike} />
       </Flex>
     );
-  }
-}
+  };
+};
 
 export default LikeButton;

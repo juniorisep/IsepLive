@@ -8,14 +8,7 @@ import { Box, Flex } from 'grid-styled';
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 
-import {
-  FluidContent,
-  ProfileImage,
-  Paper,
-  Text,
-  Title,
-  ScrollToTopOnMount,
-} from 'components/common';
+import { FluidContent, ProfileImage, Paper, Text, Title, ScrollToTopOnMount } from 'components/common';
 
 const PersonStyle = styled.div`
   > div {
@@ -91,4 +84,4 @@ export default function AdressbookDetailView(props) {
       </Flex>
     </FluidContent>
   );
-}
+};

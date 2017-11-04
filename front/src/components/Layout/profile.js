@@ -39,11 +39,10 @@ const Profile = styled.div`
 `;
 
 class ProfileMenu extends Component {
-
   state = {
     photoUrl: '',
     firstname: '',
-    lastname: ''
+    lastname: '',
   };
 
   componentDidMount() {

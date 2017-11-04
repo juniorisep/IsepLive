@@ -2,15 +2,9 @@
 
 import React, { Component } from 'react';
 import { Box } from 'grid-styled';
-import {
-  Post,
-  PostTextView,
-} from 'components/PostList';
+import { Post, PostTextView } from 'components/PostList';
 
-import {
-  Video,
-  Paper,
-} from 'components/common';
+import { Video, Paper } from 'components/common';
 
 class VideoPost extends Component {
   render() {
@@ -31,7 +25,7 @@ class VideoPost extends Component {
           modify={props.modify} />
       </Post>
     );
-  }
-}
+  };
+};
 
 export default VideoPost;

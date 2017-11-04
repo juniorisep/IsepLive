@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';

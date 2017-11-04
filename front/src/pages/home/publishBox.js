@@ -8,9 +8,7 @@ import { Box, Flex } from 'grid-styled';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
-import {
-  FormControlLabel,
-} from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
 import AddCircleIcon from 'material-ui-icons/AddCircle';
@@ -23,22 +21,9 @@ import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
 import type { PostDTO } from 'data/post/type';
 
-import {
-  MediaCreator,
-  PollForm,
-  ImageForm,
-  VideoEmbedForm,
-  VideoForm,
-  GalleryForm,
-  DocumentForm,
-  GazetteForm,
-  EventForm,
-} from 'components/PostList/MediaForms';
+import { MediaCreator, PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm, DocumentForm, GazetteForm, EventForm } from 'components/PostList/MediaForms';
 
-import {
-  ProfileImage,
-  Text,
-} from 'components/common';
+import { ProfileImage, Text } from 'components/common';
 
 const PublishBox = styled.div`
   background: ${props => props.theme.main};
@@ -107,10 +92,9 @@ const mediaAvailable = [
   //   id: 'videoEmbed',
   //   name: 'Video FB/YT',
   // },
-]
+];
 
 class PublishBoxView extends Component {
-
   state = {
     title: '',
     message: '',
@@ -152,7 +136,7 @@ class PublishBoxView extends Component {
 
   onPrivateToggle = () => {
     this.setState({ isPrivateMessage: !this.state.isPrivateMessage })
-  }
+  };
 
   publishPost() {
     const dto: PostDTO = {
@@ -167,7 +151,7 @@ class PublishBoxView extends Component {
         return postData.publishPost(id)
           .then(() => id);
       });
-  }
+  };
 
   onPublish = () => {
     if (this.state.mediaSelected) {
@@ -256,11 +240,11 @@ class PublishBoxView extends Component {
       ];
       if (author.isAdmin) {
         list.push({ id: 'gazette', name: 'Gazette' })
-      }
+      };
       return list;
-    }
+    };
     return mediaAvailable;
-  }
+  };
 
   createMedia = () => {
     switch (this.state.mediaSelected.id) {
@@ -301,8 +285,8 @@ class PublishBoxView extends Component {
         return <GazetteForm update={this.onFormChange} />;
       case 'event':
         return <EventForm update={this.onFormChange} />;
-    }
-  }
+    };
+  };
 
   render() {
     const { author } = this.state;

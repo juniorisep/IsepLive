@@ -2,10 +2,7 @@
 
 import React, { Component } from 'react';
 
-import {
-  Post,
-  PostTextView,
-} from 'components/PostList';
+import { Post, PostTextView } from 'components/PostList';
 
 class TextPost extends Component {
   render() {
@@ -20,7 +17,7 @@ class TextPost extends Component {
           modify={props.modify} />
       </Post>
     );
-  }
-}
+  };
+};
 
 export default TextPost;

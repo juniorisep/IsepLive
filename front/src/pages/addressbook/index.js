@@ -7,7 +7,6 @@ import AddressBookView from './view';
 import * as studentData from 'data/users/student';
 
 class AddressBook extends Component {
-
   state = {
     students: [],
     isSearching: false,
@@ -22,12 +21,12 @@ class AddressBook extends Component {
 
   componentDidMount() {
     this.getStudents();
-  }
+  };
 
   getStudents = async () => {
     if (this.state.page === 0) {
       this.setState({ isLoading: true });
-    }
+    };
     const { search, promotionFilter, sort, page } = this.state;
     let res = await studentData.searchStudents(search, promotionFilter, sort, page);
     this.setState({
@@ -37,18 +36,18 @@ class AddressBook extends Component {
       lastPage: res.data.last,
       total: res.data.totalElements,
     });
-  }
+  };
 
   onSeeMore = () => {
     this.getStudents();
-  }
+  };
 
   searchStudents = ({ target }) => {
     const search = target.value;
     const { students, promotionFilter, sort } = this.state;
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
-    }
+    };
     this.searchTimeout = setTimeout(async () => {
       const res = await studentData.searchStudents(search, promotionFilter, sort, 0);
       this.setState({
@@ -59,8 +58,8 @@ class AddressBook extends Component {
         lastPage: res.data.last,
         total: res.data.totalElements,
       });
-    }, 300)
-  }
+    }, 300);
+  };
 
   handleSort = async (event) => {
     console.log(event)
@@ -74,7 +73,7 @@ class AddressBook extends Component {
       lastPage: res.data.last,
       total: res.data.totalElements,
     });
-  }
+  };
 
   handlePromoFilter = async (event) => {
     const promotionFilter = event.target.value;
@@ -88,7 +87,7 @@ class AddressBook extends Component {
       lastPage: res.data.last,
       total: res.data.totalElements,
     });
-  }
+  };
 
   render() {
     return (

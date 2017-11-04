@@ -7,22 +7,14 @@ import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import { backUrl } from '../../../config';
 
-import {
-  Post,
-  PostTextView,
-} from 'components/PostList';
+import { Post, PostTextView } from 'components/PostList';
 
 import CountDown from '../../Time/CountDown';
 import Time from '../../Time';
 
 import { Link } from 'react-router-dom';
 
-import {
-  BgImage,
-  ImageLink,
-  Paper,
-  Title,
-} from 'components/common';
+import { BgImage, ImageLink, Paper, Title } from 'components/common';
 
 const Background = styled.div`
   // background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
@@ -85,5 +77,5 @@ export default class EventPost extends Component {
         />
       </Post>
     );
-  }
-}
+  };
+};

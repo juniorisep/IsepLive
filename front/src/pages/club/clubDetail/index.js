@@ -9,7 +9,6 @@ import PostsTab from './postsTab';
 import * as clubData from 'data/club';
 
 class ClubDetail extends Component {
-
   state = {
     id: this.props.match.params.id,
     tabIndex: 0,
@@ -45,8 +44,8 @@ class ClubDetail extends Component {
         return this.loadPosts();
       default:
         return;
-    }
-  }
+    };
+  };
 
   loadMembers = () => {
     this.setState({ membersLoading: true });
@@ -72,8 +71,8 @@ class ClubDetail extends Component {
         return <PostsTab posts={this.state.posts} loading={this.state.postsLoading} />;
       default:
         return null;
-    }
-  }
+    };
+  };
 
   render() {
     return (

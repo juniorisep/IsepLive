@@ -8,7 +8,6 @@ import * as postData from 'data/post';
 import * as alert from 'components/Alert';
 
 class Home extends Component {
-
   state = {
     posts: [],
     pinnedPosts: [],
@@ -21,11 +20,11 @@ class Home extends Component {
     this.getPosts();
     this.getPinnedPosts();
     document.addEventListener('new-post', this.refreshPosts.bind(this));
-  }
+  };
 
   componentWillUnmount() {
     document.removeEventListener('new-post', this.refreshPosts.bind(this))
-  }
+  };
 
   getPosts() {
     if (this.state.page === 0) {
@@ -44,7 +43,7 @@ class Home extends Component {
   getPinnedPosts = async () => {
     let res = await postData.getPinnedPosts();
     this.setState({ pinnedPosts: res.data });
-  }
+  };
 
   seeMore = () => {
     this.getPosts();

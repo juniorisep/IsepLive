@@ -6,11 +6,7 @@ import { Box, Flex } from 'grid-styled';
 
 import { Link } from 'react-router-dom';
 
-import {
-  ProfileImage,
-  Subtitle,
-  Title,
-} from '../common';
+import { ProfileImage, Subtitle, Title } from '../common';
 
 import Time from '../Time';
 import Author from '../Author';

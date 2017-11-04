@@ -10,12 +10,11 @@ import * as postData from 'data/post';
 import * as authData from 'data/auth';
 
 class EditButton extends Component {
-
   state = {
     openMenu: false,
     pin: this.props.post.pinned,
     canPin: false,
-  }
+  };
 
   openMenu = e => this.setState({ openMenu: true, anchorEl: e.target });
   closeMenu = () => this.setState({ openMenu: false });
@@ -24,30 +23,31 @@ class EditButton extends Component {
     const post = this.props.post;
     if (post.author.authorType === 'club') {
       this.setState({ canPin: true });
-    }
+    };
     if (authData.hasRole(['ROLE_ADMIN', 'ROLE_POST_MANAGER'])) {
       this.setState({ canPin: true });
-    }
-  }
+    };
+  };
 
   handleEdit = () => {
     // TODO: to implement
     this.props.modify(this.props.post);
     this.closeMenu();
-  }
+  };
+
   handleDelete = () => {
     postData.deletePost(this.props.post.id).then(res => {
       this.props.refresh();
-    })
+    });
     this.closeMenu();
-  }
+  };
 
   pinPost = () => {
     postData.pinPost(this.props.post.id, !this.props.post.pinned).then(res => {
       this.props.refresh();
-    })
+    });
     this.closeMenu();
-  }
+  };
 
   render() {
     const { canPin } = this.state;
@@ -66,7 +66,7 @@ class EditButton extends Component {
         </Menu>
       </div>
     );
-  }
-}
+  };
+};
 
 export default EditButton;

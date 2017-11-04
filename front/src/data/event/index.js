@@ -18,7 +18,7 @@ export function updateEvent(id: number, data) {
     location: data.location,
     date: data.date,
     description: data.description,
-  }))
+  }));
   form.append('image', data.image);
   return axios.put(`/event/${id}`, form);
-}
+};

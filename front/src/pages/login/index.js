@@ -1,14 +1,14 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {NavLink, Redirect} from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 
 import styled from 'styled-components';
 
-import {MAIN_COLOR, SECONDARY_COLOR} from '../../colors';
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 
 import * as authData from 'data/auth';
 
@@ -154,7 +154,7 @@ const BigButton = styled(Button)`
 
 export default class Login extends Component {
   state = {
-    connexionOpen: false
+    connexionOpen: false,
   };
 
   handleRequestClose = () => {

@@ -200,8 +200,8 @@ class MiniDrawer extends React.Component {
         </div>
       </div>
     );
-  }
-}
+  };
+};
 
 MiniDrawer.propTypes = {
   classes: PropTypes.object.isRequired,

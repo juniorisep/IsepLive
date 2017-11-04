@@ -1,18 +1,13 @@
+// @flow
+
 import React from 'react';
 
 import Button from 'material-ui/Button';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
 import { EventForm } from './MediaForms';
-import {
-  Title,
-} from 'components/common';
+import { Title } from 'components/common';
 
 import * as postData from 'data/post';
 import * as eventData from 'data/event';
@@ -25,23 +20,23 @@ export default class ModifyPostModal extends React.Component {
     let resPost = await postData.updatePost(this.props.post.id, {
       title,
       content,
-    })
+    });
     if (this.props.post.media) {
       const media = this.props.post.media;
       if (media.mediaType === 'event') {
         let resEvent = await eventData.updateEvent(media.id, media);
-      }
-    }
+      };
+    };
     this.props.refresh();
     this.props.requestClose();
-  }
+  };
 
   change = name => event => {
     this.props.modifyPost({
       ...this.props.post,
       [name]: event.target.value,
     });
-  }
+  };
 
   changeMedia = data => {
     const {
@@ -60,9 +55,9 @@ export default class ModifyPostModal extends React.Component {
         date,
         description,
         image,
-      }
-    })
-  }
+      },
+    });
+  };
 
   render() {
     const props = this.props;
@@ -102,7 +97,6 @@ export default class ModifyPostModal extends React.Component {
           </Button>
         </DialogActions>
       </Dialog>
-    )
-
-  }
-}
+    );
+  };
+};

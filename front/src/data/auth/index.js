@@ -6,12 +6,12 @@ import type { Token, TokenSet, TokenPayload, RefreshToken } from './type';
 export const hasRole = (roles: Array<string>) => {
   const user = getUser();
 
-  // bypass 
+  // bypass
   return true;
 
   if (user) {
     return roles.filter(r => user.roles.includes(r)).length > 0;
-  }
+  };
   return false;
 };
 
@@ -53,7 +53,7 @@ export const getUser = (): ?TokenPayload => {
     } catch (e) {
       logout()
       return null;
-    }
-  }
+    };
+  };
   return null;
 };

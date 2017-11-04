@@ -9,15 +9,15 @@ export default class AlertCenter extends Component {
   state = {
     open: false,
     message: '',
-  }
+  };
 
   componentDidMount() {
     document.addEventListener('notification', this.onReceiveNotification.bind(this));
-  }
+  };
 
   componentWillUnmount() {
     document.removeEventListener('notification', this.onReceiveNotification.bind(this));
-  }
+  };
 
   onReceiveNotification(e) {
     this.setState({ message: e.detail.message, open: true });
@@ -25,7 +25,7 @@ export default class AlertCenter extends Component {
     this.timeout = setTimeout(() => {
       this.setState({ open: false });
     }, 3000);
-  }
+  };
 
   render() {
     const { open, message } = this.state;
@@ -45,12 +45,12 @@ export default class AlertCenter extends Component {
         open={open}
         message={message}
       />
-    )
-  }
-}
+    );
+  };
+};
 
 
 export function sendAlert(message) {
   const event = new CustomEvent('notification', { detail: { message } });
   document.dispatchEvent(event);
-}
+};

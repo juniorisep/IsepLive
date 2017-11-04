@@ -1,6 +1,6 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -36,12 +36,11 @@ const Image = styled.div`
 `;
 
 class Gallery extends Component {
-
   state = {
     cIndex: 0,
     photos: [< img src="/img/background.jpg" alt="" />, < img src="/img/background.jpg" alt="" />,
       < img src="/img/background.jpg" alt="" />
-    ]
+    ],
   };
 
   componentDidMount() {
@@ -68,7 +67,7 @@ class Gallery extends Component {
         });
       } else {
         this.setState({cIndex: 0});
-      }
+      };
     };
     if (key === 'ArrowLeft') {
       if (cIndex !== 0) {

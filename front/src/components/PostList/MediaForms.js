@@ -50,7 +50,7 @@ const FileUpload = (props) => {
       </label>
     </div>
   );
-}
+};
 
 export function MediaCreator(props) {
   if (props.show) {
@@ -106,12 +106,12 @@ export class PollForm extends Component {
       endDate: now + (dur * 3600 * 1000)
     });
     this.setState({ endDate: now + (dur * 3600 * 1000) });
-  }
+  };
 
   changeMultiAnswer = () => {
     this.props.update({ ...this.state, multiAnswers: !this.state.multiAnswers });
     this.setState({ multiAnswers: !this.state.multiAnswers });
-  }
+  };
 
   changeQues = (event) => {
     this.props.update({ ...this.state, title: event.target.value });
@@ -173,8 +173,8 @@ const PreviewImage = styled.img`
 
 export class ImageForm extends Component {
   state = {
-    imagePreview: null
-  }
+    imagePreview: null,
+  };
 
   handleImageSelect = (files) => {
     const reader = new FileReader();
@@ -183,13 +183,13 @@ export class ImageForm extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreview: reader.result
+        imagePreview: reader.result,
       });
-    }
+    };
 
     this.props.update({ file });
-    reader.readAsDataURL(file)
-  }
+    reader.readAsDataURL(file);
+  };
 
   render() {
     return (
@@ -207,27 +207,27 @@ export class ImageForm extends Component {
           onFile={this.handleImageSelect} >Choisir une image</FileUpload>
       </div>
     );
-  }
-}
+  };
+};
 
 export class VideoEmbedForm extends Component {
   state = {
     openTypeMenu: false,
     type: 'YOUTUBE',
     id: '',
-  }
+  };
 
   changeUrl = (event) => {
     const id = event.target.value;
     this.setState({ id });
     this.update(id, this.state.type);
-  }
+  };
 
   changeType = (type) => {
     this.setState({ type });
     this.closeMenu();
     this.update(this.state.id, type);
-  }
+  };
 
   update = (id, type) => {
     const ytUrl = `https://www.youtube.com/embed/${id}`;
@@ -235,15 +235,15 @@ export class VideoEmbedForm extends Component {
       url: type === 'YOUTUBE' ? ytUrl : id,
       type: type
     });
-  }
+  };
 
   closeMenu = () => {
     this.setState({ openTypeMenu: false });
-  }
+  };
 
   openMenu = (e) => {
     this.setState({ openTypeMenu: true, anchorEl: e.target });
-  }
+  };
 
   render() {
     return (
@@ -264,16 +264,16 @@ export class VideoEmbedForm extends Component {
         </Menu>
         <TextField label="ID de la Video" fullWidth onChange={this.changeUrl} />
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 export class VideoForm extends Component {
 
   state = {
     name: '',
     video: null,
-  }
+  };
 
   handleVideoSelect = (event) => {
     const video = event.target.files[0];
@@ -281,15 +281,15 @@ export class VideoForm extends Component {
     if (this.state.name === '') {
       this.props.update({ ...this.state, video, name: video.name });
       return this.setState({ name: video.name });
-    }
+    };
     this.props.update({ ...this.state, video });
-  }
+  };
 
   changeName = (event) => {
     const name = event.target.value;
     this.props.update({ ...this.state, name });
     this.setState({ name });
-  }
+  };
 
   render() {
     return (
@@ -300,29 +300,28 @@ export class VideoForm extends Component {
         <FileUpload accept={['mp4', 'mov']} onFile={this.handleVideoSelect} >Choisir une video</FileUpload>
       </div>
     );
-  }
-}
+  };
+};
 
 export class GalleryForm extends Component {
-
   state = {
     title: '',
     images: null,
-  }
+  };
 
   handleFileSelect = (files) => {
     this.update({ images: files });
-  }
+  };
 
   changeTitle = (event) => {
     const title = event.target.value;
     this.update({ title });
-  }
+  };
 
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  }
+  };
 
   render() {
     const { images } = this.state;
@@ -339,30 +338,29 @@ export class GalleryForm extends Component {
           onFile={this.handleFileSelect} >Ajouter des images</FileUpload>
       </div>
     );
-  }
-}
+  };
+};
 
 
 export class DocumentForm extends Component {
-
   state = {
     name: '',
     document: null,
-  }
+  };
 
   handleFileSelect = (files) => {
     this.update({ document: files[0] });
-  }
+  };
 
   changeName = (event) => {
     const name = event.target.value;
     this.update({ name });
-  }
+  };
 
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  }
+  };
 
   render() {
     const { document } = this.state;
@@ -375,29 +373,28 @@ export class DocumentForm extends Component {
         <FileUpload multiple onFile={this.handleFileSelect}>Ajouter un fichier</FileUpload>
       </div>
     );
-  }
-}
+  };
+};
 
 export class GazetteForm extends Component {
-
   state = {
     title: '',
     file: null,
-  }
+  };
 
   handleFileSelect = (files) => {
     this.update({ file: files[0] });
-  }
+  };
 
   changeName = (event) => {
     const title = event.target.value;
     this.update({ title });
-  }
+  };
 
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  }
+  };
 
   render() {
     const { file } = this.state;
@@ -410,11 +407,10 @@ export class GazetteForm extends Component {
         <FileUpload accept={['pdf']} onFile={this.handleFileSelect}>Ajouter un fichier</FileUpload>
       </div>
     );
-  }
-}
+  };
+};
 
 export class EventForm extends Component {
-
   state = {
     title: '',
     location: '',
@@ -422,13 +418,13 @@ export class EventForm extends Component {
     description: '',
     image: null,
     imagePreview: null,
-  }
+  };
 
   componentDidMount() {
     if (this.props.post) {
       this.setState({ ...this.props.post.media });
-    }
-  }
+    };
+  };
 
   handleFileSelect = (files) => {
     const reader = new FileReader();
@@ -438,24 +434,24 @@ export class EventForm extends Component {
       this.setState({
         imagePreview: reader.result,
       });
-    }
+    };
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
     this.update({ image: file });
-  }
+  };
 
   change = name => event => {
     this.update({ [name]: event.target.value });
-  }
+  };
 
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  }
+  };
 
   handleChangeDate = (date: Date) => {
     this.update({ date });
-  }
+  };
 
   render() {
     const { file } = this.state;
@@ -491,5 +487,5 @@ export class EventForm extends Component {
         </div>
       </div>
     );
-  }
-}
+  };
+};

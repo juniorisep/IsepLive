@@ -7,17 +7,16 @@ import MediaView from './view';
 import * as mediaData from 'data/media';
 
 class Media extends Component {
-
   state = {
     isLoading: false,
     medias: [],
     page: 0,
     lastPage: false,
-  }
+  };
 
   componentDidMount() {
     this.requestMedia();
-  }
+  };
 
   requestMedia() {
     if (this.state.page === 0) {
@@ -32,11 +31,11 @@ class Media extends Component {
           lastPage: res.data.last,
         });
       })
-  }
+  };
 
   onSeeMore = () => {
     this.requestMedia();
-  }
+  };
 
   render() {
     return (
@@ -46,7 +45,7 @@ class Media extends Component {
         lastPage={this.state.lastPage}
         seeMore={this.onSeeMore} />
     );
-  }
-}
+  };
+};
 
 export default Media;

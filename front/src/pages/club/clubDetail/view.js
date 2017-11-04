@@ -8,17 +8,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import MUIButton from 'material-ui/Button';
 import ExploreAction from 'material-ui-icons/Explore';
 
-import {
-  FluidContent,
-  Image,
-  Text,
-  Title,
-  Header,
-  Banner,
-  Filler,
-  SearchBar,
-  ScrollToTopOnMount,
-} from 'components/common';
+import { FluidContent, Image, Text, Title, Header, Banner, Filler, SearchBar, ScrollToTopOnMount } from 'components/common';
 
 import { BACKGROUND_COLOR } from '../../../colors';
 

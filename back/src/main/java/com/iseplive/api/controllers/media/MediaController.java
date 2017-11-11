@@ -1,11 +1,13 @@
 package com.iseplive.api.controllers.media;
 
+import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.services.AuthService;
 import com.iseplive.api.services.MediaService;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,8 +49,10 @@ public class MediaController {
   }
 
   @PutMapping("/image/{id}/match/{student}")
-  public Image identifyStudentInImage(@PathVariable Long id, @PathVariable Long student) {
-    return mediaService.identifyStudentInImage(id, student);
+  public Image identifyStudentInImage(@PathVariable Long id,
+                                      @PathVariable Long student,
+                                      @AuthenticationPrincipal TokenPayload auth) {
+    return mediaService.identifyStudentInImage(id, student, auth);
   }
 
 //  @PostMapping("/videoEmbed")
@@ -59,6 +63,11 @@ public class MediaController {
   @PostMapping("/gallery")
   public Gallery createGallery(@RequestParam("name") String name, @RequestParam("images[]") List<MultipartFile> images) {
     return mediaService.createGallery(name, images);
+  }
+
+  @GetMapping("/gallery/{id}")
+  public Gallery getGallery(@PathVariable Long id) {
+    return mediaService.getGallery(id);
   }
 
   @PostMapping("/gazette")

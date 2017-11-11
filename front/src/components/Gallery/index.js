@@ -3,45 +3,34 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
+
+import SlideShow from 'components/SlideShow';
+import { backUrl } from 'config';
+
+import PeopleMatcher from './PeopleMatcher';
+
 const Wrapper = styled.div`
-  display: ${props => props.visible
-  ? 'block'
-  : 'none'};
   position: fixed;
   width: 100%;
   height: 100%;
-  background: black;
+  background: rgba(0,0,0,0.95);
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 1100;
 `;
 
-const Images = styled.div`
-  position: relative;
-  display: block;
-  height: 100%;
+const GalleryStyle = styled.div`
+  height: 80vh;
+  margin: 5vh;
 `;
 
-const Image = styled.div`
-  left: ${props => props.index * 100}%;
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  transition: transform .5s ease;
-  transform: translateY(-50%) translateX(-${props => props.pos * 100}%);
-
-  img {
-    width: 100%;
-  }
-`;
 
 class Gallery extends Component {
   state = {
-    cIndex: 0,
-    photos: [< img src="/img/background.jpg" alt="" />, < img src="/img/background.jpg" alt="" />,
-      < img src="/img/background.jpg" alt="" />
-    ],
-  };
+    currentIndex: 0,
+  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.keyHandler);
@@ -51,48 +40,48 @@ class Gallery extends Component {
     document.removeEventListener('keydown', this.keyHandler);
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.visible) {
-      document.removeEventListener('keydown', this.keyHandler);
-    };
-  };
+  componentWillReceiveProps(props) {
+    document.body.style.overflow = props.visible ? 'hidden' : 'auto';
 
-  keyHandler = ({key}) => {
-    const {cIndex, photos} = this.state;
-    console.log(key);
-    if (key === 'ArrowRight') {
-      if (cIndex !== photos.length - 1) {
-        this.setState({
-          cIndex: cIndex + 1
-        });
-      } else {
-        this.setState({cIndex: 0});
-      };
-    };
-    if (key === 'ArrowLeft') {
-      if (cIndex !== 0) {
-        this.setState({
-          cIndex: cIndex - 1
-        });
-      };
-    };
+    if (props.index != this.state.currentIndex) {
+      this.setState({ currentIndex: props.index });
+    }
+
+  }
+
+  keyHandler = ({ key }) => {
     if (key === 'Escape') {
       this.props.onEscKey();
     };
   };
 
+  updateIndex = (index) => {
+    this.setState({ currentIndex: index });
+  }
+
   render() {
+    const { visible, gallery, index } = this.props;
+    if (!visible) return null;
+    console.log(index)
     return (
-      <Wrapper visible={this.props.visible}>
-        <Images>
-          {this.state.photos.map((p, i) => {
-            return
-            <Image key={i} index={i} pos={this.state.cIndex}>
-              {p}
-            </Image>
-          })
-          }
-        </Images>
+      <Wrapper visible={visible}>
+        <IconButton
+          style={{ float: 'right', color: 'white' }}
+          onClick={() => this.props.onEscKey()}>
+          <CloseIcon />
+        </IconButton>
+        <GalleryStyle>
+          <SlideShow
+            handleKey
+            coverMode="contain"
+            initPos={index}
+            onChange={this.updateIndex}
+            items={
+              gallery.images.map(img => backUrl + img.fullSizeUrl)
+            }
+            duration={5} />
+        </GalleryStyle>
+        <PeopleMatcher image={gallery.images[this.state.currentIndex]} />
       </Wrapper>
     );
   };

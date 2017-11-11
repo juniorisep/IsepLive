@@ -64,17 +64,10 @@ for (var i = 1; i < 6; i++) {
 
 class MediaView extends Component {
   state = {
-    showGallerie: false,
     photos: true,
     videos: true,
     gazettes: true,
     year: [],
-  };
-
-  toggleGallerie = () => {
-    this.setState({
-      showGallerie: !this.state.showGallerie
-    });
   };
 
   handleChange = name => (event, checked) => {
@@ -100,6 +93,32 @@ class MediaView extends Component {
       return { ...mg, medias };
     }).filter(mg => mg.medias.length > 0);
   };
+
+  renderMediaComponent(e) {
+    /* <Link to={`/post/${e.postId}`}> */
+    /* </Link> */
+    switch (e.mediaType) {
+      case 'video':
+        return (
+          <Link to={`/post/${e.postId}`}>
+            <Video {...e} />
+          </Link>
+        )
+      case 'gallery':
+        return (
+          <Album
+            url={e.coverImage.thumbUrl}
+            {...e} />
+        )
+      case 'gazette':
+        return (
+          <Link to={`/post/${e.postId}`}>
+            <Gazette {...e} />
+          </Link>
+        )
+    }
+    return;
+  }
 
   render() {
     return (
@@ -140,31 +159,31 @@ class MediaView extends Component {
               <div style={STYLE_CONTAINER}>
                 <FormControl style={STYLE_FORMCONTROL}>
                   <InputLabel htmlFor="year-multiple">Années</InputLabel>
-                    <Select
-                      multiple
-                      value={this.state.year}
-                      onChange={this.handleChange}
-                      input={<Input id="year-multiple" />}
-                      MenuProps={{
-                        PaperProps: {
-                          style: {
-                            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                            width: 200,
-                          },
+                  <Select
+                    multiple
+                    value={this.state.year}
+                    onChange={this.handleChange}
+                    input={<Input id="year-multiple" />}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                          width: 200,
                         },
-                      }}
-                    >
-                      {years.map(year => (
-                        <MenuItem
-                          key={year}
-                          value={year}
-                          style={{
-                            fontWeight: this.state.year.indexOf(year) !== -1 ? '500' : '400',
-                          }}
-                        >
-                          {year}
-                        </MenuItem>
-                      ))}
+                      },
+                    }}
+                  >
+                    {years.map(year => (
+                      <MenuItem
+                        key={year}
+                        value={year}
+                        style={{
+                          fontWeight: this.state.year.indexOf(year) !== -1 ? '500' : '400',
+                        }}
+                      >
+                        {year}
+                      </MenuItem>
+                    ))}
                   </Select>
                   <FormHelperText>Sélection multiple</FormHelperText>
                 </FormControl>
@@ -186,13 +205,11 @@ class MediaView extends Component {
                     <Flex wrap>
                       {
                         m.medias.map(e => {
-                          return <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
-                            <Link to={`/post/${e.postId}`}>
-                              {e.mediaType === 'video' && <Video {...e} />}
-                              {e.mediaType === 'gallery' && <Album url="/img/background.jpg" {...e} />}
-                              {e.mediaType === 'gazette' && <Gazette {...e} />}
-                            </Link>
-                          </Box>
+                          return (
+                            <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
+                              {this.renderMediaComponent(e)}
+                            </Box>
+                          )
                         })
                       }
                     </Flex>
@@ -208,7 +225,6 @@ class MediaView extends Component {
             </div>
           }
         </FluidContent>
-        <Gallery visible={this.state.showGallerie} onEscKey={this.toggleGallerie} />
       </div>
     );
   };

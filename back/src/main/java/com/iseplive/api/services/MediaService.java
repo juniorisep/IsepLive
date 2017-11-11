@@ -1,11 +1,14 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.MediaType;
+import com.iseplive.api.dao.image.MatchedRepository;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dto.VideoEmbedDTO;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +37,9 @@ public class MediaService {
 
   @Autowired
   MediaRepository mediaRepository;
+
+  @Autowired
+  MatchedRepository matchedRepository;
 
   @Autowired
   StudentService studentService;
@@ -124,11 +130,16 @@ public class MediaService {
     return mediaRepository.save(image);
   }
 
-  public Image identifyStudentInImage(Long imageId, Long studentId) {
+  public Image identifyStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
     Image image = imageService.getImage(imageId);
-    Student student = studentService.getStudent(studentId);
-    Set<Student> matched = image.getMatched();
-    matched.add(student);
+    Student match = studentService.getStudent(studentId);
+    Student owner = studentService.getStudent(auth.getId());
+    Matched matched = new Matched();
+    matched.setMatch(match);
+    matched.setOwner(owner);
+    matchedRepository.save(matched);
+    Set<Matched> matchedSet = image.getMatched();
+    matchedSet.add(matched);
     return mediaRepository.save(image);
   }
 
@@ -151,4 +162,11 @@ public class MediaService {
     return mediaRepository.save(video);
   }
 
+  public Gallery getGallery(Long id) {
+    Media media = mediaRepository.findOne(id);
+    if (media instanceof Gallery) {
+      return (Gallery) media;
+    }
+    throw new IllegalArgumentException("Could not find gallery with id: "+id);
+  }
 }

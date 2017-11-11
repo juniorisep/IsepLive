@@ -34,14 +34,24 @@ public class SwaggerConfiguration {
       .apis(Predicates.not(RequestHandlerSelectors.basePackage("org.springframework.boot")))
       .build()
       .globalOperationParameters(
-        Arrays.asList(new ParameterBuilder()
+        Arrays.asList(
+          new ParameterBuilder()
           .name("Authorization")
           .description("Auth header")
           .modelRef(new ModelRef("string"))
           .parameterType("header")
           .defaultValue("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sImlzcyI6IklzZXBMaXZlIiwiaWQiOjEsImV4cCI6MTU1NDcxODk2NSwiaWF0IjoxNTAyODc4OTY1fQ.p7KdAF_f5mCIfcyzQ7hW5_pEfdwfbIoH9eRLit4D_AM")
           .required(true)
-          .build()));
+          .build(),
+        new ParameterBuilder()
+          .name("X-Refresh-Token")
+          .description("Refresh header")
+          .modelRef(new ModelRef("string"))
+          .parameterType("header")
+          .defaultValue("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sImlzcyI6IklzZXBMaXZlIiwiaWQiOjEsImV4cCI6MTU1NDcxODk2NSwiaWF0IjoxNTAyODc4OTY1fQ.p7KdAF_f5mCIfcyzQ7hW5_pEfdwfbIoH9eRLit4D_AM")
+          .required(true)
+          .build()
+        ));
   }
 
 }

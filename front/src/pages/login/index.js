@@ -145,7 +145,7 @@ const ButtonContainer = styled.div`
   text-align: center;
 `;
 
-const BigButton = styled(Button)`
+const BigButton = styled(Button) `
   margin-bottom: 20px;
   font-size: 1.5em !important;
   color: white !important;
@@ -158,15 +158,16 @@ export default class Login extends Component {
   };
 
   handleRequestClose = () => {
-    this.setState({connexionOpen: false});
+    this.setState({ connexionOpen: false });
   };
 
   handleLoginForm = (key, event) => {
-    this.setState({[key]: event.target.value});
+    this.setState({ [key]: event.target.value });
   };
 
-  handleConnect = () => {
-    const {username, password} = this.state;
+  handleConnect = (e) => {
+    e.preventDefault();
+    const { username, password } = this.state;
     authData.connect(username, password).then(res => {
       this.handleRequestClose();
     }).catch(err => {
@@ -175,7 +176,7 @@ export default class Login extends Component {
   };
 
   render() {
-    const images = [1,2,3,4,5].map(e => `img/login/${e}.jpg`);
+    const images = [1, 2, 3, 4, 5].map(e => `img/login/${e}.jpg`);
     return (
       <Container>
         {
@@ -184,6 +185,8 @@ export default class Login extends Component {
         }
         <BackgroundContainer>
           <SlideShow
+            auto
+            coverMode="cover"
             items={images}
             duration={5}
           />
@@ -206,7 +209,7 @@ export default class Login extends Component {
           <AccessContainer>
             <ButtonContainer>
               <BigButton // style={CUSTOM_STYLES.btn}
-                onClick={() => this.setState({connexionOpen: true})}>Se connecter</BigButton>
+                onClick={() => this.setState({ connexionOpen: true })}>Se connecter</BigButton>
             </ButtonContainer>
             <ButtonContainer>
               <BigButton component={NavLink} to="/accueil">Accès visiteur</BigButton>

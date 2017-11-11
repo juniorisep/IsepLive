@@ -4,8 +4,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Time from 'components/Time';
-
-import { Title, Text } from 'components/common';
+import { Link } from 'react-router-dom';
+import {
+  Title, Text, BgImage,
+} from 'components/common';
 
 const Cell = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -13,23 +15,16 @@ const Cell = styled.div`
 
 export const Album = (props) => {
   const AlbumStyle = Cell.extend`
-    .image {
-      width: 100%;
-      height: 200px;
-      background: url(${props => props.url});
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-    }
-
     .caption {
       padding: 10px;
       color: ${props => props.theme.main};
     }
   `;
   return (
-    <AlbumStyle url={props.url} onClick={props.onClick}>
-      <div className="image"></div>
+    <AlbumStyle onClick={props.onClick}>
+      <Link to={`/gallery/${props.id}`}>
+        <BgImage src={props.url} mh="200px" />
+      </Link>
       <div className="caption">
         <Title invert fontSize={1.3} >{props.name}</Title>
         <Text fs=".8em"><Time date={props.creation} format="DD/MM/YYYY" /></Text>

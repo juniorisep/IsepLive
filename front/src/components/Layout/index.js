@@ -37,6 +37,7 @@ import Help from 'pages/help';
 import LegalNotice from 'pages/legalNotice';
 import UserAgreement from 'pages/userAgreement';
 import Admin from 'pages/administration';
+import Gallery from 'pages/gallery';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 import { backUrl, wsUrl } from '../../config';
@@ -224,7 +225,7 @@ class Layout extends React.Component {
   };
 
   initWebsocket() {
-    this.conn = new WebSocket(wsUrl + '/ws/post/websocket');
+    this.conn = new WebSocket(wsUrl + '/ws/post');
     this.conn.onopen = () => {
       this.conn.send(localStorage.getItem('token'));
     };
@@ -249,7 +250,6 @@ class Layout extends React.Component {
     };
 
     this.conn.onclose = (e) => {
-      console.log('closing ws', e)
       if (this.restartWS) {
         this.restartTimeout = setTimeout(() => {
           this.initWebsocket();
@@ -287,7 +287,8 @@ class Layout extends React.Component {
     this.setState({ open: false });
   };
 
-  handleConnect = () => {
+  handleConnect = (e) => {
+    e.preventDefault();
     const { username, password } = this.state;
     authData.connect(username, password).then(res => {
       this.handleRequestClose();
@@ -345,6 +346,7 @@ class Layout extends React.Component {
           <Route path="/accueil" component={Home} />
           <Route path="/post/:id" component={PostDetail} />
           <Route path="/media" component={Media} />
+          <Route path="/gallery/:id" component={Gallery} />
           <Route exact path="/annuaire" component={AddressBook} />
           <Route path="/annuaire/:id" component={AddressBookDetail} />
           <Route exact path="/associations" component={Club} />

@@ -1,7 +1,6 @@
 package com.iseplive.api.entity.media;
 
 import com.iseplive.api.constants.MediaType;
-import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -21,18 +20,18 @@ public class Image extends Media {
   private String fullSizeUrl;
 
   @OneToMany
-  private Set<Student> matched;
+  private Set<Matched> matched;
 
   @Override
   public void setCreation(Date creation) {
     super.setCreation(creation);
   }
 
-  public Set<Student> getMatched() {
+  public Set<Matched> getMatched() {
     return matched;
   }
 
-  public void setMatched(Set<Student> matched) {
+  public void setMatched(Set<Matched> matched) {
     this.matched = matched;
   }
 

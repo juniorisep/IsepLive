@@ -15,4 +15,8 @@ export function createGallery(form) {
     data.append('images[]', form.images[i]);
   };
   return axios.post('/media/gallery', data);
-};
+}
+
+export function getGallery(id: number) {
+  return axios.get(`/media/gallery/${id}`);
+}

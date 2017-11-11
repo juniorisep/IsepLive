@@ -38,6 +38,10 @@ public class Gallery extends Media {
     return name;
   }
 
+  public Image getCoverImage() {
+    return images.get(0);
+  }
+
   public void setName(String name) {
     this.name = name;
   }

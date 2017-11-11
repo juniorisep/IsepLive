@@ -48,11 +48,17 @@ public class MediaController {
     return mediaService.uploadVideo(name, video);
   }
 
-  @PutMapping("/image/{id}/match/{student}")
-  public Image identifyStudentInImage(@PathVariable Long id,
+  @PutMapping("/image/{id}/match/{student}/tag")
+  public Image tagStudentInImage(@PathVariable Long id,
                                       @PathVariable Long student,
                                       @AuthenticationPrincipal TokenPayload auth) {
-    return mediaService.identifyStudentInImage(id, student, auth);
+    return mediaService.tagStudentInImage(id, student, auth);
+  }
+  @PutMapping("/image/{id}/match/{student}/untag")
+  public void untagStudentInImage(@PathVariable Long id,
+                                      @PathVariable Long student,
+                                      @AuthenticationPrincipal TokenPayload auth) {
+    mediaService.untagStudentInImage(id, student, auth);
   }
 
 //  @PostMapping("/videoEmbed")

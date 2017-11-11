@@ -12,7 +12,7 @@ export function updateStudent(form: StudentUpdateDTO) {
 };
 
 export function searchStudents(
-  name: string, promotionFilter: number[], sort: string, page: number = 0) {
+  name: string, promotionFilter: number[] = [], sort: string = 'a', page: number = 0) {
   const promos = promotionFilter.join(',');
   return axios.get(`/user/student/search?name=${name}&promos=${promos}&sort=${sort}&page=${page}`);
 };

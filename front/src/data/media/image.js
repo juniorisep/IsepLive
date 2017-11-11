@@ -20,3 +20,11 @@ export function createGallery(form) {
 export function getGallery(id: number) {
   return axios.get(`/media/gallery/${id}`);
 }
+
+export function matchStudent(photoId: number, studId: number) {
+  return axios.put(`/media/image/${photoId}/match/${studId}/tag`);
+}
+
+export function unmatchStudent(photoId: number, studId: number) {
+  return axios.put(`/media/image/${photoId}/match/${studId}/untag`);
+}

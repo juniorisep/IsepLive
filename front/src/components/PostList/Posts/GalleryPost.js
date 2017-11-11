@@ -1,14 +1,19 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Box } from 'grid-styled';
-import { GridList, GridListTile } from 'material-ui/GridList';
-
+import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { Post, PostTextView } from 'components/PostList';
 
-import { BgImage, Paper } from 'components/common';
+import {
+  Image,
+  Paper,
+  Title,
+  Text,
+} from 'components/common';
+
 
 const Header = styled.div`
   color: ${props => props.theme.accent};
@@ -23,26 +28,40 @@ const Gallery = styled.div`
 `;
 
 class GalleryPost extends Component {
+
   render() {
     const props = this.props;
     const size = props.preview ? [1] : [1, 1 / 2];
-    const cols = props.preview ? 5 : 3;
+    const imageSize = props.preview ? [1 / 2, 1 / 4, 1 / 6] : [1 / 3];
+    const gallery = props.post.media;
+    const galleryOrder = props.preview ? 2 : 1;
+    const images = props.preview ? gallery.images : gallery.images.slice(0, 3);
     return (
       <Post invert={props.invert}>
-        <Box w={size}>
-          <Paper style={{ height: '100%' }}>
-            <Header>{props.post.media.name}</Header>
-            <Gallery>
-              <GridList cellHeight={160} cols={cols}>
-                {
-                  props.post.media.images.map(img => (
-                    <GridListTile key={img.id} cols={1}>
-                      <BgImage src={img.thumbUrl} alt="image" />
-                    </GridListTile>
-                  ))
-                }
-              </GridList>
-            </Gallery>
+        <Box w={size} order={galleryOrder} >
+          <Paper style={{ height: '100%', padding: '2em' }}>
+            <div>
+              <Title invert fontSize={1}>GALLERIE</Title>
+            </div>
+            <Title>{gallery.name}</Title>
+            <Flex wrap>
+              {
+                images.map((img, index) => {
+                  return (
+                    <Box key={img.id} w={imageSize} p={1}>
+                      <Flex align="center" style={{ height: '100%' }}>
+                        <Link to={{
+                          pathname: '/gallery/' + gallery.id,
+                          state: { imageId: img.id }
+                        }}>
+                          <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} />
+                        </Link>
+                      </Flex>
+                    </Box>
+                  );
+                })
+              }
+            </Flex>
           </Paper>
         </Box>
         <PostTextView

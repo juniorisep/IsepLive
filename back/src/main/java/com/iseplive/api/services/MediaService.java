@@ -130,7 +130,7 @@ public class MediaService {
     return mediaRepository.save(image);
   }
 
-  public Image identifyStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
+  public Image tagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
     Image image = imageService.getImage(imageId);
     Student match = studentService.getStudent(studentId);
     Student owner = studentService.getStudent(auth.getId());
@@ -141,6 +141,22 @@ public class MediaService {
     Set<Matched> matchedSet = image.getMatched();
     matchedSet.add(matched);
     return mediaRepository.save(image);
+  }
+
+  public void untagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
+    Image image = imageService.getImage(imageId);
+    Student match = studentService.getStudent(studentId);
+    Student owner = studentService.getStudent(auth.getId());
+    image.getMatched().forEach(m -> {
+      if (m.getMatch().equals(match)) {
+        if (m.getOwner().equals(owner)) {
+          image.getMatched().remove(m);
+          matchedRepository.delete(m);
+        } else {
+          throw new IllegalArgumentException("You cannot untag this student");
+        }
+      }
+    });
   }
 
   public VideoEmbed createVideoEmbed(VideoEmbedDTO dto) {

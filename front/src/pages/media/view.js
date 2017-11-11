@@ -20,7 +20,6 @@ import { Banner, Filler, FluidContent, Header, SearchBar, Separator, Text } from
 
 import { MAIN_COLOR } from '../../colors';
 
-import Gallery from 'components/Gallery';
 
 import { Album, Video, Gazette } from './mediaViews';
 

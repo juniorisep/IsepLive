@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Flex, Box } from 'grid-styled';
+import { Link } from 'react-router-dom';
 
 import {
   Title,
@@ -11,7 +12,7 @@ import {
   ScrollToTopOnMount,
 } from '../../components/common';
 
-import Gallery from '../../components/Gallery';
+import FullScreenGallery from '../../components/FullScreenGallery';
 import Loader from '../../components/Loader';
 import Time from '../../components/Time';
 
@@ -28,7 +29,11 @@ export default class GalleryPage extends React.Component {
   }
 
   componentDidMount() {
-    this.galleryId = this.props.match.params.id;
+    const { match, history } = this.props;
+    this.galleryId = match.params['id'];
+    if (history.location.state) {
+      this.photoId = history.location.state['imageId'];
+    }
     this.getGallery()
   }
 
@@ -37,16 +42,38 @@ export default class GalleryPage extends React.Component {
     mediaData.getGallery(this.galleryId)
       .then(res => {
         this.setState({ gallery: res.data, isLoading: false });
+
+        if (this.photoId) {
+          const index = res.data.images.findIndex(e => e.id === this.photoId);
+          this.selectPhoto(index);
+        }
       })
   }
+
+  refreshGallery = () => {
+    mediaData.getGallery(this.galleryId)
+      .then(res => {
+        this.setState({ gallery: res.data });
+      })
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.history.location.state) {
+      const photoId = props.history.location.state.imageId;
+      const index = this.state.gallery.images.findIndex(e => e.id === photoId);
+      this.selectPhoto(index);
+    }
+  }
+
 
   showGallery = () =>
     this.setState({ galleryOpen: true })
 
-  hideGallery = () =>
+  hideGallery = () => {
     this.setState({ galleryOpen: false })
+  }
 
-  selectPhoto = index => e => {
+  selectPhoto = index => {
     // alert(img.id)
     this.setState({ galleryIndex: index })
     this.showGallery();
@@ -76,7 +103,12 @@ export default class GalleryPage extends React.Component {
                     return (
                       <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 6]} p={1}>
                         <Flex align="center" style={{ height: '100%' }}>
-                          <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} onClick={this.selectPhoto(index)} />
+                          <Link to={{
+                            pathname: '/gallery/' + gallery.id,
+                            state: { imageId: img.id }
+                          }}>
+                            <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} />
+                          </Link>
                         </Flex>
                       </Box>
                     );
@@ -89,11 +121,12 @@ export default class GalleryPage extends React.Component {
 
         <Filler h={300} />
 
-        <Gallery
+        <FullScreenGallery
           index={galleryIndex}
           visible={galleryOpen}
           gallery={gallery}
-          onEscKey={this.hideGallery} />
+          onEscKey={this.hideGallery}
+          refreshGallery={this.refreshGallery} />
       </FluidContent>
     );
   }

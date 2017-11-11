@@ -123,7 +123,6 @@ export default class SlideShow extends React.Component {
 
   render() {
     const { pos, animEnabled } = this.state;
-    console.log(pos)
     return (
       <ImageList>
         {

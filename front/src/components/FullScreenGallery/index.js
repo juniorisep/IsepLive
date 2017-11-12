@@ -62,7 +62,6 @@ class Gallery extends Component {
   render() {
     const { visible, gallery, index } = this.props;
     if (!visible) return null;
-    console.log(index)
     return (
       <Wrapper visible={visible}>
         <IconButton
@@ -81,7 +80,9 @@ class Gallery extends Component {
             }
             duration={5} />
         </GalleryStyle>
-        <PeopleMatcher image={gallery.images[this.state.currentIndex]} />
+        <PeopleMatcher
+          image={gallery.images[this.state.currentIndex]}
+          refreshGallery={this.props.refreshGallery} />
       </Wrapper>
     );
   };

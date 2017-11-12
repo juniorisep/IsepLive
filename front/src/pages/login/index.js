@@ -136,7 +136,7 @@ const AccessContainer = styled.div`
   padding: 30px;
 
   @media screen and (max-width: 500px) {
-    margin-bottom: 100px;
+    margin-top: 50px;
   }
 `;
 

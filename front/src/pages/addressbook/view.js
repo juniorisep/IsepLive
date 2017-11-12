@@ -23,7 +23,7 @@ const Person = (props) => {
       margin: 0;
     }
     p.name {
-      font-weight: bold;
+      font-weight: 500;
       margin-bottom: 5px;
     }
   `;

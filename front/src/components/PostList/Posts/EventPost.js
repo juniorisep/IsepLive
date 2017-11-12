@@ -32,7 +32,7 @@ const FileLogo = styled.img`
 
 const FileName = styled.h2`
   font-size: 1.3em;
-  font-weight: bold;
+  font-weight: 500;
   color: white;
   margin: 0;
 `;

@@ -18,7 +18,7 @@ const TopBar = styled.div`
   background: ${props => props.theme.main};
   padding: 15px;
   font-size: 25px;
-  font-weight: bold;
+  font-weight: 500;
   color: ${props => props.theme.accent};
 `;
 
@@ -50,16 +50,16 @@ class Poll extends Component {
 
   componentDidMount() {
 
-    if (this.isEnded()) {
+    if (this.isEnded())  {
       this.setState({ showVote: true, ended: true });
     };
 
     if (!authData.isLoggedIn()) {
-      this.setState({showVote: true});
+      this.setState({ showVote: true });
     } else {
       pollData.getVotes(this.state.data.id).then(res => {
         if (res.data.length > 0) {
-          this.setState({showVote: true, answers: res.data.map(d => d.answer)});
+          this.setState({ showVote: true, answers: res.data.map(d => d.answer) });
         };
       });
     };
@@ -74,12 +74,12 @@ class Poll extends Component {
     if (!this.isEnded()) {
       if (!showVote || (data.multiAnswers &&
         answers.length < data.answers.length)) {
-          this.setState({showVote: true, answers: [...answers, ans]});
-          pollData.vote(data.id, ans.id).then(res => {
-            pollData.getPoll(this.props.data.id).then(res => {
-              this.setState({data: res.data});
-            });
+        this.setState({ showVote: true, answers: [...answers, ans] });
+        pollData.vote(data.id, ans.id).then(res => {
+          pollData.getPoll(this.props.data.id).then(res => {
+            this.setState({ data: res.data });
           });
+        });
       };
     };
   };
@@ -103,7 +103,7 @@ class Poll extends Component {
               return (
                 <Answer
                   key={a.id}
-                  showVote={this.state.showVote || this.isEnded()}
+                  showVote={this.state.showVote ||  this.isEnded()}
                   voted={this.state.answers.filter(as => as.id === a.id).length > 0}
                   total={total}
                   multiAnswers={poll.multiAnswers}
@@ -117,7 +117,7 @@ class Poll extends Component {
           <Flex>
             <Box>
               <Text>
-                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé' }
+                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé'}
               </Text>
             </Box>
             <Box ml="auto">
@@ -139,7 +139,7 @@ const AnswerStyle = styled.div`
   margin-bottom: 10px;
   overflow: hidden;
   &:hover {
-    ${props => (props.selectable || !props.showVote) &&`
+    ${props => (props.selectable || !props.showVote) && `
       background: rgba(63, 81, 181, 0.7);
       color: white;
       cursor: pointer;

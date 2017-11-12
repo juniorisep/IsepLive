@@ -1,10 +1,10 @@
 // @flow
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Box, Flex} from 'grid-styled';
-import {Link} from 'react-router-dom';
-import {Banner, Filler, FluidContent, Header, Image, SearchBar} from 'components/common';
+import { Box, Flex } from 'grid-styled';
+import { Link } from 'react-router-dom';
+import { Banner, Filler, FluidContent, Header, Image, SearchBar } from 'components/common';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
@@ -25,7 +25,7 @@ const ClubTile = (props) => {
       margin: 0;
       text-align: center;
       font-size: 1.2em;
-      font-weight: bold;
+      font-weight: 500;
       color: ${props => props.theme.main};
     }
   `;

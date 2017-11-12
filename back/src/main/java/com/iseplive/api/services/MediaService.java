@@ -157,15 +157,6 @@ public class MediaService {
       .collect(Collectors.toList());
     image.setMatched(newMatched);
     imageRepository.save(image);
-      /*.forEach(m -> {
-      if (m.getMatch().equals(match)) {
-        if (m.getOwner().equals(owner)) {
-
-        } else {
-          throw new IllegalArgumentException("You cannot untag this student");
-        }
-      }
-    });*/
   }
 
   public VideoEmbed createVideoEmbed(VideoEmbedDTO dto) {

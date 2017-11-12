@@ -37,7 +37,7 @@ const Person = (props) => {
     }
 
     > div p.name {
-      font-weight: bold;
+      font-weight: 500;
       margin-bottom: 5px;
     }
   `;

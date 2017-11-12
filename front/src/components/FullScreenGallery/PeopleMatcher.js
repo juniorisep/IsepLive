@@ -17,6 +17,7 @@ import { backUrl } from 'config';
 const STYLE = {
   margin: 40,
   display: 'flex',
+  flexWrap: 'wrap',
 }
 
 const InputButton = styled.button`
@@ -24,7 +25,9 @@ const InputButton = styled.button`
   background: rgba(255,255,255,0.1);
   color: white;
   border-radius: 30px;
-  padding: 7px 12px;
+  padding: 7px 9px;
+  margin-bottom: 10px;
+  height: auto;
   border: 0;
   font-family: inherit;
   transition: background .3s ease;
@@ -86,7 +89,7 @@ export default class PeopleMatcher extends Component {
             }
             return <Chip
               key={e.id}
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 10, marginBottom: 10 }}
               avatar={<Avatar src={backUrl + e.match.photoUrlThumb} />}
               label={`${e.match.firstname} ${e.match.lastname}`}
               {...props} />;

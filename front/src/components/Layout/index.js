@@ -75,7 +75,7 @@ const LinksBar = styled.div`
   background: ${SECONDARY_COLOR};
   color: white;
   padding: 10px 0;
-  font-weight: bold;
+  font-weight: 500;
 
   > div {
     max-width: 1100px;
@@ -120,6 +120,7 @@ const SocialBox = styled.div`
     text-transform: uppercase;
     color: white;
     font-size: 11px;
+    font-weight: 500;
   }
 
   img {

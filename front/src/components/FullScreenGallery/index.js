@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   top: 0;
   left: 0;
   z-index: 1100;
+  overflow: auto;
 `;
 
 const GalleryStyle = styled.div`

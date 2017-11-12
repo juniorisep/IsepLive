@@ -29,7 +29,7 @@ const Profile = styled.div`
 
   > .infos > span {
     display: block;
-    font-weight: bold;
+    font-weight: 500;
     padding: 2px;
   }
 

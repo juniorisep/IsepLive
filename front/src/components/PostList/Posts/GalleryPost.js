@@ -15,13 +15,6 @@ import {
 } from 'components/common';
 
 
-const Header = styled.div`
-  color: ${props => props.theme.accent};
-  padding: 15px;
-  font-size: 1.4em;
-  font-weight: bold;
-`;
-
 const Gallery = styled.div`
   margin: 10px;
   min-height: 300px;

@@ -24,13 +24,13 @@ const Member = (props) => {
     }
 
     > div p.name {
-      font-weight: bold;
+      font-weight: 500;
       margin-bottom: 5px;
     }
 
     .role {
       margin-top: 5px;
-      font-weight: bold;
+      font-weight: 500;
       color: ${props => props.theme.accent};
     }
   `;

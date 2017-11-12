@@ -2,6 +2,7 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.MediaType;
+import com.iseplive.api.dao.image.ImageRepository;
 import com.iseplive.api.dao.image.MatchedRepository;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 01/08/2017.
@@ -40,6 +42,9 @@ public class MediaService {
 
   @Autowired
   MatchedRepository matchedRepository;
+
+  @Autowired
+  ImageRepository imageRepository;
 
   @Autowired
   StudentService studentService;
@@ -138,8 +143,7 @@ public class MediaService {
     matched.setMatch(match);
     matched.setOwner(owner);
     matchedRepository.save(matched);
-    Set<Matched> matchedSet = image.getMatched();
-    matchedSet.add(matched);
+    image.getMatched().add(matched);
     return mediaRepository.save(image);
   }
 
@@ -147,16 +151,21 @@ public class MediaService {
     Image image = imageService.getImage(imageId);
     Student match = studentService.getStudent(studentId);
     Student owner = studentService.getStudent(auth.getId());
-    image.getMatched().forEach(m -> {
+    List<Matched> newMatched = image.getMatched()
+      .stream()
+      .filter(m -> !(m.getMatch().equals(match) && m.getOwner().equals(owner)))
+      .collect(Collectors.toList());
+    image.setMatched(newMatched);
+    imageRepository.save(image);
+      /*.forEach(m -> {
       if (m.getMatch().equals(match)) {
         if (m.getOwner().equals(owner)) {
-          image.getMatched().remove(m);
-          matchedRepository.delete(m);
+
         } else {
           throw new IllegalArgumentException("You cannot untag this student");
         }
       }
-    });
+    });*/
   }
 
   public VideoEmbed createVideoEmbed(VideoEmbedDTO dto) {

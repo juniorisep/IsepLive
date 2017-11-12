@@ -2,11 +2,12 @@ package com.iseplive.api.entity.media;
 
 import com.iseplive.api.constants.MediaType;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -19,19 +20,19 @@ public class Image extends Media {
   private String thumbUrl;
   private String fullSizeUrl;
 
-  @OneToMany
-  private Set<Matched> matched;
+  @ManyToMany(cascade = CascadeType.ALL)
+  private List<Matched> matched;
 
   @Override
   public void setCreation(Date creation) {
     super.setCreation(creation);
   }
 
-  public Set<Matched> getMatched() {
+  public List<Matched> getMatched() {
     return matched;
   }
 
-  public void setMatched(Set<Matched> matched) {
+  public void setMatched(List<Matched> matched) {
     this.matched = matched;
   }
 

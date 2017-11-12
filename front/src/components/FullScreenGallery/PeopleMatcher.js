@@ -93,7 +93,10 @@ export default class PeopleMatcher extends Component {
           })
         }
         <InputButton onClick={this.tag}>Tagger une personne</InputButton>
-        <Dialog open={this.state.dialogOpen} onRequestClose={this.closeDialog} >
+        <Dialog
+          ignoreEscapeKeyUp
+          open={this.state.dialogOpen}
+          onRequestClose={this.closeDialog} >
           <DialogTitle>Tagger une personne</DialogTitle>
           <DialogContent>
             <TextField fullWidth label="Prénom ou Nom" onChange={this.findStudents} />

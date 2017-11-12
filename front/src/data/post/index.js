@@ -58,3 +58,12 @@ export function addMedia(id: number, mediaId: number) {
 export function toggleLikePost(id: number) {
   return axios.put(`/post/${id}/like`);
 };
+
+export function getLikes(type: string, id: number) {
+  if (type === 'post') {
+    return axios.get(`/post/${id}/likes`);
+  }
+  if (type === 'comment') {
+    return axios.get(`/post/comment/${id}/likes`);
+  }
+}

@@ -232,4 +232,17 @@ public class PostService {
     post.setContent(update.getContent());
     return postRepository.save(post);
   }
+
+  public Set<Student> getLikesPost(Long id) {
+    Post post = getPost(id);
+    return post.getLike();
+  }
+
+  public Set<Student> getLikesComment(Long id) {
+    Comment comment = commentRepository.findOne(id);
+    if (comment == null) {
+      throw new IllegalArgumentException("could not find a comment with this id");
+    }
+    return comment.getLike();
+  }
 }

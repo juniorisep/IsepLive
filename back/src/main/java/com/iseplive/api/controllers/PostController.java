@@ -10,6 +10,7 @@ import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.user.Author;
+import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.AuthService;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -59,6 +61,11 @@ public class PostController {
     return postService.getAuthors(auth.getId());
   }
 
+  @GetMapping("/comment/{id}/likes")
+  public Set<Student> getLikesComment(@PathVariable Long id) {
+    return postService.getLikesComment(id);
+  }
+
   @GetMapping("/{id}")
   public PostView getPost(@PathVariable Long id) {
     return postService.getPostView(id);
@@ -92,6 +99,11 @@ public class PostController {
   @PutMapping("/{id}/like")
   public void likePost(@PathVariable Long id, @AuthenticationPrincipal TokenPayload auth) {
     postService.togglePostLike(id, auth.getId());
+  }
+
+  @GetMapping("/{id}/likes")
+  public Set<Student> getLikesPost(@PathVariable Long id) {
+    return postService.getLikesPost(id);
   }
 
   @PutMapping("/{id}/comment/{comId}/like")

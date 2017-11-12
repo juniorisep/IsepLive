@@ -36,7 +36,11 @@ class Comment extends Component {
           {/* <Text fs="0.8em">{this.renderLikes()}</Text> */}
         </Box>
         <Box ml="auto">
-          <LikeButton likes={props.likes.length} liked={props.liked} toggleLike={() => this.props.toggleLike(props.id)} />
+          <LikeButton
+            likes={props.likes.length}
+            liked={props.liked}
+            toggleLike={() => this.props.toggleLike(props.id)}
+            showLikes={this.props.showLikes(props.id)} />
         </Box>
       </Flex>
     );

@@ -21,7 +21,17 @@ import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
 import type { PostDTO } from 'data/post/type';
 
-import { MediaCreator, PollForm, ImageForm, VideoEmbedForm, VideoForm, GalleryForm, DocumentForm, GazetteForm, EventForm } from 'components/PostList/MediaForms';
+import {
+  MediaCreator,
+  PollForm,
+  ImageForm,
+  VideoEmbedForm,
+  VideoForm,
+  GalleryForm,
+  DocumentForm,
+  GazetteForm,
+  EventForm
+} from 'components/PostList/MediaForms';
 
 import { ProfileImage, Text } from 'components/common';
 
@@ -45,6 +55,7 @@ const TitleBox = styled.input`
 let MessageBox = TitleBox.withComponent('textarea');
 MessageBox = MessageBox.extend`
   resize: vertical;
+  min-height: 80px;
 `;
 
 function SendAs(props) {

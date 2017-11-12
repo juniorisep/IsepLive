@@ -82,6 +82,10 @@ export class PostTextView extends Component {
     postData.toggleLikePost(this.props.post.id);
   };
 
+  showLikes = () => {
+    return postData.getLikes('post', this.props.post.id);
+  }
+
   render() {
     const { post, refresh, preview, modify } = this.props;
     return (
@@ -102,7 +106,11 @@ export class PostTextView extends Component {
             </Box>
           }
           <Box ml="auto">
-            <LikeButton liked={post.liked} likes={post.nbLikes} toggleLike={this.toggleLike} />
+            <LikeButton
+              liked={post.liked}
+              likes={post.nbLikes}
+              toggleLike={this.toggleLike}
+              showLikes={this.showLikes} />
           </Box>
         </PostActions>
       </PostText>

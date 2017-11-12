@@ -26,22 +26,26 @@ class PostDetail extends Component {
 
   refreshPost = () => {
     postData.getPost(this.postId)
-    .then(res => {
-      this.setState({ post: res.data });
-    });
+      .then(res => {
+        this.setState({ post: res.data });
+      });
   };
   refreshCom = () => {
     postData.getComments(this.postId)
-    .then(res => this.setState({ comments: res.data }))
+      .then(res => this.setState({ comments: res.data }))
   };
 
   toggleLikeCom = (comId: number) => {
     postData.toggleLikeComment(this.postId, comId);
   };
 
+  showLikes = (comId: number) => e => {
+    return postData.getLikes('comment', comId);
+  }
+
   comment = (message: string) => {
     postData.comment(this.postId, message)
-    .then(this.refreshCom);
+      .then(this.refreshCom);
   };
 
   render() {
@@ -49,8 +53,9 @@ class PostDetail extends Component {
       <PostDetailView
         post={this.state.post}
         comments={this.state.comments}
-        refresh={this.refresh}
+        refresh={this.refreshPost}
         toggleLikeCom={this.toggleLikeCom}
+        showLikes={this.showLikes}
         onComment={this.comment}
       />
     );

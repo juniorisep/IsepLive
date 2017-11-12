@@ -35,15 +35,19 @@ export default function PostDetailView(props) {
       </Background>
       <FluidContent>
         <Title>Commentaires</Title>
-        { props.comments.length === 0 && <Text>Pas de commentaire(s) pour le moment !</Text> }
+        {props.comments.length === 0 && <Text>Pas de commentaire(s) pour le moment !</Text>}
         {
           props.comments.map(c => {
-            return <Comment key={c.id} comment={c} toggleLike={props.toggleLikeCom} />
+            return <Comment
+              key={c.id}
+              comment={c}
+              toggleLike={props.toggleLikeCom}
+              showLikes={props.showLikes} />
           })
         }
         <Flex mt="30px">
           <Box>
-            <ProfileImage sz="60px"/>
+            <ProfileImage sz="60px" />
           </Box>
           <Box flex="1 1 auto" ml="20px">
             <CommentBox onComment={props.onComment} />

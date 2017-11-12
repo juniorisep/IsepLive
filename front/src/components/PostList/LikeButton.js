@@ -10,8 +10,16 @@ import Checkbox from 'material-ui/Checkbox';
 import NotLiked from 'material-ui-icons/FavoriteBorder';
 import Liked from 'material-ui-icons/Favorite';
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
+import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 
 import * as authData from 'data/auth';
+
+import {
+  Text,
+} from '../common';
+
+import { backUrl } from '../../config';
 
 const CustomCheckbox = styled(Checkbox) `
   color: ${props => props.theme.accent} !important;
@@ -27,9 +35,21 @@ const Label = styled.span`
 
 const LikesPanel = props => {
   return (
-    <Dialog>
-      <DialogTitle>Set backup account</DialogTitle>
-
+    <Dialog open={props.open} onRequestClose={props.onClose}>
+      <DialogTitle>Likes</DialogTitle>
+      {props.students.length === 0 && <Text style={{ width: 200, padding: 20 }}>Aucun like</Text>}
+      <List>
+        {
+          props.students.map(stud => {
+            return (
+              <ListItem key={stud.id}>
+                <Avatar alt="student" src={backUrl + stud.photoUrlThumb} />
+                <ListItemText primary={stud.firstname + ' ' + stud.lastname} />
+              </ListItem>
+            )
+          })
+        }
+      </List>
     </Dialog>
   );
 };
@@ -38,6 +58,8 @@ class LikeButton extends Component {
   state = {
     liked: this.props.liked,
     likes: this.props.likes,
+    showLikes: false,
+    studentsLike: [],
   };
 
   handleLike = () => {
@@ -52,10 +74,17 @@ class LikeButton extends Component {
   };
 
   showLikes = () => {
-    alert('not implemented')
+    this.props.showLikes().then(res => {
+      this.setState({ showLikes: true, studentsLike: res.data });
+    })
   };
 
+  onHideLikes = () => {
+    this.setState({ showLikes: false })
+  }
+
   render() {
+    const { showLikes, studentsLike } = this.state;
     return (
       <Flex align="center">
         <Label onClick={this.showLikes}>{this.state.likes} j'aime</Label>
@@ -64,6 +93,10 @@ class LikeButton extends Component {
           checkedIcon={<Liked />}
           checked={this.state.liked}
           onChange={this.handleLike} />
+        <LikesPanel
+          open={showLikes}
+          onClose={this.onHideLikes}
+          students={studentsLike} />
       </Flex>
     );
   };

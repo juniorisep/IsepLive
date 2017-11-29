@@ -18,6 +18,8 @@ import java.util.List;
 public class Club extends Author {
 
   private String name;
+
+  @Column(length = 500)
   private String description;
   private Date creation;
   private String website;

@@ -157,7 +157,12 @@ class AddClubForm extends React.Component {
           <TextField label="Nom" fullWidth margin="normal" onChange={this.handleInput('name')} />
           <div style={{ margin: '20px 0' }} >
             <Text>Création</Text>
-            <DatePicker dateonly date={this.state.creation} onChange={date => this.change('creation', date)} />
+            <DatePicker
+              dateonly
+              date={this.state.creation}
+              startYear={1956}
+              endYear={new Date().getFullYear() + 1}
+              onChange={date => this.change('creation', date)} />
           </div>
           <AutoComplete
             label="Président"

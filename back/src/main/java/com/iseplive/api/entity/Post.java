@@ -30,7 +30,7 @@ public class Post {
   @OneToOne(cascade = CascadeType.ALL)
   private Media media;
 
-  @OneToOne
+  @ManyToOne
   private Author author;
 
   @JsonIgnore

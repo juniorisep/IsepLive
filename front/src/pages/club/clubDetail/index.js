@@ -74,12 +74,19 @@ class ClubDetail extends Component {
     };
   };
 
+  onDelete = () => {
+    clubData.deleteClub(this.state.id).then(res => {
+      this.props.history.push('/');
+    });
+  }
+
   render() {
     return (
       <ClubDetailView
         {...this.state}
         changeTab={this.handleChangeTab}
         renderTab={this.renderTab}
+        onDelete={this.onDelete}
       />
     );
   };

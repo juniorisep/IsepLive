@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.constants.ClubRoles;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.dao.club.ClubFactory;
 import com.iseplive.api.dao.club.ClubMemberRepository;
@@ -51,7 +52,7 @@ public class ClubService {
   @Value("${storage.club.url}")
   public String clubLogoStorage;
 
-  public Club createClub(ClubDTO dto) {
+  public Club createClub(ClubDTO dto, MultipartFile logo) {
     Club club = clubFactory.dtoToEntity(dto);
     if (dto.getAdminId() == null) {
       throw new IllegalArgumentException("The id of the admin cannot be null");
@@ -61,15 +62,30 @@ public class ClubService {
       throw new IllegalArgumentException("this student id doesn't exist");
     }
     club.setAdmins(Collections.singletonList(admin));
+
+    ClubMember clubMember = new ClubMember();
+    clubMember.setMember(admin);
+    clubMember.setRole(getClubRole(ClubRoles.PRESIDENT));
+    clubMember.setClub(club);
+
+    club.setMembers(Collections.singletonList(clubMember));
+    setClubLogo(club, logo);
     return authorRepository.save(club);
   }
 
-  public Club setClubLogo(MultipartFile file, Long clubId) {
-    Club club = getClub(clubId);
+  public ClubRole getClubRole(String role) {
+    ClubRole clubRole = clubRoleRepository.findOneByName(role);
+    if (clubRole == null) {
+      throw new IllegalArgumentException("Could not find this role: "+role);
+    }
+    return clubRole;
+  }
+
+  public void setClubLogo(Club club, MultipartFile file) {
     String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
+    imageUtils.removeIfExist(path);
     imageUtils.saveJPG(file, 256, path);
     club.setLogoUrl(imageUtils.getPublicUrlImage(path));
-    return authorRepository.save(club);
   }
 
   public ClubMember addMember(Long clubId, Long roleId, Long studentId) {

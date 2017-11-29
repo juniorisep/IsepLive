@@ -12,13 +12,30 @@ class Club extends Component {
   };
 
   componentDidMount() {
+    this.getClubs();
+  }
+
+  getClubs = () => {
     clubData.getClubs().then(res => {
-      this.setState({clubs: res.data});
+      this.setState({ clubs: res.data });
     });
-  };
+  }
+
+  addClub = (form) => {
+    return clubData.createClub(form).then(res => {
+      this.getClubs();
+      return res;
+    });
+  }
+
+
 
   render() {
-    return (<ClubView clubs={this.state.clubs} />);
+    return (
+      <ClubView
+        clubs={this.state.clubs}
+        addClub={this.addClub} />
+    );
   };
 };
 

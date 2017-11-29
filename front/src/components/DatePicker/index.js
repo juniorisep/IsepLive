@@ -13,17 +13,18 @@ const TimeSelect = props => {
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="input">{props.label}</InputLabel>
       <Select
+        native
         value={props.value || 0}
         onChange={(e) => props.onChange(e.target.value)}
         input={<Input fullWidth id="input" />}
       >
         {
           props.items.map((item, id) => (
-            <MenuItem
+            <option
               key={id}
               value={item.value} >
               {item.name}
-            </MenuItem>
+            </option>
           ))
         }
       </Select>
@@ -123,22 +124,30 @@ export default class DatePicker extends React.Component {
       day, month, year,
     } = this.getDateComp(this.props.date || new Date().getTime());
 
+    const size = this.props.dateonly ? 3 : 5;
+
     return (
       <div>
         <Flex wrap>
-          <Box p={1} w={[1 / 2, 1 / 5]} >
-            <TimeSelect label="Heure" value={hour} items={hours} onChange={this.onChange('hour')} />
-          </Box>
-          <Box p={1} w={[1 / 2, 1 / 5]} >
-            <TimeSelect label="Minute" value={minute} items={minutes} onChange={this.onChange('minute')} />
-          </Box>
-          <Box p={1} w={[1 / 3, 1 / 5]} >
+          {
+            !this.props.dateonly &&
+            <Box p={1} w={[1 / 2, 1 / size]} >
+              <TimeSelect label="Heure" value={hour} items={hours} onChange={this.onChange('hour')} />
+            </Box>
+          }
+          {
+            !this.props.dateonly &&
+            <Box p={1} w={[1 / 2, 1 / size]} >
+              <TimeSelect label="Minute" value={minute} items={minutes} onChange={this.onChange('minute')} />
+            </Box>
+          }
+          <Box p={1} w={[1 / 3, 1 / size]} >
             <TimeSelect label="Jour" value={day} items={days} onChange={this.onChange('day')} />
           </Box>
-          <Box p={1} w={[1 / 3, 1 / 5]} >
+          <Box p={1} w={[1 / 3, 1 / size]} >
             <TimeSelect label="Mois" value={month} items={months} onChange={this.onChange('month')} />
           </Box>
-          <Box p={1} w={[1 / 3, 1 / 5]} >
+          <Box p={1} w={[1 / 3, 1 / size]} >
             <TimeSelect label="Année" value={year} items={years} onChange={this.onChange('year')} />
           </Box>
         </Flex>

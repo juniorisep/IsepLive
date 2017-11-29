@@ -8,6 +8,7 @@ import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.ClubService;
 import com.iseplive.api.services.PostService;
+import com.iseplive.api.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,14 +29,19 @@ public class ClubController {
   @Autowired
   PostService postService;
 
+  @Autowired
+  JsonUtils jsonUtils;
+
   @GetMapping
   public List<Club> listClubs() {
     return clubService.getAll();
   }
 
   @PostMapping
-  public Club createClub(@RequestBody ClubDTO clubDTO) {
-    return clubService.createClub(clubDTO);
+  public Club createClub(@RequestParam("logo") MultipartFile logo,
+                         @RequestParam("club") String club) {
+    ClubDTO clubDTO = jsonUtils.deserialize(club, ClubDTO.class);
+    return clubService.createClub(clubDTO, logo);
   }
 
   @PostMapping("/role/{role}")
@@ -51,11 +57,6 @@ public class ClubController {
   @DeleteMapping("/{id}")
   public void deleteClub(@PathVariable Long id) {
     clubService.deleteClub(id);
-  }
-
-  @PutMapping("/{id}/logo")
-  public Club setLogo(@PathVariable Long id, @RequestParam("image") MultipartFile file) {
-    return clubService.setClubLogo(file, id);
   }
 
   @PutMapping("/{id}/member/{role}/{student}")

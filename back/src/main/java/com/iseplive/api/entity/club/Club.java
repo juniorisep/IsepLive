@@ -1,13 +1,11 @@
 package com.iseplive.api.entity.club;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -27,12 +25,16 @@ public class Club extends Author {
   private Boolean isAdmin;
 
   @JsonIgnore
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.ALL)
   private List<ClubMember> members;
 
   @JsonIgnore
   @ManyToMany(fetch = FetchType.EAGER)
   private List<Student> admins;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Post> posts;
 
   private String logoUrl;
   private String logoThumbUrl;
@@ -107,5 +109,13 @@ public class Club extends Author {
 
   public void setAdmin(Boolean admin) {
     isAdmin = admin;
+  }
+
+  public List<Post> getPosts() {
+    return posts;
+  }
+
+  public void setPosts(List<Post> posts) {
+    this.posts = posts;
   }
 }

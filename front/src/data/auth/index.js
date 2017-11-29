@@ -7,7 +7,7 @@ export const hasRole = (roles: Array<string>) => {
   const user = getUser();
 
   // bypass
-  return true;
+  // return true;
 
   if (user) {
     return roles.filter(r => user.roles.includes(r)).length > 0;

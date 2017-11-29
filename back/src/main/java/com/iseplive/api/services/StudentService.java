@@ -128,4 +128,12 @@ public class StudentService {
     student.setAllowNotifications(!student.getAllowNotifications());
     studentRepository.save(student);
   }
+
+  public void addRole(Student student, String rolestr) {
+    Role role = getRole(rolestr);
+    student.getRoles().add(role);
+    studentRepository.save(student);
+  }
+
+
 }

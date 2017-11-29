@@ -63,6 +63,17 @@ public class MediaUtils {
     return randomName(30);
   }
 
+  public void removeIfExist(String path) {
+    Path p = Paths.get(baseUrl + path + ".jpg");
+    if (Files.exists(p)) {
+      try {
+        Files.delete(p);
+      } catch (IOException e) {
+        throw new FileException("could not delete file: " + p, e);
+      }
+    }
+  }
+
   /**
    * saveFile saves the file to the path specified
    * and creates new directories if needed.

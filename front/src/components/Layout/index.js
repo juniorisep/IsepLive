@@ -46,6 +46,8 @@ import { FluidContent } from '../common';
 import * as authData from 'data/auth';
 import * as userData from 'data/users/student';
 
+import * as roles from '../../constants';
+
 import Profile from './profile';
 import LoginForm from '../LoginForm';
 
@@ -313,14 +315,14 @@ class Layout extends React.Component {
               {navList(Nav)}
             </NavMenu>
             <span style={{ marginLeft: 'auto' }}>
-              <Auth roles={['ROLE_STUDENT']}>
+              <Auth >
                 <Profile onClick={this.handleClick} />
                 <Menu id="simple-menu"
                   anchorEl={this.state.anchorEl}
                   open={this.state.open}
                   onRequestClose={this.handleRequestClose}
                 >
-                  <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>
+                  {authData.hasRole([roles.ADMIN]) && <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>}
                   <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
                   <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
                 </Menu>
@@ -361,7 +363,7 @@ class Layout extends React.Component {
           <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={UserAgreement} />
           <Route path="/mentions-legales" component={LegalNotice} />
-          {/* <AuthenticatedRoute roles={['ROLE_STUDENT', 'ROLE_ADMIN']} path="/administration" component={Admin} /> */}
+          <AuthenticatedRoute roles={[roles.ADMIN]} path="/administration" component={Admin} />
           <Route path="/administration" component={Admin} />
           <Route path="*" component={NotFound} />
         </Switch>

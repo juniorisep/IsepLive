@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ClubRoleRepository extends CrudRepository<ClubRole, Long> {
+  ClubRole findOneByName(String name);
 }

@@ -109,7 +109,7 @@ class PublishBoxView extends Component {
   state = {
     title: '',
     message: '',
-    isPrivateMessage: false,
+    isPrivateMessage: true,
     selectedIndex: -1,
     mediaMenuOpen: false,
     authorMenuOpen: false,
@@ -339,6 +339,7 @@ class PublishBoxView extends Component {
                 color="accent"
                 control={
                   <Checkbox
+                    checked={this.state.isPrivateMessage}
                     value={this.state.isPrivateMessage}
                     style={{ color: 'white' }}
                     onChange={this.onPrivateToggle} />

@@ -88,11 +88,11 @@ public class ClubService {
     club.setLogoUrl(imageUtils.getPublicUrlImage(path));
   }
 
-  public ClubMember addMember(Long clubId, Long roleId, Long studentId) {
+  public ClubMember addMember(Long clubId, Long studentId) {
     ClubMember clubMember = new ClubMember();
     clubMember.setClub(getClub(clubId));
     clubMember.setMember(studentService.getStudent(studentId));
-    clubMember.setRole(getClubRole(roleId));
+    clubMember.setRole(getClubRole(ClubRoles.MEMBER));
 
     return clubMemberRepository.save(clubMember);
   }
@@ -173,5 +173,27 @@ public class ClubService {
       setClubLogo(club, logo);
     }
     return clubRepository.save(club);
+  }
+
+  public ClubMember updateMemberRole(Long member, Long role) {
+    ClubMember clubMember = getMember(member);
+    clubMember.setRole(getClubRole(role));
+    return clubMemberRepository.save(clubMember);
+  }
+
+  private ClubMember getMember(Long member) {
+    ClubMember clubMember = clubMemberRepository.findOne(member);
+    if (clubMember == null) {
+      throw new IllegalArgumentException("member could not be found");
+    }
+    return clubMember;
+  }
+
+  public void removeMember(Long member) {
+    ClubMember clubMember = getMember(member);
+    Club club = clubMember.getClub();
+    club.getAdmins().remove(clubMember.getMember());
+    clubRepository.save(club);
+    clubMemberRepository.delete(clubMember);
   }
 }

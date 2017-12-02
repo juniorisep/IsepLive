@@ -51,12 +51,12 @@ export default function ClubDetailView(props) {
                 </Button>
               </Box>
               <Box>
-                <Button onClick={props.onDelete}>
+                <Button color="primary" onClick={props.onDelete}>
                   Supprimer
                 </Button>
               </Box>
               <Box>
-                <Button onClick={props.onEdit}>
+                <Button color="primary" onClick={props.onEdit}>
                   Modifier
                 </Button>
               </Box>
@@ -80,6 +80,7 @@ export default function ClubDetailView(props) {
       >
         <Tab label="Membres" />
         <Tab label="Publications" />
+        {props.isAdmin && <Tab label="Admin" />}
       </Tabs>
       <FluidContent>
         {props.renderTab()}

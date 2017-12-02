@@ -6,4 +6,5 @@ package com.iseplive.api.constants;
  */
 public interface ClubRoles {
   String PRESIDENT = "PRESIDENT";
+  String MEMBER = "MEMBER";
 }

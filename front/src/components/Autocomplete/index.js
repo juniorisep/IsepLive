@@ -6,7 +6,6 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui/Menu';
 
-
 export default class Autocomplete extends React.Component {
 
   state = {
@@ -30,7 +29,6 @@ export default class Autocomplete extends React.Component {
 
   handleSuggestionsFetchRequested = (value) => {
     this.props.search(value).then(list => {
-      console.log(list);
       this.setState({ results: list })
     });
   }
@@ -44,7 +42,7 @@ export default class Autocomplete extends React.Component {
   }
 
   render() {
-    const { label, suggestionValue } = this.props;
+    const { label } = this.props;
     const { results, value, focus } = this.state;
     const showResults = (focus && value.length > 0 && results.length > 0);
     const autocompleteStyle = {

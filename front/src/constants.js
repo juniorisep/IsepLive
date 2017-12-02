@@ -6,3 +6,7 @@ export const USER_MANAGER = "ROLE_USER_MANAGER";
 export const EVENT_MANAGER = "ROLE_EVENT_MANAGER";
 export const POST_MANAGER = "ROLE_POST_MANAGER";
 export const STUDENT = "ROLE_STUDENT";
+
+
+export const CLUB_ROLE_PRESIDENT = "PRESIDENT";
+export const CLUB_ROLE_MEMBER = "MEMBER";

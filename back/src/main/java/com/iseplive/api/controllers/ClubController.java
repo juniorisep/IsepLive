@@ -49,6 +49,17 @@ public class ClubController {
     return clubService.createRole(role);
   }
 
+  @PutMapping("/member/{member}/role/{role}")
+  public ClubMember updateMemberRole(@PathVariable Long member,
+                              @PathVariable Long role) {
+    return clubService.updateMemberRole(member, role);
+  }
+
+  @DeleteMapping("/member/{member}")
+  public void deleteAdmin(@PathVariable Long member) {
+    clubService.removeMember(member);
+  }
+
   @PutMapping("/{id}")
   public Club updateClub(@PathVariable Long id,
                          @RequestParam(value = "logo", required = false) MultipartFile logo,
@@ -67,10 +78,11 @@ public class ClubController {
     clubService.deleteClub(id);
   }
 
-  @PutMapping("/{id}/member/{role}/{student}")
-  public ClubMember addMember(@PathVariable Long id, @PathVariable Long role, @PathVariable Long student) {
-    return clubService.addMember(id, role, student);
+  @PutMapping("/{id}/member/{student}")
+  public ClubMember addMember(@PathVariable Long id, @PathVariable Long student) {
+    return clubService.addMember(id, student);
   }
+
 
   @GetMapping("/{id}/admins")
   public List<Student> getAdmins(@PathVariable Long id) {

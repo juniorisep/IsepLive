@@ -3,10 +3,13 @@
 import React, { Component } from 'react';
 
 import ClubDetailView from './view';
-import MembersTab from './membersTab';
-import PostsTab from './postsTab';
+import MembersTab from './MembersTab';
+import PostsTab from './PostsTab';
+import AdminTab from './AdminTab';
 
 import * as clubData from 'data/club';
+import * as authData from 'data/auth';
+import { ADMIN, CLUB_MANAGER } from '../../../constants';
 
 class ClubDetail extends Component {
   state = {
@@ -22,9 +25,17 @@ class ClubDetail extends Component {
     postsLoading: false,
     membersLoading: false,
     formOpen: false,
+    isAdmin: false,
   };
 
   componentDidMount() {
+
+    const user = authData.getUser();
+    const isClubAdmin = user.clubsAdmin.includes(+this.state.id);
+    this.setState({
+      isAdmin: isClubAdmin || authData.hasRole([ADMIN, CLUB_MANAGER])
+    })
+
     this.requestClubDetail();
     this.loadMembers();
   };
@@ -77,6 +88,9 @@ class ClubDetail extends Component {
         return <MembersTab members={this.state.members} loading={this.state.membersLoading} />;
       case 1:
         return <PostsTab posts={this.state.posts} loading={this.state.postsLoading} />;
+      case 2:
+        return <AdminTab
+          clubid={this.state.id} />;
       default:
         return null;
     };
@@ -84,7 +98,7 @@ class ClubDetail extends Component {
 
   onDelete = () => {
     clubData.deleteClub(this.state.id).then(res => {
-      this.props.history.push('/');
+      this.props.history.push('/associations');
     });
   }
 

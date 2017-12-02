@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 import { ProfileImage, Text, } from 'components/common';
 import Loader from 'components/Loader';
+import * as clubData from '../../../data/club';
 
 const Member = (props) => {
   const MemberStyle = styled.div`
@@ -59,7 +60,7 @@ export default function MembersTab(props) {
                   <Member
                     url={m.member.photoUrl}
                     name={m.member.firstname + ' ' + m.member.lastname}
-                    role={m.role.name}
+                    role={clubData.getClubRoleName(m.role.name)}
                     promotion={m.member.promo}
                   />
                 </Link>

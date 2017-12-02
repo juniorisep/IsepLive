@@ -21,7 +21,7 @@ import AddIcon from 'material-ui-icons/Add';
 import Auth from 'components/Auth/AuthComponent';
 import * as roles from '../../constants';
 
-import AddClubForm from './addClubForm';
+import AddClubForm from './AddClubForm';
 
 import * as userData from '../../data/users/student';
 

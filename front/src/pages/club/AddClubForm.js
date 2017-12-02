@@ -1,10 +1,9 @@
+// @flow
+
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-
-import {
-  Text,
-} from 'components/common';
+import { Text} from 'components/common';
 
 import Button from 'material-ui/Button';
 import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';

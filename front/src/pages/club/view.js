@@ -18,11 +18,10 @@ import {
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 
-
 import Auth from 'components/Auth/AuthComponent';
 import * as roles from '../../constants';
 
-import AddClubForm from './AddClubForm';
+import AddClubForm from './addClubForm';
 
 import * as userData from '../../data/users/student';
 

@@ -49,6 +49,14 @@ public class ClubController {
     return clubService.createRole(role);
   }
 
+  @PutMapping("/{id}")
+  public Club updateClub(@PathVariable Long id,
+                         @RequestParam(value = "logo", required = false) MultipartFile logo,
+                         @RequestParam("club") String club) {
+    ClubDTO clubDTO = jsonUtils.deserialize(club, ClubDTO.class);
+    return clubService.updateClub(id, clubDTO, logo);
+  }
+
   @GetMapping("/{id}")
   public Club getClub(@PathVariable Long id) {
     return clubService.getClub(id);

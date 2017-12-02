@@ -160,4 +160,18 @@ public class ClubService {
   public List<Club> getAdminClubs(Student student) {
     return clubRepository.findByAdminsContains(student);
   }
+
+  public Club updateClub(Long id, ClubDTO clubDTO, MultipartFile logo) {
+    Club club = getClub(id);
+
+    club.setName(clubDTO.getName());
+    club.setCreation(clubDTO.getCreation());
+    club.setDescription(clubDTO.getDescription());
+    club.setWebsite(clubDTO.getWebsite());
+
+    if (logo != null) {
+      setClubLogo(club, logo);
+    }
+    return clubRepository.save(club);
+  }
 }

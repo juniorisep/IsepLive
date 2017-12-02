@@ -54,13 +54,13 @@ function RightsPanel(props) {
           <Text>{selection.member.firstname} {selection.member.lastname}</Text>
 
           <Box mt={3}>
-            <FormControl>
+            <FormControl style={{ width: '100%' }}>
               <InputLabel htmlFor="role">Role</InputLabel>
               <Select
                 fullWidth
                 value={getRole(selection)}
                 onChange={handleSelectRole}
-                input={<Input id="role" />}
+                input={<Input fullWidth id="role" />}
               >
                 <MenuItem value={1}>Président</MenuItem>
                 <MenuItem value={2}>Membre</MenuItem>

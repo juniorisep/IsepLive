@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 
 import ClubDetailView from './view';
-import MembersTab from './MembersTab';
-import PostsTab from './PostsTab';
+import MembersTab from './membersTab';
+import PostsTab from './postsTab';
 
 import * as clubData from 'data/club';
 

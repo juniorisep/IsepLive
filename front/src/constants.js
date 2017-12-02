@@ -1,3 +1,4 @@
+// @flow
 
 export const ADMIN = "ROLE_ADMIN";
 export const CLUB_MANAGER = "ROLE_CLUB_MANAGER";

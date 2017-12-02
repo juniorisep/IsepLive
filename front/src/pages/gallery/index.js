@@ -37,6 +37,10 @@ export default class GalleryPage extends React.Component {
     this.getGallery()
   }
 
+  componentWillUnmount() {
+    document.body.style.overflow = 'auto';
+  }
+
   getGallery() {
     this.setState({ isLoading: true });
     mediaData.getGallery(this.galleryId)

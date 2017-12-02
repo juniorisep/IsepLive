@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 
 import ClubDetailView from './view';
-import MembersTab from './membersTab';
-import PostsTab from './postsTab';
+import MembersTab from './MembersTab';
+import PostsTab from './PostsTab';
 
 import * as clubData from 'data/club';
 
@@ -18,8 +18,10 @@ class ClubDetail extends Component {
     website: '',
     members: [],
     posts: [],
+    formData: {},
     postsLoading: false,
     membersLoading: false,
+    formOpen: false,
   };
 
   componentDidMount() {
@@ -31,7 +33,13 @@ class ClubDetail extends Component {
     clubData.getClub(this.state.id)
       .then(res => {
         const { logoUrl, description, name, website } = res.data;
-        this.setState({ logoUrl, description, name, website });
+        this.setState({
+          logoUrl,
+          description,
+          name,
+          website,
+          formData: res.data,
+        });
       });
   };
 
@@ -80,6 +88,19 @@ class ClubDetail extends Component {
     });
   }
 
+  closeForm = () => {
+    this.setState({ formOpen: false });
+  }
+
+  updateClub = (form) => {
+    return clubData
+      .updateClub(this.state.id, form)
+      .then(res => {
+        this.closeForm();
+        this.requestClubDetail();
+      });
+  }
+
   render() {
     return (
       <ClubDetailView
@@ -87,6 +108,9 @@ class ClubDetail extends Component {
         changeTab={this.handleChangeTab}
         renderTab={this.renderTab}
         onDelete={this.onDelete}
+        onEdit={() => this.setState({ formOpen: true })}
+        updateClub={this.updateClub}
+        closeForm={this.closeForm}
       />
     );
   };

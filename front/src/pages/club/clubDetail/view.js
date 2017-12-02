@@ -8,9 +8,21 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import MUIButton from 'material-ui/Button';
 import ExploreAction from 'material-ui-icons/Explore';
 
-import { FluidContent, Image, Text, Title, Header, Banner, Filler, SearchBar, ScrollToTopOnMount } from 'components/common';
+import {
+  FluidContent,
+  Image,
+  Text,
+  Title,
+  Header,
+  Banner,
+  Filler,
+  SearchBar,
+  ScrollToTopOnMount,
+} from 'components/common';
 
 import { BACKGROUND_COLOR } from '../../../colors';
+
+import UpdateClubForm from './UpdateClubForm';
 
 const Explore = styled(ExploreAction) `
   margin-right: 10px;
@@ -43,9 +55,21 @@ export default function ClubDetailView(props) {
                   Supprimer
                 </Button>
               </Box>
+              <Box>
+                <Button onClick={props.onEdit}>
+                  Modifier
+                </Button>
+              </Box>
             </Flex>
           </Box>
         </Flex>
+        <UpdateClubForm
+          title="Modifier l'association"
+          open={props.formOpen}
+          form={props.formData}
+          handleRequestClose={props.closeForm}
+          onSave={props.updateClub}
+        />
       </FluidContent>
       <Tabs
         value={props.tabIndex}

@@ -26,6 +26,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 
 import Autocomplete from '../../../components/Autocomplete';
+import Popup from 'components/Popup';
 
 import * as clubData from '../../../data/club';
 import * as authData from '../../../data/auth';
@@ -133,6 +134,7 @@ export default class MembersTab extends React.Component {
     admins: [],
     selection: null,
     addUser: false,
+    openDeletePopup: false,
   }
 
   componentDidMount() {
@@ -195,6 +197,10 @@ export default class MembersTab extends React.Component {
   }
 
   deleteMember = () => {
+    this.setState({ openDeletePopup: true });
+  }
+
+  deleteAccepted = () => {
     clubData.deleteMember(this.state.selection.id).then(res => {
       this.loadMembers();
       this.setState({ selection: null });
@@ -206,6 +212,7 @@ export default class MembersTab extends React.Component {
       members,
       selection,
       addUser,
+      openDeletePopup,
     } = this.state;
     return (
       <div>
@@ -247,8 +254,15 @@ export default class MembersTab extends React.Component {
                 }
               </List>
             </Paper>
+
           </Box>
         </Flex>
+        <Popup
+          title="Suppression"
+          description="Voulez vous supprimer ce Membre ?"
+          open={openDeletePopup}
+          onAccept={this.deleteAccepted}
+        />
       </div>
     );
   }

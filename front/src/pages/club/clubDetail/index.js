@@ -26,6 +26,7 @@ class ClubDetail extends Component {
     membersLoading: false,
     formOpen: false,
     isAdmin: false,
+    openDeletePopup: false,
   };
 
   componentDidMount() {
@@ -97,6 +98,10 @@ class ClubDetail extends Component {
   };
 
   onDelete = () => {
+    this.setState({ openDeletePopup: true });
+  }
+
+  deleteAccepted = () => {
     clubData.deleteClub(this.state.id).then(res => {
       this.props.history.push('/associations');
     });
@@ -125,6 +130,7 @@ class ClubDetail extends Component {
         onEdit={() => this.setState({ formOpen: true })}
         updateClub={this.updateClub}
         closeForm={this.closeForm}
+        deleteAccepted={this.deleteAccepted}
       />
     );
   };

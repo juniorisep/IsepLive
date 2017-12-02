@@ -20,6 +20,8 @@ import {
   ScrollToTopOnMount,
 } from 'components/common';
 
+import Popup from 'components/Popup';
+
 import { BACKGROUND_COLOR } from '../../../colors';
 
 import UpdateClubForm from './UpdateClubForm';
@@ -69,6 +71,12 @@ export default function ClubDetailView(props) {
           form={props.formData}
           handleRequestClose={props.closeForm}
           onSave={props.updateClub}
+        />
+        <Popup
+          title="Suppression"
+          description="Voulez vous supprimer cette Association ?"
+          open={props.openDeletePopup}
+          onAccept={props.deleteAccepted}
         />
       </FluidContent>
       <Tabs

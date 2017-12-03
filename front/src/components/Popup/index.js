@@ -28,11 +28,12 @@ class Popup extends Component {
   }
 
   discard = () => {
+    this.props.onRespond(false);
     this.setState({ open: false })
   }
 
   agree = () => {
-    this.props.onAccept();
+    this.props.onRespond(true);
     this.setState({ open: false })
   }
 

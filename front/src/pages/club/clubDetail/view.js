@@ -55,15 +55,15 @@ export default function ClubDetailView(props) {
               </Box>
               {
                 authData.hasRole([ADMIN, CLUB_MANAGER]) && [
-                  <Box>
+                  <Box key={1}>
                     <Button color="primary" onClick={props.onDelete}>
                       Supprimer
-                </Button>
+                    </Button>
                   </Box>,
-                  <Box>
+                  <Box key={2}>
                     <Button color="primary" onClick={props.onEdit}>
                       Modifier
-                </Button>
+                    </Button>
                   </Box>
                 ]
               }
@@ -81,7 +81,7 @@ export default function ClubDetailView(props) {
           title="Suppression"
           description="Voulez vous supprimer cette Association ?"
           open={props.openDeletePopup}
-          onAccept={props.deleteAccepted}
+          onRespond={props.deleteAccepted}
         />
       </FluidContent>
       <Tabs

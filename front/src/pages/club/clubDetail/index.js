@@ -104,10 +104,13 @@ class ClubDetail extends Component {
     this.setState({ openDeletePopup: true });
   }
 
-  deleteAccepted = () => {
-    clubData.deleteClub(this.state.id).then(res => {
-      this.props.history.push('/associations');
-    });
+  deleteAccepted = (accept) => {
+    if (accept) {
+      clubData.deleteClub(this.state.id).then(res => {
+        this.props.history.push('/associations');
+      });
+    }
+    this.setState({ openDeletePopup: false });
   }
 
   closeForm = () => {

@@ -3,10 +3,7 @@ package com.iseplive.api.entity.club;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.user.Student;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -18,14 +15,14 @@ public class ClubMember {
   @GeneratedValue
   private Long id;
 
-  @OneToOne
+  @ManyToOne
   @JsonIgnore
   private Club club;
 
-  @OneToOne
+  @ManyToOne
   private ClubRole role;
 
-  @OneToOne
+  @ManyToOne
   private Student member;
 
   public Long getId() {

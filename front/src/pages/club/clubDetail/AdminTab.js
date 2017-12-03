@@ -200,11 +200,14 @@ export default class MembersTab extends React.Component {
     this.setState({ openDeletePopup: true });
   }
 
-  deleteAccepted = () => {
-    clubData.deleteMember(this.state.selection.id).then(res => {
-      this.loadMembers();
-      this.setState({ selection: null });
-    })
+  deleteAccepted = (ok) => {
+    if (ok) {
+      clubData.deleteMember(this.state.selection.id).then(res => {
+        this.loadMembers();
+        this.setState({ selection: null });
+      })
+    }
+    this.setState({ openDeletePopup: false });
   }
 
   render() {
@@ -261,7 +264,7 @@ export default class MembersTab extends React.Component {
           title="Suppression"
           description="Voulez vous supprimer ce Membre ?"
           open={openDeletePopup}
-          onAccept={this.deleteAccepted}
+          onRespond={this.deleteAccepted}
         />
       </div>
     );

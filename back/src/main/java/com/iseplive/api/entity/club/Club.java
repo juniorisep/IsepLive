@@ -27,7 +27,7 @@ public class Club extends Author {
   private Boolean isAdmin;
 
   @JsonIgnore
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ClubMember> members;
 
   @JsonIgnore

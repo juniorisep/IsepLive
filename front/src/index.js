@@ -48,6 +48,13 @@ const theme = createMuiTheme({
         color: 'white',
       },
     },
+    MuiSnackbarContent: {
+      root: {
+        backgroundColor: 'white',
+        color: MAIN_COLOR,
+        fontSize: 18,
+      }
+    }
   },
 
 });

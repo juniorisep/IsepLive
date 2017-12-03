@@ -70,3 +70,7 @@ export function importStudents(csv, photos, onUploadProgress) {
   };
   return axios.post('/user/student/import', form, { onUploadProgress });
 };
+
+export function deleteStudent(id: number) {
+
+}

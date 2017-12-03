@@ -23,12 +23,15 @@ import { FormControl } from 'material-ui/Form';
 
 import DatePicker from '../../../components/DatePicker';
 import { Paper, FluidContent, Title, Text, ProfileImage } from "../../../components/common";
+import Popup from '../../../components/Popup';
 
 import * as userData from '../../../data/users/student';
 import * as authData from '../../../data/auth';
 import * as rolesKey from '../../../constants';
 
 import { MAIN_COLOR } from '../../../colors';
+
+import { sendAlert } from '../../../components/Alert';
 
 export default class UpdateStudent extends React.Component {
 
@@ -37,6 +40,7 @@ export default class UpdateStudent extends React.Component {
     userRoles: [],
     file: null,
     imagePreview: null,
+    openDeletePopup: false,
   }
 
   componentDidMount() {
@@ -102,6 +106,7 @@ export default class UpdateStudent extends React.Component {
     userData.updateStudentFull(data).then(res => {
       this.props.refreshTable();
       this.props.selectRow(res.data);
+      sendAlert("Etudiant mis à jour");
     })
   }
 
@@ -118,9 +123,20 @@ export default class UpdateStudent extends React.Component {
     reader.readAsDataURL(file);
   }
 
+  deleteAccepted = (ok) => {
+    if (ok) {
+      userData.deleteStudent(this.props.selected.id).then(res => {
+        this.props.refreshTable();
+        this.props.selectRow(null);
+        sendAlert("Etudiant supprimé");
+      });
+    }
+    this.setState({ openDeletePopup: false });
+  }
+
   render() {
     const { selected } = this.props;
-    const { roles, userRoles, imagePreview, file } = this.state;
+    const { roles, userRoles, imagePreview, file, openDeletePopup } = this.state;
     return (
       <div>
         <Title fontSize={1.1}>{selected.firstname} {selected.lastname}</Title>
@@ -282,6 +298,12 @@ export default class UpdateStudent extends React.Component {
             <Delete />
           </Button>
         </div>
+        <Popup
+          title="Suppression"
+          description="Voulez vous supprimer cette étudiant ?"
+          open={openDeletePopup}
+          onRespond={this.deleteAccepted}
+        />
       </div>
     );
   }

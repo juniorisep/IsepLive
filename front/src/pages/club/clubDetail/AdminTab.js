@@ -7,7 +7,7 @@ import { Box, Flex } from 'grid-styled';
 
 import { Link } from 'react-router-dom';
 
-import { Title, ProfileImage, Text, Paper } from 'components/common';
+import { Title, ProfileImage, Text, Paper, Filler } from 'components/common';
 import Loader from 'components/Loader';
 
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
@@ -48,7 +48,7 @@ function RightsPanel(props) {
   return (
     <div>
       <Title invert>Droits</Title>
-      {!selection && <Text>Sélectionnez un membre à droite</Text>}
+      {!selection && <Text>Sélectionnez un membre</Text>}
       {
         selection &&
         <div>

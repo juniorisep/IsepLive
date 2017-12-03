@@ -1,80 +1,171 @@
 // @flow
 
 import React, { Component } from 'react';
-
-import Paper from 'material-ui/Paper';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import Button from 'material-ui/Button';
-import { Title } from "../../../components/common";
-
 import { Flex, Box } from "grid-styled";
-import ImportStudent from './ImportStudent';
 
-let id = 0;
+import Table, {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TableFooter,
+} from 'material-ui/Table';
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
+import Delete from 'material-ui-icons/Delete';
 
-function createData(name, promotion, association) {
-  id += 1;
-  return { id, name, promotion, association };
-};
+import { Paper, FluidContent, Title, Text } from "../../../components/common";
 
-const data = [
-  createData('Victor ELY', 2018, 'Junior ISEP'),
-  createData('Guillaume CARRE', 2018, 'Junior ISEP'),
-  createData('Arnaud RIBEYROLLES', 2018, 'Junior ISEP'),
-  createData('Aurélien SCHILTZ', 2018, 'Junior ISEP'),
-  createData('Nicolas DE CHEVIGNE', 2018, )
-];
+import * as userData from '../../../data/users/student';
+
+import UpdateStudent from './UpdateStudent';
 
 class Users extends Component {
+
+  state = {
+    users: [],
+    page: 0,
+    total: 0,
+    selected: null,
+    filter: '',
+  }
+
+  componentDidMount() {
+    this.loadUsers(0);
+  }
+
+  loadUsers(page: number) {
+    userData.getStudents(page).then(res => {
+      this.setState({
+        users: res.data.content,
+        page,
+        total: res.data.totalElements,
+      });
+    })
+  }
+
+  filterUsers = (filter, page) => {
+    userData.searchStudents(filter, [], "a", page).then(res => {
+      this.setState({
+        users: res.data.content,
+        total: res.data.totalElements,
+        page,
+        filter,
+      });
+    })
+  }
+
+  handleChangePage = (event: Event, page: number) => {
+    if (this.state.filter !== '') {
+      this.filterUsers(this.state.filter, page);
+    } else {
+      this.loadUsers(page);
+    }
+  }
+
+  changeFilter = (event) => {
+    this.filterUsers(event.target.value, 0);
+  }
+
+  selectRow = selected => e => {
+    this.setState({ selected });
+  }
+
+  onChangeField = (name, value) => {
+    this.setState(state => ({
+      selected: {
+        ...state.selected,
+        [name]: value,
+      }
+    }));
+  }
+
   render() {
+    const {
+      users,
+      page,
+      total,
+      filter,
+      selected,
+    } = this.state;
     return (
-      <Flex direction="column">
-        <Box p={2}>
-          <ImportStudent />
-        </Box>
-        <Box p={2}>
-          <Title invert>List eleves</Title>
-          <Paper>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Noms</TableCell>
-                  <TableCell numeric>Promotion</TableCell>
-                  <TableCell>Association</TableCell>
-                  <TableCell>Gestion</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {
-                  data.map(n => {
-                    return (
-                      <TableRow key={n.id}>
-                        <TableCell>
-                          {n.name}
-                        </TableCell>
-                        <TableCell numeric>
-                          {n.promotion}
-                        </TableCell>
-                        <TableCell>
-                          {n.association}
-                        </TableCell>
-                        <TableCell>
-                          <Button raised>
-                            Modifier
-                    </Button>
-                          <Button raised>
-                            Supprimer
-                    </Button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                }
-              </TableBody>
-            </Table>
-          </Paper>
-        </Box>
-      </Flex>
+      <FluidContent>
+        <Flex wrap>
+          <Box w={[1, 1 / 3]} p={1}>
+            <Paper p="2em">
+              <Title invert>Etudiant</Title>
+              {!selected && <Text>Sélectionnez un étudiant</Text>}
+              {
+                selected &&
+                <UpdateStudent
+                  selected={selected}
+                  onChangeField={this.onChangeField} />
+              }
+            </Paper>
+          </Box>
+          <Box w={[1, 2 / 3]} p={1} pl={2}>
+            <Paper p="1em">
+              <TextField
+                label="Filtrer par nom et prénom"
+                fullWidth
+                value={filter}
+                onChange={this.changeFilter} />
+            </Paper>
+            <br />
+            <Paper>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Photo</TableCell>
+                    <TableCell>Nom</TableCell>
+                    <TableCell numeric>Promotion</TableCell>
+                    <TableCell>Role</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    users.map(u => {
+                      return (
+                        <TableRow
+                          key={u.id}
+                          hover
+                          selected={selected && u.id === selected.id}
+                          onClick={this.selectRow(u)} >
+                          <TableCell>
+                            photo
+                          </TableCell>
+                          <TableCell>
+                            {u.firstname} {u.lastname}
+                          </TableCell>
+                          <TableCell numeric>
+                            {u.promo}
+                          </TableCell>
+                          <TableCell>
+                            {/* {n.association} */}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                  }
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[20]}
+                      count={total}
+                      rowsPerPage={20}
+                      page={page}
+                      onChangePage={this.handleChangePage}
+                    />
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </Paper>
+          </Box>
+        </Flex>
+      </FluidContent>
     );
   };
 };

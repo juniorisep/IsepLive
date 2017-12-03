@@ -135,5 +135,13 @@ public class StudentService {
     studentRepository.save(student);
   }
 
+  public void removeRole(Student student, String rolestr) {
+    Role role = getRole(rolestr);
+    if (student.getRoles().contains(role)) {
+      student.getRoles().remove(role);
+    }
+    studentRepository.save(student);
+  }
+
 
 }

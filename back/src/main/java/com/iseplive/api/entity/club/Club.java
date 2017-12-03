@@ -8,6 +8,7 @@ import com.iseplive.api.entity.user.Student;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 27/07/2017.
@@ -32,7 +33,7 @@ public class Club extends Author {
 
   @JsonIgnore
   @ManyToMany(fetch = FetchType.EAGER)
-  private List<Student> admins;
+  private Set<Student> admins;
 
   @JsonIgnore
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -88,11 +89,11 @@ public class Club extends Author {
     this.logoUrl = logoUrl;
   }
 
-  public List<Student> getAdmins() {
+  public Set<Student> getAdmins() {
     return admins;
   }
 
-  public void setAdmins(List<Student> admins) {
+  public void setAdmins(Set<Student> admins) {
     this.admins = admins;
   }
 

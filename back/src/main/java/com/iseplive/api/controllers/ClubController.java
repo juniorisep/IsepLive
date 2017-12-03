@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -83,9 +84,8 @@ public class ClubController {
     return clubService.addMember(id, student);
   }
 
-
   @GetMapping("/{id}/admins")
-  public List<Student> getAdmins(@PathVariable Long id) {
+  public Set<Student> getAdmins(@PathVariable Long id) {
     return clubService.getAdmins(id);
   }
 

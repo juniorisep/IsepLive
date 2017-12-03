@@ -1,18 +1,18 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.constants.ClubRoles;
-import com.iseplive.api.dto.view.ClubMemberView;
-import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.dao.club.ClubFactory;
 import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
 import com.iseplive.api.dao.club.ClubRoleRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dto.ClubDTO;
+import com.iseplive.api.dto.view.ClubMemberView;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -63,7 +64,7 @@ public class ClubService {
     if (admin == null) {
       throw new IllegalArgumentException("this student id doesn't exist");
     }
-    club.setAdmins(Collections.singletonList(admin));
+    club.setAdmins(Collections.singleton(admin));
 
     ClubMember clubMember = new ClubMember();
     clubMember.setMember(admin);
@@ -137,7 +138,7 @@ public class ClubService {
     return clubRoleRepository.save(clubRole);
   }
 
-  public List<Student> getAdmins(Long clubId) {
+  public Set<Student> getAdmins(Long clubId) {
     Club club = getClub(clubId);
     return club.getAdmins();
   }
@@ -152,10 +153,7 @@ public class ClubService {
   public void removeAdmin(Long clubId, Long studId) {
     Club club = getClub(clubId);
     Student student = studentService.getStudent(studId);
-    boolean removed = club.getAdmins().remove(student);
-    if (!removed) {
-      throw new IllegalArgumentException("This student is not admin on the club with id: " + clubId);
-    }
+    club.getAdmins().remove(student);
     clubRepository.save(club);
   }
 

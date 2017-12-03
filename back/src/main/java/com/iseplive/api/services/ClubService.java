@@ -193,7 +193,7 @@ public class ClubService {
     ClubMember clubMember = getMember(member);
     Club club = clubMember.getClub();
     club.getAdmins().remove(clubMember.getMember());
+    club.getMembers().remove(clubMember);
     clubRepository.save(club);
-    clubMemberRepository.delete(clubMember);
   }
 }

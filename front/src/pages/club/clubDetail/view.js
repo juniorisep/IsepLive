@@ -23,7 +23,8 @@ import {
 import Popup from 'components/Popup';
 
 import { BACKGROUND_COLOR } from '../../../colors';
-
+import * as authData from '../../../data/auth';
+import { ADMIN, CLUB_MANAGER } from '../../../constants';
 import UpdateClubForm from './UpdateClubForm';
 
 const Explore = styled(ExploreAction) `
@@ -52,16 +53,20 @@ export default function ClubDetailView(props) {
                   <Explore /> Site internet
                 </Button>
               </Box>
-              <Box>
-                <Button color="primary" onClick={props.onDelete}>
-                  Supprimer
+              {
+                authData.hasRole([ADMIN, CLUB_MANAGER]) && [
+                  <Box>
+                    <Button color="primary" onClick={props.onDelete}>
+                      Supprimer
                 </Button>
-              </Box>
-              <Box>
-                <Button color="primary" onClick={props.onEdit}>
-                  Modifier
+                  </Box>,
+                  <Box>
+                    <Button color="primary" onClick={props.onEdit}>
+                      Modifier
                 </Button>
-              </Box>
+                  </Box>
+                ]
+              }
             </Flex>
           </Box>
         </Flex>

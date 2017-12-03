@@ -32,10 +32,13 @@ class ClubDetail extends Component {
   componentDidMount() {
 
     const user = authData.getUser();
-    const isClubAdmin = user.clubsAdmin.includes(+this.state.id);
-    this.setState({
-      isAdmin: isClubAdmin || authData.hasRole([ADMIN, CLUB_MANAGER])
-    })
+
+    if (user) {
+      const isClubAdmin = user.clubsAdmin.includes(+this.state.id);
+      this.setState({
+        isAdmin: isClubAdmin || authData.hasRole([ADMIN, CLUB_MANAGER])
+      })
+    }
 
     this.requestClubDetail();
     this.loadMembers();

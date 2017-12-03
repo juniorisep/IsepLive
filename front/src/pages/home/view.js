@@ -74,7 +74,7 @@ export default function Home(props) {
                 }
                 <PostListView posts={props.posts} refreshPosts={props.refreshPosts} />
                 {
-                  !props.lastPage &&
+                  !props.lastPage && props.posts.length > 0 &&
                   <Center>
                     <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
                   </Center>

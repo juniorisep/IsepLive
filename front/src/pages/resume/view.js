@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
@@ -150,6 +149,12 @@ export default function ResumeView(props) {
             <Title fontSize={1.5} invert>Publications</Title>
             {posts.length === 0 && <Text>Aucunes publications</Text>}
             <PostListView posts={posts} refreshPosts={props.refreshPosts} />
+            {
+              !props.lastPage && posts.length > 0 &&
+              <div style={{ textAlign: 'center' }}>
+                <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+              </div>
+            }
           </Box>
         </Flex>
         <UpdateResume

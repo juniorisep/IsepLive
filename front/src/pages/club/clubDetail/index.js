@@ -21,6 +21,8 @@ class ClubDetail extends Component {
     website: '',
     members: [],
     posts: [],
+    page: 0,
+    lastPage: true,
     formData: {},
     postsLoading: false,
     membersLoading: false,
@@ -80,18 +82,44 @@ class ClubDetail extends Component {
 
   loadPosts = () => {
     this.setState({ postsLoading: true });
-    clubData.getPosts(this.state.id)
+    clubData.getPosts(this.state.id, 0)
       .then(res => {
-        this.setState({ posts: res.data, postsLoading: false });
+        this.setState({
+          posts: res.data.content,
+          page: 1,
+          lastPage: res.data.last,
+          postsLoading: false
+        });
       });
   };
+
+  loadMorePosts = () => {
+    if (this.state.page === 0) {
+      this.setState({ postsLoading: true });
+    }
+    clubData.getPosts(this.state.id, this.state.page)
+      .then(res => {
+        this.setState({
+          posts: this.state.posts.concat(res.data.content),
+          page: this.state.page + 1,
+          lastPage: res.data.last,
+          postsLoading: false
+        });
+      });
+  };
+
+
 
   renderTab = () => {
     switch (this.state.tabIndex) {
       case 0:
         return <MembersTab members={this.state.members} loading={this.state.membersLoading} />;
       case 1:
-        return <PostsTab posts={this.state.posts} loading={this.state.postsLoading} />;
+        return <PostsTab 
+        posts={this.state.posts}
+        lastPage={this.state.lastPage}
+        onSeeMore={this.loadMorePosts} 
+        loading={this.state.postsLoading} />;
       case 2:
         return <AdminTab
           clubid={this.state.id} />;

@@ -15,8 +15,8 @@ public class ClubMember {
   @GeneratedValue
   private Long id;
 
-  @ManyToOne
   @JsonIgnore
+  @ManyToOne
   private Club club;
 
   @ManyToOne

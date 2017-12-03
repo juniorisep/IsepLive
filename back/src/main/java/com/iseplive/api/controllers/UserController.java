@@ -6,13 +6,9 @@ import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.dto.view.ClubMemberView;
 import com.iseplive.api.dto.view.PostView;
-import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
-import com.iseplive.api.services.ClubService;
-import com.iseplive.api.services.PostService;
-import com.iseplive.api.services.StudentImportService;
-import com.iseplive.api.services.StudentService;
+import com.iseplive.api.services.*;
 import com.iseplive.api.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,6 +41,9 @@ public class UserController {
   StudentImportService studentImportService;
 
   @Autowired
+  AuthService authService;
+
+  @Autowired
   JsonUtils jsonUtils;
 
   @GetMapping("/student")
@@ -59,8 +58,8 @@ public class UserController {
   }
 
   @GetMapping("/student/{id}/post")
-  public List<PostView> getPostsStudent(@PathVariable Long id) {
-    return postService.getPostsAuthor(id);
+  public Page<PostView> getPostsStudent(@PathVariable Long id, @RequestParam(defaultValue = "0") int page) {
+    return postService.getPostsAuthor(id, authService.isUserAnonymous(), page);
   }
 
   @GetMapping("/student/{id}/club")

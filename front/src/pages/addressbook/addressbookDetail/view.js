@@ -5,6 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { Link } from 'react-router-dom';
+import Button from 'material-ui/Button';
 
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
@@ -113,6 +114,12 @@ export default function AdressbookDetailView(props) {
           <Title fontSize={1.5} invert>Publications</Title>
           {posts.length === 0 && <Text>Aucunes publications</Text>}
           <PostListView posts={posts} refreshPosts={props.refreshPosts} />
+          {
+            !props.lastPage && posts.length > 0 &&
+            <div style={{ textAlign: 'center' }}>
+              <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+            </div>
+          }
         </Box>
       </Flex>
     </FluidContent>

@@ -19,8 +19,8 @@ export function getAdmins(id: number) {
   return axios.get(`/club/${id}/admins`);
 };
 
-export function getPosts(id: number) {
-  return axios.get(`/club/${id}/post`);
+export function getPosts(id: number, page: number = 0) {
+  return axios.get(`/club/${id}/post?page=${page}`);
 };
 
 export function createClub(form) {

@@ -6,10 +6,12 @@ import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.services.AuthService;
 import com.iseplive.api.services.ClubService;
 import com.iseplive.api.services.PostService;
 import com.iseplive.api.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +31,9 @@ public class ClubController {
 
   @Autowired
   PostService postService;
+
+  @Autowired
+  AuthService authService;
 
   @Autowired
   JsonUtils jsonUtils;
@@ -105,7 +110,7 @@ public class ClubController {
   }
 
   @GetMapping("/{id}/post")
-  public List<PostView> getPosts(@PathVariable Long id) {
-    return postService.getPostsAuthor(id);
+  public Page<PostView> getPosts(@PathVariable Long id, @RequestParam(defaultValue = "0") int page) {
+    return postService.getPostsAuthor(id, authService.isUserAnonymous(), page);
   }
 }

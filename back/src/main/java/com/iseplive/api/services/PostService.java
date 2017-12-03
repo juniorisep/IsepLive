@@ -73,22 +73,26 @@ public class PostService {
   }
 
   public Page<PostView> getPosts(int page) {
-    Page<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, createPage(page));
+    Page<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(
+      PublishStateEnum.PUBLISHED, false, createPage(page));
     return posts.map(post -> postFactory.entityToView(post));
   }
 
   public Page<PostView> getPublicPosts(int page) {
-    Page<Post> posts = postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, false, false, createPage(page));
+    Page<Post> posts = postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(
+      PublishStateEnum.PUBLISHED, false, false, createPage(page));
     return posts.map(post -> postFactory.entityToView(post));
   }
 
   public List<PostView> getPinnedPosts() {
-    List<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, true);
+    List<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(
+      PublishStateEnum.PUBLISHED, true);
     return posts.stream().map(post -> postFactory.entityToView(post)).collect(Collectors.toList());
   }
 
   public List<PostView> getPublicPinnedPosts() {
-    List<Post> posts = postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(PublishStateEnum.PUBLISHED, true, false);
+    List<Post> posts = postRepository.findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc(
+      PublishStateEnum.PUBLISHED, true, false);
     return posts.stream().map(post -> postFactory.entityToView(post)).collect(Collectors.toList());
   }
 
@@ -219,11 +223,13 @@ public class PostService {
     return postFactory.entityToView(post);
   }
 
-  public List<PostView> getPostsAuthor(Long id) {
-    List<Post> posts =  postRepository.findByAuthorIdOrderByCreationDateDesc(id);
-    return posts.stream()
-      .map(p -> postFactory.entityToView(p))
-      .collect(Collectors.toList());
+  public Page<PostView> getPostsAuthor(Long id, boolean isPublic, int page) {
+    if (isPublic) {
+      Page<Post> posts = postRepository.findByAuthorIdAndIsPrivateOrderByCreationDateDesc(id, false, createPage(page));
+      return posts.map(p -> postFactory.entityToView(p));
+    }
+    Page<Post> posts = postRepository.findByAuthorIdOrderByCreationDateDesc(id, createPage(page));
+    return posts.map(p -> postFactory.entityToView(p));
   }
 
   public Post updatePost(Long id, PostUpdateDTO update) {

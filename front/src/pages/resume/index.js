@@ -14,6 +14,8 @@ class Resume extends Component {
   state = {
     open: false,
     data: null,
+    page: 0,
+    lastPage: false,
     posts: [],
     clubMembers: [],
   };
@@ -46,9 +48,22 @@ class Resume extends Component {
   };
 
   refreshPosts = async () => {
-    const { data } = await userData.getPosts(this.user.id);
-    this.setState({ posts: data });
+    const { data } = await userData.getPosts(this.user.id, 0);
+    this.setState({
+      posts: data.content,
+      page: 1,
+      lastPage: data.last,
+    });
   };
+
+  getNextPosts = async () => {
+    const { data } = await userData.getPosts(this.user.id, this.state.page);
+    this.setState({
+      posts: this.state.posts.concat(data.content),
+      page: this.state.page + 1,
+      lastPage: data.last,
+    });
+  }
 
   toggleNotif = async () => {
     const res = await userData.toggleNotifications();
@@ -76,10 +91,12 @@ class Resume extends Component {
         <ResumeView
           data={this.state.data}
           posts={this.state.posts}
+          lastPage={this.state.lastPage}
           clubMembers={this.state.clubMembers}
           open={this.state.open}
           onModify={this.onModify}
           refreshPosts={this.refreshPosts}
+          onSeeMore={this.getNextPosts}
           toggleNotif={this.toggleNotif}
           handleRequestClose={this.handleRequestClose}
           handleUpdate={this.handleUpdate} />

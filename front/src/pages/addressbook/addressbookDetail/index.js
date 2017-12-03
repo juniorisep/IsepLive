@@ -12,6 +12,8 @@ class AdressbookDetail extends Component {
     id: this.props.match.params.id,
     data: null,
     posts: [],
+    page: 0,
+    lastPage: false,
     clubMembers: [],
   };
 
@@ -27,9 +29,22 @@ class AdressbookDetail extends Component {
   };
 
   refreshPosts = async () => {
-    const { data } = await studentData.getPosts(this.state.id);
-    this.setState({ posts: data });
+    const { data } = await studentData.getPosts(this.state.id, 0);
+    this.setState({
+      posts: data.content,
+      page: 1,
+      lastPage: data.last,
+    });
   };
+
+  getNextPosts = async () => {
+    const { data } = await studentData.getPosts(this.state.id, this.state.page);
+    this.setState({
+      posts: this.state.posts.concat(data.content),
+      page: this.state.page + 1,
+      lastPage: data.last,
+    });
+  }
 
   getClubMembers = () => {
     studentData.getClubMembers(this.state.id).then(res => {
@@ -42,9 +57,11 @@ class AdressbookDetail extends Component {
       <Loader loading={!this.state.data}>
         <AdressbookDetailView
           data={this.state.data}
+          lastPage={this.state.lastPage}
           posts={this.state.posts}
           clubMembers={this.state.clubMembers}
-          refreshPosts={this.refreshPosts} />
+          refreshPosts={this.refreshPosts}
+          onSeeMore={this.getNextPosts} />
       </Loader>
     );
   };

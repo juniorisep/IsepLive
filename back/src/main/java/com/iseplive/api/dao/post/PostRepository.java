@@ -30,6 +30,8 @@ public interface PostRepository extends CrudRepository<Post, Long> {
   List<Post> findByPublishStateAndIsPinnedAndIsPrivateOrderByCreationDateDesc
     (PublishStateEnum publishState, Boolean isPinned, Boolean isPrivate);
 
-  List<Post> findByAuthorIdOrderByCreationDateDesc(Long author_id);
+  Page<Post> findByAuthorIdOrderByCreationDateDesc(Long author_id, Pageable pageable);
+
+  Page<Post> findByAuthorIdAndIsPrivateOrderByCreationDateDesc(Long author_id, Boolean isPrivate, Pageable pageable);
 
 }

@@ -4,11 +4,22 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
+import { Link } from 'react-router-dom';
 
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 
-import { FluidContent, ProfileImage, Paper, Text, Title, ScrollToTopOnMount } from 'components/common';
+import {
+  FluidContent,
+  ProfileImage,
+  Paper,
+  Text,
+  Title,
+  ScrollToTopOnMount,
+  BgImage,
+} from 'components/common';
+
+import * as clubData from '../../../data/club';
 
 const PersonStyle = styled.div`
   > div {
@@ -17,6 +28,8 @@ const PersonStyle = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+
 
 export default function AdressbookDetailView(props) {
   const {
@@ -34,6 +47,7 @@ export default function AdressbookDetailView(props) {
     mailISEP,
     },
     posts,
+    clubMembers,
   } = props;
   return (
     <FluidContent>
@@ -61,7 +75,7 @@ export default function AdressbookDetailView(props) {
             <Text>Adresse : <span>{address}</span></Text>
             <Text>Mail : <span>{mail}</span></Text>
             <Text>Mail ISEP : <span>{mailISEP}</span></Text>
-            <Text>Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" /></Text>
+            <Text>Date de naissance : <Time date={birthDate} format="DD/MM/YYYY" /></Text>
           </Paper>
         </Box>
         <Box p={2} width={1}>
@@ -71,14 +85,33 @@ export default function AdressbookDetailView(props) {
           </Paper>
         </Box>
         <Box p={2} width={1}>
-          <Paper p="20px">
-            <Title fontSize={1.3} invert>Associations</Title>
-            <Text>Not implemented</Text>
-          </Paper>
+          <Title fontSize={1.5} invert>Associations</Title>
+          {clubMembers.length === 0 && <Text>Membre d'aucunes association</Text>}
+          <Flex wrap>
+            {
+              clubMembers.map(cm => {
+                return (
+                  <Box w={[1, 1 / 3, 1 / 4]} key={cm.club.id} p={2}>
+                    <Link to={`/associations/${cm.club.id}`}>
+                      <Paper>
+                        <BgImage src={cm.club.logoUrl} mh="200px" />
+                        <div style={{ textAlign: 'center', padding: '.5em' }}>
+                          <div>
+                            <Title invert fontSize={1.5}>{cm.club.name}</Title>
+                          </div>
+                          <Title fontSize={1.1}>{clubData.getClubRoleName(cm.role.name)}</Title>
+                        </div>
+                      </Paper>
+                    </Link>
+                  </Box>
+                )
+              })
+            }
+          </Flex>
         </Box>
         <Box p={2} w={1}>
           <Title fontSize={1.5} invert>Publications</Title>
-          {posts.length === 0 && <Text>Aucune publication</Text>}
+          {posts.length === 0 && <Text>Aucunes publications</Text>}
           <PostListView posts={posts} refreshPosts={props.refreshPosts} />
         </Box>
       </Flex>

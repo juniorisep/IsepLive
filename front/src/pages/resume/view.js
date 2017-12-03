@@ -122,7 +122,8 @@ export default function ResumeView(props) {
             </Paper>
           </Box>
           <Box p={2} width={1}>
-            <Title fontSize={1.3} invert>Associations</Title>
+            <Title fontSize={1.5} invert>Associations</Title>
+            {clubMembers.length === 0 && <Text>Membre d'aucunes association</Text>}
             <Flex wrap>
               {
                 clubMembers.map(cm => {
@@ -147,7 +148,7 @@ export default function ResumeView(props) {
           </Box>
           <Box p={2} w={1}>
             <Title fontSize={1.5} invert>Publications</Title>
-            {posts.length === 0 && <Text>Aucune publication</Text>}
+            {posts.length === 0 && <Text>Aucunes publications</Text>}
             <PostListView posts={posts} refreshPosts={props.refreshPosts} />
           </Box>
         </Flex>

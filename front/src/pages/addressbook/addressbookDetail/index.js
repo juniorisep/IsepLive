@@ -12,11 +12,13 @@ class AdressbookDetail extends Component {
     id: this.props.match.params.id,
     data: null,
     posts: [],
+    clubMembers: [],
   };
 
   componentDidMount() {
     this.getUserData();
     this.refreshPosts();
+    this.getClubMembers();
   };
 
   getUserData = async () => {
@@ -29,12 +31,19 @@ class AdressbookDetail extends Component {
     this.setState({ posts: data });
   };
 
+  getClubMembers = () => {
+    studentData.getClubMembers(this.state.id).then(res => {
+      this.setState({ clubMembers: res.data });
+    })
+  }
+
   render() {
     return (
       <Loader loading={!this.state.data}>
         <AdressbookDetailView
           data={this.state.data}
           posts={this.state.posts}
+          clubMembers={this.state.clubMembers}
           refreshPosts={this.refreshPosts} />
       </Loader>
     );

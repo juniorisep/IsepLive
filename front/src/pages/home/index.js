@@ -50,7 +50,6 @@ class Home extends Component {
   };
 
   refreshPosts = () => {
-    console.log('refresh')
     postData.getPosts(0).then(res => {
       this.setState({
         posts: res.data.content,

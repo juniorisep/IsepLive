@@ -101,7 +101,6 @@ export default class UpdateStudent extends React.Component {
       roles: this.state.userRoles,
       file: this.state.file,
     }
-    console.log(data);
 
     userData.updateStudentFull(data).then(res => {
       this.props.refreshTable();

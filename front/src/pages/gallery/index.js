@@ -80,7 +80,6 @@ export default class GalleryPage extends React.Component {
   }
 
   selectPhoto = index => {
-    // alert(img.id)
     this.setState({ galleryIndex: index })
     this.showGallery();
   }

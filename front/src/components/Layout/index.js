@@ -234,7 +234,6 @@ class Layout extends React.Component {
     };
 
     this.conn.onmessage = (msg) => {
-      console.log("message", msg)
       try {
         const message = JSON.parse(msg.data);
         const authorData = message.author;
@@ -242,7 +241,6 @@ class Layout extends React.Component {
         const image = authorData.authorType === 'club' ? authorData.logoThumbUrl : authorData.photoUrlThumb;
 
         Notification.requestPermission(function (status) {
-          // console.log(status); // les notifications ne seront affichées que si "autorisées"
           const n = new Notification("Nouveau Post !", { body, icon: backUrl + image }); // this also shows the notification
           const postEvent = new CustomEvent('new-post');
           document.dispatchEvent(postEvent);

@@ -4,9 +4,12 @@ import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
+import com.iseplive.api.dto.view.ClubMemberView;
 import com.iseplive.api.dto.view.PostView;
+import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.services.ClubService;
 import com.iseplive.api.services.PostService;
 import com.iseplive.api.services.StudentImportService;
 import com.iseplive.api.services.StudentService;
@@ -36,6 +39,9 @@ public class UserController {
   PostService postService;
 
   @Autowired
+  ClubService clubService;
+
+  @Autowired
   StudentImportService studentImportService;
 
   @Autowired
@@ -55,6 +61,11 @@ public class UserController {
   @GetMapping("/student/{id}/post")
   public List<PostView> getPostsStudent(@PathVariable Long id) {
     return postService.getPostsAuthor(id);
+  }
+
+  @GetMapping("/student/{id}/club")
+  public List<ClubMemberView> getClubsStudent(@PathVariable Long id) {
+    return clubService.getStudentClubs(id);
   }
 
   @GetMapping("/student/{id}")

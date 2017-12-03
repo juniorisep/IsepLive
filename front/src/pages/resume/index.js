@@ -15,7 +15,16 @@ class Resume extends Component {
     open: false,
     data: null,
     posts: [],
+    clubMembers: [],
   };
+
+  componentDidMount() {
+    this.user = authData.getUser();
+    this.getUserData();
+    this.refreshPosts();
+    this.getClubMembers();
+  };
+
 
   handleRequestClose = () => {
     this.setState({ open: false });
@@ -31,19 +40,13 @@ class Resume extends Component {
     };
   };
 
-  componentDidMount() {
-    this.getUserData();
-    this.refreshPosts();
-  };
-
   getUserData = async () => {
     const { data } = await userData.getLoggedUser();
     this.setState({ data });
   };
 
   refreshPosts = async () => {
-    const user = await authData.getUser();
-    const { data } = await userData.getPosts(user.id);
+    const { data } = await userData.getPosts(this.user.id);
     this.setState({ posts: data });
   };
 
@@ -61,12 +64,19 @@ class Resume extends Component {
     this.setState({ open: true })
   };
 
+  getClubMembers = () => {
+    userData.getClubMembers(this.user.id).then(res => {
+      this.setState({ clubMembers: res.data });
+    })
+  }
+
   render() {
     return (
       <Loader loading={!this.state.data}>
         <ResumeView
           data={this.state.data}
           posts={this.state.posts}
+          clubMembers={this.state.clubMembers}
           open={this.state.open}
           onModify={this.onModify}
           refreshPosts={this.refreshPosts}

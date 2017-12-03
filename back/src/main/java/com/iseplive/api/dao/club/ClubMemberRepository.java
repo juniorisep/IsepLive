@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface ClubMemberRepository extends CrudRepository<ClubMember, Long> {
   List<ClubMember> findByClubId(Long club_id);
+  List<ClubMember> findByMember_Id(Long member_id);
 }

@@ -186,9 +186,6 @@ export default class UpdateStudent extends React.Component {
                   }
                 </Box>
               </Flex>
-              <div style={{ marginTop: 10 }}>
-              </div>
-              {this.state.logo && <Text>Fichier sélectionné: {this.state.logo.name}</Text>}
               <TextField
                 margin="normal"
                 label="Promotion"
@@ -201,6 +198,12 @@ export default class UpdateStudent extends React.Component {
                 value={selected.mail || ''}
                 fullWidth
                 onChange={this.onChangeField('mail')} />
+              <TextField
+                margin="normal"
+                label="Email ISEP"
+                value={selected.mailISEP || ''}
+                fullWidth
+                onChange={this.onChangeField('mailISEP')} />
               <TextField
                 margin="normal"
                 label="Téléphone"

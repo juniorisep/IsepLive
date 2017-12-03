@@ -32,6 +32,11 @@ public class StudentFactory {
     student.setPhone(dto.getPhone());
     student.setAddress(dto.getAddress());
     student.setMail(dto.getMail());
+
+    student.setFacebook(dto.getFacebook());
+    student.setTwitter(dto.getTwitter());
+    student.setSnapchat(dto.getSnapchat());
+    student.setInstagram(dto.getInstagram());
   }
 
   public void updateAdminDtoToEntity(Student student, StudentUpdateAdminDTO dto) {

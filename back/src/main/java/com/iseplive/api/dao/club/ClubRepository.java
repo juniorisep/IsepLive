@@ -1,6 +1,5 @@
 package com.iseplive.api.dao.club;
 
-import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.data.repository.CrudRepository;

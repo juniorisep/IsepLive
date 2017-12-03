@@ -20,6 +20,7 @@ export function updateStudentFull(data) {
     lastname: data.lastname,
     birthDate: data.birthDate,
     mail: data.mail,
+    mailISEP: data.mailISEP,
     address: data.address,
     phone: data.phone,
     promo: data.promo,
@@ -73,4 +74,8 @@ export function importStudents(csv, photos, onUploadProgress) {
 
 export function deleteStudent(id: number) {
 
+}
+
+export function getClubMembers(id: number) {
+  return axios.get(`/user/student/${id}/club`);
 }

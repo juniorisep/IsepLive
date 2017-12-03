@@ -1,6 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.constants.ClubRoles;
+import com.iseplive.api.dto.view.ClubMemberView;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.dao.club.ClubFactory;
 import com.iseplive.api.dao.club.ClubMemberRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -195,5 +197,16 @@ public class ClubService {
     club.getAdmins().remove(clubMember.getMember());
     club.getMembers().remove(clubMember);
     clubRepository.save(club);
+  }
+
+  public List<ClubMemberView> getStudentClubs(Long id) {
+    List<ClubMember> clubMembers = clubMemberRepository.findByMember_Id(id);
+    return clubMembers.stream().map(cm -> {
+      ClubMemberView clubMemberView = new ClubMemberView();
+      clubMemberView.setClub(cm.getClub());
+      clubMemberView.setMember(cm.getMember());
+      clubMemberView.setRole(cm.getRole());
+      return clubMemberView;
+    }).collect(Collectors.toList());
   }
 }

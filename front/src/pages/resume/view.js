@@ -12,12 +12,28 @@ import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
-
+import { Link } from 'react-router-dom';
 
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 
-import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Paper, Text, Title } from 'components/common';
+import * as clubData from '../../data/club';
+
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  ProfileImage,
+  SearchBar,
+  Paper,
+  Text,
+  Title,
+  BgImage,
+} from 'components/common';
+
+import DatePicker from '../../components/DatePicker';
+
 
 const PersonStyle = styled.div`
   > div {
@@ -44,7 +60,9 @@ export default function ResumeView(props) {
     allowNotifications,
     },
     posts,
+    clubMembers,
   } = props;
+
   return (
     <div>
       <Header url="/img/background.jpg">
@@ -83,7 +101,7 @@ export default function ResumeView(props) {
               <Text>Adresse : <span>{address}</span></Text>
               <Text>Mail : <span>{mail}</span></Text>
               <Text>Mail ISEP : <span>{mailISEP}</span></Text>
-              <Text>Date de naissance : <Time time={birthDate} format="DD/MM/YYYY" /></Text>
+              <Text>Date de naissance : <Time date={birthDate} format="DD/MM/YYYY" /></Text>
             </Paper>
           </Box>
           <Box p={2} width={1}>
@@ -104,10 +122,28 @@ export default function ResumeView(props) {
             </Paper>
           </Box>
           <Box p={2} width={1}>
-            <Paper p="20px">
-              <Title fontSize={1.3} invert>Associations</Title>
-              <Text>Not implemented</Text>
-            </Paper>
+            <Title fontSize={1.3} invert>Associations</Title>
+            <Flex wrap>
+              {
+                clubMembers.map(cm => {
+                  return (
+                    <Box w={[1, 1 / 3, 1 / 4]} key={cm.club.id} p={2}>
+                      <Link to={`/associations/${cm.club.id}`}>
+                        <Paper>
+                          <BgImage src={cm.club.logoUrl} mh="200px" />
+                          <div style={{ textAlign: 'center', padding: '.5em' }}>
+                            <div>
+                              <Title invert fontSize={1.5}>{cm.club.name}</Title>
+                            </div>
+                            <Title fontSize={1.1}>{clubData.getClubRoleName(cm.role.name)}</Title>
+                          </div>
+                        </Paper>
+                      </Link>
+                    </Box>
+                  )
+                })
+              }
+            </Flex>
           </Box>
           <Box p={2} w={1}>
             <Title fontSize={1.5} invert>Publications</Title>
@@ -125,17 +161,20 @@ export default function ResumeView(props) {
   );
 };
 
-
 class UpdateResume extends React.Component {
   state = {
     form: this.props.data,
   };
 
   handleChange = (name: string) => ({ target }) => {
+    this.handleChangeForm(name, target.value);
+  };
+
+  handleChangeForm = (name: string, value) => {
     this.setState({
       form: {
         ...this.state.form,
-        [name]: target.value,
+        [name]: value,
       },
     });
   };
@@ -148,13 +187,20 @@ class UpdateResume extends React.Component {
         <DialogTitle style={{
           textAlign: 'center'
         }}>
-          {"Modifier vos informations"}
+          Modifier vos informations
         </DialogTitle>
         <DialogContent>
           <TextField margin="normal" label="Email" value={data.mail} fullWidth onChange={this.handleChange('mail')} />
           <TextField margin="normal" label="Téléphone" value={data.phone} fullWidth onChange={this.handleChange('phone')} />
           <TextField margin="normal" label="Adresse" value={data.address} fullWidth onChange={this.handleChange('address')} />
-          <TextField margin="normal" label="Date de naissance" value={data.birthDate} fullWidth onChange={this.handleChange('birthDate')} />
+          <div>
+            <Text>Date de naissance</Text>
+            <DatePicker
+              dateonly
+              startYear={new Date().getFullYear() - 30}
+              date={data.birthDate}
+              onChange={(date) => this.handleChangeForm('birthDate', date)} />
+          </div>
           <TextField
             multiline
             rows="4"

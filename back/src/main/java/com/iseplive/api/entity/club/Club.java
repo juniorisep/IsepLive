@@ -39,7 +39,6 @@ public class Club extends Author {
   private List<Post> posts;
 
   private String logoUrl;
-  private String logoThumbUrl;
 
   public String getName() {
     return name;
@@ -87,14 +86,6 @@ public class Club extends Author {
 
   public void setLogoUrl(String logoUrl) {
     this.logoUrl = logoUrl;
-  }
-
-  public String getLogoThumbUrl() {
-    return logoThumbUrl;
-  }
-
-  public void setLogoThumbUrl(String logoThumbUrl) {
-    this.logoThumbUrl = logoThumbUrl;
   }
 
   public List<Student> getAdmins() {

@@ -2,12 +2,15 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dto.StudentDTO;
+import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.dto.view.PostView;
+import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.PostService;
 import com.iseplive.api.services.StudentImportService;
 import com.iseplive.api.services.StudentService;
+import com.iseplive.api.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Guillaume on 29/07/2017.
@@ -33,6 +37,9 @@ public class UserController {
 
   @Autowired
   StudentImportService studentImportService;
+
+  @Autowired
+  JsonUtils jsonUtils;
 
   @GetMapping("/student")
   public Page<Student> getAllStudents(@RequestParam(defaultValue = "0") int page) {
@@ -55,6 +62,11 @@ public class UserController {
     return studentService.getStudent(id);
   }
 
+  @GetMapping("/student/{id}/roles")
+  public Set<Role> getStudentRoles(@PathVariable Long id) {
+    return studentService.getStudentRoles(id);
+  }
+
   @PostMapping("/student")
   public Student createStudent(@RequestBody StudentDTO dto) {
     return studentService.createStudent(dto);
@@ -63,6 +75,13 @@ public class UserController {
   @PutMapping("/student")
   public Student updateStudent(@AuthenticationPrincipal TokenPayload auth, @RequestBody StudentUpdateDTO dto) {
     return studentService.updateStudent(dto, auth.getId());
+  }
+
+  @PutMapping("/student/admin")
+  public Student updateStudentAdmin(@RequestParam(value = "image", required = false) MultipartFile image,
+                                    @RequestParam(value = "form") String form) {
+    StudentUpdateAdminDTO dto = jsonUtils.deserialize(form, StudentUpdateAdminDTO.class);
+    return studentService.updateStudentAdmin(dto, image);
   }
 
   @GetMapping("/student/me")

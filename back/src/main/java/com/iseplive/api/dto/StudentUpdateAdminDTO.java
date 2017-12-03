@@ -1,22 +1,61 @@
 package com.iseplive.api.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by Guillaume on 16/10/2017.
+ * Created by Guillaume on 03/12/2017.
  * back
  */
-public class StudentUpdateDTO {
+public class StudentUpdateAdminDTO {
   private Long id;
+  private String firstname;
+  private String lastname;
+  private Integer promo;
   private Date birthDate;
   private String phone;
   private String bio;
-  private String mail;
   private String address;
+  private String mail;
+  private String mailISEP;
   private String facebook;
   private String twitter;
   private String instagram;
   private String snapchat;
+
+  private List<Long> roles;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getFirstname() {
+    return firstname;
+  }
+
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
+
+  public String getLastname() {
+    return lastname;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
+  }
+
+  public Integer getPromo() {
+    return promo;
+  }
+
+  public void setPromo(Integer promo) {
+    this.promo = promo;
+  }
 
   public Date getBirthDate() {
     return birthDate;
@@ -42,14 +81,6 @@ public class StudentUpdateDTO {
     this.bio = bio;
   }
 
-  public String getMail() {
-    return mail;
-  }
-
-  public void setMail(String mail) {
-    this.mail = mail;
-  }
-
   public String getAddress() {
     return address;
   }
@@ -58,14 +89,21 @@ public class StudentUpdateDTO {
     this.address = address;
   }
 
-  public Long getId() {
-    return id;
+  public String getMail() {
+    return mail;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setMail(String mail) {
+    this.mail = mail;
   }
 
+  public String getMailISEP() {
+    return mailISEP;
+  }
+
+  public void setMailISEP(String mailISEP) {
+    this.mailISEP = mailISEP;
+  }
 
   public String getFacebook() {
     return facebook;
@@ -97,5 +135,13 @@ public class StudentUpdateDTO {
 
   public void setSnapchat(String snapchat) {
     this.snapchat = snapchat;
+  }
+
+  public List<Long> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<Long> roles) {
+    this.roles = roles;
   }
 }

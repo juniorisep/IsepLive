@@ -57,3 +57,8 @@ export const getUser = (): ?TokenPayload => {
   };
   return null;
 };
+
+
+export function getAllRoles() {
+  return axios.get('/auth/roles');
+}

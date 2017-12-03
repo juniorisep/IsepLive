@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { FluidContent, Title } from "../../../components/common";
+import { FluidContent, Title, Paper } from "../../../components/common";
 import Button from 'material-ui/Button';
 import { LinearProgress } from 'material-ui/Progress';
 import { sendAlert } from '../../../components/Alert';
@@ -39,7 +39,7 @@ export default class ImportStudents extends React.Component {
     return (
       <FluidContent>
         <Title invert>Import Eleves</Title>
-        <div>
+        <Paper p="2em">
 
           <input id="csvFile" type="file" accept=".csv" style={{ display: "none" }} onChange={this.handle('csv')} />
           <label htmlFor="csvFile">
@@ -54,12 +54,12 @@ export default class ImportStudents extends React.Component {
             <Button component="span" raised color="primary">Photos</Button>
           </label>
           {photos.length !== 0 && <span>{photos.length} photo{photos.length !== 1 && 's'} sélectionnée{photos.length !== 1 && 's'}</span>}
+          <br />
 
-        </div>
-        <br />
+          {uploading && <LinearProgress mode="determinate" value={progress} />}
+          <Button disabled={uploading || !csv || photos.length === 0} raised color="accent" onClick={this.importStudents}>Importer</Button>
+        </Paper>
 
-        {uploading && <LinearProgress mode="determinate" value={progress} />}
-        <Button disabled={uploading || !csv || photos.length === 0} raised color="accent" onClick={this.importStudents}>Importer</Button>
       </FluidContent>
     );
   };

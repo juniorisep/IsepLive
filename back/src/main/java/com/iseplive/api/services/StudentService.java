@@ -6,6 +6,7 @@ import com.iseplive.api.dao.student.RoleRepository;
 import com.iseplive.api.dao.student.StudentFactory;
 import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
+import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -77,13 +79,7 @@ public class StudentService {
 
   public void addProfileImage(String studentId, MultipartFile image) {
     Student student = studentRepository.findFirstByStudentId(studentId);
-    String path = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), false);
-    String pathThumb = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), true);
-    imageUtils.saveJPG(image, 512, path);
-    imageUtils.saveJPG(image, 384, pathThumb);
-
-    student.setPhotoUrl(imageUtils.getPublicUrlImage(path));
-    student.setPhotoUrlThumb(imageUtils.getPublicUrlImage(pathThumb));
+    updateProfileImage(student, image);
     studentRepository.save(student);
   }
 
@@ -129,19 +125,39 @@ public class StudentService {
     studentRepository.save(student);
   }
 
-  public void addRole(Student student, String rolestr) {
-    Role role = getRole(rolestr);
-    student.getRoles().add(role);
-    studentRepository.save(student);
+  public Set<Role> getStudentRoles(Long id) {
+    Student student = getStudent(id);
+    return student.getRoles();
   }
 
-  public void removeRole(Student student, String rolestr) {
-    Role role = getRole(rolestr);
-    if (student.getRoles().contains(role)) {
-      student.getRoles().remove(role);
+  public List<Role> getRoles() {
+    return roleRepository.findAll();
+  }
+
+  public Student updateStudentAdmin(StudentUpdateAdminDTO dto, MultipartFile file) {
+    Student student = getStudent(dto.getId());
+    studentFactory.updateAdminDtoToEntity(student, dto);
+
+    if (file != null) {
+      updateProfileImage(student, file);
     }
-    studentRepository.save(student);
+
+    Set<Role> roles = roleRepository.findAllByIdIn(dto.getRoles());
+    student.setRoles(roles);
+
+    return studentRepository.save(student);
   }
 
+  private void updateProfileImage(Student student, MultipartFile image) {
+    String path = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), false);
+    String pathThumb = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), true);
+    imageUtils.removeIfExist(path);
+    imageUtils.removeIfExist(pathThumb);
 
+    imageUtils.saveJPG(image, 512, path);
+    imageUtils.saveJPG(image, 384, pathThumb);
+
+    student.setPhotoUrl(imageUtils.getPublicUrlImage(path));
+    student.setPhotoUrlThumb(imageUtils.getPublicUrlImage(pathThumb));
+  }
 }

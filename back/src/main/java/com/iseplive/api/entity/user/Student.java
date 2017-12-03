@@ -27,8 +27,9 @@ public class Student extends Author implements UserDetails {
   private String mail;
   private String mailISEP;
   private String facebook;
-  private String instagram;
   private String twitter;
+  private String instagram;
+  private String snapchat;
   private Boolean allowNotifications;
 
   private String photoUrl;
@@ -218,5 +219,13 @@ public class Student extends Author implements UserDetails {
 
   public void setAllowNotifications(Boolean allowNotifications) {
     this.allowNotifications = allowNotifications;
+  }
+
+  public String getSnapchat() {
+    return snapchat;
+  }
+
+  public void setSnapchat(String snapchat) {
+    this.snapchat = snapchat;
   }
 }

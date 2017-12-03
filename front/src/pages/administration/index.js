@@ -14,6 +14,16 @@ class Admin extends React.Component {
     tabOpen: 0,
   };
 
+  componentDidMount() {
+    const urlToTab = {
+      [this.props.match.url + '/utilisateur']: 0,
+      [this.props.match.url + '/importer']: 1,
+    }
+    if (urlToTab[this.props.location.pathname]) {
+      this.setState({ tabOpen: urlToTab[this.props.location.pathname] });
+    }
+  }
+
   handleChangeTab = (event: Event, index: number) => {
     this.setState({ tabOpen: index });
   }

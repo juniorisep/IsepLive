@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import indigo from 'material-ui/colors/indigo';
 import orange from 'material-ui/colors/orange';
+import red from 'material-ui/colors/red';
 
 import { ThemeProvider } from 'styled-components';
 
@@ -30,9 +31,25 @@ axios.defaults.baseURL = backUrl;
 
 const theme = createMuiTheme({
   palette: {
-    primary: indigo,
-    secondary: orange,
+    type: "light",
+    primary: {
+      ...indigo,
+      contrastDefaultColor: "light",
+    },
+    secondary: {
+      ...orange,
+      contrastDefaultColor: "light",
+    },
   },
+
+  overrides: {
+    MuiButton: {
+      raisedAccent: {
+        color: 'white',
+      },
+    },
+  },
+
 });
 
 const styledTheme = {

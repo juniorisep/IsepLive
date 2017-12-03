@@ -8,6 +8,9 @@ import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 
+import * as moment from 'moment';
+
+
 const TimeSelect = props => {
   return (
     <FormControl style={{ width: '100%' }}>
@@ -113,10 +116,17 @@ export default class DatePicker extends React.Component {
 
   render() {
 
+    const getMonthName = (month) => {
+      const date = new Date();
+      date.setMonth(month);
+      moment.locale('fr');
+      return moment(date).format('MMMM');
+    }
+
     const hours = this.buildHours().map(e => ({ value: e, name: e }));
     const minutes = this.buildMinutes().map(e => ({ value: e, name: e }));
     const days = this.buildDays().map(e => ({ value: e, name: e }));
-    const months = this.buildMonths().map(e => ({ value: e, name: e + 1 }));
+    const months = this.buildMonths().map(e => ({ value: e, name: getMonthName(e) }));
     const years = this.buildYears().map(e => ({ value: e, name: e }));
 
     const {

@@ -3,14 +3,14 @@ package com.iseplive.api.controllers;
 import com.iseplive.api.conf.jwt.JwtAuthRequest;
 import com.iseplive.api.conf.jwt.JwtTokenUtil;
 import com.iseplive.api.conf.jwt.TokenSet;
+import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.AuthException;
 import com.iseplive.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by Guillaume on 07/08/2017.
@@ -38,4 +38,10 @@ public class AuthController {
     }
     throw new AuthException("User not found");
   }
+
+  @GetMapping("/roles")
+  public List<Role> getRoles() {
+    return studentService.getRoles();
+  }
+
 }

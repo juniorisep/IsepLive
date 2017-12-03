@@ -11,6 +11,31 @@ export function updateStudent(form: StudentUpdateDTO) {
   return axios.put('/user/student', form);
 };
 
+export function updateStudentFull(data) {
+  const form = new FormData();
+
+  form.append('form', JSON.stringify({
+    id: data.id,
+    firstname: data.firstname,
+    lastname: data.lastname,
+    birthDate: data.birthDate,
+    mail: data.mail,
+    address: data.address,
+    phone: data.phone,
+    promo: data.promo,
+    bio: data.bio,
+    twitter: data.twitter,
+    facebook: data.facebook,
+    instagram: data.instagram,
+    snapchat: data.snapchat,
+    roles: data.roles,
+  }));
+
+  form.append('image', data.file);
+
+  return axios.put('/user/student/admin', form);
+}
+
 export function searchStudents(
   name: string, promotionFilter: number[] = [], sort: string = 'a', page: number = 0) {
   const promos = promotionFilter.join(',');
@@ -20,6 +45,10 @@ export function searchStudents(
 export function getStudent(id: number) {
   return axios.get(`/user/student/${id}`);
 };
+
+export function getStudentRoles(id: number) {
+  return axios.get(`/user/student/${id}/roles`);
+}
 
 export function getLoggedUser() {
   return axios.get('/user/student/me');

@@ -16,7 +16,7 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Delete';
 
-import { Paper, FluidContent, Title, Text } from "../../../components/common";
+import { Paper, FluidContent, Title, Text, ProfileImage } from "../../../components/common";
 
 import * as userData from '../../../data/users/student';
 
@@ -94,16 +94,18 @@ class Users extends Component {
       <FluidContent>
         <Flex wrap>
           <Box w={[1, 1 / 3]} p={1}>
-            <Paper p="2em">
+            <div>
               <Title invert>Etudiant</Title>
               {!selected && <Text>Sélectionnez un étudiant</Text>}
               {
                 selected &&
                 <UpdateStudent
                   selected={selected}
-                  onChangeField={this.onChangeField} />
+                  onChangeField={this.onChangeField}
+                  refreshTable={() => this.loadUsers(this.state.page)}
+                  selectRow={(selected) => this.setState({ selected })} />
               }
-            </Paper>
+            </div>
           </Box>
           <Box w={[1, 2 / 3]} p={1} pl={2}>
             <Paper p="1em">
@@ -117,6 +119,15 @@ class Users extends Component {
             <Paper>
               <Table>
                 <TableHead>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[20]}
+                      count={total}
+                      rowsPerPage={20}
+                      page={page}
+                      onChangePage={this.handleChangePage}
+                    />
+                  </TableRow>
                   <TableRow>
                     <TableCell>Photo</TableCell>
                     <TableCell>Nom</TableCell>
@@ -134,7 +145,7 @@ class Users extends Component {
                           selected={selected && u.id === selected.id}
                           onClick={this.selectRow(u)} >
                           <TableCell>
-                            photo
+                            <ProfileImage src={u.photoUrlThumb} sz="50px" />
                           </TableCell>
                           <TableCell>
                             {u.firstname} {u.lastname}

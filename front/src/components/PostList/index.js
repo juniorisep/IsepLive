@@ -87,7 +87,7 @@ export class PostTextView extends Component {
   }
 
   render() {
-    const { post, refresh, preview, modify } = this.props;
+    const { post, refresh, preview, modify, canPin } = this.props;
     return (
       <PostText w={this.props.w}>
         <PostTitleView post={post} />
@@ -102,7 +102,11 @@ export class PostTextView extends Component {
           {
             post.hasWriteAccess &&
             <Box ml="5px">
-              <EditButton post={post} refresh={refresh} modify={modify} />
+              <EditButton
+                post={post}
+                refresh={refresh}
+                canPin={canPin}
+                modify={modify} />
             </Box>
           }
           <Box ml="auto">
@@ -182,6 +186,7 @@ export default class PostListView extends React.Component {
                 post={p}
                 list={true}
                 invert={i % 2 === 1}
+                canPin={props.canPin}
                 refresh={props.refreshPosts}
                 modify={this.modifyPost}
               />

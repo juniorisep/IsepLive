@@ -14,6 +14,7 @@ class TextPost extends Component {
           w={[1]}
           preview={props.preview}
           refresh={props.refresh}
+          canPin={props.canPin}
           modify={props.modify} />
       </Post>
     );

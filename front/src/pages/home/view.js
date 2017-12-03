@@ -68,11 +68,17 @@ export default function Home(props) {
                   props.pinnedPosts.length > 0 &&
                   <div>
                     <BookmarkIcon style={{ color: MAIN_COLOR }} />
-                    <PostListView posts={props.pinnedPosts} refreshPosts={props.refreshPosts} />
+                    <PostListView
+                      canPin
+                      posts={props.pinnedPosts}
+                      refreshPosts={props.refreshPosts} />
                     <Filler h={50} />
                   </div>
                 }
-                <PostListView posts={props.posts} refreshPosts={props.refreshPosts} />
+                <PostListView
+                  canPin
+                  posts={props.posts}
+                  refreshPosts={props.refreshPosts} />
                 {
                   !props.lastPage && props.posts.length > 0 &&
                   <Center>

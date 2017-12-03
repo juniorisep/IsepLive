@@ -22,6 +22,7 @@ class PollPost extends Component {
           preview={props.preview}
           refresh={props.refresh}
           modify={props.modify}
+          canPin={props.canPin}
           w={size} />
       </Post>
     );

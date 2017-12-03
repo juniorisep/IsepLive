@@ -55,6 +55,7 @@ class DocumentPost extends Component {
           post={props.post}
           refresh={props.refresh}
           w={size}
+          canPin={props.canPin}
           preview={props.preview}
           modify={props.modify}
         />

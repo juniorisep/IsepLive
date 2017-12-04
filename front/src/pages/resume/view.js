@@ -94,13 +94,13 @@ export default function ResumeView(props) {
                 </Button>
                 </Box>
               </Flex>
-              <Text>Promotion : <span>{promo}</span></Text>
-              <Text>Numéro ISEP : <span>{studentId}</span></Text>
-              <Text>Téléphone : <span>{phone}</span></Text>
-              <Text>Adresse : <span>{address}</span></Text>
-              <Text>Mail : <span>{mail}</span></Text>
-              <Text>Mail ISEP : <span>{mailISEP}</span></Text>
-              <Text>Date de naissance : <Time date={birthDate} format="DD/MM/YYYY" /></Text>
+              <Text>Promotion : <span>{promo || <i>Pas de promotion</i>}</span></Text>
+              <Text>Numéro ISEP : <span>{studentId || <i>Pas de numéro étudiant</i>}</span></Text>
+              <Text>Téléphone : <span>{phone || <i>Pas de téléphone</i>}</span></Text>
+              <Text>Adresse : <span>{address || <i>Pas d'adresse</i>}</span></Text>
+              <Text>Mail : <span>{mail || <i>Pas d'adresse mail</i>}</span></Text>
+              <Text>Mail ISEP : <span>{mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
+              <Text>Date de naissance : <Time date={birthDate || <i>Pas de date de naissance</i>} format="DD/MM/YYYY" /></Text>
             </Paper>
           </Box>
           <Box p={2} width={1}>

@@ -10,11 +10,18 @@ import { Link } from 'react-router-dom';
 import { Title, ProfileImage, Text, Paper, Filler } from 'components/common';
 import Loader from 'components/Loader';
 
-import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
+import List, {
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  ListItemIcon
+} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Delete';
+import Done from 'material-ui-icons/Done';
+import EventSeat from 'material-ui-icons/EventSeat';
 import Checkbox from 'material-ui/Checkbox';
 import {
   FormControlLabel,
@@ -252,6 +259,12 @@ export default class MembersTab extends React.Component {
                     <ListItem key={user.id} dense button onClick={this.selectMember(user)}>
                       <Avatar alt="photo" src={backUrl + user.member.photoUrlThumb} />
                       <ListItemText primary={`${user.member.firstname} ${user.member.lastname}`} />
+                      {
+                        selection && selection.id === user.id &&
+                        <ListItemIcon>
+                          <Done style={{ display: 'inline' }} />
+                        </ListItemIcon>
+                      }
                     </ListItem>
                   ))
                 }

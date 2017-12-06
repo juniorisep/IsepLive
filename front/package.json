@@ -31,6 +31,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:test": "REACT_APP_BACKEND_URL=service.isepliveback.docker-dev.juniorisep.com react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "check": "./check-flow-annotation.sh",

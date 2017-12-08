@@ -16,7 +16,7 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Delete';
 
-import { Paper, FluidContent, Title, Text, ProfileImage } from "../../../components/common";
+import { Paper, FluidContent, Title, Text, ProfileImage, Filler } from "../../../components/common";
 
 import * as userData from '../../../data/users/student';
 
@@ -176,6 +176,7 @@ class Users extends Component {
             </Paper>
           </Box>
         </Flex>
+        <Filler h={200} />
       </FluidContent>
     );
   };

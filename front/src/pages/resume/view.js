@@ -100,7 +100,7 @@ export default function ResumeView(props) {
               <Text>Adresse : <span>{address || <i>Pas d'adresse</i>}</span></Text>
               <Text>Mail : <span>{mail || <i>Pas d'adresse mail</i>}</span></Text>
               <Text>Mail ISEP : <span>{mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
-              <Text>Date de naissance : <Time date={birthDate || <i>Pas de date de naissance</i>} format="DD/MM/YYYY" /></Text>
+              <Text>Date de naissance : {birthDate ? <Time date={birthDate} format="DD/MM/YYYY" /> : <i>Pas de date de naissance</i>}</Text>
             </Paper>
           </Box>
           <Box p={2} width={1}>

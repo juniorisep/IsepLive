@@ -15,6 +15,38 @@ import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Text } f
 import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
+const DisplayPromo = (props) => {
+  const date = new Date();
+  date.setFullYear(new Date().getFullYear() + 5);
+  let lastPromo = date.getFullYear();
+  if (date.getMonth() < 9) {
+    lastPromo--;
+  }
+  let display = ""
+  switch (props.promo) {
+    case lastPromo:
+      display = "Sup";
+      break;
+    case lastPromo - 1:
+      display = "Spe";
+      break;
+    case lastPromo - 2:
+      display = "A1";
+      break;
+    case lastPromo - 3:
+      display = "A2";
+      break;
+    case lastPromo - 4:
+      display = "A3";
+      break;
+
+    default:
+      return null;
+  }
+
+  return <span>({display})</span>;
+}
+
 const Person = (props) => {
   const MainText = styled.div`
     padding: 10px;
@@ -32,7 +64,7 @@ const Person = (props) => {
       <ProfileImage src={props.url} sz="100%" mh="200px" />
       <MainText>
         <p className="name">{props.name}</p>
-        <p>Promo {props.promotion}</p>
+        <p>Promo {props.promotion} <DisplayPromo promo={props.promotion} /></p>
       </MainText>
     </div>
   );
@@ -108,7 +140,7 @@ export default class AddressBook extends Component {
                             color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
                           }}
                         >
-                          {year}
+                          <span>{year} <DisplayPromo promo={year} /></span>
                         </MenuItem>
                       ))
                     }

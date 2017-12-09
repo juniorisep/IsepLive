@@ -43,13 +43,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/poll/{\\d+}/vote"
       ).authenticated()
 
-      // /auth and get method in public
+      // /auth and GET method in public
       .antMatchers(
         HttpMethod.GET,
         "/post/**",
         "/poll/**",
         "/club/**",
         "/media/**",
+        "/event/**",
         "/user/student/search"
       ).permitAll()
 

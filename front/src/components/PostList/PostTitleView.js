@@ -7,6 +7,7 @@ import { Box, Flex } from 'grid-styled';
 import { Link } from 'react-router-dom';
 
 import { ProfileImage, Subtitle, Title } from '../common';
+import * as authData from '../../data/auth';
 
 import Time from '../Time';
 import Author from '../Author';
@@ -20,9 +21,14 @@ export default function PostTitleView({ post }) {
           <ProfileImage src={post.author.photoUrl} sz="40px" />
         </Box>
         <Box>
-          <Link to={`/annuaire/${post.author.id}`}>
-            <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
-          </Link>
+          {
+            authData.isLoggedIn() ?
+              <Link to={`/annuaire/${post.author.id}`}>
+                <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
+              </Link>
+              :
+              <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
+          }
           <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
         </Box>
       </Flex>

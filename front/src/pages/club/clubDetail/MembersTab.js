@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { ProfileImage, Text, } from 'components/common';
 import Loader from 'components/Loader';
 import * as clubData from '../../../data/club';
+import * as authData from '../../../data/auth';
 
 const Member = (props) => {
   const MemberStyle = styled.div`
@@ -56,14 +57,24 @@ export default function MembersTab(props) {
           props.members.map(m => {
             return (
               <Box key={m.id} w={[1, 1 / 3, 1 / 5]} p={2}>
-                <Link to={`/annuaire/${m.member.id}`}>
-                  <Member
-                    url={m.member.photoUrl}
-                    name={m.member.firstname + ' ' + m.member.lastname}
-                    role={clubData.getClubRoleName(m.role.name)}
-                    promotion={m.member.promo}
-                  />
-                </Link>
+                {
+                  authData.isLoggedIn() ?
+                    <Link to={`/annuaire/${m.member.id}`}>
+                      <Member
+                        url={m.member.photoUrl}
+                        name={m.member.firstname + ' ' + m.member.lastname}
+                        role={clubData.getClubRoleName(m.role.name)}
+                        promotion={m.member.promo}
+                      />
+                    </Link>
+                    :
+                    <Member
+                      url={m.member.photoUrl}
+                      name={m.member.firstname + ' ' + m.member.lastname}
+                      role={clubData.getClubRoleName(m.role.name)}
+                      promotion={m.member.promo}
+                    />
+                }
               </Box>
             )
           })

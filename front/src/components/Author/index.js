@@ -15,6 +15,7 @@ const Sub = styled.div`
   margin-top: 10px;
 `;
 
+
 export default function Author(props) {
   const a = props.data;
   switch (a.authorType) {

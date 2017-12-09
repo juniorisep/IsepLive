@@ -1,6 +1,7 @@
 package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dto.PollCreationDTO;
 import com.iseplive.api.entity.media.poll.Poll;
 import com.iseplive.api.entity.media.poll.PollVote;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 /**
@@ -39,11 +41,13 @@ public class PollController {
   }
 
   @PutMapping("/{id}/answer/{answerId}") // add student
+  @RolesAllowed({Roles.STUDENT})
   public void vote(@PathVariable Long id, @PathVariable Long answerId, @AuthenticationPrincipal TokenPayload auth) {
     pollService.addVote(id, answerId, auth.getId());
   }
 
   @PostMapping
+  @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
   public Poll createPoll(@RequestBody PollCreationDTO dto) {
     return pollService.createPoll(dto);
   }

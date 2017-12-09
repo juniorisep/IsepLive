@@ -122,7 +122,7 @@ export default function ResumeView(props) {
           </Box>
           <Box p={2} width={1}>
             <Title fontSize={1.5} invert>Associations</Title>
-            {clubMembers.length === 0 && <Text>Membre d'aucunes association</Text>}
+            {clubMembers.length === 0 && <Text>Membre d'aucunes associations</Text>}
             <Flex wrap>
               {
                 clubMembers.map(cm => {

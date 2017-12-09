@@ -1,23 +1,23 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
-import com.iseplive.api.constants.Roles;
-import com.iseplive.api.dto.PostUpdateDTO;
-import com.iseplive.api.entity.club.Club;
-import com.iseplive.api.exceptions.AuthException;
-import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.constants.PublishStateEnum;
+import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dao.post.*;
 import com.iseplive.api.dto.CommentDTO;
 import com.iseplive.api.dto.PostDTO;
+import com.iseplive.api.dto.PostUpdateDTO;
 import com.iseplive.api.dto.view.CommentView;
 import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
+import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Media;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.AuthException;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.websocket.PostMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -116,8 +116,11 @@ public class PostService {
       .collect(Collectors.toList());
   }
 
-  public void deletePost(Long postId) {
+  public void deletePost(Long postId, TokenPayload auth) {
     Post post = getPost(postId);
+    if (!hasRightOnPost(auth, post)) {
+      throw new AuthException("you cannot delete this post");
+    }
     // TODO: delete the ressource associated to the media (stored on disk)
     postRepository.delete(postId);
   }
@@ -236,8 +239,11 @@ public class PostService {
     return posts.map(p -> postFactory.entityToView(p));
   }
 
-  public Post updatePost(Long id, PostUpdateDTO update) {
+  public Post updatePost(Long id, PostUpdateDTO update, TokenPayload auth) {
     Post post = getPost(id);
+    if (!hasRightOnPost(auth, post)) {
+      throw new AuthException("you cannot update this post");
+    }
     post.setTitle(update.getTitle());
     post.setContent(update.getContent());
     return postRepository.save(post);
@@ -254,5 +260,14 @@ public class PostService {
       throw new IllegalArgumentException("could not find a comment with this id");
     }
     return comment.getLike();
+  }
+
+  private boolean hasRightOnPost(TokenPayload auth, Post post) {
+    if (!auth.getRoles().contains(Roles.ADMIN) || !auth.getRoles().contains(Roles.POST_MANAGER)) {
+      if (!post.getAuthor().getId().equals(auth.getId()) && !auth.getClubsAdmin().contains(post.getAuthor().getId())) {
+        return false;
+      }
+    }
+    return true;
   }
 }

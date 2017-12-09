@@ -1,6 +1,7 @@
 package com.iseplive.api.controllers;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dto.ImportStudentResult;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateAdminDTO;
@@ -17,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Set;
 
@@ -58,36 +60,43 @@ public class UserController {
   }
 
   @GetMapping("/student/{id}/post")
+  @RolesAllowed({Roles.STUDENT})
   public Page<PostView> getPostsStudent(@PathVariable Long id, @RequestParam(defaultValue = "0") int page) {
     return postService.getPostsAuthor(id, authService.isUserAnonymous(), page);
   }
 
   @GetMapping("/student/{id}/club")
+  @RolesAllowed({Roles.STUDENT})
   public List<ClubMemberView> getClubsStudent(@PathVariable Long id) {
     return clubService.getStudentClubs(id);
   }
 
   @GetMapping("/student/{id}")
+  @RolesAllowed({Roles.STUDENT})
   public Student getStudent(@PathVariable Long id) {
     return studentService.getStudent(id);
   }
 
   @GetMapping("/student/{id}/roles")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
   public Set<Role> getStudentRoles(@PathVariable Long id) {
     return studentService.getStudentRoles(id);
   }
 
   @PostMapping("/student")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
   public Student createStudent(@RequestBody StudentDTO dto) {
     return studentService.createStudent(dto);
   }
 
   @PutMapping("/student")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER, Roles.STUDENT})
   public Student updateStudent(@AuthenticationPrincipal TokenPayload auth, @RequestBody StudentUpdateDTO dto) {
     return studentService.updateStudent(dto, auth.getId());
   }
 
   @PutMapping("/student/admin")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
   public Student updateStudentAdmin(@RequestParam(value = "image", required = false) MultipartFile image,
                                     @RequestParam(value = "form") String form) {
     StudentUpdateAdminDTO dto = jsonUtils.deserialize(form, StudentUpdateAdminDTO.class);
@@ -95,17 +104,20 @@ public class UserController {
   }
 
   @GetMapping("/student/me")
+  @RolesAllowed({Roles.STUDENT})
   public Student getLoggedStudent(@AuthenticationPrincipal TokenPayload auth) {
     return studentService.getStudent(auth.getId());
   }
 
   @PostMapping("/student/import")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
   public ImportStudentResult importStudents(@RequestParam("csv") MultipartFile csv,
                                             @RequestParam("images[]") List<MultipartFile> photos) {
     return studentImportService.importStudents(csv, photos);
   }
 
   @PutMapping("/student/notification")
+  @RolesAllowed({Roles.STUDENT})
   public void toggleNotification(@AuthenticationPrincipal TokenPayload auth) {
     studentService.toggleNotifications(auth);
   }

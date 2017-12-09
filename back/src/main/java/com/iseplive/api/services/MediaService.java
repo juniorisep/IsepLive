@@ -155,7 +155,7 @@ public class MediaService {
     boolean byPassOwnerCheck = auth.getRoles().contains(Roles.ADMIN) || auth.getRoles().contains(Roles.USER_MANAGER);
       List<Matched> newMatched = image.getMatched()
         .stream()
-        .filter(m -> !(m.getMatch().equals(match) && !byPassOwnerCheck && m.getOwner().equals(owner)))
+        .filter(m -> !(m.getMatch().equals(match) && (!byPassOwnerCheck || m.getOwner().equals(owner))))
         .collect(Collectors.toList());
     image.setMatched(newMatched);
     imageRepository.save(image);

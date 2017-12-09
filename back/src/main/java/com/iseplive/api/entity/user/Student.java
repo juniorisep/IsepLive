@@ -30,7 +30,7 @@ public class Student extends Author implements UserDetails {
   private String twitter;
   private String instagram;
   private String snapchat;
-  private Boolean allowNotifications;
+  private Boolean allowNotifications = false;
 
   private String photoUrl;
   private String photoUrlThumb;

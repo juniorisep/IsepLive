@@ -1,5 +1,6 @@
 package com.iseplive.api.controllers;
 
+import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.club.Club;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +46,7 @@ public class ClubController {
   }
 
   @PostMapping
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public Club createClub(@RequestParam("logo") MultipartFile logo,
                          @RequestParam("club") String club) {
     ClubDTO clubDTO = jsonUtils.deserialize(club, ClubDTO.class);
@@ -51,22 +54,26 @@ public class ClubController {
   }
 
   @PostMapping("/role/{role}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public ClubRole createRole(@PathVariable String role) {
     return clubService.createRole(role);
   }
 
   @PutMapping("/member/{member}/role/{role}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public ClubMember updateMemberRole(@PathVariable Long member,
                               @PathVariable Long role) {
     return clubService.updateMemberRole(member, role);
   }
 
   @DeleteMapping("/member/{member}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public void deleteAdmin(@PathVariable Long member) {
     clubService.removeMember(member);
   }
 
   @PutMapping("/{id}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public Club updateClub(@PathVariable Long id,
                          @RequestParam(value = "logo", required = false) MultipartFile logo,
                          @RequestParam("club") String club) {
@@ -80,11 +87,13 @@ public class ClubController {
   }
 
   @DeleteMapping("/{id}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public void deleteClub(@PathVariable Long id) {
     clubService.deleteClub(id);
   }
 
   @PutMapping("/{id}/member/{student}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public ClubMember addMember(@PathVariable Long id, @PathVariable Long student) {
     return clubService.addMember(id, student);
   }
@@ -95,11 +104,13 @@ public class ClubController {
   }
 
   @PutMapping("/{id}/admin/{stud}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public void addAdmin(@PathVariable Long id, @PathVariable Long stud) {
     clubService.addAdmin(id, stud);
   }
 
   @DeleteMapping("/{id}/admin/{stud}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public void deleteAdmin(@PathVariable Long id, @PathVariable Long stud) {
     clubService.removeAdmin(id, stud);
   }

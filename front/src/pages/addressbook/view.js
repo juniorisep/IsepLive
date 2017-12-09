@@ -15,7 +15,7 @@ import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Text } f
 import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
-const DisplayPromo = (props) => {
+const getPromo = (promo, render) => {
   const date = new Date();
   date.setFullYear(new Date().getFullYear() + 5);
   let lastPromo = date.getFullYear();
@@ -23,7 +23,7 @@ const DisplayPromo = (props) => {
     lastPromo--;
   }
   let display = ""
-  switch (props.promo) {
+  switch (promo) {
     case lastPromo:
       display = "Sup";
       break;
@@ -41,10 +41,13 @@ const DisplayPromo = (props) => {
       break;
 
     default:
-      return null;
+      return false;
+  }
+  if (render) {
+    return render(display);
   }
 
-  return <span>({display})</span>;
+  return display;
 }
 
 const Person = (props) => {
@@ -64,7 +67,7 @@ const Person = (props) => {
       <ProfileImage src={props.url} sz="100%" mh="200px" />
       <MainText>
         <p className="name">{props.name}</p>
-        <p>Promo {props.promotion} <DisplayPromo promo={props.promotion} /></p>
+        <p>Promo {props.promotion} {getPromo(props.promotion, v => `(${v})`) || ''}</p>
       </MainText>
     </div>
   );
@@ -83,9 +86,9 @@ const STYLE_FORMCONTROL = {
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-const now = new Date().getFullYear();
+let now = new Date().getFullYear();
 let years = [];
-for (var i = 1; i < 6; i++) {
+for (var i = 5; i > -15; i--) {
   years.push(now + i);
 };
 
@@ -119,6 +122,7 @@ export default class AddressBook extends Component {
                   <Select
                     multiple
                     value={this.props.year}
+                    renderValue={years => years.map(year => getPromo(year) || year).join(', ')}
                     onChange={this.props.onPromoFilter}
                     input={<Input id="year-multiple" />}
                     MenuProps={{
@@ -140,7 +144,7 @@ export default class AddressBook extends Component {
                             color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
                           }}
                         >
-                          <span>{year} <DisplayPromo promo={year} /></span>
+                          <span>{year} {getPromo(year, v => `(${v})`) || ''}</span>
                         </MenuItem>
                       ))
                     }

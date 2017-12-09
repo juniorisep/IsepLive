@@ -1,6 +1,7 @@
 package com.iseplive.api.controllers;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.dto.ImportStudentResult;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -100,8 +100,8 @@ public class UserController {
   }
 
   @PostMapping("/student/import")
-  public Map<String, Student> importStudents(@RequestParam("csv") MultipartFile csv,
-                                             @RequestParam("images[]") List<MultipartFile> photos) {
+  public ImportStudentResult importStudents(@RequestParam("csv") MultipartFile csv,
+                                            @RequestParam("images[]") List<MultipartFile> photos) {
     return studentImportService.importStudents(csv, photos);
   }
 

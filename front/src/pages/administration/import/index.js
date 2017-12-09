@@ -30,6 +30,7 @@ export default class ImportStudents extends React.Component {
     photosData: {},
     uploadState: 'determinate',
     page: 0,
+    result: null,
   }
 
   importStudents = () => {
@@ -44,7 +45,27 @@ export default class ImportStudents extends React.Component {
       })
     }).then(r => {
       sendAlert("Users imported")
-      this.setState({ uploading: false, progress: 0 })
+      this.setState({
+        result: r.data,
+        uploading: false,
+        progress: 0,
+        csv: null,
+        photos: [],
+        photosData: {},
+        students: [],
+      })
+    }).catch(err => {
+      if (err.response) {
+        sendAlert("Erreur lors de l'import")
+        this.setState({
+          uploading: false,
+          progress: 0,
+          csv: null,
+          photos: [],
+          photosData: {},
+          students: [],
+        })
+      }
     });
   };
 
@@ -56,6 +77,7 @@ export default class ImportStudents extends React.Component {
 
   addCsv = e => {
     let csv = e.target.files[0];
+    e.target.value = null;
 
     let reader = new FileReader();
     reader.onload = (e) => {
@@ -79,11 +101,12 @@ export default class ImportStudents extends React.Component {
     }
     reader.readAsText(csv);
 
-    this.setState({ csv });
+    this.setState({ csv, result: null });
   }
 
   importPhoto = (e) => {
-    let photos = e.target.files;
+    let photos = [...e.target.files];
+    e.target.value = null;
     const readerPromise = (file) => new Promise((resolve, reject) => {
       let reader = new FileReader();
       reader.onload = (e) => resolve({ url: e.target.result, file });
@@ -103,7 +126,7 @@ export default class ImportStudents extends React.Component {
       });
     })
 
-    this.setState({ photosData, photos });
+    this.setState({ photosData, photos, result: null });
   }
 
   handleChangePage = (e, page) => {
@@ -111,6 +134,11 @@ export default class ImportStudents extends React.Component {
   }
 
   render() {
+
+    const discList = {
+      listStyle: 'disc',
+    };
+
     const {
       uploading,
       progress,
@@ -120,10 +148,11 @@ export default class ImportStudents extends React.Component {
       page,
       photosData,
       uploadState,
+      result,
     } = this.state;
     return (
       <FluidContent>
-        <Title invert>Import Eleves</Title>
+        <Title invert>Import Élèves</Title>
         <Paper p="2em">
 
           <Flex>
@@ -143,13 +172,27 @@ export default class ImportStudents extends React.Component {
           </Flex>
 
           <Box mb={2}>
-            {csv && <Text>CSV élèves: {csv.name}</Text>}
+            {csv && <Text>CSV élèves: {csv.name} - {students.length} élèves à importer</Text>}
             {photos.length !== 0 && <Text>{photos.length} photo{photos.length !== 1 && 's'} sélectionnée{photos.length !== 1 && 's'}</Text>}
           </Box>
-
-          {uploading && <LinearProgress mode={uploadState} value={progress} />}
-          <Button disabled={uploading || !csv || photos.length === 0} raised color="accent" onClick={this.importStudents}><Done style={{ marginRight: 5 }} /> Importer</Button>
-
+          <Box mb={1}>
+            {uploading && <LinearProgress mode={uploadState} value={progress} />}
+          </Box>
+          <Box mb={1}>
+            <Button disabled={uploading || !csv || photos.length === 0} raised color="accent" onClick={this.importStudents}><Done style={{ marginRight: 5 }} /> Importer</Button>
+          </Box>
+          {
+            result &&
+            <Text>
+              <span>Résultats</span>
+              <ul>
+                <li style={discList}>{result.imported}/{result.studentsSent} étudiants importés</li>
+                <li style={discList}>{result.photoAdded}/{result.photosSent} photos ajoutées</li>
+                <li style={discList}>{result.alreadyImported}/{result.studentsSent} étudiants déjà existants</li>
+                <li style={discList}>{result.studentAndPhotoNotMatched} photos non associées à un étudiant</li>
+              </ul>
+            </Text>
+          }
           {
             csv &&
             <Table>

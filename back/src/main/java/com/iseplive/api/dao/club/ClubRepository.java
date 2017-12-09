@@ -16,4 +16,5 @@ public interface ClubRepository extends CrudRepository<Club, Long> {
   List<Club> findAllByOrderByName();
 
   List<Club> findByAdminsContains(Student admin);
+  Club findByIsAdmin(Boolean isAdmin);
 }

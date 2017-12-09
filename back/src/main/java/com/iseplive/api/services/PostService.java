@@ -195,11 +195,15 @@ public class PostService {
     throw new AuthException("you are not allowed to pin this post");
   }
 
-  public List<Author> getAuthors(Long studId) {
+  public List<Author> getAuthors(TokenPayload auth) {
     List<Author> authors = new ArrayList<>();
-    Student student = studentService.getStudent(studId);
+    Student student = studentService.getStudent(auth.getId());
     authors.add(student);
-    authors.addAll(clubService.getClubAuthors(student));
+    if (auth.getRoles().contains(Roles.ADMIN)) {
+      authors.addAll(clubService.getAll());
+    } else {
+      authors.addAll(clubService.getClubAuthors(student));
+    }
     return authors;
   }
 

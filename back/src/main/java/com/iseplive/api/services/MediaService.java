@@ -2,6 +2,7 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.MediaType;
+import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dao.image.ImageRepository;
 import com.iseplive.api.dao.image.MatchedRepository;
 import com.iseplive.api.dao.media.MediaFactory;
@@ -151,10 +152,11 @@ public class MediaService {
     Image image = imageService.getImage(imageId);
     Student match = studentService.getStudent(studentId);
     Student owner = studentService.getStudent(auth.getId());
-    List<Matched> newMatched = image.getMatched()
-      .stream()
-      .filter(m -> !(m.getMatch().equals(match) && m.getOwner().equals(owner)))
-      .collect(Collectors.toList());
+    boolean byPassOwnerCheck = auth.getRoles().contains(Roles.ADMIN) || auth.getRoles().contains(Roles.USER_MANAGER);
+      List<Matched> newMatched = image.getMatched()
+        .stream()
+        .filter(m -> !(m.getMatch().equals(match) && !byPassOwnerCheck && m.getOwner().equals(owner)))
+        .collect(Collectors.toList());
     image.setMatched(newMatched);
     imageRepository.save(image);
   }

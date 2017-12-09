@@ -8,6 +8,7 @@ import com.iseplive.api.entity.media.poll.Poll;
 import com.iseplive.api.entity.media.poll.PollAnswer;
 import com.iseplive.api.entity.media.poll.PollVote;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class PollService {
 
   @Autowired
   StudentService studentService;
+
+  @Autowired
+  AuthService authService;
 
   public void addVote(Long pollId, Long pollAnswId, Long studentId) {
     Poll poll = getPoll(pollId);
@@ -67,7 +71,11 @@ public class PollService {
   }
 
   public Poll getPoll(Long pollId) {
-    return pollRepository.findOne(pollId);
+    Poll poll = pollRepository.findOne(pollId);
+    if (authService.isUserAnonymous() && poll.getPost().getPrivate()) {
+      throw new AuthException("you can't access this poll");
+    }
+    return poll;
   }
 
   public List<PollVote> getVote(Long pollId, long studentId) {

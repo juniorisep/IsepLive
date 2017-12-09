@@ -194,6 +194,12 @@ export default class UpdateStudent extends React.Component {
                 onChange={this.onChangeField('promo')} />
               <TextField
                 margin="normal"
+                label="Numéro ISEP"
+                value={selected.studentId || ''}
+                fullWidth
+                onChange={this.onChangeField('studentId')} />
+              <TextField
+                margin="normal"
                 label="Email"
                 value={selected.mail || ''}
                 fullWidth

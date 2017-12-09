@@ -30,12 +30,15 @@ public class AuthController {
   public TokenSet getToken(@RequestBody JwtAuthRequest authRequest) {
     // TODO: replace with correct auth, currently only for testing
     Student student = studentService.getStudent(authRequest.getUsername());
+
     if (student == null) {
       return jwtTokenUtil.generateToken(studentService.getStudent(1L));
     }
+
     if (authRequest.getPassword() != null) {
       return jwtTokenUtil.generateToken(student);
     }
+
     throw new AuthException("User not found");
   }
 

@@ -48,4 +48,9 @@ public abstract class Media {
   public Long getPostId() {
     return post != null ? post.getId() : 0;
   }
+
+  @JsonIgnore
+  public Post getPost() {
+    return post;
+  }
 }

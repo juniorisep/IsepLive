@@ -1,5 +1,6 @@
 package com.iseplive.api.entity.media.poll;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
@@ -28,8 +29,13 @@ public class PollVote {
     this.id = id;
   }
 
+  @JsonIgnore
   public Student getStudent() {
     return student;
+  }
+
+  public Long getStudentId() {
+    return student.getId();
   }
 
   public void setStudent(Student student) {

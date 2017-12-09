@@ -1,8 +1,12 @@
 package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.Roles;
+import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.*;
+import com.iseplive.api.exceptions.AuthException;
 import com.iseplive.api.services.AuthService;
+import com.iseplive.api.services.ClubService;
 import com.iseplive.api.services.MediaService;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RolesAllowed;
 import java.io.File;
 import java.util.List;
 
@@ -30,6 +35,9 @@ public class MediaController {
   @Autowired
   AuthService authService;
 
+  @Autowired
+  ClubService clubService;
+
   @GetMapping
   public Page<Media> getAllMedia(@RequestParam(defaultValue = "0") int page) {
     if (authService.isUserAnonymous()) {
@@ -39,25 +47,30 @@ public class MediaController {
   }
 
   @PostMapping("/image")
+  @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
   public Image addStandaloneImage(@RequestParam("image") MultipartFile image) {
     return mediaService.addImage(image);
   }
 
   @PostMapping("/video")
+  @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
   public Video uploadVideo(@RequestParam("name") String name, @RequestParam("video") MultipartFile video) {
     return mediaService.uploadVideo(name, video);
   }
 
   @PutMapping("/image/{id}/match/{student}/tag")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER, Roles.STUDENT})
   public Image tagStudentInImage(@PathVariable Long id,
-                                      @PathVariable Long student,
-                                      @AuthenticationPrincipal TokenPayload auth) {
+                                 @PathVariable Long student,
+                                 @AuthenticationPrincipal TokenPayload auth) {
     return mediaService.tagStudentInImage(id, student, auth);
   }
+
   @PutMapping("/image/{id}/match/{student}/untag")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER, Roles.STUDENT})
   public void untagStudentInImage(@PathVariable Long id,
-                                      @PathVariable Long student,
-                                      @AuthenticationPrincipal TokenPayload auth) {
+                                  @PathVariable Long student,
+                                  @AuthenticationPrincipal TokenPayload auth) {
     mediaService.untagStudentInImage(id, student, auth);
   }
 
@@ -67,6 +80,7 @@ public class MediaController {
 //  }
 
   @PostMapping("/gallery")
+  @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
   public Gallery createGallery(@RequestParam("name") String name, @RequestParam("images[]") List<MultipartFile> images) {
     return mediaService.createGallery(name, images);
   }
@@ -77,11 +91,19 @@ public class MediaController {
   }
 
   @PostMapping("/gazette")
-  public Gazette createGazette(@RequestParam("title") String title, @RequestParam("file") MultipartFile file) {
+  @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
+  public Gazette createGazette(@RequestParam("title") String title,
+                               @RequestParam("file") MultipartFile file,
+                               @AuthenticationPrincipal TokenPayload auth) {
+    Club club = clubService.getIsepLive();
+    if (!auth.getClubsAdmin().contains(club.getId())) {
+      throw new AuthException("you cannot create a gazette");
+    }
     return mediaService.createGazette(title, file);
   }
 
   @PostMapping("/document")
+  @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
   public Document createDocument(@RequestParam("name") String name, @RequestParam("document") MultipartFile document) {
     return mediaService.createDocument(name, document);
   }
@@ -107,6 +129,7 @@ public class MediaController {
 //  }
 
   @DeleteMapping("/ressource/{type}/{filename:.+}")
+  @RolesAllowed({Roles.ADMIN})
   public boolean deleteRessource(@PathVariable String type, @PathVariable String filename) {
     String baseUrl = mediaUtils.getBaseUrl();
     File file = new File(baseUrl + "/" + type + "/" + filename);

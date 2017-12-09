@@ -15,6 +15,8 @@ import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Text } f
 import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
+import * as authData from '../../data/auth';
+
 const getPromo = (promo, render) => {
   const date = new Date();
   date.setFullYear(new Date().getFullYear() + 5);
@@ -176,12 +178,20 @@ export default class AddressBook extends Component {
                 this.props.students.map(e => {
                   return (
                     <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
+                    {
+                      authData.isLoggedIn() ?
                       <Link to={`/annuaire/${e.id}`}>
                         <Person
                           url={e.photoUrlThumb}
                           name={e.firstname + ' ' + e.lastname}
                           promotion={e.promo} />
                       </Link>
+                      :
+                      <Person
+                        url={e.photoUrlThumb}
+                        name={e.firstname + ' ' + e.lastname}
+                        promotion={e.promo} />
+                    }
                     </Box>
                   )
                 })

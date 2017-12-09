@@ -116,8 +116,8 @@ class Poll extends Component {
           {poll.multiAnswers && <Text fs="0.8em" mb={0.5}>Plusieurs réponses possibles</Text>}
           <Flex>
             <Box>
-              <Text>
-                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé'}
+              <Text fs="0.9em">
+                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé le ' + moment(poll.endDate).format('DD MMMM YYYY [à] HH:mm')}
               </Text>
             </Box>
             <Box ml="auto">

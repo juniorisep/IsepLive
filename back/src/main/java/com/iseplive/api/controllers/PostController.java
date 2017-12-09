@@ -58,7 +58,7 @@ public class PostController {
 
   @GetMapping("/authors")
   public List<Author> getAuthors(@AuthenticationPrincipal TokenPayload auth) {
-    return postService.getAuthors(auth.getId());
+    return postService.getAuthors(auth);
   }
 
   @GetMapping("/comment/{id}/likes")

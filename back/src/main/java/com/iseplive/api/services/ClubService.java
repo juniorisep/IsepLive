@@ -207,4 +207,8 @@ public class ClubService {
       return clubMemberView;
     }).collect(Collectors.toList());
   }
+
+  public Club getIsepLive() {
+    return clubRepository.findByIsAdmin(true);
+  }
 }

@@ -9,12 +9,12 @@ class NotFound extends Component {
     return (
       <div>
         <Header url="/img/404.jpg">
-          <Filler h={152} />
+          <Filler h={150} />
           <Banner>
             <h1>404</h1>
             <p>Il semblerait que tu te sois aventuré un peu trop loin...</p>
           </Banner>
-          <Filler h={152} />
+          <Filler h={300} />
         </Header>
       </div>
     );

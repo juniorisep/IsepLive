@@ -107,7 +107,7 @@ export default class AddClubForm extends React.Component {
             <label htmlFor="file">
               <Button raised component="span">
                 Ajouter logo
-                </Button>
+              </Button>
             </label>
           </div>
           {this.state.logo && <Text>Fichier sélectionné: {this.state.logo.name}</Text>}
@@ -115,10 +115,10 @@ export default class AddClubForm extends React.Component {
         <DialogActions>
           <Button onClick={props.handleRequestClose} color="primary">
             Annuler
-            </Button>
+          </Button>
           <Button color="accent" onClick={this.handleSave}>
-            Ajouter
-            </Button>
+            Enregistrer
+          </Button>
         </DialogActions>
       </Dialog>
     );

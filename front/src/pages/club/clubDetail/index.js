@@ -113,16 +113,24 @@ class ClubDetail extends Component {
   renderTab = () => {
     switch (this.state.tabIndex) {
       case 0:
-        return <MembersTab members={this.state.members} loading={this.state.membersLoading} />;
+        return (
+          <MembersTab
+            members={this.state.members}
+            loading={this.state.membersLoading} />
+        );
       case 1:
-        return <PostsTab 
-        posts={this.state.posts}
-        lastPage={this.state.lastPage}
-        onSeeMore={this.loadMorePosts} 
-        loading={this.state.postsLoading} />;
+        return (
+          <PostsTab
+            posts={this.state.posts}
+            lastPage={this.state.lastPage}
+            onSeeMore={this.loadMorePosts}
+            loading={this.state.postsLoading} />
+        );
       case 2:
-        return <AdminTab
-          clubid={this.state.id} />;
+        return (
+          <AdminTab
+            clubid={this.state.id} />
+        );
       default:
         return null;
     };

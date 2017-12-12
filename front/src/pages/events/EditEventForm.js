@@ -98,7 +98,7 @@ export default class EditEventForm extends React.Component {
             Annuler
           </Button>
           <Button color="accent" onClick={this.handleSave}>
-            Ajouter
+            Enregistrer
           </Button>
         </DialogActions>
       </Dialog>

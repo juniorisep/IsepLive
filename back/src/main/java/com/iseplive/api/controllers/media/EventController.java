@@ -72,4 +72,11 @@ public class EventController {
     }
     return eventService.updateEvent(id, eventDTO, file);
   }
+
+  @DeleteMapping("/{id}")
+  @RolesAllowed({Roles.ADMIN, Roles.EVENT_MANAGER})
+  public void deleteEvent(@PathVariable Long id) {
+    eventService.removeEvent(id);
+  }
+
 }

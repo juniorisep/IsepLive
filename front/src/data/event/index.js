@@ -21,3 +21,8 @@ export function updateEvent(id: number, data) {
   form.append('image', data.image);
   return axios.put(`/event/${id}`, form);
 };
+
+
+export function deleteEvent(id: number) {
+  return axios.delete(`/event/${id}`);
+}

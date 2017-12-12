@@ -6,7 +6,18 @@ import styled from 'styled-components';
 
 import { Box, Flex } from 'grid-styled';
 
-import { Banner, Filler, FluidContent, Header, SearchBar, BgImage, Text } from 'components/common';
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  SearchBar,
+  BgImage,
+  Text,
+  Title,
+  Paper,
+  ScrollToTopOnMount,
+} from '../../components/common';
 
 import Time from 'components/Time';
 import Author from 'components/Author';
@@ -15,68 +26,32 @@ import Button from 'material-ui/Button';
 import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
+import Menu, { MenuItem } from 'material-ui/Menu';
+import IconButton from 'material-ui/IconButton';
+import MoreIcon from 'material-ui-icons/MoreHoriz';
+
 
 import { Link, NavLink } from 'react-router-dom';
 
 import Loader from 'components/Loader';
+
+import Popup from '../../components/Popup';
+
+import EditEventForm from './EditEventForm';
+import Event from './Event';
 
 const EventsList = styled.ul`
   padding: 0;
   margin: 20px 0;
 `;
 
-const Event = (props) => {
-  const EventStyle = styled.li`
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
 
-    > ${Flex} > ${Box} {
-      min-height: 250px;
-    }
-
-    h2,
-    h3 {
-      margin: 0;
-      margin-bottom: 10px;
-      font-weight: normal;
-    }
-
-    p,
-    h3 { color: #7a7a7a; }
-    h3.lieu { color: ${props => props.theme.main}; }
-  `;
-  const { event } = props;
-  return (
-    <EventStyle>
-      <Flex wrap>
-        <Box w={[1, 1 / 2]}>
-          <BgImage src={event.imageUrl} />
-        </Box>
-        <Box w={[1, 1 / 2]} p="20px">
-          <Flex>
-            <Box>
-              <Link to={`/evenements/${event.id}`}>
-                <h2>{event.title}</h2>
-                <h3 className="lieu">{event.location}</h3>
-                <h3>Le <Time date={event.date} format="DD/MM/YYYY [à] HH[h]mm" /></h3>
-              </Link>
-            </Box>
-            <Box ml="auto">
-              <Author data={event.club} />
-            </Box>
-          </Flex>
-          <p>{event.description}</p>
-        </Box>
-      </Flex>
-    </EventStyle>
-  );
-};
 
 export default class Events extends Component {
   render() {
     return (
       <div>
+        <ScrollToTopOnMount />
         <Header url="/img/background.jpg">
           <Filler h={50} />
           <Banner>
@@ -89,18 +64,12 @@ export default class Events extends Component {
         </Header>
         <FluidContent>
           <Flex align="center">
+            <Box>
+              <Title invert fontSize={1.3}>Evènements {this.props.eventsFilter === 'next' ? 'à venir' : 'passés'}</Title>
+            </Box>
             <Box flex="0 0 auto" ml="auto">
-              <FormControl>
-                <InputLabel htmlFor="alpha-simple">Evenements</InputLabel>
-                <Select
-                  value={this.props.eventsFilter}
-                  onChange={(e) => this.props.onModifyFilter(e.target.value)}
-                  input={<Input id="alpha-simple" />}
-                >
-                  <MenuItem value='next'>à venir</MenuItem>
-                  <MenuItem value='past'>passés</MenuItem>
-                </Select>
-              </FormControl>
+              <Button color="accent" onClick={this.props.onModifyFilter('next')}>A venir</Button>
+              <Button color="accent" onClick={this.props.onModifyFilter('past')}>Passés</Button>
             </Box>
             <Box flex="0 0 auto" ml="10px">
               <Button color="primary" component={NavLink} to="/evenements/calendrier">Calendrier</Button>
@@ -108,18 +77,37 @@ export default class Events extends Component {
           </Flex>
           <EventsList>
             <Loader loading={this.props.isLoading}>
-              {this.props.events.length === 0 && <Text>Aucun évenement</Text>}
+              {
+                this.props.events.length === 0 &&
+                <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
+                  <Text fs="2em">Aucuns évenements {this.props.eventsFilter === 'next' ? 'à venir' : 'passés'}</Text>
+                </div>
+              }
               {
                 this.props.events.map(e => {
                   return (
                     <div key={e.id}>
-                      <Event event={e} />
+                      <Event
+                        event={e}
+                        onEdit={this.props.editEvent}
+                        onDelete={this.props.deleteEvent} />
                     </div>
                   )
                 })
               }
             </Loader>
           </EventsList>
+          <EditEventForm
+            open={this.props.editOpen}
+            saveEvent={this.props.saveEvent}
+            event={this.props.selectedEvent}
+            handleRequestClose={this.props.closeEditEvent} />
+          <Popup
+            open={this.props.popupDelete}
+            title="Voulez vous supprimer cet événement ?"
+            description="Supprimer cette événement entrainera la suppression du post associé."
+            onRespond={this.props.handleDeleteEvent}
+          />
         </FluidContent>
       </div>
     );

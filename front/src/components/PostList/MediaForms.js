@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import { Box, Flex } from 'grid-styled';
 
-import { Title, Text } from 'components/common';
+import { Title, Text, FileUpload } from 'components/common';
 
 import Menu, { MenuItem } from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
@@ -33,24 +33,6 @@ const MediaCreatorWrap = styled.div`
   margin-top: 10px;
   border-radius: 5px;
 `;
-
-const FileUpload = (props) => {
-  const hash = new Date().getTime().toString(32);
-  return (
-    <div>
-      <input
-        id={hash}
-        type="file"
-        style={{ display: 'none' }}
-        accept={props.accept ? props.accept.map(e => '.' + e).join(',') : null}
-        multiple={props.multiple}
-        onChange={(e) => props.onFile(e.target.files)} />
-      <label htmlFor={hash}>
-        <AddButton component="span" color="accent">{props.children}</AddButton>
-      </label>
-    </div>
-  );
-};
 
 export function MediaCreator(props) {
   if (props.show) {

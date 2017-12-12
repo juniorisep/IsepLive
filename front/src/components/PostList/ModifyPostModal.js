@@ -53,6 +53,7 @@ export default class ModifyPostModal extends React.Component {
         ...this.props.post.media,
         title,
         date,
+        location,
         description,
         image,
       },

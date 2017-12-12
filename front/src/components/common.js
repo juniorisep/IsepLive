@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
+import Button from 'material-ui/Button';
+
 import { backUrl } from '../config';
 
 export const Separator = styled.div`
@@ -133,7 +135,7 @@ export const Title = styled.h1`
   color: ${props => props.invert ? props.theme.main : props.theme.accent};
   ${props => props.framed && `background: ${props.invert ? props.theme.accent : props.theme.main};`}
   margin: 0;
-  margin-bottom: .5em;
+  margin-bottom: ${props => props.mb || '.5em'};
   padding: ${props => props.framed ? '.3em .4em' : 0};
 `;
 
@@ -206,3 +208,22 @@ export const Paper = styled.div`
   background: white;
   padding: ${({ p }) => p || 0};
 `;
+
+
+export const FileUpload = (props) => {
+  const hash = new Date().getTime().toString(32);
+  return (
+    <div>
+      <input
+        id={hash}
+        type="file"
+        style={{ display: 'none' }}
+        accept={props.accept ? props.accept.map(e => '.' + e).join(',') : null}
+        multiple={props.multiple}
+        onChange={(e) => props.onFile(e.target.files)} />
+      <label htmlFor={hash}>
+        <Button style={{ marginTop: 10 }} component="span" color="accent">{props.children}</Button>
+      </label>
+    </div>
+  );
+};

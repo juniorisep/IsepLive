@@ -62,7 +62,6 @@ class AddressBook extends Component {
   };
 
   handleSort = async (event) => {
-    console.log(event)
     const sort = event.target.value;
     const { search, promotionFilter } = this.state;
     const res = await studentData.searchStudents(search, promotionFilter, sort, 0);

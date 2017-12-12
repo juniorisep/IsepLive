@@ -56,8 +56,8 @@ public class EventService {
   private String createImageEvent(MultipartFile image) {
     String random = mediaUtils.randomName();
     String eventPath = mediaUtils.resolvePath(
-      eventBaseUrl, random + ".jpg", false);
-    mediaUtils.saveJPG(image, 512, eventPath);
+      eventBaseUrl, random, false);
+    mediaUtils.saveJPG(image, 1024, eventPath);
     return eventPath;
   }
 
@@ -83,9 +83,16 @@ public class EventService {
 
     if (file != null) {
       String eventPath = createImageEvent(file);
+      mediaUtils.removeIfExistPublic(event.getImageUrl());
       event.setImageUrl(mediaUtils.getPublicUrlImage(eventPath));
     }
 
     return eventRepository.save(event);
+  }
+
+  public void removeEvent(Long id) {
+    Event event = getEvent(id);
+    mediaUtils.removeIfExistPublic(event.getImageUrl());
+    eventRepository.delete(id);
   }
 }

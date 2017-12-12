@@ -20,7 +20,7 @@ public abstract class Media {
   @Column(insertable = false, updatable = false)
   private String mediaType;
 
-  @OneToOne(mappedBy = "media")
+  @OneToOne(mappedBy = "media", cascade = CascadeType.ALL)
   private Post post;
 
   private Date creation;

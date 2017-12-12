@@ -19,7 +19,11 @@ export default function LoginForm(props) {
       </DialogTitle>
       <form onSubmit={props.onConnexion}>
         <DialogContent>
-          <TextField type="text" label="Nom d'utilisateur" fullWidth onChange={(e) => props.onChange('username', e)} />
+          <TextField
+            autoFocus
+            label="Nom d'utilisateur"
+            fullWidth
+            onChange={(e) => props.onChange('username', e)} />
           <TextField type="password" label="Mot de passe" fullWidth onChange={(e) => props.onChange('password', e)} />
         </DialogContent>
         <DialogActions>

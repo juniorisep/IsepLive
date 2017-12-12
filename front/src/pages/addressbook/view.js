@@ -178,20 +178,20 @@ export default class AddressBook extends Component {
                 this.props.students.map(e => {
                   return (
                     <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
-                    {
-                      authData.isLoggedIn() ?
-                      <Link to={`/annuaire/${e.id}`}>
-                        <Person
-                          url={e.photoUrlThumb}
-                          name={e.firstname + ' ' + e.lastname}
-                          promotion={e.promo} />
-                      </Link>
-                      :
-                      <Person
-                        url={e.photoUrlThumb}
-                        name={e.firstname + ' ' + e.lastname}
-                        promotion={e.promo} />
-                    }
+                      {
+                        authData.isLoggedIn() ?
+                          <Link to={`/annuaire/${e.id}`}>
+                            <Person
+                              url={e.photoUrlThumb}
+                              name={e.firstname + ' ' + e.lastname}
+                              promotion={e.promo} />
+                          </Link>
+                          :
+                          <Person
+                            url={e.photoUrlThumb}
+                            name={e.firstname + ' ' + e.lastname}
+                            promotion={e.promo} />
+                      }
                     </Box>
                   )
                 })

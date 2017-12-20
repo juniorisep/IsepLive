@@ -19,7 +19,7 @@ public class LDAPService {
   public LDAPUserDTO retrieveUser(String user, String mdp) {
     // Initial context implementation
     String INITCTX = "com.sun.jndi.ldap.LdapCtxFactory";
-    String MY_HOST = "ldaps://localhost:636";
+    String MY_HOST = "ldaps://ldap.isep.fr:636";
     String MGR_DN = "uid=" + user + ", " + "ou=People, dc=isep.fr";
     String MGR_PW = mdp;
     String MY_SEARCHBASE = "dc=isep.fr";

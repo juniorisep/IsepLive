@@ -1,7 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.dto.LDAPUserDTO;
-import com.iseplive.api.exceptions.LDAPServiceException;
+import com.iseplive.api.exceptions.AuthException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -48,9 +48,10 @@ public class LDAPService {
       ctx = new InitialDirContext(env);
     } catch (NamingException e) {
       logger.error("Failed to connnect to the LDAP server (NamingException)");
-      throw new LDAPServiceException(e.getMessage(), e);
+      throw new AuthException("LDAP unavailable", e);
     } catch (Exception e) {
       logger.error("Failed to connnect to the LDAP server (Exception)");
+      throw new AuthException("LDAP unavailable", e);
     }
 
     try {
@@ -112,10 +113,10 @@ public class LDAPService {
       }
 
       logger.info("Failed to retrieve {} from LDAP server", user);
-      return null;
+      throw new AuthException("Could not retrieve user from LDAP");
     } catch (NamingException e) {
       logger.info("Naming exception", user);
-      return null;
+      throw new AuthException("Naming exception", e);
     }
   }
 }

@@ -48,6 +48,8 @@ import * as userData from 'data/users/student';
 
 import * as roles from '../../constants';
 
+import { sendAlert } from '../../components/Alert';
+
 import Profile from './profile';
 import LoginForm from '../LoginForm';
 
@@ -180,12 +182,21 @@ const Intercept = (props) => {
     };
     return response;
   }, (error) => {
+
+    if (!error.status) {
+      sendAlert("Connexion interrompu", 'error');
+    }
+
     if (error.response) {
       switch (error.response.status) {
         case 401:
         case 403:
           authData.logout();
+          sendAlert("Non autorisé", 'error');
           props.history.push('/');
+          break;
+        case 503:
+          sendAlert("Serveur indisponible", 'error');
           break;
 
         default:

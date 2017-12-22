@@ -4,10 +4,25 @@ import React, { Component } from 'react';
 
 import Snackbar from 'material-ui/Snackbar';
 import { MAIN_COLOR } from '../../colors';
+import { withStyles } from 'material-ui/styles';
 
-export default class AlertCenter extends Component {
+const style = {
+  error: {
+    fontSize: 18,
+    background: 'white',
+    color: 'red',
+  },
+  message: {
+    fontSize: 18,
+    background: 'white',
+    color: MAIN_COLOR,
+  }
+}
+
+class AlertCenter extends Component {
   state = {
     open: false,
+    type: '',
     message: '',
   };
 
@@ -20,7 +35,11 @@ export default class AlertCenter extends Component {
   };
 
   onReceiveNotification(e) {
-    this.setState({ message: e.detail.message, open: true });
+    this.setState({
+      message: e.detail.message,
+      type: e.detail.type || 'message',
+      open: true,
+    });
     if (this.timeout) clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.setState({ open: false });
@@ -28,18 +47,12 @@ export default class AlertCenter extends Component {
   };
 
   render() {
-    const { open, message } = this.state;
-    const SNACKBAR_STYLE = {
-      fontSize: 18,
-      background: 'white',
-      color: MAIN_COLOR,
-    };
-
+    const { open, type, message } = this.state;
     return (
       <Snackbar
         style={{ pointerEvents: 'none' }}
         SnackbarContentProps={{
-          style: SNACKBAR_STYLE
+          className: this.props.classes[type]
         }}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={open}
@@ -50,7 +63,9 @@ export default class AlertCenter extends Component {
 };
 
 
-export function sendAlert(message) {
-  const event = new CustomEvent('notification', { detail: { message } });
+export function sendAlert(message, type) {
+  const event = new CustomEvent('notification', { detail: { message, type } });
   document.dispatchEvent(event);
 };
+
+export default withStyles(style)(AlertCenter);

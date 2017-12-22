@@ -1,6 +1,7 @@
 package com.iseplive.api.conf;
 
 import com.google.common.base.Predicates;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,10 @@ import java.util.Arrays;
 @Configuration
 @EnableSwagger2
 @ComponentScan("com.iseplive.api")
-public class SwaggerConfiguration {
+public class SwaggerConfig {
+
+  @Value("${swagger.enable}")
+  private Boolean enableSwagger;
 
   @Bean
   public Docket api() {
@@ -51,7 +55,8 @@ public class SwaggerConfiguration {
           .defaultValue("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sImlzcyI6IklzZXBMaXZlIiwiaWQiOjEsImV4cCI6MTU1NDcxODk2NSwiaWF0IjoxNTAyODc4OTY1fQ.p7KdAF_f5mCIfcyzQ7hW5_pEfdwfbIoH9eRLit4D_AM")
           .required(true)
           .build()
-        ));
+        ))
+      .enable(enableSwagger);
   }
 
 }

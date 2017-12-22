@@ -46,3 +46,6 @@ jwt:
 #  tokenDuration: 604800 # 7 jours
 #  tokenDuration: 10
   issuer: IsepLive
+
+swagger:
+  enable: true

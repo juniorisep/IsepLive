@@ -33,6 +33,7 @@
     "start": "react-scripts start",
     "start:test": "REACT_APP_BACKEND_URL=service.isepliveback.docker-dev.juniorisep.com react-scripts start",
     "build": "react-scripts build",
+    "build:prod": "REACT_APP_BACKEND_URL=newapi.iseplive.fr react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "check": "./check-flow-annotation.sh",
     "eject": "react-scripts eject",

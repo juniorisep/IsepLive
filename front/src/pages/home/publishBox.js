@@ -21,6 +21,8 @@ import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
 import type { PostDTO } from 'data/post/type';
 
+import { sendAlert } from '../../components/Alert';
+
 import {
   MediaCreator,
   PollForm,
@@ -164,6 +166,12 @@ class PublishBoxView extends Component {
       });
   };
 
+  handleErrors = (err) => {
+    if (err.response) {
+      sendAlert("Le post n'a pu être publié", 'error');
+    }
+  }
+
   onPublish = () => {
     if (this.state.mediaSelected) {
       this.createMedia()
@@ -177,17 +185,21 @@ class PublishBoxView extends Component {
             .then(() => ids.postId)
         })
         .then(this.closeMediaCreator)
-        .then(res => {
+        .then(() => {
+          sendAlert("Post publié");
           this.setState({ title: '', message: '' })
         })
-        .then(this.props.refreshPosts);
+        .then(this.props.refreshPosts)
+        .catch(this.handleErrors);
       return;
     };
     this.publishPost()
       .then(res => {
+        sendAlert("Post publié");
         this.setState({ title: '', message: '' })
       })
-      .then(this.props.refreshPosts);
+      .then(this.props.refreshPosts)
+      .catch(this.handleErrors);
   };
 
   handleMediaSelect = (item) => {

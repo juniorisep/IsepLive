@@ -36,7 +36,7 @@ public class AuthController {
     // TODO: replace with correct auth, currently only for testing
     Student student = studentService.getStudent(authRequest.getUsername());
 
-    if (student == null && authRequest.getPassword().isEmpty()) {
+    if (student == null && authRequest.getPassword() == null) {
       return jwtTokenUtil.generateToken(studentService.getStudent(1L));
     }
 

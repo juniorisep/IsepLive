@@ -328,7 +328,7 @@ class PublishBoxView extends Component {
               {this.renderForm()}
             </MediaCreator>
           }
-          <Flex align="center">
+          <Flex align="center" wrap>
             <Box>
               <IconButton color="contrast" onClick={this.openMediaMenu}>
                 <AddCircleIcon />

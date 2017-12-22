@@ -75,14 +75,8 @@ const Person = (props) => {
   );
 };
 
-const STYLE_CONTAINER = {
-  display: 'flex',
-  flexWrap: 'wrap',
-};
-
 const STYLE_FORMCONTROL = {
-  minWidth: 120,
-  maxWidth: 300,
+  width: '100%',
 };
 
 const ITEM_HEIGHT = 48;
@@ -113,63 +107,59 @@ export default class AddressBook extends Component {
           </FluidContent>
         </Header>
         <FluidContent>
-          <Flex align="center">
+          <Flex align="center" wrap>
             <Box>
               {this.props.isSearching && <Text>{this.props.total} étudiants trouvé</Text>}
             </Box>
-            <Box flex="0 0 auto" ml="auto">
-              <div style={STYLE_CONTAINER}>
-                <FormControl style={STYLE_FORMCONTROL}>
-                  <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
-                  <Select
-                    multiple
-                    value={this.props.year}
-                    renderValue={years => years.map(year => getPromo(year) || year).join(', ')}
-                    onChange={this.props.onPromoFilter}
-                    input={<Input id="year-multiple" />}
-                    MenuProps={{
-                      PaperProps: {
-                        style: {
-                          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                          width: 200,
-                        },
+            <Box flex="0 0 auto" ml="auto" w={['100%', 120]}>
+              <FormControl style={STYLE_FORMCONTROL}>
+                <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
+                <Select
+                  multiple
+                  value={this.props.year}
+                  renderValue={years => years.map(year => getPromo(year) || year).join(', ')}
+                  onChange={this.props.onPromoFilter}
+                  input={<Input id="year-multiple" />}
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                        width: 200,
                       },
-                    }}
-                  >
-                    {
-                      years.map(year => (
-                        <MenuItem
-                          key={year}
-                          value={year}
-                          style={{
-                            fontWeight: 500,
-                            color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
-                          }}
-                        >
-                          <span>{year} {getPromo(year, v => `(${v})`) || ''}</span>
-                        </MenuItem>
-                      ))
-                    }
-                  </Select>
-                  <FormHelperText>Sélection multiple</FormHelperText>
-                </FormControl>
-              </div>
+                    },
+                  }}
+                >
+                  {
+                    years.map(year => (
+                      <MenuItem
+                        key={year}
+                        value={year}
+                        style={{
+                          fontWeight: 500,
+                          color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
+                        }}
+                      >
+                        <span>{year} {getPromo(year, v => `(${v})`) || ''}</span>
+                      </MenuItem>
+                    ))
+                  }
+                </Select>
+                <FormHelperText>Sélection multiple</FormHelperText>
+              </FormControl>
             </Box>
-            <Box flex="0 0 auto" ml="10px">
-              <div style={STYLE_CONTAINER}>
-                <FormControl style={STYLE_FORMCONTROL}>
-                  <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
-                  <Select
-                    value={this.props.alpha}
-                    onChange={this.props.onSort}
-                    input={<Input id="alpha-simple" />}
-                  >
-                    <MenuItem value='a'>Az</MenuItem>
-                    <MenuItem value='z'>Za</MenuItem>
-                  </Select>
-                  <FormHelperText>Sélection simple</FormHelperText>
-                </FormControl>
-              </div>
+            <Box flex="0 0 auto" ml={[0, 10]} w={['100%', 120]}>
+              <FormControl style={STYLE_FORMCONTROL}>
+                <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
+                <Select
+                  value={this.props.alpha}
+                  onChange={this.props.onSort}
+                  input={<Input id="alpha-simple" />}
+                >
+                  <MenuItem value='a'>Az</MenuItem>
+                  <MenuItem value='z'>Za</MenuItem>
+                </Select>
+                <FormHelperText>Sélection simple</FormHelperText>
+              </FormControl>
             </Box>
           </Flex>
           <Loader loading={this.props.loading}>

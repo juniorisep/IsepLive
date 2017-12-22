@@ -98,8 +98,15 @@ public class PostService {
 
   public Post createPost(TokenPayload auth, PostDTO postDTO) {
     Post post = postFactory.dtoToEntity(postDTO);
-    // TODO: check if authorId is allowed to be used by the user logged in
     post.setAuthor(authorRepository.findOne(postDTO.getAuthorId()));
+    if (post.getAuthor().getAuthorType().equals("student") && !auth.getId().equals(postDTO.getAuthorId())) {
+      throw new AuthException("not allowed to create this post");
+    }
+    if (!auth.getRoles().contains(Roles.ADMIN) && !auth.getRoles().contains(Roles.POST_MANAGER)) {
+      if (post.getAuthor().getAuthorType().equals("club") && !auth.getClubsAdmin().contains(postDTO.getAuthorId())) {
+        throw new AuthException("not allowed to create this post");
+      }
+    }
     post.setCreationDate(new Date());
     post.setPublishState(PublishStateEnum.WAITING);
 

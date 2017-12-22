@@ -22,9 +22,15 @@ export default function LoginForm(props) {
           <TextField
             autoFocus
             label="Nom d'utilisateur"
+            margin="normal"
             fullWidth
             onChange={(e) => props.onChange('username', e)} />
-          <TextField type="password" label="Mot de passe" fullWidth onChange={(e) => props.onChange('password', e)} />
+          <TextField
+            type="password"
+            margin="normal"
+            label="Mot de passe"
+            fullWidth
+            onChange={(e) => props.onChange('password', e)} />
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleRequestClose} color="primary">

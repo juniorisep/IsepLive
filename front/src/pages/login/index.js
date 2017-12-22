@@ -205,7 +205,6 @@ export default class Login extends Component {
               <a href="https://www.isep.fr/" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/isep.png" alt="ISEP logo" /></a>
             </LogoPartner>
           </TitleContainer>
-          {/*<Separator />*/}
           <AccessContainer>
             <ButtonContainer>
               <BigButton // style={CUSTOM_STYLES.btn}

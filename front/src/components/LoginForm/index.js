@@ -7,6 +7,8 @@ import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
+import Loader from '../Loader';
+
 export default function LoginForm(props) {
   return (
     <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
@@ -19,24 +21,29 @@ export default function LoginForm(props) {
       </DialogTitle>
       <form onSubmit={props.onConnexion}>
         <DialogContent>
-          <TextField
-            autoFocus
-            label="Nom d'utilisateur"
-            margin="normal"
-            fullWidth
-            onChange={(e) => props.onChange('username', e)} />
-          <TextField
-            type="password"
-            margin="normal"
-            label="Mot de passe"
-            fullWidth
-            onChange={(e) => props.onChange('password', e)} />
+          <Loader loading={props.loading} mh="80px">
+            <TextField
+              error={props.error}
+              autoFocus
+              label="Nom d'utilisateur"
+              margin="normal"
+              fullWidth
+              onChange={(e) => props.onChange('username', e)} />
+            <TextField
+              error={props.error}
+              helperText={props.error && 'Mauvais mot de passe ou utilisateur'}
+              type="password"
+              margin="normal"
+              label="Mot de passe"
+              fullWidth
+              onChange={(e) => props.onChange('password', e)} />
+          </Loader>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleRequestClose} color="primary">
+          {/* <Button onClick={props.handleRequestClose} color="primary">
             Mot de passe oublié
-        </Button>
-          <Button type="submit" color="accent">
+        </Button> */}
+          <Button type="submit" color="accent" disabled={props.loading}>
             Connexion
         </Button>
         </DialogActions>

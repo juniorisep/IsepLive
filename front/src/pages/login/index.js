@@ -155,10 +155,12 @@ const BigButton = styled(Button) `
 export default class Login extends Component {
   state = {
     connexionOpen: false,
+    error: false,
+    loading: false,
   };
 
   handleRequestClose = () => {
-    this.setState({ connexionOpen: false });
+    this.setState({ connexionOpen: false, loading: false });
   };
 
   handleLoginForm = (key, event) => {
@@ -168,10 +170,13 @@ export default class Login extends Component {
   handleConnect = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
+    this.setState({ loading: true });
     authData.connect(username, password).then(res => {
       this.handleRequestClose();
     }).catch(err => {
-      alert('wooops')
+      if (err.response) {
+        this.setState({ error: true, loading: false });
+      }
     });
   };
 
@@ -216,6 +221,8 @@ export default class Login extends Component {
           </AccessContainer>
         </Content>
         <LoginForm
+          loading={this.state.loading}
+          error={this.state.error}
           open={this.state.connexionOpen}
           handleRequestClose={this.handleRequestClose}
           onChange={this.handleLoginForm}

@@ -171,44 +171,53 @@ const navList = (Component) => (
 );
 
 
-const Intercept = (props) => {
+class Intercept extends React.Component {
 
-  axios.interceptors.response.use((response) => {
-    // Do something with response data
-    const token = response.headers['authorization'];
-    const refreshToken = response.headers['x-refresh-token'];
-    if (token && refreshToken) {
-      authData.setToken({ token, refreshToken });
-    };
-    return response;
-  }, (error) => {
-
-    if (!error.status) {
-      sendAlert("Connexion interrompu", 'error');
-    }
-
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-        case 403:
-          authData.logout();
-          sendAlert("Non autorisé", 'error');
-          props.history.push('/');
-          break;
-        case 503:
-          sendAlert("Serveur indisponible", 'error');
-          break;
-
-        default:
-          break;
+  componentWillMount() {
+    const props = this.props;
+    this.intercept = axios.interceptors.response.use((response) => {
+      // Do something with response data
+      const token = response.headers['authorization'];
+      const refreshToken = response.headers['x-refresh-token'];
+      if (token && refreshToken) {
+        authData.setToken({ token, refreshToken });
       };
-    };
+      return response;
+    }, (error) => {
 
-    // Do something with response error
-    return Promise.reject(error);
-  });
+      if (!error.status) {
+        sendAlert("Connexion interrompu", 'error');
+      }
 
-  return null;
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+          case 403:
+            authData.logout();
+            sendAlert("Non autorisé", 'error');
+            props.history.push('/');
+            break;
+          case 503:
+            sendAlert("Serveur indisponible", 'error');
+            break;
+
+          default:
+            break;
+        };
+      };
+
+      // Do something with response error
+      return Promise.reject(error);
+    });
+  }
+
+  componentDidMount() {
+    axios.interceptors.response.eject(this.intercept);
+  }
+
+  render() {
+    return null;
+  }
 };
 
 const Interceptor = withRouter(Intercept);

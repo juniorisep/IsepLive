@@ -48,21 +48,6 @@ const Content = styled.div`
   }
 `;
 
-/*const Separator = styled.div`
-  width: 0;
-  border: 0;
-  height: 50%;
-  border-right: 4px dashed ${SECONDARY_COLOR};
-
-  @media (max-width: 1100px) {
-    width: 50%;
-    height: 0;
-    border: 0;
-    border-top: 4px dashed ${SECONDARY_COLOR};
-    margin-bottom: 50px;
-  }
-`;*/
-
 const TitleContainer = styled.div`
   flex: 1;
   text-align: center;

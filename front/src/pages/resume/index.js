@@ -66,7 +66,7 @@ class Resume extends Component {
   }
 
   toggleNotif = async () => {
-    const res = await userData.toggleNotifications();
+    await userData.toggleNotifications();
     this.setState({
       data: {
         ...this.state.data,

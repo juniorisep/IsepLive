@@ -12,7 +12,6 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import indigo from 'material-ui/colors/indigo';
 import orange from 'material-ui/colors/orange';
-import red from 'material-ui/colors/red';
 
 import { ThemeProvider } from 'styled-components';
 

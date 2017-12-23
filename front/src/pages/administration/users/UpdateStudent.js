@@ -1,11 +1,10 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Flex, Box } from "grid-styled";
 
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Delete';
 import Save from 'material-ui-icons/Save';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
@@ -13,7 +12,6 @@ import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import ExpansionPanel, {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  ExpansionPanelActions,
 } from 'material-ui/ExpansionPanel';
 
 import { MenuItem } from 'material-ui/Menu';
@@ -22,7 +20,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 
 import DatePicker from '../../../components/DatePicker';
-import { Paper, FluidContent, Title, Text, ProfileImage } from "../../../components/common";
+import { Title, Text, ProfileImage } from "../../../components/common";
 import Popup from '../../../components/Popup';
 
 import * as userData from '../../../data/users/student';
@@ -49,7 +47,7 @@ export default class UpdateStudent extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.selected && props.selected.id != this.props.selected.id) {
+    if (props.selected && props.selected.id !== this.props.selected.id) {
       this.loadStudentRoles(props.selected.id);
     }
   }
@@ -159,7 +157,7 @@ export default class UpdateStudent extends React.Component {
                 onChange={this.onChangeField('lastname')} />
               <Flex align="center">
                 <Box mr={1}>
-                  {imagePreview && <img src={imagePreview} style={{ width: 100 }} />}
+                  {imagePreview && <img alt="student" src={imagePreview} style={{ width: 100 }} />}
                   {!imagePreview && <ProfileImage src={selected.photoUrlThumb} sz="100px" />}
                 </Box>
                 <Box>

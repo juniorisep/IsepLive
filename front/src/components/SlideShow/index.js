@@ -66,6 +66,8 @@ export default class SlideShow extends React.Component {
         case 'ArrowLeft':
           this.goTo(pos - 1, DIR_BACKWARD);
           break;
+        default:
+          break;
       }
     }
   }

@@ -1,9 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Flex, Box } from 'grid-styled';
-import { Text } from '../common';
 import Button from 'material-ui/Button';
 
 

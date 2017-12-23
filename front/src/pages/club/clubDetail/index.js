@@ -68,7 +68,7 @@ class ClubDetail extends Component {
       case 1:
         return this.loadPosts();
       default:
-        return;
+        break;
     };
   };
 
@@ -132,8 +132,9 @@ class ClubDetail extends Component {
             clubid={this.state.id} />
         );
       default:
-        return null;
+        break;
     };
+    return null;
   };
 
   onDelete = () => {

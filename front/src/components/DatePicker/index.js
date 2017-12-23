@@ -3,10 +3,9 @@
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
 
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
 
 import * as moment from 'moment';
 

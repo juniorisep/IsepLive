@@ -9,7 +9,7 @@ import { backUrl } from '../../../config';
 
 import { Post, PostTextView } from 'components/PostList';
 
-import { BgImage, ImageLink, Paper, Title } from 'components/common';
+import { Paper } from 'components/common';
 
 const Background = styled.div`
   background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});

@@ -3,7 +3,7 @@
 import React from 'react';
 
 import Button from 'material-ui/Button';
-import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
 import { EventForm } from './MediaForms';
@@ -17,14 +17,14 @@ export default class ModifyPostModal extends React.Component {
 
   requestSave = async () => {
     const { title, content } = this.props.post;
-    let resPost = await postData.updatePost(this.props.post.id, {
+    await postData.updatePost(this.props.post.id, {
       title,
       content,
     });
     if (this.props.post.media) {
       const media = this.props.post.media;
       if (media.mediaType === 'event') {
-        let resEvent = await eventData.updateEvent(media.id, media);
+        await eventData.updateEvent(media.id, media);
       };
     };
     this.props.refresh();

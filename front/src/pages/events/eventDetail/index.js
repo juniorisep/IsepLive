@@ -2,19 +2,22 @@
 
 import React, { Component } from 'react';
 
-import { Banner, Filler, FluidContent, ScrollToTopOnMount, BgImage, Title, Subtitle, Text } from 'components/common';
+import {
+  Filler,
+  FluidContent,
+  ScrollToTopOnMount,
+  BgImage,
+  Title,
+  Subtitle,
+  Text
+} from 'components/common';
 import Loader from 'components/Loader';
 import Time from 'components/Time';
 import Author from 'components/Author';
 
 import { Flex, Box } from 'grid-styled';
-import styled from 'styled-components';
 
 import * as eventData from 'data/event';
-
-const Head = styled.div`
-  color: white;
-`
 
 class EventDetail extends Component {
   state = {

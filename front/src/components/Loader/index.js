@@ -4,7 +4,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Title } from 'components/common';
 
 const Img = styled.img`
   width: 40px;

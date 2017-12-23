@@ -44,7 +44,7 @@ class Gallery extends Component {
   componentWillReceiveProps(props) {
     document.body.style.overflow = props.visible ? 'hidden' : 'auto';
 
-    if (props.index != this.state.currentIndex) {
+    if (props.index !== this.state.currentIndex) {
       this.setState({ currentIndex: props.index });
     }
 

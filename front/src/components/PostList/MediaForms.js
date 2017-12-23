@@ -436,7 +436,6 @@ export class EventForm extends Component {
   };
 
   render() {
-    const { file } = this.state;
     const widthTF = this.props.fullw ? 1 : [1, 1, 1 / 2];
     return (
       <div>

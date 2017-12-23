@@ -21,6 +21,8 @@ import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
 import type { PostDTO } from 'data/post/type';
 
+import { makeCancelable } from '../../data/util';
+
 import { sendAlert } from '../../components/Alert';
 
 import {
@@ -61,20 +63,6 @@ MessageBox = MessageBox.extend`
 `;
 
 function SendAs(props) {
-  const Wrapper = styled.div`
-    padding: 5px;
-    display: inline-block;
-    border-radius: 5px;
-
-    &:hover {
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    &:active {
-      background: rgba(255, 255, 255, 0.4);
-    }
-  `;
   const author = props.author;
   return (
     <Flex align="center">
@@ -124,7 +112,8 @@ class PublishBoxView extends Component {
 
   componentDidMount() {
     if (authData.isLoggedIn()) {
-      postData.getAuthors().then(res => {
+      this.getAuthorsReq = makeCancelable(postData.getAuthors());
+      this.getAuthorsReq.promise.then(res => {
         const authors = res.data.map(a => {
           return {
             id: a.id,
@@ -135,9 +124,15 @@ class PublishBoxView extends Component {
           };
         });
         this.setState({ authorList: authors, author: authors[0] });
-      });
+      }).catch(err => { });
     };
   };
+
+  componentWillUnmount() {
+    if (this.getAuthorsReq) {
+      this.getAuthorsReq.cancel();
+    }
+  }
 
   onTitleChange = (event) => {
     this.setState({ title: event.target.value });
@@ -287,6 +282,8 @@ class PublishBoxView extends Component {
         return mediaData.createDocument(this.state.form);
       case 'gazette':
         return mediaData.createGazette(this.state.form);
+      default:
+        break;
     };
   };
 
@@ -308,6 +305,8 @@ class PublishBoxView extends Component {
         return <GazetteForm update={this.onFormChange} />;
       case 'event':
         return <EventForm update={this.onFormChange} />;
+      default:
+        break;
     };
   };
 

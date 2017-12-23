@@ -5,7 +5,14 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from 'material-ui/Button';
 
-import { Title, Banner, Filler, FluidContent, Header, SearchBar, Separator } from 'components/common';
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  SearchBar,
+  Separator
+} from 'components/common';
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 import BookmarkIcon from 'material-ui-icons/Bookmark';
@@ -15,24 +22,6 @@ import Loader from 'components/Loader';
 
 import { BACKGROUND_COLOR, MAIN_COLOR } from '../../colors';
 
-const Background = styled.div`
-  background: url(/img/background.jpg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-`;
-
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: ${props => props.theme.main};
-  opacity: 0.6;
-`;
 
 const PostSection = styled.div`
   margin: 30px 0;

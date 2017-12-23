@@ -7,6 +7,7 @@ import { ProfileImage } from '../common';
 
 import * as userData from 'data/users/student';
 
+import { makeCancelable } from '../../data/util';
 
 const Profile = styled.div`
   display: flex;
@@ -46,11 +47,16 @@ class ProfileMenu extends Component {
   };
 
   componentDidMount() {
-    userData.getLoggedUser().then(res => {
+    this.getLoggedUserReq = makeCancelable(userData.getLoggedUser());
+    this.getLoggedUserReq.promise.then(res => {
       const { photoUrl, firstname, lastname } = res.data;
       this.setState({ photoUrl, firstname, lastname });
-    });
+    }).catch(err => { });
   };
+
+  componentWillUnmount() {
+    this.getLoggedUserReq.cancel();
+  }
 
   render() {
     const { photoUrl, firstname, lastname } = this.state;

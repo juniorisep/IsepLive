@@ -24,7 +24,6 @@ import {
   FluidContent,
   Header,
   ProfileImage,
-  SearchBar,
   Paper,
   Text,
   Title,

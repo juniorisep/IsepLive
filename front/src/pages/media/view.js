@@ -18,7 +18,6 @@ import Time from 'components/Time';
 import Loader from 'components/Loader';
 import { Banner, Filler, FluidContent, Header, SearchBar, Separator, Text } from 'components/common';
 
-import { MAIN_COLOR } from '../../colors';
 
 
 import { Album, Video, Gazette } from './mediaViews';
@@ -82,6 +81,8 @@ class MediaView extends Component {
         return videos;
       case 'gazette':
         return gazettes;
+      default:
+        break;
     };
     return true;
   };
@@ -115,6 +116,8 @@ class MediaView extends Component {
             <Gazette {...e} />
           </Link>
         )
+      default:
+        break;
     }
     return;
   }

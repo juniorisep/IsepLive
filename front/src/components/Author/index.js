@@ -36,6 +36,7 @@ export default function Author(props) {
         </Flex>
       );
     default:
-      return null;
+      break;
   };
+  return null;
 };

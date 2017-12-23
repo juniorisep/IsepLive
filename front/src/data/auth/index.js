@@ -1,7 +1,7 @@
 // @flow
 
 import axios from 'axios';
-import type { Token, TokenSet, TokenPayload, RefreshToken } from './type';
+import type { Token, TokenSet, TokenPayload } from './type';
 
 export const hasRole = (roles: Array<string>) => {
   const user = getUser();
@@ -51,10 +51,9 @@ export const getUser = (): ?TokenPayload => {
       const tokenJson: Token = JSON.parse(atob(rawdata));
       return JSON.parse(tokenJson.payload);
     } catch (e) {
-      logout()
-      return null;
-    };
-  };
+      logout();
+    }
+  }
   return null;
 };
 

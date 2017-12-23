@@ -4,7 +4,6 @@ import React from 'react';
 
 import { NavLink, Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Box, Flex } from 'grid-styled';
 
 import axios from 'axios';
 
@@ -13,11 +12,15 @@ import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 
+import IconButton from 'material-ui/IconButton';
+import LockOpen from 'material-ui-icons/LockOpen';
+
 import Drawer from 'material-ui/Drawer';
 import { ListItem, ListItemText } from 'material-ui/List';
 
 import Auth from 'components/Auth/AuthComponent';
 import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
+
 
 import Home from 'pages/home';
 import PostDetail from 'pages/home/PostDetail';
@@ -39,9 +42,10 @@ import UserAgreement from 'pages/userAgreement';
 import Admin from 'pages/administration';
 import Gallery from 'pages/gallery';
 
-import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+import { SECONDARY_COLOR } from '../../colors';
 import { backUrl, wsUrl } from '../../config';
-import { FluidContent } from '../common';
+
+import Footer from './Footer';
 
 import * as authData from 'data/auth';
 import * as userData from 'data/users/student';
@@ -59,34 +63,6 @@ const Logo = styled.img`
   cursor: pointer;
 `;
 
-const Footer = styled.footer`
-  background: ${MAIN_COLOR};
-  padding: 20px;
-  color: white;
-
-  p,
-  h4 {
-    margin: 0;
-    margin-bottom: 5px;
-  }
-
-  h4 {
-    text-transform: uppercase;
-  }
-`;
-
-const LinksBar = styled.div`
-  background: ${SECONDARY_COLOR};
-  color: white;
-  padding: 10px 0;
-  font-weight: 500;
-
-  > div {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 50px;
-  }
-`;
 
 const NavMenu = styled.div`
   flex: 1 1 auto;
@@ -114,23 +90,7 @@ const NavMenu = styled.div`
   }
 `;
 
-const SocialBox = styled.div`
-  width: 100%;
-  text-align: center;
 
-  > h2 {
-    margin: 0;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    color: white;
-    font-size: 11px;
-    font-weight: 500;
-  }
-
-  img {
-    width: 100%;
-  }
-`;
 
 const Root = styled.div`
   width: 100%;
@@ -173,7 +133,7 @@ const navList = (Component) => (
 
 class Intercept extends React.Component {
 
-  componentWillMount() {
+  componentDidMount() {
     const props = this.props;
     this.intercept = axios.interceptors.response.use((response) => {
       // Do something with response data
@@ -211,7 +171,7 @@ class Intercept extends React.Component {
     });
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
     axios.interceptors.response.eject(this.intercept);
   }
 
@@ -261,7 +221,7 @@ class Layout extends React.Component {
         const image = authorData.authorType === 'club' ? authorData.logoThumbUrl : authorData.photoUrlThumb;
 
         Notification.requestPermission(function (status) {
-          const n = new Notification("Nouveau Post !", { body, icon: backUrl + image }); // this also shows the notification
+          new Notification("Nouveau Post !", { body, icon: backUrl + image }); // this also shows the notification
           const postEvent = new CustomEvent('new-post');
           document.dispatchEvent(postEvent);
         });
@@ -308,6 +268,10 @@ class Layout extends React.Component {
     this.setState({ open: false });
   };
 
+  handleLoginForm = (name, event) => {
+    this.setState({ [name]: event.target.value });
+  }
+
   handleConnect = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
@@ -340,14 +304,31 @@ class Layout extends React.Component {
                   open={this.state.open}
                   onRequestClose={this.handleRequestClose}
                 >
-                  {authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) && <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/administration">Administration</MenuItem>}
-                  <MenuItem onClick={this.handleRequestClose} component={NavLink} to="/profile">Profil</MenuItem>
-                  <MenuItem onClick={this.handleDisconnect} component={NavLink} to="/connexion">Déconnexion</MenuItem>
+                  {
+                    authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) &&
+                    <MenuItem
+                      onClick={this.handleRequestClose}
+                      component={NavLink}
+                      to="/administration">Administration</MenuItem>
+                  }
+                  <MenuItem
+                    onClick={this.handleRequestClose}
+                    component={NavLink}
+                    to="/profile">Profil</MenuItem>
+                  <MenuItem
+                    onClick={this.handleDisconnect}
+                    component={NavLink}
+                    to="/connexion">Déconnexion</MenuItem>
                 </Menu>
               </Auth>
             </span>
             <Auth not>
-              <Button color="contrast" onClick={() => this.setState({ connexionOpen: true })}>Se connecter</Button>
+              <IconButton
+                style={{ marginLeft: 10 }}
+                color="contrast"
+                onClick={() => this.setState({ connexionOpen: true })}>
+                <LockOpen />
+              </IconButton>
               <LoginForm
                 open={this.state.connexionOpen}
                 handleRequestClose={this.handleRequestClose}
@@ -357,8 +338,13 @@ class Layout extends React.Component {
             </Auth>
           </Toolbar>
         </AppBar>
-        {window.innerWidth < 1009 &&
-          <Drawer anchor="left" open={this.state.sidebarOpen} onRequestClose={this.handleSideBarClose} onClick={this.handleSideBarClose}>
+        {
+          window.innerWidth < 1009 &&
+          <Drawer
+            anchor="left"
+            open={this.state.sidebarOpen}
+            onRequestClose={this.handleSideBarClose}
+            onClick={this.handleSideBarClose}>
             {navList(SideNav)}
           </Drawer>
         }
@@ -384,78 +370,7 @@ class Layout extends React.Component {
           <AuthenticatedRoute roles={[roles.ADMIN, roles.USER_MANAGER]} path="/administration" component={Admin} />
           <Route path="*" component={NotFound} />
         </Switch>
-        <Footer>
-          <FluidContent>
-            <Flex wrap>
-              <Box w={[
-                1, 1, 2 / 6
-              ]} p={2}>
-                <h4>CONTACT</h4>
-                <p>28, rue Notre Dame des Champs</p>
-                <p>75 006 PARIS</p>
-                <p>iseplive@gmail.com</p>
-              </Box>
-              <Box w={[1, 1, 2 / 6]} p={2}>
-                <SocialBox>
-                  <h2>Suivez-nous sur les réseaux de l'internet</h2>
-                  <Flex>
-                    <Box width={1 / 4} p={1}>
-                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/img/svg/facebook.svg" alt="Facebook logo" /></a>
-                    </Box>
-                    <Box width={1 / 4} p={1}>
-                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="/img/svg/twitter.svg" alt="Twitter logo" /></a>
-                    </Box>
-                    <Box width={1 / 4} p={1}>
-                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="/img/svg/instagram.svg" alt="Instagram logo" /></a>
-                    </Box>
-                    <Box width={1 / 4} p={1}>
-                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/img/svg/snapchat.svg" alt="Snapchat logo" /></a>
-                    </Box>
-                  </Flex>
-                </SocialBox>
-              </Box>
-              <Box w={[1, 1, 2 / 6]} p={2}>
-                <SocialBox>
-                  <h2>Partenaires</h2>
-                  <Flex>
-                    <Box width={1 / 3} p={1}>
-                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/layout/juniorisep.png" alt="Junior ISEP logo" /></a>
-                    </Box>
-                    <Box width={1 / 3} p={1}>
-                      <a href="https://aupontier.wixsite.com/cosmozbde2017" target="_blank" rel="noopener noreferrer"><img src="/img/layout/cosmoz.png" alt="Cosmoz logo" /></a>
-                    </Box>
-                    <Box width={1 / 3} p={1}>
-                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/layout/isep.png" alt="Alten logo" /></a>
-                    </Box>
-                  </Flex>
-                </SocialBox>
-              </Box>
-              <Box w={1} p={2}>
-                <SocialBox>
-                  <h2>Site Internet développé par Guillaume CARRE et Victor ELY</h2>
-                </SocialBox>
-              </Box>
-            </Flex>
-          </FluidContent>
-        </Footer>
-        <LinksBar>
-          <div>
-            <span>© 2017 ISEPLive
-            </span>
-            <Button color="contrast" component={NavLink} to="/aide" activeStyle={{
-              color: MAIN_COLOR
-            }}>Aide</Button>
-            <Button color="contrast" component={NavLink} to="/mentions-legales" activeStyle={{
-              color: MAIN_COLOR
-            }}>Mentions Légales</Button>
-            <Button color="contrast" component={NavLink} to="/convention-utilisation" activeStyle={{
-              color: MAIN_COLOR
-            }}>Convention d'utilisation</Button>
-            <Button color="contrast" component={NavLink} to="/contact" activeStyle={{
-              color: MAIN_COLOR
-            }}>Contact</Button>
-          </div>
-        </LinksBar>
+        <Footer />
       </Root>
     );
   };

@@ -6,7 +6,7 @@ import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
-import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 
 import * as studentData from '../../data/users/student';
 import * as imageData from '../../data/media/image';

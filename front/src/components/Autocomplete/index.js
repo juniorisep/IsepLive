@@ -3,7 +3,6 @@
 import React from 'react';
 
 import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui/Menu';
 
 export default class Autocomplete extends React.Component {

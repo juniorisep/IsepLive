@@ -46,15 +46,15 @@ export const Post = styled.li`
   }
 `;
 
-const PostContent = styled.div`
-  height: ${props => props.fb ? 'auto' : '250px'};
-  position: relative;
-  ${props => props.fb && 'background: black;'}
+// const PostContent = styled.div`
+//   height: ${props => props.fb ? 'auto' : '250px'};
+//   position: relative;
+//   ${props => props.fb && 'background: black;'}
 
-  @media (max-width: 40em) {
-    height: ${props => props.fb ? 'auto' : '300px'};
-  }
-`;
+//   @media (max-width: 40em) {
+//     height: ${props => props.fb ? 'auto' : '300px'};
+//   }
+// `;
 
 export const PostText = Box.extend`
   padding: 20px;
@@ -152,12 +152,12 @@ export function PostView(props) {
       case 'gazette':
         return <GazettePost { ...props} />;
       default:
-        return null;
+        break;
     };
   } else {
-    return <TextPost {...props} />
-  };
-};
+    return <TextPost {...props} />;
+  }
+}
 
 export default class PostListView extends React.Component {
   state = {

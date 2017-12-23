@@ -10,7 +10,7 @@ import Checkbox from 'material-ui/Checkbox';
 import NotLiked from 'material-ui-icons/FavoriteBorder';
 import Liked from 'material-ui-icons/Favorite';
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
-import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 
 import * as authData from 'data/auth';

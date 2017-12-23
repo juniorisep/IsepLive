@@ -65,7 +65,7 @@ class HallOfFame extends Component {
           <Flex wrap>
             <Box p={2} width={[1, 1 / 4]}>
               <BgImageStyle>
-                <img src="/img/alloffame/RaptorJesus.jpg" />
+                <img alt="raptor-jesus" src="/img/alloffame/RaptorJesus.jpg" />
               </BgImageStyle>
             </Box>
             <Box p={2} width={[
@@ -76,7 +76,7 @@ class HallOfFame extends Component {
                 borderRadius: '10px'
               }}>
                 <h3>Dieu - 2016</h3>
-                <p>Créée ISEPLive le 1 juin 2006 à la suite de l'annonce du ministre chinois de la culture Sun Jiazheng : le ouvernement chinois a décidé la création de la "journée du Partimoine culturel" en Chine, qui sera célébrée chaque année le deuxième samedi du mois de juin.</p>
+                <p>Créée ISEPLive le 1 juin 2006 à la suite de l'annonce du ministre chinois de la culture Sun Jiazheng : le ouvernement chinois a décidé la création de la"journée du Partimoine culturel" en Chine, qui sera célébrée chaque année le deuxième samedi du mois de juin.</p>
               </Paper>
             </Box>
             <Box p={2} width={[
@@ -92,7 +92,7 @@ class HallOfFame extends Component {
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <BgImageStyle>
-                <img src="/img/alloffame/nahed.jpg" />
+                <img alt="nahed" src="/img/alloffame/nahed.jpg" />
               </BgImageStyle>
             </Box>
           </Flex>
@@ -101,65 +101,65 @@ class HallOfFame extends Component {
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/nahed.jpg"
-                name={'Yann' + ' ' + 'Nahed'}
-                post={'Président'}
-                promotion={'2013 / 2014'} />
+                name="Yann Nahed"
+                post="Président"
+                promotion="2013 / 2014" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/cuver.jpg"
-                name={'Martin' + ' ' + 'De Cuverville'}
-                post={'Président'}
-                promotion={'2014'} />
+                name="Martin De Cuverville"
+                post="Président"
+                promotion="2014" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/danny.jpg"
-                name={'Danny' + ' ' + 'Canaan'}
-                post={'Président'}
-                promotion={'2014 / 2015'} />
+                name="Danny Canaan"
+                post="Président"
+                promotion="2014 / 2015" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/raph.jpg"
-                name={'Raphael' + ' ' + 'Lefebure'}
-                post={'Vice-Président'}
-                promotion={'2014 / 2015'} />
+                name="Raphael Lefebure"
+                post="Vice-Président"
+                promotion="2014 / 2015" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/pontier.jpg"
-                name={'Aurélien' + ' ' + 'Pontier'}
-                post={'Président'}
-                promotion={'2015 / 2016'} />
+                name="Aurélien Pontier"
+                post="Président"
+                promotion="2015 / 2016" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/ratel.jpg"
-                name={'Antoine' + ' ' + 'Ratel'}
-                post={'Vice-Président'}
-                promotion={'2015 / 2016'} />
+                name="Antoine Ratel"
+                post="Vice-Président"
+                promotion="2015 / 2016" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/bado.jpg"
-                name={'Lucas' + ' ' + 'Bado'}
-                post={'Président'}
-                promotion={'2016 / 2018'} />
+                name="Lucas Bado"
+                post="Président"
+                promotion="2016 / 2018" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/darny.jpg"
-                name={'Olivier' + ' ' + 'Darny'}
-                post={'Vice-Président'}
-                promotion={'2016 / 2017'} />
+                name="Olivier Darny"
+                post="Vice-Président"
+                promotion="2016 / 2017" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/quillet.jpg"
-                name={'Sébastien' + ' ' + 'Quillet'}
-                post={'Vice-Président'}
-                promotion={'2017 / 2018'} />
+                name="Sébastien Quillet"
+                post="Vice-Président"
+                promotion="2017 / 2018" />
             </Box>
           </Flex>
           <h3>Les rambos</h3>
@@ -167,30 +167,30 @@ class HallOfFame extends Component {
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/mathu.jpg"
-                name={'Mathurin' + ' ' + 'Desplats'}
-                post={'SecGen / Respo montage'}
-                promotion={'2014 / 2016'} />
+                name="Mathurin Desplats"
+                post="SecGen / Respo montage"
+                promotion="2014 / 2016" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/desmalades.jpg"
-                name={'Charles' + ' ' + 'Desmalades'}
-                post={'Respo montage'}
-                promotion={'2015 / 2016'} />
+                name="Charles Desmalades"
+                post="Respo montage"
+                promotion="2015 / 2016" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/hugo.jpg"
-                name={'Hugo' + ' ' + 'Nicolas'}
-                post={'SecGen / Respo montage'}
-                promotion={'2015 / 2017'} />
+                name="Hugo Nicolas"
+                post="SecGen / Respo montage"
+                promotion="2015 / 2017" />
             </Box>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/sauvage.jpg"
-                name={'Pierre' + ' ' + 'Sauvage'}
-                post={'SecGen'}
-                promotion={'2016 / 2018'} />
+                name="Pierre Sauvage"
+                post="SecGen"
+                promotion="2016 / 2018" />
             </Box>
           </Flex>
         </FluidContent>

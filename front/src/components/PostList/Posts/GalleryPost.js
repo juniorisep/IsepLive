@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { Flex, Box } from 'grid-styled';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import { Post, PostTextView } from 'components/PostList';
@@ -11,14 +10,8 @@ import {
   Image,
   Paper,
   Title,
-  Text,
 } from 'components/common';
 
-
-const Gallery = styled.div`
-  margin: 10px;
-  min-height: 300px;
-`;
 
 class GalleryPost extends Component {
 

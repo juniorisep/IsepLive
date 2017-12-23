@@ -85,10 +85,10 @@ export default class ImportStudents extends React.Component {
       let students = [];
       let csvParsed = text
         .split('\n')
-        .filter(l => l != '')
+        .filter(l => l !== '')
         .map(l => l.split(','));
-      csvParsed.map((l, i) => {
-        if (i != 0) {
+      csvParsed.forEach((l, i) => {
+        if (i !== 0) {
           students.push({
             firstname: l[0],
             lastname: l[1],
@@ -96,7 +96,7 @@ export default class ImportStudents extends React.Component {
             promo: l[3],
           })
         }
-      })
+      });
       this.setState({ students });
     }
     reader.readAsText(csv);
@@ -218,7 +218,7 @@ export default class ImportStudents extends React.Component {
                     return (
                       <TableRow key={s.id}>
                         <TableCell>
-                          <img src={photosData[s.studentid]} style={{ width: "50px" }} />
+                          <img alt="student" src={photosData[s.studentid]} style={{ width: "50px" }} />
                         </TableCell>
                         <TableCell>
                           {s.firstname} {s.lastname}

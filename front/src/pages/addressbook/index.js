@@ -44,7 +44,7 @@ class AddressBook extends Component {
 
   searchStudents = ({ target }) => {
     const search = target.value;
-    const { students, promotionFilter, sort } = this.state;
+    const { promotionFilter, sort } = this.state;
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
     };

@@ -3,9 +3,8 @@
 import React, { Component } from 'react';
 
 import Tooltip from 'material-ui/Tooltip';
-import { Flex, Box } from 'grid-styled';
+import { Box } from 'grid-styled';
 import styled from 'styled-components';
-import { backUrl } from '../../../config';
 
 import { Post, PostTextView } from 'components/PostList';
 
@@ -14,7 +13,7 @@ import Time from '../../Time';
 
 import { Link } from 'react-router-dom';
 
-import { BgImage, ImageLink, Paper, Title } from 'components/common';
+import { BgImage, Paper } from 'components/common';
 
 const Background = styled.div`
   // background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});

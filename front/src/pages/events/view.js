@@ -12,26 +12,16 @@ import {
   FluidContent,
   Header,
   SearchBar,
-  BgImage,
   Text,
   Title,
-  Paper,
   ScrollToTopOnMount,
 } from '../../components/common';
 
-import Time from 'components/Time';
-import Author from 'components/Author';
 
 import Button from 'material-ui/Button';
-import { FormControl } from 'material-ui/Form';
-import Select from 'material-ui/Select';
-import Input, { InputLabel } from 'material-ui/Input';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import IconButton from 'material-ui/IconButton';
-import MoreIcon from 'material-ui-icons/MoreHoriz';
 
 
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Loader from 'components/Loader';
 

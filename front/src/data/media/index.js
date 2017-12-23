@@ -10,7 +10,7 @@ export function getAllMedia(page: number = 0) {
 
 export function groupMedia(list: Media[]) {
   const monthlyGrouped = {};
-  list.map((media: Media) => {
+  list.forEach((media: Media) => {
     const date = new Date(media.creation);
     const formedDate = date.getMonth() + '-' + date.getFullYear();
     if (!monthlyGrouped[formedDate]) {

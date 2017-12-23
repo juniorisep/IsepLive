@@ -13,10 +13,6 @@ import {
   Image,
   Text,
   Title,
-  Header,
-  Banner,
-  Filler,
-  SearchBar,
   ScrollToTopOnMount,
 } from 'components/common';
 

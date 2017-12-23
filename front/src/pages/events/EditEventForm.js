@@ -60,7 +60,6 @@ export default class EditEventForm extends React.Component {
   }
 
   render() {
-    const { file } = this.state;
     return (
       <Dialog open={this.props.open} onRequestClose={this.props.handleRequestClose} >
         <DialogTitle>Editer l'évenement</DialogTitle>

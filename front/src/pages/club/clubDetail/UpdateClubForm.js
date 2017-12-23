@@ -1,15 +1,13 @@
 // @flow
 
-import React, { Component } from 'react';
-import styled from 'styled-components';
-
+import React from 'react';
 
 import {
   Text,
 } from 'components/common';
 
 import Button from 'material-ui/Button';
-import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
 

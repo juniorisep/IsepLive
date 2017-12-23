@@ -5,12 +5,10 @@ import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { Link } from 'react-router-dom';
 import {
-  Text,
   Banner,
   Filler,
   FluidContent,
   Header,
-  Image,
   BgImage,
   SearchBar,
 } from 'components/common';
@@ -23,7 +21,6 @@ import * as roles from '../../constants';
 
 import AddClubForm from './AddClubForm';
 
-import * as userData from '../../data/users/student';
 
 const ClubTile = (props) => {
   const ClubStyle = styled.div`

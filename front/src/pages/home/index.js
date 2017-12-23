@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import HomeView from './view';
 
 import * as postData from 'data/post';
-import * as alert from 'components/Alert';
 
 class Home extends Component {
   state = {

@@ -23,7 +23,10 @@ public class Student extends Author implements UserDetails {
   private Date birthDate;
   private String phone;
   private String address;
+
+  @Column(unique = true)
   private String studentId;
+
   private String mail;
   private String mailISEP;
   private String facebook;

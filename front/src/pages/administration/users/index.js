@@ -44,14 +44,18 @@ class Users extends Component {
   }
 
   filterUsers = (filter, page) => {
-    userData.searchStudents(filter, [], "a", page).then(res => {
-      this.setState({
-        users: res.data.content,
-        total: res.data.totalElements,
-        page,
-        filter,
-      });
-    })
+    if (this.filterTimeout) clearTimeout(this.filterTimeout);
+    this.setState({ filter })
+    this.filterTimeout = setTimeout(() => {
+      userData.searchStudents(filter, [], "a", page).then(res => {
+        this.setState({
+          users: res.data.content,
+          total: res.data.totalElements,
+          page,
+        });
+      })
+    }, 300);
+
   }
 
   handleChangePage = (event: Event, page: number) => {

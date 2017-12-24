@@ -27,7 +27,7 @@ export const Album = (props) => {
       </Link>
       <div className="caption">
         <Title invert fontSize={1.3} >{props.name}</Title>
-        <Text fs=".8em"><Time date={props.creation} format="DD/MM/YYYY" /></Text>
+        <Text fs=".8em"><Time date={props.creation} format="DD MMMM YYYY" /></Text>
       </div>
     </AlbumStyle>
   );
@@ -59,7 +59,7 @@ export const Video = (props) => {
       </div>
       <div className="caption">
         <Title invert fontSize={1.3} >{props.name}</Title>
-        <Text fs=".8em"><Time date={props.creation} format="DD/MM/YYYY" /></Text>
+        <Text fs=".8em"><Time date={props.creation} format="DD MMMM YYYY" /></Text>
       </div>
     </VideoStyle>
   );
@@ -91,7 +91,7 @@ export const Gazette = (props) => {
       </div>
       <div className="caption">
         <Title invert fontSize={1.3} >{props.title}</Title>
-        <Text fs=".8em"><Time date={props.creation} format="DD/MM/YYYY" /></Text>
+        <Text fs=".8em"><Time date={props.creation} format="DD MMMM YYYY" /></Text>
       </div>
     </GazetteStyle>
   );

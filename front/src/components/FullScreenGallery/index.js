@@ -34,16 +34,28 @@ class Gallery extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.keyHandler);
   };
 
   componentWillUnmount() {
-    document.body.style.overflow = 'auto';
-    document.removeEventListener('keydown', this.keyHandler);
+    this.removeEscListener();
   };
 
+  removeEscListener() {
+    document.removeEventListener('keydown', this.keyHandler);
+  }
+
   componentWillReceiveProps(props) {
-    document.body.style.overflow = props.visible ? 'hidden' : 'auto';
+    if (!props.visible) {
+      this.removeEscListener();
+    } else {
+      document.addEventListener('keydown', this.keyHandler);
+    }
+
+    const currentlyAuto = document.body.style.overflow === 'auto'
+    if (currentlyAuto) {
+      document.body.style.overflow = props.visible ? 'hidden' : 'auto';
+    }
+
 
     if (props.index !== this.state.currentIndex) {
       this.setState({ currentIndex: props.index });

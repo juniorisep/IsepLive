@@ -220,13 +220,18 @@ class Intercept extends React.Component {
       };
       return response;
     }, (error) => {
-
-      if (!error.status) {
+      if (!error.response) {
         sendAlert("Connexion interrompu", 'error');
       }
 
       if (error.response) {
         switch (error.response.status) {
+
+          case 404:
+          case 400:
+            props.history.push('/404');
+            break;
+
           case 401:
           case 403:
             authData.logout();

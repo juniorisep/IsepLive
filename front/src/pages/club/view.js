@@ -17,9 +17,11 @@ import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 
 import Auth from 'components/Auth/AuthComponent';
-import * as roles from '../../constants';
+import Loader from '../../components/Loader';
 
 import AddClubForm from './AddClubForm';
+
+import * as roles from '../../constants';
 
 
 const ClubTile = (props) => {
@@ -58,6 +60,7 @@ export default class Club extends Component {
   }
 
   render() {
+    const { loading } = this.props;
     return (
       <div>
         <Header url="/img/background.jpg">
@@ -66,9 +69,9 @@ export default class Club extends Component {
             <h1>Associations</h1>
             <p>Participez à la vie étudiante de l'ISEP</p>
           </Banner>
-          <FluidContent p="0">
+          {/* <FluidContent p="0">
             <SearchBar placeholder="Rechercher des associations" />
-          </FluidContent>
+          </FluidContent> */}
         </Header>
         <FluidContent>
           <Auth roles={[roles.ADMIN, roles.CLUB_MANAGER]}>
@@ -86,19 +89,21 @@ export default class Club extends Component {
               />
             </Flex>
           </Auth>
-          <Flex wrap>
-            {
-              this.props.clubs.map(e => {
-                return (
-                  <Box key={e.id} w={[1, 1 / 3, 1 / 4]} p={2}>
-                    <Link to={`/associations/${e.id}`}>
-                      <ClubTile url={e.logoUrl} name={e.name} />
-                    </Link>
-                  </Box>
-                );
-              })
-            }
-          </Flex>
+          <Loader loading={loading}>
+            <Flex wrap>
+              {
+                this.props.clubs.map(e => {
+                  return (
+                    <Box key={e.id} w={[1, 1 / 3, 1 / 4]} p={2}>
+                      <Link to={`/associations/${e.id}`}>
+                        <ClubTile url={e.logoUrl} name={e.name} />
+                      </Link>
+                    </Box>
+                  );
+                })
+              }
+            </Flex>
+          </Loader>
         </FluidContent>
       </div>
     );

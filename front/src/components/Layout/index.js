@@ -292,7 +292,12 @@ class Layout extends React.Component {
             <Logo
               src="/img/layout/iseplive.png"
               alt="isep-live-logo"
-              onClick={() => this.setState({ sidebarOpen: true })} />
+              onClick={() => {
+                if (window.innerWidth > 1009) {
+                  this.props.history.push('/');
+                }
+                this.setState({ sidebarOpen: true })
+              }} />
             <NavMenu>
               {navList(Nav)}
             </NavMenu>

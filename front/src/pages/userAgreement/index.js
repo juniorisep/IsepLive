@@ -14,11 +14,10 @@ class UserAgreement extends Component {
             <h1>Convention d'utilisation</h1>
             <p>On vous dévoile tout !</p>
           </Banner>
-          <FluidContent p="0">
-            <SearchBar placeholder="Rechercher" />
-          </FluidContent>
         </Header>
-        <FluidContent></FluidContent>
+        <FluidContent>
+          <Filler h={200} />
+        </FluidContent>
       </div>
     );
   };

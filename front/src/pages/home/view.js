@@ -40,9 +40,9 @@ export default function Home(props) {
           <h1>Accueil</h1>
           <p>Bienvenue sur le site d'ISEPLive</p>
         </Banner>
-        <FluidContent p="0">
+        {/* <FluidContent p="0">
           <SearchBar placeholder="Rechercher" />
-        </FluidContent>
+        </FluidContent> */}
       </Header>
       <div style={{ background: BACKGROUND_COLOR }}>
         <FluidContent>

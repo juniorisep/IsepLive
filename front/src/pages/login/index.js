@@ -166,7 +166,7 @@ export default class Login extends Component {
   };
 
   render() {
-    const images = [1, 2, 3, 4, 5].map(e => `img/login/${e}.jpg`);
+    const images = [1, 2, 3, 4, 5].map(e => `img/login/${e}-medium.jpg`);
     return (
       <Container>
         {

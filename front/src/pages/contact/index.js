@@ -17,9 +17,6 @@ class Contact extends Component {
             <h1>Contact</h1>
             <p>Comment nous contacter</p>
           </Banner>
-          <FluidContent p="0">
-            <SearchBar placeholder="Rechercher" />
-          </FluidContent>
         </Header>
         <FluidContent>
           <TextField
@@ -55,7 +52,7 @@ class Contact extends Component {
           <p>Adresse</p>
           <p>Mail</p>
           <Button raised color="accent">Envoyer</Button>
-          <h1>Mettre google maps ici ou avant le formulaire</h1> {/* TODO Mettre google maps ici ou avant le formulaire*/}
+          {/* TODO Mettre google maps ici ou avant le formulaire*/}
         </FluidContent>
       </div>
     );

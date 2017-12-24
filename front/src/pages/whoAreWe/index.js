@@ -35,9 +35,6 @@ class Whoarewe extends Component {
             <h1>Qui sommes-nous ?</h1>
             <p>Nos objectifs, Notre équipe, Notre histoire, Hall of Fame...</p>
           </Banner>
-          <FluidContent p="0">
-            <SearchBar placeholder="Rechercher" />
-          </FluidContent>
         </Header>
         <Paper>
           <Tabs

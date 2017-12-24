@@ -14,9 +14,6 @@ class LegalNotice extends Component {
             <h1>Mentions légales</h1>
             <p>On vous dévoile tout !</p>
           </Banner>
-          <FluidContent p="0">
-            <SearchBar placeholder="Rechercher" />
-          </FluidContent>
         </Header>
         <FluidContent>
           <p>Le site Iseplive.fr est une publication de la junior entreprise de l'ISEP, Junior ISEP.</p>

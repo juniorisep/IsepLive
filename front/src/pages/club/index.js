@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 
 import ClubView from './view';
 
+
 import * as clubData from 'data/club';
 
 class Club extends Component {
   state = {
     clubs: [],
+    loading: false,
   };
 
   componentDidMount() {
@@ -16,8 +18,9 @@ class Club extends Component {
   }
 
   getClubs = () => {
+    this.setState({ loading: true });
     clubData.getClubs().then(res => {
-      this.setState({ clubs: res.data });
+      this.setState({ clubs: res.data, loading: false });
     });
   }
 
@@ -31,6 +34,7 @@ class Club extends Component {
   render() {
     return (
       <ClubView
+        loading={this.state.loading}
         clubs={this.state.clubs}
         addClub={this.addClub} />
     );

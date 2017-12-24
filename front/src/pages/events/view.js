@@ -48,9 +48,9 @@ export default class Events extends Component {
             <h1>Evenements</h1>
             <p>Il faut parfois prendre une pause dans ses études...</p>
           </Banner>
-          <FluidContent p="0">
+          {/* <FluidContent p="0">
             <SearchBar placeholder="Rechercher des évenements" />
-          </FluidContent>
+          </FluidContent> */}
         </Header>
         <FluidContent>
           <Flex align="center">

@@ -14,11 +14,10 @@ class Help extends Component {
             <h1>Besoin d'aide ?</h1>
             <p>On vous dévoile tout !</p>
           </Banner>
-          <FluidContent p="0">
-            <SearchBar placeholder="Rechercher" />
-          </FluidContent>
         </Header>
-        <FluidContent></FluidContent>
+        <FluidContent>
+          <Filler h={200} />
+        </FluidContent>
       </div>
     );
   };

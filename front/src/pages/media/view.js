@@ -95,8 +95,6 @@ class MediaView extends Component {
   };
 
   renderMediaComponent(e) {
-    /* <Link to={`/post/${e.postId}`}> */
-    /* </Link> */
     switch (e.mediaType) {
       case 'video':
         return (
@@ -133,9 +131,9 @@ class MediaView extends Component {
               Retrouvez photos, vidéos, gazettes de tous les évenements !
             </p>
           </Banner>
-          <FluidContent p="0">
+          {/* <FluidContent p="0">
             <SearchBar placeholder="Rechercher des medias" />
-          </FluidContent>
+          </FluidContent> */}
         </Header>
         <FluidContent>
           <Flex align="center" wrap>
@@ -157,7 +155,7 @@ class MediaView extends Component {
                   onChange={this.handleChange('gazettes')} />
               } label="Gazettes" />
             </Box>
-            <Box mb={2}>
+            {/* <Box mb={2}>
               <div style={STYLE_CONTAINER}>
                 <FormControl style={STYLE_FORMCONTROL}>
                   <InputLabel htmlFor="year-multiple">Années</InputLabel>
@@ -190,7 +188,7 @@ class MediaView extends Component {
                   <FormHelperText>Sélection multiple</FormHelperText>
                 </FormControl>
               </div>
-            </Box>
+            </Box> */}
           </Flex>
           <Loader loading={this.props.isLoading}>
             {

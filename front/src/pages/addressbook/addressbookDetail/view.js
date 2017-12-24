@@ -9,6 +9,7 @@ import Button from 'material-ui/Button';
 
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
+import SocialMedia from '../../../components/SocialMedia';
 
 import {
   FluidContent,
@@ -22,6 +23,8 @@ import {
 
 import * as clubData from '../../../data/club';
 
+
+
 const PersonStyle = styled.div`
   > div {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -30,11 +33,13 @@ const PersonStyle = styled.div`
   height: 100%;
 `;
 
-
-
 export default function AdressbookDetailView(props) {
   const {
-    data: {
+    data,
+    posts,
+    clubMembers,
+  } = props;
+  const {
     photoUrl,
     firstname,
     lastname,
@@ -46,10 +51,7 @@ export default function AdressbookDetailView(props) {
     address,
     mail,
     mailISEP,
-    },
-    posts,
-    clubMembers,
-  } = props;
+  } = data;
   return (
     <FluidContent>
       <ScrollToTopOnMount />
@@ -77,6 +79,7 @@ export default function AdressbookDetailView(props) {
             <Text>Mail : <span>{mail || <i>Pas d'adresse mail</i>}</span></Text>
             <Text>Mail ISEP : <span>{mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
             <Text>Date de naissance : {birthDate ? <Time date={birthDate} format="DD/MM/YYYY" /> : <i>Pas de date de naissance</i>}</Text>
+            <SocialMedia socials={data} />
           </Paper>
         </Box>
         <Box p={2} width={1}>

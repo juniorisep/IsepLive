@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { Banner, Filler, FluidContent, Header, SearchBar } from 'components/common';
+import { Banner, Filler, FluidContent, Header } from 'components/common';
 
 class Help extends Component {
   render() {

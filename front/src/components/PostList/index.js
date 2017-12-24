@@ -129,7 +129,7 @@ export function PostTextContent(props) {
     .slice(0, 3) : props.content.split('\n');
   return (
     <div>
-      {text.map((par, i) => <Text key={i} mb={1}>{par}</Text>)}
+      {text.map((par, i) => <Text key={i} mb={1} color="#555">{par}</Text>)}
     </div>
   );
 };

@@ -129,16 +129,15 @@ export default class SlideShow extends React.Component {
       <ImageList>
         {
           this.getList().map((url, i) => {
-            const imStyle = {
-              left: i * 101 + '%',
-              transform: `translate(-${pos * 101}%, 0)`,
-              transition: animEnabled ? 'transform .5s ease' : 'none',
-            };
             return <Image
               key={i}
               coverMode={this.props.coverMode}
               onTransitionEnd={this.transitionEnded}
-              style={imStyle}
+              style={{
+                left: i * 101 + '%',
+                transform: `translate(-${pos * 101}%, 0)`,
+                transition: animEnabled ? 'transform .5s ease' : 'none',
+              }}
               img={url}
               ontransition />
           })

@@ -38,6 +38,7 @@ class Gallery extends Component {
   };
 
   componentWillUnmount() {
+    document.body.style.overflow = 'auto';
     document.removeEventListener('keydown', this.keyHandler);
   };
 

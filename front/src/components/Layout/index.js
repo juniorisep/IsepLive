@@ -21,6 +21,13 @@ import { ListItem, ListItemText } from 'material-ui/List';
 import Auth from 'components/Auth/AuthComponent';
 import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
 
+import Forum from 'material-ui-icons/Forum';
+import Play from 'material-ui-icons/PlayCircleFilled';
+import People from 'material-ui-icons/People';
+import Casino from 'material-ui-icons/Casino';
+import Event from 'material-ui-icons/Event';
+import HelpIcon from 'material-ui-icons/Help';
+
 
 import Home from 'pages/home';
 import PostDetail from 'pages/home/PostDetail';
@@ -42,7 +49,7 @@ import UserAgreement from 'pages/userAgreement';
 import Admin from 'pages/administration';
 import Gallery from 'pages/gallery';
 
-import { SECONDARY_COLOR } from '../../colors';
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 import { backUrl, wsUrl } from '../../config';
 
 import Footer from './Footer';
@@ -56,6 +63,9 @@ import { sendAlert } from '../../components/Alert';
 
 import Profile from './profile';
 import LoginForm from '../LoginForm';
+
+
+const WIDTH_THRESHOLD = 1080;
 
 const Logo = styled.img`
   height: 50px;
@@ -85,7 +95,7 @@ const NavMenu = styled.div`
     border-left: 2px solid white;
   }
 
-  @media (max-width: 63em) {
+  @media (max-width: ${props => WIDTH_THRESHOLD + 'px'}) {
     display: none;
   }
 `;
@@ -119,16 +129,82 @@ function SideNav(props) {
   );
 };
 
-const navList = (Component) => (
+
+const NavItem = (props) => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+  }}>{props.children}</div>
+)
+
+const NavIcon = (props) => (
+  <props.icon style={{ color: MAIN_COLOR, marginRight: 10 }} />
+)
+
+const navListMenu = (Component) => (
   <div>
-    <Component to="/accueil">Accueil</Component>
-    <Component to="/media">Media</Component>
-    <Component to="/annuaire">Annuaire</Component>
-    <Component to="/associations">Associations</Component>
-    <Component to="/evenements">Evenements</Component>
-    <Component to="/whoarewe">Qui sommes-nous ?</Component>
+    <Component to="/accueil">
+      <NavItem>
+        <NavIcon icon={Forum} />
+        <div style={{ color: MAIN_COLOR }}>Accueil</div>
+      </NavItem>
+    </Component>
+    <Component to="/media">
+      <NavItem>
+        <NavIcon icon={Play} />
+        <div style={{ color: MAIN_COLOR }}>Media</div>
+      </NavItem>
+    </Component>
+    <Component to="/annuaire">
+      <NavItem>
+        <NavIcon icon={People} />
+        <div style={{ color: MAIN_COLOR }}>Annuaire</div>
+      </NavItem>
+    </Component>
+    <Component to="/associations">
+      <NavItem>
+        <NavIcon icon={Casino} />
+        <div style={{ color: MAIN_COLOR }}>Associations</div>
+      </NavItem>
+    </Component>
+    <Component to="/evenements">
+      <NavItem>
+        <NavIcon icon={Event} />
+        <div style={{ color: MAIN_COLOR }}>Evenements</div>
+      </NavItem>
+    </Component>
+    <Component to="/whoarewe">
+      <NavItem>
+        <NavIcon icon={HelpIcon} />
+        <div style={{ color: MAIN_COLOR }}>Qui sommes-nous ?</div>
+      </NavItem>
+    </Component>
   </div>
 );
+
+
+const navListBar = (Component) => (
+  <div>
+    <Component to="/accueil">
+      Accueil
+    </Component>
+    <Component to="/media">
+      Media
+    </Component>
+    <Component to="/annuaire">
+      Annuaire
+    </Component>
+    <Component to="/associations">
+      Associations
+    </Component>
+    <Component to="/evenements">
+      Evenements
+    </Component>
+    <Component to="/whoarewe">
+      Qui sommes-nous ?
+    </Component>
+  </div>
+)
 
 
 class Intercept extends React.Component {
@@ -181,6 +257,7 @@ class Intercept extends React.Component {
 };
 
 const Interceptor = withRouter(Intercept);
+
 
 class Layout extends React.Component {
   state = {
@@ -293,13 +370,13 @@ class Layout extends React.Component {
               src="/img/layout/iseplive.png"
               alt="isep-live-logo"
               onClick={() => {
-                if (window.innerWidth > 1009) {
+                if (window.innerWidth > WIDTH_THRESHOLD) {
                   this.props.history.push('/');
                 }
                 this.setState({ sidebarOpen: true })
               }} />
             <NavMenu>
-              {navList(Nav)}
+              {navListBar(Nav)}
             </NavMenu>
             <span style={{ marginLeft: 'auto' }}>
               <Auth >
@@ -344,13 +421,13 @@ class Layout extends React.Component {
           </Toolbar>
         </AppBar>
         {
-          window.innerWidth < 1009 &&
+          window.innerWidth < WIDTH_THRESHOLD &&
           <Drawer
             anchor="left"
             open={this.state.sidebarOpen}
             onRequestClose={this.handleSideBarClose}
             onClick={this.handleSideBarClose}>
-            {navList(SideNav)}
+            {navListMenu(SideNav)}
           </Drawer>
         }
         <Switch>

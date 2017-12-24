@@ -31,7 +31,7 @@ import {
 } from 'components/common';
 
 import DatePicker from '../../components/DatePicker';
-
+import SocialMedia from '../../components/SocialMedia';
 
 const PersonStyle = styled.div`
   > div {
@@ -43,7 +43,11 @@ const PersonStyle = styled.div`
 
 export default function ResumeView(props) {
   const {
-    data: {
+    data,
+    posts,
+    clubMembers,
+  } = props;
+  const {
     photoUrl,
     firstname,
     lastname,
@@ -56,11 +60,8 @@ export default function ResumeView(props) {
     mail,
     mailISEP,
     allowNotifications,
-    },
-    posts,
-    clubMembers,
-  } = props;
-
+  } = data;
+  console.log(data)
   return (
     <div>
       <Header url="/img/background.jpg">
@@ -100,6 +101,7 @@ export default function ResumeView(props) {
               <Text>Mail : <span>{mail || <i>Pas d'adresse mail</i>}</span></Text>
               <Text>Mail ISEP : <span>{mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
               <Text>Date de naissance : {birthDate ? <Time date={birthDate} format="DD/MM/YYYY" /> : <i>Pas de date de naissance</i>}</Text>
+              <SocialMedia socials={data} />
             </Paper>
           </Box>
           <Box p={2} width={1}>
@@ -214,10 +216,10 @@ class UpdateResume extends React.Component {
             value={data.bio || ''}
             fullWidth
             onChange={this.handleChange('bio')} />
-          <TextField margin="normal" label="Lien Facebook" value={data.facebook} fullWidth onChange={this.handleChange('facebook')} />
-          <TextField margin="normal" label="Lien Twitter" value={data.twitter} fullWidth onChange={this.handleChange('twitter')} />
-          <TextField margin="normal" label="Lien Instagram" value={data.instagram} fullWidth onChange={this.handleChange('instagram')} />
-          <TextField margin="normal" label="Lien Snapchat" value={data.snapchat} fullWidth onChange={this.handleChange('snapchat')} />
+          <TextField margin="normal" label="Lien Facebook" value={data.facebook || ''} fullWidth onChange={this.handleChange('facebook')} />
+          <TextField margin="normal" label="Lien Twitter" value={data.twitter || ''} fullWidth onChange={this.handleChange('twitter')} />
+          <TextField margin="normal" label="Lien Instagram" value={data.instagram || ''} fullWidth onChange={this.handleChange('instagram')} />
+          <TextField margin="normal" label="Lien Snapchat" value={data.snapchat || ''} fullWidth onChange={this.handleChange('snapchat')} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => props.handleUpdate(data)} color="accent">

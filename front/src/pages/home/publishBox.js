@@ -202,6 +202,7 @@ class PublishBoxView extends Component {
         .then(this.closeMediaCreator)
         .then(() => {
           sendAlert("Post publié");
+          localStorage.removeItem('saved-message');
           this.setState({ title: '', message: '', isUploading: false })
         })
         .then(this.props.refreshPosts)
@@ -211,6 +212,7 @@ class PublishBoxView extends Component {
     this.publishPost()
       .then(res => {
         sendAlert("Post publié");
+        localStorage.removeItem('saved-message');
         this.setState({ title: '', message: '' })
       })
       .then(this.props.refreshPosts)

@@ -59,7 +59,7 @@ const TitleBox = styled.input`
 
 let MessageBox = TitleBox.withComponent('textarea');
 MessageBox = MessageBox.extend`
-  resize: vertical;
+  resize: none;
   min-height: 80px;
 `;
 
@@ -111,6 +111,7 @@ class PublishBoxView extends Component {
     mediaSelected: null,
     isUploading: false,
     uploadMode: 'undeterminate',
+    messageRows: 2,
   };
 
   componentDidMount() {
@@ -141,8 +142,12 @@ class PublishBoxView extends Component {
     this.setState({ title: event.target.value });
   };
 
-  onMessageChange = (event) => {
-    this.setState({ message: event.target.value });
+  onMessageChange = (e) => {
+    const numLines = e.target.value.split('\n').length;
+    this.setState({
+      message: e.target.value,
+      messageRows: Math.min(numLines + 1, 15),
+    });
   };
 
   onPrivateToggle = () => {
@@ -335,6 +340,7 @@ class PublishBoxView extends Component {
             />
           }
           <MessageBox
+            rows={this.state.messageRows}
             placeholder="Tapez votre message"
             onChange={this.onMessageChange}
             value={this.state.message}

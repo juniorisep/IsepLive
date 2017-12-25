@@ -150,21 +150,25 @@ export default class SlideShow extends React.Component {
   };
 
   render() {
+    const { showControls } = this.props;
     const { pos, animEnabled } = this.state;
     return (
       <ImageList>
-        <Controls>
-          <Control>
-            <IconButton color="contrast" onClick={this.handleArrow(DIR_BACKWARD)}>
-              <ArrLeft />
-            </IconButton>
-          </Control>
-          <Control style={{ right: 0 }} >
-            <IconButton color="contrast" onClick={this.handleArrow(DIR_FORWARD)}>
-              <ArrRight />
-            </IconButton>
-          </Control>
-        </Controls>
+        {
+          showControls &&
+          <Controls>
+            <Control>
+              <IconButton color="contrast" onClick={this.handleArrow(DIR_BACKWARD)}>
+                <ArrLeft />
+              </IconButton>
+            </Control>
+            <Control style={{ right: 0 }} >
+              <IconButton color="contrast" onClick={this.handleArrow(DIR_FORWARD)}>
+                <ArrRight />
+              </IconButton>
+            </Control>
+          </Controls>
+        }
         {
           this.getList().map((url, i) => {
             return <Image

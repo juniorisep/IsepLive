@@ -90,6 +90,7 @@ class Gallery extends Component {
         <GalleryStyle>
           <SlideShow
             handleKey
+            showControls
             coverMode="contain"
             initPos={index}
             onChange={this.updateIndex}

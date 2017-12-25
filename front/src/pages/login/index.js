@@ -69,6 +69,7 @@ const TitleHeader = styled.div`
 
 const Title = styled.h1`
   font-size: 4em;
+  font-weight: 500;
   display: inline-block;
   color: ${SECONDARY_COLOR};
   margin: 0;
@@ -84,6 +85,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.h2`
   display: inline-block;
+  font-weight: 500;
   color: ${MAIN_COLOR};
   margin: 0;
   margin-bottom: 30px;

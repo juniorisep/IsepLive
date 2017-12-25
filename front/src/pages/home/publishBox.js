@@ -10,6 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
+import { LinearProgress } from 'material-ui/Progress';
 
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 
@@ -108,6 +109,8 @@ class PublishBoxView extends Component {
     mediaCreatorOpen: false,
     form: null,
     mediaSelected: null,
+    isUploading: false,
+    uploadMode: 'undeterminate',
   };
 
   componentDidMount() {
@@ -169,6 +172,11 @@ class PublishBoxView extends Component {
 
   onPublish = () => {
     if (this.state.mediaSelected) {
+      const toUpload = ['gallery', 'video', 'document', 'image'];
+      if (toUpload.includes(this.state.mediaSelected.id)) {
+        this.setState({ isUploading: true });
+      }
+
       this.createMedia()
         .then(res => res.data.id)
         .then(mediaId => {
@@ -182,7 +190,7 @@ class PublishBoxView extends Component {
         .then(this.closeMediaCreator)
         .then(() => {
           sendAlert("Post publié");
-          this.setState({ title: '', message: '' })
+          this.setState({ title: '', message: '', isUploading: false })
         })
         .then(this.props.refreshPosts)
         .catch(this.handleErrors);
@@ -235,7 +243,8 @@ class PublishBoxView extends Component {
   };
 
   canPublish() {
-    const { author, title, message } = this.state;
+    const { author, title, message, mediaSelected } = this.state;
+
     if (author && author.type === 'club') {
       if (title && message && title !== '' && message !== '') {
         return true;
@@ -311,7 +320,7 @@ class PublishBoxView extends Component {
   };
 
   render() {
-    const { author } = this.state;
+    const { author, isUploading } = this.state;
     const canPublish = this.canPublish();
     return (
       <div>
@@ -363,7 +372,11 @@ class PublishBoxView extends Component {
               </Button>
             </Box>
             <Box ml="10px">
-              <Button raised color="accent" style={{ float: "right" }} onClick={this.onPublish} disabled={!canPublish}>Publier</Button>
+              <Button raised
+                color="accent"
+                style={{ float: "right" }}
+                onClick={this.onPublish}
+                disabled={!canPublish || isUploading}>Publier</Button>
             </Box>
           </Flex>
           <input
@@ -401,6 +414,7 @@ class PublishBoxView extends Component {
               })
             }
           </Menu>
+          {isUploading && <LinearProgress />}
         </PublishBox>
       </div>
     );

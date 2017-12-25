@@ -19,6 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Guillaume on 01/08/2017.
@@ -36,9 +38,37 @@ public class MediaUtils {
 
   public String resolvePath(String dir, String name, boolean thumb) {
     if (thumb) {
-      return dir + "/" + sanitizePath(name) + "_thumb";
+      return String.format("%s/%s_thumb", dir, sanitizePath(name));
     }
-    return dir + "/" + sanitizePath(name);
+    return String.format("%s/%s", dir, sanitizePath(name));
+  }
+
+  public String resolvePath(String dir, String name, boolean thumb, Date date) {
+    return resolvePath(dir, pathGroupByDate(date, name), thumb);
+  }
+
+  public String resolvePath(String dir, String name, boolean thumb, String studentId) {
+    return resolvePath(dir, pathGroupByStudentId(studentId, name), thumb);
+  }
+
+  private String pathGroupByStudentId(String studentId, String name) {
+    return String.format(
+      "%s/%s",
+      studentId.substring(0, studentId.length() - 2),
+      name
+    );
+  }
+
+  private String pathGroupByDate(Date date, String fileName) {
+    Calendar c = Calendar.getInstance();
+    c.setTime(date);
+    return String.format(
+      "%d/%d/%d/%s",
+      c.get(Calendar.YEAR),
+      c.get(Calendar.MONTH) + 1,
+      c.get(Calendar.DATE),
+      fileName
+    );
   }
 
   public String getPublicUrlImage(String path) {

@@ -50,7 +50,11 @@ public class StudentService {
   @Value("${storage.student.url}")
   String studentImageStorage;
 
-  final int RESULTS_PER_PAGE = 20;
+  private final int RESULTS_PER_PAGE = 20;
+
+  private final int WIDTH_PROFILE_IMAGE = 512;
+  private final int WIDTH_PROFILE_IMAGE_THUMB = 384;
+
 
   public Page<Student> getAll(int page) {
     return studentRepository.findAll(new PageRequest(page, RESULTS_PER_PAGE));
@@ -149,13 +153,15 @@ public class StudentService {
   }
 
   private void updateProfileImage(Student student, MultipartFile image) {
-    String path = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), false);
-    String pathThumb = imageUtils.resolvePath(studentImageStorage, student.getStudentId(), true);
+    String path = imageUtils.resolvePath(studentImageStorage,
+      student.getStudentId(), false, student.getStudentId());
+    String pathThumb = imageUtils.resolvePath(studentImageStorage,
+      student.getStudentId(), true, student.getStudentId());
     imageUtils.removeIfExist(path);
     imageUtils.removeIfExist(pathThumb);
 
-    imageUtils.saveJPG(image, 512, path);
-    imageUtils.saveJPG(image, 384, pathThumb);
+    imageUtils.saveJPG(image, WIDTH_PROFILE_IMAGE, path);
+    imageUtils.saveJPG(image, WIDTH_PROFILE_IMAGE_THUMB, pathThumb);
 
     student.setPhotoUrl(imageUtils.getPublicUrlImage(path));
     student.setPhotoUrlThumb(imageUtils.getPublicUrlImage(pathThumb));

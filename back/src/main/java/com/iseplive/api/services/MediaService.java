@@ -64,6 +64,9 @@ public class MediaService {
 
   private final int ALL_MEDIA_PAGE_SIZE = 20;
 
+  private final int WIDTH_IMAGE_SIZE = 1280;
+  private final int WIDTH_IMAGE_SIZE_THUMB = 768;
+
   public Page<Media> getAllGalleryGazetteVideoPublic(int page) {
     return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeAndPost_isPrivateOrderByCreationDesc(
       Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),
@@ -93,14 +96,16 @@ public class MediaService {
   }
 
   public Document createDocument(String name, MultipartFile fileUploaded) {
+    Document document = new Document();
+    document.setCreation(new Date());
+
     String random = mediaUtils.randomName();
     String documentPath = mediaUtils.resolvePath(
-      documentDir, random + "_" + fileUploaded.getOriginalFilename(), false);
+      documentDir, random + "_" + fileUploaded.getOriginalFilename(),
+      false, document.getCreation());
 
     mediaUtils.saveFile(documentPath, fileUploaded);
 
-    Document document = new Document();
-    document.setCreation(new Date());
     document.setName(name);
     document.setOriginalName(fileUploaded.getOriginalFilename());
     document.setPath(mediaUtils.getPublicUrl(documentPath));
@@ -126,10 +131,10 @@ public class MediaService {
     image.setCreation(new Date());
 
     String name = mediaUtils.randomName();
-    String path = mediaUtils.resolvePath(imageDir, name, false);
-    String pathThumb = mediaUtils.resolvePath(imageDir, name, true);
-    mediaUtils.saveJPG(file, 1280, path);
-    mediaUtils.saveJPG(file, 512, pathThumb);
+    String path = mediaUtils.resolvePath(imageDir, name, false, image.getCreation());
+    String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
+    mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE, path);
+    mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE_THUMB, pathThumb);
 
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
     image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));

@@ -39,6 +39,8 @@ public class EventService {
   @Value("${storage.event.url}")
   String eventBaseUrl;
 
+  private final int WIDTH_EVENT_IMAGE = 1024;
+
   public Event createEvent(MultipartFile image, EventDTO dto, TokenPayload auth) {
     Event event = eventFactory.dtoToEntity(dto);
     Club club = clubService.getClub(dto.getClubId());
@@ -57,7 +59,7 @@ public class EventService {
     String random = mediaUtils.randomName();
     String eventPath = mediaUtils.resolvePath(
       eventBaseUrl, random, false);
-    mediaUtils.saveJPG(image, 1024, eventPath);
+    mediaUtils.saveJPG(image, WIDTH_EVENT_IMAGE, eventPath);
     return eventPath;
   }
 

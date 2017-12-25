@@ -55,6 +55,8 @@ public class ClubService {
   @Value("${storage.club.url}")
   public String clubLogoStorage;
 
+  private final int WIDTH_LOGO_CLUB = 256;
+
   public Club createClub(ClubDTO dto, MultipartFile logo) {
     Club club = clubFactory.dtoToEntity(dto);
     if (dto.getAdminId() == null) {
@@ -87,7 +89,7 @@ public class ClubService {
   public void setClubLogo(Club club, MultipartFile file) {
     String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
     imageUtils.removeIfExist(path);
-    imageUtils.saveJPG(file, 256, path);
+    imageUtils.saveJPG(file, WIDTH_LOGO_CLUB, path);
     club.setLogoUrl(imageUtils.getPublicUrlImage(path));
   }
 

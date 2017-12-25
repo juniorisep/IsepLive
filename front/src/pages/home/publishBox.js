@@ -116,6 +116,12 @@ class PublishBoxView extends Component {
 
   componentDidMount() {
     if (authData.isLoggedIn()) {
+
+      const savedMessage = localStorage.getItem('saved-message');
+      if (savedMessage) {
+        this.setState({ message: savedMessage })
+      }
+
       this.getAuthorsReq = makeCancelable(postData.getAuthors());
       this.getAuthorsReq.promise.then(res => {
         const authors = res.data.map(a => {
@@ -143,6 +149,7 @@ class PublishBoxView extends Component {
   };
 
   onMessageChange = (e) => {
+    localStorage.setItem('saved-message', e.target.value);
     const numLines = e.target.value.split('\n').length;
     this.setState({
       message: e.target.value,

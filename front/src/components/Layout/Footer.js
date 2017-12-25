@@ -77,18 +77,26 @@ export default class FooterView extends React.Component {
               <Box w={[1, 1, 2 / 6]} p={2}>
                 <SocialBox>
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
-                  <Flex>
+                  <Flex align="center">
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer"><img src="/img/svg/facebook.svg" alt="Facebook logo" /></a>
+                      <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer">
+                        <img src="/img/svg/facebook.svg" alt="Facebook logo" />
+                      </a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer"><img src="/img/svg/twitter.svg" alt="Twitter logo" /></a>
+                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer">
+                        <img src="/img/svg/twitter.svg" alt="Twitter logo" />
+                      </a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer"><img src="/img/svg/instagram.svg" alt="Instagram logo" /></a>
+                      <a href="https://www.instagram.com/iseplive/" target="_blank" rel="noopener noreferrer">
+                        <img src="/img/svg/instagram.svg" alt="Instagram logo" />
+                      </a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="" target="_blank" rel="noopener noreferrer"><img src="/img/svg/snapchat.svg" alt="Snapchat logo" /></a>
+                      <a href="" target="_blank" rel="noopener noreferrer">
+                        <img src="/img/svg/snapchat.svg" alt="Snapchat logo" />
+                      </a>
                     </Box>
                   </Flex>
                 </SocialBox>
@@ -96,15 +104,21 @@ export default class FooterView extends React.Component {
               <Box w={[1, 1, 2 / 6]} p={2}>
                 <SocialBox>
                   <h2>Partenaires</h2>
-                  <Flex>
+                  <Flex align="center">
                     <Box width={1 / 3} p={1}>
-                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><img src="/img/layout/juniorisep.png" alt="Junior ISEP logo" /></a>
+                      <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer">
+                        <img src="/img/layout/juniorisep.png" alt="Junior ISEP logo" />
+                      </a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="https://aupontier.wixsite.com/cosmozbde2017" target="_blank" rel="noopener noreferrer"><img src="/img/layout/cosmoz.png" alt="Cosmoz logo" /></a>
+                      <a href="https://aupontier.wixsite.com/cosmozbde2017" target="_blank" rel="noopener noreferrer">
+                        <img src="/img/layout/cosmoz.png" alt="Cosmoz logo" />
+                      </a>
                     </Box>
                     <Box width={1 / 3} p={1}>
-                      <a href="http://www.alten.fr/" target="_blank" rel="noopener noreferrer"><img src="/img/layout/isep.png" alt="Alten logo" /></a>
+                      <a href="https://www.isep.fr/" target="_blank" rel="noopener noreferrer">
+                        <img src="/img/layout/isep.png" alt="Alten logo" />
+                      </a>
                     </Box>
                   </Flex>
                 </SocialBox>
@@ -119,7 +133,7 @@ export default class FooterView extends React.Component {
         </Footer>
         <LinksBar>
           <div>
-            <span>© 2017 ISEPLive</span>
+            <span>© {new Date().getFullYear()} ISEPLive</span>
             <Button color="contrast" style={{ marginLeft: 10 }} component={NavLink} to="/aide" activeStyle={{
               color: MAIN_COLOR
             }}>Aide</Button>

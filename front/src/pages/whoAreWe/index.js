@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 
 import { Banner, Filler, Header } from 'components/common';
+import { Link, Route, Switch, Redirect } from 'react-router-dom';
 
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -22,11 +23,24 @@ class Whoarewe extends Component {
     index: 0,
   };
 
+  componentDidMount() {
+    const base = this.props.match.url;
+    const urlToTab = {
+      [base + '/target']: 0,
+      [base + '/team']: 1,
+      [base + '/hall-of-fame']: 2,
+    }
+    if (urlToTab[this.props.location.pathname]) {
+      this.setState({ index: urlToTab[this.props.location.pathname] });
+    }
+  }
+
   handleChange = (event, index) => {
     this.setState({ index });
   };
 
   render() {
+    const { match } = this.props;
     return (
       <div>
         <Header url="/img/background.jpg">
@@ -44,19 +58,16 @@ class Whoarewe extends Component {
             textColor={MAIN_COLOR}
             centered
           >
-            <Tab label="Nos objectifs" />
-            <Tab label="Notre équipe" />
-            <Tab label="Hall of Fame" />
+            <Tab label="Nos objectifs" component={Link} to={`${match.url}/target`} />
+            <Tab label="Notre équipe" component={Link} to={`${match.url}/team`} />
+            <Tab label="Hall of Fame" component={Link} to={`${match.url}/hall-of-fame`} />
           </Tabs>
-          {this.state.index === 0 && <TabContainer>
-            <Target />
-          </TabContainer>}
-          {this.state.index === 1 && <TabContainer>
-            <Team />
-          </TabContainer>}
-          {this.state.index === 2 && <TabContainer>
-            <HallOfFame />
-          </TabContainer>}
+          <Switch>
+            <Redirect path={`${match.url}`} exact to={`${match.url}/target`} />
+            <Route path={`${match.url}/target`} component={Target} />
+            <Route path={`${match.url}/team`} component={Team} />
+            <Route path={`${match.url}/hall-of-fame`} component={HallOfFame} />
+          </Switch>
         </Paper>
       </div>
     );

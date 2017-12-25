@@ -4,6 +4,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
+
 import Tabs, { Tab } from 'material-ui/Tabs';
 import MUIButton from 'material-ui/Button';
 import ExploreAction from 'material-ui-icons/Explore';

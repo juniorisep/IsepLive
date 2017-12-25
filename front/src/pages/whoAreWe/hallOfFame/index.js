@@ -2,7 +2,12 @@
 
 import React, { Component } from 'react';
 
-import { FluidContent, ScrollToTopOnMount, BgImageProfileStyle } from 'components/common';
+import {
+  FluidContent,
+  ScrollToTopOnMount,
+  BgImageProfileStyle,
+  Title,
+} from 'components/common';
 
 import Paper from 'material-ui/Paper';
 
@@ -60,9 +65,12 @@ class HallOfFame extends Component {
       <div>
         <ScrollToTopOnMount />
         <FluidContent style={{ textAlign: 'center' }}>
-          <h1 style={{ color: '#ffc000' }}>All of Fame</h1>
-          <h3>Tous les héros ne portent pas de capes</h3>
-          <Flex wrap>
+          <div>
+            <Title>All of Fame</Title>
+          </div>
+          <Title fontSize={1.3} invert>Tous les héros ne portent pas de capes</Title>
+
+          <Flex wrap align="center">
             <Box p={2} width={[1, 1 / 4]}>
               <BgImageStyle>
                 <img alt="raptor-jesus" src="/img/alloffame/RaptorJesus.jpg" />
@@ -96,7 +104,7 @@ class HallOfFame extends Component {
               </BgImageStyle>
             </Box>
           </Flex>
-          <h3>Les dictateurs</h3>
+          <Title invert>Les dictateurs</Title>
           <Flex wrap>
             <Box p={2} width={[1, 1 / 4]}>
               <Person
@@ -162,7 +170,7 @@ class HallOfFame extends Component {
                 promotion="2017 / 2018" />
             </Box>
           </Flex>
-          <h3>Les rambos</h3>
+          <Title invert>Les rambos</Title>
           <Flex wrap>
             <Box p={2} width={[1, 1 / 4]}>
               <Person

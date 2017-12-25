@@ -15,9 +15,12 @@ import List, {
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
+
 import Delete from 'material-ui-icons/Delete';
 import Done from 'material-ui-icons/Done';
+import VerifiedUser from 'material-ui-icons/VerifiedUser';
 import Checkbox from 'material-ui/Checkbox';
+
 import {
   FormControlLabel,
 } from 'material-ui/Form';
@@ -35,7 +38,6 @@ import * as authData from '../../../data/auth';
 import * as userData from '../../../data/users/student';
 import { backUrl } from '../../../config';
 import { ADMIN, CLUB_MANAGER } from '../../../constants';
-
 
 function RightsPanel(props) {
   const {
@@ -254,6 +256,7 @@ export default class MembersTab extends React.Component {
                     <ListItem key={user.id} dense button onClick={this.selectMember(user)}>
                       <Avatar alt="photo" src={backUrl + user.member.photoUrlThumb} />
                       <ListItemText primary={`${user.member.firstname} ${user.member.lastname}`} />
+                      {this.isMemberAdmin(user.member.id) && <VerifiedUser style={{ color: '#999', marginRight: 10 }} />}
                       {
                         selection && selection.id === user.id &&
                         <ListItemIcon>

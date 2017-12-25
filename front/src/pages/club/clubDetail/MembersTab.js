@@ -52,7 +52,7 @@ export default function MembersTab(props) {
   return (
     <Loader loading={props.loading}>
       <Flex wrap>
-        {props.members.length === 0 && <Text>Aucun membres</Text>}
+        {props.members.length === 0 && <Text>Aucun membre</Text>}
         {
           props.members.map(m => {
             return (

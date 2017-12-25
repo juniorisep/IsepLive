@@ -70,7 +70,7 @@ export default class Events extends Component {
               {
                 this.props.events.length === 0 &&
                 <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
-                  <Text fs="2em">Aucuns évenements {this.props.eventsFilter === 'next' ? 'à venir' : 'passés'}</Text>
+                  <Text fs="2em">Aucun évenement {this.props.eventsFilter === 'next' ? 'à venir' : 'passés'}</Text>
                 </div>
               }
               {

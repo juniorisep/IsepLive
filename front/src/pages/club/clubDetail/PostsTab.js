@@ -12,7 +12,7 @@ import Loader from 'components/Loader';
 export default function PostsTab(props) {
   return (
     <Loader loading={props.loading}>
-      {props.posts.length === 0 && <Flex><Text>Aucun posts</Text></Flex>}
+      {props.posts.length === 0 && <Flex><Text>Aucun post</Text></Flex>}
       <PostList posts={props.posts} />
       {
         !props.lastPage && props.posts.length > 0 &&

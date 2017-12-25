@@ -7,16 +7,56 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import moment from 'moment';
 
-import events from './events';
+import { Flex, Box } from 'grid-styled';
+import Button from 'material-ui/Button';
+import { NavLink } from 'react-router-dom';
+import Loader from 'components/Loader';
 
-import { Banner, Filler, FluidContent, Header, SearchBar, ScrollToTopOnMount } from 'components/common';
+
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  SearchBar,
+  ScrollToTopOnMount
+} from 'components/common';
+
+import * as eventData from '../../../data/event';
 
 BigCalendar.momentLocalizer(moment);
 
 let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
 class CalendarEvents extends Component {
+
+  state = {
+    events: [],
+    isLoading: false,
+  }
+
+  componentDidMount() {
+    this.getEvents();
+  }
+
+  getEvents() {
+    this.setState({ isLoading: true })
+    eventData.getEvents().then(res => {
+      const events = res.data.map(e => {
+        return {
+          title: e.title,
+          allDay: true,
+          start: new Date(e.date),
+          end: new Date(e.date),
+          desc: e.description,
+        }
+      })
+      this.setState({ events, isLoading: false });
+    });
+  }
+
   render() {
+    const { events, isLoading } = this.state;
     return (
       <div>
         <ScrollToTopOnMount />
@@ -31,12 +71,20 @@ class CalendarEvents extends Component {
           </FluidContent>
         </Header>
         <FluidContent>
-          <BigCalendar
-            events={events}
-            views={allViews}
-            step={60}
-            defaultDate={new Date(2015, 3, 1)}
-          />
+          <Flex mb={2}>
+            <Box ml="auto">
+              <Button color="primary" component={NavLink} to="/evenements">Liste</Button>
+            </Box>
+          </Flex>
+          <Loader loading={isLoading}>
+            <BigCalendar
+              events={events}
+              views={allViews}
+              step={60}
+              style={{ height: 600 }}
+              defaultDate={new Date()}
+            />
+          </Loader>
         </FluidContent>
       </div>
     );

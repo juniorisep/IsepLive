@@ -15,6 +15,7 @@ const Profile = styled.div`
   border-radius: 5px;
   margin: 5px 0;
   margin-left: 5px;
+  max-width: 150px;
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);

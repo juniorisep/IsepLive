@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
 
+import ArrRight from 'material-ui-icons/ChevronRight';
+import ArrLeft from 'material-ui-icons/ChevronLeft';
+
 import SlideShow from 'components/SlideShow';
 import { backUrl } from 'config';
 
@@ -23,6 +26,7 @@ const Wrapper = styled.div`
 `;
 
 const GalleryStyle = styled.div`
+  position: relative;
   height: 80vh;
   margin: 5vh;
 `;

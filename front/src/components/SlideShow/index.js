@@ -3,6 +3,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import IconButton from 'material-ui/IconButton';
+
+import ArrRight from 'material-ui-icons/ChevronRight';
+import ArrLeft from 'material-ui-icons/ChevronLeft';
+
+const Controls = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 2;
+`;
+
+const Control = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 40px;
+  display: flex;
+  align-items: center;
+`;
 const ImageList = styled.div`
   position: relative;
   display: block;
@@ -72,6 +93,11 @@ export default class SlideShow extends React.Component {
     }
   }
 
+  handleArrow = (direction) => e => {
+    const { pos } = this.state;
+    this.goTo(pos + direction, direction);
+  }
+
   autoSlide() {
     this.task = setInterval(() => {
       const { pos } = this.state;
@@ -127,6 +153,18 @@ export default class SlideShow extends React.Component {
     const { pos, animEnabled } = this.state;
     return (
       <ImageList>
+        <Controls>
+          <Control>
+            <IconButton color="contrast" onClick={this.handleArrow(DIR_BACKWARD)}>
+              <ArrLeft />
+            </IconButton>
+          </Control>
+          <Control style={{ right: 0 }} >
+            <IconButton color="contrast" onClick={this.handleArrow(DIR_FORWARD)}>
+              <ArrRight />
+            </IconButton>
+          </Control>
+        </Controls>
         {
           this.getList().map((url, i) => {
             return <Image

@@ -47,7 +47,10 @@ export default function PostDetailView(props) {
         }
         <Flex mt="30px">
           <Box>
-            <ProfileImage sz="60px" />
+            <ProfileImage
+              src={props.commenter && props.commenter.photoUrlThumb}
+              sz="60px"
+              mh="auto" />
           </Box>
           <Box flex="1 1 auto" ml="20px">
             <CommentBox onComment={props.onComment} />

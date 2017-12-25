@@ -4,17 +4,20 @@ import React, { Component } from 'react';
 
 import PostDetailView from './view';
 import * as postData from 'data/post';
+import * as studentData from 'data/users/student';
 
 class PostDetail extends Component {
   state = {
     post: null,
     comments: [],
+    commenter: null,
   }
 
   componentDidMount() {
     this.postId = this.props.match.params.id;
     this.refreshPost();
     this.refreshCom();
+    this.getCommenter();
     this.autoRefresh = setInterval(() => {
       this.refreshCom();
     }, 30000);
@@ -23,6 +26,12 @@ class PostDetail extends Component {
   componentWillUnmount() {
     clearInterval(this.autoRefresh);
   };
+
+  getCommenter() {
+    studentData.getLoggedUser().then(res => {
+      this.setState({ commenter: res.data });
+    })
+  }
 
   refreshPost = () => {
     postData.getPost(this.postId)
@@ -53,6 +62,8 @@ class PostDetail extends Component {
       <PostDetailView
         post={this.state.post}
         comments={this.state.comments}
+        commenter={this.state.commenter}
+
         refresh={this.refreshPost}
         toggleLikeCom={this.toggleLikeCom}
         showLikes={this.showLikes}

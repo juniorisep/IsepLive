@@ -12,9 +12,10 @@ const Input = styled.textarea`
   padding: 10px;
   font-size: 1.2em;
   outline: none;
-  color: #909090;
+  color: #555;
   font-family: 'Roboto';
   width: 100%;
+  resize: none;
 
   &:focus {
     border-color: ${props => props.theme.main};
@@ -24,6 +25,7 @@ const Input = styled.textarea`
 class CommentBox extends Component {
   state = {
     message: '',
+    rows: 2,
     shift: false,
     editorState: EditorState.createEmpty(),
   };
@@ -51,7 +53,11 @@ class CommentBox extends Component {
   };
 
   change = (event) => {
-    this.setState({ message: event.target.value });
+    const numRows = event.target.value.split('\n').length;
+    this.setState({
+      message: event.target.value,
+      rows: Math.min(numRows + 1, 5),
+    });
   };
 
   render() {
@@ -59,11 +65,12 @@ class CommentBox extends Component {
       <div>
         <Input
           type="text"
+          rows={this.state.rows}
           placeholder="Appuyez sur Entrer pour envoyer..."
           value={this.state.message}
           onKeyUp={this.keyUp}
           onKeyDown={this.keyDown}
-          onChange={this.change}/>
+          onChange={this.change} />
       </div>
     );
   };

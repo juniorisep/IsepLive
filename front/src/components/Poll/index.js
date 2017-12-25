@@ -50,7 +50,7 @@ class Poll extends Component {
 
   componentDidMount() {
 
-    if (this.isEnded())  {
+    if (this.isEnded()) {
       this.setState({ showVote: true, ended: true });
     };
 
@@ -103,7 +103,7 @@ class Poll extends Component {
               return (
                 <Answer
                   key={a.id}
-                  showVote={this.state.showVote ||  this.isEnded()}
+                  showVote={this.state.showVote || this.isEnded()}
                   voted={this.state.answers.filter(as => as.id === a.id).length > 0}
                   total={total}
                   multiAnswers={poll.multiAnswers}
@@ -117,7 +117,7 @@ class Poll extends Component {
           <Flex>
             <Box>
               <Text fs="0.9em">
-                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé le ' + moment(poll.endDate).format('DD MMMM YYYY [à] HH:mm')}
+                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé le ' + moment(poll.endDate).format('Do MMMM YYYY [à] HH:mm')}
               </Text>
             </Box>
             <Box ml="auto">

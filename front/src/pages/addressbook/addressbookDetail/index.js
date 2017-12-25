@@ -15,6 +15,7 @@ class AdressbookDetail extends Component {
     page: 0,
     lastPage: false,
     clubMembers: [],
+    fullscreenOpen: false,
   };
 
   componentDidMount() {
@@ -52,6 +53,10 @@ class AdressbookDetail extends Component {
     })
   }
 
+  setFullScreen = (open) => e => {
+    this.setState({ fullscreenOpen: open });
+  }
+
   render() {
     return (
       <Loader loading={!this.state.data}>
@@ -59,9 +64,11 @@ class AdressbookDetail extends Component {
           data={this.state.data}
           lastPage={this.state.lastPage}
           posts={this.state.posts}
+          fullscreenOpen={this.state.fullscreenOpen}
           clubMembers={this.state.clubMembers}
           refreshPosts={this.refreshPosts}
-          onSeeMore={this.getNextPosts} />
+          onSeeMore={this.getNextPosts}
+          setFullScreen={this.setFullScreen} />
       </Loader>
     );
   };

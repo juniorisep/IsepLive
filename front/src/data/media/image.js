@@ -28,3 +28,7 @@ export function matchStudent(photoId: number, studId: number) {
 export function unmatchStudent(photoId: number, studId: number) {
   return axios.put(`/media/image/${photoId}/match/${studId}/untag`);
 }
+
+export function getImageTags(id: number) {
+  return axios.get(`/media/image/${id}/tags`);
+}

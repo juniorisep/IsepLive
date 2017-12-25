@@ -6,7 +6,7 @@ import { Box } from 'grid-styled';
 
 import { Post, PostTextView } from 'components/PostList';
 
-import { BgImage, ImageLink, Paper } from 'components/common';
+import { BgImage, Paper } from 'components/common';
 
 class ImagePost extends Component {
   render() {
@@ -16,13 +16,17 @@ class ImagePost extends Component {
       <Post invert={props.invert}>
         <Box w={size}>
           <Paper>
-            <ImageLink src={props.post.media.fullSizeUrl}>
-              <BgImage
-                src={
-                  props.preview ? props.post.media.fullSizeUrl : props.post.media.thumbUrl
+            <BgImage
+              onClick={() => {
+                if (!props.preview) {
+                  props.openFullScreen(true, props.post.media)
                 }
-                mh={props.preview ? '400px' : '250px'} />
-            </ImageLink>
+              }}
+              style={{ cursor: !props.preview ? 'pointer' : 'normal' }}
+              src={
+                props.preview ? props.post.media.fullSizeUrl : props.post.media.thumbUrl
+              }
+              mh={props.preview ? '400px' : '250px'} />
           </Paper>
         </Box>
         <PostTextView

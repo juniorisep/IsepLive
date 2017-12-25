@@ -58,6 +58,11 @@ public class MediaController {
     return mediaService.uploadVideo(name, video);
   }
 
+  @GetMapping("/image/{id}/tags")
+  public List<Matched> getImageTags(@PathVariable Long id) {
+    return mediaService.getImageTags(id);
+  }
+
   @PutMapping("/image/{id}/match/{student}/tag")
   @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER, Roles.STUDENT})
   public Image tagStudentInImage(@PathVariable Long id,

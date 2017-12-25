@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
+import FullScreenView from '../../components/FullScreen/View';
 
 import * as clubData from '../../data/club';
 
@@ -61,7 +62,6 @@ export default function ResumeView(props) {
     mailISEP,
     allowNotifications,
   } = data;
-  console.log(data)
   return (
     <div>
       <Header url="/img/background.jpg">
@@ -74,8 +74,11 @@ export default function ResumeView(props) {
       <FluidContent>
         <Flex wrap>
           <Box p={2} width={[1, 1 / 4]}>
-            <PersonStyle>
-              <ProfileImage src={photoUrl} sz="100%" mh="200px" />
+            <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
+              <ProfileImage
+                src={photoUrl}
+                sz="100%"
+                mh="200px" />
             </PersonStyle>
           </Box>
           <Box p={2} width={[
@@ -158,6 +161,10 @@ export default function ResumeView(props) {
             }
           </Box>
         </Flex>
+        <FullScreenView
+          visible={props.fullscreenOpen}
+          image={photoUrl}
+          onEscKey={props.setFullScreen(false)} />
         <UpdateResume
           open={props.open}
           handleRequestClose={props.handleRequestClose}

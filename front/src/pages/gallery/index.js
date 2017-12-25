@@ -14,7 +14,7 @@ import {
   ScrollToTopOnMount,
 } from '../../components/common';
 
-import FullScreenGallery from '../../components/FullScreenGallery';
+import FullScreenGallery from '../../components/FullScreen/Gallery';
 import Loader from '../../components/Loader';
 import Time from '../../components/Time';
 
@@ -76,6 +76,8 @@ export default class GalleryPage extends React.Component {
     this.setState({ galleryOpen: true })
 
   hideGallery = () => {
+    this.refreshGallery();
+    this.props.history.location.state = null;
     this.setState({ galleryOpen: false })
   }
 
@@ -130,8 +132,7 @@ export default class GalleryPage extends React.Component {
           index={galleryIndex}
           visible={galleryOpen}
           gallery={gallery}
-          onEscKey={this.hideGallery}
-          refreshGallery={this.refreshGallery} />
+          onEscKey={this.hideGallery} />
       </FluidContent>
     );
   }

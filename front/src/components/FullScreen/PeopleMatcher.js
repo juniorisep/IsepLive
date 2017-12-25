@@ -46,6 +46,24 @@ export default class PeopleMatcher extends Component {
   state = {
     dialogOpen: false,
     students: [],
+    imageId: null,
+    tags: [],
+  }
+
+
+  componentDidMount() {
+    this.setState({
+      imageId: this.props.image.id,
+      tags: this.props.image.matched,
+    })
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.image.id != this.state.imageId) {
+      this.setState({ tags: props.image.matched });
+    }
+
+    this.setState({ imageId: props.image.id });
   }
 
 
@@ -55,22 +73,32 @@ export default class PeopleMatcher extends Component {
     });
   }
 
-  closeDialog = () =>
-    this.setState({ dialogOpen: false });
+  refresh() {
+    imageData.getImageTags(this.props.image.id).then(res => {
+      this.setState({ tags: res.data });
+    })
+  }
 
-  tag = () =>
+  closeDialog = () => {
+    this.props.onOpenMatcher(false);
+    this.setState({ dialogOpen: false });
+  }
+
+  tag = () => {
+    this.props.onOpenMatcher(true);
     this.setState({ dialogOpen: true });
+  }
 
   selectStudent = stud => e => {
     imageData.matchStudent(this.props.image.id, stud.id).then(res => {
-      this.props.refreshGallery();
+      this.refresh();
       this.closeDialog();
     })
   }
 
   removeStudent = stud => e => {
     imageData.unmatchStudent(this.props.image.id, stud.id).then(res => {
-      this.props.refreshGallery();
+      this.refresh();
       this.closeDialog();
     })
   }
@@ -81,7 +109,7 @@ export default class PeopleMatcher extends Component {
     return (
       <div style={STYLE}>
         {
-          this.props.image.matched.map(e => {
+          this.state.tags.map(e => {
             const onRequestDelete = this.removeStudent(e.match);
             let props = {}
             if (e.owner.id === ownerId) {
@@ -97,7 +125,6 @@ export default class PeopleMatcher extends Component {
         }
         <InputButton onClick={this.tag}>Tagger une personne</InputButton>
         <Dialog
-          ignoreEscapeKeyUp
           open={this.state.dialogOpen}
           onRequestClose={this.closeDialog} >
           <DialogTitle>Tagger une personne</DialogTitle>

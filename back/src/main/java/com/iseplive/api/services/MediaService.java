@@ -192,4 +192,12 @@ public class MediaService {
     }
     throw new IllegalArgumentException("Could not find gallery with id: "+id);
   }
+
+  public List<Matched> getImageTags(Long id) {
+    Image image = imageRepository.findOne(id);
+    if (image == null) {
+      throw new IllegalArgumentException("could not find this image");
+    }
+    return image.getMatched();
+  }
 }

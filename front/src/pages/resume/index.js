@@ -18,6 +18,7 @@ class Resume extends Component {
     lastPage: false,
     posts: [],
     clubMembers: [],
+    fullscreenOpen: false,
   };
 
   componentDidMount() {
@@ -85,6 +86,10 @@ class Resume extends Component {
     })
   }
 
+  setFullScreen = (open) => e => {
+    this.setState({ fullscreenOpen: open });
+  }
+
   render() {
     return (
       <Loader loading={!this.state.data}>
@@ -92,6 +97,7 @@ class Resume extends Component {
           data={this.state.data}
           posts={this.state.posts}
           lastPage={this.state.lastPage}
+          fullscreenOpen={this.state.fullscreenOpen}
           clubMembers={this.state.clubMembers}
           open={this.state.open}
           onModify={this.onModify}
@@ -99,7 +105,8 @@ class Resume extends Component {
           onSeeMore={this.getNextPosts}
           toggleNotif={this.toggleNotif}
           handleRequestClose={this.handleRequestClose}
-          handleUpdate={this.handleUpdate} />
+          handleUpdate={this.handleUpdate}
+          setFullScreen={this.setFullScreen} />
       </Loader>
     );
   };

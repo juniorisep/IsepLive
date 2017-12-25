@@ -10,6 +10,7 @@ import Button from 'material-ui/Button';
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 import SocialMedia from '../../../components/SocialMedia';
+import FullScreenView from '../../../components/FullScreen/View';
 
 import {
   FluidContent,
@@ -57,7 +58,7 @@ export default function AdressbookDetailView(props) {
       <ScrollToTopOnMount />
       <Flex wrap>
         <Box p={2} width={[1, 1 / 4]}>
-          <PersonStyle>
+          <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
             <ProfileImage src={photoUrl} sz="100%" mh="200px" />
           </PersonStyle>
         </Box>
@@ -125,6 +126,10 @@ export default function AdressbookDetailView(props) {
           }
         </Box>
       </Flex>
+      <FullScreenView
+        visible={props.fullscreenOpen}
+        image={photoUrl}
+        onEscKey={props.setFullScreen(false)} />
     </FluidContent>
   );
 };

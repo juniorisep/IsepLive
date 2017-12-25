@@ -35,6 +35,7 @@ const GalleryStyle = styled.div`
 class Gallery extends Component {
   state = {
     currentIndex: 0,
+    matcherOpen: false,
   }
 
   componentDidMount() {
@@ -43,6 +44,10 @@ class Gallery extends Component {
   componentWillUnmount() {
     this.removeEscListener();
   };
+
+  openMatcher = (open) => {
+    this.setState({ matcherOpen: open })
+  }
 
   removeEscListener() {
     document.removeEventListener('keydown', this.keyHandler);
@@ -55,11 +60,7 @@ class Gallery extends Component {
       document.addEventListener('keydown', this.keyHandler);
     }
 
-    const currentlyAuto = document.body.style.overflow === 'auto'
-    if (currentlyAuto) {
-      document.body.style.overflow = props.visible ? 'hidden' : 'auto';
-    }
-
+    document.body.style.overflow = props.visible ? 'hidden' : 'auto';
 
     if (props.index !== this.state.currentIndex) {
       this.setState({ currentIndex: props.index });
@@ -68,7 +69,7 @@ class Gallery extends Component {
   }
 
   keyHandler = ({ key }) => {
-    if (key === 'Escape') {
+    if (key === 'Escape' && !this.state.matcherOpen) {
       this.props.onEscKey();
     };
   };
@@ -100,8 +101,8 @@ class Gallery extends Component {
             duration={5} />
         </GalleryStyle>
         <PeopleMatcher
-          image={gallery.images[this.state.currentIndex]}
-          refreshGallery={this.props.refreshGallery} />
+          onOpenMatcher={this.openMatcher}
+          image={gallery.images[this.state.currentIndex]} />
       </Wrapper>
     );
   };

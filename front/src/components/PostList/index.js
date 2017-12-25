@@ -16,6 +16,7 @@ import PostTitleView from './PostTitleView';
 import * as postData from 'data/post';
 
 import ModifyPostModal from './ModifyPostModal';
+import FullScreenView from '../FullScreen/View';
 
 import PollPost from './Posts/PollPost';
 import ImagePost from './Posts/ImagePost';
@@ -166,6 +167,8 @@ export default class PostListView extends React.Component {
   state = {
     postModified: null,
     modifyEnable: false,
+    fullscreenOpen: false,
+    media: null,
   };
 
   modifyPost = (postModified) => {
@@ -175,6 +178,16 @@ export default class PostListView extends React.Component {
   requestClose = () => {
     this.setState({ modifyEnable: false });
   };
+
+  setFullScreen = (fullscreenOpen, media) => {
+    if (media) {
+      this.setState({ media });
+    }
+    if (!fullscreenOpen) {
+      this.props.refreshPosts();
+    }
+    this.setState({ fullscreenOpen });
+  }
 
   render() {
     const props = this.props;
@@ -190,6 +203,7 @@ export default class PostListView extends React.Component {
                 list={true}
                 invert={i % 2 === 1}
                 canPin={props.canPin}
+                openFullScreen={this.setFullScreen}
                 refresh={props.refreshPosts}
                 modify={this.modifyPost}
               />
@@ -202,6 +216,12 @@ export default class PostListView extends React.Component {
           refresh={props.refreshPosts}
           modifyPost={this.modifyPost}
           requestClose={this.requestClose} />
+        <FullScreenView
+          matcher
+          visible={this.state.fullscreenOpen}
+          image={this.state.media && this.state.media.fullSizeUrl}
+          data={this.state.media}
+          onEscKey={() => this.setFullScreen(false)} />
       </PostList>
     );
   };

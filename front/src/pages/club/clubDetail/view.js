@@ -11,7 +11,7 @@ import ExploreAction from 'material-ui-icons/Explore';
 
 import {
   FluidContent,
-  Image,
+  BgImage,
   Text,
   Title,
   ScrollToTopOnMount,
@@ -37,14 +37,14 @@ export default function ClubDetailView(props) {
     <div style={{ background: BACKGROUND_COLOR }}>
       <ScrollToTopOnMount />
       <FluidContent>
-        <Flex>
-          <Box>
-            <Image src={props.logoUrl} w="150px" />
+        <Flex wrap>
+          <Box w={[1, 1 / 4]} p={2}>
+            <BgImage src={props.logoUrl} mh="150px" size="contain" />
           </Box>
-          <Box ml={3}>
+          <Box w={[1, 3 / 4]} p={2}>
             <Title invert>{props.name}</Title>
             <Text>{props.description}</Text>
-            <Flex mt="15px">
+            <Flex mt="15px" wrap>
               <Box>
                 <Button href={props.website} target="_blank" rel="noopener noreferrer" color="accent">
                   <Explore /> Site internet

@@ -8,6 +8,7 @@ import { Box } from 'grid-styled';
 import { NavLink } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
+import ForumIcon from 'material-ui-icons/Forum';
 
 import LikeButton from './LikeButton';
 import EditButton from './EditButton';
@@ -28,6 +29,7 @@ import GazettePost from './Posts/GazettePost';
 import EventPost from './Posts/EventPost';
 
 import { Text } from '../common';
+import IconButton from 'material-ui/IconButton/IconButton';
 
 const PostList = styled.ul`
   padding: 0;
@@ -94,10 +96,11 @@ export class PostTextView extends Component {
         <PostTitleView post={post} />
         <PostTextContent content={post.content} preview={!preview} />
         <PostActions>
+
           {
             !preview &&
             <Button dense color="accent" component={NavLink} to={`/post/${post.id}`}>
-              Commentaires
+              {post.nbComments} <ForumIcon style={{ marginLeft: 5 }} />
             </Button>
           }
           {

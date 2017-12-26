@@ -18,6 +18,7 @@ public class PostView {
   private Author author;
   private Integer nbLikes;
   private Boolean isLiked;
+  private Integer nbComments;
   private Boolean isPinned;
   private Boolean hasWriteAccess;
 
@@ -99,5 +100,13 @@ public class PostView {
 
   public void setPinned(Boolean pinned) {
     isPinned = pinned;
+  }
+
+  public Integer getNbComments() {
+    return nbComments;
+  }
+
+  public void setNbComments(Integer nbComments) {
+    this.nbComments = nbComments;
   }
 }

@@ -35,7 +35,11 @@ class PostDetail extends Component {
     })
   }
 
-  refreshPost = () => {
+  refreshPost = (reason) => {
+    if (reason === 'delete') {
+      this.props.history.push('/');
+      return;
+    }
     postData.getPost(this.postId)
       .then(res => {
         this.setState({ post: res.data });

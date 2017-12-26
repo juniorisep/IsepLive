@@ -37,7 +37,7 @@ class EditButton extends Component {
 
   handleDelete = () => {
     postData.deletePost(this.props.post.id).then(res => {
-      this.props.refresh();
+      this.props.refresh('delete');
     });
     this.closeMenu();
   };

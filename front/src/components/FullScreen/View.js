@@ -68,7 +68,7 @@ class View extends Component {
   };
 
   render() {
-    const { visible, data, image, index } = this.props;
+    const { visible, data, image, index, internalRefresh } = this.props;
     if (!visible) return null;
     return (
       <Wrapper visible={visible}>
@@ -84,6 +84,7 @@ class View extends Component {
         {
           this.props.matcher &&
           <PeopleMatcher
+            internalRefresh={internalRefresh}
             onOpenMatcher={this.openMatcher}
             image={this.props.data} />
         }

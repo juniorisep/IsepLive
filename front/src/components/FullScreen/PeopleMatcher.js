@@ -52,6 +52,10 @@ export default class PeopleMatcher extends Component {
 
 
   componentDidMount() {
+    if (this.props.internalRefresh) {
+      this.refresh();
+    }
+
     this.setState({
       imageId: this.props.image.id,
       tags: this.props.image.matched,

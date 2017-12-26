@@ -183,9 +183,6 @@ export default class PostListView extends React.Component {
     if (media) {
       this.setState({ media });
     }
-    if (!fullscreenOpen) {
-      this.props.refreshPosts();
-    }
     this.setState({ fullscreenOpen });
   }
 
@@ -218,6 +215,7 @@ export default class PostListView extends React.Component {
           requestClose={this.requestClose} />
         <FullScreenView
           matcher
+          internalRefresh
           visible={this.state.fullscreenOpen}
           image={this.state.media && this.state.media.fullSizeUrl}
           data={this.state.media}

@@ -254,7 +254,7 @@ export default class MembersTab extends React.Component {
                 {
                   members.map(user => (
                     <ListItem key={user.id} dense button onClick={this.selectMember(user)}>
-                      <Avatar alt="photo" src={backUrl + user.member.photoUrlThumb} />
+                      <Avatar alt="photo" src={user.member.photoUrlThumb ? backUrl + user.member.photoUrlThumb : '/img/svg/user.svg'} />
                       <ListItemText primary={`${user.member.firstname} ${user.member.lastname}`} />
                       {this.isMemberAdmin(user.member.id) && <VerifiedUser style={{ color: '#999', marginRight: 10 }} />}
                       {

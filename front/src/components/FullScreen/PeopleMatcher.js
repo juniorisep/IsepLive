@@ -139,7 +139,7 @@ export default class PeopleMatcher extends Component {
                 this.state.students.map(stud => {
                   return (
                     <ListItem key={stud.id} button onClick={this.selectStudent(stud)}>
-                      <Avatar alt="student" src={backUrl + stud.photoUrlThumb} />
+                      <Avatar alt="student" src={stud.photoUrlThumb ? backUrl + stud.photoUrlThumb : '/img/svg/user.svg'} />
                       <ListItemText primary={stud.firstname + ' ' + stud.lastname} />
                     </ListItem>
                   )

@@ -43,7 +43,7 @@ const LikesPanel = props => {
           props.students.map(stud => {
             return (
               <ListItem key={stud.id}>
-                <Avatar alt={stud.firstname.toUpperCase()[0] + stud.lastname.toUpperCase()[0]} src={backUrl + stud.photoUrlThumb} />
+                <Avatar alt="stud" src={stud.photoUrlThumb ? backUrl + stud.photoUrlThumb : '/img/svg/user.svg'} />
                 <ListItemText primary={stud.firstname + ' ' + stud.lastname} />
               </ListItem>
             )

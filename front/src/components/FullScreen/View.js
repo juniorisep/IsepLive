@@ -8,7 +8,7 @@ import CloseIcon from 'material-ui-icons/Close';
 
 
 import {
-  Image,
+  BgImage,
 } from '../common';
 
 import { backUrl } from 'config';
@@ -79,7 +79,7 @@ class View extends Component {
           <CloseIcon />
         </IconButton>
         <ViewStyle>
-          <Image src={image} w="100%" />
+          <BgImage src={image} size="contain" mh="80vh" />
         </ViewStyle>
         {
           this.props.matcher &&

@@ -105,7 +105,7 @@ export const ProfileImage = (props: ImageType) => {
 const BgImageStyle = styled.div`
   background: url(${props => props.src});
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: ${props => props.size || 'cover'};
   background-position: center;
   width: 100%;
   height: 100%;

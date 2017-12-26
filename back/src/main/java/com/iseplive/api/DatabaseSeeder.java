@@ -1,6 +1,10 @@
 package com.iseplive.api;
 
+import com.google.common.collect.Sets;
+import com.iseplive.api.constants.Roles;
+import com.iseplive.api.dao.student.RoleRepository;
 import com.iseplive.api.dao.student.StudentRepository;
+import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +16,9 @@ public class DatabaseSeeder {
 
   @Autowired
   private StudentRepository studentRepository;
+
+  @Autowired
+  private RoleRepository roleRepository;
 
   public void seedDatabase() {
     if (isDatabaseSeeded()) {
@@ -36,12 +43,13 @@ public class DatabaseSeeder {
   private void runSeedDatabase() {
     // TODO
     Student student = new Student();
-    student.setFirstname("Guillaume");
-    student.setLastname("Carré");
+    student.setFirstname("Default");
+    student.setLastname("Admin");
     student.setBirthDate(new Date());
-    student.setPromo(2018);
-//    Role roleStudent = roleRepository.findByRole(Roles.STUDENT);
-//    Role roleAdmin = roleRepository.findByRole(Roles.ADMIN);
+
+    Role roleStudent = roleRepository.findByRole(Roles.STUDENT);
+    Role roleAdmin = roleRepository.findByRole(Roles.ADMIN);
+    student.setRoles(Sets.newHashSet(roleStudent, roleAdmin));
 
     studentRepository.save(student);
   }

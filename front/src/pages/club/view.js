@@ -11,6 +11,7 @@ import {
   Header,
   BgImage,
   SearchBar,
+  Text,
 } from 'components/common';
 
 import Button from 'material-ui/Button';
@@ -90,6 +91,12 @@ export default class Club extends Component {
             </Flex>
           </Auth>
           <Loader loading={loading}>
+            {
+              this.props.clubs.length === 0 &&
+              <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
+                <Text fs="2em">Aucune association</Text>
+              </div>
+            }
             <Flex wrap>
               {
                 this.props.clubs.map(e => {

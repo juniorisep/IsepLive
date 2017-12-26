@@ -47,6 +47,9 @@ public class AuthController {
     LDAPUserDTO user = ldapService.retrieveUser(authRequest.getUsername(), authRequest.getPassword());
     if (user != null) {
       Student ldapStudent = studentService.getStudent(user.getEmployeeNumber());
+      if (ldapStudent == null) {
+        throw new AuthException("User not found");
+      }
       return jwtTokenUtil.generateToken(ldapStudent);
     }
 

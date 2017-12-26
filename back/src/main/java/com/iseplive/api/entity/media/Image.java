@@ -5,7 +5,7 @@ import com.iseplive.api.constants.MediaType;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class Image extends Media {
   private String thumbUrl;
   private String fullSizeUrl;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
   private List<Matched> matched;
 
   @Override

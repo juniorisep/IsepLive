@@ -65,10 +65,10 @@ public class MediaController {
 
   @PutMapping("/image/{id}/match/{student}/tag")
   @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER, Roles.STUDENT})
-  public Image tagStudentInImage(@PathVariable Long id,
+  public void tagStudentInImage(@PathVariable Long id,
                                  @PathVariable Long student,
                                  @AuthenticationPrincipal TokenPayload auth) {
-    return mediaService.tagStudentInImage(id, student, auth);
+    mediaService.tagStudentInImage(id, student, auth);
   }
 
   @PutMapping("/image/{id}/match/{student}/untag")

@@ -78,7 +78,7 @@ public class LDAPService {
         NamingEnumeration<String> attributesIds = attributes.getIDs();
         while (attributesIds.hasMoreElements()) {
           String attribute = attributesIds.nextElement();
-          System.out.println(attribute);
+          logger.debug("attribute: {}", attribute);
         }
 
         Attribute cn = attributes.get("cn");

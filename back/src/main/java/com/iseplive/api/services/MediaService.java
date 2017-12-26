@@ -19,8 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Guillaume on 01/08/2017.
@@ -141,29 +143,33 @@ public class MediaService {
     return mediaRepository.save(image);
   }
 
-  public Image tagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
+  public void tagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
     Image image = imageService.getImage(imageId);
     Student match = studentService.getStudent(studentId);
     Student owner = studentService.getStudent(auth.getId());
     Matched matched = new Matched();
     matched.setMatch(match);
     matched.setOwner(owner);
+    matched.setImage(image);
     matchedRepository.save(matched);
-    image.getMatched().add(matched);
-    return mediaRepository.save(image);
   }
 
   public void untagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
     Image image = imageService.getImage(imageId);
+    List<Matched> matchedList = matchedRepository.findAllByImage(image);
     Student match = studentService.getStudent(studentId);
     Student owner = studentService.getStudent(auth.getId());
-    boolean byPassOwnerCheck = auth.getRoles().contains(Roles.ADMIN) || auth.getRoles().contains(Roles.USER_MANAGER);
-      List<Matched> newMatched = image.getMatched()
-        .stream()
-        .filter(m -> !(m.getMatch().equals(match) && (!byPassOwnerCheck || m.getOwner().equals(owner))))
-        .collect(Collectors.toList());
-    image.setMatched(newMatched);
-    imageRepository.save(image);
+    matchedList.forEach(m -> {
+      if (m.getMatch().equals(match)) {
+        if (auth.getRoles().contains(Roles.ADMIN) || auth.getRoles().contains(Roles.USER_MANAGER)) {
+          matchedRepository.delete(m);
+        }
+
+        if (m.getOwner().equals(owner)) {
+          matchedRepository.delete(m);
+        }
+      }
+    });
   }
 
   public VideoEmbed createVideoEmbed(VideoEmbedDTO dto) {

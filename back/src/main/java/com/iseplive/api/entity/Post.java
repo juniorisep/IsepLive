@@ -38,7 +38,7 @@ public class Post {
   private List<Comment> comments = new ArrayList<>();
 
   @JsonIgnore
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   private Set<Student> like = new HashSet<>();
 
   @JsonIgnore

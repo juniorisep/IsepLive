@@ -1,5 +1,6 @@
 package com.iseplive.api.entity.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.user.Student;
 
 import javax.persistence.*;
@@ -20,6 +21,10 @@ public class Matched {
 
   @OneToOne
   private Student owner;
+
+  @OneToOne
+  @JsonIgnore
+  private Image image;
 
   public Student getMatch() {
     return match;
@@ -43,5 +48,13 @@ public class Matched {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public Image getImage() {
+    return image;
+  }
+
+  public void setImage(Image image) {
+    this.image = image;
   }
 }

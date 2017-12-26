@@ -33,10 +33,9 @@ public class AuthController {
 
   @PostMapping
   public TokenSet getToken(@RequestBody JwtAuthRequest authRequest) {
-    // TODO: replace with correct auth, currently only for testing
-    Student student = studentService.getStudent(authRequest.getUsername());
 
-    if (authRequest.getUsername().equals("")) {
+    // TODO: replace with correct auth, currently only for testing
+    if (authRequest.getUsername().equals("admin") && authRequest.getPassword().equals("password")) {
       return jwtTokenUtil.generateToken(studentService.getStudent(1L));
     }
 
@@ -45,10 +44,6 @@ public class AuthController {
     if (user != null) {
       Student ldapStudent = studentService.getStudent(user.getEmployeeNumber());
       return jwtTokenUtil.generateToken(ldapStudent);
-    }
-
-    if (!authRequest.getPassword().isEmpty()) {
-      return jwtTokenUtil.generateToken(student);
     }
 
     throw new AuthException("User not found");

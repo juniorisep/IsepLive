@@ -269,6 +269,8 @@ class Layout extends React.Component {
     sidebarOpen: false,
     anchorEl: undefined,
     open: false,
+    error: false,
+    loading: false,
     connexionOpen: false,
     username: '',
     password: '',
@@ -361,7 +363,9 @@ class Layout extends React.Component {
       this.handleRequestClose();
       this.props.history.push('/')
     }).catch(err => {
-      alert('wooops')
+      if (err.response) {
+        this.setState({ error: true, loading: false });
+      }
     });
   };
 
@@ -417,6 +421,8 @@ class Layout extends React.Component {
                 <LockOpen />
               </IconButton>
               <LoginForm
+                loading={this.state.loading}
+                error={this.state.error}
                 open={this.state.connexionOpen}
                 handleRequestClose={this.handleRequestClose}
                 onChange={this.handleLoginForm}

@@ -144,6 +144,8 @@ export default class Login extends Component {
     connexionOpen: false,
     error: false,
     loading: false,
+    username: '',
+    password: '',
   };
 
   handleRequestClose = () => {

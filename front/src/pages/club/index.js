@@ -14,7 +14,7 @@ class Club extends Component {
   };
 
   componentDidMount() {
-    // this.getClubs();
+    this.getClubs();
   }
 
   getClubs = () => {

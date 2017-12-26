@@ -135,7 +135,8 @@ export default class AddressBook extends Component {
                         key={year}
                         value={year}
                         style={{
-                          fontWeight: 500,
+                          background: 'none',
+                          fontWeight: this.props.year.indexOf(year) !== -1 ? 500 : 'normal',
                           color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
                         }}
                       >

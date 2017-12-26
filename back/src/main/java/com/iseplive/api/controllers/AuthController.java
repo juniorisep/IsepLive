@@ -10,6 +10,7 @@ import com.iseplive.api.exceptions.AuthException;
 import com.iseplive.api.services.LDAPService;
 import com.iseplive.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,11 +32,14 @@ public class AuthController {
   @Autowired
   LDAPService ldapService;
 
+  @Value("${auth.password}")
+  String defaultPassword;
+
   @PostMapping
   public TokenSet getToken(@RequestBody JwtAuthRequest authRequest) {
 
     // TODO: replace with correct auth, currently only for testing
-    if (authRequest.getUsername().equals("admin") && authRequest.getPassword().equals("password")) {
+    if (authRequest.getUsername().equals("admin") && authRequest.getPassword().equals(defaultPassword)) {
       return jwtTokenUtil.generateToken(studentService.getStudent(1L));
     }
 

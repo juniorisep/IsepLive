@@ -49,3 +49,6 @@ jwt:
 
 swagger:
   enable: true
+
+auth:
+  password: password

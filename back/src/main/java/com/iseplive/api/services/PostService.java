@@ -68,7 +68,7 @@ public class PostService {
   @Autowired
   PostMessageService postMessageService;
 
-  private final int POSTS_PER_PAGE = 5;
+  private final int POSTS_PER_PAGE = 10;
 
   public Pageable createPage(int page) {
     return new PageRequest(page, POSTS_PER_PAGE);

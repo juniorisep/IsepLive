@@ -11,6 +11,7 @@ import { PostView } from 'components/PostList';
 
 import Comment from 'components/PostList/Comment';
 import CommentBox from 'components/PostList/CommentBox';
+import ModifyPostModal from '../../../components/PostList/ModifyPostModal';
 
 const Background = styled.div`
   background: url(/img/background.jpg);
@@ -29,7 +30,12 @@ export default function PostDetailView(props) {
         <FluidContent>
           {
             props.post &&
-            <PostView post={props.post} preview={true} />
+            <PostView
+              preview
+              post={props.post}
+              refresh={props.refresh}
+              modify={props.modifyPost}
+            />
           }
         </FluidContent>
       </Background>
@@ -57,6 +63,12 @@ export default function PostDetailView(props) {
           </Box>
         </Flex>
       </FluidContent>
+      <ModifyPostModal
+        post={props.post}
+        open={props.modifyEnable}
+        refresh={props.refresh}
+        modifyPost={props.modifyPost}
+        requestClose={props.requestClose} />
     </div>
   );
 };

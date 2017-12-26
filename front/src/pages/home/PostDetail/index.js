@@ -11,6 +11,8 @@ class PostDetail extends Component {
     post: null,
     comments: [],
     commenter: null,
+
+    modifyEnable: false,
   }
 
   componentDidMount() {
@@ -57,17 +59,27 @@ class PostDetail extends Component {
       .then(this.refreshCom);
   };
 
+  modifyPost = (postModified) => {
+    this.setState({ post: postModified, modifyEnable: true })
+  };
+  requestClose = () => {
+    this.setState({ modifyEnable: false })
+  };
+
   render() {
     return (
       <PostDetailView
         post={this.state.post}
         comments={this.state.comments}
         commenter={this.state.commenter}
+        modifyEnable={this.state.modifyEnable}
 
         refresh={this.refreshPost}
         toggleLikeCom={this.toggleLikeCom}
         showLikes={this.showLikes}
         onComment={this.comment}
+        modifyPost={this.modifyPost}
+        requestClose={this.requestClose}
       />
     );
   };

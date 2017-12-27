@@ -193,8 +193,8 @@ class MediaView extends Component {
           <Loader loading={this.props.isLoading}>
             {
               this.processMediaList().length === 0 &&
-              <div style={{ textAlign: 'center' }}>
-                <Text>Aucun media</Text>
+              <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
+                <Text fs="2em">Aucun media</Text>
               </div>
             }
             {

@@ -43,7 +43,7 @@ export default function LoginForm(props) {
           {/* <Button onClick={props.handleRequestClose} color="primary">
             Mot de passe oublié
         </Button> */}
-          <Button type="submit" color="accent" disabled={props.loading}>
+          <Button type="submit" color="accent" disabled={props.loginDisabled}>
             Connexion
         </Button>
         </DialogActions>

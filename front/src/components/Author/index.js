@@ -31,7 +31,7 @@ export default function Author(props) {
     case 'student':
       return (
         <Flex direction="column">
-          <ProfileImage src={a.photoUrl} sz="40px" ml="auto" />
+          <ProfileImage src={a.photoUrlThumb} sz="40px" ml="auto" />
           <Sub>{a.firstname}<br />{a.lastname}</Sub>
         </Flex>
       );

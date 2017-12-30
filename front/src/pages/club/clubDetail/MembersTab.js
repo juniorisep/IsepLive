@@ -61,7 +61,7 @@ export default function MembersTab(props) {
                   authData.isLoggedIn() ?
                     <Link to={`/annuaire/${m.member.id}`}>
                       <Member
-                        url={m.member.photoUrl}
+                        url={m.member.photoUrlThumb}
                         name={m.member.firstname + ' ' + m.member.lastname}
                         role={clubData.getClubRoleName(m.role.name)}
                         promotion={m.member.promo}
@@ -69,7 +69,7 @@ export default function MembersTab(props) {
                     </Link>
                     :
                     <Member
-                      url={m.member.photoUrl}
+                      url={m.member.photoUrlThumb}
                       name={m.member.firstname + ' ' + m.member.lastname}
                       role={clubData.getClubRoleName(m.role.name)}
                       promotion={m.member.promo}

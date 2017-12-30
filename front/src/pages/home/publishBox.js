@@ -128,7 +128,7 @@ class PublishBoxView extends Component {
           return {
             id: a.id,
             name: a.authorType === 'student' ? 'Moi' : a.name,
-            image: a.authorType === 'club' ? a.logoUrl : a.photoUrl,
+            image: a.authorType === 'club' ? a.logoUrl : a.photoUrlThumb,
             type: a.authorType,
             isAdmin: a.authorType === 'club' ? a.admin : false,
           };

@@ -61,7 +61,7 @@ import * as roles from '../../constants';
 
 import { sendAlert } from '../../components/Alert';
 
-import Profile from './profile';
+import Profile from './Profile';
 import LoginForm from '../LoginForm';
 
 
@@ -364,10 +364,23 @@ class Layout extends React.Component {
       this.props.history.push('/')
     }).catch(err => {
       if (err.response) {
-        this.setState({ error: true, loading: false });
+        if (err.response.status === 401) {
+          this.setState({ error: true, loading: false });
+        }
+        if (err.response.status === 503) {
+          sendAlert("Serveur indisponible", 'error');
+        }
+      } else {
+        this.setState({ loading: false });
+        sendAlert("Serveur indisponible", 'error');
       }
     });
   };
+
+  isLoginDisabled() {
+    const { loading, username, password } = this.state;
+    return loading || (username === '' || password === '')
+  }
 
   render() {
     return (
@@ -421,6 +434,7 @@ class Layout extends React.Component {
                 <LockOpen />
               </IconButton>
               <LoginForm
+                loginDisabled={this.isLoginDisabled()}
                 loading={this.state.loading}
                 error={this.state.error}
                 open={this.state.connexionOpen}

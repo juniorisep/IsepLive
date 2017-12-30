@@ -12,8 +12,10 @@ import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 
 import * as authData from 'data/auth';
 
-import LoginForm from 'components/LoginForm'
+import LoginForm from 'components/LoginForm';
 import SlideShow from 'components/SlideShow';
+
+import { sendAlert } from '../../components/Alert';
 
 const Container = styled.div`
   display: flex;
@@ -164,10 +166,23 @@ export default class Login extends Component {
       this.handleRequestClose();
     }).catch(err => {
       if (err.response) {
-        this.setState({ error: true, loading: false });
+        if (err.response.status === 401) {
+          this.setState({ error: true, loading: false });
+        }
+        if (err.response.status === 503) {
+          sendAlert("Serveur indisponible", 'error');
+        }
+      } else {
+        this.setState({ loading: false });
+        sendAlert("Serveur indisponible", 'error');
       }
     });
   };
+
+  isLoginDisabled() {
+    const { loading, username, password } = this.state;
+    return loading || (username === '' || password === '')
+  }
 
   render() {
     const images = [1, 2, 3, 4, 5].map(e => `img/login/${e}-medium.jpg`);
@@ -210,6 +225,7 @@ export default class Login extends Component {
           </AccessContainer>
         </Content>
         <LoginForm
+          loginDisabled={this.isLoginDisabled()}
           loading={this.state.loading}
           error={this.state.error}
           open={this.state.connexionOpen}

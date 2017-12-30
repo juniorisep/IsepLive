@@ -30,9 +30,9 @@ export default function LoginForm(props) {
               fullWidth
               onChange={(e) => props.onChange('username', e)} />
             <TextField
+              type="password"
               error={props.error}
               helperText={props.error && 'Mauvais mot de passe ou utilisateur'}
-              type="password"
               margin="normal"
               label="Mot de passe"
               fullWidth

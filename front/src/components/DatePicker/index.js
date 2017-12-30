@@ -116,7 +116,7 @@ export default class DatePicker extends React.Component {
   render() {
 
     const getMonthName = (month) => {
-      const date = new Date();
+      const date = new Date(0);
       date.setMonth(month);
       moment.locale('fr');
       return moment(date).format('MMMM');

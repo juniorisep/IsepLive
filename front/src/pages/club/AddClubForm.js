@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { Flex, Box } from 'grid-styled';
+
 import { Text } from 'components/common';
 
 import Button from 'material-ui/Button';
@@ -19,7 +21,7 @@ export default class AddClubForm extends React.Component {
   state = {
     name: '',
     creation: new Date(),
-    president: 0,
+    president: -1,
     description: '',
     website: '',
     logo: null,
@@ -43,6 +45,19 @@ export default class AddClubForm extends React.Component {
   renderSuggestion = sug =>
     `${sug.firstname} ${sug.lastname}`;
 
+  canSave = () => {
+    const {
+      name,
+      president,
+      description,
+      logo,
+    } = this.state;
+    return name !== '' &&
+      president !== -1 &&
+      description !== '' &&
+      logo !== null;
+  }
+
   handleSave = e => {
     this.props.onSave(this.state).then(res => {
       this.props.handleRequestClose();
@@ -56,6 +71,7 @@ export default class AddClubForm extends React.Component {
         <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
           <TextField
+            required
             label="Nom"
             fullWidth
             margin="normal"
@@ -71,35 +87,46 @@ export default class AddClubForm extends React.Component {
               onChange={date => this.change('creation', date)} />
           </div>
           <AutoComplete
-            label="Président"
+            label="Président *"
             search={this.search}
             onSelect={val => this.change('president', val.id)}
             renderSuggestion={sug => `${sug.firstname} ${sug.lastname}`}
             suggestionValue={e => e.id}
           />
           <TextField
+            required
             label="Description"
             multiline
             rows="4"
             fullWidth
             margin="normal"
             onChange={this.handleInput('description')} />
-          <TextField label="Site Internet" fullWidth margin="normal" onChange={this.handleInput('website')} />
+          <TextField
+            label="Site Internet"
+            fullWidth
+            margin="normal"
+            onChange={this.handleInput('website')} />
           <div style={{ marginTop: 10 }}>
             <input onChange={(e) => this.change('logo', e.target.files[0])} accept="jpg,jpeg,JPG,JPEG" id="file" type="file" style={{ display: 'none' }} />
             <label htmlFor="file">
-              <Button raised component="span">
-                Ajouter logo
+              <Flex align="center">
+                <Box>
+                  <Button color="primary" raised component="span">
+                    Choisir logo
                 </Button>
+                </Box>
+                <Box p={2}>
+                  {this.state.logo && <Text>Fichier sélectionné: {this.state.logo.name}</Text>}
+                </Box>
+              </Flex>
             </label>
           </div>
-          {this.state.logo && <Text>Fichier sélectionné: {this.state.logo.name}</Text>}
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleRequestClose} color="primary">
             Annuler
             </Button>
-          <Button color="accent" onClick={this.handleSave}>
+          <Button color="accent" onClick={this.handleSave} disabled={!this.canSave()}>
             Ajouter
             </Button>
         </DialogActions>

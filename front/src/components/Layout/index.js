@@ -14,6 +14,7 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 
 import IconButton from 'material-ui/IconButton';
 import LockOpen from 'material-ui-icons/LockOpen';
+import MenuIcon from 'material-ui-icons/Menu';
 
 import Drawer from 'material-ui/Drawer';
 import { ListItem, ListItemText } from 'material-ui/List';
@@ -70,7 +71,6 @@ const WIDTH_THRESHOLD = 1080;
 const Logo = styled.img`
   height: 50px;
   margin-right: 20px;
-  cursor: pointer;
 `;
 
 
@@ -95,7 +95,7 @@ const NavMenu = styled.div`
     border-left: 2px solid white;
   }
 
-  @media (max-width: ${props => WIDTH_THRESHOLD + 'px'}) {
+  @media (max-width: ${props => WIDTH_THRESHOLD}px) {
     display: none;
   }
 `;
@@ -105,6 +105,13 @@ const NavMenu = styled.div`
 const Root = styled.div`
   width: 100%;
 `;
+
+const Responsive = styled.div`
+  display: none;
+  @media (max-width: ${p => p.maxWidth}px) {
+    display: block;
+  }
+`
 
 function Nav(props) {
   return (
@@ -388,15 +395,14 @@ class Layout extends React.Component {
         <Interceptor />
         <AppBar style={{ position: 'relative' }}>
           <Toolbar>
+            <Responsive maxWidth={WIDTH_THRESHOLD}>
+              <IconButton color="accent" onClick={() => this.setState({ sidebarOpen: true })}>
+                <MenuIcon />
+              </IconButton>
+            </Responsive>
             <Logo
               src="/img/layout/iseplive.png"
-              alt="isep-live-logo"
-              onClick={() => {
-                if (window.innerWidth > WIDTH_THRESHOLD) {
-                  this.props.history.push('/');
-                }
-                this.setState({ sidebarOpen: true })
-              }} />
+              alt="isep-live-logo" />
             <NavMenu>
               {navListBar(Nav)}
             </NavMenu>
@@ -445,8 +451,7 @@ class Layout extends React.Component {
             </Auth>
           </Toolbar>
         </AppBar>
-        {
-          window.innerWidth < WIDTH_THRESHOLD &&
+        <Responsive maxWidth={WIDTH_THRESHOLD}>
           <Drawer
             anchor="left"
             open={this.state.sidebarOpen}
@@ -454,7 +459,7 @@ class Layout extends React.Component {
             onClick={this.handleSideBarClose}>
             {navListMenu(SideNav)}
           </Drawer>
-        }
+        </Responsive>
         <Switch>
           <Redirect path="/" exact to="/accueil" />
           <Route path="/accueil" component={Home} />

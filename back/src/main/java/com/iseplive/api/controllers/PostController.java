@@ -119,6 +119,14 @@ public class PostController {
     return postService.getLikesPost(id);
   }
 
+
+  @DeleteMapping("/{id}/comment/{comId}")
+  @RolesAllowed({Roles.STUDENT})
+  public void deleteComment(@PathVariable Long comId, @AuthenticationPrincipal TokenPayload auth) {
+    postService.deleteComment(comId, auth.getId());
+  }
+
+
   @PutMapping("/{id}/comment/{comId}/like")
   @RolesAllowed({Roles.STUDENT})
   public void toggleCommentLike(@PathVariable Long comId, @AuthenticationPrincipal TokenPayload auth) {

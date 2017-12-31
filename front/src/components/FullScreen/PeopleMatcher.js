@@ -107,6 +107,13 @@ export default class PeopleMatcher extends Component {
     })
   }
 
+  getStudentSelection() {
+    const { students, tags } = this.state;
+    return students.filter(s => {
+      return tags.filter(t => t.match.id === s.id).length === 0;
+    })
+  }
+
   render() {
     const ownerId = authData.getUser().id;
     if (!this.props.image) return null;
@@ -136,7 +143,7 @@ export default class PeopleMatcher extends Component {
             <TextField fullWidth label="Prénom ou Nom" onChange={this.findStudents} />
             <List>
               {
-                this.state.students.map(stud => {
+                this.getStudentSelection().map(stud => {
                   return (
                     <ListItem key={stud.id} button onClick={this.selectStudent(stud)}>
                       <Avatar alt="student" src={stud.photoUrlThumb ? backUrl + stud.photoUrlThumb : '/img/svg/user.svg'} />

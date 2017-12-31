@@ -11,6 +11,7 @@ import { PostView } from 'components/PostList';
 
 import Comment from 'components/PostList/Comment';
 import CommentBox from 'components/PostList/CommentBox';
+import Popup from '../../../components/Popup';
 import ModifyPostModal from '../../../components/PostList/ModifyPostModal';
 
 const Background = styled.div`
@@ -41,14 +42,18 @@ export default function PostDetailView(props) {
       </Background>
       <FluidContent>
         <Title>Commentaires</Title>
-        {props.comments.length === 0 && <Text>Pas de commentaire(s) pour le moment !</Text>}
+        {
+          props.comments.length === 0 &&
+          <Text>Pas de commentaire(s) pour le moment !</Text>
+        }
         {
           props.comments.map(c => {
             return <Comment
               key={c.id}
               comment={c}
               toggleLike={props.toggleLikeCom}
-              showLikes={props.showLikes} />
+              showLikes={props.showLikes}
+              onDelete={props.reqDeleteComment} />
           })
         }
         <Flex mt="30px">
@@ -69,6 +74,11 @@ export default function PostDetailView(props) {
         refresh={props.refresh}
         modifyPost={props.modifyPost}
         requestClose={props.requestClose} />
+      <Popup
+        title="Suppression commentaire"
+        description="Voulez vous supprimer ce commentaire ?"
+        open={props.openDeleteComm}
+        onRespond={props.deleteComment} />
     </div>
   );
 };

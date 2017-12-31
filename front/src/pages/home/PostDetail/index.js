@@ -13,6 +13,8 @@ class PostDetail extends Component {
     commenter: null,
 
     modifyEnable: false,
+    openDeleteComm: false,
+    toDeleteComm: null,
   }
 
   componentDidMount() {
@@ -63,12 +65,24 @@ class PostDetail extends Component {
       .then(this.refreshCom);
   };
 
-  modifyPost = (postModified) => {
-    this.setState({ post: postModified, modifyEnable: true })
-  };
-  requestClose = () => {
-    this.setState({ modifyEnable: false })
-  };
+  modifyPost = (postModified) =>
+    this.setState({ post: postModified, modifyEnable: true });
+
+  requestClose = () =>
+    this.setState({ modifyEnable: false });
+
+  reqDeleteComment = (comment) =>
+    this.setState({ toDeleteComm: comment, openDeleteComm: true });
+
+  deleteComment = (ok) => {
+    if (ok) {
+      postData.deleteComment(this.postId, this.state.toDeleteComm.id)
+        .then(res => {
+          this.refreshCom();
+        });
+    }
+    this.setState({ openDeleteComm: false });
+  }
 
   render() {
     return (
@@ -77,6 +91,7 @@ class PostDetail extends Component {
         comments={this.state.comments}
         commenter={this.state.commenter}
         modifyEnable={this.state.modifyEnable}
+        openDeleteComm={this.state.openDeleteComm}
 
         refresh={this.refreshPost}
         toggleLikeCom={this.toggleLikeCom}
@@ -84,6 +99,8 @@ class PostDetail extends Component {
         onComment={this.comment}
         modifyPost={this.modifyPost}
         requestClose={this.requestClose}
+        reqDeleteComment={this.reqDeleteComment}
+        deleteComment={this.deleteComment}
       />
     );
   };

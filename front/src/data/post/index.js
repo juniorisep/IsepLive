@@ -27,6 +27,10 @@ export function comment(postId: number, message: string) {
   return axios.put(`/post/${postId}/comment`, { message });
 };
 
+export function deleteComment(postId: number, commId: number) {
+  return axios.delete(`/post/${postId}/comment/${commId}`);
+}
+
 export function toggleLikeComment(postId: number, comId: number) {
   return axios.put(`/post/${postId}/comment/${comId}/like`);
 };

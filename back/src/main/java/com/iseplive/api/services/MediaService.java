@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 01/08/2017.
@@ -145,6 +146,13 @@ public class MediaService {
 
   public void tagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
     Image image = imageService.getImage(imageId);
+    List<Matched> matchedList = matchedRepository.findAllByImage(image);
+    int res = matchedList.stream()
+      .filter(m -> m.getMatch().getId().equals(studentId))
+      .collect(Collectors.toList()).size();
+    if (res > 0) {
+      throw new IllegalArgumentException("this user is already tagged");
+    }
     Student match = studentService.getStudent(studentId);
     Student owner = studentService.getStudent(auth.getId());
     Matched matched = new Matched();

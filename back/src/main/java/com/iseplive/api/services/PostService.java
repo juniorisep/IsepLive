@@ -279,4 +279,15 @@ public class PostService {
     }
     return true;
   }
+
+  public void deleteComment(Long comId, Long id) {
+    Comment comment = commentRepository.findOne(comId);
+    if (comment == null) {
+      throw new IllegalArgumentException("could not find this comment");
+    }
+    if (!comment.getStudent().getId().equals(id)) {
+      throw new AuthException("you cannot delete this comment");
+    }
+    commentRepository.delete(comment);
+  }
 }

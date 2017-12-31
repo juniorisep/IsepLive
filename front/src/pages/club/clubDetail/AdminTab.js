@@ -68,7 +68,8 @@ function RightsPanel(props) {
                 input={<Input fullWidth id="role" />}
               >
                 <MenuItem value={1}>Président</MenuItem>
-                <MenuItem value={2}>Membre</MenuItem>
+                <MenuItem value={2}>Trésorier</MenuItem>
+                <MenuItem value={3}>Membre</MenuItem>
               </Select>
             </FormControl>
           </Box>

@@ -69,7 +69,6 @@ class LikeButton extends Component {
         likes: this.state.likes + (this.state.liked ? -1 : 1)
       });
       this.props.toggleLike();
-      // postData.toggleLikePost(this.props.post.id);
     };
   };
 
@@ -87,7 +86,7 @@ class LikeButton extends Component {
     const { showLikes, studentsLike } = this.state;
     return (
       <Flex align="center">
-        <Label onClick={this.showLikes}>{this.state.likes} j'aime</Label>
+        <Label onClick={this.showLikes} style={{ width: 55 }}>{this.state.likes} j'aime</Label>
         <CustomCheckbox
           icon={<NotLiked />}
           checkedIcon={<Liked />}

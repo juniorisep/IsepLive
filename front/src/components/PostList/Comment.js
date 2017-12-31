@@ -12,13 +12,12 @@ class Comment extends Component {
 
   render() {
     const props = this.props.comment;
-    console.log(props.student)
     return (
       <Flex mb={3}>
         <Box>
-          <ProfileImage src={props.student.photoUrlThumb} sz="60px" />
+          <ProfileImage src={props.student.photoUrlThumb} sz="60px" mh="auto" />
         </Box>
-        <Box ml="20px" mt="5px">
+        <Box ml="20px" mt="5px" mr="5px">
           <Link to={`/annuaire/${props.student.id}`}>
             <Title fontSize={1} invert>{props.student.firstname} {props.student.lastname}</Title>
           </Link>

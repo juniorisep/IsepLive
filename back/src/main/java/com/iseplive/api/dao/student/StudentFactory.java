@@ -3,8 +3,12 @@ package com.iseplive.api.dao.student;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
+import com.iseplive.api.dto.view.StudentWithRoleView;
+import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 16/10/2017.
@@ -55,5 +59,37 @@ public class StudentFactory {
     student.setTwitter(dto.getTwitter());
     student.setSnapchat(dto.getSnapchat());
     student.setInstagram(dto.getInstagram());
+  }
+
+  public StudentWithRoleView studentToStudentWithRoles(Student student) {
+    StudentWithRoleView studentWithRoleView = new StudentWithRoleView();
+
+    studentWithRoleView.setId(student.getId());
+    studentWithRoleView.setFirstname(student.getFirstname());
+    studentWithRoleView.setLastname(student.getLastname());
+
+    studentWithRoleView.setBio(student.getBio());
+    studentWithRoleView.setBirthDate(student.getBirthDate());
+    studentWithRoleView.setPhone(student.getPhone());
+    studentWithRoleView.setPromo(student.getPromo());
+    studentWithRoleView.setAddress(student.getAddress());
+    studentWithRoleView.setMail(student.getMail());
+    studentWithRoleView.setMailISEP(student.getMailISEP());
+
+    studentWithRoleView.setFacebook(student.getFacebook());
+    studentWithRoleView.setTwitter(student.getTwitter());
+    studentWithRoleView.setSnapchat(student.getSnapchat());
+    studentWithRoleView.setInstagram(student.getInstagram());
+
+    studentWithRoleView.setPhotoUrl(student.getPhotoUrl());
+    studentWithRoleView.setPhotoUrlThumb(student.getPhotoUrlThumb());
+    studentWithRoleView.setStudentId(student.getStudentId());
+
+    studentWithRoleView.setRolesValues(
+      student.getRoles().stream()
+      .map(Role::getRole)
+      .collect(Collectors.toList())
+    );
+    return studentWithRoleView;
   }
 }

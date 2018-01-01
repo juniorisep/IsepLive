@@ -8,6 +8,7 @@ import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.dto.view.ClubMemberView;
 import com.iseplive.api.dto.view.PostView;
+import com.iseplive.api.dto.view.StudentWithRoleView;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.services.*;
@@ -53,10 +54,22 @@ public class UserController {
     return studentService.getAll(page);
   }
 
+  @GetMapping("/student/admin")
+  public Page<StudentWithRoleView> getAllStudentsAdmin(@RequestParam(defaultValue = "0") int page) {
+    return studentService.getAllForAdmin(page);
+  }
+
   @GetMapping("/student/search")
   public Page<Student> searchStudents(String name, String promos, String sort,
                                       @RequestParam(defaultValue = "0") int page) {
     return studentService.search(name, promos, sort, page);
+  }
+
+  @GetMapping("/student/search/admin")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
+  public Page<StudentWithRoleView> searchStudentsAdmin(String name, String roles, String promos, String sort,
+                                                       @RequestParam(defaultValue = "0") int page) {
+    return studentService.searchAdmin(name, roles, promos, sort, page);
   }
 
   @GetMapping("/student/{id}/post")

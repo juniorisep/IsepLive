@@ -13,11 +13,114 @@ import Table, {
 } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 
-import { Paper, FluidContent, Title, Text, ProfileImage, Filler } from "../../../components/common";
+import { MenuItem } from 'material-ui/Menu';
+import Select from 'material-ui/Select';
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
+
+
+import {
+  Paper,
+  FluidContent,
+  Title,
+  Text,
+  ProfileImage,
+  Filler
+} from "../../../components/common";
 
 import * as userData from '../../../data/users/student';
 
+import * as rolesKey from '../../../constants';
+import { MAIN_COLOR } from '../../../colors';
+
+import { getPromo } from '../../../data/users/student';
+
+
 import UpdateStudent from './UpdateStudent';
+
+function getRoleName(role) {
+  switch (role) {
+    case rolesKey.ADMIN:
+      return "Super Admin"
+    case rolesKey.CLUB_MANAGER:
+      return "Gestion associations"
+    case rolesKey.EVENT_MANAGER:
+      return "Gestion évenements"
+    case rolesKey.POST_MANAGER:
+      return "Gestion posts"
+    case rolesKey.USER_MANAGER:
+      return "Gestion utilisateurs"
+    case rolesKey.STUDENT:
+      return "Eleve"
+
+    default:
+      return role;
+  }
+}
+
+const SelectRoles = (props) => {
+  return (
+    <FormControl style={{ width: '100%' }}>
+      <InputLabel htmlFor="roles">Roles</InputLabel>
+      <Select
+        fullWidth
+        multiple
+        value={props.filterRoles}
+        onChange={props.handleSelectRoles}
+        input={<Input fullWidth id="roles" />}
+      >
+        {
+          props.roles.map(r => (
+            <MenuItem
+              key={r}
+              value={r}
+              style={{
+                color: props.filterRoles.includes(r) ? MAIN_COLOR : 'black'
+              }}>
+              {getRoleName(r)}
+            </MenuItem>
+          ))
+        }
+      </Select>
+    </FormControl>
+  )
+}
+
+
+const SelectPromo = (props) => {
+  return (
+    <FormControl style={{ width: '100%' }}>
+      <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
+      <Select
+        multiple
+        value={props.filterPromo}
+        renderValue={years => years.map(year => getPromo(year) || year).join(', ')}
+        onChange={props.onPromoFilter}
+        input={<Input id="year-multiple" />}
+        MenuProps={{
+          PaperProps: {
+            style: {
+              maxHeight: 300,
+            },
+          },
+        }}>
+        {
+          props.years.map(year => (
+            <MenuItem
+              key={year}
+              value={year}
+              style={{
+                color: props.filterPromo.includes(year) ? MAIN_COLOR : 'black',
+              }}
+            >
+              <span>{year} {getPromo(year, v => `(${v})`) || ''}</span>
+            </MenuItem>
+          ))
+        }
+      </Select>
+    </FormControl>
+  )
+}
 
 class Users extends Component {
 
@@ -26,7 +129,10 @@ class Users extends Component {
     page: 0,
     total: 0,
     selected: null,
+
     filter: '',
+    filterRoles: [],
+    filterPromo: [],
   }
 
   componentDidMount() {
@@ -34,7 +140,7 @@ class Users extends Component {
   }
 
   loadUsers(page: number) {
-    userData.getStudents(page).then(res => {
+    userData.getStudentsForAdmin(page).then(res => {
       this.setState({
         users: res.data.content,
         page,
@@ -43,44 +149,88 @@ class Users extends Component {
     })
   }
 
-  filterUsers = (filter, page) => {
-    if (this.filterTimeout) clearTimeout(this.filterTimeout);
-    this.setState({ filter })
-    this.filterTimeout = setTimeout(() => {
-      userData.searchStudents(filter, [], "a", page).then(res => {
-        this.setState({
-          users: res.data.content,
-          total: res.data.totalElements,
-          page,
-        });
-      })
-    }, 300);
+  filterUsers = (
+    filter: string,
+    filterRoles: string[],
+    filterPromo: number[],
+    page: number
+  ) => {
 
-  }
-
-  handleChangePage = (event: Event, page: number) => {
-    if (this.state.filter !== '') {
-      this.filterUsers(this.state.filter, page);
+    if (filter !== '' || filterRoles.length > 0 || filterPromo.length > 0) {
+      if (this.filterTimeout) clearTimeout(this.filterTimeout);
+      this.filterTimeout = setTimeout(() => {
+        userData.searchStudentsAdmin(filter, filterRoles, filterPromo, "a", page).then(res => {
+          this.setState({
+            users: res.data.content,
+            total: res.data.totalElements,
+            page,
+          });
+        })
+      }, 300);
     } else {
       this.loadUsers(page);
     }
+
+    this.setState({ filter, filterRoles, filterPromo });
+  }
+
+  handleChangePage = (event: Event, page: number) => {
+    this.filterUsers(
+      this.state.filter,
+      this.state.filterRoles,
+      this.state.filterPromo,
+      page
+    );
   }
 
   changeFilter = (event) => {
-    this.filterUsers(event.target.value, 0);
+    const filter = event.target.value;
+    this.filterUsers(
+      filter,
+      this.state.filterRoles,
+      this.state.filterPromo,
+      0
+    );
   }
 
   selectRow = selected => e => {
     this.setState({ selected });
   }
 
-  onChangeField = (name, value) => {
+  onChangeField = (name: string, value: string) => {
     this.setState(state => ({
       selected: {
         ...state.selected,
         [name]: value,
       }
     }));
+  }
+
+  handleSelectRoles = (e) => {
+    const filterRoles = e.target.value;
+    this.filterUsers(this.state.filter, filterRoles, this.state.filterPromo, 0);
+  }
+
+  onPromoFilter = (e) => {
+    const filterPromo = e.target.value;
+    this.filterUsers(
+      this.state.filter,
+      this.state.filterRoles,
+      filterPromo,
+      0
+    );
+  }
+
+  getYears() {
+    let now = new Date().getFullYear();
+    if (new Date().getMonth() < 9) {
+      now--;
+    }
+    let years = [];
+    for (var i = 5; i > -15; i--) {
+      years.push(now + i);
+    }
+    return years;
   }
 
   render() {
@@ -110,11 +260,34 @@ class Users extends Component {
           </Box>
           <Box w={[1, 2 / 3]} p={1} pl={2}>
             <Paper p="1em">
-              <TextField
-                label="Filtrer par nom et prénom"
-                fullWidth
-                value={filter}
-                onChange={this.changeFilter} />
+              <Flex>
+                <Box p={1} w={1 / 2}>
+                  <TextField
+                    label="Filtrer par nom et prénom"
+                    fullWidth
+                    value={filter}
+                    onChange={this.changeFilter} />
+                </Box>
+                <Box p={1} w={1 / 4}>
+                  <SelectPromo
+                    filterPromo={this.state.filterPromo}
+                    onPromoFilter={this.onPromoFilter}
+                    years={this.getYears()} />
+                </Box>
+                <Box p={1} w={1 / 4}>
+                  <SelectRoles
+                    filterRoles={this.state.filterRoles}
+                    handleSelectRoles={this.handleSelectRoles}
+                    roles={[
+                      rolesKey.ADMIN,
+                      rolesKey.CLUB_MANAGER,
+                      rolesKey.USER_MANAGER,
+                      rolesKey.EVENT_MANAGER,
+                      rolesKey.POST_MANAGER,
+                      rolesKey.STUDENT,
+                    ]} />
+                </Box>
+              </Flex>
             </Paper>
             <br />
             <Paper>
@@ -155,7 +328,7 @@ class Users extends Component {
                             {u.promo}
                           </TableCell>
                           <TableCell>
-                            {/* {n.association} */}
+                            {u.rolesValues.map(v => getRoleName(v)).join(', ')}
                           </TableCell>
                         </TableRow>
                       );

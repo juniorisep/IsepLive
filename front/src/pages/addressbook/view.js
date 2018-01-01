@@ -16,41 +16,7 @@ import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
 import * as authData from '../../data/auth';
-
-const getPromo = (promo, render) => {
-  const date = new Date();
-  date.setFullYear(new Date().getFullYear() + 5);
-  let lastPromo = date.getFullYear();
-  if (date.getMonth() < 9) {
-    lastPromo--;
-  }
-  let display = ""
-  switch (promo) {
-    case lastPromo:
-      display = "Sup";
-      break;
-    case lastPromo - 1:
-      display = "Spe";
-      break;
-    case lastPromo - 2:
-      display = "A1";
-      break;
-    case lastPromo - 3:
-      display = "A2";
-      break;
-    case lastPromo - 4:
-      display = "A3";
-      break;
-
-    default:
-      return false;
-  }
-  if (render) {
-    return render(display);
-  }
-
-  return display;
-}
+import { getPromo } from '../../data/users/student';
 
 const Person = (props) => {
   const MainText = styled.div`
@@ -84,6 +50,9 @@ const ITEM_PADDING_TOP = 8;
 
 let now = new Date().getFullYear();
 let years = [];
+if (new Date().getMonth() < 9) {
+  now--;
+}
 for (var i = 5; i > -15; i--) {
   years.push(now + i);
 };

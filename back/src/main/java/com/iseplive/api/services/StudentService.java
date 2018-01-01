@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.google.common.collect.Sets;
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dao.student.RoleRepository;
@@ -8,6 +9,7 @@ import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
+import com.iseplive.api.dto.view.StudentWithRoleView;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.IllegalArgumentException;
@@ -52,7 +54,7 @@ public class StudentService {
 
   private final int RESULTS_PER_PAGE = 20;
 
-  private final int WIDTH_PROFILE_IMAGE = 512;
+  private final int WIDTH_PROFILE_IMAGE = 768;
   private final int WIDTH_PROFILE_IMAGE_THUMB = 384;
 
 
@@ -77,10 +79,6 @@ public class StudentService {
     return authorRepository.save(student);
   }
 
-  public Student createStudent(Student student) {
-    return authorRepository.save(student);
-  }
-
   public void addProfileImage(String studentId, MultipartFile image) {
     Student student = studentRepository.findFirstByStudentId(studentId);
     updateProfileImage(student, image);
@@ -97,7 +95,7 @@ public class StudentService {
         new Sort.Order(direction, "lastname")
       )
     );
-    if (!promos.equals("")) {
+    if (!promos.isEmpty()) {
       List<Integer> promoInt = Arrays.stream(promos.split(","))
         .map(Integer::decode)
         .collect(Collectors.toList());
@@ -111,6 +109,36 @@ public class StudentService {
       name.toLowerCase(),
       pageRequest
     );
+  }
+
+  public Page<StudentWithRoleView> searchAdmin(String name, String roles, String promos, String sort, int page) {
+    PageRequest pageRequest = new PageRequest(
+      page,
+      RESULTS_PER_PAGE,
+      new Sort(
+        new Sort.Order(Sort.Direction.DESC, "promo")
+      )
+    );
+
+    if (!roles.isEmpty()) {
+      Set<Role> rolesList = Sets.newHashSet(roles.split(",")).stream()
+        .map(r -> roleRepository.findByRole(r))
+        .collect(Collectors.toSet());
+
+      if (promos.isEmpty()) {
+        return studentRepository.searchStudentRole(name, rolesList, pageRequest)
+          .map(s -> studentFactory.studentToStudentWithRoles(s));
+      } else {
+        List<Integer> promoInt = Arrays.stream(promos.split(","))
+          .map(Integer::decode)
+          .collect(Collectors.toList());
+        return studentRepository.searchStudentRolePromo(name, rolesList, promoInt, pageRequest)
+          .map(s -> studentFactory.studentToStudentWithRoles(s));
+      }
+    }
+
+    return search(name, promos, sort, page)
+      .map(s -> studentFactory.studentToStudentWithRoles(s));
   }
 
   public Student updateStudent(StudentUpdateDTO dto, Long id) {
@@ -165,5 +193,9 @@ public class StudentService {
 
     student.setPhotoUrl(imageUtils.getPublicUrlImage(path));
     student.setPhotoUrlThumb(imageUtils.getPublicUrlImage(pathThumb));
+  }
+
+  public Page<StudentWithRoleView> getAllForAdmin(int page) {
+    return getAll(page).map(s -> studentFactory.studentToStudentWithRoles(s));
   }
 }

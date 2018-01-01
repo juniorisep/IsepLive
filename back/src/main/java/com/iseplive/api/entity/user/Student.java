@@ -18,9 +18,12 @@ import java.util.Set;
 public class Student extends Author implements UserDetails {
 
   private Integer promo;
+
   private String firstname;
   private String lastname;
+
   private Date birthDate;
+
   private String phone;
   private String address;
 
@@ -29,10 +32,12 @@ public class Student extends Author implements UserDetails {
 
   private String mail;
   private String mailISEP;
+
   private String facebook;
   private String twitter;
   private String instagram;
   private String snapchat;
+
   private Boolean allowNotifications = false;
 
   private String photoUrl;

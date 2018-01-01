@@ -47,8 +47,5 @@ jwt:
 #  tokenDuration: 10
   issuer: IsepLive
 
-swagger:
-  enable: true
-
 auth:
   password: password

@@ -23,6 +23,8 @@ import DatePicker from '../../../components/DatePicker';
 import { Title, Text, ProfileImage } from "../../../components/common";
 import Popup from '../../../components/Popup';
 
+import { Link } from 'react-router-dom';
+
 import * as userData from '../../../data/users/student';
 import * as authData from '../../../data/auth';
 import * as rolesKey from '../../../constants';
@@ -77,7 +79,7 @@ export default class UpdateStudent extends React.Component {
       case rolesKey.ADMIN:
         return "Super Admin"
       case rolesKey.CLUB_MANAGER:
-        return "Gestion assoc"
+        return "Gestion associations"
       case rolesKey.EVENT_MANAGER:
         return "Gestion évenements"
       case rolesKey.POST_MANAGER:
@@ -136,7 +138,9 @@ export default class UpdateStudent extends React.Component {
     const { roles, userRoles, imagePreview, file, openDeletePopup } = this.state;
     return (
       <div>
-        <Title fontSize={1.1}>{selected.firstname} {selected.lastname}</Title>
+        <Link to={`/annuaire/${selected.id}`}>
+          <Title fontSize={1.1}>{selected.firstname} {selected.lastname}</Title>
+        </Link>
         <ExpansionPanel defaultExpanded>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Text>Infos</Text>
@@ -185,6 +189,7 @@ export default class UpdateStudent extends React.Component {
                 </Box>
               </Flex>
               <TextField
+                type="number"
                 margin="normal"
                 label="Promotion"
                 value={selected.promo || ''}
@@ -194,8 +199,8 @@ export default class UpdateStudent extends React.Component {
                 margin="normal"
                 label="Numéro ISEP"
                 value={selected.studentId || ''}
-                fullWidth
-                onChange={this.onChangeField('studentId')} />
+                disabled
+                fullWidth />
               <TextField
                 margin="normal"
                 label="Email"

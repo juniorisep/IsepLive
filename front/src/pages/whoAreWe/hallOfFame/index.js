@@ -66,7 +66,7 @@ class HallOfFame extends Component {
         <ScrollToTopOnMount />
         <FluidContent style={{ textAlign: 'center' }}>
           <div>
-            <Title>All of Fame</Title>
+            <Title>Hall of Fame</Title>
           </div>
           <Title fontSize={1.3} invert>Tous les héros ne portent pas de capes</Title>
 

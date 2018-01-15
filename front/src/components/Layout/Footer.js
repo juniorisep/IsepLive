@@ -70,7 +70,7 @@ export default class FooterView extends React.Component {
                 1, 1, 2 / 6
               ]} p={2}>
                 <h4>CONTACT</h4>
-                <p>28, rue Notre Dame des Champs</p>
+                <p>28, rue Notre-Dame-des-Champs</p>
                 <p>75 006 PARIS</p>
                 <p>iseplive@gmail.com</p>
               </Box>

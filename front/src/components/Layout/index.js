@@ -475,9 +475,9 @@ class Layout extends React.Component {
           <Route path="/evenements/:id" component={EventDetail} />
           <Route path="/profile" component={Resume} />
           <Route path="/whoarewe" component={Whoarewe} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/aide" component={Help} />
-          <Route path="/convention-utilisation" component={UserAgreement} />
+          <Route path="/contact" component={NotFound} />
+          <Route path="/aide" component={NotFound} />
+          <Route path="/convention-utilisation" component={NotFound} />
           <Route path="/mentions-legales" component={LegalNotice} />
           <AuthenticatedRoute roles={[roles.ADMIN, roles.USER_MANAGER]} path="/administration" component={Admin} />
           <Route path="*" component={NotFound} />

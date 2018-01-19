@@ -78,7 +78,7 @@ export function getClubRoleName(roleName: string) {
       return "Président";
     case constants.CLUB_ROLE_MEMBER:
       return "Membre";
-
+      
     default:
       return roleName;
   }

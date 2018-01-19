@@ -50,44 +50,50 @@ class Poll extends Component {
 
   componentDidMount() {
 
-    if (this.isEnded()) {
+    if (this.hasEnded()) {
       this.setState({ showVote: true, ended: true });
-    };
+    }
 
     if (!authData.isLoggedIn()) {
       this.setState({ showVote: true });
-    } else {
-      pollData.getVotes(this.state.data.id).then(res => {
-        if (res.data.length > 0) {
-          this.setState({ showVote: true, answers: res.data.map(d => d.answer) });
-        };
-      });
-    };
-  };
+      return;
+    }
 
-  isEnded = () => {
-    return this.state.data.endDate < new Date().getTime();
-  };
-
-  handleVote = (ans) => {
-    const { showVote, data, answers } = this.state;
-    if (!this.isEnded()) {
-      if (!showVote || (data.multiAnswers &&
-        answers.length < data.answers.length)) {
-        this.setState({ showVote: true, answers: [...answers, ans] });
-        pollData.vote(data.id, ans.id).then(res => {
-          pollData.getPoll(this.props.data.id).then(res => {
-            this.setState({ data: res.data });
-          });
+    pollData.getVotes(this.state.data.id).then(res => {
+      if (res.data.length > 0) {
+        this.setState({
+          showVote: true,
+          answers: res.data.map(d => d.answer)
         });
-      };
-    };
-  };
+      }
+    });
+  }
+
+  hasEnded = () => {
+    return this.state.data.endDate < new Date().getTime();
+  }
+
+  handleVote = async (ans) => {
+    if (this.hasEnded()) {
+      this.setState({ showVote: true });
+      return;
+    }
+
+    const { showVote, data, answers } = this.state;
+    console.log(ans, answers)
+
+    // if (!showVote || (data.multiAnswers && answers.length < data.answers.length)) {
+    //   this.setState({ showVote: true, answers: [...answers, ans] });
+    //   await pollData.vote(data.id, ans.id);
+    //   let res = await pollData.getPoll(this.props.data.id);
+    //   this.setState({ data: res.data });
+    // }
+  }
 
   getTotal() {
     const poll = this.state.data;
     return poll.answers.reduce((acc, x) => acc + x.votesNb, 0);
-  };
+  }
 
   render() {
     const poll = this.state.data;
@@ -103,11 +109,11 @@ class Poll extends Component {
               return (
                 <Answer
                   key={a.id}
-                  showVote={this.state.showVote || this.isEnded()}
+                  showVote={this.state.showVote || this.hasEnded()}
                   voted={this.state.answers.filter(as => as.id === a.id).length > 0}
                   total={total}
                   multiAnswers={poll.multiAnswers}
-                  ended={this.isEnded()}
+                  ended={this.hasEnded()}
                   onClick={() => this.handleVote(a)}
                   answer={a} />
               );

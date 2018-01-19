@@ -287,7 +287,7 @@ export class VotesList extends React.Component {
   render() {
     const props = this.props;
     return (
-      <Dialog open={props.open} onRequestClose={props.handleRequestClose} >
+      <Dialog open={props.open} onClose={props.handleRequestClose} >
         <DialogTitle>Votes</DialogTitle>
         <DialogContent>
           {

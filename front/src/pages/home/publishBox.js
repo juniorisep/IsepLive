@@ -418,7 +418,7 @@ class PublishBoxView extends Component {
           <Menu
             anchorEl={this.state.anchorEl}
             open={this.state.authorMenuOpen}
-            onRequestClose={this.handleAuthorMenuClose}>
+            onClose={this.handleAuthorMenuClose}>
             {
               this.state.authorList.map(a => {
                 return (
@@ -435,7 +435,7 @@ class PublishBoxView extends Component {
           <Menu
             anchorEl={this.state.anchorEl}
             open={this.state.mediaMenuOpen}
-            onRequestClose={this.handleMediaMenuClose}>
+            onClose={this.handleMediaMenuClose}>
             {
               this.getMediaPublishList().map(l => {
                 return <MenuItem key={l.name} onClick={() => this.handleMediaSelect(l)}>{l.name}</MenuItem>

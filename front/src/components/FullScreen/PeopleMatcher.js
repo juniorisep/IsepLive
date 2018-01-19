@@ -121,10 +121,10 @@ export default class PeopleMatcher extends Component {
       <div style={STYLE}>
         {
           this.state.tags.map(e => {
-            const onRequestDelete = this.removeStudent(e.match);
+            const onDelete = this.removeStudent(e.match);
             let props = {}
             if (e.owner.id === ownerId) {
-              props = { onRequestDelete };
+              props = { onDelete };
             }
             return <Chip
               key={e.id}
@@ -137,7 +137,7 @@ export default class PeopleMatcher extends Component {
         <InputButton onClick={this.tag}>Tagger une personne</InputButton>
         <Dialog
           open={this.state.dialogOpen}
-          onRequestClose={this.closeDialog} >
+          onClose={this.closeDialog} >
           <DialogTitle>Tagger une personne</DialogTitle>
           <DialogContent>
             <TextField fullWidth label="Prénom ou Nom" onChange={this.findStudents} />

@@ -197,7 +197,7 @@ class UpdateResume extends React.Component {
     const props = this.props;
     let data = this.state.form;
     return (
-      <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+      <Dialog open={props.open} transition={Slide} onClose={props.handleRequestClose}>
         <DialogTitle style={{
           textAlign: 'center'
         }}>

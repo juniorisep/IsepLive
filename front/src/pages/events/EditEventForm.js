@@ -61,7 +61,7 @@ export default class EditEventForm extends React.Component {
 
   render() {
     return (
-      <Dialog open={this.props.open} onRequestClose={this.props.handleRequestClose} >
+      <Dialog open={this.props.open} onClose={this.props.handleRequestClose} >
         <DialogTitle>Editer l'évenement</DialogTitle>
         <DialogContent>
           <Flex wrap>

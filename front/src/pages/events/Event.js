@@ -77,7 +77,7 @@ export default class Event extends React.Component {
             <Menu
               anchorEl={this.state.anchorEl}
               open={this.state.openMenu}
-              onRequestClose={this.closeMenu}>
+              onClose={this.closeMenu}>
               <MenuItem onClick={this.editEvent}>Modifier</MenuItem>
               <MenuItem onClick={this.deleteEvent}>Supprimer</MenuItem>
             </Menu>

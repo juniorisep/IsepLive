@@ -36,7 +36,7 @@ const Label = styled.span`
 
 const LikesPanel = props => {
   return (
-    <Dialog open={props.open} onRequestClose={props.onClose}>
+    <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle>{props.students.length} J'aime</DialogTitle>
       {props.students.length === 0 && <Text style={{ width: 200, padding: 20 }}>Aucun like</Text>}
       <List>

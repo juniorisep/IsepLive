@@ -415,7 +415,7 @@ class Layout extends React.Component {
                 <Menu id="simple-menu"
                   anchorEl={this.state.anchorEl}
                   open={this.state.open}
-                  onRequestClose={this.handleRequestClose}
+                  onClose={this.handleRequestClose}
                 >
                   {
                     authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) &&
@@ -458,7 +458,7 @@ class Layout extends React.Component {
           <Drawer
             anchor="left"
             open={this.state.sidebarOpen}
-            onRequestClose={this.handleSideBarClose}
+            onClose={this.handleSideBarClose}
             onClick={this.handleSideBarClose}>
             {navListMenu(SideNav)}
           </Drawer>

@@ -63,7 +63,7 @@ export default class AddClubForm extends React.Component {
     const props = this.props;
     const state = this.state;
     return (
-      <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose} >
+      <Dialog open={props.open} transition={Slide} onClose={props.handleRequestClose} >
         <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
           <TextField

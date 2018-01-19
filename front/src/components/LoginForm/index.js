@@ -11,7 +11,7 @@ import Loader from '../Loader';
 
 export default function LoginForm(props) {
   return (
-    <Dialog open={props.open} transition={Slide} onRequestClose={props.handleRequestClose}>
+    <Dialog open={props.open} transition={Slide} onClose={props.handleRequestClose}>
       <DialogTitle style={{
         textAlign: 'center'
       }}>

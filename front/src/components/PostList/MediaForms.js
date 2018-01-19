@@ -251,7 +251,7 @@ export class VideoEmbedForm extends Component {
         <Menu
           anchorEl={this.state.anchorEl}
           open={this.state.openTypeMenu}
-          onRequestClose={this.closeMenu}>
+          onClose={this.closeMenu}>
           <MenuItem
             onClick={() => this.changeType('YOUTUBE')}
             selected={this.state.type === 'YOUTUBE'}>Youtube</MenuItem>

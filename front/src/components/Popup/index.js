@@ -36,7 +36,7 @@ class Popup extends Component {
 
   render() {
     return (
-      <Dialog open={this.state.open} onRequestClose={this.discard}>
+      <Dialog open={this.state.open} onClose={this.discard}>
         <DialogTitle>{this.props.title || 'Titre'}</DialogTitle>
         <DialogContent>
           <DialogContentText>

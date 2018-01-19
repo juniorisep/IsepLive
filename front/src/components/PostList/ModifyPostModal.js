@@ -77,7 +77,7 @@ export default class ModifyPostModal extends React.Component {
   render() {
     const { post } = this.state;
     return (
-      <Dialog fullWidth open={this.props.open} onRequestClose={this.props.requestClose}>
+      <Dialog fullWidth open={this.props.open} onClose={this.props.requestClose}>
         <DialogTitle>Modifier un post</DialogTitle>
         {
           post &&

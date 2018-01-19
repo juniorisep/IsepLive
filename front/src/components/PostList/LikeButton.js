@@ -36,7 +36,7 @@ const Label = styled.span`
 const LikesPanel = props => {
   return (
     <Dialog open={props.open} onRequestClose={props.onClose}>
-      <DialogTitle>Likes</DialogTitle>
+      <DialogTitle>{props.students.length} Like{props.students.length !== 1 && 's'}</DialogTitle>
       {props.students.length === 0 && <Text style={{ width: 200, padding: 20 }}>Aucun like</Text>}
       <List>
         {
@@ -86,7 +86,10 @@ class LikeButton extends Component {
     const { showLikes, studentsLike } = this.state;
     return (
       <Flex align="center">
-        <Label onClick={this.showLikes} style={{ width: 55 }}>{this.state.likes} j'aime</Label>
+        <Label onClick={this.showLikes} style={{
+          width: 70,
+          textAlign: 'right'
+        }}>{this.state.likes} j'aime</Label>
         <CustomCheckbox
           icon={<NotLiked />}
           checkedIcon={<Liked />}

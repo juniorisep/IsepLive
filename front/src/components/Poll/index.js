@@ -269,8 +269,10 @@ export class VotesList extends React.Component {
   state = {
     votes: [],
   }
-  componentWillReceiveProps() {
-    this.retrieveAllVotes()
+  componentWillReceiveProps(props) {
+    if (props.open) {
+      this.retrieveAllVotes()
+    }
   }
 
   retrieveAllVotes() {

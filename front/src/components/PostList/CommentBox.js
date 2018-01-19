@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
-import { EditorState } from 'draft-js';
 
 const Input = styled.textarea`
   border: 2px solid #999999;
@@ -27,7 +26,6 @@ class CommentBox extends Component {
     message: '',
     rows: 2,
     shift: false,
-    editorState: EditorState.createEmpty(),
   };
 
   keyDown = (event) => {

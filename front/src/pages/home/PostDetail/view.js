@@ -8,6 +8,7 @@ import { Box, Flex } from 'grid-styled';
 import { FluidContent, Title, ProfileImage, ScrollToTopOnMount, Text } from 'components/common';
 
 import { PostView } from 'components/PostList';
+import Auth from '../../../components/Auth/AuthComponent';
 
 import Comment from 'components/PostList/Comment';
 import CommentBox from 'components/PostList/CommentBox';
@@ -56,17 +57,19 @@ export default function PostDetailView(props) {
               onDelete={props.reqDeleteComment} />
           })
         }
-        <Flex mt="30px">
-          <Box>
-            <ProfileImage
-              src={props.commenter && props.commenter.photoUrlThumb}
-              sz="60px"
-              mh="auto" />
-          </Box>
-          <Box flex="1 1 auto" ml="20px">
-            <CommentBox onComment={props.onComment} />
-          </Box>
-        </Flex>
+        <Auth logged>
+          <Flex mt="30px">
+            <Box>
+              <ProfileImage
+                src={props.commenter && props.commenter.photoUrlThumb}
+                sz="60px"
+                mh="auto" />
+            </Box>
+            <Box flex="1 1 auto" ml="20px">
+              <CommentBox onComment={props.onComment} />
+            </Box>
+          </Flex>
+        </Auth>
       </FluidContent>
       <ModifyPostModal
         post={props.post}

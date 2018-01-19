@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Flex } from 'grid-styled';
 
 import Checkbox from 'material-ui/Checkbox';
+import Auth from '../Auth/AuthComponent';
 
 import NotLiked from 'material-ui-icons/FavoriteBorder';
 import Liked from 'material-ui-icons/Favorite';
@@ -36,7 +37,7 @@ const Label = styled.span`
 const LikesPanel = props => {
   return (
     <Dialog open={props.open} onRequestClose={props.onClose}>
-      <DialogTitle>{props.students.length} Like{props.students.length !== 1 && 's'}</DialogTitle>
+      <DialogTitle>{props.students.length} J'aime</DialogTitle>
       {props.students.length === 0 && <Text style={{ width: 200, padding: 20 }}>Aucun like</Text>}
       <List>
         {
@@ -88,13 +89,15 @@ class LikeButton extends Component {
       <Flex align="center">
         <Label onClick={this.showLikes} style={{
           width: 70,
-          textAlign: 'right'
+          textAlign: 'right',
         }}>{this.state.likes} j'aime</Label>
-        <CustomCheckbox
-          icon={<NotLiked />}
-          checkedIcon={<Liked />}
-          checked={this.state.liked}
-          onChange={this.handleLike} />
+        <Auth logged>
+          <CustomCheckbox
+            icon={<NotLiked />}
+            checkedIcon={<Liked />}
+            checked={this.state.liked}
+            onChange={this.handleLike} />
+        </Auth>
         <LikesPanel
           open={showLikes}
           onClose={this.onHideLikes}

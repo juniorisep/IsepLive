@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
@@ -112,7 +112,10 @@ class PublishBoxView extends Component {
     isUploading: false,
     uploadMode: 'undeterminate',
     messageRows: 2,
+    anchorEl: null,
   };
+
+  getAuthorsReq: { cancel: Function };
 
   componentDidMount() {
     if (authData.isLoggedIn()) {
@@ -144,15 +147,15 @@ class PublishBoxView extends Component {
     }
   }
 
-  onTitleChange = (event) => {
-    this.setState({ title: event.target.value });
+  onTitleChange = ({ target }: SyntheticInputEvent) => {
+    this.setState({ title: target.value });
   };
 
-  onMessageChange = (e) => {
-    localStorage.setItem('saved-message', e.target.value);
-    const numLines = e.target.value.split('\n').length;
+  onMessageChange = ({ target }: SyntheticInputEvent) => {
+    localStorage.setItem('saved-message', target.value);
+    const numLines = target.value.split('\n').length;
     this.setState({
-      message: e.target.value,
+      message: target.value,
       messageRows: Math.min(numLines + 1, 15),
     });
   };
@@ -161,62 +164,69 @@ class PublishBoxView extends Component {
     this.setState({ isPrivateMessage: !this.state.isPrivateMessage })
   };
 
-  publishPost() {
+  async publishPost() {
+    if (!this.state.author) return;
+
     const dto: PostDTO = {
       authorId: this.state.author.id,
       content: this.state.message,
       title: this.state.title,
       private: this.state.isPrivateMessage,
     };
-    return postData.createPost(dto)
-      .then(res => res.data.id)
-      .then(id => {
-        return postData.publishPost(id)
-          .then(() => id);
-      });
+
+    const postRes = await postData.createPost(dto);
+    await postData.publishPost(postRes.data.id);
+
+    return postRes.data.id;
   };
 
   handleErrors = (err) => {
-    if (err.response) {
-      sendAlert("Le post n'a pu être publié", 'error');
-    }
+    sendAlert("Le post n'a pu être publié", 'error');
   }
 
-  onPublish = () => {
+  onPublish = async () => {
     if (this.state.mediaSelected) {
       const toUpload = ['gallery', 'video', 'document', 'image'];
       if (toUpload.includes(this.state.mediaSelected.id)) {
         this.setState({ isUploading: true });
       }
 
-      this.createMedia()
-        .then(res => res.data.id)
-        .then(mediaId => {
-          return this.publishPost()
-            .then((postId) => ({ mediaId, postId }));
-        })
-        .then((ids) => {
-          return postData.addMedia(ids.postId, ids.mediaId)
-            .then(() => ids.postId)
-        })
-        .then(this.closeMediaCreator)
-        .then(() => {
-          sendAlert("Post publié");
-          localStorage.removeItem('saved-message');
-          this.setState({ title: '', message: '', isUploading: false })
-        })
-        .then(this.props.refreshPosts)
-        .catch(this.handleErrors);
+      let mediaRes, postResId;
+
+      try {
+        mediaRes = await this.createMedia();
+        postResId = await this.publishPost();
+      } catch (error) {
+        this.handleErrors(error);
+      }
+
+      if (!mediaRes || !postResId) {
+        this.handleErrors();
+        return;
+      }
+
+      await postData.addMedia(postResId, mediaRes.data.id);
+      this.closeMediaCreator();
+
+      sendAlert("Post publié");
+      localStorage.removeItem('saved-message');
+      this.setState({ title: '', message: '', isUploading: false });
+      this.props.refreshPosts();
+
       return;
-    };
-    this.publishPost()
-      .then(res => {
-        sendAlert("Post publié");
-        localStorage.removeItem('saved-message');
-        this.setState({ title: '', message: '' })
-      })
-      .then(this.props.refreshPosts)
-      .catch(this.handleErrors);
+    }
+
+    try {
+      const postRes = await this.publishPost();
+      sendAlert("Post publié");
+      localStorage.removeItem('saved-message');
+
+      this.setState({ title: '', message: '' });
+
+      this.props.refreshPosts();
+    } catch (error) {
+      this.handleErrors(error);
+    }
   };
 
   handleMediaSelect = (item) => {
@@ -245,7 +255,10 @@ class PublishBoxView extends Component {
 
 
   changeAuthor = (event) => {
-    this.setState({ authorMenuOpen: true, anchorEl: event.currentTarget });
+    this.setState({
+      authorMenuOpen: true,
+      anchorEl: event.currentTarget
+    });
   };
 
   closeMediaCreator = () => {

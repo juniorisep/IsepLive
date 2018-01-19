@@ -214,7 +214,6 @@ export default class PostListView extends React.Component {
           post={this.state.postModified}
           open={this.state.modifyEnable}
           refresh={props.refreshPosts}
-          modifyPost={this.modifyPost}
           requestClose={this.requestClose} />
         <FullScreenView
           matcher

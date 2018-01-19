@@ -15,27 +15,40 @@ import * as eventData from 'data/event';
 
 export default class ModifyPostModal extends React.Component {
 
+  state = {
+    post: null,
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.post) {
+      this.setState({ post: props.post });
+    }
+  }
+
   requestSave = async () => {
-    const { title, content } = this.props.post;
-    await postData.updatePost(this.props.post.id, {
-      title,
-      content,
-    });
-    if (this.props.post.media) {
-      const media = this.props.post.media;
-      if (media.mediaType === 'event') {
-        await eventData.updateEvent(media.id, media);
-      };
-    };
-    this.props.refresh();
-    this.props.requestClose();
+    const { post } = this.state;
+    if (post) {
+      await postData.updatePost(post.id, {
+        title: post.title,
+        content: post.content,
+      });
+
+      if (post.media) {
+        if (post.media.mediaType === 'event') {
+          await eventData.updateEvent(post.media.id, post.media);
+        }
+      }
+      this.props.refresh();
+      this.props.requestClose();
+    }
   };
 
   change = name => event => {
-    this.props.modifyPost({
-      ...this.props.post,
-      [name]: event.target.value,
-    });
+    const post = this.state.post;
+    if (post) {
+      post[name] = event.target.value;
+      this.setState({ post });
+    }
   };
 
   changeMedia = data => {
@@ -46,31 +59,37 @@ export default class ModifyPostModal extends React.Component {
       description,
       image,
     } = data;
-
-    this.props.modifyPost({
-      ...this.props.post,
-      media: {
-        ...this.props.post.media,
-        title,
-        date,
-        location,
-        description,
-        image,
+    this.setState((state) => ({
+      post: {
+        ...state.post,
+        media: {
+          ...state.post.media,
+          title,
+          location,
+          date,
+          description,
+          image,
+        },
       },
-    });
+    }))
   };
 
   render() {
-    const props = this.props;
+    const { post } = this.state;
     return (
       <Dialog fullWidth open={this.props.open} onRequestClose={this.props.requestClose}>
         <DialogTitle>Modifier un post</DialogTitle>
         {
-          props.post &&
+          post &&
           <DialogContent>
             {
-              props.post.author.authorType === 'club' &&
-              <TextField margin="dense" label="Titre" value={this.props.post.title} onChange={this.change('title')} fullWidth />
+              post.author.authorType === 'club' &&
+              <TextField
+                margin="dense"
+                label="Titre"
+                value={post.title}
+                onChange={this.change('title')}
+                fullWidth />
             }
             <TextField
               multiline
@@ -78,13 +97,13 @@ export default class ModifyPostModal extends React.Component {
               rows="6"
               margin="normal"
               label="Message"
-              value={this.props.post.content}
+              value={post.content}
               onChange={this.change('content')} />
             {
-              props.post.media && props.post.media.mediaType === 'event' &&
-              <div>
+              post.media && post.media.mediaType === 'event' &&
+              <div style={{ marginTop: 20 }}>
                 <Title fontSize={1.4} invert>Evenement</Title>
-                <EventForm fullw post={this.props.post} update={this.changeMedia} />
+                <EventForm fullw post={post} update={this.changeMedia} />
               </div>
             }
           </DialogContent>

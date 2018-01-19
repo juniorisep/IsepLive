@@ -134,9 +134,11 @@ public class ClubService {
     return clubMemberRepository.findByClubId(id);
   }
 
-  public ClubRole createRole(String role) {
+  public ClubRole createRole(String role, Long clubId) {
+    Club club = getClub(clubId);
     ClubRole clubRole = new ClubRole();
     clubRole.setName(role);
+    clubRole.setClub(club);
     return clubRoleRepository.save(clubRole);
   }
 

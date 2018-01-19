@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -190,9 +189,9 @@ public class MediaUtils {
   }
 
   private String sanitizePath(String name) {
-    name = Normalizer.normalize(name, Normalizer.Form.NFD);
-    name = name.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
-    return name.replaceAll(" ", "-");
+    return name
+      .replaceAll("[^a-zA-Z\\s]", "")
+      .replaceAll(" ", "-");
   }
 
   public String getPath(String url) {

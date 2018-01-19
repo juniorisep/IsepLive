@@ -29,20 +29,24 @@ public class EventController {
   @Autowired
   JsonUtils jsonUtils;
 
+  private boolean hasRights(TokenPayload payload, Long clubId) {
+    if (!payload.getRoles().contains(Roles.ADMIN) && !payload.getRoles().contains(Roles.EVENT_MANAGER)) {
+      // if user is not the club admin
+      if (!payload.getClubsAdmin().contains(clubId)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @PostMapping
   @RolesAllowed({Roles.ADMIN, Roles.EVENT_MANAGER, Roles.STUDENT})
   public Event createEvent(@RequestParam("image") MultipartFile file,
                            @RequestParam("event") String event,
                            @AuthenticationPrincipal TokenPayload auth) {
-
-
     EventDTO eventDTO = jsonUtils.deserialize(event, EventDTO.class);
-
-    if (!auth.getRoles().contains(Roles.ADMIN) || !auth.getRoles().contains(Roles.EVENT_MANAGER)) {
-      // if user is not the club admin
-      if (!auth.getClubsAdmin().contains(eventDTO.getClubId())) {
-        throw new AuthException("you are not this club's admin");
-      }
+    if (!hasRights(auth, eventDTO.getClubId())) {
+      throw new AuthException("you are not this club's admin");
     }
     return eventService.createEvent(file, eventDTO, auth);
   }
@@ -64,11 +68,8 @@ public class EventController {
                            @RequestParam("event") String event,
                            @AuthenticationPrincipal TokenPayload auth) {
     EventDTO eventDTO = jsonUtils.deserialize(event, EventDTO.class);
-    if (!auth.getRoles().contains(Roles.ADMIN) || !auth.getRoles().contains(Roles.EVENT_MANAGER)) {
-      // if user is not the club admin
-      if (!auth.getClubsAdmin().contains(eventDTO.getClubId())) {
-        throw new AuthException("you are not this club's admin");
-      }
+    if (!hasRights(auth, eventDTO.getClubId())) {
+      throw new AuthException("you are not this club's admin");
     }
     return eventService.updateEvent(id, eventDTO, file);
   }

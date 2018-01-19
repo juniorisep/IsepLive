@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 31/07/2017.
@@ -49,6 +50,12 @@ public class PollAnswer {
 
   public int getVotesNb() {
     return votes.size();
+  }
+
+  public List<Long> getVoters() {
+    return votes.stream()
+      .map(v -> v.getStudent().getId())
+      .collect(Collectors.toList());
   }
 
   public void setVotes(List<PollVote> votes) {

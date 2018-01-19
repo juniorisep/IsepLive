@@ -35,4 +35,8 @@ public class AuthService {
     }
     return null;
   }
+
+  public boolean userHasRole(TokenPayload auth, String role) {
+    return auth.getRoles().contains(role);
+  }
 }

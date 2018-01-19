@@ -272,7 +272,7 @@ public class PostService {
   }
 
   private boolean hasRightOnPost(TokenPayload auth, Post post) {
-    if (!auth.getRoles().contains(Roles.ADMIN) || !auth.getRoles().contains(Roles.POST_MANAGER)) {
+    if (!auth.getRoles().contains(Roles.ADMIN) && !auth.getRoles().contains(Roles.POST_MANAGER)) {
       if (!post.getAuthor().getId().equals(auth.getId()) && !auth.getClubsAdmin().contains(post.getAuthor().getId())) {
         return false;
       }

@@ -4,9 +4,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import * as moment from 'moment';
 import { Flex, Box } from 'grid-styled';
-import { Text } from '../common';
 
-import * as pollData from 'data/media/poll';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
+
+import { Title, Text, ProfileImage } from '../common';
+
+import * as pollData from '../../data/media/poll';
 import * as authData from 'data/auth';
 
 const Wrapper = styled.div`
@@ -38,6 +41,7 @@ const Caption = styled.p`
   color: ${props => props.theme.main};
   font-size: 15px;
   text-align: right;
+  cursor: pointer;
 `;
 
 class Poll extends Component {
@@ -45,86 +49,150 @@ class Poll extends Component {
     showVote: false,
     answers: [],
     data: this.props.data,
-    ended: false,
+    showVotesModal: false,
   };
 
-  componentDidMount() {
+  componentWillReceiveProps(props) {
+    if (props.data) {
+      this.setState({ data: props.data });
+    }
+  }
 
-    if (this.isEnded()) {
-      this.setState({ showVote: true, ended: true });
-    };
+
+  componentDidMount() {
+    if (this.hasEnded()) {
+      this.setState({ showVote: true });
+    }
 
     if (!authData.isLoggedIn()) {
       this.setState({ showVote: true });
-    } else {
-      pollData.getVotes(this.state.data.id).then(res => {
-        if (res.data.length > 0) {
-          this.setState({ showVote: true, answers: res.data.map(d => d.answer) });
-        };
-      });
-    };
-  };
+      return;
+    }
+    this.retrieveVotes();
+  }
 
-  isEnded = () => {
-    return this.state.data.endDate < new Date().getTime();
-  };
 
-  handleVote = (ans) => {
-    const { showVote, data, answers } = this.state;
-    if (!this.isEnded()) {
-      if (!showVote || (data.multiAnswers &&
-        answers.length < data.answers.length)) {
-        this.setState({ showVote: true, answers: [...answers, ans] });
-        pollData.vote(data.id, ans.id).then(res => {
-          pollData.getPoll(this.props.data.id).then(res => {
-            this.setState({ data: res.data });
-          });
+  retrieveVotes() {
+    pollData.getVotes(this.state.data.id).then(res => {
+      if (res.data.length > 0) {
+        this.setState({
+          showVote: true,
+          answers: res.data.map(d => d.answer),
         });
-      };
-    };
-  };
+      }
+    });
+  }
+
+  hasEnded = () => {
+    return this.state.data.endDate < new Date().getTime();
+  }
+
+  handleVote = async (choice) => {
+    if (this.hasEnded()) {
+      this.setState({ showVote: true });
+      return;
+    }
+
+    if (!this.isSelectable(choice)) return;
+
+    const { showVote, data: poll, answers } = this.state;
+    const user = authData.getUser();
+    if (!user) return;
+
+    if (choice.voters.includes(user.id)) {
+      await pollData.removeVote(poll.id, choice);
+    } else {
+      await pollData.vote(poll.id, choice.id);
+    }
+
+    let res = await pollData.getPoll(this.props.data.id);
+    this.setState({ data: res.data });
+    this.retrieveVotes();
+  }
+
+  isAnswered(answer) {
+    const user = authData.getUser();
+    return user && answer.voters
+      .filter(vid => vid === user.id).length > 0;
+  }
+
+  isSelectable(answer) {
+    if (this.hasEnded()) {
+      return false;
+    }
+
+    if (!this.state.data.multiAnswers && this.isAnswered(answer)) {
+      return false;
+    }
+
+    return true;
+  }
 
   getTotal() {
     const poll = this.state.data;
-    return poll.answers.reduce((acc, x) => acc + x.votesNb, 0);
-  };
+    return poll.answers
+      .reduce((acc, x) => acc + x.votesNb, 0);
+  }
+
+  renderPollStatus() {
+    const { data: poll } = this.state
+    if (this.hasEnded()) {
+      return 'Sondage terminé le ' + moment(poll.endDate).format('Do MMMM YYYY [à] HH:mm');
+    } else {
+      const remainDate = moment(poll.endDate).fromNow();
+      return `Fini ${remainDate}`;
+    }
+  }
 
   render() {
     const poll = this.state.data;
     const total = this.getTotal();
-    const remainDate = moment(poll.endDate).fromNow();
     return (
       <Wrapper>
         <TopBar>Sondage</TopBar>
         <Main>
           <Question>{poll.name}</Question>
           {
-            poll.answers.map(a => {
+            poll.answers.map(ans => {
               return (
                 <Answer
-                  key={a.id}
-                  showVote={this.state.showVote || this.isEnded()}
-                  voted={this.state.answers.filter(as => as.id === a.id).length > 0}
-                  total={total}
+                  key={ans.id}
+                  showVote={this.state.showVote || this.hasEnded()}
+                  selectable={this.isSelectable(ans)}
+                  voted={this.isAnswered(ans)}
                   multiAnswers={poll.multiAnswers}
-                  ended={this.isEnded()}
-                  onClick={() => this.handleVote(a)}
-                  answer={a} />
+                  total={this.getTotal()}
+                  ended={this.hasEnded()}
+                  onClick={() => this.handleVote(ans)}
+                  answer={ans} />
               );
             })
           }
-          {poll.multiAnswers && <Text fs="0.8em" mb={0.5}>Plusieurs réponses possibles</Text>}
+          {
+            poll.multiAnswers &&
+            <Text fs="0.8em" mb={0.5}>Plusieurs réponses possibles</Text>
+          }
           <Flex>
             <Box>
-              <Text fs="0.9em">
-                {!this.state.ended ? `Fini ${remainDate}` : 'Sondage terminé le ' + moment(poll.endDate).format('Do MMMM YYYY [à] HH:mm')}
-              </Text>
+              <Text fs="0.9em">{this.renderPollStatus()}</Text>
             </Box>
             <Box ml="auto">
-              {this.state.showVote && <Caption>{total} vote{total !== 1 && 's'}</Caption>}
+              {
+                this.state.showVote &&
+                <Caption onClick={() => {
+                  this.setState({ showVotesModal: true })
+                }}>{total} vote{total !== 1 && 's'}</Caption>
+              }
             </Box>
           </Flex>
         </Main>
+        <VotesList
+          open={this.state.showVotesModal}
+          pollid={poll.id}
+          handleRequestClose={() => {
+            this.setState({ showVotesModal: false });
+          }}
+        />
       </Wrapper>
     );
   };
@@ -134,12 +202,14 @@ export default Poll;
 
 const AnswerStyle = styled.div`
   position: relative;
-  background: rgba(63, 81, 181, 0.43);
+  background: rgba(63, 81, 181, 0.6);
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
+  transition: background .3s ease;
+
   &:hover {
-    ${props => (props.selectable || !props.showVote) && `
+    ${props => (props.selectable) && `
       background: rgba(63, 81, 181, 0.7);
       color: white;
       cursor: pointer;
@@ -150,6 +220,7 @@ const AnswerStyle = styled.div`
 const AnswerText = styled.div`
   padding: 10px 15px;
   color: ${props => props.voted ? props.theme.accent : 'white'};
+  font-weight: ${props => props.voted ? 600 : 400};
   position: relative;
   z-index: 1;
 `;
@@ -171,14 +242,20 @@ function Answer(props) {
   return (
     <AnswerStyle
       showVote={props.showVote}
-      selectable={!props.voted && props.multiAnswers && !props.ended}
+      selectable={props.selectable}
       onClick={props.onClick}>
       <AnswerText voted={props.voted}>
-        {answer.content}
-        {
-          props.showVote &&
-          <span> - {percent}%</span>
-        }
+        <Flex>
+          <Box mr="5px">
+            {answer.content}
+          </Box>
+          <Box ml="auto">
+            {
+              props.showVote &&
+              <span>{percent}%</span>
+            }
+          </Box>
+        </Flex>
       </AnswerText>
       <AnswerBar style={{
         width: (props.showVote ? percent : 0) + '%'
@@ -186,3 +263,54 @@ function Answer(props) {
     </AnswerStyle>
   );
 };
+
+
+export class VotesList extends React.Component {
+  state = {
+    votes: [],
+  }
+  componentWillReceiveProps(props) {
+    if (props.open) {
+      this.retrieveAllVotes()
+    }
+  }
+
+  retrieveAllVotes() {
+    pollData.getAllVote(this.props.pollid).then(res => {
+      this.setState({
+        votes: res.data,
+      })
+    })
+  }
+
+
+  render() {
+    const props = this.props;
+    return (
+      <Dialog open={props.open} onRequestClose={props.handleRequestClose} >
+        <DialogTitle>Votes</DialogTitle>
+        <DialogContent>
+          {
+            this.state.votes.map(v => {
+              return (
+                <Flex p={2} key={v.id}>
+                  <Box>
+                    <ProfileImage mh="auto" sz="40px" src={v.student.photoUrlThumb} />
+                  </Box>
+                  <Box ml="10px">
+                    <Title invert fontSize={1.2}>
+                      {v.student.firstname} {v.student.lastname}
+                    </Title>
+                    <Text>
+                      A voté pour: "{v.answer.content}"
+                    </Text>
+                  </Box>
+                </Flex>
+              )
+            })
+          }
+        </DialogContent>
+      </Dialog>
+    )
+  }
+}

@@ -245,6 +245,9 @@ class Intercept extends React.Component {
             sendAlert("Non autorisé", 'error');
             props.history.push('/');
             break;
+          case 500:
+            sendAlert("Oops.. petit problème 😁", 'error');
+            break;
           case 503:
             sendAlert("Serveur indisponible", 'error');
             break;

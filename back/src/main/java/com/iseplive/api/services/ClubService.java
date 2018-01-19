@@ -134,9 +134,11 @@ public class ClubService {
     return clubMemberRepository.findByClubId(id);
   }
 
-  public ClubRole createRole(String role) {
+  public ClubRole createRole(String role, Long clubId) {
+    Club club = getClub(clubId);
     ClubRole clubRole = new ClubRole();
     clubRole.setName(role);
+    clubRole.setClub(club);
     return clubRoleRepository.save(clubRole);
   }
 
@@ -212,5 +214,16 @@ public class ClubService {
 
   public Club getIsepLive() {
     return clubRepository.findByIsAdmin(true);
+  }
+
+  public List<ClubRole> getClubRoles(Long id) {
+    return clubRoleRepository.findByClub_Id(id);
+  }
+
+  public void deleteClubRole(Long clubid, Long roleid) {
+    ClubRole role = clubRoleRepository.findOne(roleid);
+    if (role != null) {
+      clubRoleRepository.delete(role);
+    }
   }
 }

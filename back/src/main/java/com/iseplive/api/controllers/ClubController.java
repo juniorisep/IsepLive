@@ -53,12 +53,6 @@ public class ClubController {
     return clubService.createClub(clubDTO, logo);
   }
 
-  @PostMapping("/role/{role}")
-  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
-  public ClubRole createRole(@PathVariable String role) {
-    return clubService.createRole(role);
-  }
-
   @PutMapping("/member/{member}/role/{role}")
   @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public ClubMember updateMemberRole(@PathVariable Long member,
@@ -90,6 +84,24 @@ public class ClubController {
   @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public void deleteClub(@PathVariable Long id) {
     clubService.deleteClub(id);
+  }
+
+  @GetMapping("/{id}/role")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER, Roles.STUDENT})
+  public List<ClubRole> getClubRoles(@PathVariable Long id) {
+    return clubService.getClubRoles(id);
+  }
+
+  @PostMapping("/{id}/role/{name}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER, Roles.STUDENT})
+  public ClubRole createRole(@PathVariable String name, @PathVariable Long id) {
+    return clubService.createRole(name, id);
+  }
+
+  @DeleteMapping("/{id}/role/{roleid}")
+  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER, Roles.STUDENT})
+  public void deleteClubRole(@PathVariable Long id, @PathVariable Long roleid) {
+    clubService.deleteClubRole(id, roleid);
   }
 
   @PutMapping("/{id}/member/{student}")

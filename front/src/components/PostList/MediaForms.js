@@ -18,6 +18,8 @@ import styled from 'styled-components';
 
 import DatePicker from '../../components/DatePicker';
 
+import * as moment from 'moment';
+
 const AddButton = styled(Button) `
   margin-top: 10px;
 `;
@@ -58,6 +60,7 @@ export class PollForm extends Component {
     title: '',
     answers: ['', ''],
     multiAnswers: false,
+    duration: 24,
     endDate: new Date().getTime() + 24 * 3600 * 1000,
   };
 
@@ -81,13 +84,19 @@ export class PollForm extends Component {
   };
 
   changeDuration = (event) => {
-    const dur = +event.target.value;
+    const dur = parseInt(event.target.value, 10);
+    if (isNaN(dur))
+      return;
+    if (dur < 0) return;
     const now = new Date().getTime();
     this.props.update({
       ...this.state,
       endDate: now + (dur * 3600 * 1000)
     });
-    this.setState({ endDate: now + (dur * 3600 * 1000) });
+    this.setState({
+      endDate: now + (dur * 3600 * 1000),
+      duration: dur,
+    });
   };
 
   changeMultiAnswer = () => {
@@ -129,7 +138,13 @@ export class PollForm extends Component {
         <AddButton color="accent" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
         <Flex wrap>
           <Box width={1} mt={2}>
-            <TextField fullWidth label="Durée (h)" onChange={this.changeDuration} />
+            <TextField
+              type="number"
+              fullWidth
+              label="Durée (h)"
+              value={this.state.duration}
+              onChange={this.changeDuration}
+              helperText={`Fin le ${moment(this.state.endDate).format('Do MMMM YYYY HH:mm')}`} />
           </Box>
           <Box width={1}>
             <FormControlLabel

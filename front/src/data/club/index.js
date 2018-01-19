@@ -76,10 +76,24 @@ export function getClubRoleName(roleName: string) {
   switch (roleName) {
     case constants.CLUB_ROLE_PRESIDENT:
       return "Président";
+    case constants.CLUB_ROLE_TREASURER:
+      return "Trésorier";
     case constants.CLUB_ROLE_MEMBER:
       return "Membre";
 
     default:
       return roleName;
   }
+}
+
+export function getClubRoles(clubid: number) {
+  return axios.get(`/club/${clubid}/role`);
+}
+
+export function addRoleName(clubid: number, name: string) {
+  return axios.post(`/club/${clubid}/role/${name}`);
+}
+
+export function deleteClubRole(clubid: number, roleId: number) {
+  return axios.delete(`/club/${clubid}/role/${roleId}`);
 }

@@ -36,14 +36,26 @@ public class PollController {
    * @return
    */
   @GetMapping("/{id}/vote")
+  @RolesAllowed({Roles.STUDENT})
   public List<PollVote> getVote(@PathVariable Long id, @AuthenticationPrincipal TokenPayload auth) {
     return pollService.getVote(id, auth.getId());
+  }
+
+  @GetMapping("/{id}/vote/all")
+  public List<PollVote> getAllVotes(@PathVariable Long id, @AuthenticationPrincipal TokenPayload auth) {
+    return pollService.getUserVotes(id);
   }
 
   @PutMapping("/{id}/answer/{answerId}") // add student
   @RolesAllowed({Roles.STUDENT})
   public void vote(@PathVariable Long id, @PathVariable Long answerId, @AuthenticationPrincipal TokenPayload auth) {
     pollService.addVote(id, answerId, auth.getId());
+  }
+
+  @DeleteMapping("/{id}/answer/{answerId}") // remove student
+  @RolesAllowed({Roles.STUDENT})
+  public void unvote(@PathVariable Long id, @PathVariable Long answerId, @AuthenticationPrincipal TokenPayload auth) {
+    pollService.removeVote(id, answerId, auth);
   }
 
   @PostMapping

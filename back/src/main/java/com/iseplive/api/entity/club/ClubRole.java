@@ -1,8 +1,9 @@
 package com.iseplive.api.entity.club;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Guillaume on 30/07/2017.
@@ -13,7 +14,14 @@ public class ClubRole {
   @Id
   @GeneratedValue
   private Long id;
+
   private String name;
+
+  @OneToOne
+  private Club club;
+
+  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+  private List<ClubMember> members;
 
   public Long getId() {
     return id;
@@ -29,5 +37,14 @@ public class ClubRole {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @JsonIgnore
+  public Club getClub() {
+    return club;
+  }
+
+  public void setClub(Club club) {
+    this.club = club;
   }
 }

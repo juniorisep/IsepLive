@@ -1,5 +1,6 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dao.poll.PollAnswerRepository;
 import com.iseplive.api.dao.poll.PollRepository;
 import com.iseplive.api.dao.poll.PollVoteRepository;
@@ -12,7 +13,9 @@ import com.iseplive.api.exceptions.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 31/07/2017.
@@ -37,9 +40,18 @@ public class PollService {
 
   public void addVote(Long pollId, Long pollAnswId, Long studentId) {
     Poll poll = getPoll(pollId);
-    if (!poll.getMultiAnswers() && checkAlreadyVoted(pollId, studentId)) {
-      throw new IllegalArgumentException("This poll has already been answered");
+
+    if (!poll.getMultiAnswers()) {
+      List<PollVote> voteList = pollVoteRepository.findByAnswer_Poll_IdAndStudent_Id(pollId, studentId).stream()
+        .filter(votes -> !votes.getAnswer().getId().equals(pollAnswId))
+        .collect(Collectors.toList());
+      pollVoteRepository.delete(voteList);
     }
+
+    if (checkIsAnswered(pollAnswId, studentId)) {
+      throw new IllegalArgumentException("This answer has already been chosen");
+    }
+
     PollAnswer pollAnswer = pollAnswerRepository.findOne(pollAnswId);
     Student student = studentService.getStudent(studentId);
     PollVote pollVote = new PollVote();
@@ -48,8 +60,12 @@ public class PollService {
     pollVoteRepository.save(pollVote);
   }
 
-  public boolean checkAlreadyVoted(Long pollId, Long studenId) {
-    return !pollVoteRepository.checkUserAnsweredPoll(pollId, studenId).isEmpty();
+  private boolean checkHasEnded(Date date) {
+   return date.before(new Date());
+  }
+
+  private boolean checkIsAnswered(Long answerId, Long userid) {
+    return pollVoteRepository.findByAnswer_IdAndStudent_Id(answerId, userid) != null;
   }
 
   public Poll createPoll(PollCreationDTO pollDTO) {
@@ -78,7 +94,22 @@ public class PollService {
     return poll;
   }
 
+  public List<PollVote> getUserVotes(Long pollId) {
+    return pollVoteRepository.findByAnswer_Poll_Id(pollId);
+  }
+
   public List<PollVote> getVote(Long pollId, long studentId) {
-    return pollVoteRepository.checkUserAnsweredPoll(pollId, studentId);
+    return pollVoteRepository.findByAnswer_Poll_IdAndStudent_Id(pollId, studentId);
+  }
+
+  public void removeVote(Long id, Long answerId, TokenPayload auth) {
+    Poll poll = getPoll(id);
+    if (checkHasEnded(poll.getEndDate())) {
+      throw new IllegalArgumentException("you cannot vote for this poll anymore");
+    }
+    PollVote vote = pollVoteRepository.findByAnswer_IdAndStudent_Id(answerId, auth.getId());
+    if (vote != null) {
+      pollVoteRepository.delete(vote);
+    }
   }
 }

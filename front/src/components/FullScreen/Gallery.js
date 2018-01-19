@@ -3,8 +3,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
+import FileDownload from 'material-ui-icons/FileDownload';
 
 import ArrRight from 'material-ui-icons/ChevronRight';
 import ArrLeft from 'material-ui-icons/ChevronLeft';
@@ -79,6 +81,11 @@ class Gallery extends Component {
   }
 
   render() {
+    const lightButton = {
+      color: 'white',
+      background: 'rgba(255,255,255,0.1)'
+    }
+
     const { visible, gallery, index } = this.props;
     if (!visible) return null;
     return (
@@ -100,9 +107,18 @@ class Gallery extends Component {
             }
             duration={5} />
         </GalleryStyle>
-        <PeopleMatcher
-          onOpenMatcher={this.openMatcher}
-          image={gallery.images[this.state.currentIndex]} />
+        <div style={{ margin: 30 }}>
+          <Button
+            style={lightButton}
+            download
+            dense
+            href={backUrl + gallery.images[this.state.currentIndex].fullSizeUrl}>
+            <FileDownload style={{ marginRight: 5 }} /> Télecharger
+        </Button>
+          <PeopleMatcher
+            onOpenMatcher={this.openMatcher}
+            image={gallery.images[this.state.currentIndex]} />
+        </div>
       </Wrapper>
     );
   };

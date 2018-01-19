@@ -215,4 +215,15 @@ public class ClubService {
   public Club getIsepLive() {
     return clubRepository.findByIsAdmin(true);
   }
+
+  public List<ClubRole> getClubRoles(Long id) {
+    return clubRoleRepository.findByClub_Id(id);
+  }
+
+  public void deleteClubRole(Long clubid, Long roleid) {
+    ClubRole role = clubRoleRepository.findOne(roleid);
+    if (role != null) {
+      clubRoleRepository.delete(role);
+    }
+  }
 }

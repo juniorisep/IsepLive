@@ -9,4 +9,5 @@ export const STUDENT = "ROLE_STUDENT";
 
 
 export const CLUB_ROLE_PRESIDENT = "PRESIDENT";
+export const CLUB_ROLE_TREASURER = "TREASURER";
 export const CLUB_ROLE_MEMBER = "MEMBER";

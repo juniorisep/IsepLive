@@ -6,5 +6,5 @@ INSERT IGNORE INTO role (id, role) VALUES (5, "ROLE_EVENT_MANAGER");
 INSERT IGNORE INTO role (id, role) VALUES (6, "ROLE_STUDENT");
 
 INSERT IGNORE INTO club_role (id, name) VALUES (1, "PRESIDENT");
-INSERT IGNORE INTO club_role (id, name) VALUES (2, "TRESORIER");
+INSERT IGNORE INTO club_role (id, name) VALUES (2, "TREASURER");
 INSERT IGNORE INTO club_role (id, name) VALUES (3, "MEMBER");

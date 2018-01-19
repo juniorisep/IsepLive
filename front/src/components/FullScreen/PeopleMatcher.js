@@ -63,7 +63,7 @@ export default class PeopleMatcher extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.image.id != this.state.imageId) {
+    if (props.image.id !== this.state.imageId) {
       this.setState({ tags: props.image.matched });
     }
 

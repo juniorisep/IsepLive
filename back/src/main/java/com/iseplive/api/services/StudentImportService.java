@@ -108,12 +108,12 @@ public class StudentImportService {
       } else { // if user doesn't exist
 
         // check photo exist
-        if (photosToAdd.get(s.getStudentId()) != null) {
+//        if (photosToAdd.get(s.getStudentId()) != null) {
           studentsToCreate.add(s);
           res.incrImport();
-        } else {
-          res.incrStudentPhotoNotMatched();
-        }
+//        } else {
+//          res.incrStudentPhotoNotMatched();
+//        }
       }
     });
 

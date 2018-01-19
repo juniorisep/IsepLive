@@ -41,7 +41,7 @@ const ClubTile = (props) => {
   `;
   return (
     <ClubStyle>
-      <BgImage src={props.url} mh="180px" />
+      <BgImage src={props.url} mh="200px" />
       <p>{props.name}</p>
     </ClubStyle>
   );

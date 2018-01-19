@@ -11,6 +11,8 @@ import FileDownload from 'material-ui-icons/FileDownload';
 import ArrRight from 'material-ui-icons/ChevronRight';
 import ArrLeft from 'material-ui-icons/ChevronLeft';
 
+import Auth from '../Auth/AuthComponent';
+
 import SlideShow from 'components/SlideShow';
 import { backUrl } from 'config';
 
@@ -115,9 +117,11 @@ class Gallery extends Component {
             href={backUrl + gallery.images[this.state.currentIndex].fullSizeUrl}>
             <FileDownload style={{ marginRight: 5 }} /> Télecharger
         </Button>
-          <PeopleMatcher
-            onOpenMatcher={this.openMatcher}
-            image={gallery.images[this.state.currentIndex]} />
+          <Auth logged>
+            <PeopleMatcher
+              onOpenMatcher={this.openMatcher}
+              image={gallery.images[this.state.currentIndex]} />
+          </Auth>
         </div>
       </Wrapper>
     );

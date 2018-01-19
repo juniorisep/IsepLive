@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 
 import PostDetailView from './view';
+import * as authData from '../../../data/auth';
 import * as postData from 'data/post';
 import * as studentData from 'data/users/student';
 
@@ -21,7 +22,9 @@ class PostDetail extends Component {
     this.postId = this.props.match.params.id;
     this.refreshPost();
     this.refreshCom();
-    this.getCommenter();
+    if (authData.isLoggedIn()) {
+      this.getCommenter();
+    }
     this.autoRefresh = setInterval(() => {
       this.refreshCom();
     }, 30000);

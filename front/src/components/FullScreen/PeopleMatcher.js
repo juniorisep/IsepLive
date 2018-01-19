@@ -15,7 +15,7 @@ import * as authData from '../../data/auth';
 import { backUrl } from 'config';
 
 const STYLE = {
-  margin: 40,
+  marginTop: 20,
   display: 'flex',
   flexWrap: 'wrap',
 }

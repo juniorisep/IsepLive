@@ -87,6 +87,7 @@ export class PollForm extends Component {
     const dur = parseInt(event.target.value, 10);
     if (isNaN(dur))
       return;
+    if (dur < 0) return;
     const now = new Date().getTime();
     this.props.update({
       ...this.state,

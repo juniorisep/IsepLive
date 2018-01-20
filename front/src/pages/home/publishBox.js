@@ -289,7 +289,7 @@ class PublishBoxView extends Component {
     if (author && author.type === 'club') {
       let list = [
         ...mediaAvailable,
-        { id: 'gallery', name: 'Gallerie' },
+        { id: 'gallery', name: 'Galerie' },
         { id: 'event', name: 'Evenement' },
       ];
       if (author.isAdmin) {

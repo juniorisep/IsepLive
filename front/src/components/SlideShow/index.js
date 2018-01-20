@@ -245,7 +245,7 @@ export default class SlideShow extends React.Component {
                 key={i}
                 coverMode={this.props.coverMode}
                 style={{
-                  left: i * 100 + '%',
+                  left: i * 101 + '%',
                 }}
                 img={url} />
               // return <ImageLoader

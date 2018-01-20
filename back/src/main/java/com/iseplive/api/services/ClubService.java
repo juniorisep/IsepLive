@@ -1,6 +1,8 @@
 package com.iseplive.api.services;
 
+import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.ClubRoles;
+import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dao.club.ClubFactory;
 import com.iseplive.api.dao.club.ClubMemberRepository;
 import com.iseplive.api.dao.club.ClubRepository;
@@ -12,6 +14,7 @@ import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.club.ClubMember;
 import com.iseplive.api.entity.club.ClubRole;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.AuthException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,8 +182,13 @@ public class ClubService {
     return clubRepository.save(club);
   }
 
-  public ClubMember updateMemberRole(Long member, Long role) {
+  public ClubMember updateMemberRole(Long member, Long role, TokenPayload payload) {
     ClubMember clubMember = getMember(member);
+    if (!payload.getRoles().contains(Roles.ADMIN) && payload.getRoles().contains(Roles.CLUB_MANAGER)) {
+      if (!payload.getClubsAdmin().contains(clubMember.getClub().getId())) {
+        throw new AuthException("no rights to modify this club");
+      }
+    }
     clubMember.setRole(getClubRole(role));
     return clubMemberRepository.save(clubMember);
   }

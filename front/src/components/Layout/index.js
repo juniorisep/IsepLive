@@ -242,7 +242,7 @@ class Intercept extends React.Component {
           case 401:
           case 403:
             authData.logout();
-            sendAlert("Non autorisé", 'error');
+            sendAlert("Vous avez été déconnecté", 'error');
             props.history.push('/');
             break;
           case 500:

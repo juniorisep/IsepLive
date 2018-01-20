@@ -36,42 +36,37 @@ const Image = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  transition: filter 1s ease;
+  filter: blur(${props => props.blur ? '50px' : '0'});
   background-position: center;
   background-size: ${props => props.coverMode};
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
+  overflow: hidden;
 `;
 
 class ImageLoader extends React.Component {
   state = {
     url: '/img/background.jpg',
+    loadImage: null,
+    loaded: false,
   }
 
-  loader: HTMLElement;
-
   componentDidMount() {
-    if (this.isInViewport(window.innerWidth)) {
-      this.setState({ url: this.props.img })
+    if (this.props.load) {
+      console.log('image loading')
+      this.setState({ loadImage: this.props.img });
     }
   }
 
   componentWillReceiveProps(props) {
-    if (props.style) {
-      if (this.isInViewport(window.innerWidth)) {
-        console.log('load', props.img)
-        this.setState({ url: props.img })
-      }
+    if (props.load) {
+      this.setState({ loadImage: this.props.img });
     }
   }
 
-  isInViewport(offset = 0) {
-    if (!this.loader) return false;
-    const rect = this.loader.getBoundingClientRect();
-    return (rect.right - offset) >= 0 && (rect.left - offset) <= window.innerWidth;
-  }
-
   handleImageLoaded = () => {
-    this.setState({ url: this.props.img });
+    this.setState({ url: this.props.img, loaded: true });
   }
 
   handleImageErrored = () => {
@@ -80,23 +75,18 @@ class ImageLoader extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          left: this.props.style.left,
-        }} ref={ref => this.loader = ref} >
-        {/* <img
-          src={this.props.img}
+      <span>
+        <img
+          src={this.state.loadImage}
           alt="loading"
           style={{ display: 'none' }}
           onLoad={this.handleImageLoaded}
-          onError={this.handleImageErrored} /> */}
+          onError={this.handleImageErrored} />
         <Image
-          coverMode={this.props.coverMode}
+          {...this.props}
+          blur={!this.state.loaded}
           img={this.state.url} />
-      </div>
+      </span>
     )
   }
 }
@@ -236,25 +226,26 @@ export default class SlideShow extends React.Component {
             position: 'absolute',
             width: '100%',
             height: '100%',
-            transform: `translate(-${pos * 101}%, 0)`,
+            transform: `translate3d(-${pos * 101}%, 0, 0)`,
             transition: animEnabled ? 'transform .5s ease' : 'none',
           }}>
           {
             this.getList().map((url, i) => {
-              return <Image
-                key={i}
-                coverMode={this.props.coverMode}
-                style={{
-                  left: i * 101 + '%',
-                }}
-                img={url} />
-              // return <ImageLoader
+              // return <Image
               //   key={i}
               //   coverMode={this.props.coverMode}
               //   style={{
               //     left: i * 101 + '%',
               //   }}
               //   img={url} />
+              return <ImageLoader
+                key={i}
+                load={pos <= i + 2 && pos >= i - 2}
+                coverMode={this.props.coverMode}
+                style={{
+                  left: i * 101 + '%',
+                }}
+                img={url} />
             })
           }
         </div>

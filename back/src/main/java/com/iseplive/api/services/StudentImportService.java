@@ -120,8 +120,10 @@ public class StudentImportService {
     studentRepository.save(studentsToCreate);
     // add photo to new students
     for (Student s: studentsToCreate) {
-      studentService.addProfileImage(s.getStudentId(), photosToAdd.get(s.getStudentId()));
-      res.incrPhotoAdded();
+      if (photosToAdd.get(s.getStudentId()) != null) {
+        studentService.addProfileImage(s.getStudentId(), photosToAdd.get(s.getStudentId()));
+        res.incrPhotoAdded();
+      }
     }
 
     return res;

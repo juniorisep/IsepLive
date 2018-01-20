@@ -217,13 +217,13 @@ class MediaView extends Component {
                 )
               })
             }
+            {
+              !this.props.lastPage &&
+              <div style={{ textAlign: 'center' }}>
+                <Button color="accent" onClick={this.props.seeMore}>Voir plus</Button>
+              </div>
+            }
           </Loader>
-          {
-            !this.props.lastPage &&
-            <div style={{ textAlign: 'center' }}>
-              <Button color="accent" onClick={this.props.seeMore}>Voir plus</Button>
-            </div>
-          }
         </FluidContent>
       </div>
     );

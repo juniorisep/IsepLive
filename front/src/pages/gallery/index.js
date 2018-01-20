@@ -18,6 +18,8 @@ import FullScreenGallery from '../../components/FullScreen/Gallery';
 import Loader from '../../components/Loader';
 import Time from '../../components/Time';
 
+import LazyLoad from 'react-lazy-load';
+
 import * as mediaData from '../../data/media/image';
 
 
@@ -87,7 +89,10 @@ export default class GalleryPage extends React.Component {
 
   hideGallery = () => {
     this.refreshGallery();
-    this.props.history.location.state = null;
+    this.props.history.replace({
+      ...this.props.history.location,
+      state: null,
+    })
     this.setState({ galleryOpen: false })
   }
 
@@ -120,14 +125,16 @@ export default class GalleryPage extends React.Component {
                   images.map((img, index) => {
                     return (
                       <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 6]} p={1}>
-                        <Flex align="center" style={{ height: '100%' }}>
-                          <Link to={{
-                            pathname: '/gallery/' + gallery.id,
-                            state: { imageId: img.id }
-                          }}>
-                            <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} />
-                          </Link>
-                        </Flex>
+                        <LazyLoad offsetTop={200}>
+                          <Flex align="center" style={{ height: '100%' }}>
+                            <Link to={{
+                              pathname: '/gallery/' + gallery.id,
+                              state: { imageId: img.id }
+                            }}>
+                              <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} />
+                            </Link>
+                          </Flex>
+                        </LazyLoad>
                       </Box>
                     );
                   })

@@ -97,7 +97,7 @@ export default class GalleryPage extends React.Component {
     return (
       <FluidContent>
         <ScrollToTopOnMount />
-        <Title invert fontSize={1}>GALLERIE</Title>
+        <Title invert fontSize={1}>GALERIE</Title>
         <Loader loading={isLoading}>
           {
             gallery &&

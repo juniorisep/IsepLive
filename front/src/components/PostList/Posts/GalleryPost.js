@@ -27,7 +27,7 @@ class GalleryPost extends Component {
         <Box w={size} order={galleryOrder} >
           <Paper style={{ height: '100%', padding: '2em' }}>
             <div>
-              <Title invert fontSize={1}>GALLERIE</Title>
+              <Title invert fontSize={1}>GALERIE</Title>
             </div>
             <Title>{gallery.name}</Title>
             <Flex wrap>

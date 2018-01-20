@@ -68,7 +68,12 @@ export default class Event extends React.Component {
                 <Author data={event.club} />
               </Box>
             </Flex>
-            <Text>{event.description}</Text>
+            <Text>
+              {
+                event.description.length > 300 ?
+                  event.description.substr(0, 300) + '...' : event.description
+              }
+            </Text>
             <Auth roles={[ADMIN, EVENT_MANAGER]}>
               <IconButton color="accent" onClick={this.handleMenu}>
                 <MoreIcon />

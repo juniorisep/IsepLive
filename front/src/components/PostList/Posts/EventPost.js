@@ -17,7 +17,9 @@ import { BgImage, Paper } from 'components/common';
 
 const Background = styled.div`
   // background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
+  background: rgba(0,0,0,0.4);
   padding: 50px 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +52,7 @@ export default class EventPost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Paper>
+          <Paper style={{ height: '100%' }}>
             <BgImage src={props.post.media.imageUrl}>
               <Background>
                 <Link to={`/evenements/${props.post.media.id}`}>
@@ -59,8 +61,8 @@ export default class EventPost extends Component {
                   </Tooltip>
                 </Link>
                 <FileName>{props.post.media.title}</FileName>
-                <CountDown date={props.post.media.date} fs=".8em" endDisplay={
-                  <Time date={props.post.media.date} format="DD/MM/YYYY HH:mm" />
+                <CountDown date={props.post.media.date} fs="1.2em" endDisplay={
+                  <Time date={props.post.media.date} format="Do MMMM YYYY [à] HH:mm" />
                 } />
                 <Location>{props.post.media.location}</Location>
               </Background>

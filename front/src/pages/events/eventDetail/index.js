@@ -46,15 +46,22 @@ class EventDetail extends Component {
                 <Flex>
                   <Box mb={2}>
                     <Title invert>{event.title}</Title>
-                    <Subtitle><i>{event.location}</i> - <Time date={event.date} format="DD/MM/YYYY HH:mm" /></Subtitle>
+                    <div>
+                      <Title fontSize={1}>Le <Time date={event.date} format="DD/MM/YYYY [à] HH[h]mm" /></Title>
+                      <Text fs="1.1em" mb={.5}>{event.location}</Text>
+                    </div>
                   </Box>
                   <Box ml="auto">
                     <Author data={event.club} />
                   </Box>
                 </Flex>
-                <Text>
-                  {event.description}
-                </Text>
+                <Box mt="10px">
+                  {
+                    event.description
+                      .split('\n')
+                      .map(par => <Text mb={1}>{par}</Text>)
+                  }
+                </Box>
                 <Filler h={300} />
               </FluidContent>
             </div>

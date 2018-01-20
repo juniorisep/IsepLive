@@ -42,6 +42,65 @@ const Image = styled.div`
   background-repeat: no-repeat;
 `;
 
+class ImageLoader extends React.Component {
+  state = {
+    url: '/img/background.jpg',
+  }
+
+  loader: HTMLElement;
+
+  componentDidMount() {
+    if (this.isInViewport(window.innerWidth)) {
+      this.setState({ url: this.props.img })
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.style) {
+      if (this.isInViewport(window.innerWidth)) {
+        console.log('load', props.img)
+        this.setState({ url: props.img })
+      }
+    }
+  }
+
+  isInViewport(offset = 0) {
+    if (!this.loader) return false;
+    const rect = this.loader.getBoundingClientRect();
+    return (rect.right - offset) >= 0 && (rect.left - offset) <= window.innerWidth;
+  }
+
+  handleImageLoaded = () => {
+    this.setState({ url: this.props.img });
+  }
+
+  handleImageErrored = () => {
+
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          left: this.props.style.left,
+        }} ref={ref => this.loader = ref} >
+        {/* <img
+          src={this.props.img}
+          alt="loading"
+          style={{ display: 'none' }}
+          onLoad={this.handleImageLoaded}
+          onError={this.handleImageErrored} /> */}
+        <Image
+          coverMode={this.props.coverMode}
+          img={this.state.url} />
+      </div>
+    )
+  }
+}
+
 const DIR_FORWARD = 1;
 const DIR_BACKWARD = -1;
 
@@ -53,6 +112,8 @@ export default class SlideShow extends React.Component {
     animEnabled: true,
     direction: DIR_FORWARD,
   }
+
+  task: number;
 
   getDuration() {
     return (this.props.duration || 5) * 1000 + 500;
@@ -169,21 +230,34 @@ export default class SlideShow extends React.Component {
             </Control>
           </Controls>
         }
-        {
-          this.getList().map((url, i) => {
-            return <Image
-              key={i}
-              coverMode={this.props.coverMode}
-              onTransitionEnd={this.transitionEnded}
-              style={{
-                left: i * 101 + '%',
-                transform: `translate(-${pos * 101}%, 0)`,
-                transition: animEnabled ? 'transform .5s ease' : 'none',
-              }}
-              img={url}
-              ontransition />
-          })
-        }
+        <div
+          onTransitionEnd={this.transitionEnded}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            transform: `translate(-${pos * 101}%, 0)`,
+            transition: animEnabled ? 'transform .5s ease' : 'none',
+          }}>
+          {
+            this.getList().map((url, i) => {
+              return <Image
+                key={i}
+                coverMode={this.props.coverMode}
+                style={{
+                  left: i * 100 + '%',
+                }}
+                img={url} />
+              // return <ImageLoader
+              //   key={i}
+              //   coverMode={this.props.coverMode}
+              //   style={{
+              //     left: i * 101 + '%',
+              //   }}
+              //   img={url} />
+            })
+          }
+        </div>
       </ImageList>
     );
   };

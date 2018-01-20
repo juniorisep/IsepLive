@@ -5,7 +5,10 @@ import styled from 'styled-components';
 
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
+import FileDownload from 'material-ui-icons/FileDownload';
+import Button from 'material-ui/Button';
 
+import Auth from '../Auth/AuthComponent';
 
 import {
   BgImage,
@@ -68,7 +71,17 @@ class View extends Component {
   };
 
   render() {
-    const { visible, data, image, index, internalRefresh } = this.props;
+    const lightButton = {
+      color: 'white',
+      background: 'rgba(255,255,255,0.1)'
+    }
+    const {
+      visible,
+      data,
+      image,
+      index,
+      internalRefresh
+    } = this.props;
     if (!visible) return null;
     return (
       <Wrapper visible={visible}>
@@ -81,13 +94,24 @@ class View extends Component {
         <ViewStyle>
           <BgImage src={image} size="contain" mh="80vh" />
         </ViewStyle>
-        {
-          this.props.matcher &&
-          <PeopleMatcher
-            internalRefresh={internalRefresh}
-            onOpenMatcher={this.openMatcher}
-            image={this.props.data} />
-        }
+        <div style={{ margin: 30 }}>
+          <Button
+            style={lightButton}
+            download
+            dense
+            href={backUrl + image}>
+            <FileDownload style={{ marginRight: 5 }} /> Télecharger
+        </Button>
+          <Auth logged>
+            {
+              this.props.matcher &&
+              <PeopleMatcher
+                internalRefresh={internalRefresh}
+                onOpenMatcher={this.openMatcher}
+                image={this.props.data} />
+            }
+          </Auth>
+        </div>
       </Wrapper>
     );
   };

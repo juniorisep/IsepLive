@@ -12,7 +12,6 @@ import {
   Title,
 } from 'components/common';
 
-
 class GalleryPost extends Component {
 
   render() {
@@ -21,7 +20,7 @@ class GalleryPost extends Component {
     const imageSize = props.preview ? [1 / 2, 1 / 4, 1 / 6] : [1 / 3];
     const gallery = props.post.media;
     const galleryOrder = props.preview ? 2 : 1;
-    const images = props.preview ? gallery.images : gallery.images.slice(0, 3);
+    const images = props.preview ? gallery.previewImages : gallery.previewImages.slice(0, 6);
     return (
       <Post invert={props.invert}>
         <Box w={size} order={galleryOrder} >

@@ -121,9 +121,7 @@ public class MediaService {
     gallery.setCreation(new Date());
 
     List<Image> images = new ArrayList<>();
-    files.forEach(file -> {
-      images.add(addImage(file));
-    });
+    files.forEach(file -> images.add(addImage(file)));
     gallery.setImages(images);
 
     return mediaRepository.save(gallery);
@@ -142,6 +140,11 @@ public class MediaService {
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
     image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
     return mediaRepository.save(image);
+  }
+
+  public void deleteImageFile(Image image) {
+    mediaUtils.removeIfExistPublic(image.getThumbUrl());
+    mediaUtils.removeIfExistPublic(image.getFullSizeUrl());
   }
 
   public void tagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
@@ -213,5 +216,10 @@ public class MediaService {
       throw new IllegalArgumentException("could not find this image");
     }
     return image.getMatched();
+  }
+
+  public List<Image> getGalleryImages(Long id) {
+    Gallery gallery = getGallery(id);
+    return gallery.getImages();
   }
 }

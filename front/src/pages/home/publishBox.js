@@ -388,7 +388,6 @@ class PublishBoxView extends Component {
                 control={
                   <Checkbox
                     checked={this.state.isPrivateMessage}
-                    value={this.state.isPrivateMessage}
                     style={{ color: 'white' }}
                     onChange={this.onPrivateToggle} />
                 }

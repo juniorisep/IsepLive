@@ -13,11 +13,12 @@ import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.club.Club;
-import com.iseplive.api.entity.media.Media;
+import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.AuthException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
+import com.iseplive.api.utils.MediaUtils;
 import com.iseplive.api.websocket.PostMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -66,7 +67,13 @@ public class PostService {
   ClubService clubService;
 
   @Autowired
+  MediaService mediaService;
+
+  @Autowired
   PostMessageService postMessageService;
+
+  @Autowired
+  MediaUtils mediaUtils;
 
   private final int POSTS_PER_PAGE = 10;
 
@@ -131,6 +138,27 @@ public class PostService {
       throw new AuthException("you cannot delete this post");
     }
     // TODO: delete the ressource associated to the media (stored on disk)
+
+    if (post.getMedia() instanceof Gallery) {
+      Gallery gallery = (Gallery) post.getMedia();
+      gallery.getImages().forEach(img -> mediaService.deleteImageFile(img));
+    }
+
+    if (post.getMedia() instanceof Image) {
+      Image image = (Image) post.getMedia();
+      mediaService.deleteImageFile(image);
+    }
+
+    if (post.getMedia() instanceof Event) {
+      Event event = (Event) post.getMedia();
+      mediaUtils.removeIfExistPublic(event.getImageUrl());
+    }
+
+    if (post.getMedia() instanceof Document) {
+      Document document = (Document) post.getMedia();
+      mediaUtils.removeIfExistPublic(document.getPath());
+    }
+
     postRepository.delete(postId);
   }
 

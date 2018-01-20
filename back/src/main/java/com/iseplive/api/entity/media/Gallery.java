@@ -1,5 +1,6 @@
 package com.iseplive.api.entity.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.constants.MediaType;
 
 import javax.persistence.DiscriminatorValue;
@@ -26,6 +27,7 @@ public class Gallery extends Media {
     super.setCreation(creation);
   }
 
+  @JsonIgnore
   public List<Image> getImages() {
     return images;
   }
@@ -38,11 +40,15 @@ public class Gallery extends Media {
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public Image getCoverImage() {
     return images.get(0);
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public List<Image> getPreviewImages() {
+    return images.subList(0, images.size() < 10 ? images.size() : 10);
   }
 }

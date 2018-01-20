@@ -43,30 +43,30 @@ public class MediaUtils {
   }
 
   public String resolvePath(String dir, String name, boolean thumb, Date date) {
-    return resolvePath(dir, pathGroupByDate(date, name), thumb);
+    return resolvePath(pathGroupByDate(date, dir), name, thumb);
   }
 
   public String resolvePath(String dir, String name, boolean thumb, String studentId) {
-    return resolvePath(dir, pathGroupByStudentId(studentId, name), thumb);
+    return resolvePath(pathGroupByStudentId(studentId, dir), name, thumb);
   }
 
-  private String pathGroupByStudentId(String studentId, String name) {
+  private String pathGroupByStudentId(String studentId, String dir) {
     return String.format(
       "%s/%s",
-      studentId.substring(0, studentId.length() - 2),
-      name
+      dir,
+      studentId.substring(0, studentId.length() - 2)
     );
   }
 
-  private String pathGroupByDate(Date date, String fileName) {
+  private String pathGroupByDate(Date date, String dir) {
     Calendar c = Calendar.getInstance();
     c.setTime(date);
     return String.format(
-      "%d/%d/%d/%s",
+      "%s/%d/%d/%d",
+      dir,
       c.get(Calendar.YEAR),
       c.get(Calendar.MONTH) + 1,
-      c.get(Calendar.DATE),
-      fileName
+      c.get(Calendar.DATE)
     );
   }
 

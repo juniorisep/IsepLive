@@ -95,6 +95,12 @@ public class MediaController {
     return mediaService.getGallery(id);
   }
 
+  @GetMapping("/gallery/{id}/images")
+  public List<Image> getGalleryImages(@PathVariable Long id) {
+    return mediaService.getGalleryImages(id);
+  }
+
+
   @PostMapping("/gazette")
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
   public Gazette createGazette(@RequestParam("title") String title,

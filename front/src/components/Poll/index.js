@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import * as moment from 'moment';
 import { Flex, Box } from 'grid-styled';
 
+import InsertChartIcon from 'material-ui-icons/InsertChart';
+
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 
 import { Title, Text, ProfileImage } from '../common';
@@ -22,6 +24,9 @@ const TopBar = styled.div`
   padding: 15px;
   font-size: 25px;
   font-weight: 500;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
   color: ${props => props.theme.accent};
 `;
 
@@ -149,7 +154,7 @@ class Poll extends Component {
     const total = this.getTotal();
     return (
       <Wrapper>
-        <TopBar>Sondage</TopBar>
+        <TopBar><InsertChartIcon style={{ marginRight: 10 }} /> Sondage</TopBar>
         <Main>
           <Question>{poll.name}</Question>
           {

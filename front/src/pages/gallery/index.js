@@ -28,7 +28,11 @@ export default class GalleryPage extends React.Component {
     gallery: null,
     galleryOpen: false,
     galleryIndex: 0,
+    images: [],
   }
+
+  galleryId: number;
+  photoId: number;
 
   componentDidMount() {
     const { match, history } = this.props;
@@ -36,7 +40,8 @@ export default class GalleryPage extends React.Component {
     if (history.location.state) {
       this.photoId = history.location.state['imageId'];
     }
-    this.getGallery()
+    this.getGallery();
+    this.getGalleryImages();
   }
 
   componentWillUnmount() {
@@ -48,25 +53,30 @@ export default class GalleryPage extends React.Component {
     mediaData.getGallery(this.galleryId)
       .then(res => {
         this.setState({ gallery: res.data, isLoading: false });
-
-        if (this.photoId) {
-          const index = res.data.images.findIndex(e => e.id === this.photoId);
-          this.selectPhoto(index);
-        }
       })
   }
 
+  getGalleryImages() {
+    mediaData.getGalleryImages(this.galleryId).then(res => {
+      this.setState({ images: res.data });
+      if (this.photoId) {
+        const index = res.data.findIndex(e => e.id === this.photoId);
+        this.selectPhoto(index);
+      }
+    })
+  }
+
   refreshGallery = () => {
-    mediaData.getGallery(this.galleryId)
+    mediaData.getGalleryImages(this.galleryId)
       .then(res => {
-        this.setState({ gallery: res.data });
+        this.setState({ images: res.data });
       })
   }
 
   componentWillReceiveProps(props) {
     if (props.history.location.state) {
       const photoId = props.history.location.state.imageId;
-      const index = this.state.gallery.images.findIndex(e => e.id === photoId);
+      const index = this.state.images.findIndex(e => e.id === photoId);
       this.selectPhoto(index);
     }
   }
@@ -93,6 +103,7 @@ export default class GalleryPage extends React.Component {
       gallery,
       galleryOpen,
       galleryIndex,
+      images,
     } = this.state;
     return (
       <FluidContent>
@@ -106,7 +117,7 @@ export default class GalleryPage extends React.Component {
               <Text>Créée le <Time date={gallery.creation} format="DD/MM/YYYY [à] HH:mm" /></Text>
               <Flex wrap style={{ marginTop: 30 }}>
                 {
-                  gallery && gallery.images.map((img, index) => {
+                  images.map((img, index) => {
                     return (
                       <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 6]} p={1}>
                         <Flex align="center" style={{ height: '100%' }}>
@@ -131,7 +142,7 @@ export default class GalleryPage extends React.Component {
         <FullScreenGallery
           index={galleryIndex}
           visible={galleryOpen}
-          gallery={gallery}
+          images={images}
           onEscKey={this.hideGallery} />
       </FluidContent>
     );

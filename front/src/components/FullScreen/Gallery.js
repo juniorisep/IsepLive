@@ -17,6 +17,7 @@ import SlideShow from 'components/SlideShow';
 import { backUrl } from 'config';
 
 import PeopleMatcher from './PeopleMatcher';
+import * as imageData from '../../data/media/image';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -42,12 +43,9 @@ class Gallery extends Component {
     matcherOpen: false,
   }
 
-  componentDidMount() {
-  };
-
   componentWillUnmount() {
     this.removeEscListener();
-  };
+  }
 
   openMatcher = (open) => {
     this.setState({ matcherOpen: open })
@@ -88,7 +86,7 @@ class Gallery extends Component {
       background: 'rgba(255,255,255,0.1)'
     }
 
-    const { visible, gallery, index } = this.props;
+    const { visible, images, index } = this.props;
     if (!visible) return null;
     return (
       <Wrapper visible={visible}>
@@ -105,24 +103,27 @@ class Gallery extends Component {
             initPos={index}
             onChange={this.updateIndex}
             items={
-              gallery.images.map(img => backUrl + img.fullSizeUrl)
+              images.map(img => backUrl + img.fullSizeUrl)
             }
             duration={5} />
         </GalleryStyle>
-        <div style={{ margin: 30 }}>
-          <Button
-            style={lightButton}
-            download
-            dense
-            href={backUrl + gallery.images[this.state.currentIndex].fullSizeUrl}>
-            <FileDownload style={{ marginRight: 5 }} /> Télecharger
+        {
+          images.length > 0 &&
+          <div style={{ margin: 30 }}>
+            <Button
+              style={lightButton}
+              download
+              dense
+              href={backUrl + images[this.state.currentIndex].fullSizeUrl}>
+              <FileDownload style={{ marginRight: 5 }} /> Télecharger
         </Button>
-          <Auth logged>
-            <PeopleMatcher
-              onOpenMatcher={this.openMatcher}
-              image={gallery.images[this.state.currentIndex]} />
-          </Auth>
-        </div>
+            <Auth logged>
+              <PeopleMatcher
+                onOpenMatcher={this.openMatcher}
+                image={images[this.state.currentIndex]} />
+            </Auth>
+          </div>
+        }
       </Wrapper>
     );
   };

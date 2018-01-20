@@ -21,6 +21,10 @@ export function getGallery(id: number) {
   return axios.get(`/media/gallery/${id}`);
 }
 
+export function getGalleryImages(id: number) {
+  return axios.get(`/media/gallery/${id}/images`);
+}
+
 export function matchStudent(photoId: number, studId: number) {
   return axios.put(`/media/image/${photoId}/match/${studId}/tag`);
 }

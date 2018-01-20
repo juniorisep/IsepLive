@@ -120,26 +120,29 @@ export default class GalleryPage extends React.Component {
             <div>
               <Title>{gallery.name}</Title>
               <Text>Créée le <Time date={gallery.creation} format="DD/MM/YYYY [à] HH:mm" /></Text>
-              <Flex wrap style={{ marginTop: 30 }}>
-                {
-                  images.map((img, index) => {
-                    return (
-                      <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 6]} p={1}>
-                        <Flex align="center" style={{ height: '100%' }}>
-                          <LazyLoad offsetTop={200}>
-                            <Link to={{
-                              pathname: '/gallery/' + gallery.id,
-                              state: { imageId: img.id }
-                            }}>
-                              <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} />
-                            </Link>
-                          </LazyLoad>
-                        </Flex>
-                      </Box>
-                    );
-                  })
-                }
-              </Flex>
+              {
+                !galleryOpen &&
+                <Flex wrap style={{ marginTop: 30 }}>
+                  {
+                    images.map((img, index) => {
+                      return (
+                        <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 6]} p={1}>
+                          <Flex align="center" style={{ height: '100%' }}>
+                            <LazyLoad offsetTop={200}>
+                              <Link to={{
+                                pathname: '/gallery/' + gallery.id,
+                                state: { imageId: img.id }
+                              }}>
+                                <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} />
+                              </Link>
+                            </LazyLoad>
+                          </Flex>
+                        </Box>
+                      );
+                    })
+                  }
+                </Flex>
+              }
             </div>
           }
         </Loader>

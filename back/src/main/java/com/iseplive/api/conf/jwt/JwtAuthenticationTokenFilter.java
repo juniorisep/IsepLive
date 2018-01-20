@@ -36,16 +36,16 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
       if (authToken.startsWith("Bearer ")) {
         authToken = authToken.substring(7);
         try {
-          //LOG.info("decoding token");
+          LOG.debug("decoding token");
           jwt = jwtTokenUtil.decodeToken(authToken);
         } catch (JWTVerificationException e) {
 
           try {
-            //LOG.info("token expired, trying to refresh the token");
+            LOG.debug("token expired, trying to refresh the token");
             tokenSet = jwtTokenUtil.refreshWithToken(refreshToken);
             jwt = jwtTokenUtil.decodeToken(tokenSet.getToken());
           } catch (JWTVerificationException e1) {
-            //LOG.info("token could not be refreshed, refresh token is invalid");
+            LOG.debug("token could not be refreshed, refresh token is invalid");
             response.sendError(HttpServletResponse.SC_FORBIDDEN, e1.getMessage());
             return;
           }

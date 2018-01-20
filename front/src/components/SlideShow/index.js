@@ -8,6 +8,8 @@ import IconButton from 'material-ui/IconButton';
 import ArrRight from 'material-ui-icons/ChevronRight';
 import ArrLeft from 'material-ui-icons/ChevronLeft';
 
+import Transition from 'react-transition-group/Transition';
+
 const Controls = styled.div`
   position: absolute;
   width: 100%;
@@ -94,6 +96,32 @@ class ImageLoader extends React.Component {
 const DIR_FORWARD = 1;
 const DIR_BACKWARD = -1;
 
+const duration = 300;
+
+const defaultStyle = props => ({
+  transition: `opacity ${props.duration}ms ease-in-out`,
+  opacity: 0,
+});
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered: { opacity: 1 },
+};
+
+const ImageTransition = (props) => (
+  <Transition in={props.in} timeout={props.duration}>
+    {(state) => (
+      <Image
+        coverMode={props.coverMode}
+        style={{
+          ...defaultStyle(props.duration),
+          ...transitionStyles[state],
+        }}
+        img={props.image} />
+    )}
+  </Transition>
+)
+
 export default class SlideShow extends React.Component {
   state = {
     // not 0 because first item is a double of
@@ -101,6 +129,14 @@ export default class SlideShow extends React.Component {
     pos: 1,
     animEnabled: true,
     direction: DIR_FORWARD,
+    currentImage: null,
+    newImage: null,
+    currentStyle: {
+      opacity: 1,
+    },
+    newStyle: {
+      opacity: 0,
+    },
   }
 
   task: number;
@@ -115,7 +151,7 @@ export default class SlideShow extends React.Component {
     }
 
     if (this.props.initPos) {
-      this.setState({ pos: this.props.initPos + 1 })
+      this.setState({ pos: this.props.initPos })
     }
 
     document.addEventListener('keydown', this.handleKey);
@@ -154,14 +190,29 @@ export default class SlideShow extends React.Component {
       const { pos } = this.state;
       this.goTo(pos + 1, DIR_FORWARD);
     }, this.getDuration());
-  };
+  }
 
   goTo(targetPos: number, direction: number) {
     const { pos } = this.state;
     const { items } = this.props;
+    console.log(targetPos)
+    if (targetPos > items.length - 1) {
+      this.setState({ pos: 0 });
+      this.switchImage(items[0]);
+      return;
+    }
 
+    if (targetPos < 0) {
+      this.setState({ pos: items.length - 1 });
+      this.switchImage(items[items.length - 1]);
+      return;
+    }
 
-    if (pos >= items.length + 1 && direction > 0) {
+    this.setState({ pos: targetPos });
+    this.switchImage(items[targetPos]);
+    return;
+
+    if (pos > items.length - 1 && direction > 0) {
       return;
     }
     if (pos <= 0 && direction < 0) {
@@ -175,7 +226,24 @@ export default class SlideShow extends React.Component {
       this.props.onChange(changePos);
     }
 
-    this.setState({ pos: targetPos, animEnabled: true, direction });
+    this.setState({
+      pos: targetPos,
+      animEnabled: true,
+      direction,
+    });
+  }
+
+  switchImage = (newImage) => {
+    this.setState((state) => ({
+      currentImage: state.newImage,
+      newImage,
+      currentStyle: {
+        opacity: 0,
+      },
+      newStyle: {
+        opacity: 1,
+      }
+    }));
   }
 
   transitionEnded = () => {
@@ -201,8 +269,15 @@ export default class SlideShow extends React.Component {
   };
 
   render() {
-    const { showControls } = this.props;
-    const { pos, animEnabled } = this.state;
+    const { showControls, items } = this.props;
+    const {
+      pos,
+      animEnabled,
+      currentImage,
+      newImage,
+      currentStyle,
+      newStyle,
+     } = this.state;
     return (
       <ImageList>
         {
@@ -220,7 +295,12 @@ export default class SlideShow extends React.Component {
             </Control>
           </Controls>
         }
-        <div
+        <ImageTransition
+          in={true}
+          coverMode={this.props.coverMode}
+          duration={300}
+          image={currentImage} />
+        {/* <div
           onTransitionEnd={this.transitionEnded}
           style={{
             position: 'absolute',
@@ -248,7 +328,7 @@ export default class SlideShow extends React.Component {
                 img={url} />
             })
           }
-        </div>
+        </div> */}
       </ImageList>
     );
   };

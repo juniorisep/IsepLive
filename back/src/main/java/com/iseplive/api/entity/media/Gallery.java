@@ -3,6 +3,7 @@ package com.iseplive.api.entity.media;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.constants.MediaType;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -19,7 +20,7 @@ public class Gallery extends Media {
 
   private String name;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   private List<Image> images;
 
   @Override

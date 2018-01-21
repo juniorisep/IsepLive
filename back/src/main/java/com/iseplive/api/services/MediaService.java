@@ -67,7 +67,7 @@ public class MediaService {
 
   private final int ALL_MEDIA_PAGE_SIZE = 20;
 
-  private final int WIDTH_IMAGE_SIZE = 1920;
+  private final int WIDTH_IMAGE_SIZE = 1280;
   private final int WIDTH_IMAGE_SIZE_THUMB = 768;
 
   public Page<Media> getAllGalleryGazetteVideoPublic(int page) {
@@ -132,19 +132,30 @@ public class MediaService {
     image.setCreation(new Date());
 
     String name = mediaUtils.randomName();
+
     String path = mediaUtils.resolvePath(imageDir, name, false, image.getCreation());
-    String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
     mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE, path);
+
+    String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
     mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE_THUMB, pathThumb);
+
+    String pathOriginal = String.format(
+      "%s_%s",
+      mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
+      file.getOriginalFilename()
+    );
+    mediaUtils.saveFile(pathOriginal, file);
 
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
     image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
+    image.setOriginalUrl(mediaUtils.getPublicUrl(pathOriginal));
     return mediaRepository.save(image);
   }
 
   public void deleteImageFile(Image image) {
     mediaUtils.removeIfExistPublic(image.getThumbUrl());
     mediaUtils.removeIfExistPublic(image.getFullSizeUrl());
+    mediaUtils.removeIfExistPublic(image.getOriginalUrl());
   }
 
   public void tagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {

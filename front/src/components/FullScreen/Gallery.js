@@ -119,7 +119,7 @@ class Gallery extends Component {
               style={lightButton}
               download
               dense
-              href={backUrl + images[this.state.currentIndex].fullSizeUrl}>
+              href={backUrl + images[this.state.currentIndex].originalUrl}>
               <FileDownload style={{ marginRight: 5 }} /> Télecharger
         </Button>
             <Auth logged>

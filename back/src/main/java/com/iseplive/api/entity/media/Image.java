@@ -19,6 +19,7 @@ public class Image extends Media {
 
   private String thumbUrl;
   private String fullSizeUrl;
+  private String originalUrl;
 
   @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
   private List<Matched> matched;
@@ -50,5 +51,13 @@ public class Image extends Media {
 
   public void setThumbUrl(String thumbUrl) {
     this.thumbUrl = thumbUrl;
+  }
+
+  public String getOriginalUrl() {
+    return originalUrl;
+  }
+
+  public void setOriginalUrl(String originalUrl) {
+    this.originalUrl = originalUrl;
   }
 }

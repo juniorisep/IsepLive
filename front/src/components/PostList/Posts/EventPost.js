@@ -30,9 +30,8 @@ const FileLogo = styled.img`
   margin-bottom: 10px;
 `;
 
-const FileName = styled.h2`
+const EventTitle = styled.h2`
   font-size: 1.3em;
-  font-weight: 500;
   color: white;
   margin: 0;
 `;
@@ -59,7 +58,7 @@ export default class EventPost extends Component {
                     <FileLogo src="/img/svg/event.svg" />
                   </Tooltip>
                 </Link>
-                <FileName>{props.post.media.title}</FileName>
+                <EventTitle>{props.post.media.title}</EventTitle>
                 <CountDown date={props.post.media.date} fs="1.2em" endDisplay={
                   <Time date={props.post.media.date} format="Do MMMM YYYY [à] HH:mm" />
                 } />

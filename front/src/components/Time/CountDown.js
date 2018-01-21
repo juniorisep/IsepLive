@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Style = styled.h3`
+  font-weight: 500;
   font-size: ${props => props.fs || '1em'};
   color: ${props => props.theme[props.color] || props.color || 'white'};
   margin: ${props => props.m || '1em'};

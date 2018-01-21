@@ -30,7 +30,6 @@ class EditButton extends Component {
   };
 
   handleEdit = () => {
-    // TODO: to implement
     this.props.modify(this.props.post);
     this.closeMenu();
   };
@@ -62,7 +61,10 @@ class EditButton extends Component {
           onClose={this.closeMenu}>
           <MenuItem onClick={this.handleEdit}>Modifier</MenuItem>
           <MenuItem onClick={this.handleDelete}>Supprimer</MenuItem>
-          {this.props.canPin && canPin && <MenuItem onClick={this.pinPost}>{!this.state.pin ? 'Pin' : 'Unpin'}</MenuItem>}
+          {
+            this.props.canPin && canPin &&
+            <MenuItem onClick={this.pinPost}>{!this.state.pin ? 'Pin' : 'Unpin'}</MenuItem>
+          }
         </Menu>
       </div>
     );

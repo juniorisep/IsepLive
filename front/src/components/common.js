@@ -290,7 +290,6 @@ export class ImageLoader extends React.Component {
   }
 
   handleImageLoaded = () => {
-    console.log('load')
     this.setState({ url: this.getUrl(), loaded: true });
   }
 

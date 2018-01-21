@@ -12,7 +12,6 @@ export function getEvent(id: number) {
 
 export function updateEvent(id: number, data, authorId) {
   const form = new FormData();
-  console.log(authorId)
   form.append('event', JSON.stringify({
     title: data.title,
     location: data.location,

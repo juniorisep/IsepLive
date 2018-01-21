@@ -14,8 +14,9 @@
     "react": "^16.2.0",
     "react-big-calendar": "^0.16.1",
     "react-dom": "^16.2.0",
-    "react-lazy-load": "^3.0.13",
+    "react-lazyload": "^2.3.0",
     "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.2.1",
     "styled-components": "^2.4.0"
   },
   "repository": {
@@ -33,6 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:test": "REACT_APP_BACKEND_URL=service.isepliveback.docker-dev.juniorisep.com react-scripts start",
+    "start:prod": "REACT_APP_BACKEND_URL=newapi.iseplive.fr react-scripts start",
     "build": "react-scripts build",
     "build:prod": "GENERATE_SOURCEMAP=false REACT_APP_BACKEND_URL=newapi.iseplive.fr react-scripts build",
     "test": "react-scripts test --env=jsdom",

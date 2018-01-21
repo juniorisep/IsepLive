@@ -57,7 +57,7 @@ public class ClubController {
   }
 
   @PutMapping("/member/{member}/role/{role}")
-  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER, Roles.STUDENT})
+  @RolesAllowed({Roles.STUDENT})
   public ClubMember updateMemberRole(@PathVariable Long member,
                                      @PathVariable Long role,
                                      @AuthenticationPrincipal TokenPayload auth) {
@@ -65,17 +65,22 @@ public class ClubController {
   }
 
   @DeleteMapping("/member/{member}")
-  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
-  public void deleteAdmin(@PathVariable Long member) {
-    clubService.removeMember(member);
+  @RolesAllowed({Roles.STUDENT})
+  public void deleteMember(@PathVariable Long member,
+                           @AuthenticationPrincipal TokenPayload payload) {
+    clubService.removeMember(member, payload);
   }
 
   @PutMapping("/{id}")
-  @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
+  @RolesAllowed({Roles.STUDENT})
   public Club updateClub(@PathVariable Long id,
                          @RequestParam(value = "logo", required = false) MultipartFile logo,
-                         @RequestParam("club") String club) {
+                         @RequestParam("club") String club,
+                         @AuthenticationPrincipal TokenPayload payload) {
     ClubDTO clubDTO = jsonUtils.deserialize(club, ClubDTO.class);
+    if (!hasAdminAccess(payload, id)) {
+      throw new AuthException("no rights to modify this club");
+    }
     return clubService.updateClub(id, clubDTO, logo);
   }
 

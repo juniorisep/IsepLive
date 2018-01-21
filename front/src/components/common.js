@@ -72,11 +72,49 @@ export const Banner = styled.div`
   }
 `;
 
-const ImageStyle = styled.img`
-  width: ${props => props.w};
-  margin-left: ${props => props.ml || 'auto'};
-  vertical-align: middle;
-`;
+// const ImageStyle = styled.img`
+//   width: ${props => props.w};
+//   margin-left: ${props => props.ml || 'auto'};
+//   vertical-align: middle;
+// `;
+
+class ImageStyle extends React.Component {
+  state = {
+    loaded: false,
+  }
+
+  componentDidMount() {
+    const hdLoaderImg = new window.Image();
+
+    hdLoaderImg.src = this.props.src;
+
+    hdLoaderImg.onload = () => {
+      this.setState({ loaded: true });
+    }
+  }
+
+  render() {
+    if (this.state.loaded) {
+      return <img
+        {...this.props}
+        style={{
+          ...this.props.style,
+          width: this.props.w,
+          marginLeft: this.props.ml || 'auto',
+          verticalAlign: 'middle',
+        }}
+        src={this.props.src} />
+    }
+    return <div style={{
+      background: '#EEE',
+      height: 130,
+      width: this.props.w,
+      marginLeft: this.props.ml || 'auto',
+      verticalAlign: 'middle',
+    }}></div>
+  }
+}
+
 
 type ImageType = {
   src?: string, alt?: string, w?: string | number, ml?: string
@@ -227,3 +265,64 @@ export const FileUpload = (props) => {
     </div>
   );
 };
+
+export class ImageLoader extends React.Component {
+  state = {
+    url: '',
+    loadImage: '',
+    loaded: false,
+  }
+
+  getUrl() {
+    return backUrl + this.props.src;
+  }
+
+  componentDidMount() {
+    if (this.props.load) {
+      this.setState({ loadImage: this.getUrl() });
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.load) {
+      this.setState({ loadImage: this.getUrl() });
+    }
+  }
+
+  handleImageLoaded = () => {
+    console.log('load')
+    this.setState({ url: this.getUrl(), loaded: true });
+  }
+
+  handleImageErrored = () => {
+
+  }
+
+  render() {
+    return (
+      <div style={{
+        width: '100%',
+        height: '100%',
+        transition: 'opacity .5s ease',
+        opacity: this.state.loaded ? 1 : 0,
+      }}>
+        <img
+          src={this.state.loadImage}
+          alt="loading"
+          style={{ display: 'none' }}
+          onLoad={this.handleImageLoaded}
+          onError={this.handleImageErrored} />
+        <div style={{
+          width: '100%',
+          height: '100%',
+          backgroundPosition: 'center',
+          backgroundSize: this.props.coverMode,
+          backgroundImage: `url(${this.state.url})`,
+          backgroundRepeat: 'no-repeat',
+          overflow: 'hidden',
+          ...this.props.style,
+        }}></div>
+      </div>
+    )
+  }
+}

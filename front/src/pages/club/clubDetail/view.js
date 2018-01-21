@@ -51,13 +51,16 @@ export default function ClubDetailView(props) {
                 </Button>
               </Box>
               {
-                authData.hasRole([ADMIN, CLUB_MANAGER]) && [
-                  <Box key={1}>
-                    <Button color="primary" onClick={props.onDelete}>
-                      Supprimer
-                    </Button>
-                  </Box>,
-                  <Box key={2}>
+                authData.hasRole([ADMIN, CLUB_MANAGER]) &&
+                <Box>
+                  <Button color="primary" onClick={props.onDelete}>
+                    Supprimer
+                  </Button>
+                </Box>
+              }
+              {
+                props.isAdmin && [
+                  <Box>
                     <Button color="primary" onClick={props.onEdit}>
                       Modifier
                     </Button>

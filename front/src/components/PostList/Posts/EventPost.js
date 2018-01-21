@@ -16,8 +16,7 @@ import { Link } from 'react-router-dom';
 import { BgImage, Paper } from 'components/common';
 
 const Background = styled.div`
-  // background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
-  background: rgba(0,0,0,0.4);
+  background: rgba(63, 80, 181, 0.9);
   padding: 50px 0;
   height: 100%;
   display: flex;

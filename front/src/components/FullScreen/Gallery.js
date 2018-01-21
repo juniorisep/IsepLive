@@ -91,7 +91,12 @@ class Gallery extends Component {
     return (
       <Wrapper visible={visible}>
         <IconButton
-          style={{ float: 'right', color: 'white' }}
+          style={{
+            float: 'right',
+            top: 20,
+            right: 20,
+            color: 'white'
+          }}
           onClick={() => this.props.onEscKey()}>
           <CloseIcon />
         </IconButton>

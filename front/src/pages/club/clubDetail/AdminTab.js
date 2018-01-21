@@ -200,6 +200,7 @@ export class AddRolePanel extends React.Component {
         this.loadClubRoles();
       })
     }
+    this.setState({ openDeletePopup: false });
   }
 
   render() {

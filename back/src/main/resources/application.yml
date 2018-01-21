@@ -36,12 +36,13 @@ storage:
 
 logging:
   level:
-    DEBUG
+    com.iseplive.api: DEBUG
+
 
 jwt:
   secret: 1jmhvPXhI40vqAnm
   refreshSecret: fIH3ZmRmqH2LT6vH
-  tokenDuration: 600 # 10 min
+  tokenDuration: 30 # 10 min
   refreshTokenDuration: 604800 # 7 jours
 #  tokenDuration: 604800 # 7 jours
 #  tokenDuration: 10

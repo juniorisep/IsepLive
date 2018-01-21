@@ -272,8 +272,8 @@ export class VideoForm extends Component {
     video: null,
   };
 
-  handleVideoSelect = (event) => {
-    const video = event.target.files[0];
+  handleVideoSelect = (files) => {
+    const video = files[0];
     this.setState({ video });
     if (this.state.name === '') {
       this.props.update({ ...this.state, video, name: video.name });

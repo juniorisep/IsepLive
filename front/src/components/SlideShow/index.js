@@ -38,8 +38,6 @@ const Image = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  transition: filter 1s ease;
-  filter: blur(${props => props.blur ? '50px' : '0'});
   background-position: center;
   background-size: ${props => props.coverMode};
   background-image: url(${props => props.img});
@@ -49,14 +47,13 @@ const Image = styled.div`
 
 class ImageLoader extends React.Component {
   state = {
-    url: '/img/background.jpg',
+    url: null,
     loadImage: null,
     loaded: false,
   }
 
   componentDidMount() {
     if (this.props.load) {
-      console.log('image loading')
       this.setState({ loadImage: this.props.img });
     }
   }
@@ -84,10 +81,14 @@ class ImageLoader extends React.Component {
           style={{ display: 'none' }}
           onLoad={this.handleImageLoaded}
           onError={this.handleImageErrored} />
-        <Image
-          {...this.props}
-          blur={!this.state.loaded}
-          img={this.state.url} />
+        <span style={{
+          transition: 'opacity .5s ease',
+          opacity: this.state.loaded ? 1 : 0,
+        }} >
+          <Image
+            {...this.props}
+            img={this.state.url} />
+        </span>
       </span>
     )
   }
@@ -96,25 +97,21 @@ class ImageLoader extends React.Component {
 const DIR_FORWARD = 1;
 const DIR_BACKWARD = -1;
 
-const duration = 300;
-
-const defaultStyle = props => ({
-  transition: `opacity ${props.duration}ms ease-in-out`,
-  opacity: 0,
-});
-
 const transitionStyles = {
-  entering: { opacity: 0 },
-  entered: { opacity: 1 },
+  entering: { opacity: 0, transform: 'scale(.9)' },
+  entered: { opacity: 1, transform: 'scale(1)' },
+  // exiting: { opacity: 0, transform: 'scale(.4)' },
 };
 
 const ImageTransition = (props) => (
   <Transition in={props.in} timeout={props.duration}>
     {(state) => (
-      <Image
+      <ImageLoader
+        load={props.shouldLoad}
         coverMode={props.coverMode}
         style={{
-          ...defaultStyle(props.duration),
+          transition: `all ${props.duration}ms ease`,
+          opacity: 0,
           ...transitionStyles[state],
         }}
         img={props.image} />
@@ -124,19 +121,9 @@ const ImageTransition = (props) => (
 
 export default class SlideShow extends React.Component {
   state = {
-    // not 0 because first item is a double of
-    // the last (used for looped transition)
-    pos: 1,
+    pos: 0,
     animEnabled: true,
     direction: DIR_FORWARD,
-    currentImage: null,
-    newImage: null,
-    currentStyle: {
-      opacity: 1,
-    },
-    newStyle: {
-      opacity: 0,
-    },
   }
 
   task: number;
@@ -194,89 +181,35 @@ export default class SlideShow extends React.Component {
 
   goTo(targetPos: number, direction: number) {
     const { pos } = this.state;
-    const { items } = this.props;
-    console.log(targetPos)
+    const { items, loop } = this.props;
+
     if (targetPos > items.length - 1) {
-      this.setState({ pos: 0 });
-      this.switchImage(items[0]);
+      if (loop) {
+        this.setState({ pos: 0 });
+      }
       return;
     }
 
     if (targetPos < 0) {
-      this.setState({ pos: items.length - 1 });
-      this.switchImage(items[items.length - 1]);
+      if (loop) {
+        this.setState({ pos: items.length - 1 });
+      }
       return;
     }
 
     this.setState({ pos: targetPos });
-    this.switchImage(items[targetPos]);
-    return;
-
-    if (pos > items.length - 1 && direction > 0) {
-      return;
-    }
-    if (pos <= 0 && direction < 0) {
-      return;
-    }
-
-    if (this.props.onChange) {
-      let changePos = targetPos - 1
-      if (targetPos === 0) changePos = items.length - 1;
-      if (targetPos === items.length + 1) changePos = 0;
-      this.props.onChange(changePos);
-    }
-
-    this.setState({
-      pos: targetPos,
-      animEnabled: true,
-      direction,
-    });
   }
 
-  switchImage = (newImage) => {
-    this.setState((state) => ({
-      currentImage: state.newImage,
-      newImage,
-      currentStyle: {
-        opacity: 0,
-      },
-      newStyle: {
-        opacity: 1,
-      }
-    }));
+  shouldLoadImage(imgPos) {
+    const { pos } = this.state;
+    return Math.abs(imgPos - pos) < 3;
   }
-
-  transitionEnded = () => {
-    const { pos, direction } = this.state;
-    const { items } = this.props;
-
-    if (pos === items.length + 1 && direction > 0) {
-      this.setState({ animEnabled: false, pos: 1 });
-    }
-
-    if (pos === 0 && direction < 0) {
-      this.setState({ animEnabled: false, pos: items.length });
-    }
-  }
-
-  // Build a list with last item on the first place and first
-  // item on the last place for animation purposes
-  getList() {
-    const { items } = this.props;
-    const first = items[0];
-    const last = items[items.length - 1];
-    return [last, ...items, first];
-  };
 
   render() {
     const { showControls, items } = this.props;
     const {
       pos,
       animEnabled,
-      currentImage,
-      newImage,
-      currentStyle,
-      newStyle,
      } = this.state;
     return (
       <ImageList>
@@ -284,51 +217,36 @@ export default class SlideShow extends React.Component {
           showControls &&
           <Controls>
             <Control>
-              <IconButton color="contrast" onClick={this.handleArrow(DIR_BACKWARD)}>
-                <ArrLeft />
-              </IconButton>
+              {
+                pos !== 0 &&
+                <IconButton color="contrast" onClick={this.handleArrow(DIR_BACKWARD)}>
+                  <ArrLeft />
+                </IconButton>
+              }
             </Control>
             <Control style={{ right: 0 }} >
-              <IconButton color="contrast" onClick={this.handleArrow(DIR_FORWARD)}>
-                <ArrRight />
-              </IconButton>
+              {
+                pos !== items.length - 1 &&
+                <IconButton color="contrast" onClick={this.handleArrow(DIR_FORWARD)}>
+                  <ArrRight />
+                </IconButton>
+              }
             </Control>
           </Controls>
         }
-        <ImageTransition
-          in={true}
-          coverMode={this.props.coverMode}
-          duration={300}
-          image={currentImage} />
-        {/* <div
-          onTransitionEnd={this.transitionEnded}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            transform: `translate3d(-${pos * 101}%, 0, 0)`,
-            transition: animEnabled ? 'transform .5s ease' : 'none',
-          }}>
-          {
-            this.getList().map((url, i) => {
-              // return <Image
-              //   key={i}
-              //   coverMode={this.props.coverMode}
-              //   style={{
-              //     left: i * 101 + '%',
-              //   }}
-              //   img={url} />
-              return <ImageLoader
-                key={i}
-                load={pos <= i + 2 && pos >= i - 2}
+        {
+          items.map((img, key) => {
+            return (
+              <ImageTransition
+                key={key}
+                in={key === pos}
+                shouldLoad={this.shouldLoadImage(key)}
                 coverMode={this.props.coverMode}
-                style={{
-                  left: i * 101 + '%',
-                }}
-                img={url} />
-            })
-          }
-        </div> */}
+                duration={200}
+                image={img} />
+            )
+          })
+        }
       </ImageList>
     );
   };

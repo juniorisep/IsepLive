@@ -201,9 +201,14 @@ public class ClubService {
     return clubMember;
   }
 
-  public void removeMember(Long member) {
+  public void removeMember(Long member, TokenPayload payload) {
     ClubMember clubMember = getMember(member);
     Club club = clubMember.getClub();
+    if (!payload.getRoles().contains(Roles.ADMIN) && payload.getRoles().contains(Roles.CLUB_MANAGER)) {
+      if (!payload.getClubsAdmin().contains(club.getId())) {
+        throw new AuthException("no rights to modify this club");
+      }
+    }
     club.getAdmins().remove(clubMember.getMember());
     club.getMembers().remove(clubMember);
     clubRepository.save(club);

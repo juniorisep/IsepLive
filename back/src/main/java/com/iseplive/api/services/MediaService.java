@@ -67,7 +67,7 @@ public class MediaService {
 
   private final int ALL_MEDIA_PAGE_SIZE = 20;
 
-  private final int WIDTH_IMAGE_SIZE = 1280;
+  private final int WIDTH_IMAGE_SIZE = 1920;
   private final int WIDTH_IMAGE_SIZE_THUMB = 768;
 
   public Page<Media> getAllGalleryGazetteVideoPublic(int page) {

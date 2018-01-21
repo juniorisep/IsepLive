@@ -195,6 +195,7 @@ export default class Login extends Component {
         <BackgroundContainer>
           <SlideShow
             auto
+            loop
             coverMode="cover"
             items={images}
             duration={5}

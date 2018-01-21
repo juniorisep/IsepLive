@@ -18,10 +18,16 @@ import FullScreenGallery from '../../components/FullScreen/Gallery';
 import Loader from '../../components/Loader';
 import Time from '../../components/Time';
 
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 
 import * as mediaData from '../../data/media/image';
 
+const ImagePlaceholder = () => (
+  <div style={{
+    background: '#EEE',
+    height: 130,
+  }}></div>
+)
 
 export default class GalleryPage extends React.Component {
 
@@ -120,34 +126,29 @@ export default class GalleryPage extends React.Component {
             <div>
               <Title>{gallery.name}</Title>
               <Text>Créée le <Time date={gallery.creation} format="DD/MM/YYYY [à] HH:mm" /></Text>
-              {
-                !galleryOpen &&
-                <Flex wrap style={{ marginTop: 30 }}>
-                  {
-                    images.map((img, index) => {
-                      return (
-                        <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 6]} p={1}>
+              <Flex wrap style={{ marginTop: 30 }}>
+                {
+                  images.map((img, index) => {
+                    return (
+                      <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 5]} p={1}>
+                        <LazyLoad height="130px" offsetTop={200} once placeholder={<ImagePlaceholder />}>
                           <Flex align="center" style={{ height: '100%' }}>
-                            <LazyLoad offsetTop={200}>
-                              <Link to={{
-                                pathname: '/gallery/' + gallery.id,
-                                state: { imageId: img.id }
-                              }}>
-                                <Image w="100%" src={img.thumbUrl} style={{ cursor: 'pointer' }} />
-                              </Link>
-                            </LazyLoad>
+                            <Link to={{
+                              pathname: '/gallery/' + gallery.id,
+                              state: { imageId: img.id }
+                            }} style={{ width: '100%' }}>
+                              <Image w="100%" src={img.thumbUrl} />
+                            </Link>
                           </Flex>
-                        </Box>
-                      );
-                    })
-                  }
-                </Flex>
-              }
+                        </LazyLoad>
+                      </Box>
+                    );
+                  })
+                }
+              </Flex>
             </div>
           }
         </Loader>
-
-        <Filler h={300} />
 
         <FullScreenGallery
           index={galleryIndex}

@@ -35,7 +35,7 @@ export default class ModifyPostModal extends React.Component {
 
       if (post.media) {
         if (post.media.mediaType === 'event') {
-          await eventData.updateEvent(post.media.id, post.media);
+          await eventData.updateEvent(post.media.id, post.media, post.author.id);
         }
       }
       this.props.refresh();

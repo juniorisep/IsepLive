@@ -67,12 +67,6 @@ export default function Home(props) {
             <Loader loading={props.isLoading}>
               <div>
                 {
-                  props.posts.length === 0 &&
-                  <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
-                    <Text fs="2em">Aucune publication</Text>
-                  </div>
-                }
-                {
                   props.pinnedPosts.length > 0 &&
                   <div>
                     <Flex align="center">
@@ -96,6 +90,12 @@ export default function Home(props) {
                       posts={props.pinnedPosts}
                       refreshPosts={props.refreshPosts} />
                     <Filler h={50} />
+                  </div>
+                }
+                {
+                  props.posts.length === 0 &&
+                  <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
+                    <Text fs="2em">Aucune publication</Text>
                   </div>
                 }
                 <PostListView

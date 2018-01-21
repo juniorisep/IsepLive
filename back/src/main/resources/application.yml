@@ -11,6 +11,8 @@ spring:
       max-file-size: 2000MB
       max-request-size: 2000MB
 
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQLInnoDBDialect
+
 server:
   port: 8080
 security:

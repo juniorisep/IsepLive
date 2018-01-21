@@ -220,6 +220,7 @@ export default class PostListView extends React.Component {
           internalRefresh
           visible={this.state.fullscreenOpen}
           image={this.state.media && this.state.media.fullSizeUrl}
+          imageOriginal={this.state.media && this.state.media.originalUrl}
           data={this.state.media}
           onEscKey={() => this.setFullScreen(false)} />
       </PostList>

@@ -79,6 +79,7 @@ class View extends Component {
       visible,
       data,
       image,
+      imageOriginal,
       index,
       internalRefresh
     } = this.props;
@@ -99,7 +100,7 @@ class View extends Component {
             style={lightButton}
             download
             dense
-            href={backUrl + image}>
+            href={backUrl + (imageOriginal || image)}>
             <FileDownload style={{ marginRight: 5 }} /> Télecharger
         </Button>
           <Auth logged>

@@ -185,19 +185,26 @@ export default class SlideShow extends React.Component {
 
     if (targetPos > items.length - 1) {
       if (loop) {
-        this.setState({ pos: 0 });
+        this.updatePos(0);
       }
       return;
     }
 
     if (targetPos < 0) {
       if (loop) {
-        this.setState({ pos: items.length - 1 });
+        this.updatePos(items.length - 1)
       }
       return;
     }
 
-    this.setState({ pos: targetPos });
+    this.updatePos(targetPos);
+  }
+
+  updatePos(newPos: number) {
+    this.setState({ pos: newPos });
+    if (this.props.onChange) {
+      this.props.onChange(newPos);
+    }
   }
 
   shouldLoadImage(imgPos) {

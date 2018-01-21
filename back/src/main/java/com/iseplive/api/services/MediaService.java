@@ -142,7 +142,7 @@ public class MediaService {
     String pathOriginal = String.format(
       "%s_%s",
       mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
-      file.getOriginalFilename()
+      file.getOriginalFilename().replaceAll(" ", "-")
     );
     mediaUtils.saveFile(pathOriginal, file);
 
@@ -201,8 +201,11 @@ public class MediaService {
 
   public Video uploadVideo(String name, MultipartFile videoFile) {
     String random = mediaUtils.randomName();
-    String videoPath = mediaUtils.resolvePath(
-      videoDir, random + "_" + videoFile.getName() + ".mp4", false);
+    String videoPath = String.format(
+      "%s_%s.mp4",
+      mediaUtils.resolvePath(videoDir, random, false),
+      videoFile.getName()
+    );
 
     mediaUtils.saveFile(videoPath, videoFile);
 

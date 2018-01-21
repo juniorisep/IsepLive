@@ -50,14 +50,22 @@ const ClubTile = (props) => {
 export default class Club extends Component {
   state = {
     open: false,
+    search: '',
   };
 
   handleRequestClose = () => {
     this.setState({ open: false });
-  };
+  }
 
-  componentDidMount() {
+  handleSearch = (event) => {
+    this.setState({ search: event.target.value });
+  }
 
+  getClubs() {
+    const { search } = this.state;
+    return this.props.clubs
+      .filter(c => c.name.toLowerCase()
+        .indexOf(search.toLowerCase()) !== -1);
   }
 
   render() {
@@ -70,9 +78,9 @@ export default class Club extends Component {
             <h1>Associations</h1>
             <p>Participez à la vie étudiante de l'ISEP</p>
           </Banner>
-          {/* <FluidContent p="0">
-            <SearchBar placeholder="Rechercher des associations" />
-          </FluidContent> */}
+          <FluidContent p="0">
+            <SearchBar placeholder="Rechercher des associations" onChange={this.handleSearch} />
+          </FluidContent>
         </Header>
         <FluidContent>
           <Auth roles={[roles.ADMIN, roles.CLUB_MANAGER]}>
@@ -97,9 +105,9 @@ export default class Club extends Component {
                 <Text fs="2em">Aucune association</Text>
               </div>
             }
-            <Flex wrap>
+            <Flex wrap style={{ minHeight: 300 }} >
               {
-                this.props.clubs.map(e => {
+                this.getClubs().map(e => {
                   return (
                     <Box key={e.id} w={[1, 1 / 3, 1 / 4]} p={2}>
                       <Link to={`/associations/${e.id}`}>

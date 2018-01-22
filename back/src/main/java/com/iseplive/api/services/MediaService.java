@@ -86,8 +86,11 @@ public class MediaService {
 
   public Gazette createGazette(String title, MultipartFile file) {
     String random = mediaUtils.randomName();
-    String gazettePath = mediaUtils.resolvePath(
-      gazetteDir, random + "_" + title + ".pdf", false);
+    String gazettePath = String.format(
+      "%s_%s.pdf",
+      mediaUtils.resolvePath(gazetteDir, random, false),
+      title
+    );
 
     mediaUtils.saveFile(gazettePath, file);
 
@@ -103,9 +106,11 @@ public class MediaService {
     document.setCreation(new Date());
 
     String random = mediaUtils.randomName();
-    String documentPath = mediaUtils.resolvePath(
-      documentDir, random + "_" + fileUploaded.getOriginalFilename(),
-      false, document.getCreation());
+    String documentPath = String.format(
+      "%s_%s",
+      mediaUtils.resolvePath(documentDir, random,false, document.getCreation()),
+      fileUploaded.getOriginalFilename()
+    );
 
     mediaUtils.saveFile(documentPath, fileUploaded);
 

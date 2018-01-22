@@ -190,7 +190,7 @@ public class MediaUtils {
 
   private String sanitizePath(String name) {
     return name
-      .replaceAll("[^a-zA-Z\\s]", "")
+      .replaceAll("[^a-zA-Z0-9\\s]", "")
       .replaceAll(" ", "-");
   }
 

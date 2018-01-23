@@ -49,29 +49,25 @@ export default class GalleryPage extends React.Component {
       this.photoId = history.location.state['imageId'];
     }
     this.getGallery();
-    this.getGalleryImages();
   }
 
   componentWillUnmount() {
     document.body.style.overflow = 'auto';
   }
 
-  getGallery() {
+  async getGallery() {
     this.setState({ isLoading: true });
-    mediaData.getGallery(this.galleryId)
-      .then(res => {
-        this.setState({ gallery: res.data, isLoading: false });
-      })
-  }
-
-  getGalleryImages() {
-    mediaData.getGalleryImages(this.galleryId).then(res => {
-      this.setState({ images: res.data });
-      if (this.photoId) {
-        const index = res.data.findIndex(e => e.id === this.photoId);
-        this.selectPhoto(index);
-      }
-    })
+    const galleryRes = await mediaData.getGallery(this.galleryId);
+    const imagesRes = await mediaData.getGalleryImages(this.galleryId);
+    this.setState({ 
+      images: imagesRes.data, 
+      gallery: galleryRes.data, 
+      isLoading: false 
+    });
+    if (this.photoId) {
+      const index = imagesRes.data.findIndex(e => e.id === this.photoId);
+      this.selectPhoto(index);
+    }
   }
 
   refreshGallery = () => {
@@ -125,7 +121,12 @@ export default class GalleryPage extends React.Component {
             gallery &&
             <div>
               <Title>{gallery.name}</Title>
-              <Text>Créée le <Time date={gallery.creation} format="DD/MM/YYYY [à] HH:mm" /></Text>
+              <Text mb={1}>
+                Créée le <Time date={gallery.creation} format="DD/MM/YYYY [à] HH:mm" />
+              </Text>
+              <Text fs="13px">
+                {images.length} images
+              </Text>
               <Flex wrap style={{ marginTop: 30 }}>
                 {
                   images.map((img, index) => {

@@ -28,7 +28,9 @@ class GalleryPost extends Component {
             <div>
               <Title invert fontSize={1}>GALERIE</Title>
             </div>
-            <Title>{gallery.name}</Title>
+            <Link to={`/gallery/${gallery.id}`}>
+              <Title>{gallery.name}</Title>
+            </Link>
             <Flex wrap>
               {
                 images.map((img, index) => {

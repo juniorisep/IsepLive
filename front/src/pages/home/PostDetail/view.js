@@ -108,7 +108,7 @@ export default function PostDetailView(props) {
         onRespond={props.deleteComment} />
       <Popup
         title="Suppression post"
-        description="Voulez vous supprimer ce post ?"
+        description="Voulez vous supprimer cette publication ?"
         open={props.openDeletePost}
         onRespond={props.deletePost} />
     </div>

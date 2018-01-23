@@ -255,7 +255,7 @@ export default class PostListView extends React.Component {
           onEscKey={() => this.setFullScreen(false)} />
         <Popup
           title="Suppression"
-          description="Voulez vous supprimer ce Post ?"
+          description="Voulez vous supprimer cette publication ?"
           open={this.state.deleteEnabled}
           onRespond={this.deleteResponse}
         />

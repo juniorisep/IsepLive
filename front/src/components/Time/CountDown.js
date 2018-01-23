@@ -46,11 +46,24 @@ export default class CountDown extends React.Component {
   };
 
   render() {
+    const indic = {
+      fontSize: 12,
+      textTransform: 'uppercase',
+      marginRight: 5,
+    }
     const { days, hours, minutes, seconds, isFinished } = this.state;
     return (
       <Style {...this.props}>
         {isFinished && this.props.endDisplay}
-        {!isFinished && `${days}j ${hours}h ${minutes}min ${seconds}s`}
+        {
+          !isFinished &&
+          <span>
+            {days}<span style={indic}>J</span>
+            {hours}<span style={indic}>H</span>
+            {minutes}<span style={indic}>MIN</span>
+            {seconds}<span style={indic}>S</span>
+          </span>
+        }
       </Style>
     );
   };

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_DB:localhost}/iseplive_db?createDatabaseIfNotExist=true&useSSL=false
+    url: jdbc:mysql://${MYSQL_DB:localhost}/iseplive_db?createDatabaseIfNotExist=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8
     username: root
     password:
   jpa:
@@ -10,8 +10,6 @@ spring:
     multipart:
       max-file-size: 2000MB
       max-request-size: 2000MB
-
-spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQLInnoDBDialect
 
 server:
   port: 8080

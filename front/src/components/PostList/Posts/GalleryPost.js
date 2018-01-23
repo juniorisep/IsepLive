@@ -51,13 +51,7 @@ class GalleryPost extends Component {
             </Flex>
           </Paper>
         </Box>
-        <PostTextView
-          refresh={props.refresh}
-          post={props.post}
-          w={size}
-          canPin={props.canPin}
-          preview={props.preview}
-          modify={props.modify} />
+        {props.textView(size)}
       </Post>
     );
   };

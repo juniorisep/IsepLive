@@ -14,7 +14,7 @@ import {
   Text,
 } from 'components/common';
 
-import { PostView } from 'components/PostList';
+import { PostView, PostTextView } from '../../../components/PostList';
 import Auth from '../../../components/Auth/AuthComponent';
 
 import Loader from '../../../components/Loader';
@@ -50,8 +50,17 @@ export default function PostDetailView(props) {
             <PostView
               preview
               post={props.post}
-              refresh={props.refresh}
-              modify={props.modifyPost}
+              textView={(size) =>
+                <PostTextView
+                  preview
+                  post={props.post}
+                  w={size}
+                  canPin={props.canPin}
+                  refresh={props.refresh}
+                  modify={props.modifyPost}
+                  deletePost={props.reqDeletePost}
+                />
+              }
             />
           }
         </FluidContent>
@@ -97,6 +106,11 @@ export default function PostDetailView(props) {
         description="Voulez vous supprimer ce commentaire ?"
         open={props.openDeleteComm}
         onRespond={props.deleteComment} />
+      <Popup
+        title="Suppression post"
+        description="Voulez vous supprimer ce post ?"
+        open={props.openDeletePost}
+        onRespond={props.deletePost} />
     </div>
   );
 };

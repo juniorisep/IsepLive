@@ -17,13 +17,7 @@ class PollPost extends Component {
         <Box w={size}>
           <Poll data={props.post.media} />
         </Box>
-        <PostTextView
-          post={props.post}
-          preview={props.preview}
-          refresh={props.refresh}
-          modify={props.modify}
-          canPin={props.canPin}
-          w={size} />
+        {props.textView(size)}
       </Post>
     );
   };

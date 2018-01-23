@@ -17,13 +17,7 @@ class VideoPost extends Component {
             <Video url={props.post.media.url} />
           </Paper>
         </Box>
-        <PostTextView
-          refresh={props.refresh}
-          post={props.post}
-          w={size}
-          canPin={props.canPin}
-          preview={props.preview}
-          modify={props.modify} />
+        {props.textView(size)}
       </Post>
     );
   };

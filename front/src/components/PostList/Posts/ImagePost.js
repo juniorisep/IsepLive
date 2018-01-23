@@ -29,14 +29,7 @@ class ImagePost extends Component {
               mh={props.preview ? '400px' : '250px'} />
           </Paper>
         </Box>
-        <PostTextView
-          post={props.post}
-          refresh={props.refresh}
-          w={size}
-          canPin={props.canPin}
-          preview={props.preview}
-          modify={props.modify}
-        />
+        {props.textView(size)}
       </Post>
     );
   };

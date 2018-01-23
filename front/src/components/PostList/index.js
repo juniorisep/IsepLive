@@ -29,6 +29,7 @@ import GazettePost from './Posts/GazettePost';
 import EventPost from './Posts/EventPost';
 
 import { Text } from '../common';
+import Popup from '../Popup';
 import IconButton from 'material-ui/IconButton/IconButton';
 
 const PostList = styled.ul`
@@ -90,7 +91,7 @@ export class PostTextView extends Component {
   }
 
   render() {
-    const { post, refresh, preview, modify, canPin } = this.props;
+    const { post, refresh, preview, modify, canPin, deletePost } = this.props;
     return (
       <PostText w={this.props.w}>
         <PostTitleView post={post} />
@@ -110,7 +111,8 @@ export class PostTextView extends Component {
                 post={post}
                 refresh={refresh}
                 canPin={canPin}
-                modify={modify} />
+                modify={modify}
+                delete={deletePost} />
             </Box>
           }
           <Box ml="auto">
@@ -168,14 +170,15 @@ export function PostView(props) {
 
 export default class PostListView extends React.Component {
   state = {
-    postModified: null,
+    postSelected: null,
+    media: null,
     modifyEnable: false,
     fullscreenOpen: false,
-    media: null,
+    deleteEnabled: false,
   };
 
-  modifyPost = (postModified) => {
-    this.setState({ postModified, modifyEnable: true })
+  modifyPost = (postSelected) => {
+    this.setState({ postSelected, modifyEnable: true })
   };
 
   requestClose = () => {
@@ -187,6 +190,25 @@ export default class PostListView extends React.Component {
       this.setState({ media });
     }
     this.setState({ fullscreenOpen });
+  }
+
+  deletePost = (post) => {
+    this.setState({
+      deleteEnabled: true,
+      postSelected: post,
+    });
+  }
+
+  deleteResponse = (ok) => {
+    if (ok) {
+      postData.deletePost(this.state.postSelected.id).then(res => {
+        this.props.refreshPosts('delete');
+      });
+    }
+    this.setState({
+      deleteEnabled: false,
+      postSelected: null
+    });
   }
 
   render() {
@@ -202,16 +224,24 @@ export default class PostListView extends React.Component {
                 post={p}
                 list={true}
                 invert={i % 2 === 1}
-                canPin={props.canPin}
                 openFullScreen={this.setFullScreen}
-                refresh={props.refreshPosts}
-                modify={this.modifyPost}
+                textView={(size) =>
+                  <PostTextView
+                    post={p}
+                    refresh={props.refreshPosts}
+                    w={size}
+                    canPin={props.canPin}
+                    preview={false}
+                    modify={this.modifyPost}
+                    deletePost={this.deletePost}
+                  />
+                }
               />
             );
           })
         }
         <ModifyPostModal
-          post={this.state.postModified}
+          post={this.state.postSelected}
           open={this.state.modifyEnable}
           refresh={props.refreshPosts}
           requestClose={this.requestClose} />
@@ -223,6 +253,12 @@ export default class PostListView extends React.Component {
           imageOriginal={this.state.media && this.state.media.originalUrl}
           data={this.state.media}
           onEscKey={() => this.setFullScreen(false)} />
+        <Popup
+          title="Suppression"
+          description="Voulez vous supprimer ce Post ?"
+          open={this.state.deleteEnabled}
+          onRespond={this.deleteResponse}
+        />
       </PostList>
     );
   };

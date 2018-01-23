@@ -18,7 +18,9 @@ export default function PostsTab(props) {
           <Text fs="2em">Aucune publication</Text>
         </div>
       }
-      <PostList posts={props.posts} />
+      <PostList 
+        posts={props.posts}
+        refreshPosts={props.refreshPosts} />
       {
         !props.lastPage && props.posts.length > 0 &&
         <div style={{ textAlign: 'center' }}>

@@ -124,7 +124,8 @@ class ClubDetail extends Component {
             posts={this.state.posts}
             lastPage={this.state.lastPage}
             onSeeMore={this.loadMorePosts}
-            loading={this.state.postsLoading} />
+            loading={this.state.postsLoading}
+            refreshPosts={this.loadPosts} />
         );
       case 2:
         return (

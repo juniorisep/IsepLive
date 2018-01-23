@@ -9,13 +9,7 @@ class TextPost extends Component {
     const props = this.props;
     return (
       <Post invert={props.invert}>
-        <PostTextView
-          post={props.post}
-          w={[1]}
-          preview={props.preview}
-          refresh={props.refresh}
-          canPin={props.canPin}
-          modify={props.modify} />
+        {props.textView(1)}
       </Post>
     );
   };

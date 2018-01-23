@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 
 import PostDetailView from './view';
 import * as authData from '../../../data/auth';
-import * as postData from 'data/post';
-import * as studentData from 'data/users/student';
+import * as postData from '../../../data/post';
+import * as studentData from '../../../data/users/student';
 
 class PostDetail extends Component {
   state = {
@@ -15,6 +15,7 @@ class PostDetail extends Component {
 
     modifyEnable: false,
     openDeleteComm: false,
+    openDeletePost: false,
     toDeleteComm: null,
   }
 
@@ -41,15 +42,12 @@ class PostDetail extends Component {
   }
 
   refreshPost = (reason) => {
-    if (reason === 'delete') {
-      this.props.history.push('/');
-      return;
-    }
     postData.getPost(this.postId)
       .then(res => {
         this.setState({ post: res.data });
       });
   };
+  
   refreshCom = () => {
     postData.getComments(this.postId)
       .then(res => this.setState({ comments: res.data }))
@@ -87,6 +85,18 @@ class PostDetail extends Component {
     this.setState({ openDeleteComm: false });
   }
 
+  reqDeletePost = () =>
+    this.setState({ openDeletePost: true })
+  
+  deletePost = (ok) => {
+    if (ok) {
+      postData.deletePost(this.state.post.id).then(res => {
+        this.props.history.push('/');
+      });
+    }
+    this.setState({ openDeletePost: false });
+  }
+
   render() {
     return (
       <PostDetailView
@@ -95,6 +105,7 @@ class PostDetail extends Component {
         commenter={this.state.commenter}
         modifyEnable={this.state.modifyEnable}
         openDeleteComm={this.state.openDeleteComm}
+        openDeletePost={this.state.openDeletePost}
 
         refresh={this.refreshPost}
         toggleLikeCom={this.toggleLikeCom}
@@ -104,6 +115,8 @@ class PostDetail extends Component {
         requestClose={this.requestClose}
         reqDeleteComment={this.reqDeleteComment}
         deleteComment={this.deleteComment}
+        reqDeletePost={this.reqDeletePost}
+        deletePost={this.deletePost}
       />
     );
   };

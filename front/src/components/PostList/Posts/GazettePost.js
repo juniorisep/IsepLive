@@ -50,14 +50,7 @@ class GazettePost extends Component {
             </Background>
           </Paper>
         </Box>
-        <PostTextView
-          post={props.post}
-          refresh={props.refresh}
-          w={size}
-          canPin={props.canPin}
-          preview={props.preview}
-          modify={props.modify}
-        />
+        {props.textView(size)}
       </Post>
     );
   };

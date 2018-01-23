@@ -144,6 +144,15 @@ export default class SlideShow extends React.Component {
     document.addEventListener('keydown', this.handleKey);
   }
 
+  componentWillReceiveProps(props) {
+    if (props.play === true) {
+      this.autoSlide();
+    }
+    if (props.play === false) {
+      if (this.task) clearInterval(this.task);
+    }
+  }
+
   componentWillUnmount() {
     if (this.task) {
       clearInterval(this.task);
@@ -173,6 +182,7 @@ export default class SlideShow extends React.Component {
   }
 
   autoSlide() {
+    if (this.task) clearInterval(this.task);
     this.task = setInterval(() => {
       const { pos } = this.state;
       this.goTo(pos + 1, DIR_FORWARD);

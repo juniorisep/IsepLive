@@ -7,6 +7,8 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
 import FileDownload from 'material-ui-icons/FileDownload';
+import PlayIcon from 'material-ui-icons/PlayArrow';
+import PauseIcon from 'material-ui-icons/Pause';
 
 import ArrRight from 'material-ui-icons/ChevronRight';
 import ArrLeft from 'material-ui-icons/ChevronLeft';
@@ -41,6 +43,7 @@ class Gallery extends Component {
   state = {
     currentIndex: 0,
     matcherOpen: false,
+    isPlaying: false,
   }
 
   componentWillUnmount() {
@@ -58,6 +61,7 @@ class Gallery extends Component {
   componentWillReceiveProps(props) {
     if (!props.visible) {
       this.removeEscListener();
+      this.setState({ isPlaying: false });
     } else {
       document.addEventListener('keydown', this.keyHandler);
     }
@@ -80,10 +84,15 @@ class Gallery extends Component {
     this.setState({ currentIndex: index });
   }
 
+  togglePlay = () => {
+    this.setState({ isPlaying: !this.state.isPlaying });
+  }
+
   render() {
     const lightButton = {
       color: 'white',
-      background: 'rgba(255,255,255,0.1)'
+      background: 'rgba(255,255,255,0.1)',
+      marginRight: 10,
     }
 
     const { visible, images, index } = this.props;
@@ -104,6 +113,7 @@ class Gallery extends Component {
           <SlideShow
             handleKey
             showControls
+            play={this.state.isPlaying}
             coverMode="contain"
             initPos={index}
             onChange={this.updateIndex}
@@ -121,12 +131,25 @@ class Gallery extends Component {
               dense
               href={backUrl + images[this.state.currentIndex].originalUrl}>
               <FileDownload style={{ marginRight: 5 }} /> Télecharger
-        </Button>
-            <Auth logged>
-              <PeopleMatcher
-                onOpenMatcher={this.openMatcher}
-                image={images[this.state.currentIndex]} />
-            </Auth>
+            </Button>
+            {
+              this.state.isPlaying ?
+              <Button style={lightButton} dense onClick={this.togglePlay}>
+                <PauseIcon style={{ marginRight: 5 }} /> Pause
+              </Button>
+              :
+              <Button style={lightButton} dense onClick={this.togglePlay}>
+                <PlayIcon style={{ marginRight: 5 }} /> Lecture
+              </Button>
+            }
+            {
+              !this.state.isPlaying &&
+              <Auth logged>
+                <PeopleMatcher
+                  onOpenMatcher={this.openMatcher}
+                  image={images[this.state.currentIndex]} />
+              </Auth>
+            }
           </div>
         }
       </Wrapper>

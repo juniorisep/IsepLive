@@ -314,10 +314,12 @@ class Layout extends React.Component {
         const body = authorData.authorType === 'club' ? message.title : message.content;
         const image = authorData.authorType === 'club' ? authorData.logoThumbUrl : authorData.photoUrlThumb;
 
-        Notification.requestPermission(function (status) {
-          new Notification("Nouveau Post !", { body, icon: backUrl + image }); // this also shows the notification
-          const postEvent = new CustomEvent('new-post');
-          document.dispatchEvent(postEvent);
+        Notification.requestPermission().then((status) => {
+          if (status !== 'denied') {
+            new Notification("Nouveau Post !", { body, icon: backUrl + image }); // this also shows the notification
+            const postEvent = new CustomEvent('new-post');
+            document.dispatchEvent(postEvent);
+          }
         });
       } catch (error) {
         console.log(error)
@@ -334,6 +336,7 @@ class Layout extends React.Component {
   };
 
   setupNotifications = async () => {
+    Notification.requestPermission();
     if (authData.isLoggedIn()) {
       const res = await userData.getLoggedUser();
       if (res.data.allowNotifications) {

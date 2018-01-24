@@ -137,8 +137,8 @@ public class PostService {
     if (!hasRightOnPost(auth, post)) {
       throw new AuthException("you cannot delete this post");
     }
-    // TODO: delete the ressource associated to the media (stored on disk)
 
+    // delete media files on disk
     if (post.getMedia() instanceof Gallery) {
       Gallery gallery = (Gallery) post.getMedia();
       gallery.getImages().forEach(img -> mediaService.deleteImageFile(img));
@@ -157,6 +157,16 @@ public class PostService {
     if (post.getMedia() instanceof Document) {
       Document document = (Document) post.getMedia();
       mediaUtils.removeIfExistPublic(document.getPath());
+    }
+
+    if (post.getMedia() instanceof Gazette) {
+      Gazette gazette = (Gazette) post.getMedia();
+      mediaUtils.removeIfExistPublic(gazette.getUrl());
+    }
+
+    if (post.getMedia() instanceof Video) {
+      Video video = (Video) post.getMedia();
+      mediaUtils.removeIfExistPublic(video.getUrl());
     }
 
     postRepository.delete(postId);

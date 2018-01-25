@@ -56,17 +56,16 @@ class EventDetail extends Component {
                     <Author data={event.club} />
                   </Box>
                 </Flex>
-                <Box mt="10px">
+                <Box mt="10px" style={{ minHeight: 300 }}>
                   {
                     event.description
                       .split('\n')
-                      .map((par, i) => <Text 
-                          key={i} 
-                          color="#555" 
-                          mb={1}>{utils.parseText(par)}</Text>)
+                      .map((par, i) => <Text
+                        key={i}
+                        color="#555"
+                        mb={1}>{utils.parseText(par)}</Text>)
                   }
                 </Box>
-                <Filler h={300} />
               </FluidContent>
             </div>
           }

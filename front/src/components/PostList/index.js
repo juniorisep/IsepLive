@@ -15,6 +15,7 @@ import EditButton from './EditButton';
 import PostTitleView from './PostTitleView';
 
 import * as postData from 'data/post';
+import * as utils from '../../data/util';
 
 import ModifyPostModal from './ModifyPostModal';
 import FullScreenView from '../FullScreen/View';
@@ -137,7 +138,7 @@ export function PostTextContent(props) {
   }
   return (
     <div>
-      {text.map((par, i) => <Text key={i} mb={1} color="#555">{par}</Text>)}
+      {text.map((par, i) => <Text key={i} mb={1} color="#555">{utils.parseText(par)}</Text>)}
     </div>
   );
 };

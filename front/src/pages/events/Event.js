@@ -47,6 +47,13 @@ export default class Event extends React.Component {
     this.setState({ openMenu: true, anchorEl: e.currentTarget });
   }
 
+  renderDescription(desc: string) {
+    const description = desc.length > 300 ? desc.substr(0, 300) + '...' : desc;
+    return description.split('\n').map(d => {
+      return <Text color="#555">{d}</Text>;
+    });
+  }
+
   render() {
     const { event } = this.props;
     return (
@@ -68,12 +75,7 @@ export default class Event extends React.Component {
                 <Author data={event.club} />
               </Box>
             </Flex>
-            <Text>
-              {
-                event.description.length > 300 ?
-                  event.description.substr(0, 300) + '...' : event.description
-              }
-            </Text>
+            {this.renderDescription(event.description)}
             <Auth roles={[ADMIN, EVENT_MANAGER]}>
               <IconButton color="accent" onClick={this.handleMenu}>
                 <MoreIcon />

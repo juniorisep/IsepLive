@@ -16,7 +16,7 @@ import Time from 'components/Time';
 import Author from 'components/Author';
 
 import { Flex, Box } from 'grid-styled';
-
+import { SECONDARY_COLOR } from '../../../colors';
 import * as eventData from 'data/event';
 
 class EventDetail extends Component {
@@ -31,6 +31,26 @@ class EventDetail extends Component {
       this.setState({ event: res.data, isLoading: false });
     });
   };
+
+  /**
+   * Parse the text to find items like links
+   * and transform them into components
+   */
+  parseText(text: string) {
+    const words = text.split(' ');
+    const linkStyle = {
+      color: SECONDARY_COLOR,
+      textDecoration: 'underline',
+    }
+    return words.map((word, i) => {
+      const sep = i < words.length - 1 ? ' ' : '';
+      if (word.match(/^https?\:\//)) {
+        return <a key={i} href={word} target="_blank" style={linkStyle}>{word}{sep}</a>;
+      } else {
+        return word + sep;
+      }
+    })
+  }
 
   render() {
     const { event } = this.state;
@@ -59,7 +79,10 @@ class EventDetail extends Component {
                   {
                     event.description
                       .split('\n')
-                      .map(par => <Text mb={1}>{par}</Text>)
+                      .map((par, i) => <Text 
+                          key={i} 
+                          color="#555" 
+                          mb={1}>{this.parseText(par)}</Text>)
                   }
                 </Box>
                 <Filler h={300} />

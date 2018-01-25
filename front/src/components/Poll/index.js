@@ -7,7 +7,7 @@ import { Flex, Box } from 'grid-styled';
 
 import InsertChartIcon from 'material-ui-icons/InsertChart';
 
-import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
+import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 
 import { Title, Text, ProfileImage } from '../common';
 
@@ -100,7 +100,7 @@ class Poll extends Component {
 
     if (!this.isSelectable(choice)) return;
 
-    const { showVote, data: poll, answers } = this.state;
+    const { data: poll } = this.state;
     const user = authData.getUser();
     if (!user) return;
 

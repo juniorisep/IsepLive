@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Flex, Box } from 'grid-styled';
 import { Link } from 'react-router-dom';
 
-import { Post, PostTextView } from 'components/PostList';
+import { Post } from 'components/PostList';
 
 import {
   Image,

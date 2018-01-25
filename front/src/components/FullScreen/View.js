@@ -80,8 +80,8 @@ class View extends Component {
       data,
       image,
       imageOriginal,
-      index,
-      internalRefresh
+      internalRefresh,
+      matcher,
     } = this.props;
     if (!visible) return null;
     return (
@@ -105,11 +105,11 @@ class View extends Component {
         </Button>
           <Auth logged>
             {
-              this.props.matcher &&
+              matcher &&
               <PeopleMatcher
                 internalRefresh={internalRefresh}
                 onOpenMatcher={this.openMatcher}
-                image={this.props.data} />
+                image={data} />
             }
           </Auth>
         </div>

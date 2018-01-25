@@ -10,8 +10,6 @@ import FileDownload from 'material-ui-icons/FileDownload';
 import PlayIcon from 'material-ui-icons/PlayArrow';
 import PauseIcon from 'material-ui-icons/Pause';
 
-import ArrRight from 'material-ui-icons/ChevronRight';
-import ArrLeft from 'material-ui-icons/ChevronLeft';
 
 import Auth from '../Auth/AuthComponent';
 
@@ -19,7 +17,6 @@ import SlideShow from 'components/SlideShow';
 import { backUrl } from 'config';
 
 import PeopleMatcher from './PeopleMatcher';
-import * as imageData from '../../data/media/image';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -134,12 +131,12 @@ class Gallery extends Component {
             </Button>
             {
               this.state.isPlaying ?
-              <Button style={lightButton} dense onClick={this.togglePlay}>
-                <PauseIcon style={{ marginRight: 5 }} /> Pause
+                <Button style={lightButton} dense onClick={this.togglePlay}>
+                  <PauseIcon style={{ marginRight: 5 }} /> Pause
               </Button>
-              :
-              <Button style={lightButton} dense onClick={this.togglePlay}>
-                <PlayIcon style={{ marginRight: 5 }} /> Lecture
+                :
+                <Button style={lightButton} dense onClick={this.togglePlay}>
+                  <PlayIcon style={{ marginRight: 5 }} /> Lecture
               </Button>
             }
             {

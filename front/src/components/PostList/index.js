@@ -30,7 +30,6 @@ import EventPost from './Posts/EventPost';
 
 import { Text } from '../common';
 import Popup from '../Popup';
-import IconButton from 'material-ui/IconButton/IconButton';
 
 const PostList = styled.ul`
   padding: 0;

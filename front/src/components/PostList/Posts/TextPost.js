@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { Post, PostTextView } from 'components/PostList';
+import { Post } from 'components/PostList';
 
 class TextPost extends Component {
   render() {

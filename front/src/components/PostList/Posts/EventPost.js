@@ -6,7 +6,7 @@ import Tooltip from 'material-ui/Tooltip';
 import { Box } from 'grid-styled';
 import styled from 'styled-components';
 
-import { Post, PostTextView } from 'components/PostList';
+import { Post } from 'components/PostList';
 
 import CountDown from '../../Time/CountDown';
 import Time from '../../Time';

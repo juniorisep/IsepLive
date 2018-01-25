@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import { Box } from 'grid-styled';
 
-import { Post, PostTextView } from 'components/PostList';
+import { Post } from 'components/PostList';
 
 import { BgImage, Paper } from 'components/common';
 

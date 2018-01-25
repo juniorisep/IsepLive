@@ -96,6 +96,7 @@ class ImageStyle extends React.Component {
   render() {
     if (this.state.loaded) {
       return <img
+        alt=""
         {...this.props}
         style={{
           ...this.props.style,
@@ -107,7 +108,7 @@ class ImageStyle extends React.Component {
     }
     return <div style={{
       background: '#EEE',
-      height: 130,
+      height: this.props.h || 130,
       width: this.props.w,
       marginLeft: this.props.ml || 'auto',
       verticalAlign: 'middle',

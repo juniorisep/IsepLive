@@ -190,7 +190,6 @@ export default class SlideShow extends React.Component {
   }
 
   goTo(targetPos: number, direction: number) {
-    const { pos } = this.state;
     const { items, loop } = this.props;
 
     if (targetPos > items.length - 1) {
@@ -224,10 +223,7 @@ export default class SlideShow extends React.Component {
 
   render() {
     const { showControls, items } = this.props;
-    const {
-      pos,
-      animEnabled,
-     } = this.state;
+    const { pos } = this.state;
     return (
       <ImageList>
         {

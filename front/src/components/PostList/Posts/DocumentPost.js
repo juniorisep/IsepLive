@@ -7,7 +7,7 @@ import { Box } from 'grid-styled';
 import styled from 'styled-components';
 import { backUrl } from '../../../config';
 
-import { Post, PostTextView } from 'components/PostList';
+import { Post } from 'components/PostList';
 
 import { Paper } from 'components/common';
 

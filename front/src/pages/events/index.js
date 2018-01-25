@@ -33,8 +33,10 @@ class Event extends Component {
 
   filterEvents = (events) => {
     const now = new Date().getTime();
-    return events.filter(e =>
-      this.state.eventsFilter === 'past' ? e.date < now : e.date > now);
+    return events
+      .filter(e =>
+      this.state.eventsFilter === 'past' ? e.date < now : e.date > now)
+      .sort((a, b) => a.date > b.date ? 1 : -1);
   };
 
   editEvent = (event) => {

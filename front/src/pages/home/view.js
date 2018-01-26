@@ -5,6 +5,7 @@ import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
 import Button from 'material-ui/Button';
+
 import {
   Banner,
   Filler,
@@ -18,6 +19,7 @@ import {
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 import BookmarkIcon from 'material-ui-icons/Bookmark';
+import SubjectIcon from 'material-ui-icons/Subject';
 
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
@@ -43,6 +45,17 @@ const Circle = styled.div`
   background: white;
   box-shadow: 0 5px 15px rgba(0,0,0,.1);
 `;
+
+const CircleIcon = (props) => (
+  <Circle>
+    <span style={{
+      width: '100%',
+      textAlign: 'center',
+    }}>
+      {props.children}
+    </span>
+  </Circle>
+)
 
 export default function Home(props) {
   return (
@@ -71,15 +84,9 @@ export default function Home(props) {
                   <div>
                     <Flex align="center">
                       <Box mr="20px">
-                        <Circle>
-                          <span style={{
-                            width: '100%',
-                            textAlign: 'center',
-                          }}>
-                            <BookmarkIcon style={{ color: SECONDARY_COLOR }} />
-                          </span>
-                        </Circle>
-
+                        <CircleIcon>
+                          <BookmarkIcon style={{ color: SECONDARY_COLOR }} />
+                        </CircleIcon>
                       </Box>
                       <Box>
                         <Title invert mb="0" fontSize={2}>A l'affiche</Title>
@@ -92,6 +99,16 @@ export default function Home(props) {
                     <Filler h={50} />
                   </div>
                 }
+                <Flex align="center">
+                  <Box mr="20px">
+                    <CircleIcon>
+                      <SubjectIcon style={{ color: SECONDARY_COLOR }} />
+                    </CircleIcon>
+                  </Box>
+                  <Box>
+                    <Title invert mb="0" fontSize={2}>Publications</Title>
+                  </Box>
+                </Flex>
                 {
                   props.posts.length === 0 &&
                   <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>

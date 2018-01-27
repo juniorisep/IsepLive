@@ -151,7 +151,6 @@ class AddUserPanel extends React.Component {
   }
 
   addUser = () => {
-    console.log('update')
     this.setState({ selectValue: '', selected: false });
     this.props.addMember(this.state.selectedUser);
   }

@@ -17,7 +17,7 @@ import Time from 'components/Time';
 import PostListView from 'components/PostList';
 import FullScreenView from '../../components/FullScreen/View';
 
-import * as clubData from '../../data/club';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 import {
   Banner,
@@ -107,59 +107,21 @@ export default function ResumeView(props) {
               <SocialMedia socials={data} />
             </Paper>
           </Box>
-          <Box p={2} width={1}>
-            <Paper p="20px">
-              <Title fontSize={1.3} invert>Parametres</Title>
-              <div>
-                <FormControlLabel
-                  control={<Checkbox checked={allowNotifications} onChange={props.toggleNotif} />}
-                  label="Notification lorsqu'une association publie un post / évènement."
-                />
-              </div>
-            </Paper>
+          <Box w={1}>
+            <Tabs
+              value={props.tabIndex}
+              onChange={props.changeTab}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Compte" />
+              <Tab label="Publications" />
+              <Tab label="Photos" />
+            </Tabs>
           </Box>
-          <Box p={2} width={1}>
-            <Paper p="20px">
-              <Title fontSize={1.3} invert>Citation</Title>
-              <Text>{bio || <i>Pas de bio</i>}</Text>
-            </Paper>
-          </Box>
-          <Box p={2} width={1}>
-            <Title fontSize={1.5} invert>Associations</Title>
-            {clubMembers.length === 0 && <Text>Membre d'aucunes associations</Text>}
-            <Flex wrap>
-              {
-                clubMembers.map(cm => {
-                  return (
-                    <Box w={[1, 1 / 3, 1 / 4]} key={cm.club.id} p={2}>
-                      <Link to={`/associations/${cm.club.id}`}>
-                        <Paper>
-                          <BgImage src={cm.club.logoUrl} mh="200px" />
-                          <div style={{ textAlign: 'center', padding: '.5em' }}>
-                            <div>
-                              <Title invert fontSize={1.5}>{cm.club.name}</Title>
-                            </div>
-                            <Title fontSize={1.1}>{clubData.getClubRoleName(cm.role.name)}</Title>
-                          </div>
-                        </Paper>
-                      </Link>
-                    </Box>
-                  )
-                })
-              }
-            </Flex>
-          </Box>
-          <Box p={2} w={1}>
-            <Title fontSize={1.5} invert>Publications</Title>
-            {posts.length === 0 && <Text>Aucunes publications</Text>}
-            <PostListView posts={posts} refreshPosts={props.refreshPosts} />
-            {
-              !props.lastPage && posts.length > 0 &&
-              <div style={{ textAlign: 'center' }}>
-                <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
-              </div>
-            }
-          </Box>
+          {props.renderTab()}
+
         </Flex>
         <FullScreenView
           visible={props.fullscreenOpen}

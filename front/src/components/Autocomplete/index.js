@@ -13,6 +13,12 @@ export default class Autocomplete extends React.Component {
     focus: false,
   }
 
+  componentWillReceiveProps(props) {
+    if (props !== null) {
+      this.setState({ value: props.value });
+    }
+  }
+
   renderResults = (val) => {
     return (
       <MenuItem key={val.id} onMouseDown={this.handleSelect(val)}>
@@ -22,8 +28,9 @@ export default class Autocomplete extends React.Component {
   }
 
   handleSelect = (val) => (event) => {
-    this.setState({ value: val.firstname + ' ' + val.lastname });
-    this.props.onSelect(val);
+    const fullName = val.firstname + ' ' + val.lastname;
+    this.setState({ value: fullName });
+    this.props.onSelect(val, fullName);
   }
 
   handleSuggestionsFetchRequested = (value) => {
@@ -35,9 +42,7 @@ export default class Autocomplete extends React.Component {
   handleChange = (event) => {
     const val = event.target.value;
     this.setState({ value: val });
-    if (val.length > 0) {
-      this.handleSuggestionsFetchRequested(val);
-    }
+    this.handleSuggestionsFetchRequested(val);
   }
 
   render() {

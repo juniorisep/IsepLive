@@ -7,6 +7,10 @@ import * as studentData from 'data/users/student';
 import AdressbookDetailView from './view'
 import Loader from '../../../components/Loader';
 
+import AccountTab from '../../resume/AccountTab';
+import PhotoTab from '../../resume/PhotoTab';
+import PostTab from '../../resume/PostTab';
+
 class AdressbookDetail extends Component {
   state = {
     id: this.props.match.params.id,
@@ -16,6 +20,7 @@ class AdressbookDetail extends Component {
     lastPage: false,
     clubMembers: [],
     fullscreenOpen: false,
+    tabIndex: 0,
   };
 
   componentDidMount() {
@@ -57,10 +62,51 @@ class AdressbookDetail extends Component {
     this.setState({ fullscreenOpen: open });
   }
 
+  changeTab = (event: Event, index: number) => {
+    this.setState({ tabIndex: index });
+  }
+
+  renderTab = () => {
+    const {
+      data,
+      posts,
+      clubMembers,
+      lastPage,
+    } = this.state;
+    switch (this.state.tabIndex) {
+      case 0:
+        return (
+          <AccountTab
+            data={data}
+            posts={posts}
+            clubMembers={clubMembers} />
+        )
+      case 1:
+        return (
+          <PostTab
+            posts={posts}
+            lastPage={lastPage}
+            refreshPosts={this.refreshPosts}
+            onSeeMore={this.getNextPosts} />
+        )
+      case 2:
+        return (
+          <PhotoTab userId={this.state.id} />
+        )
+      default:
+        break;
+    }
+    return null;
+  }
+
   render() {
     return (
       <Loader loading={!this.state.data}>
         <AdressbookDetailView
+          tabIndex={this.state.tabIndex}
+          renderTab={this.renderTab}
+          changeTab={this.changeTab}
+
           data={this.state.data}
           lastPage={this.state.lastPage}
           posts={this.state.posts}

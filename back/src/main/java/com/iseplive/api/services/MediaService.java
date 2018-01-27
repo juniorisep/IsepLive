@@ -8,6 +8,7 @@ import com.iseplive.api.dao.image.MatchedRepository;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
 import com.iseplive.api.dto.VideoEmbedDTO;
+import com.iseplive.api.dto.view.MatchedView;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.IllegalArgumentException;
@@ -69,6 +70,8 @@ public class MediaService {
 
   private final int WIDTH_IMAGE_SIZE = 1280;
   private final int WIDTH_IMAGE_SIZE_THUMB = 768;
+
+  private final int PHOTOS_PER_PAGE = 30;
 
   public Page<Media> getAllGalleryGazetteVideoPublic(int page) {
     return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeAndPost_isPrivateOrderByCreationDesc(
@@ -235,6 +238,20 @@ public class MediaService {
       throw new IllegalArgumentException("could not find this image");
     }
     return image.getMatched();
+  }
+
+  public Page<MatchedView> getPhotosTaggedByStudent(Long studentId, int page) {
+    return matchedRepository.findAllByMatchId(studentId, new PageRequest(page, PHOTOS_PER_PAGE)).map(m -> {
+      MatchedView matchedView = new MatchedView();
+      matchedView.setId(m.getId());
+      matchedView.setImage(m.getImage());
+      matchedView.setOwner(m.getOwner());
+      Gallery gallery = m.getImage().getGallery();
+      if (gallery != null) {
+        matchedView.setGalleryId(gallery.getId());
+      }
+      return matchedView;
+    });
   }
 
   public List<Image> getGalleryImages(Long id) {

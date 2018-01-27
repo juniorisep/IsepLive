@@ -75,6 +75,10 @@ export function getPosts(id: number, page: number = 0) {
   return axios.get(`/user/student/${id}/post?page=${page}`);
 };
 
+export function getTaggedPhotos(id: number, page: number = 0) {
+  return axios.get(`/user/student/${id}/photo?page=${page}`);
+}
+
 export function toggleNotifications() {
   return axios.put('/user/student/notification');
 };

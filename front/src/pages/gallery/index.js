@@ -54,6 +54,14 @@ export default class GalleryPage extends React.Component {
     document.body.style.overflow = 'auto';
   }
 
+  componentWillReceiveProps(props) {
+    if (props.history.location.state) {
+      const photoId = props.history.location.state.imageId;
+      const index = this.state.images.findIndex(e => e.id === photoId);
+      this.selectPhoto(index);
+    }
+  }
+
   async getGallery() {
     this.setState({ isLoading: true });
     const galleryRes = await mediaData.getGallery(this.galleryId);
@@ -75,15 +83,6 @@ export default class GalleryPage extends React.Component {
         this.setState({ images: res.data });
       })
   }
-
-  componentWillReceiveProps(props) {
-    if (props.history.location.state) {
-      const photoId = props.history.location.state.imageId;
-      const index = this.state.images.findIndex(e => e.id === photoId);
-      this.selectPhoto(index);
-    }
-  }
-
 
   showGallery = () =>
     this.setState({ galleryOpen: true })

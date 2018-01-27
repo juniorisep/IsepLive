@@ -16,6 +16,7 @@ const refreshToken = localStorage.getItem('refreshToken');
 if (token && refreshToken) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   axios.defaults.headers.common['X-Refresh-Token'] = refreshToken;
+  axios.defaults.headers.common['Access-Control-Max-Age'] = '3600';
 };
 
 // Add a response interceptor

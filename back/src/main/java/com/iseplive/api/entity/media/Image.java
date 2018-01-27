@@ -1,11 +1,9 @@
 package com.iseplive.api.entity.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.constants.MediaType;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +18,10 @@ public class Image extends Media {
   private String thumbUrl;
   private String fullSizeUrl;
   private String originalUrl;
+
+  @OneToOne
+  @JsonIgnore
+  private Gallery gallery;
 
   @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
   private List<Matched> matched;
@@ -59,5 +61,13 @@ public class Image extends Media {
 
   public void setOriginalUrl(String originalUrl) {
     this.originalUrl = originalUrl;
+  }
+
+  public Gallery getGallery() {
+    return gallery;
+  }
+
+  public void setGallery(Gallery gallery) {
+    this.gallery = gallery;
   }
 }

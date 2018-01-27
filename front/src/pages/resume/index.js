@@ -9,6 +9,9 @@ import ResumeView from './view';
 
 import Loader from '../../components/Loader';
 
+import AccountTab from './AccountTab';
+import PostTab from './PostTab';
+import PhotoTab from './PhotoTab';
 
 class Resume extends Component {
   state = {
@@ -19,6 +22,7 @@ class Resume extends Component {
     posts: [],
     clubMembers: [],
     fullscreenOpen: false,
+    tabIndex: 0,
   };
 
   componentDidMount() {
@@ -90,6 +94,43 @@ class Resume extends Component {
     this.setState({ fullscreenOpen: open });
   }
 
+  changeTab = (event: Event, index: number) => {
+    this.setState({ tabIndex: index });
+  }
+
+  renderTab = () => {
+    const {
+      data,
+      posts,
+      clubMembers,
+      lastPage,
+    } = this.state;
+    switch (this.state.tabIndex) {
+      case 0:
+        return (
+          <AccountTab
+            data={data}
+            posts={posts}
+            clubMembers={clubMembers} />
+        )
+      case 1:
+        return (
+          <PostTab
+            posts={posts}
+            lastPage={lastPage}
+            refreshPosts={this.refreshPosts}
+            onSeeMore={this.getNextPosts} />
+        )
+      case 2:
+        return (
+          <PhotoTab userId={this.user.id} />
+        )
+      default:
+        break;
+    }
+    return null;
+  }
+
   render() {
     return (
       <Loader loading={!this.state.data}>
@@ -100,13 +141,18 @@ class Resume extends Component {
           fullscreenOpen={this.state.fullscreenOpen}
           clubMembers={this.state.clubMembers}
           open={this.state.open}
+          tabIndex={this.state.tabIndex}
+
+          renderTab={this.renderTab}
+          changeTab={this.changeTab}
           onModify={this.onModify}
           refreshPosts={this.refreshPosts}
           onSeeMore={this.getNextPosts}
           toggleNotif={this.toggleNotif}
           handleRequestClose={this.handleRequestClose}
           handleUpdate={this.handleUpdate}
-          setFullScreen={this.setFullScreen} />
+          setFullScreen={this.setFullScreen}
+        />
       </Loader>
     );
   };

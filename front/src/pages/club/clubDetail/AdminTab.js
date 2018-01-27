@@ -91,7 +91,7 @@ class RightsPanel extends React.Component {
                 >
                   {
                     roles.map(ro => {
-                      return <MenuItem value={ro.id}>{ro.name}</MenuItem>;
+                      return <MenuItem key={ro.id} value={ro.id}>{ro.name}</MenuItem>;
                     })
                   }
                 </Select>
@@ -124,19 +124,36 @@ class RightsPanel extends React.Component {
 
 class AddUserPanel extends React.Component {
   state = {
+    selected: false,
     selectedUser: 0,
+    selectValue: '',
   }
 
-  selectUser = (user) => {
-    this.setState({ selectedUser: user.id });
+  selectUser = (user, fullName) => {
+    this.setState({
+      selectedUser: user.id,
+      selectValue: fullName,
+      selected: true,
+    });
   }
 
   searchUser = (search) => {
+    this.setState({ selectValue: search });
+    if (search.length === 0) {
+      this.setState({ selected: false });
+      return Promise.resolve([]);
+    }
     return userData.searchStudents(search, [], 'a', 0).then(res => {
       return res.data.content
         .filter(user => this.props.members
           .filter(m => m.member.id === user.id).length === 0)
     });
+  }
+
+  addUser = () => {
+    console.log('update')
+    this.setState({ selectValue: '', selected: false });
+    this.props.addMember(this.state.selectedUser);
   }
 
   render() {
@@ -145,11 +162,12 @@ class AddUserPanel extends React.Component {
         <Title invert>Ajouter membre</Title>
         <Autocomplete
           label="Etudiant"
+          value={this.state.selectValue}
           onSelect={this.selectUser}
           search={this.searchUser}
           renderSuggestion={(e) => `${e.firstname} ${e.lastname}`} />
         <Box mt={1}>
-          <Button color="accent" onClick={this.props.addMember(this.state)}>
+          <Button color="accent" onClick={this.addUser} disabled={!this.state.selected}>
             Ajouter
           </Button>
         </Box>
@@ -311,8 +329,8 @@ export default class MembersTab extends React.Component {
     }
   }
 
-  addMember = (data) => e => {
-    clubData.addMember(this.props.clubid, data.selectedUser).then(res => {
+  addMember = (selectedUser) => {
+    clubData.addMember(this.props.clubid, selectedUser).then(res => {
       this.loadMembers();
       this.setState({ mode: 'addUser' });
     })
@@ -341,10 +359,16 @@ export default class MembersTab extends React.Component {
     } = this.state;
     return (
       <div>
-        <Button color="accent" onClick={() => this.setState({ mode: 'addUser' })}>
-          Ajouter un membre
+        <Button color="accent" onClick={() => this.setState({
+          mode: 'addUser',
+          selection: null
+        })}>
+          Ajouter membre
         </Button>
-        <Button color="accent" onClick={() => this.setState({ mode: 'addRole' })}>
+        <Button color="accent" onClick={() => this.setState({
+          mode: 'addRole',
+          selection: null
+        })}>
           Rôles
         </Button>
         <Flex wrap>

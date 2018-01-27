@@ -20,7 +20,7 @@ public class Gallery extends Media {
 
   private String name;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "gallery")
   private List<Image> images;
 
   @Override

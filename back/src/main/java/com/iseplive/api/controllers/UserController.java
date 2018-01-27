@@ -7,6 +7,7 @@ import com.iseplive.api.dto.StudentDTO;
 import com.iseplive.api.dto.StudentUpdateAdminDTO;
 import com.iseplive.api.dto.StudentUpdateDTO;
 import com.iseplive.api.dto.view.ClubMemberView;
+import com.iseplive.api.dto.view.MatchedView;
 import com.iseplive.api.dto.view.PostView;
 import com.iseplive.api.dto.view.StudentWithRoleView;
 import com.iseplive.api.entity.user.Role;
@@ -47,6 +48,9 @@ public class UserController {
   AuthService authService;
 
   @Autowired
+  MediaService mediaService;
+
+  @Autowired
   JsonUtils jsonUtils;
 
   @GetMapping("/student")
@@ -76,6 +80,12 @@ public class UserController {
   @RolesAllowed({Roles.STUDENT})
   public Page<PostView> getPostsStudent(@PathVariable Long id, @RequestParam(defaultValue = "0") int page) {
     return postService.getPostsAuthor(id, authService.isUserAnonymous(), page);
+  }
+
+  @GetMapping("/student/{id}/photo")
+  @RolesAllowed({Roles.STUDENT})
+  public Page<MatchedView> getPhotosStudent(@PathVariable Long id, @RequestParam(defaultValue = "0") int page) {
+    return mediaService.getPhotosTaggedByStudent(id, page);
   }
 
   @GetMapping("/student/{id}/club")

@@ -97,6 +97,12 @@ public class ClubService {
   }
 
   public ClubMember addMember(Long clubId, Long studentId) {
+    clubMemberRepository.findByClubId(clubId).forEach(club -> {
+      if (club.getMember().getId().equals(studentId)) {
+        throw new IllegalArgumentException("this student is already part of this club");
+      }
+    });
+
     ClubMember clubMember = new ClubMember();
     clubMember.setClub(getClub(clubId));
     clubMember.setMember(studentService.getStudent(studentId));

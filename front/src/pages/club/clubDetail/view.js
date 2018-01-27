@@ -59,13 +59,12 @@ export default function ClubDetailView(props) {
                 </Box>
               }
               {
-                props.isAdmin && [
-                  <Box>
-                    <Button color="primary" onClick={props.onEdit}>
-                      Modifier
+                props.isAdmin &&
+                <Box>
+                  <Button color="primary" onClick={props.onEdit}>
+                    Modifier
                     </Button>
-                  </Box>
-                ]
+                </Box>
               }
             </Flex>
           </Box>

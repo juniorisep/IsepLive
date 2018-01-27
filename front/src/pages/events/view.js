@@ -11,7 +11,6 @@ import {
   Filler,
   FluidContent,
   Header,
-  SearchBar,
   Text,
   Title,
   ScrollToTopOnMount,

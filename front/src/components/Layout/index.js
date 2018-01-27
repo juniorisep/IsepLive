@@ -43,10 +43,10 @@ import CalendarEvents from 'pages/events/calendar';
 import NotFound from 'pages/404';
 import Resume from 'pages/resume';
 import Whoarewe from 'pages/whoAreWe';
-import Contact from 'pages/contact';
-import Help from 'pages/help';
+// import Contact from 'pages/contact';
+// import Help from 'pages/help';
 import LegalNotice from 'pages/legalNotice';
-import UserAgreement from 'pages/userAgreement';
+// import UserAgreement from 'pages/userAgreement';
 import Admin from 'pages/administration';
 import Gallery from 'pages/gallery';
 

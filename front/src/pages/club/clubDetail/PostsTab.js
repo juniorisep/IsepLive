@@ -1,10 +1,9 @@
 // @flow
 
 import React from 'react';
-import { Flex } from 'grid-styled';
 import Button from 'material-ui/Button';
 
-import { Text, } from 'components/common';
+import { Text } from 'components/common';
 
 import PostList from 'components/PostList';
 import Loader from 'components/Loader';
@@ -18,7 +17,7 @@ export default function PostsTab(props) {
           <Text fs="2em">Aucune publication</Text>
         </div>
       }
-      <PostList 
+      <PostList
         posts={props.posts}
         refreshPosts={props.refreshPosts} />
       {

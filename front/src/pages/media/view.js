@@ -7,16 +7,12 @@ import { Box, Flex } from 'grid-styled';
 import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 import Button from 'material-ui/Button';
-import Input, { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Select from 'material-ui/Select';
 
 import { Link } from 'react-router-dom';
 
 import Time from 'components/Time';
 import Loader from 'components/Loader';
-import { Banner, Filler, FluidContent, Header, SearchBar, Separator, Text } from 'components/common';
+import { Banner, Filler, FluidContent, Header, Separator, Text } from 'components/common';
 
 
 
@@ -40,19 +36,6 @@ const DateSeparator = (props) => {
     </Flex>
   );
 };
-
-const STYLE_CONTAINER = {
-  display: 'flex',
-  flexWrap: 'wrap',
-};
-
-const STYLE_FORMCONTROL = {
-  minWidth: 120,
-  maxWidth: 300,
-};
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 
 const now = new Date().getFullYear();
 let years = [];

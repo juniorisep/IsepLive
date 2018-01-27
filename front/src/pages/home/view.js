@@ -11,7 +11,6 @@ import {
   Filler,
   FluidContent,
   Header,
-  SearchBar,
   Separator,
   Text,
   Title,
@@ -24,7 +23,7 @@ import SubjectIcon from 'material-ui-icons/Subject';
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
 
-import { BACKGROUND_COLOR, MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+import { BACKGROUND_COLOR, SECONDARY_COLOR } from '../../colors';
 
 
 const PostSection = styled.div`

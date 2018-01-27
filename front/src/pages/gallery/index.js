@@ -9,7 +9,6 @@ import {
   Title,
   FluidContent,
   Image,
-  Filler,
   Text,
   ScrollToTopOnMount,
 } from '../../components/common';
@@ -59,10 +58,10 @@ export default class GalleryPage extends React.Component {
     this.setState({ isLoading: true });
     const galleryRes = await mediaData.getGallery(this.galleryId);
     const imagesRes = await mediaData.getGalleryImages(this.galleryId);
-    this.setState({ 
-      images: imagesRes.data, 
-      gallery: galleryRes.data, 
-      isLoading: false 
+    this.setState({
+      images: imagesRes.data,
+      gallery: galleryRes.data,
+      isLoading: false
     });
     if (this.photoId) {
       const index = imagesRes.data.findIndex(e => e.id === this.photoId);

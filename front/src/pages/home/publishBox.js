@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, SyntheticEvent } from 'react';
+import React, { Component } from 'react';
 
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
@@ -217,7 +217,7 @@ class PublishBoxView extends Component {
     }
 
     try {
-      const postRes = await this.publishPost();
+      // const postRes = await this.publishPost();
       sendAlert("Post publié");
       localStorage.removeItem('saved-message');
 
@@ -270,6 +270,7 @@ class PublishBoxView extends Component {
   };
 
   canPublish() {
+    // eslint-disable-next-line
     const { author, title, message, mediaSelected } = this.state;
 
     if (author && author.type === 'club') {

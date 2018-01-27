@@ -14,9 +14,9 @@ import Team from './team';
 import HallOfFame from './hallOfFame';
 import Target from './target';
 
-const TabContainer = props => <div>
+/* const TabContainer = props => <div>
   {props.children}
-</div>;
+</div>; */
 
 class Whoarewe extends Component {
   state = {

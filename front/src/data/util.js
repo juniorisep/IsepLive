@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { SECONDARY_COLOR } from '../colors';
 

@@ -3,12 +3,10 @@
 import React, { Component } from 'react';
 
 import {
-  Filler,
   FluidContent,
   ScrollToTopOnMount,
   BgImage,
   Title,
-  Subtitle,
   Text
 } from 'components/common';
 import Loader from 'components/Loader';

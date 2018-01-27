@@ -14,6 +14,8 @@ import SocialMedia from '../../../components/SocialMedia';
 import FullScreenView from '../../../components/FullScreen/View';
 import Loader from '../../../components/Loader';
 
+import UserInfo from '../../resume/UserInfo';
+
 import {
   FluidContent,
   ProfileImage,
@@ -65,13 +67,7 @@ export default function AdressbookDetailView(props) {
                     </Title>
                   </Box>
                 </Flex>
-                <Text>Promotion : <span>{user.promo || <i>Pas de promotion</i>}</span></Text>
-                <Text>Numéro ISEP : <span>{user.studentId || <i>Pas de numéro étudiant</i>}</span></Text>
-                <Text>Téléphone : <span>{user.phone || <i>Pas de téléphone</i>}</span></Text>
-                <Text>Adresse : <span>{user.address || <i>Pas d'adresse</i>}</span></Text>
-                <Text>Mail : <span>{user.mail || <i>Pas d'adresse mail</i>}</span></Text>
-                <Text>Mail ISEP : <span>{user.mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
-                <Text>Date de naissance : {user.birthDate ? <Time date={user.birthDate} format="DD/MM/YYYY" /> : <i>Pas de date de naissance</i>}</Text>
+                <UserInfo user={user} />
                 <SocialMedia socials={user} />
               </Paper>
             </Box>

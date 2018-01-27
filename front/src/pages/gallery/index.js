@@ -123,7 +123,7 @@ export default class GalleryPage extends React.Component {
                 Créée le <Time date={gallery.creation} format="DD/MM/YYYY [à] HH:mm" />
               </Text>
               <Text fs="13px">
-                {images.length} images
+                {images.length} photo{images.length !== 1 && 's'}
               </Text>
               <Flex wrap style={{ marginTop: 30 }}>
                 {

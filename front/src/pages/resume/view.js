@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
 import FullScreenView from '../../components/FullScreen/View';
+import UserInfo from './UserInfo';
 
 import Tabs, { Tab } from 'material-ui/Tabs';
 
@@ -84,16 +85,10 @@ export default function ResumeView(props) {
                     <Box ml="auto">
                       <Button raised color="primary" onClick={props.onModify}>
                         Modifier
-                </Button>
+                      </Button>
                     </Box>
                   </Flex>
-                  <Text>Promotion : <span>{user.promo || <i>Pas de promotion</i>}</span></Text>
-                  <Text>Numéro ISEP : <span>{user.studentId || <i>Pas de numéro étudiant</i>}</span></Text>
-                  <Text>Téléphone : <span>{user.phone || <i>Pas de téléphone</i>}</span></Text>
-                  <Text>Adresse : <span>{user.address || <i>Pas d'adresse</i>}</span></Text>
-                  <Text>Mail : <span>{user.mail || <i>Pas d'adresse mail</i>}</span></Text>
-                  <Text>Mail ISEP : <span>{user.mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
-                  <Text>Date de naissance : {user.birthDate ? <Time date={user.birthDate} format="DD/MM/YYYY" /> : <i>Pas de date de naissance</i>}</Text>
+                  <UserInfo user={user} />
                   <SocialMedia socials={user} />
                 </Paper>
               </Box>

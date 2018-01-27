@@ -1,6 +1,6 @@
 {
   "name": "isep-live",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "private": true,
   "description": "Site d'ISEPLive développé par Junior ISEP",
   "main": "src/index.js",

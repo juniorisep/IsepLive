@@ -30,6 +30,7 @@ import {
   Title,
   BgImage,
 } from 'components/common';
+import Loader from '../../components/Loader';
 
 import DatePicker from '../../components/DatePicker';
 import SocialMedia from '../../components/SocialMedia';
@@ -44,24 +45,10 @@ const PersonStyle = styled.div`
 
 export default function ResumeView(props) {
   const {
-    data,
+    user,
     posts,
     clubMembers,
   } = props;
-  const {
-    photoUrl,
-    firstname,
-    lastname,
-    phone,
-    studentId,
-    birthDate,
-    promo,
-    bio,
-    address,
-    mail,
-    mailISEP,
-    allowNotifications,
-  } = data;
   return (
     <div>
       <Header url="/img/background.jpg">
@@ -72,66 +59,71 @@ export default function ResumeView(props) {
         </Banner>
       </Header>
       <FluidContent>
-        <Flex wrap>
-          <Box p={2} width={[1, 1 / 4]}>
-            <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
-              <ProfileImage
-                src={photoUrl}
-                sz="100%"
-                mh="200px" />
-            </PersonStyle>
-          </Box>
-          <Box p={2} width={[
-            1, 3 / 4
-          ]}>
-            <Paper p="20px">
-              <Flex>
-                <Box>
-                  <Title>
-                    {firstname} {lastname}
-                  </Title>
-                </Box>
-                <Box ml="auto">
-                  <Button raised color="primary" onClick={props.onModify}>
-                    Modifier
+        <Loader loading={props.isLoading}>
+          {
+            user &&
+            <Flex wrap>
+              <Box p={2} width={[1, 1 / 4]}>
+                <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
+                  <ProfileImage
+                    src={user.photoUrl}
+                    sz="100%"
+                    mh="200px" />
+                </PersonStyle>
+              </Box>
+              <Box p={2} width={[
+                1, 3 / 4
+              ]}>
+                <Paper p="20px">
+                  <Flex>
+                    <Box>
+                      <Title>
+                        {user.firstname} {user.lastname}
+                      </Title>
+                    </Box>
+                    <Box ml="auto">
+                      <Button raised color="primary" onClick={props.onModify}>
+                        Modifier
                 </Button>
-                </Box>
-              </Flex>
-              <Text>Promotion : <span>{promo || <i>Pas de promotion</i>}</span></Text>
-              <Text>Numéro ISEP : <span>{studentId || <i>Pas de numéro étudiant</i>}</span></Text>
-              <Text>Téléphone : <span>{phone || <i>Pas de téléphone</i>}</span></Text>
-              <Text>Adresse : <span>{address || <i>Pas d'adresse</i>}</span></Text>
-              <Text>Mail : <span>{mail || <i>Pas d'adresse mail</i>}</span></Text>
-              <Text>Mail ISEP : <span>{mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
-              <Text>Date de naissance : {birthDate ? <Time date={birthDate} format="DD/MM/YYYY" /> : <i>Pas de date de naissance</i>}</Text>
-              <SocialMedia socials={data} />
-            </Paper>
-          </Box>
-          <Box w={1}>
-            <Tabs
-              value={props.tabIndex}
-              onChange={props.changeTab}
-              indicatorColor="primary"
-              textColor="primary"
-              centered
-            >
-              <Tab label="Compte" />
-              <Tab label="Publications" />
-              <Tab label="Photos" />
-            </Tabs>
-          </Box>
-          {props.renderTab()}
+                    </Box>
+                  </Flex>
+                  <Text>Promotion : <span>{user.promo || <i>Pas de promotion</i>}</span></Text>
+                  <Text>Numéro ISEP : <span>{user.studentId || <i>Pas de numéro étudiant</i>}</span></Text>
+                  <Text>Téléphone : <span>{user.phone || <i>Pas de téléphone</i>}</span></Text>
+                  <Text>Adresse : <span>{user.address || <i>Pas d'adresse</i>}</span></Text>
+                  <Text>Mail : <span>{user.mail || <i>Pas d'adresse mail</i>}</span></Text>
+                  <Text>Mail ISEP : <span>{user.mailISEP || <i>Pas d'adresse mail de l'ISEP</i>}</span></Text>
+                  <Text>Date de naissance : {user.birthDate ? <Time date={user.birthDate} format="DD/MM/YYYY" /> : <i>Pas de date de naissance</i>}</Text>
+                  <SocialMedia socials={user} />
+                </Paper>
+              </Box>
+              <Box w={1}>
+                <Tabs
+                  value={props.tabIndex}
+                  onChange={props.changeTab}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="Compte" />
+                  <Tab label="Publications" />
+                  <Tab label="Photos" />
+                </Tabs>
+              </Box>
+              {props.renderTab()}
 
-        </Flex>
-        <FullScreenView
-          visible={props.fullscreenOpen}
-          image={photoUrl}
-          onEscKey={props.setFullScreen(false)} />
-        <UpdateResume
-          open={props.open}
-          handleRequestClose={props.handleRequestClose}
-          handleUpdate={props.handleUpdate}
-          data={props.data} />
+              <FullScreenView
+                visible={props.fullscreenOpen}
+                image={user.photoUrl}
+                onEscKey={props.setFullScreen(false)} />
+              <UpdateResume
+                open={props.open}
+                handleRequestClose={props.handleRequestClose}
+                handleUpdate={props.handleUpdate}
+                data={user} />
+            </Flex>
+          }
+        </Loader>
       </FluidContent>
     </div>
   );
@@ -191,9 +183,12 @@ class UpdateResume extends React.Component {
           <TextField margin="normal" label="Lien Snapchat" value={data.snapchat || ''} fullWidth onChange={this.handleChange('snapchat')} />
         </DialogContent>
         <DialogActions>
+          <Button onClick={props.handleRequestClose} color="primary">
+            Annuler
+          </Button>
           <Button onClick={() => props.handleUpdate(data)} color="accent">
             Valider
-        </Button>
+          </Button>
         </DialogActions>
       </Dialog>
     );

@@ -36,7 +36,7 @@ export default class PhotoTab extends React.Component {
   render() {
     const { matched } = this.state;
     return (
-      <Box w={1}>
+      <Box p={2} w={1}>
         {
           matched.length === 0 &&
           <div style={{ textAlign: 'center', minHeight: 200, marginTop: 100 }}>

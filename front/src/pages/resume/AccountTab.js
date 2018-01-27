@@ -24,17 +24,20 @@ export default function AccountTab(props) {
   const { bio, allowNotifications } = data;
   return (
     <div style={{ width: '100%' }} >
-      <Box p={2} width={1}>
-        <Paper p="20px">
-          <Title fontSize={1.3} invert>Parametres</Title>
-          <div>
-            <FormControlLabel
-              control={<Checkbox checked={allowNotifications} onChange={props.toggleNotif} />}
-              label="Notification lorsqu'une association publie un post / évènement."
-            />
-          </div>
-        </Paper>
-      </Box>
+      {
+        props.parameters &&
+        <Box p={2} width={1}>
+          <Paper p="20px">
+            <Title fontSize={1.3} invert>Parametres</Title>
+            <div>
+              <FormControlLabel
+                control={<Checkbox checked={allowNotifications} onChange={props.toggleNotif} />}
+                label="Notification lorsqu'une association publie un post / évènement."
+              />
+            </div>
+          </Paper>
+        </Box>
+      }
       <Box p={2} width={1}>
         <Paper p="20px">
           <Title fontSize={1.3} invert>Citation</Title>

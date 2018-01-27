@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import * as studentData from 'data/users/student';
 
 import AdressbookDetailView from './view'
-import Loader from '../../../components/Loader';
 
 import AccountTab from '../../resume/AccountTab';
 import PhotoTab from '../../resume/PhotoTab';
@@ -101,21 +100,20 @@ class AdressbookDetail extends Component {
 
   render() {
     return (
-      <Loader loading={!this.state.data}>
-        <AdressbookDetailView
-          tabIndex={this.state.tabIndex}
-          renderTab={this.renderTab}
-          changeTab={this.changeTab}
+      <AdressbookDetailView
+        isLoading={this.state.isLoading}
+        tabIndex={this.state.tabIndex}
+        renderTab={this.renderTab}
+        changeTab={this.changeTab}
 
-          data={this.state.data}
-          lastPage={this.state.lastPage}
-          posts={this.state.posts}
-          fullscreenOpen={this.state.fullscreenOpen}
-          clubMembers={this.state.clubMembers}
-          refreshPosts={this.refreshPosts}
-          onSeeMore={this.getNextPosts}
-          setFullScreen={this.setFullScreen} />
-      </Loader>
+        user={this.state.data}
+        lastPage={this.state.lastPage}
+        posts={this.state.posts}
+        fullscreenOpen={this.state.fullscreenOpen}
+        clubMembers={this.state.clubMembers}
+        refreshPosts={this.refreshPosts}
+        onSeeMore={this.getNextPosts}
+        setFullScreen={this.setFullScreen} />
     );
   };
 };

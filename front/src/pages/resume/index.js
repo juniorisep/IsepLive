@@ -7,7 +7,6 @@ import * as authData from '../../data/auth';
 
 import ResumeView from './view';
 
-import Loader from '../../components/Loader';
 
 import AccountTab from './AccountTab';
 import PostTab from './PostTab';
@@ -16,6 +15,7 @@ import PhotoTab from './PhotoTab';
 class Resume extends Component {
   state = {
     open: false,
+    isLoading: false,
     data: null,
     page: 0,
     lastPage: false,
@@ -48,8 +48,9 @@ class Resume extends Component {
   };
 
   getUserData = async () => {
+    this.setState({ isLoading: true });
     const { data } = await userData.getLoggedUser();
-    this.setState({ data });
+    this.setState({ data, isLoading: false });
   };
 
   refreshPosts = async () => {
@@ -111,6 +112,7 @@ class Resume extends Component {
           <AccountTab
             data={data}
             posts={posts}
+            toggleNotif={this.toggleNotif}
             clubMembers={clubMembers} />
         )
       case 1:
@@ -133,27 +135,21 @@ class Resume extends Component {
 
   render() {
     return (
-      <Loader loading={!this.state.data}>
-        <ResumeView
-          data={this.state.data}
-          posts={this.state.posts}
-          lastPage={this.state.lastPage}
-          fullscreenOpen={this.state.fullscreenOpen}
-          clubMembers={this.state.clubMembers}
-          open={this.state.open}
-          tabIndex={this.state.tabIndex}
+      <ResumeView
+        parameters
+        isLoading={this.state.isLoading}
+        user={this.state.data}
+        fullscreenOpen={this.state.fullscreenOpen}
+        open={this.state.open}
+        tabIndex={this.state.tabIndex}
 
-          renderTab={this.renderTab}
-          changeTab={this.changeTab}
-          onModify={this.onModify}
-          refreshPosts={this.refreshPosts}
-          onSeeMore={this.getNextPosts}
-          toggleNotif={this.toggleNotif}
-          handleRequestClose={this.handleRequestClose}
-          handleUpdate={this.handleUpdate}
-          setFullScreen={this.setFullScreen}
-        />
-      </Loader>
+        renderTab={this.renderTab}
+        changeTab={this.changeTab}
+        onModify={this.onModify}
+        handleRequestClose={this.handleRequestClose}
+        handleUpdate={this.handleUpdate}
+        setFullScreen={this.setFullScreen}
+      />
     );
   };
 };

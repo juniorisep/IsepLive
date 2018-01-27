@@ -24,6 +24,7 @@ public class CorsConfig implements Filter {
       response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
       response.addHeader("Access-Control-Allow-Credentials", "true");
       response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+      response.addHeader("Access-Control-Expose-Headers", "x-refresh-token, authorization");
     }
 
 

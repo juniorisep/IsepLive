@@ -10,11 +10,13 @@ import Button from 'material-ui/Button';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import TextField from 'material-ui/TextField';
+import Avatar from 'material-ui/Avatar';
 
 import DatePicker from '../../components/DatePicker';
 import AutoComplete from '../../components/Autocomplete';
 import * as userData from '../../data/users/student';
 
+import { backUrl } from '../../config';
 
 export default class AddClubForm extends React.Component {
 
@@ -25,6 +27,7 @@ export default class AddClubForm extends React.Component {
     description: '',
     website: '',
     logo: null,
+    autocompleteValue: '',
   }
 
   change = (name, value) => {
@@ -38,12 +41,26 @@ export default class AddClubForm extends React.Component {
     this.change(name, event.target.value);
 
   search = value => {
+    this.setState({ autocompleteValue: value });
     return userData.searchStudents(value, [], 'a', 0)
       .then(res => res.data.content);
   }
 
-  renderSuggestion = sug =>
-    `${sug.firstname} ${sug.lastname}`;
+  renderSuggestion = (e) => {
+    const name = `${e.firstname} ${e.lastname}`;
+    const url = e.photoUrlThumb ?
+      backUrl + e.photoUrlThumb : '/img/svg/user.svg';
+    return (
+      <div style={{ display: 'inherit', alignItems: 'inherit' }} >
+        <Avatar
+          alt={name}
+          src={url}
+          style={{ marginRight: 10 }}
+        />
+        <span>{name}</span>
+      </div>
+    )
+  }
 
   canSave = () => {
     const {

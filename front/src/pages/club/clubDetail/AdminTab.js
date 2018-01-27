@@ -155,6 +155,22 @@ class AddUserPanel extends React.Component {
     this.props.addMember(this.state.selectedUser);
   }
 
+  renderSuggestion = (e) => {
+    const name = `${e.firstname} ${e.lastname}`;
+    const url = e.photoUrlThumb ?
+      backUrl + e.photoUrlThumb : '/img/svg/user.svg';
+    return (
+      <div style={{ display: 'inherit', alignItems: 'inherit' }} >
+        <Avatar
+          alt={name}
+          src={url}
+          style={{ marginRight: 10 }}
+        />
+        <span>{name}</span>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -164,7 +180,7 @@ class AddUserPanel extends React.Component {
           value={this.state.selectValue}
           onSelect={this.selectUser}
           search={this.searchUser}
-          renderSuggestion={(e) => `${e.firstname} ${e.lastname}`} />
+          renderSuggestion={this.renderSuggestion} />
         <Box mt={1}>
           <Button color="accent" onClick={this.addUser} disabled={!this.state.selected}>
             Ajouter

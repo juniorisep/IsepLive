@@ -14,7 +14,7 @@ export default class Autocomplete extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props !== null) {
+    if (props.value || props.value === '') {
       this.setState({ value: props.value });
     }
   }
@@ -48,9 +48,10 @@ export default class Autocomplete extends React.Component {
   render() {
     const { label } = this.props;
     const { results, value, focus } = this.state;
-    const showResults = (focus && value.length > 0 && results.length > 0);
+    const showResults = (value && focus && value.length > 0 && results.length > 0);
     const autocompleteStyle = {
       position: 'relative',
+      width: 300,
     };
     const resStyle = {
       position: 'absolute',
@@ -58,7 +59,7 @@ export default class Autocomplete extends React.Component {
       padding: 10,
       width: '100%',
       background: 'white',
-      zIndex: 1,
+      zIndex: 2,
       overflow: 'auto',
       maxHeight: 200,
       boxShadow: '0 0 10px rgba(0,0,0,0.1)',

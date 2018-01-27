@@ -126,10 +126,12 @@ export default class PeopleMatcher extends Component {
             if (e.owner.id === ownerId) {
               props = { onDelete };
             }
+            const avatarUrl = e.match.photoUrlThumb ?
+              backUrl + e.match.photoUrlThumb : '/img/svg/user.svg';
             return <Chip
               key={e.id}
               style={{ marginRight: 10, marginBottom: 10 }}
-              avatar={<Avatar src={backUrl + e.match.photoUrlThumb} />}
+              avatar={<Avatar src={avatarUrl} />}
               label={`${e.match.firstname} ${e.match.lastname}`}
               {...props} />;
           })

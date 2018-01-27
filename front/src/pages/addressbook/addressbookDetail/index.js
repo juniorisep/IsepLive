@@ -12,7 +12,6 @@ import PostTab from '../../resume/PostTab';
 
 class AdressbookDetail extends Component {
   state = {
-    id: this.props.match.params.id,
     data: null,
     posts: [],
     page: 0,
@@ -20,21 +19,32 @@ class AdressbookDetail extends Component {
     clubMembers: [],
     fullscreenOpen: false,
     tabIndex: 0,
+    isLoading: false,
   };
 
   componentDidMount() {
-    this.getUserData();
-    this.refreshPosts();
-    this.getClubMembers();
+    const id = this.getUserId();
+    this.getUserData(id);
+    this.refreshPosts(id);
+    this.getClubMembers(id);
   };
 
-  getUserData = async () => {
-    const { data } = await studentData.getStudent(this.state.id);
-    this.setState({ data });
+  componentWillReceiveProps(props) {
+    this.setState({ tabIndex: 0 });
+    const id = props.match.params.id;
+    this.getUserData(id);
+    this.refreshPosts(id);
+    this.getClubMembers(id);
+  }
+
+  getUserData = async (id) => {
+    this.setState({ isLoading: true });
+    const { data } = await studentData.getStudent(id);
+    this.setState({ data, isLoading: false });
   };
 
-  refreshPosts = async () => {
-    const { data } = await studentData.getPosts(this.state.id, 0);
+  refreshPosts = async (id) => {
+    const { data } = await studentData.getPosts(id, 0);
     this.setState({
       posts: data.content,
       page: 1,
@@ -42,8 +52,8 @@ class AdressbookDetail extends Component {
     });
   };
 
-  getNextPosts = async () => {
-    const { data } = await studentData.getPosts(this.state.id, this.state.page);
+  getNextPosts = async (id) => {
+    const { data } = await studentData.getPosts(id, this.state.page);
     this.setState({
       posts: this.state.posts.concat(data.content),
       page: this.state.page + 1,
@@ -51,8 +61,8 @@ class AdressbookDetail extends Component {
     });
   }
 
-  getClubMembers = () => {
-    studentData.getClubMembers(this.state.id).then(res => {
+  getClubMembers = (id) => {
+    studentData.getClubMembers(id).then(res => {
       this.setState({ clubMembers: res.data });
     })
   }
@@ -65,7 +75,12 @@ class AdressbookDetail extends Component {
     this.setState({ tabIndex: index });
   }
 
+  getUserId() {
+    return this.props.match.params.id;
+  }
+
   renderTab = () => {
+    const userid = this.getUserId();
     const {
       data,
       posts,
@@ -90,7 +105,7 @@ class AdressbookDetail extends Component {
         )
       case 2:
         return (
-          <PhotoTab userId={this.state.id} />
+          <PhotoTab userId={userid} />
         )
       default:
         break;

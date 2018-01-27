@@ -18,14 +18,12 @@ public class CorsConfig implements Filter {
     HttpServletResponse response = (HttpServletResponse) res;
     HttpServletRequest request = (HttpServletRequest) req;
 
-    if (request.getHeader("ORIGIN") != null) {
-      String origin = request.getHeader("ORIGIN");
-      response.addHeader("Access-Control-Allow-Origin", origin);
-      response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-      response.addHeader("Access-Control-Allow-Credentials", "true");
-      response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
-      response.addHeader("Access-Control-Expose-Headers", "x-refresh-token, authorization");
-    }
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    response.setHeader("Access-Control-Allow-Credentials", "true");
+    response.setHeader("Access-Control-Max-Age", "3600");
+    response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+    response.setHeader("Access-Control-Expose-Headers", "x-refresh-token, authorization");
 
 
 //    response.setHeader("Access-Control-Allow-Origin", "*");

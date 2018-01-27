@@ -45,7 +45,7 @@ export default function AdressbookDetailView(props) {
   return (
     <FluidContent>
       <ScrollToTopOnMount />
-      <Loader>
+      <Loader loading={props.isLoading}>
         {
           user &&
           <Flex wrap>

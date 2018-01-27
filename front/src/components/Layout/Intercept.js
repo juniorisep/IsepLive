@@ -10,15 +10,44 @@ import * as authData from 'data/auth';
 import { MAIN_COLOR } from '../../colors';
 
 
-const phrases = [
+const errNetPhrases = [
   'Uhmm... la connexion au réseau semble coupée 😅  !',
-  'Woops ! On dirait que la connexion a coupé 🙊  !',
+  'Whoops ! On dirait que la connexion est coupée 🙊  !',
 ]
+
+const errServPhrases = [
+  "Whoops nos serveurs ne répondent plus, nos techniciens s'en occupe 👊 !",
+]
+
+
+const noConnectStyle = {
+  fontSize: '2em',
+  fontWeight: 'bold',
+  color: MAIN_COLOR,
+  marginBottom: 30,
+}
+const ErrorView = (props) => (
+  <div>
+    <div style={noConnectStyle}>
+      {props.title}
+    </div>
+    <div style={{
+      ...noConnectStyle,
+      fontSize: '1em',
+      fontWeight: 'normal',
+      textAlign: 'center',
+      lineHeight: 1.5,
+    }}>
+      {props.message} <br />
+      Essayez de recharger votre page.
+    </div>
+  </div>
+)
 
 class Intercept extends React.Component {
 
   state = {
-    noConnection: false,
+    error: '',
   }
 
   intercept: any;
@@ -35,9 +64,9 @@ class Intercept extends React.Component {
       return response;
     }, (error) => {
       if (!error.response) {
-        sendAlert("Connexion interrompu", 'error');
+        sendAlert("Connexion interrompue", 'error');
         document.body.style.overflow = 'hidden';
-        this.setState({ noConnection: true });
+        this.setState({ error: 'network' });
       }
 
       if (error.response) {
@@ -62,6 +91,8 @@ class Intercept extends React.Component {
             break;
           case 503:
             sendAlert("Serveur indisponible", 'error');
+            document.body.style.overflow = 'hidden';
+            this.setState({ error: 'server' });
             break;
 
           default:
@@ -78,19 +109,14 @@ class Intercept extends React.Component {
     axios.interceptors.response.eject(this.intercept);
   }
 
-  selectRandom() {
+  selectRandom(phrases) {
     const rnd = Math.round(Math.random() * (phrases.length - 1));
     return phrases[rnd];
   }
 
   render() {
-    if (this.state.noConnection) {
-      const noConnectStyle = {
-        fontSize: '2em',
-        fontWeight: 'bold',
-        color: MAIN_COLOR,
-        marginBottom: 30,
-      }
+    if (this.state.error !== '') {
+
       return (
         <div style={{
           position: 'fixed',
@@ -106,19 +132,18 @@ class Intercept extends React.Component {
           flexDirection: 'column',
         }} >
           <img src="/img/iseplive.jpg" alt="iseplive" style={{ width: 70, marginBottom: 30 }} />
-          <div style={noConnectStyle}>
-            Connexion interrompu
-          </div>
-          <div style={{
-            ...noConnectStyle,
-            fontSize: '1em',
-            fontWeight: 'normal',
-            textAlign: 'center',
-            lineHeight: 1.5,
-          }}>
-            {this.selectRandom()} <br />
-            Essayez de recharger votre page.
-          </div>
+          {
+            this.state.error === 'network' &&
+            <ErrorView
+              title="Connexion interrompue"
+              message={this.selectRandom(errNetPhrases)} />
+          }
+          {
+            this.state.error === 'server' &&
+            <ErrorView
+              title="Serveur indisponible"
+              message={this.selectRandom(errServPhrases)} />
+          }
         </div>
       )
     }

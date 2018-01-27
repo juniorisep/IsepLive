@@ -7,9 +7,19 @@ import { sendAlert } from '../../components/Alert';
 import axios from 'axios';
 import * as authData from 'data/auth';
 
+import { MAIN_COLOR } from '../../colors';
 
+
+const phrases = [
+  'Uhmm... la connexion au réseau semble coupée 😅  !',
+  'Woops ! On dirait que la connexion a coupé 🙊  !',
+]
 
 class Intercept extends React.Component {
+
+  state = {
+    noConnection: false,
+  }
 
   intercept: any;
 
@@ -26,9 +36,13 @@ class Intercept extends React.Component {
     }, (error) => {
       if (!error.response) {
         sendAlert("Connexion interrompu", 'error');
+        document.body.style.overflow = 'hidden';
+        this.setState({ noConnection: true });
       }
 
       if (error.response) {
+        this.setState({ noConnection: false });
+        document.body.style.overflow = '';
         switch (error.response.status) {
 
           case 400:
@@ -64,7 +78,50 @@ class Intercept extends React.Component {
     axios.interceptors.response.eject(this.intercept);
   }
 
+  selectRandom() {
+    const rnd = Math.round(Math.random() * (phrases.length - 1));
+    return phrases[rnd];
+  }
+
   render() {
+    if (this.state.noConnection) {
+      const noConnectStyle = {
+        fontSize: '2em',
+        fontWeight: 'bold',
+        color: MAIN_COLOR,
+        marginBottom: 30,
+      }
+      return (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: '#fff',
+          zIndex: 2000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }} >
+          <img src="/img/iseplive.jpg" alt="iseplive" style={{ width: 70, marginBottom: 30 }} />
+          <div style={noConnectStyle}>
+            Connexion interrompu
+          </div>
+          <div style={{
+            ...noConnectStyle,
+            fontSize: '1em',
+            fontWeight: 'normal',
+            textAlign: 'center',
+            lineHeight: 1.5,
+          }}>
+            {this.selectRandom()} <br />
+            Essayez de recharger votre page.
+          </div>
+        </div>
+      )
+    }
     return null;
   }
 };

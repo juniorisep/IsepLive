@@ -64,6 +64,7 @@ class ProfileMenu extends Component {
 
   render() {
     const { photoUrlThumb, firstname, lastname, loading } = this.state;
+    if (loading) return null;
     return (
       <Profile onClick={this.props.onClick} loading={loading}>
         <ProfileImage src={photoUrlThumb} sz="40px" />

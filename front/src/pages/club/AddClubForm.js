@@ -107,7 +107,7 @@ export default class AddClubForm extends React.Component {
             label="Président *"
             search={this.search}
             onSelect={val => this.change('president', val.id)}
-            renderSuggestion={sug => `${sug.firstname} ${sug.lastname}`}
+            renderSuggestion={this.renderSuggestion}
             suggestionValue={e => e.id}
           />
           <TextField

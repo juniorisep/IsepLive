@@ -29,7 +29,7 @@ export default function PostTitleView({ post }) {
               :
               <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
           }
-          <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
+          <Subtitle>Publié le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
         </Box>
       </Flex>
     );
@@ -41,7 +41,7 @@ export default function PostTitleView({ post }) {
           post.title &&
           <Title fontSize={2} invert>{post.title}</Title>
         }
-        <Subtitle>Posté le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
+        <Subtitle>Publié le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
       </Box>
       <Box ml="auto">
         <Author data={post.author} />

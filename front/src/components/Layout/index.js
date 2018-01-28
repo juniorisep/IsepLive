@@ -2,7 +2,14 @@
 
 import React from 'react';
 
-import { NavLink, Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import {
+  Link,
+  NavLink,
+  Redirect,
+  Route,
+  Switch,
+  withRouter,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import axios from 'axios';
@@ -350,9 +357,11 @@ class Layout extends React.Component {
                 <MenuIcon />
               </IconButton>
             </Responsive>
-            <Logo
-              src="/img/layout/iseplive.png"
-              alt="isep-live-logo" />
+            <Link to="/">
+              <Logo
+                src="/img/layout/iseplive.png"
+                alt="isep-live-logo" />
+            </Link>
             <NavMenu>
               {navListBar(Nav)}
             </NavMenu>

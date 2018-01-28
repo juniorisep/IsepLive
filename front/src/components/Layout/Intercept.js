@@ -70,8 +70,6 @@ class Intercept extends React.Component {
       }
 
       if (error.response) {
-        this.setState({ noConnection: false });
-        document.body.style.overflow = '';
         switch (error.response.status) {
 
           case 400:
@@ -131,7 +129,6 @@ class Intercept extends React.Component {
           justifyContent: 'center',
           flexDirection: 'column',
         }} >
-          <img src="/img/iseplive.jpg" alt="iseplive" style={{ width: 70, marginBottom: 30 }} />
           {
             this.state.error === 'network' &&
             <ErrorView

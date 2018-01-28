@@ -23,6 +23,7 @@ const Background = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 `;
 
 const FileLogo = styled.img`
@@ -33,13 +34,13 @@ const FileLogo = styled.img`
 const EventTitle = styled.h2`
   font-size: 1.3em;
   color: white;
-  margin: 0;
+  margin: 0 5px;
 `;
 
 const Location = styled.h3`
   font-size: .7em;
   color: white;
-  margin: 0;
+  margin: 0 5px;
 `;
 
 

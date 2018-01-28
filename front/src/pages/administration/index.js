@@ -6,6 +6,8 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom';
 
 import Tabs, { Tab } from 'material-ui/Tabs';
 
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+
 import Users from './users';
 import Import from './import';
 
@@ -35,8 +37,8 @@ class Admin extends React.Component {
       <main>
         <Tabs
           value={tabOpen}
-          indicatorColor="primary"
-          textColor="primary"
+          indicatorColor={SECONDARY_COLOR}
+          textColor={MAIN_COLOR}
           centered
           onChange={this.handleChangeTab}>
           <Tab label="Utilisateurs" component={Link} to={`${match.url}/utilisateurs`} />

@@ -33,6 +33,8 @@ import {
 } from 'components/common';
 import Loader from '../../components/Loader';
 
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+
 import DatePicker from '../../components/DatePicker';
 import SocialMedia from '../../components/SocialMedia';
 
@@ -96,8 +98,8 @@ export default function ResumeView(props) {
                 <Tabs
                   value={props.tabIndex}
                   onChange={props.changeTab}
-                  indicatorColor="primary"
-                  textColor="primary"
+                  indicatorColor={SECONDARY_COLOR}
+                  textColor={MAIN_COLOR}
                   centered
                 >
                   <Tab label="Compte" />

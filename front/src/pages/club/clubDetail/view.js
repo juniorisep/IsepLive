@@ -19,7 +19,7 @@ import {
 
 import Popup from 'components/Popup';
 
-import { BACKGROUND_COLOR } from '../../../colors';
+import { BACKGROUND_COLOR, MAIN_COLOR, SECONDARY_COLOR } from '../../../colors';
 import * as authData from '../../../data/auth';
 import { ADMIN, CLUB_MANAGER } from '../../../constants';
 import UpdateClubForm from './UpdateClubForm';
@@ -86,8 +86,8 @@ export default function ClubDetailView(props) {
       <Tabs
         value={props.tabIndex}
         onChange={props.changeTab}
-        indicatorColor="primary"
-        textColor="primary"
+        indicatorColor={SECONDARY_COLOR}
+        textColor={MAIN_COLOR}
         centered
       >
         <Tab label="Membres" />

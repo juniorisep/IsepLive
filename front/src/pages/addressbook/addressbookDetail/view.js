@@ -26,6 +26,8 @@ import {
   BgImage,
 } from 'components/common';
 
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../../colors';
+
 import * as clubData from '../../../data/club';
 
 
@@ -75,8 +77,8 @@ export default function AdressbookDetailView(props) {
               <Tabs
                 value={props.tabIndex}
                 onChange={props.changeTab}
-                indicatorColor="primary"
-                textColor="primary"
+                indicatorColor={SECONDARY_COLOR}
+                textColor={MAIN_COLOR}
                 centered
               >
                 <Tab label="Compte" />

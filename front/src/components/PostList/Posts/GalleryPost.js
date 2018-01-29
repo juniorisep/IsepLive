@@ -48,6 +48,26 @@ class GalleryPost extends Component {
                   );
                 })
               }
+              {
+                props.preview &&
+                <Box w={imageSize} p={1}>
+                  <Flex align="center" style={{ height: '100%' }}>
+                    <Link to={`/gallery/${gallery.id}`} style={{ width: '100%' }}>
+                      <div style={{
+                        width: '100%',
+                        height: 90,
+                        fontSize: '3em',
+                        display: 'flex',
+                        background: '#EEE',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 'normal',
+                        color: '#888',
+                      }}>+</div>
+                    </Link>
+                  </Flex>
+                </Box>
+              }
             </Flex>
           </Paper>
         </Box>

@@ -100,6 +100,34 @@ public class MediaController {
     return mediaService.getGalleryImages(id);
   }
 
+  @PutMapping("/gallery/{id}/images")
+  @RolesAllowed({Roles.STUDENT})
+  public void addGalleryImages(@RequestParam("images[]") List<MultipartFile> images,
+                               @PathVariable Long id,
+                               @AuthenticationPrincipal TokenPayload payload) {
+    Gallery gallery = mediaService.getGallery(id);
+    if (!payload.getRoles().contains(Roles.ADMIN) && !payload.getRoles().contains(Roles.POST_MANAGER)) {
+      if (!payload.getClubsAdmin().contains(gallery.getPost().getAuthor().getId())) {
+        throw new AuthException("you cannot edit this gallery");
+      }
+    }
+    mediaService.addImagesGallery(gallery, images);
+  }
+
+  @PutMapping("/gallery/{id}/images/remove")
+  @RolesAllowed({Roles.STUDENT})
+  public void deleteGalleryImages(@RequestBody List<Long> images,
+                                  @PathVariable Long id,
+                                  @AuthenticationPrincipal TokenPayload payload) {
+    Gallery gallery = mediaService.getGallery(id);
+    if (!payload.getRoles().contains(Roles.ADMIN) && !payload.getRoles().contains(Roles.POST_MANAGER)) {
+      if (!payload.getClubsAdmin().contains(gallery.getPost().getAuthor().getId())) {
+        throw new AuthException("you cannot edit this gallery");
+      }
+    }
+    mediaService.deleteImagesGallery(images);
+  }
+
 
   @PostMapping("/gazette")
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})

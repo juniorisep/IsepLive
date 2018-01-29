@@ -19,7 +19,7 @@ public class Image extends Media {
   private String fullSizeUrl;
   private String originalUrl;
 
-  @OneToOne
+  @ManyToOne
   @JsonIgnore
   private Gallery gallery;
 

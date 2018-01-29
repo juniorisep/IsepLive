@@ -34,9 +34,6 @@ import java.util.stream.Collectors;
 public class MediaService {
 
   @Autowired
-  ImageService imageService;
-
-  @Autowired
   MediaUtils mediaUtils;
 
   @Autowired
@@ -128,36 +125,17 @@ public class MediaService {
     gallery.setName(name);
     gallery.setCreation(new Date());
 
-    List<Image> images = new ArrayList<>();
-    files.forEach(file -> images.add(addImage(file)));
-    gallery.setImages(images);
+    Gallery galleryRes = mediaRepository.save(gallery);
 
-    return mediaRepository.save(gallery);
+    List<Image> images = new ArrayList<>();
+    files.forEach(file -> images.add(addImage(file, galleryRes)));
+    mediaRepository.save(images);
+
+    return galleryRes;
   }
 
   public Image addImage(MultipartFile file) {
-    Image image = new Image();
-    image.setCreation(new Date());
-
-    String name = mediaUtils.randomName();
-
-    String path = mediaUtils.resolvePath(imageDir, name, false, image.getCreation());
-    mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE, path);
-
-    String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
-    mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE_THUMB, pathThumb);
-
-    String pathOriginal = String.format(
-      "%s_%s",
-      mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
-      file.getOriginalFilename().replaceAll(" ", "-")
-    );
-    mediaUtils.saveFile(pathOriginal, file);
-
-    image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
-    image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
-    image.setOriginalUrl(mediaUtils.getPublicUrl(pathOriginal));
-    return mediaRepository.save(image);
+    return addImage(file, null);
   }
 
   public void deleteImageFile(Image image) {
@@ -167,7 +145,7 @@ public class MediaService {
   }
 
   public void tagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
-    Image image = imageService.getImage(imageId);
+    Image image = getImage(imageId);
     List<Matched> matchedList = matchedRepository.findAllByImage(image);
     int res = matchedList.stream()
       .filter(m -> m.getMatch().getId().equals(studentId))
@@ -185,7 +163,7 @@ public class MediaService {
   }
 
   public void untagStudentInImage(Long imageId, Long studentId, TokenPayload auth) {
-    Image image = imageService.getImage(imageId);
+    Image image = getImage(imageId);
     List<Matched> matchedList = matchedRepository.findAllByImage(image);
     Student match = studentService.getStudent(studentId);
     Student owner = studentService.getStudent(auth.getId());
@@ -257,5 +235,51 @@ public class MediaService {
   public List<Image> getGalleryImages(Long id) {
     Gallery gallery = getGallery(id);
     return gallery.getImages();
+  }
+
+  public void deleteImagesGallery(List<Long> ids) {
+    List<Image> images = imageRepository.findImageByIdIn(ids);
+    images.forEach(this::deleteImageFile);
+    imageRepository.delete(images);
+  }
+
+  private Image addImage(MultipartFile file, Gallery gallery) {
+    Image image = new Image();
+    image.setCreation(new Date());
+    image.setGallery(gallery);
+
+    String name = mediaUtils.randomName();
+
+    String path = mediaUtils.resolvePath(imageDir, name, false, image.getCreation());
+    mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE, path);
+
+    String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
+    mediaUtils.saveJPG(file, WIDTH_IMAGE_SIZE_THUMB, pathThumb);
+
+    String pathOriginal = String.format(
+      "%s_%s",
+      mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
+      file.getOriginalFilename().replaceAll(" ", "-")
+    );
+    mediaUtils.saveFile(pathOriginal, file);
+
+    image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
+    image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
+    image.setOriginalUrl(mediaUtils.getPublicUrl(pathOriginal));
+    return mediaRepository.save(image);
+  }
+
+  private Image getImage(Long id) {
+    Image img = imageRepository.findOne(id);
+    if (img != null) {
+      return img;
+    }
+    throw new RuntimeException("could not get the image with id: " + id);
+  }
+
+  public void addImagesGallery(Gallery gallery, List<MultipartFile> files) {
+    List<Image> images = new ArrayList<>();
+    files.forEach(file -> images.add(addImage(file, gallery)));
+    mediaRepository.save(images);
   }
 }

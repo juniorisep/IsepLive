@@ -36,3 +36,15 @@ export function unmatchStudent(photoId: number, studId: number) {
 export function getImageTags(id: number) {
   return axios.get(`/media/image/${id}/tags`);
 }
+
+export function deleteImages(galleryId: number, imageids: number[]) {
+  return axios.put(`/media/gallery/${galleryId}/images/remove`, imageids);
+}
+
+export function addImages(galleryId: number, images) {
+  const form = new FormData();
+  for (var i = 0; i < images.length; i++) {
+    form.append('images[]', images[i]);
+  }
+  return axios.put(`/media/gallery/${galleryId}/images`, form);
+}

@@ -261,7 +261,10 @@ export const FileUpload = (props) => {
         multiple={props.multiple}
         onChange={(e) => props.onFile(e.target.files)} />
       <label htmlFor={hash}>
-        <Button style={{ marginTop: 10 }} component="span" color="accent">{props.children}</Button>
+        <Button style={{
+          marginTop: 10,
+          ...props.style,
+        }} component="span" color="accent" {...props.btnProps}>{props.children}</Button>
       </label>
     </div>
   );

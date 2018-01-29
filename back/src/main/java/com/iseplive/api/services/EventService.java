@@ -31,9 +31,6 @@ public class EventService {
   ClubService clubService;
 
   @Autowired
-  ImageService imageService;
-
-  @Autowired
   MediaUtils mediaUtils;
 
   @Value("${storage.event.url}")

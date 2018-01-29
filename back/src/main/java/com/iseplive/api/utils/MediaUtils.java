@@ -2,7 +2,6 @@ package com.iseplive.api.utils;
 
 import com.iseplive.api.exceptions.FileException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
-import com.iseplive.api.services.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +27,7 @@ import java.util.Date;
 @Service
 public class MediaUtils {
 
-  private final Logger LOG = LoggerFactory.getLogger(ImageService.class);
+  private final Logger LOG = LoggerFactory.getLogger(MediaUtils.class);
 
   @Value("${storage.url}")
   private String baseUrl;

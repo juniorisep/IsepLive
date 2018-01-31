@@ -6,7 +6,6 @@
   "main": "src/index.js",
   "dependencies": {
     "axios": "^0.17.1",
-    "draft-js": "^0.10.3",
     "grid-styled": "^2.0.0-11",
     "material-ui": "^1.0.0-beta.29",
     "material-ui-icons": "^1.0.0-beta.17",

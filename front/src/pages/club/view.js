@@ -24,6 +24,8 @@ import AddClubForm from './AddClubForm';
 
 import * as roles from '../../constants';
 
+import type { Club as ClubType } from '../../data/users/type';
+
 
 const ClubTile = (props) => {
   const ClubStyle = styled.div`
@@ -47,7 +49,24 @@ const ClubTile = (props) => {
   );
 };
 
-export default class Club extends Component {
+type State = {
+  open: boolean,
+  search: string,
+}
+
+type Props = {
+  clubs: ClubType[],
+  loading: boolean,
+  addClub: (s: any) => Promise<any>,
+}
+
+export default class Club extends Component<Props, State> {
+
+  static defaultProps = {
+    clubs: [],
+    loading: false,
+  };
+
   state = {
     open: false,
     search: '',
@@ -57,7 +76,7 @@ export default class Club extends Component {
     this.setState({ open: false });
   }
 
-  handleSearch = (event) => {
+  handleSearch = (event: any) => {
     this.setState({ search: event.target.value });
   }
 

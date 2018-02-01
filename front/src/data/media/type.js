@@ -1,49 +1,92 @@
 // @flow
 
-export type PollDTO = {
+import type { Student } from '../users/type';
+import type { Club } from '../users/type';
+
+type EventValue = {
+  mediaType: 'event',  
+  title: string,
+  location: string,
+  date: Date,
+  description: string,
+  club: Club,
+  imageUrl: string,
+};
+
+export type Event = MediaValue & EventValue;
+
+type PollValue = {
+  mediaType: 'poll',  
   title: string,
   answers: Array<string>,
   isMultiAnswers: boolean,
   endDate: Date,
 };
 
+export type Poll = MediaValue & PollValue;
+
+export type Answer = {
+  id: number,
+}
+
 type VideoEmbedType = "YOUTUBE" | "FACEBOOK";
 
-export type VideoEmbedDTO = {
+export type VideoEmbed = {
+  mediaType: 'videoEmbed',  
   type: VideoEmbedType,
   url: string,
 };
 
-export type VideoDTO = {
+type VideoValue = {
+  mediaType: 'video',  
   name: string,
   video: File,
 };
+export type Video = MediaValue & VideoValue;
 
-export type Image = {
+
+type ImageValue = {
+  mediaType: 'image',  
   thumbUrl: string,
   fullSizeUrl: string,
-  creation: Date,
+  originalUrl: string,
+  matched: Match[],
+};
+export type Image = MediaValue & ImageValue;
+
+export type Match = {
+  id: number,
+  match: Student,
+  owner: Student,
 };
 
-export type Gallery = {
+type GalleryValue = {
+  mediaType: 'gallery',
   name: string,
   images: Image[],
+  coverImage: ?Image,
+  previewImage: Image[],
 };
+export type Gallery = MediaValue & GalleryValue;
 
-export type Video = {
-  url: string,
-  name: string,
-  views: number,
-};
-
-export type Gazette = {
+type GazetteValue = {
+  mediaType: 'gazette',  
   title: string,
   url: string,
 };
+export type Gazette = MediaValue & GazetteValue;
 
-export type Media = {
+type DocumentValue = {
+  mediaType: 'document',  
+  name: string,
+  path: string,
+  originalName: string,
+};
+export type Document = MediaValue & DocumentValue;
+
+type MediaValue = {
   id: number,
-  mediaType: string,
-  media: Gallery | Video | Gazette,
   creation: Date,
 };
+
+export type Media = MediaValue & (GalleryValue | ImageValue | EventValue | DocumentValue | GazetteValue | PollValue | VideoValue);

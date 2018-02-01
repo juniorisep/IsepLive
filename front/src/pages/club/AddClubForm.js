@@ -18,7 +18,26 @@ import * as userData from '../../data/users/student';
 
 import { backUrl } from '../../config';
 
-export default class AddClubForm extends React.Component {
+import type { Student } from '../../data/users/type';
+
+type State = {
+  name: string,
+  creation: Date,
+  president: number,
+  description: string,
+  website: string, 
+  logo: ?File,
+  autocompleteValue: string,
+}
+
+type Props = {
+  onSave: (s: State) => Promise<any>,
+  handleRequestClose: () => mixed,
+  open: boolean,
+  title: string,
+}
+
+export default class AddClubForm extends React.Component<Props, State> {
 
   state = {
     name: '',
@@ -30,7 +49,7 @@ export default class AddClubForm extends React.Component {
     autocompleteValue: '',
   }
 
-  change = (name, value) => {
+  change = (name: string, value: string) => {
     this.setState((state) => ({
       ...state,
       [name]: value,
@@ -40,13 +59,13 @@ export default class AddClubForm extends React.Component {
   handleInput = name => event =>
     this.change(name, event.target.value);
 
-  search = value => {
+  search = (value: string) => {
     this.setState({ autocompleteValue: value });
     return userData.searchStudents(value, [], 'a', 0)
       .then(res => res.data.content);
   }
 
-  renderSuggestion = (e) => {
+  renderSuggestion = (e: Student) => {
     const name = `${e.firstname} ${e.lastname}`;
     const url = e.photoUrlThumb ?
       backUrl + e.photoUrlThumb : '/img/svg/user.svg';
@@ -75,8 +94,8 @@ export default class AddClubForm extends React.Component {
       logo !== null;
   }
 
-  handleSave = e => {
-    this.props.onSave(this.state).then(res => {
+  handleSave = () => {
+    this.props.onSave(this.state).then(() => {
       this.props.handleRequestClose();
     });
   }

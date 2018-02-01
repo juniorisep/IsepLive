@@ -14,6 +14,8 @@ import { Title, Text, ProfileImage } from '../common';
 import * as pollData from '../../data/media/poll';
 import * as authData from 'data/auth';
 
+import type { AnswerDTO, PollDTO } from '../../data/media/type';
+
 const Wrapper = styled.div`
   background: white;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -49,8 +51,15 @@ const Caption = styled.p`
   cursor: pointer;
 `;
 
+type State = {
+  showVote: boolean,
+  answers: AnswerDTO[],
+  data: PostDTO,
+  showVotesModal: boolean,
+}
+
 class Poll extends Component {
-  state = {
+  state: State = {
     showVote: false,
     answers: [],
     data: this.props.data,

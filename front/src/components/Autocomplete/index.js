@@ -2,10 +2,29 @@
 
 import React from 'react';
 
+import type {Node} from 'react';
+
 import TextField from 'material-ui/TextField';
 import { MenuItem } from 'material-ui/Menu';
 
-export default class Autocomplete extends React.Component {
+import type { AxiosPromise } from 'axios';
+
+import type { Student } from '../../data/users/type';
+
+type Props = {
+  renderSuggestion: (value: Student) => Node,
+  onSelect: (value: Student, fullname: string) => mixed,
+  search: () => AxiosPromise<Student[]>,
+}
+
+type State = {
+  results: Student[],
+  value: string,
+  focus: boolean,
+}
+
+
+export default class Autocomplete extends React.Component<Props, State> {
 
   state = {
     results: [],
@@ -19,7 +38,7 @@ export default class Autocomplete extends React.Component {
     }
   }
 
-  renderResults = (val) => {
+  renderResults = (val: Student) => {
     return (
       <MenuItem key={val.id} onMouseDown={this.handleSelect(val)}>
         {this.props.renderSuggestion(val)}
@@ -27,7 +46,7 @@ export default class Autocomplete extends React.Component {
     )
   }
 
-  handleSelect = (val) => (event) => {
+  handleSelect = (val: Student) => () => {
     const fullName = val.firstname + ' ' + val.lastname;
     this.setState({ value: fullName });
     this.props.onSelect(val, fullName);

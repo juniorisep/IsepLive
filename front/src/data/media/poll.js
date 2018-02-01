@@ -1,29 +1,30 @@
 // @flow
 
 import axios from 'axios';
+import type { AxiosPromise } from 'axios';
 
-import type { PollDTO } from './type';
+import type { Poll, Answer } from './type';
 
-export function createPoll(poll: PollDTO) {
+export function createPoll(poll: Poll): AxiosPromise<Poll> {
   return axios.post('/poll', poll);
 }
 
-export function getPoll(id) {
+export function getPoll(id: number): AxiosPromise<Poll> {
   return axios.get(`/poll/${id}`);
 }
 
-export function getAllVote(pollid) {
+export function getAllVote(pollid: number): AxiosPromise<Answer[]> {
   return axios.get(`/poll/${pollid}/vote/all`);
 }
 
-export function vote(pollId, answerId) {
+export function vote(pollId: number, answerId: number): AxiosPromise<void> {
   return axios.put(`/poll/${pollId}/answer/${answerId}`);
 }
 
-export function removeVote(pollid, answer) {
+export function removeVote(pollid: number, answer: Answer): AxiosPromise<void> {
   return axios.delete(`/poll/${pollid}/answer/${answer.id}`);
 }
 
-export function getVotes(pollId) {
+export function getVotes(pollId: number): AxiosPromise<Answer[]> {
   return axios.get(`/poll/${pollId}/vote`);
 }

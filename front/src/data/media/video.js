@@ -1,13 +1,13 @@
 // @flow
 
 import axios from 'axios';
-import type { VideoEmbedDTO, VideoDTO } from './type';
+import type { VideoEmbed, Video } from './type';
 
-export function createVideoEmbed(form: VideoEmbedDTO) {
+export function createVideoEmbed(form: VideoEmbed) {
   return axios.post('/media/videoEmbed', form);
 };
 
-export function createVideo(form: VideoDTO) {
+export function createVideo(form: Video) {
   var data = new FormData();
   data.append('video', form.video);
   data.append('name', form.name);

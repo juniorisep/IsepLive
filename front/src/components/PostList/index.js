@@ -16,6 +16,8 @@ import PostTitleView from './PostTitleView';
 
 import * as postData from 'data/post';
 import * as utils from '../../data/util';
+import type { Post as PostType } from '../../data/post/type';
+import type { Media as MediaType } from '../../data/media/type';
 
 import ModifyPostModal from './ModifyPostModal';
 import FullScreenView from '../FullScreen/View';
@@ -50,16 +52,6 @@ export const Post = styled.li`
   }
 `;
 
-// const PostContent = styled.div`
-//   height: ${props => props.fb ? 'auto' : '250px'};
-//   position: relative;
-//   ${props => props.fb && 'background: black;'}
-
-//   @media (max-width: 40em) {
-//     height: ${props => props.fb ? 'auto' : '300px'};
-//   }
-// `;
-
 export const PostText = Box.extend`
   padding: 20px;
   padding-bottom: 70px;
@@ -80,11 +72,21 @@ export const PostActions = styled.div`
   align-items: center;
 `;
 
-export class PostTextView extends Component {
+type PostTextViewProps = {
+  refresh: () => mixed,
+  modify: (post: PostType) => mixed,
+  deletePost: (post: PostType) => mixed,
+  post: PostType,
+  preview: boolean,
+  canPin: boolean,
+  w: number[],
+};
+
+export class PostTextView extends Component<PostTextViewProps> {
 
   toggleLike = () => {
     postData.toggleLikePost(this.props.post.id);
-  };
+  }
 
   showLikes = () => {
     return postData.getLikes('post', this.props.post.id);
@@ -104,6 +106,7 @@ export class PostTextView extends Component {
               {post.nbComments} <ForumIcon style={{ marginLeft: 5 }} />
             </Button>
           }
+
           {
             post.hasWriteAccess &&
             <Box ml="5px">
@@ -128,7 +131,12 @@ export class PostTextView extends Component {
   };
 };
 
-export function PostTextContent(props) {
+type TextContentProps = {
+  preview: boolean,
+  content: string,
+};
+
+export function PostTextContent(props: TextContentProps) {
   const text = props.preview ? props.content
     .slice(0, 200)
     .split('\n')
@@ -143,7 +151,11 @@ export function PostTextContent(props) {
   );
 };
 
-export function PostView(props) {
+type PostViewProps = {
+  post: PostType,
+};
+
+export function PostView(props: PostViewProps) {
   if (props.post.media) {
     switch (props.post.media.mediaType) {
       case 'poll':
@@ -168,7 +180,21 @@ export function PostView(props) {
   }
 }
 
-export default class PostListView extends React.Component {
+type PostListViewProps = {
+  refreshPosts: (action?: string) => mixed,
+  posts: PostType[],
+  canPin: boolean,
+};
+
+type PostListViewState = {
+  postSelected: ?PostType,
+  media: ?MediaType,
+  modifyEnable: boolean,
+  fullscreenOpen: boolean,
+  deleteEnabled: boolean,
+};
+
+export default class PostListView extends React.Component<PostListViewProps, PostListViewState> {
   state = {
     postSelected: null,
     media: null,
@@ -177,7 +203,7 @@ export default class PostListView extends React.Component {
     deleteEnabled: false,
   };
 
-  modifyPost = (postSelected) => {
+  modifyPost = (postSelected: PostType) => {
     this.setState({ postSelected, modifyEnable: true })
   };
 
@@ -185,21 +211,21 @@ export default class PostListView extends React.Component {
     this.setState({ modifyEnable: false });
   };
 
-  setFullScreen = (fullscreenOpen, media) => {
+  setFullScreen = (fullscreenOpen: boolean, media: ?MediaType) => {
     if (media) {
       this.setState({ media });
     }
     this.setState({ fullscreenOpen });
   }
 
-  deletePost = (post) => {
+  deletePost = (post: PostType) => {
     this.setState({
       deleteEnabled: true,
       postSelected: post,
     });
   }
 
-  deleteResponse = (ok) => {
+  deleteResponse = (ok: boolean) => {
     if (ok) {
       postData.deletePost(this.state.postSelected.id).then(res => {
         this.props.refreshPosts('delete');
@@ -245,14 +271,18 @@ export default class PostListView extends React.Component {
           open={this.state.modifyEnable}
           refresh={props.refreshPosts}
           requestClose={this.requestClose} />
-        <FullScreenView
-          matcher
-          internalRefresh
-          visible={this.state.fullscreenOpen}
-          image={this.state.media && this.state.media.fullSizeUrl}
-          imageOriginal={this.state.media && this.state.media.originalUrl}
-          data={this.state.media}
-          onEscKey={() => this.setFullScreen(false)} />
+
+        {
+          this.state.media && this.state.media.mediaType === 'image' &&
+          <FullScreenView
+            matcher
+            internalRefresh
+            visible={this.state.fullscreenOpen}
+            image={this.state.media.fullSizeUrl}
+            imageOriginal={this.state.media.originalUrl}
+            data={this.state.media}
+            onEscKey={() => this.setFullScreen(false)} />
+        }
         <Popup
           title="Suppression"
           description="Voulez vous supprimer cette publication ?"
@@ -264,6 +294,16 @@ export default class PostListView extends React.Component {
   };
 };
 
+
+// const PostContent = styled.div`
+//   height: ${props => props.fb ? 'auto' : '250px'};
+//   position: relative;
+//   ${props => props.fb && 'background: black;'}
+
+//   @media (max-width: 40em) {
+//     height: ${props => props.fb ? 'auto' : '300px'};
+//   }
+// `;
 
 //     case 'videoEmbed':
 //       return (

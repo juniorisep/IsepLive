@@ -1,16 +1,17 @@
 // @flow
 
 import axios from 'axios';
+import type { AxiosPromise } from 'axios';
 
 import type { Media } from './type';
 
-export function getAllMedia(page: number = 0) {
+export function getAllMedia(page: number = 0): AxiosPromise<Media[]> {
   return axios.get(`/media?page=${page}`);
 };
 
-export function groupMedia(list: Media[]) {
+export function groupMedia(list: Media[]): Media[] {
   const monthlyGrouped = {};
-  list.forEach((media: Media) => {
+  list.forEach(media => {
     const date = new Date(media.creation);
     const formedDate = date.getMonth() + '-' + date.getFullYear();
     if (!monthlyGrouped[formedDate]) {
@@ -25,14 +26,14 @@ export function groupMedia(list: Media[]) {
     .sort((a, b) => a.date < b.date ? 1 : -1);
 };
 
-export function createDocument({ name, document }) {
+export function createDocument({ name, document }: { name: string, document: File }) {
   const form = new FormData();
   form.append('name', name);
   form.append('document', document);
   return axios.post('/media/document', form);
 };
 
-export function createGazette({ title, file }) {
+export function createGazette({ title, file }: { title: string, file: File }) {
   const form = new FormData();
   form.append('title', title);
   form.append('file', file);

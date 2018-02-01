@@ -26,6 +26,8 @@ class AlertCenter extends Component {
     message: '',
   };
 
+  timeout: number;
+
   componentDidMount() {
     document.addEventListener('notification', this.onReceiveNotification.bind(this));
   };
@@ -34,7 +36,7 @@ class AlertCenter extends Component {
     document.removeEventListener('notification', this.onReceiveNotification.bind(this));
   };
 
-  onReceiveNotification(e) {
+  onReceiveNotification(e: any) {
     this.setState({
       message: e.detail.message,
       type: e.detail.type || 'message',
@@ -63,7 +65,7 @@ class AlertCenter extends Component {
 };
 
 
-export function sendAlert(message, type) {
+export function sendAlert(message: string, type: string) {
   const event = new CustomEvent('notification', { detail: { message, type } });
   document.dispatchEvent(event);
 };

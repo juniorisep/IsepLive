@@ -4,15 +4,24 @@ import React, { Component } from 'react';
 import { Flex, Box } from 'grid-styled';
 import { Link } from 'react-router-dom';
 
-import { ProfileImage, Text, Title } from 'components/common';
 import IconButton from 'material-ui/IconButton';
 
 import DeleteIcon from 'material-ui-icons/Delete';
 
-import LikeButton from 'components/PostList/LikeButton';
-import * as authData from '../../data/auth';
+import { ProfileImage, Text, Title } from '../../components/common';
+import LikeButton from '../../components/PostList/LikeButton';
 
-class Comment extends Component {
+import * as authData from '../../data/auth';
+import type { Comment as CommentType } from '../../data/post/type';
+
+type Props = {
+  comment: CommentType,
+  onDelete: (comment: CommentType) => mixed,
+  toggleLike: (likeId: number) => mixed,
+  showLikes: (likeId: number) => mixed,
+};
+
+class Comment extends Component<Props> {
 
   deleteComment = () => {
     this.props.onDelete(this.props.comment);
@@ -21,8 +30,8 @@ class Comment extends Component {
   renderEdit() {
     const { comment } = this.props;
     if (authData.isLoggedIn()) {
-      const id = authData.getUser().id;
-      if (id === comment.student.id) {
+      const user = authData.getUser();
+      if (user && user.id === comment.student.id) {
         return (
           <div>
             <IconButton color="default" onClick={this.deleteComment}>

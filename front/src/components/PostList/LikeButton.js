@@ -22,6 +22,9 @@ import {
 
 import { backUrl } from '../../config';
 
+import type { Student } from '../../data/users/type';
+import type { AxiosPromise } from 'axios';
+
 const CustomCheckbox = styled(Checkbox) `
   color: ${props => props.theme.accent} !important;
 `;
@@ -55,7 +58,21 @@ const LikesPanel = props => {
   );
 };
 
-class LikeButton extends Component {
+type LikeButtonProps = {
+  liked: boolean,
+  likes: number,
+  toggleLike: () => mixed,
+  showLikes: () => AxiosPromise<Student[]>
+};
+
+type LikeButtonState = {
+  liked: boolean,
+  likes: number,
+  showLikes: boolean,
+  studentLikes: Student[],
+};
+
+class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
   state = {
     liked: this.props.liked,
     likes: this.props.likes,

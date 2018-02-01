@@ -118,7 +118,7 @@ class ImageStyle extends React.Component {
 
 
 type ImageType = {
-  src?: string, alt?: string, w?: string | number, ml?: string
+  src?: ?string, alt?: string, w?: string | number, ml?: string
 };
 
 export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;

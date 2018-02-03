@@ -4,7 +4,6 @@ import React, { Component, KeyboardEvent } from 'react';
 
 import styled from 'styled-components';
 
-
 const Input = styled.textarea`
   border: 2px solid #999999;
   border-radius: 5px;
@@ -81,7 +80,7 @@ class CommentBox extends Component<Props, State> {
           onChange={this.change} />
       </div>
     );
-  };
-};
+  }
+}
 
 export default CommentBox;

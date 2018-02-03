@@ -9,23 +9,22 @@ import * as authData from 'data/auth';
 
 import { MAIN_COLOR } from '../../colors';
 
-
 const errNetPhrases = [
   'Uhmm... la connexion au réseau semble coupée 😅  !',
   'Whoops ! On dirait que la connexion est coupée 🙊  !',
-]
+];
 
 const errServPhrases = [
   "Whoops nos serveurs ne répondent plus, nos techniciens s'en occupe 👊 !",
-]
-
+];
 
 const noConnectStyle = {
   fontSize: '2em',
   fontWeight: 'bold',
   color: MAIN_COLOR,
   marginBottom: 30,
-}
+};
+
 const ErrorView = (props) => (
   <div>
     <div style={noConnectStyle}>
@@ -42,7 +41,7 @@ const ErrorView = (props) => (
       Essayez de recharger votre page.
     </div>
   </div>
-)
+);
 
 class Intercept extends React.Component {
 
@@ -60,7 +59,7 @@ class Intercept extends React.Component {
       const refreshToken = response.headers['x-refresh-token'];
       if (token && refreshToken) {
         authData.setToken({ token, refreshToken });
-      };
+      }
       return response;
     }, (error) => {
       if (!error.response) {
@@ -95,8 +94,8 @@ class Intercept extends React.Component {
 
           default:
             break;
-        };
-      };
+        }
+      }
 
       // Do something with response error
       return Promise.reject(error);
@@ -142,10 +141,10 @@ class Intercept extends React.Component {
               message={this.selectRandom(errServPhrases)} />
           }
         </div>
-      )
+      );
     }
     return null;
   }
-};
+}
 
 export default withRouter(Intercept);

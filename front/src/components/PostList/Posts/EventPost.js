@@ -71,5 +71,5 @@ export default class EventPost extends Component {
         {props.textView(size)}
       </Post>
     );
-  };
-};
+  }
+}

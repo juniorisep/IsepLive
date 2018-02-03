@@ -74,7 +74,7 @@ class GalleryPost extends Component {
         {props.textView(size)}
       </Post>
     );
-  };
-};
+  }
+}
 
 export default GalleryPost;

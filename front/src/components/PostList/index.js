@@ -128,8 +128,8 @@ export class PostTextView extends Component<PostTextViewProps> {
         </PostActions>
       </PostText>
     );
-  };
-};
+  }
+}
 
 type TextContentProps = {
   preview: boolean,
@@ -142,14 +142,14 @@ export function PostTextContent(props: TextContentProps) {
     .split('\n')
     .slice(0, 3) : props.content.split('\n');
   if (props.preview && (props.content.length > 200 || props.content.slice(0, 200).split('\n').length > 3)) {
-    text[text.length - 1] += '...'
+    text[text.length - 1] += '...';
   }
   return (
     <div>
       {text.map((par, i) => <Text key={i} mb={1} color="#555">{utils.parseText(par)}</Text>)}
     </div>
   );
-};
+}
 
 type PostViewProps = {
   post: PostType,
@@ -174,7 +174,7 @@ export function PostView(props: PostViewProps) {
         return <GazettePost { ...props} />;
       default:
         break;
-    };
+    }
   } else {
     return <TextPost {...props} />;
   }
@@ -204,7 +204,7 @@ export default class PostListView extends React.Component<PostListViewProps, Pos
   };
 
   modifyPost = (postSelected: PostType) => {
-    this.setState({ postSelected, modifyEnable: true })
+    this.setState({ postSelected, modifyEnable: true });
   };
 
   requestClose = () => {
@@ -291,8 +291,8 @@ export default class PostListView extends React.Component<PostListViewProps, Pos
         />
       </PostList>
     );
-  };
-};
+  }
+}
 
 
 // const PostContent = styled.div`

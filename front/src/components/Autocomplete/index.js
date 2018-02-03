@@ -23,7 +23,6 @@ type State = {
   focus: boolean,
 }
 
-
 export default class Autocomplete extends React.Component<Props, State> {
 
   state = {
@@ -43,7 +42,7 @@ export default class Autocomplete extends React.Component<Props, State> {
       <MenuItem key={val.id} onMouseDown={this.handleSelect(val)}>
         {this.props.renderSuggestion(val)}
       </MenuItem>
-    )
+    );
   }
 
   handleSelect = (val: Student) => () => {
@@ -54,7 +53,7 @@ export default class Autocomplete extends React.Component<Props, State> {
 
   handleSuggestionsFetchRequested = (value) => {
     this.props.search(value).then(list => {
-      this.setState({ results: list })
+      this.setState({ results: list });
     });
   }
 
@@ -104,7 +103,7 @@ export default class Autocomplete extends React.Component<Props, State> {
         }
 
       </div>
-    )
+    );
   }
 
 }

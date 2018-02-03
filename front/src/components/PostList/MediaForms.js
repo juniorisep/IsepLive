@@ -51,9 +51,9 @@ export function MediaCreator(props) {
         {props.children}
       </MediaCreatorWrap>
     );
-  };
+  }
   return null;
-};
+}
 
 export class PollForm extends Component {
   state = {
@@ -132,7 +132,7 @@ export class PollForm extends Component {
                   </IconButton>
                 }
               </Box>
-            </Flex>
+            </Flex>;
           })
         }
         <AddButton color="accent" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
@@ -160,8 +160,8 @@ export class PollForm extends Component {
         </Flex>
       </FormWrapper>
     );
-  };
-};
+  }
+}
 
 const PreviewImage = styled.img`
   max-width: 100%;
@@ -204,8 +204,8 @@ export class ImageForm extends Component {
           onFile={this.handleImageSelect} >Choisir une image</FileUpload>
       </div>
     );
-  };
-};
+  }
+}
 
 export class VideoEmbedForm extends Component {
   state = {
@@ -262,8 +262,8 @@ export class VideoEmbedForm extends Component {
         <TextField label="ID de la Video" fullWidth onChange={this.changeUrl} />
       </div>
     );
-  };
-};
+  }
+}
 
 export class VideoForm extends Component {
 
@@ -278,7 +278,7 @@ export class VideoForm extends Component {
     if (this.state.name === '') {
       this.props.update({ ...this.state, video, name: video.name });
       return this.setState({ name: video.name });
-    };
+    }
     this.props.update({ ...this.state, video });
   };
 
@@ -297,8 +297,8 @@ export class VideoForm extends Component {
         <FileUpload accept={['mp4', 'mov']} onFile={this.handleVideoSelect} >Choisir une video</FileUpload>
       </div>
     );
-  };
-};
+  }
+}
 
 export class GalleryForm extends Component {
   state = {
@@ -318,7 +318,7 @@ export class GalleryForm extends Component {
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  };
+  }
 
   render() {
     const { images } = this.state;
@@ -335,9 +335,8 @@ export class GalleryForm extends Component {
           onFile={this.handleFileSelect} >Ajouter des images</FileUpload>
       </div>
     );
-  };
-};
-
+  }
+}
 
 export class DocumentForm extends Component {
   state = {
@@ -357,7 +356,7 @@ export class DocumentForm extends Component {
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  };
+  }
 
   render() {
     const { document } = this.state;
@@ -370,8 +369,8 @@ export class DocumentForm extends Component {
         <FileUpload multiple onFile={this.handleFileSelect}>Ajouter un fichier</FileUpload>
       </div>
     );
-  };
-};
+  }
+}
 
 export class GazetteForm extends Component {
   state = {
@@ -391,7 +390,7 @@ export class GazetteForm extends Component {
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  };
+  }
 
   render() {
     const { file } = this.state;
@@ -404,8 +403,8 @@ export class GazetteForm extends Component {
         <FileUpload accept={['pdf']} onFile={this.handleFileSelect}>Ajouter un fichier</FileUpload>
       </div>
     );
-  };
-};
+  }
+}
 
 export class EventForm extends Component {
   state = {
@@ -420,8 +419,8 @@ export class EventForm extends Component {
   componentDidMount() {
     if (this.props.post) {
       this.setState({ ...this.props.post.media });
-    };
-  };
+    }
+  }
 
   handleFileSelect = (files) => {
     const reader = new FileReader();
@@ -444,7 +443,7 @@ export class EventForm extends Component {
   update(state) {
     this.setState({ ...state });
     this.props.update({ ...this.state, ...state });
-  };
+  }
 
   handleChangeDate = (date: Date) => {
     this.update({ date });
@@ -483,5 +482,5 @@ export class EventForm extends Component {
         </div>
       </div>
     );
-  };
-};
+  }
+}

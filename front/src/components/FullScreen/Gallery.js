@@ -10,7 +10,6 @@ import FileDownload from 'material-ui-icons/FileDownload';
 import PlayIcon from 'material-ui-icons/PlayArrow';
 import PauseIcon from 'material-ui-icons/Pause';
 
-
 import Auth from '../Auth/AuthComponent';
 
 import SlideShow from 'components/SlideShow';
@@ -48,7 +47,7 @@ class Gallery extends Component {
   }
 
   openMatcher = (open) => {
-    this.setState({ matcherOpen: open })
+    this.setState({ matcherOpen: open });
   }
 
   removeEscListener() {
@@ -74,7 +73,7 @@ class Gallery extends Component {
   keyHandler = ({ key }) => {
     if (key === 'Escape' && !this.state.matcherOpen) {
       this.props.onEscKey();
-    };
+    }
   };
 
   updateIndex = (index) => {
@@ -90,7 +89,7 @@ class Gallery extends Component {
       color: 'white',
       background: 'rgba(255,255,255,0.1)',
       marginRight: 10,
-    }
+    };
 
     const { visible, images, index } = this.props;
     if (!visible) return null;
@@ -151,7 +150,7 @@ class Gallery extends Component {
         }
       </Wrapper>
     );
-  };
-};
+  }
+}
 
 export default Gallery;

@@ -54,7 +54,7 @@ class DocumentPost extends Component {
         {props.textView(size)}
       </Post>
     );
-  };
-};
+  }
+}
 
 export default DocumentPost;

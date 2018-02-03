@@ -9,7 +9,6 @@ import Input, { InputLabel } from 'material-ui/Input';
 
 import * as moment from 'moment';
 
-
 const TimeSelect = props => {
   return (
     <FormControl style={{ width: '100%' }}>
@@ -44,7 +43,7 @@ export default class DatePicker extends React.Component {
   };
 
   componentDidMount() {
-  };
+  }
 
   getDateComp(datetime: number) {
     const date = new Date(datetime);
@@ -55,17 +54,17 @@ export default class DatePicker extends React.Component {
       month: date.getMonth(),
       year: date.getFullYear(),
     };
-  };
+  }
 
   daysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
-  };
+  }
 
   buildHours = () => {
     let hours = [];
     for (var i = 0; i < 24; i++) {
       hours.push(i);
-    };
+    }
     return hours;
   };
 
@@ -73,7 +72,7 @@ export default class DatePicker extends React.Component {
     let minutes = [];
     for (var i = 0; i < 60; i++) {
       minutes.push(i);
-    };
+    }
     return minutes;
   };
 
@@ -82,7 +81,7 @@ export default class DatePicker extends React.Component {
     let days = [];
     for (var i = 0; i < this.daysInMonth(month, year); i++) {
       days.push(i + 1);
-    };
+    }
     return days;
   };
 
@@ -90,7 +89,7 @@ export default class DatePicker extends React.Component {
     let months = [];
     for (var i = 0; i < 12; i++) {
       months.push(i);
-    };
+    }
     return months;
   };
 
@@ -100,7 +99,7 @@ export default class DatePicker extends React.Component {
     let endYear = this.props.endYear || new Date().getFullYear() + 10;
     for (var i = startYear; i < endYear; i++) {
       years.push(i);
-    };
+    }
     return years;
   };
 
@@ -110,7 +109,7 @@ export default class DatePicker extends React.Component {
       hour, minute,
       day, month, year,
     } = { ...dateComps, [name]: value };
-    this.props.onChange(new Date(year, month, day, hour, minute))
+    this.props.onChange(new Date(year, month, day, hour, minute));
   };
 
   render() {
@@ -120,7 +119,7 @@ export default class DatePicker extends React.Component {
       date.setMonth(month);
       moment.locale('fr');
       return moment(date).format('MMMM');
-    }
+    };
 
     const hours = this.buildHours().map(e => ({ value: e, name: e }));
     const minutes = this.buildMinutes().map(e => ({ value: e, name: e }));
@@ -162,5 +161,5 @@ export default class DatePicker extends React.Component {
         </Flex>
       </div>
     );
-  };
-};
+  }
+}

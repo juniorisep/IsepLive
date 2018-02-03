@@ -33,7 +33,7 @@ export default function PostTitleView({ post }) {
         </Box>
       </Flex>
     );
-  };
+  }
   return (
     <Flex mb="10px">
       <Box>
@@ -48,4 +48,4 @@ export default function PostTitleView({ post }) {
       </Box>
     </Flex>
   );
-};
+}

@@ -56,7 +56,7 @@ class ProfileMenu extends Component {
       const { photoUrlThumb, firstname, lastname } = res.data;
       this.setState({ photoUrlThumb, firstname, lastname, loading: false });
     }).catch(err => { });
-  };
+  }
 
   componentWillUnmount() {
     this.getLoggedUserReq.cancel();
@@ -74,7 +74,7 @@ class ProfileMenu extends Component {
         </div>
       </Profile>
     );
-  };
-};
+  }
+}
 
 export default ProfileMenu;

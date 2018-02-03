@@ -50,4 +50,4 @@ export default function LoginForm(props) {
       </form>
     </Dialog>
   );
-};
+}

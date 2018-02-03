@@ -12,7 +12,6 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import TurnedInIcon from 'material-ui-icons/TurnedIn';
 import TurnedInNotIcon from 'material-ui-icons/TurnedInNot';
 
-
 import * as postData from 'data/post';
 import * as authData from 'data/auth';
 
@@ -40,9 +39,9 @@ class EditButton extends Component<Props, State> {
     anchorEl: null,
   };
 
-  openMenu = (e: any) => 
+  openMenu = (e: any) =>
     this.setState({ openMenu: true, anchorEl: e.target });
-  
+
   closeMenu = () => this.setState({ openMenu: false });
 
   componentDidMount() {

@@ -18,7 +18,7 @@ const STYLE = {
   marginTop: 20,
   display: 'flex',
   flexWrap: 'wrap',
-}
+};
 
 const InputButton = styled.button`
   outline: none;
@@ -31,7 +31,7 @@ const InputButton = styled.button`
   border: 0;
   font-family: inherit;
   transition: background .3s ease;
-  cursor: pointer; 
+  cursor: pointer;
 
   &:hover {
     background: rgba(255,255,255,0.2);
@@ -50,7 +50,6 @@ export default class PeopleMatcher extends Component {
     tags: [],
   }
 
-
   componentDidMount() {
     if (this.props.internalRefresh) {
       this.refresh();
@@ -59,7 +58,7 @@ export default class PeopleMatcher extends Component {
     this.setState({
       imageId: this.props.image.id,
       tags: this.props.image.matched,
-    })
+    });
   }
 
   componentWillReceiveProps(props) {
@@ -80,7 +79,7 @@ export default class PeopleMatcher extends Component {
   refresh() {
     imageData.getImageTags(this.props.image.id).then(res => {
       this.setState({ tags: res.data });
-    })
+    });
   }
 
   closeDialog = () => {
@@ -97,21 +96,21 @@ export default class PeopleMatcher extends Component {
     imageData.matchStudent(this.props.image.id, stud.id).then(res => {
       this.refresh();
       this.closeDialog();
-    })
+    });
   }
 
   removeStudent = stud => e => {
     imageData.unmatchStudent(this.props.image.id, stud.id).then(res => {
       this.refresh();
       this.closeDialog();
-    })
+    });
   }
 
   getStudentSelection() {
     const { students, tags } = this.state;
     return students.filter(s => {
       return tags.filter(t => t.match.id === s.id).length === 0;
-    })
+    });
   }
 
   render() {
@@ -122,7 +121,7 @@ export default class PeopleMatcher extends Component {
         {
           this.state.tags.map(e => {
             const onDelete = this.removeStudent(e.match);
-            let props = {}
+            let props = {};
             if (e.owner.id === ownerId) {
               props = { onDelete };
             }
@@ -151,13 +150,13 @@ export default class PeopleMatcher extends Component {
                       <Avatar alt="student" src={stud.photoUrlThumb ? backUrl + stud.photoUrlThumb : '/img/svg/user.svg'} />
                       <ListItemText primary={stud.firstname + ' ' + stud.lastname} />
                     </ListItem>
-                  )
+                  );
                 })
               }
             </List>
           </DialogContent>
         </Dialog>
       </div>
-    )
+    );
   }
 }

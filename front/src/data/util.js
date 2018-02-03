@@ -35,7 +35,7 @@ export function parseText(text: string) {
    color: SECONDARY_COLOR,
    textDecoration: 'underline',
    fontWeight: 'bold',
- }
+ };
  return words.map((word, i) => {
    const sep = i < words.length - 1 ? ' ' : '';
    if (word.match(/^https?:\//)) {
@@ -43,5 +43,5 @@ export function parseText(text: string) {
    } else {
      return word + sep;
    }
- })
+ });
 }

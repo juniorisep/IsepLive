@@ -90,7 +90,7 @@ class ImageLoader extends React.Component {
             img={this.state.url} />
         </span>
       </span>
-    )
+    );
   }
 }
 
@@ -117,7 +117,7 @@ const ImageTransition = (props) => (
         img={props.image} />
     )}
   </Transition>
-)
+);
 
 export default class SlideShow extends React.Component {
   state = {
@@ -138,7 +138,7 @@ export default class SlideShow extends React.Component {
     }
 
     if (this.props.initPos) {
-      this.setState({ pos: this.props.initPos })
+      this.setState({ pos: this.props.initPos });
     }
 
     document.addEventListener('keydown', this.handleKey);
@@ -201,7 +201,7 @@ export default class SlideShow extends React.Component {
 
     if (targetPos < 0) {
       if (loop) {
-        this.updatePos(items.length - 1)
+        this.updatePos(items.length - 1);
       }
       return;
     }
@@ -257,10 +257,10 @@ export default class SlideShow extends React.Component {
                 coverMode={this.props.coverMode}
                 duration={200}
                 image={img} />
-            )
+            );
           })
         }
       </ImageList>
     );
-  };
-};
+  }
+}

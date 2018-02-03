@@ -53,7 +53,7 @@ class GazettePost extends Component {
         {props.textView(size)}
       </Post>
     );
-  };
-};
+  }
+}
 
 export default GazettePost;

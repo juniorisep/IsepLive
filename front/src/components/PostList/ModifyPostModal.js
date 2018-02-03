@@ -12,7 +12,6 @@ import { Title } from 'components/common';
 import * as postData from 'data/post';
 import * as eventData from 'data/event';
 
-
 export default class ModifyPostModal extends React.Component {
 
   state = {
@@ -71,7 +70,7 @@ export default class ModifyPostModal extends React.Component {
           image,
         },
       },
-    }))
+    }));
   };
 
   render() {
@@ -118,5 +117,5 @@ export default class ModifyPostModal extends React.Component {
         </DialogActions>
       </Dialog>
     );
-  };
-};
+  }
+}

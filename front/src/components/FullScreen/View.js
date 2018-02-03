@@ -34,7 +34,6 @@ const ViewStyle = styled.div`
   margin: 5vh;
 `;
 
-
 class View extends Component {
 
   state = {
@@ -43,14 +42,14 @@ class View extends Component {
 
   componentWillUnmount() {
     this.removeEscListener();
-  };
+  }
 
   removeEscListener() {
     document.removeEventListener('keydown', this.keyHandler);
   }
 
   openMatcher = (open) => {
-    this.setState({ matcherOpen: open })
+    this.setState({ matcherOpen: open });
   }
 
   componentWillReceiveProps(props) {
@@ -67,14 +66,14 @@ class View extends Component {
   keyHandler = ({ key }) => {
     if (key === 'Escape' && !this.state.matcherOpen) {
       this.props.onEscKey();
-    };
+    }
   };
 
   render() {
     const lightButton = {
       color: 'white',
       background: 'rgba(255,255,255,0.1)'
-    }
+    };
     const {
       visible,
       data,
@@ -119,7 +118,7 @@ class View extends Component {
         </div>
       </Wrapper>
     );
-  };
-};
+  }
+}
 
 export default View;

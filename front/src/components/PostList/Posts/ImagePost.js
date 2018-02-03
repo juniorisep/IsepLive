@@ -19,7 +19,7 @@ class ImagePost extends Component {
             <BgImage
               onClick={() => {
                 if (!props.preview) {
-                  props.openFullScreen(true, props.post.media)
+                  props.openFullScreen(true, props.post.media);
                 }
               }}
               style={{ cursor: !props.preview ? 'pointer' : 'normal' }}
@@ -32,7 +32,7 @@ class ImagePost extends Component {
         {props.textView(size)}
       </Post>
     );
-  };
-};
+  }
+}
 
 export default ImagePost;

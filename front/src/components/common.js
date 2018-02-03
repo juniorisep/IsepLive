@@ -90,7 +90,7 @@ class ImageStyle extends React.Component {
 
     hdLoaderImg.onload = () => {
       this.setState({ loaded: true });
-    }
+    };
   }
 
   render() {
@@ -104,7 +104,7 @@ class ImageStyle extends React.Component {
           marginLeft: this.props.ml || 'auto',
           verticalAlign: 'middle',
         }}
-        src={this.props.src} />
+        src={this.props.src} />;
     }
     return <div style={{
       background: '#EEE',
@@ -112,7 +112,7 @@ class ImageStyle extends React.Component {
       width: this.props.w,
       marginLeft: this.props.ml || 'auto',
       verticalAlign: 'middle',
-    }}></div>
+    }}></div>;
   }
 }
 
@@ -152,7 +152,7 @@ const BgImageStyle = styled.div`
 `;
 
 export const BgImage = (props) => {
-  return <BgImageStyle {...props} src={props.src && backUrl + props.src} />
+  return <BgImageStyle {...props} src={props.src && backUrl + props.src} />;
 };
 
 export const ImageLink = (props) => {
@@ -187,13 +187,13 @@ export const Subtitle = styled.h3`
 
 export class ScrollToTopOnMount extends Component {
   componentDidMount(prevProps) {
-    window.scrollTo(0, 0)
-  };
+    window.scrollTo(0, 0);
+  }
 
   render() {
-    return null
-  };
-};
+    return null;
+  }
+}
 
 const IframeWrap = styled.div`
   position: absolute;
@@ -326,6 +326,6 @@ export class ImageLoader extends React.Component {
           ...this.props.style,
         }}></div>
       </div>
-    )
+    );
   }
 }

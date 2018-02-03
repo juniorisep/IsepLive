@@ -20,7 +20,7 @@ class PollPost extends Component {
         {props.textView(size)}
       </Post>
     );
-  };
-};
+  }
+}
 
 export default PollPost;

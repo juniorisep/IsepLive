@@ -38,7 +38,7 @@ class Comment extends Component<Props> {
               <DeleteIcon />
             </IconButton>
           </div>
-        )
+        );
       }
     }
     return null;
@@ -73,7 +73,7 @@ class Comment extends Component<Props> {
         </Box>
       </Flex>
     );
-  };
-};
+  }
+}
 
 export default Comment;

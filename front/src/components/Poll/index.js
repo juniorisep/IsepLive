@@ -72,7 +72,6 @@ class Poll extends Component {
     }
   }
 
-
   componentDidMount() {
     if (this.hasEnded()) {
       this.setState({ showVote: true });
@@ -84,7 +83,6 @@ class Poll extends Component {
     }
     this.retrieveVotes();
   }
-
 
   retrieveVotes() {
     pollData.getVotes(this.state.data.id).then(res => {
@@ -149,7 +147,7 @@ class Poll extends Component {
   }
 
   renderPollStatus() {
-    const { data: poll } = this.state
+    const { data: poll } = this.state;
     if (this.hasEnded()) {
       return 'Sondage terminé le ' + moment(poll.endDate).format('Do MMMM YYYY [à] HH:mm');
     } else {
@@ -194,7 +192,7 @@ class Poll extends Component {
               {
                 this.state.showVote &&
                 <Caption onClick={() => {
-                  this.setState({ showVotesModal: true })
+                  this.setState({ showVotesModal: true });
                 }}>{total} vote{total !== 1 && 's'}</Caption>
               }
             </Box>
@@ -209,8 +207,8 @@ class Poll extends Component {
         />
       </Wrapper>
     );
-  };
-};
+  }
+}
 
 export default Poll;
 
@@ -276,7 +274,7 @@ function Answer(props) {
       }} />
     </AnswerStyle>
   );
-};
+}
 
 
 export class VotesList extends React.Component {
@@ -285,7 +283,7 @@ export class VotesList extends React.Component {
   }
   componentWillReceiveProps(props) {
     if (props.open) {
-      this.retrieveAllVotes()
+      this.retrieveAllVotes();
     }
   }
 
@@ -293,10 +291,9 @@ export class VotesList extends React.Component {
     pollData.getAllVote(this.props.pollid).then(res => {
       this.setState({
         votes: res.data,
-      })
-    })
+      });
+    });
   }
-
 
   render() {
     const props = this.props;
@@ -320,11 +317,11 @@ export class VotesList extends React.Component {
                     </Text>
                   </Box>
                 </Flex>
-              )
+              );
             })
           }
         </DialogContent>
       </Dialog>
-    )
+    );
   }
 }

@@ -36,7 +36,6 @@ import Casino from 'material-ui-icons/Casino';
 import Event from 'material-ui-icons/Event';
 import HelpIcon from 'material-ui-icons/Help';
 
-
 import Home from 'pages/home';
 import PostDetail from 'pages/home/PostDetail';
 import Media from 'pages/media';
@@ -81,7 +80,6 @@ const Logo = styled.img`
   margin-right: 20px;
 `;
 
-
 const NavMenu = styled.div`
   flex: 1 1 auto;
 
@@ -108,8 +106,6 @@ const NavMenu = styled.div`
   }
 `;
 
-
-
 const Root = styled.div`
   width: 100%;
 `;
@@ -119,7 +115,7 @@ const Responsive = styled.div`
   @media (max-width: ${p => p.maxWidth}px) {
     display: block;
   }
-`
+`;
 
 function Nav(props) {
   return (
@@ -132,7 +128,7 @@ function Nav(props) {
         }}>{props.children}</Button>
     </div>
   );
-};
+}
 
 function SideNav(props) {
   return (
@@ -142,19 +138,18 @@ function SideNav(props) {
       </ListItem>
     </NavLink>
   );
-};
-
+}
 
 const NavItem = (props) => (
   <div style={{
     display: 'flex',
     alignItems: 'center',
   }}>{props.children}</div>
-)
+);
 
 const NavIcon = (props) => (
   <props.icon style={{ color: MAIN_COLOR, marginRight: 10 }} />
-)
+);
 
 const navListMenu = (Component) => (
   <div>
@@ -197,7 +192,6 @@ const navListMenu = (Component) => (
   </div>
 );
 
-
 const navListBar = (Component) => (
   <div>
     <Component to="/accueil">
@@ -219,11 +213,7 @@ const navListBar = (Component) => (
       Qui sommes-nous ?
     </Component>
   </div>
-)
-
-
-
-
+);
 
 class Layout extends React.Component {
   state = {
@@ -242,15 +232,15 @@ class Layout extends React.Component {
   componentDidMount() {
     this.restartWS = true;
     this.setupNotifications();
-  };
+  }
 
   componentWillUnmount() {
     if (this.conn) {
       this.restartWS = false;
       this.conn.close();
       clearTimeout(this.restartTimeout);
-    };
-  };
+    }
+  }
 
   initWebsocket() {
     this.conn = new WebSocket(wsUrl + '/ws/post');
@@ -274,7 +264,7 @@ class Layout extends React.Component {
         });
       } catch (error) {
         console.log(error)
-      };
+      }
     };
 
     this.conn.onclose = (e) => {
@@ -282,9 +272,9 @@ class Layout extends React.Component {
         this.restartTimeout = setTimeout(() => {
           this.initWebsocket();
         }, 5000);
-      };
+      }
     };
-  };
+  }
 
   setupNotifications = async () => {
     Notification.requestPermission();
@@ -293,9 +283,9 @@ class Layout extends React.Component {
       if (res.data.allowNotifications) {
         if (window.WebSocket) {
           this.initWebsocket();
-        };
-      };
-    };
+        }
+      }
+    }
   };
 
   handleSideBarClose = () => {
@@ -325,7 +315,7 @@ class Layout extends React.Component {
     const { username, password } = this.state;
     authData.connect(username, password).then(res => {
       this.handleRequestClose();
-      this.props.history.push('/')
+      this.props.history.push('/');
     }).catch(err => {
       if (err.response) {
         if (err.response.status === 401) {
@@ -343,7 +333,7 @@ class Layout extends React.Component {
 
   isLoginDisabled() {
     const { loading, username, password } = this.state;
-    return loading || (username === '' || password === '')
+    return loading || (username === '' || password === '');
   }
 
   render() {
@@ -444,7 +434,7 @@ class Layout extends React.Component {
         <Footer />
       </Root>
     );
-  };
-};
+  }
+}
 
 export default Layout;

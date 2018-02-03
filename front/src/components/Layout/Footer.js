@@ -12,7 +12,6 @@ import {
 } from '../common';
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 
-
 const SocialBox = styled.div`
   width: 100%;
   text-align: center;
@@ -59,7 +58,6 @@ const Footer = styled.footer`
     text-transform: uppercase;
   }
 `;
-
 
 export default class FooterView extends React.Component {
   render() {
@@ -151,6 +149,6 @@ export default class FooterView extends React.Component {
           </div>
         </LinksBar>
       </div>
-    )
+    );
   }
 }

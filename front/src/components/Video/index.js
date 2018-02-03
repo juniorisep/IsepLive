@@ -56,8 +56,8 @@ class Video extends Component {
       this.video.addEventListener('timeupdate', () => {
         this.setState({ currentTime: this.video.currentTime });
       });
-    };
-  };
+    }
+  }
 
   togglePlay = () => {
     if (this.video.paused || this.video.ended) {
@@ -66,7 +66,7 @@ class Video extends Component {
     } else {
       this.setState({ isPlaying: false });
       this.video.pause();
-    };
+    }
   };
 
   render() {
@@ -90,7 +90,7 @@ class Video extends Component {
         </Controls>
       </Wrapper>
     );
-  };
-};
+  }
+}
 
 export default Video;

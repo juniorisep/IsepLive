@@ -18,5 +18,5 @@ export default function Time(props: {
   };
   const datetime = formatDate();
 
-  return <time dateTime={datetime}>{datetime}</time>
-};
+  return <time dateTime={datetime}>{datetime}</time>;
+}

@@ -50,7 +50,7 @@ const LikesPanel = props => {
                 <Avatar alt="stud" src={stud.photoUrlThumb ? backUrl + stud.photoUrlThumb : '/img/svg/user.svg'} />
                 <ListItemText primary={stud.firstname + ' ' + stud.lastname} />
               </ListItem>
-            )
+            );
           })
         }
       </List>
@@ -87,17 +87,17 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
         likes: this.state.likes + (this.state.liked ? -1 : 1)
       });
       this.props.toggleLike();
-    };
+    }
   };
 
   showLikes = () => {
     this.props.showLikes().then(res => {
       this.setState({ showLikes: true, studentsLike: res.data });
-    })
+    });
   };
 
   onHideLikes = () => {
-    this.setState({ showLikes: false })
+    this.setState({ showLikes: false });
   }
 
   render() {
@@ -121,7 +121,7 @@ class LikeButton extends Component<LikeButtonProps, LikeButtonState> {
           students={studentsLike} />
       </Flex>
     );
-  };
-};
+  }
+}
 
 export default LikeButton;

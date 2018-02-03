@@ -1,6 +1,6 @@
 // @flow
 
-import type { Student } from '../users/type'
+import type { Student } from '../users/type';
 
 export type ClubMember = {
   id: number,

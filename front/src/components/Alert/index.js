@@ -17,7 +17,7 @@ const style = {
     background: 'white',
     color: MAIN_COLOR,
   }
-}
+};
 
 class AlertCenter extends Component {
   state = {
@@ -30,11 +30,11 @@ class AlertCenter extends Component {
 
   componentDidMount() {
     document.addEventListener('notification', this.onReceiveNotification.bind(this));
-  };
+  }
 
   componentWillUnmount() {
     document.removeEventListener('notification', this.onReceiveNotification.bind(this));
-  };
+  }
 
   onReceiveNotification(e: any) {
     this.setState({
@@ -46,7 +46,7 @@ class AlertCenter extends Component {
     this.timeout = setTimeout(() => {
       this.setState({ open: false });
     }, 3000);
-  };
+  }
 
   render() {
     const { open, type, message } = this.state;
@@ -61,13 +61,13 @@ class AlertCenter extends Component {
         message={message}
       />
     );
-  };
-};
+  }
+}
 
 
 export function sendAlert(message: string, type?: string) {
   const event = new CustomEvent('notification', { detail: { message, type } });
   document.dispatchEvent(event);
-};
+}
 
 export default withStyles(style)(AlertCenter);

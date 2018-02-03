@@ -12,7 +12,7 @@ class TextPost extends Component {
         {props.textView(1)}
       </Post>
     );
-  };
-};
+  }
+}
 
 export default TextPost;

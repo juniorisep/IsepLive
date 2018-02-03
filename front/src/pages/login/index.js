@@ -181,7 +181,7 @@ export default class Login extends Component {
 
   isLoginDisabled() {
     const { loading, username, password } = this.state;
-    return loading || (username === '' || password === '')
+    return loading || (username === '' || password === '');
   }
 
   render() {
@@ -236,5 +236,5 @@ export default class Login extends Component {
         />
       </Container>
     );
-  };
-};
+  }
+}

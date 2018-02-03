@@ -29,16 +29,16 @@ class PostDetail extends Component {
     this.autoRefresh = setInterval(() => {
       this.refreshCom();
     }, 30000);
-  };
+  }
 
   componentWillUnmount() {
     clearInterval(this.autoRefresh);
-  };
+  }
 
   getCommenter() {
     studentData.getLoggedUser().then(res => {
       this.setState({ commenter: res.data });
-    })
+    });
   }
 
   refreshPost = (reason) => {
@@ -47,10 +47,10 @@ class PostDetail extends Component {
         this.setState({ post: res.data });
       });
   };
-  
+
   refreshCom = () => {
     postData.getComments(this.postId)
-      .then(res => this.setState({ comments: res.data }))
+      .then(res => this.setState({ comments: res.data }));
   };
 
   toggleLikeCom = (comId: number) => {
@@ -87,7 +87,7 @@ class PostDetail extends Component {
 
   reqDeletePost = () =>
     this.setState({ openDeletePost: true })
-  
+
   deletePost = (ok) => {
     if (ok) {
       postData.deletePost(this.state.post.id).then(res => {
@@ -119,7 +119,7 @@ class PostDetail extends Component {
         deletePost={this.deletePost}
       />
     );
-  };
-};
+  }
+}
 
 export default PostDetail;

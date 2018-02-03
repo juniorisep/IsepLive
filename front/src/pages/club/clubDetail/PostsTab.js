@@ -28,4 +28,4 @@ export default function PostsTab(props) {
       }
     </Loader>
   );
-};
+}

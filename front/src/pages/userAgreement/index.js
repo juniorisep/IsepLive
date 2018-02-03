@@ -20,7 +20,7 @@ class UserAgreement extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default UserAgreement;

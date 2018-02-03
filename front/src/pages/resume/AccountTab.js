@@ -8,14 +8,12 @@ import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import { Link } from 'react-router-dom';
 
-
 import {
   Paper,
   Text,
   Title,
   BgImage,
 } from 'components/common';
-
 
 import * as clubData from '../../data/club';
 
@@ -64,11 +62,11 @@ export default function AccountTab(props) {
                     </Paper>
                   </Link>
                 </Box>
-              )
+              );
             })
           }
         </Flex>
       </Box>
     </div>
-  )
+  );
 }

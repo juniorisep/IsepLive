@@ -14,10 +14,7 @@ import Time from 'components/Time';
 import Loader from 'components/Loader';
 import { Banner, Filler, FluidContent, Header, Separator, Text } from 'components/common';
 
-
-
 import { Album, Video, Gazette } from './mediaViews';
-
 
 const DateSeparator = (props) => {
   const Title = styled.h2`
@@ -41,7 +38,7 @@ const now = new Date().getFullYear();
 let years = [];
 for (var i = 1; i < 6; i++) {
   years.push(now + i);
-};
+}
 
 class MediaView extends Component {
   state = {
@@ -66,16 +63,16 @@ class MediaView extends Component {
         return gazettes;
       default:
         break;
-    };
+    }
     return true;
-  };
+  }
 
   processMediaList() {
     return this.props.medias.map(mg => {
       const medias = mg.medias.filter(m => this.filterMedia(m.mediaType));
       return { ...mg, medias };
     }).filter(mg => mg.medias.length > 0);
-  };
+  }
 
   renderMediaComponent(e) {
     switch (e.mediaType) {
@@ -84,19 +81,19 @@ class MediaView extends Component {
           <Link to={`/post/${e.postId}`}>
             <Video {...e} />
           </Link>
-        )
+        );
       case 'gallery':
         return (
           <Album
             url={e.coverImage.thumbUrl}
             {...e} />
-        )
+        );
       case 'gazette':
         return (
           <Link to={`/post/${e.postId}`}>
             <Gazette {...e} />
           </Link>
-        )
+        );
       default:
         break;
     }
@@ -192,12 +189,12 @@ class MediaView extends Component {
                             <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
                               {this.renderMediaComponent(e)}
                             </Box>
-                          )
+                          );
                         })
                       }
                     </Flex>
                   </div>
-                )
+                );
               })
             }
             {
@@ -210,7 +207,7 @@ class MediaView extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default MediaView;

@@ -20,7 +20,7 @@ class Help extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default Help;

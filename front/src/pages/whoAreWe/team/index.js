@@ -15,7 +15,7 @@ class Team extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default Team;

@@ -15,7 +15,7 @@ const InfoDescriptor = (props) => (
   }}>
     <Text>{props.label}</Text>
   </td>
-)
+);
 
 const InfoValue = (props) => (
   <td style={{
@@ -32,7 +32,7 @@ const InfoValue = (props) => (
       <Text>{props.label || props.default}</Text>
     }
   </td>
-)
+);
 
 function UserInfo(props) {
   const user = props.user;
@@ -70,7 +70,7 @@ function UserInfo(props) {
           default="Non renseignée" />
       </tr>
     </table >
-  )
+  );
 }
 
 export default UserInfo;

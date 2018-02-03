@@ -26,7 +26,7 @@ class Club extends Component {
     this.setState({ loading: true });
     clubData.getClubs().then(res => {
       this.setState({ clubs: res.data, loading: false });
-    })
+    });
   }
 
   addClub = (form) => {
@@ -43,7 +43,7 @@ class Club extends Component {
         clubs={this.state.clubs}
         addClub={this.addClub} />
     );
-  };
-};
+  }
+}
 
 export default Club;

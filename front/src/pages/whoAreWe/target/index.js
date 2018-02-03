@@ -61,7 +61,7 @@ class Target extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default Target;

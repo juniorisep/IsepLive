@@ -31,5 +31,5 @@ export default function PostTab(props) {
         </div>
       }
     </Box>
-  )
+  );
 }

@@ -76,10 +76,10 @@ export default function MembersTab(props) {
                     />
                 }
               </Box>
-            )
+            );
           })
         }
       </Flex>
     </Loader>
   );
-};
+}

@@ -141,5 +141,5 @@ export default class Club extends Component<Props, State> {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}

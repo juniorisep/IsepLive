@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import * as studentData from 'data/users/student';
 
-import AdressbookDetailView from './view'
+import AdressbookDetailView from './view';
 
 import AccountTab from '../../resume/AccountTab';
 import PhotoTab from '../../resume/PhotoTab';
@@ -27,7 +27,7 @@ class AdressbookDetail extends Component {
     this.getUserData(id);
     this.refreshPosts(id);
     this.getClubMembers(id);
-  };
+  }
 
   componentWillReceiveProps(props) {
     this.setState({ tabIndex: 0 });
@@ -64,7 +64,7 @@ class AdressbookDetail extends Component {
   getClubMembers = (id) => {
     studentData.getClubMembers(id).then(res => {
       this.setState({ clubMembers: res.data });
-    })
+    });
   }
 
   setFullScreen = (open) => e => {
@@ -94,7 +94,7 @@ class AdressbookDetail extends Component {
             data={data}
             posts={posts}
             clubMembers={clubMembers} />
-        )
+        );
       case 1:
         return (
           <PostTab
@@ -102,11 +102,11 @@ class AdressbookDetail extends Component {
             lastPage={lastPage}
             refreshPosts={this.refreshPosts}
             onSeeMore={this.getNextPosts} />
-        )
+        );
       case 2:
         return (
           <PhotoTab userId={userid} />
-        )
+        );
       default:
         break;
     }
@@ -130,7 +130,7 @@ class AdressbookDetail extends Component {
         onSeeMore={this.getNextPosts}
         setFullScreen={this.setFullScreen} />
     );
-  };
-};
+  }
+}
 
 export default AdressbookDetail;

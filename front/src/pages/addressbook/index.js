@@ -21,12 +21,12 @@ class AddressBook extends Component {
 
   componentDidMount() {
     this.getStudents();
-  };
+  }
 
   getStudents = async () => {
     if (this.state.page === 0) {
       this.setState({ isLoading: true });
-    };
+    }
     const { search, promotionFilter, sort, page } = this.state;
     let res = await studentData.searchStudents(search, promotionFilter, sort, page);
     this.setState({
@@ -47,7 +47,7 @@ class AddressBook extends Component {
     const { promotionFilter, sort } = this.state;
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
-    };
+    }
     this.searchTimeout = setTimeout(async () => {
       const res = await studentData.searchStudents(search, promotionFilter, sort, 0);
       this.setState({
@@ -104,7 +104,7 @@ class AddressBook extends Component {
         total={this.state.total}
       />
     );
-  };
-};
+  }
+}
 
 export default AddressBook;

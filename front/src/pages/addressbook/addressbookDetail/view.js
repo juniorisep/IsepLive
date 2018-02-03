@@ -30,8 +30,6 @@ import { MAIN_COLOR, SECONDARY_COLOR } from '../../../colors';
 
 import * as clubData from '../../../data/club';
 
-
-
 const PersonStyle = styled.div`
   > div {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -96,4 +94,4 @@ export default function AdressbookDetailView(props) {
       </Loader>
     </FluidContent>
   );
-};
+}

@@ -55,7 +55,7 @@ if (new Date().getMonth() < 9) {
 }
 for (var i = 5; i > -15; i--) {
   years.push(now + i);
-};
+}
 
 export default class AddressBook extends Component {
   render() {
@@ -153,7 +153,7 @@ export default class AddressBook extends Component {
                             promotion={e.promo} />
                       }
                     </Box>
-                  )
+                  );
                 })
               }
             </Flex>
@@ -167,5 +167,5 @@ export default class AddressBook extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}

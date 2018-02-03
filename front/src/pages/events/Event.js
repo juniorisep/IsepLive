@@ -21,7 +21,6 @@ import {
 import Auth from '../../components/Auth/AuthComponent';
 import { ADMIN, EVENT_MANAGER } from '../../constants';
 
-
 export default class Event extends React.Component {
 
   state = {
@@ -93,4 +92,4 @@ export default class Event extends React.Component {
       </Paper>
     );
   }
-};
+}

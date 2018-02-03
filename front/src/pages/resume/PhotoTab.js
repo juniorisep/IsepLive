@@ -40,8 +40,8 @@ export default class PhotoTab extends React.Component {
         page: this.state.page + 1,
         lastPage: res.data.last,
         loading: false,
-      })
-    })
+      });
+    });
   }
 
   onSeeMore = () => {

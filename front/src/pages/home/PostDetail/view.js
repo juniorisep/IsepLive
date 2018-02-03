@@ -78,7 +78,7 @@ export default function PostDetailView(props) {
               comment={c}
               toggleLike={props.toggleLikeCom}
               showLikes={props.showLikes}
-              onDelete={props.reqDeleteComment} />
+              onDelete={props.reqDeleteComment} />;
           })
         }
         <Auth logged>
@@ -113,4 +113,4 @@ export default function PostDetailView(props) {
         onRespond={props.deletePost} />
     </div>
   );
-};
+}

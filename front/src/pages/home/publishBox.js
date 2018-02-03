@@ -21,8 +21,8 @@ import * as imageData from 'data/media/image';
 import * as videoData from 'data/media/video';
 import * as authData from 'data/auth';
 
-import type { 
-  Post as PostType, 
+import type {
+  Post as PostType,
   PostCreation as PostCreationType,
 } from '../../data/post/type';
 
@@ -291,7 +291,6 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
       author, authorMenuOpen: false
     });
   };
-
 
   changeAuthor = (event) => {
     this.setState({

@@ -10,12 +10,10 @@ import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/D
 import { FileUpload } from '../../components/common';
 import DatePicker from '../../components/DatePicker';
 
-
 const PreviewImage = styled.img`
   max-width: 100%;
   max-height: 300px;
 `;
-
 
 export default class EditEventForm extends React.Component {
   state = {
@@ -30,7 +28,7 @@ export default class EditEventForm extends React.Component {
   componentWillReceiveProps(props) {
     if (props.event) {
       this.setState({ ...props.event });
-    };
+    }
   }
 
   handleFileSelect = (files) => {
@@ -102,5 +100,5 @@ export default class EditEventForm extends React.Component {
         </DialogActions>
       </Dialog>
     );
-  };
-};
+  }
+}

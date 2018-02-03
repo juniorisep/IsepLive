@@ -124,7 +124,7 @@ export default function ResumeView(props) {
       </FluidContent>
     </div>
   );
-};
+}
 
 class UpdateResume extends React.Component {
   state = {
@@ -189,5 +189,5 @@ class UpdateResume extends React.Component {
         </DialogActions>
       </Dialog>
     );
-  };
-};
+  }
+}

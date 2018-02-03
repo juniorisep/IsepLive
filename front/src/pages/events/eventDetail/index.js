@@ -29,7 +29,7 @@ class EventDetail extends Component {
     eventData.getEvent(this.props.match.params.id).then(res => {
       this.setState({ event: res.data, isLoading: false });
     });
-  };
+  }
 
   render() {
     const { event } = this.state;
@@ -70,7 +70,7 @@ class EventDetail extends Component {
         </Loader>
       </div>
     );
-  };
-};
+  }
+}
 
 export default EventDetail;

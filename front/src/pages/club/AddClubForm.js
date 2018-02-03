@@ -25,7 +25,7 @@ type State = {
   creation: Date,
   president: number,
   description: string,
-  website: string, 
+  website: string,
   logo: ?File,
   autocompleteValue: string,
 }
@@ -78,7 +78,7 @@ export default class AddClubForm extends React.Component<Props, State> {
         />
         <span>{name}</span>
       </div>
-    )
+    );
   }
 
   canSave = () => {
@@ -169,4 +169,4 @@ export default class AddClubForm extends React.Component<Props, State> {
       </Dialog>
     );
   }
-};
+}

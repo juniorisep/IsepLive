@@ -12,7 +12,6 @@ import Button from 'material-ui/Button';
 import { NavLink } from 'react-router-dom';
 import Loader from 'components/Loader';
 
-
 import {
   Banner,
   Filler,
@@ -26,7 +25,7 @@ import * as eventData from '../../../data/event';
 
 BigCalendar.momentLocalizer(moment);
 
-let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
+let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
 
 class CalendarEvents extends Component {
 
@@ -40,7 +39,7 @@ class CalendarEvents extends Component {
   }
 
   getEvents() {
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true });
     eventData.getEvents().then(res => {
       const events = res.data.map(e => {
         return {
@@ -49,8 +48,8 @@ class CalendarEvents extends Component {
           start: new Date(e.date),
           end: new Date(e.date),
           desc: e.description,
-        }
-      })
+        };
+      });
       this.setState({ events, isLoading: false });
     });
   }
@@ -88,7 +87,7 @@ class CalendarEvents extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default CalendarEvents;

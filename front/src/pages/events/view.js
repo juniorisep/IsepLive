@@ -16,9 +16,7 @@ import {
   ScrollToTopOnMount,
 } from '../../components/common';
 
-
 import Button from 'material-ui/Button';
-
 
 import { NavLink } from 'react-router-dom';
 
@@ -33,8 +31,6 @@ const EventsList = styled.ul`
   padding: 0;
   margin: 20px 0;
 `;
-
-
 
 export default class Events extends Component {
   render() {
@@ -81,7 +77,7 @@ export default class Events extends Component {
                         onEdit={this.props.editEvent}
                         onDelete={this.props.deleteEvent} />
                     </div>
-                  )
+                  );
                 })
               }
             </Loader>
@@ -100,5 +96,5 @@ export default class Events extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}

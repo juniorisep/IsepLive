@@ -7,7 +7,6 @@ import * as authData from '../../data/auth';
 
 import ResumeView from './view';
 
-
 import AccountTab from './AccountTab';
 import PostTab from './PostTab';
 import PhotoTab from './PhotoTab';
@@ -30,8 +29,7 @@ class Resume extends Component {
     this.getUserData();
     this.refreshPosts();
     this.getClubMembers();
-  };
-
+  }
 
   handleRequestClose = () => {
     this.setState({ open: false });
@@ -41,10 +39,10 @@ class Resume extends Component {
     if (this.state.data) {
       userData.updateStudent(form)
         .then(() => {
-          this.setState({ open: false })
+          this.setState({ open: false });
           this.getUserData();
         });
-    };
+    }
   };
 
   getUserData = async () => {
@@ -82,13 +80,13 @@ class Resume extends Component {
   };
 
   onModify = () => {
-    this.setState({ open: true })
+    this.setState({ open: true });
   };
 
   getClubMembers = () => {
     userData.getClubMembers(this.user.id).then(res => {
       this.setState({ clubMembers: res.data });
-    })
+    });
   }
 
   setFullScreen = (open) => e => {
@@ -114,7 +112,7 @@ class Resume extends Component {
             posts={posts}
             toggleNotif={this.toggleNotif}
             clubMembers={clubMembers} />
-        )
+        );
       case 1:
         return (
           <PostTab
@@ -122,11 +120,11 @@ class Resume extends Component {
             lastPage={lastPage}
             refreshPosts={this.refreshPosts}
             onSeeMore={this.getNextPosts} />
-        )
+        );
       case 2:
         return (
           <PhotoTab userId={this.user.id} />
-        )
+        );
       default:
         break;
     }
@@ -151,7 +149,7 @@ class Resume extends Component {
         setFullScreen={this.setFullScreen}
       />
     );
-  };
-};
+  }
+}
 
 export default Resume;

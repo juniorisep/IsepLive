@@ -46,7 +46,7 @@ const defaultRoles = [
   { id: 1, name: 'Président' },
   { id: 2, name: 'Trésorier' },
   { id: 3, name: 'Membre' },
-]
+];
 
 
 class RightsPanel extends React.Component {
@@ -57,7 +57,7 @@ class RightsPanel extends React.Component {
   componentDidMount() {
     clubData.getClubRoles(this.props.clubid).then(res => {
       this.setState({ roles: res.data });
-    })
+    });
   }
 
   render() {
@@ -118,7 +118,7 @@ class RightsPanel extends React.Component {
           </div>
         }
       </div>
-    )
+    );
   }
 }
 
@@ -146,7 +146,7 @@ class AddUserPanel extends React.Component {
     return userData.searchStudents(search, [], 'a', 0).then(res => {
       return res.data.content
         .filter(user => this.props.members
-          .filter(m => m.member.id === user.id).length === 0)
+          .filter(m => m.member.id === user.id).length === 0);
     });
   }
 
@@ -168,7 +168,7 @@ class AddUserPanel extends React.Component {
         />
         <span>{name}</span>
       </div>
-    )
+    );
   }
 
   render() {
@@ -187,7 +187,7 @@ class AddUserPanel extends React.Component {
           </Button>
         </Box>
       </div>
-    )
+    );
   }
 }
 
@@ -223,7 +223,7 @@ export class AddRolePanel extends React.Component {
     clubData.addRoleName(this.props.clubid, this.state.name).then(res => {
       this.loadClubRoles();
       this.setState({ name: '' });
-    })
+    });
   }
 
   deleteAccepted = (ok) => {
@@ -231,7 +231,7 @@ export class AddRolePanel extends React.Component {
       const { roleToDelete } = this.state;
       clubData.deleteClubRole(this.props.clubid, roleToDelete.id).then(res => {
         this.loadClubRoles();
-      })
+      });
     }
     this.setState({ openDeletePopup: false });
   }
@@ -258,7 +258,7 @@ export class AddRolePanel extends React.Component {
                   </Button>
                 </Box>
               </Flex>
-            )
+            );
           })
         }
         <TextField
@@ -279,7 +279,7 @@ export class AddRolePanel extends React.Component {
           onRespond={this.deleteAccepted}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -294,16 +294,16 @@ export default class MembersTab extends React.Component {
 
   componentDidMount() {
     this.userid = authData.getUser().id;
-    this.loadMembers()
+    this.loadMembers();
   }
 
   loadMembers() {
     clubData.getMembers(this.props.clubid).then(res => {
-      this.setState({ members: res.data })
-    })
+      this.setState({ members: res.data });
+    });
     clubData.getAdmins(this.props.clubid).then(res => {
-      this.setState({ admins: res.data })
-    })
+      this.setState({ admins: res.data });
+    });
   }
 
   selectMember = member => e => {
@@ -312,7 +312,7 @@ export default class MembersTab extends React.Component {
 
   isMemberAdmin = (memberid: number) => {
     return this.state.admins
-      .filter(m => m.id === memberid).length > 0
+      .filter(m => m.id === memberid).length > 0;
   }
 
   getRole = (selection) => {
@@ -326,7 +326,7 @@ export default class MembersTab extends React.Component {
   handleSelectRole = event => {
     clubData.updateMemberRole(this.state.selection.id, event.target.value).then(res => {
       this.loadMembers();
-    })
+    });
   }
 
   setAdmin = () => {
@@ -335,11 +335,11 @@ export default class MembersTab extends React.Component {
       if (this.isMemberAdmin(selection.member.id)) {
         clubData.removeAdmin(this.props.clubid, selection.member.id).then(res => {
           this.loadMembers();
-        })
+        });
       } else {
         clubData.addAdmin(this.props.clubid, selection.member.id).then(res => {
           this.loadMembers();
-        })
+        });
       }
     }
   }
@@ -348,7 +348,7 @@ export default class MembersTab extends React.Component {
     clubData.addMember(this.props.clubid, selectedUser).then(res => {
       this.loadMembers();
       this.setState({ mode: 'addUser' });
-    })
+    });
   }
 
   deleteMember = () => {
@@ -360,7 +360,7 @@ export default class MembersTab extends React.Component {
       clubData.deleteMember(this.state.selection.id).then(res => {
         this.loadMembers();
         this.setState({ selection: null });
-      })
+      });
     }
     this.setState({ openDeletePopup: false });
   }
@@ -445,4 +445,4 @@ export default class MembersTab extends React.Component {
       </div>
     );
   }
-};
+}

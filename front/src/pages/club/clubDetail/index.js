@@ -39,12 +39,12 @@ class ClubDetail extends Component {
       const isClubAdmin = user.clubsAdmin.includes(+this.state.id);
       this.setState({
         isAdmin: isClubAdmin || authData.hasRole([ADMIN, CLUB_MANAGER])
-      })
+      });
     }
 
     this.requestClubDetail();
     this.loadMembers();
-  };
+  }
 
   requestClubDetail() {
     clubData.getClub(this.state.id)
@@ -58,7 +58,7 @@ class ClubDetail extends Component {
           formData: res.data,
         });
       });
-  };
+  }
 
   handleChangeTab = (event: Event, index: number) => {
     this.setState({ tabIndex: index });
@@ -69,7 +69,7 @@ class ClubDetail extends Component {
         return this.loadPosts();
       default:
         break;
-    };
+    }
   };
 
   loadMembers = () => {
@@ -108,8 +108,6 @@ class ClubDetail extends Component {
       });
   };
 
-
-
   renderTab = () => {
     switch (this.state.tabIndex) {
       case 0:
@@ -134,7 +132,7 @@ class ClubDetail extends Component {
         );
       default:
         break;
-    };
+    }
     return null;
   };
 
@@ -177,7 +175,7 @@ class ClubDetail extends Component {
         deleteAccepted={this.deleteAccepted}
       />
     );
-  };
-};
+  }
+}
 
 export default ClubDetail;

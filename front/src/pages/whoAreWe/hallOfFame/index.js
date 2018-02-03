@@ -204,7 +204,7 @@ class HallOfFame extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default HallOfFame;

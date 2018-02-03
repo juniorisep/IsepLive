@@ -25,7 +25,7 @@ class Whoarewe extends Component {
       [base + '/target']: 0,
       [base + '/team']: 1,
       [base + '/hall-of-fame']: 2,
-    }
+    };
     if (urlToTab[this.props.location.pathname]) {
       this.setState({ index: urlToTab[this.props.location.pathname] });
     }
@@ -67,7 +67,7 @@ class Whoarewe extends Component {
         </Paper>
       </div>
     );
-  };
-};
+  }
+}
 
 export default Whoarewe;

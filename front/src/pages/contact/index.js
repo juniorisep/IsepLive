@@ -56,7 +56,7 @@ class Contact extends Component {
         </FluidContent>
       </div>
     );
-  };
-};
+  }
+}
 
 export default Contact;

@@ -35,16 +35,16 @@ export default class ImportStudents extends React.Component {
 
   importStudents = () => {
     const { csv, photos } = this.state;
-    this.setState({ uploading: true })
+    this.setState({ uploading: true });
 
     studentData.importStudents(csv, photos, progress => {
       let percentCompleted = Math.floor((progress.loaded * 100) / progress.total);
       this.setState({
         progress: percentCompleted,
         uploadState: progress.loaded === progress.total ? 'indeterminate' : 'determinate',
-      })
+      });
     }).then(r => {
-      sendAlert("Users imported")
+      sendAlert("Users imported");
       this.setState({
         result: r.data,
         uploading: false,
@@ -53,10 +53,10 @@ export default class ImportStudents extends React.Component {
         photos: [],
         photosData: {},
         students: [],
-      })
+      });
     }).catch(err => {
       if (err.response) {
-        sendAlert("Erreur lors de l'import")
+        sendAlert("Erreur lors de l'import");
         this.setState({
           uploading: false,
           progress: 0,
@@ -64,7 +64,7 @@ export default class ImportStudents extends React.Component {
           photos: [],
           photosData: {},
           students: [],
-        })
+        });
       }
     });
   };
@@ -72,7 +72,7 @@ export default class ImportStudents extends React.Component {
   handle = name => e => {
     let file = (name === 'csv') ? e.target.files[0] : e.target.files;
 
-    this.setState({ [name]: file })
+    this.setState({ [name]: file });
   };
 
   addCsv = e => {
@@ -94,11 +94,11 @@ export default class ImportStudents extends React.Component {
             lastname: l[1],
             studentid: l[2],
             promo: l[3],
-          })
+          });
         }
       });
       this.setState({ students });
-    }
+    };
     reader.readAsText(csv);
 
     this.setState({ csv, result: null });
@@ -111,11 +111,11 @@ export default class ImportStudents extends React.Component {
       let reader = new FileReader();
       reader.onload = (e) => resolve({ url: e.target.result, file });
       reader.readAsDataURL(file);
-    })
+    });
 
     const tmpUrls = [];
     for (let i = 0; i < photos.length; i++) {
-      const photoUrl = readerPromise(photos[i])
+      const photoUrl = readerPromise(photos[i]);
       tmpUrls.push(photoUrl);
     }
 
@@ -124,7 +124,7 @@ export default class ImportStudents extends React.Component {
       res.forEach(d => {
         photosData[d.file.name.split('.')[0]] = d.url;
       });
-    })
+    });
 
     this.setState({ photosData, photos, result: null });
   }
@@ -250,5 +250,5 @@ export default class ImportStudents extends React.Component {
         <Filler h={200} />
       </FluidContent>
     );
-  };
-};
+  }
+}

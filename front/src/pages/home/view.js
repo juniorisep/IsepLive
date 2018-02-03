@@ -25,7 +25,6 @@ import Loader from 'components/Loader';
 
 import { BACKGROUND_COLOR, SECONDARY_COLOR } from '../../colors';
 
-
 const PostSection = styled.div`
   margin: 30px 0;
 `;
@@ -54,7 +53,7 @@ const CircleIcon = (props) => (
       {props.children}
     </span>
   </Circle>
-)
+);
 
 export default function Home(props) {
   return (
@@ -131,4 +130,4 @@ export default function Home(props) {
       </div>
     </div>
   );
-};
+}

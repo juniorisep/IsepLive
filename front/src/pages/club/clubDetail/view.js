@@ -102,4 +102,4 @@ export default function ClubDetailView(props) {
       </FluidContent>
     </div>
   );
-};
+}

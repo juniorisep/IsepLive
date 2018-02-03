@@ -1,6 +1,7 @@
 package com.iseplive.api.entity.club;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iseplive.api.constants.AuthorTypes;
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
@@ -15,7 +16,7 @@ import java.util.Set;
  * back
  */
 @Entity
-@DiscriminatorValue("club")
+@DiscriminatorValue(AuthorTypes.CLUB)
 public class Club extends Author {
 
   private String name;

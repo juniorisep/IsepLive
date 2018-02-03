@@ -46,8 +46,9 @@ public class PostController {
   }
 
   @PostMapping
-  @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
+  @RolesAllowed({Roles.STUDENT})
   public Post createPost(@RequestBody PostDTO post, @AuthenticationPrincipal TokenPayload auth) {
+
     return postService.createPost(auth, post);
   }
 
@@ -119,13 +120,11 @@ public class PostController {
     return postService.getLikesPost(id);
   }
 
-
   @DeleteMapping("/{id}/comment/{comId}")
   @RolesAllowed({Roles.STUDENT})
   public void deleteComment(@PathVariable Long comId, @AuthenticationPrincipal TokenPayload auth) {
     postService.deleteComment(comId, auth.getId());
   }
-
 
   @PutMapping("/{id}/comment/{comId}/like")
   @RolesAllowed({Roles.STUDENT})

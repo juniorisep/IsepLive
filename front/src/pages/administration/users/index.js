@@ -41,17 +41,17 @@ import UpdateStudent from './UpdateStudent';
 function getRoleName(role) {
   switch (role) {
     case rolesKey.ADMIN:
-      return "Super Admin"
+      return "Super Admin";
     case rolesKey.CLUB_MANAGER:
-      return "Gestion associations"
+      return "Gestion associations";
     case rolesKey.EVENT_MANAGER:
-      return "Gestion évenements"
+      return "Gestion évenements";
     case rolesKey.POST_MANAGER:
-      return "Gestion posts"
+      return "Gestion posts";
     case rolesKey.USER_MANAGER:
-      return "Gestion utilisateurs"
+      return "Gestion utilisateurs";
     case rolesKey.STUDENT:
-      return "Eleve"
+      return "Eleve";
 
     default:
       return role;
@@ -83,8 +83,8 @@ const SelectRoles = (props) => {
         }
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
 
 const SelectPromo = (props) => {
@@ -119,8 +119,8 @@ const SelectPromo = (props) => {
         }
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
 class Users extends Component {
 
@@ -146,7 +146,7 @@ class Users extends Component {
         page,
         total: res.data.totalElements,
       });
-    })
+    });
   }
 
   filterUsers = (
@@ -165,7 +165,7 @@ class Users extends Component {
             total: res.data.totalElements,
             page,
           });
-        })
+        });
       }, 300);
     } else {
       this.loadUsers(page);
@@ -316,6 +316,11 @@ class Users extends Component {
                         <TableRow
                           key={u.id}
                           hover
+                          style={{
+                            opacity: u.archived ? 0.2 : 1,
+                            cursor: 'pointer',
+                            backgroundColor: selected && u.id === selected.id && '#e2e7ff',
+                          }}
                           selected={selected && u.id === selected.id}
                           onClick={this.selectRow(u)} >
                           <TableCell>
@@ -353,7 +358,7 @@ class Users extends Component {
         <Filler h={200} />
       </FluidContent>
     );
-  };
-};
+  }
+}
 
 export default Users;

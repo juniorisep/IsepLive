@@ -1,6 +1,7 @@
 package com.iseplive.api.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iseplive.api.constants.AuthorTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +15,7 @@ import java.util.Set;
  * back
  */
 @Entity
-@DiscriminatorValue("student")
+@DiscriminatorValue(AuthorTypes.STUDENT)
 public class Student extends Author implements UserDetails {
 
   private Integer promo;

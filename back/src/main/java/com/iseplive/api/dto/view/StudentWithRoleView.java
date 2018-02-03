@@ -14,6 +14,7 @@ public class StudentWithRoleView extends StudentUpdateAdminDTO {
 
   private String photoUrl;
   private String photoUrlThumb;
+  private boolean archived;
 
   private List<String> rolesValues;
 
@@ -48,5 +49,13 @@ public class StudentWithRoleView extends StudentUpdateAdminDTO {
 
   public void setRolesValues(List<String> rolesValues) {
     this.rolesValues = rolesValues;
+  }
+
+  public boolean isArchived() {
+    return archived;
+  }
+
+  public void setArchived(boolean archived) {
+    this.archived = archived;
   }
 }

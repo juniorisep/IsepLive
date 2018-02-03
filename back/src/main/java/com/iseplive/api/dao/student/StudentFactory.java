@@ -85,6 +85,8 @@ public class StudentFactory {
     studentWithRoleView.setPhotoUrlThumb(student.getPhotoUrlThumb());
     studentWithRoleView.setStudentId(student.getStudentId());
 
+    studentWithRoleView.setArchived(student.isArchived());
+
     studentWithRoleView.setRolesValues(
       student.getRoles().stream()
       .map(Role::getRole)

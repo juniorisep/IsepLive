@@ -51,7 +51,7 @@ const Member = (props) => {
 export default function MembersTab(props) {
   return (
     <Loader loading={props.loading}>
-      <Flex wrap>
+      <Flex wrap style={{ minHeight: 400 }}>
         {props.members.length === 0 && <Text>Aucun membre</Text>}
         {
           props.members.map(m => {

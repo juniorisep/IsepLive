@@ -5,8 +5,16 @@ import React, { Component } from 'react';
 import MediaView from './view';
 
 import * as mediaData from 'data/media';
+import type { Media as MediaType } from '../../data/media/type';
 
-class Media extends Component {
+type State = {
+  isLoading: boolean,
+  medias: MediaType[],
+  page: number,
+  lastPage: boolean,
+};
+
+class Media extends Component<{}, State> {
   state = {
     isLoading: false,
     medias: [],
@@ -16,7 +24,7 @@ class Media extends Component {
 
   componentDidMount() {
     this.requestMedia();
-  };
+  }
 
   requestMedia() {
     if (this.state.page === 0) {
@@ -30,8 +38,8 @@ class Media extends Component {
           page: this.state.page + 1,
           lastPage: res.data.last,
         });
-      })
-  };
+      });
+  }
 
   onSeeMore = () => {
     this.requestMedia();
@@ -45,7 +53,7 @@ class Media extends Component {
         lastPage={this.state.lastPage}
         seeMore={this.onSeeMore} />
     );
-  };
-};
+  }
+}
 
 export default Media;

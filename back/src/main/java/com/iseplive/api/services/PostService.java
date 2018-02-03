@@ -1,6 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.AuthorTypes;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dao.media.MediaRepository;
@@ -108,14 +109,20 @@ public class PostService {
   public Post createPost(TokenPayload auth, PostDTO postDTO) {
     Post post = postFactory.dtoToEntity(postDTO);
     post.setAuthor(authorRepository.findOne(postDTO.getAuthorId()));
-    if (post.getAuthor().getAuthorType().equals("student") && !auth.getId().equals(postDTO.getAuthorId())) {
+
+    // if creator is a student but is has wrong author id on the post
+    if (post.getAuthor().getAuthorType().equals(AuthorTypes.STUDENT) && !auth.getId().equals(postDTO.getAuthorId())) {
       throw new AuthException("not allowed to create this post");
     }
+
+    // if creator is not an ADMIN or POST_MANAGER
     if (!auth.getRoles().contains(Roles.ADMIN) && !auth.getRoles().contains(Roles.POST_MANAGER)) {
-      if (post.getAuthor().getAuthorType().equals("club") && !auth.getClubsAdmin().contains(postDTO.getAuthorId())) {
+      // if creator is not a club an is not part of the admins (able to post)
+      if (post.getAuthor().getAuthorType().equals(AuthorTypes.CLUB) && !auth.getClubsAdmin().contains(postDTO.getAuthorId())) {
         throw new AuthException("not allowed to create this post");
       }
     }
+
     post.setCreationDate(new Date());
     post.setPublishState(PublishStateEnum.WAITING);
 
@@ -138,7 +145,8 @@ public class PostService {
       throw new AuthException("you cannot delete this post");
     }
 
-    // delete media files on disk
+    // delete media files on disk for each media type
+
     if (post.getMedia() instanceof Gallery) {
       Gallery gallery = (Gallery) post.getMedia();
       gallery.getImages().forEach(img -> mediaService.deleteImageFile(img));

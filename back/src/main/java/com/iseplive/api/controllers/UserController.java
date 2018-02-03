@@ -58,6 +58,19 @@ public class UserController {
     return studentService.getAll(page);
   }
 
+  @PostMapping("/student")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
+  public Student createStudent(@RequestBody StudentDTO dto) {
+    return studentService.createStudent(dto);
+  }
+
+  @PutMapping("/student")
+  @RolesAllowed({Roles.STUDENT})
+  public Student updateStudent(@AuthenticationPrincipal TokenPayload auth,
+                               @RequestBody StudentUpdateDTO dto) {
+    return studentService.updateStudent(dto, auth.getId());
+  }
+
   @GetMapping("/student/admin")
   public Page<StudentWithRoleView> getAllStudentsAdmin(@RequestParam(defaultValue = "0") int page) {
     return studentService.getAllForAdmin(page);
@@ -100,22 +113,16 @@ public class UserController {
     return studentService.getStudent(id);
   }
 
+  @PutMapping("/student/{id}/archive")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
+  public void toggleArchiveStudent(@PathVariable Long id) {
+    studentService.toggleArchiveStudent(id);
+  }
+
   @GetMapping("/student/{id}/roles")
   @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
   public Set<Role> getStudentRoles(@PathVariable Long id) {
     return studentService.getStudentRoles(id);
-  }
-
-  @PostMapping("/student")
-  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
-  public Student createStudent(@RequestBody StudentDTO dto) {
-    return studentService.createStudent(dto);
-  }
-
-  @PutMapping("/student")
-  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER, Roles.STUDENT})
-  public Student updateStudent(@AuthenticationPrincipal TokenPayload auth, @RequestBody StudentUpdateDTO dto) {
-    return studentService.updateStudent(dto, auth.getId());
   }
 
   @PutMapping("/student/admin")

@@ -386,7 +386,7 @@ export default class MembersTab extends React.Component {
         })}>
           Rôles
         </Button>
-        <Flex wrap>
+        <Flex wrap style={{ minHeight: 400 }}>
           <Box w={[1, 1 / 3]} p={2}>
             <Paper p="2em">
               {

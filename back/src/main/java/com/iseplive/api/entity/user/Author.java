@@ -13,9 +13,11 @@ public abstract class Author {
   @GeneratedValue
   private Long id;
 
+  private boolean archived = false;
+
   @Column(updatable = false, insertable = false)
   private String authorType;
-  
+
   public Long getId() {
     return id;
   }
@@ -26,5 +28,13 @@ public abstract class Author {
 
   public String getAuthorType() {
     return authorType;
+  }
+
+  public boolean isArchived() {
+    return archived;
+  }
+
+  public void setArchived(boolean archived) {
+    this.archived = archived;
   }
 }

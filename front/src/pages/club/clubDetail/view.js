@@ -9,6 +9,9 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import MUIButton from 'material-ui/Button';
 import ExploreAction from 'material-ui-icons/Explore';
 
+import DeleteIcon from 'material-ui-icons/Delete';
+import EditIcon from 'material-ui-icons/ModeEdit';
+
 import {
   FluidContent,
   BgImage,
@@ -45,25 +48,25 @@ export default function ClubDetailView(props) {
             <Title invert>{props.name}</Title>
             <Text>{props.description}</Text>
             <Flex mt="15px" wrap>
-              <Box>
+              <Box p={1}>
                 <Button href={props.website} target="_blank" rel="noopener noreferrer" color="accent">
                   <Explore /> Site internet
                 </Button>
               </Box>
               {
-                authData.hasRole([ADMIN, CLUB_MANAGER]) &&
-                <Box>
-                  <Button color="primary" onClick={props.onDelete}>
-                    Supprimer
+                props.isAdmin &&
+                <Box p={1}>
+                  <Button fab mini color="primary" onClick={props.onEdit}>
+                    <EditIcon />
                   </Button>
                 </Box>
               }
               {
-                props.isAdmin &&
-                <Box>
-                  <Button color="primary" onClick={props.onEdit}>
-                    Modifier
-                    </Button>
+                authData.hasRole([ADMIN, CLUB_MANAGER]) &&
+                <Box p={1}>
+                  <Button fab mini color="accent" onClick={props.onDelete}>
+                    <DeleteIcon />
+                  </Button>
                 </Box>
               }
             </Flex>

@@ -17,16 +17,38 @@ import java.util.Set;
 public interface StudentRepository extends CrudRepository<Student, Long> {
   Page<Student> findAll(Pageable pageable);
 
-  @Query("select s from Student s join s.roles r where lower(concat(s.firstname, ' ', s.lastname)) like %?1% and r in ?2 and s.promo in ?3")
+  @Query(
+    "select s from Student s " +
+      "join s.roles r " +
+      "where lower(concat(s.firstname, ' ', s.lastname)) " +
+      "like %?1% and r in ?2 and s.promo in ?3 " +
+      "and s.archived = false"
+  )
   Page<Student> searchStudentRolePromo(String name, Set<Role> roles, List<Integer> promo, Pageable pageable);
 
-  @Query("select s from Student s join s.roles r where lower(concat(s.firstname, ' ', s.lastname)) like %?1% and r in ?2")
+  @Query(
+    "select s from Student s " +
+      "join s.roles r " +
+      "where lower(concat(s.firstname, ' ', s.lastname)) " +
+      "like %?1% and r in ?2 " +
+      "and s.archived = false"
+  )
   Page<Student> searchStudentRole(String name, Set<Role> roles, Pageable pageable);
 
-  @Query("select s from Student s where lower(concat(s.firstname, ' ', s.lastname)) like %?1%")
+  @Query(
+    "select s from Student s " +
+      "where lower(concat(s.firstname, ' ', s.lastname)) " +
+      "like %?1% " +
+      "and s.archived = false"
+  )
   Page<Student> searchStudent(String name, Pageable pageable);
 
-  @Query("select s from Student s where lower(concat(s.firstname, ' ', s.lastname)) like %?1% and s.promo in ?2")
+  @Query(
+    "select s from Student s " +
+      "where lower(concat(s.firstname, ' ', s.lastname)) " +
+      "like %?1% and s.promo in ?2 " +
+      "and s.archived = false"
+  )
   Page<Student> searchStudent(String name, List<Integer> promo, Pageable pageable);
 
   Student findFirstByStudentId(String studentId);

@@ -65,7 +65,7 @@ class AlertCenter extends Component {
 };
 
 
-export function sendAlert(message: string, type: string) {
+export function sendAlert(message: string, type?: string) {
   const event = new CustomEvent('notification', { detail: { message, type } });
   document.dispatchEvent(event);
 };

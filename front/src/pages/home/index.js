@@ -19,11 +19,11 @@ class Home extends Component {
     this.getPosts();
     this.getPinnedPosts();
     document.addEventListener('new-post', this.refreshPosts.bind(this));
-  };
+  }
 
   componentWillUnmount() {
-    document.removeEventListener('new-post', this.refreshPosts.bind(this))
-  };
+    document.removeEventListener('new-post', this.refreshPosts.bind(this));
+  }
 
   getPosts() {
     if (this.state.page === 0) {
@@ -37,7 +37,7 @@ class Home extends Component {
         lastPage: res.data.last
       });
     });
-  };
+  }
 
   getPinnedPosts = async () => {
     let res = await postData.getPinnedPosts();
@@ -70,7 +70,7 @@ class Home extends Component {
         isLoading={this.state.isLoading}
       />
     );
-  };
-};
+  }
+}
 
 export default Home;

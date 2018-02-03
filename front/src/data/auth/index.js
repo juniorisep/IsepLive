@@ -1,7 +1,10 @@
 // @flow
 
 import axios from 'axios';
+import type { AxiosPromise } from 'axios';
+
 import type { Token, TokenSet, TokenPayload } from './type';
+import type { Role } from '../users/type';
 
 export const hasRole = (roles: Array<string>) => {
   const user = getUser();
@@ -11,7 +14,7 @@ export const hasRole = (roles: Array<string>) => {
 
   if (user) {
     return roles.filter(r => user.roles.includes(r)).length > 0;
-  };
+  }
   return false;
 };
 
@@ -58,6 +61,6 @@ export const getUser = (): ?TokenPayload => {
 };
 
 
-export function getAllRoles() {
+export function getAllRoles(): AxiosPromise<Role[]> {
   return axios.get('/auth/roles');
 }

@@ -50,6 +50,9 @@ public class AuthController {
       if (ldapStudent == null) {
         throw new AuthException("User not found");
       }
+      if (ldapStudent.isArchived()) {
+        throw new AuthException("User not found");
+      }
       return jwtTokenUtil.generateToken(ldapStudent);
     }
 

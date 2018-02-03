@@ -141,6 +141,12 @@ public class StudentService {
       .map(s -> studentFactory.studentToStudentWithRoles(s));
   }
 
+  public void toggleArchiveStudent(Long id) {
+    Student student = getStudent(id);
+    student.setArchived(!student.isArchived());
+    studentRepository.save(student);
+  }
+
   public Student updateStudent(StudentUpdateDTO dto, Long id) {
     Student student = studentRepository.findOne(id);
     studentFactory.updateDtoToEntity(student, dto);

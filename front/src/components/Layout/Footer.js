@@ -134,16 +134,16 @@ export default class FooterView extends React.Component {
         <LinksBar>
           <div>
             <span>© {new Date().getFullYear()} ISEPLive</span>
-            <Button color="contrast" style={{ marginLeft: 10 }} component={NavLink} to="/aide" activeStyle={{
+            <Button style={{ marginLeft: 10 }} component={NavLink} to="/aide" activeStyle={{
               color: MAIN_COLOR
             }}>Aide</Button>
-            <Button color="contrast" component={NavLink} to="/mentions-legales" activeStyle={{
+            <Button component={NavLink} to="/mentions-legales" activeStyle={{
               color: MAIN_COLOR
             }}>Mentions Légales</Button>
-            <Button color="contrast" component={NavLink} to="/convention-utilisation" activeStyle={{
+            <Button component={NavLink} to="/convention-utilisation" activeStyle={{
               color: MAIN_COLOR
             }}>Convention d'utilisation</Button>
-            <Button color="contrast" component={NavLink} to="/contact" activeStyle={{
+            <Button component={NavLink} to="/contact" activeStyle={{
               color: MAIN_COLOR
             }}>Contact</Button>
           </div>

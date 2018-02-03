@@ -94,7 +94,7 @@ export default class EditEventForm extends React.Component {
           <Button onClick={this.props.handleRequestClose} color="primary">
             Annuler
           </Button>
-          <Button color="accent" onClick={this.handleSave}>
+          <Button color="secondary" onClick={this.handleSave}>
             Enregistrer
           </Button>
         </DialogActions>

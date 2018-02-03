@@ -75,7 +75,7 @@ class EditButton extends Component<Props, State> {
     const { canPin } = this.state;
     return (
       <div>
-        <IconButton color="accent" onClick={this.openMenu}>
+        <IconButton color="secondary" onClick={this.openMenu}>
           <MoreIcon />
         </IconButton>
         <Menu

@@ -179,7 +179,7 @@ export default class ImportStudents extends React.Component {
             {uploading && <LinearProgress mode={uploadState} value={progress} />}
           </Box>
           <Box mb={1}>
-            <Button disabled={uploading || !csv || photos.length === 0} raised color="accent" onClick={this.importStudents}><Done style={{ marginRight: 5 }} /> Importer</Button>
+            <Button disabled={uploading || !csv || photos.length === 0} raised color="secondary" onClick={this.importStudents}><Done style={{ marginRight: 5 }} /> Importer</Button>
           </Box>
           {
             result &&

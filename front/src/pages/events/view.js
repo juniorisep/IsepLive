@@ -53,8 +53,8 @@ export default class Events extends Component {
               <Title invert fontSize={1.3}>Evènements {this.props.eventsFilter === 'next' ? 'à venir' : 'passés'}</Title>
             </Box>
             <Box flex="0 0 auto" ml="auto">
-              <Button color="accent" onClick={this.props.onModifyFilter('next')}>A venir</Button>
-              <Button color="accent" onClick={this.props.onModifyFilter('past')}>Passés</Button>
+              <Button color="secondary" onClick={this.props.onModifyFilter('next')}>A venir</Button>
+              <Button color="secondary" onClick={this.props.onModifyFilter('past')}>Passés</Button>
             </Box>
             <Box flex="0 0 auto" ml="10px">
               <Button color="primary" component={NavLink} to="/evenements/calendrier">Calendrier</Button>

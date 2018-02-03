@@ -183,7 +183,7 @@ class UpdateResume extends React.Component {
           <Button onClick={props.handleRequestClose} color="primary">
             Annuler
           </Button>
-          <Button onClick={() => props.handleUpdate(data)} color="accent">
+          <Button onClick={() => props.handleUpdate(data)} color="secondary">
             Valider
           </Button>
         </DialogActions>

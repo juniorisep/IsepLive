@@ -76,7 +76,7 @@ export default class Event extends React.Component {
             </Flex>
             {this.renderDescription(event.description)}
             <Auth roles={[ADMIN, EVENT_MANAGER]}>
-              <IconButton color="accent" onClick={this.handleMenu}>
+              <IconButton color="secondary" onClick={this.handleMenu}>
                 <MoreIcon />
               </IconButton>
             </Auth>

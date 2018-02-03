@@ -124,17 +124,17 @@ class Gallery extends Component {
             <Button
               style={lightButton}
               download
-              dense
+              size="small"
               href={backUrl + images[this.state.currentIndex].originalUrl}>
               <FileDownload style={{ marginRight: 5 }} /> Télecharger
             </Button>
             {
               this.state.isPlaying ?
-                <Button style={lightButton} dense onClick={this.togglePlay}>
+                <Button style={lightButton} size="small" onClick={this.togglePlay}>
                   <PauseIcon style={{ marginRight: 5 }} /> Pause
               </Button>
                 :
-                <Button style={lightButton} dense onClick={this.togglePlay}>
+                <Button style={lightButton} size="small" onClick={this.togglePlay}>
                   <PlayIcon style={{ marginRight: 5 }} /> Lecture
               </Button>
             }

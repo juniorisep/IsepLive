@@ -7,6 +7,8 @@ import { Text } from 'components/common';
 
 import PostList from 'components/PostList';
 import Loader from 'components/Loader';
+import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
+
 
 export default function PostsTab(props) {
   return (
@@ -23,7 +25,9 @@ export default function PostsTab(props) {
       {
         !props.lastPage && props.posts.length > 0 &&
         <div style={{ textAlign: 'center' }}>
-          <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+          <Button fab color="primary" raised onClick={props.onSeeMore}>
+            <ArrowDownwardIcon />
+          </Button>
         </div>
       }
     </Loader>

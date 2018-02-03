@@ -135,7 +135,7 @@ export class PollForm extends Component {
             </Flex>;
           })
         }
-        <AddButton color="accent" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
+        <AddButton color="secondary" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
         <Flex wrap>
           <Box width={1} mt={2}>
             <TextField
@@ -246,7 +246,7 @@ export class VideoEmbedForm extends Component {
     return (
       <div>
         <div>
-          <Button color="accent" onClick={this.openMenu}>Choisir Type</Button> {this.state.type === 'YOUTUBE' ? 'Youtube' : 'Facebook'}
+          <Button color="secondary" onClick={this.openMenu}>Choisir Type</Button> {this.state.type === 'YOUTUBE' ? 'Youtube' : 'Facebook'}
         </div>
         <Menu
           anchorEl={this.state.anchorEl}

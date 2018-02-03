@@ -91,9 +91,8 @@ class View extends Component {
             top: 20,
             right: 20,
           }}
-          color="contrast"
           onClick={() => this.props.onEscKey()}>
-          <CloseIcon />
+          <CloseIcon style={{ color: 'white' }} />
         </IconButton>
         <ViewStyle>
           <BgImage src={image} size="contain" mh="80vh" />
@@ -102,7 +101,7 @@ class View extends Component {
           <Button
             style={lightButton}
             download
-            dense
+            size="small"
             href={backUrl + (imageOriginal || image)}>
             <FileDownload style={{ marginRight: 5 }} /> Télecharger
         </Button>

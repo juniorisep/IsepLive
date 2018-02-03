@@ -232,16 +232,16 @@ export default class SlideShow extends React.Component {
             <Control>
               {
                 pos !== 0 &&
-                <IconButton color="contrast" onClick={this.handleArrow(DIR_BACKWARD)}>
-                  <ArrLeft />
+                <IconButton onClick={this.handleArrow(DIR_BACKWARD)}>
+                  <ArrLeft style={{ color: 'white' }} />
                 </IconButton>
               }
             </Control>
             <Control style={{ right: 0 }} >
               {
                 pos !== items.length - 1 &&
-                <IconButton color="contrast" onClick={this.handleArrow(DIR_FORWARD)}>
-                  <ArrRight />
+                <IconButton onClick={this.handleArrow(DIR_FORWARD)}>
+                  <ArrRight style={{ color: 'white' }} />
                 </IconButton>
               }
             </Control>

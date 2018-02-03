@@ -264,7 +264,7 @@ export const FileUpload = (props) => {
         <Button style={{
           marginTop: 10,
           ...props.style,
-        }} component="span" color="accent" {...props.btnProps}>{props.children}</Button>
+        }} component="span" color="secondary" {...props.btnProps}>{props.children}</Button>
       </label>
     </div>
   );

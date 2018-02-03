@@ -8,11 +8,9 @@ import {
   Redirect,
   Route,
   Switch,
-  withRouter,
 } from 'react-router-dom';
 import styled from 'styled-components';
 
-import axios from 'axios';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -120,7 +118,7 @@ const Responsive = styled.div`
 function Nav(props) {
   return (
     <div>
-      <Button color="contrast"
+      <Button
         component={NavLink}
         to={props.to}
         activeStyle={{
@@ -343,7 +341,7 @@ class Layout extends React.Component {
         <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Responsive maxWidth={WIDTH_THRESHOLD}>
-              <IconButton color="accent" onClick={() => this.setState({ sidebarOpen: true })}>
+              <IconButton color="secondary" onClick={() => this.setState({ sidebarOpen: true })}>
                 <MenuIcon />
               </IconButton>
             </Responsive>
@@ -384,7 +382,6 @@ class Layout extends React.Component {
             <Auth not>
               <IconButton
                 style={{ marginLeft: 10 }}
-                color="contrast"
                 onClick={() => this.setState({ connexionOpen: true })}>
                 <LockOpen />
               </IconButton>

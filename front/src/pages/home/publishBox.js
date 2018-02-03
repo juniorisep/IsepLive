@@ -23,7 +23,7 @@ import * as authData from 'data/auth';
 
 import type {
   Post as PostType,
-  PostCreation as PostCreationType,
+    PostCreation as PostCreationType,
 } from '../../data/post/type';
 
 import type { Media as MediaType } from '../../data/media/type';
@@ -112,7 +112,7 @@ type CustomAuthorType = {
   id: number,
   name: string,
   image: string,
-  type: 'club' | 'student',
+  type: 'club' | 'student',
   isAdmin: boolean,
 }
 
@@ -416,13 +416,13 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
           }
           <Flex align="center" wrap>
             <Box>
-              <IconButton color="contrast" onClick={this.openMediaMenu}>
-                <AddCircleIcon />
+              <IconButton onClick={this.openMediaMenu}>
+                <AddCircleIcon style={{ color: 'white' }} />
               </IconButton>
             </Box>
             <Box ml="auto">
               <FormControlLabel
-                color="accent"
+                color="secondary"
                 control={
                   <Checkbox
                     checked={this.state.isPrivateMessage}
@@ -438,7 +438,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
             </Box>
             <Box ml="10px">
               <Button raised
-                color="accent"
+                color="secondary"
                 style={{ float: "right" }}
                 onClick={this.onPublish}
                 disabled={!canPublish || isUploading}>Publier</Button>

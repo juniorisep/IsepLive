@@ -174,7 +174,7 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
                     <Text fs="13px">Cet étudiant est archivé </Text>
                   </Box>
                   <Box ml="auto">
-                    <Button dense style={{ fontSize: 12 }}
+                    <Button size="small" style={{ fontSize: 12 }}
                       onClick={() => this.archiveAccepted(true)}>Annuler</Button>
                   </Box>
                 </Flex>
@@ -345,7 +345,7 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
             !selected.archived &&
             <Button
               fab
-              color="accent"
+              color="secondary"
               style={{ margin: 5 }}
               onClick={() => this.setState({
                 openArchivePopup: true,

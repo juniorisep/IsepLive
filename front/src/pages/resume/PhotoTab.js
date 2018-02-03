@@ -93,7 +93,7 @@ export default class PhotoTab extends React.Component {
           {
             !lastPage &&
             <div style={{ marginTop: 20, textAlign: 'center' }}>
-              <Button onClick={this.onSeeMore} color="accent">
+              <Button onClick={this.onSeeMore} color="secondary">
                 Voir plus
               </Button>
             </div>

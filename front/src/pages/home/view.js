@@ -15,10 +15,13 @@ import {
   Text,
   Title,
 } from 'components/common';
+
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
+
 import BookmarkIcon from 'material-ui-icons/Bookmark';
 import SubjectIcon from 'material-ui-icons/Subject';
+import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
@@ -120,7 +123,9 @@ export default function Home(props) {
                 {
                   !props.lastPage && props.posts.length > 0 &&
                   <Center>
-                    <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+                    <Button fab color="primary" raised onClick={props.onSeeMore}>
+                      <ArrowDownwardIcon />
+                    </Button>
                   </Center>
                 }
               </div>

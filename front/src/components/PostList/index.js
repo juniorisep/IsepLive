@@ -102,7 +102,7 @@ export class PostTextView extends Component<PostTextViewProps> {
 
           {
             !preview &&
-            <Button dense color="accent" component={NavLink} to={`/post/${post.id}`}>
+            <Button size="small" color="secondary" component={NavLink} to={`/post/${post.id}`}>
               {post.nbComments} <ForumIcon style={{ marginLeft: 5 }} />
             </Button>
           }

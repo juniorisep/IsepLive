@@ -113,7 +113,7 @@ export default class AddClubForm extends React.Component {
           <Button onClick={props.handleRequestClose} color="primary">
             Annuler
           </Button>
-          <Button color="accent" onClick={this.handleSave}>
+          <Button color="secondary" onClick={this.handleSave}>
             Enregistrer
           </Button>
         </DialogActions>

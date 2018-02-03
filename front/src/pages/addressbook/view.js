@@ -10,6 +10,8 @@ import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import Button from 'material-ui/Button';
+import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
+
 
 import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Text } from 'components/common';
 import { MAIN_COLOR } from '../../colors';
@@ -160,7 +162,9 @@ export default class AddressBook extends Component {
             {
               !this.props.lastPage &&
               <div style={{ textAlign: 'center' }}>
-                <Button color="accent" onClick={this.props.onSeeMore}>Voir plus</Button>
+                <Button fab color="primary" onClick={this.props.onSeeMore}>
+                  <ArrowDownwardIcon />
+                </Button>
               </div>
             }
           </Loader>

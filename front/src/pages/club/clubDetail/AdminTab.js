@@ -182,7 +182,7 @@ class AddUserPanel extends React.Component {
           search={this.searchUser}
           renderSuggestion={this.renderSuggestion} />
         <Box mt={1}>
-          <Button color="accent" onClick={this.addUser} disabled={!this.state.selected}>
+          <Button color="secondary" onClick={this.addUser} disabled={!this.state.selected}>
             Ajouter
           </Button>
         </Box>
@@ -268,7 +268,7 @@ export class AddRolePanel extends React.Component {
           label="Nom du rôle"
           onChange={this.onRoleChange} />
         <Box mt="1">
-          <Button color="accent" disabled={this.disabled()} onClick={this.addRole}>
+          <Button color="secondary" disabled={this.disabled()} onClick={this.addRole}>
             Ajouter
           </Button>
         </Box>
@@ -374,13 +374,13 @@ export default class MembersTab extends React.Component {
     } = this.state;
     return (
       <div>
-        <Button color="accent" onClick={() => this.setState({
+        <Button color="secondary" onClick={() => this.setState({
           mode: 'addUser',
           selection: null
         })}>
           Ajouter membre
         </Button>
-        <Button color="accent" onClick={() => this.setState({
+        <Button color="secondary" onClick={() => this.setState({
           mode: 'addRole',
           selection: null
         })}>
@@ -418,7 +418,7 @@ export default class MembersTab extends React.Component {
               <List>
                 {
                   members.map(user => (
-                    <ListItem key={user.id} dense button onClick={this.selectMember(user)}>
+                    <ListItem key={user.id} size="small" button onClick={this.selectMember(user)}>
                       <Avatar alt="photo" src={user.member.photoUrlThumb ? backUrl + user.member.photoUrlThumb : '/img/svg/user.svg'} />
                       <ListItemText primary={`${user.member.firstname} ${user.member.lastname}`} />
                       {this.isMemberAdmin(user.member.id) && <VerifiedUser style={{ color: '#999', marginRight: 10 }} />}

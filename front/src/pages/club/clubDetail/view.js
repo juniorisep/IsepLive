@@ -49,7 +49,7 @@ export default function ClubDetailView(props) {
             <Text>{props.description}</Text>
             <Flex mt="15px" wrap>
               <Box p={1}>
-                <Button href={props.website} target="_blank" rel="noopener noreferrer" color="accent">
+                <Button href={props.website} target="_blank" rel="noopener noreferrer" color="secondary">
                   <Explore /> Site internet
                 </Button>
               </Box>
@@ -64,7 +64,7 @@ export default function ClubDetailView(props) {
               {
                 authData.hasRole([ADMIN, CLUB_MANAGER]) &&
                 <Box p={1}>
-                  <Button fab mini color="accent" onClick={props.onDelete}>
+                  <Button fab mini color="secondary" onClick={props.onDelete}>
                     <DeleteIcon />
                   </Button>
                 </Box>

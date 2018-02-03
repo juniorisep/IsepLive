@@ -7,6 +7,7 @@ import { Box, Flex } from 'grid-styled';
 import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 import Button from 'material-ui/Button';
+import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 
 import { Link } from 'react-router-dom';
 
@@ -200,7 +201,9 @@ class MediaView extends Component {
             {
               !this.props.lastPage &&
               <div style={{ textAlign: 'center' }}>
-                <Button color="accent" onClick={this.props.seeMore}>Voir plus</Button>
+                <Button fab color="primary" onClick={this.props.seeMore}>
+                  <ArrowDownwardIcon />
+                </Button>
               </div>
             }
           </Loader>

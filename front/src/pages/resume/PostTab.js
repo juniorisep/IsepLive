@@ -5,6 +5,7 @@ import React from 'react';
 import { Box } from 'grid-styled';
 
 import Button from 'material-ui/Button';
+import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 
 import PostListView from 'components/PostList';
 
@@ -27,7 +28,9 @@ export default function PostTab(props) {
       {
         !lastPage && posts.length > 0 &&
         <div style={{ textAlign: 'center' }}>
-          <Button color="accent" raised onClick={props.onSeeMore}>Voir plus</Button>
+          <Button fab color="primary" raised onClick={props.onSeeMore}>
+            <ArrowDownwardIcon />
+          </Button>
         </div>
       }
     </Box>

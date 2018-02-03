@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Button from 'material-ui/Button';
+
 import { withRouter } from 'react-router-dom';
 import { sendAlert } from '../../components/Alert';
 import axios from 'axios';
@@ -25,6 +27,10 @@ const noConnectStyle = {
   marginBottom: 30,
 };
 
+function refreshPage(){
+    window.location.reload();
+}
+
 const ErrorView = (props) => (
   <div>
     <div style={noConnectStyle}>
@@ -39,6 +45,11 @@ const ErrorView = (props) => (
     }}>
       {props.message} <br />
       Essayez de recharger votre page.
+    </div>
+    <div style={{textAlign: 'center'}}>
+      <Button raised color="primary" onClick={refreshPage}>
+        Recharger
+      </Button>
     </div>
   </div>
 );

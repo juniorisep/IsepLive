@@ -21,10 +21,11 @@ import FullScreenGallery from '../../components/FullScreen/Gallery';
 import Loader from '../../components/Loader';
 import Time from '../../components/Time';
 
-import Auth from '../../components/Auth/AuthComponent';
 import { ADMIN, POST_MANAGER } from '../../constants';
 
 import LazyLoad from 'react-lazyload';
+
+import type { Gallery as GalleryType, Image as ImageType } from '../../data/media/type';
 
 import * as mediaData from '../../data/media/image';
 import * as authData from '../../data/auth';
@@ -35,17 +36,29 @@ const ImagePlaceholder = () => (
     background: '#EEE',
     height: 130,
   }}></div>
-)
+);
 
 const Edit = (props) => {
   return (
     <div style={{ marginBottom: 10, }}>
       <Checkbox onChange={props.onSelect(props.img)} />
     </div>
-  )
-}
+  );
+};
 
-export default class GalleryPage extends React.Component {
+type State = {
+  isLoading: boolean,
+  gallery: GalleryType,
+  galleryOpen: boolean,
+  galleryIndex: number,
+  images: ImageType[],
+  selectedImages: number[],
+  isPostAuthor: boolean,
+  isEditing: boolean,
+  isAdding: boolean,
+};
+
+export default class GalleryPage extends React.Component<{}, State> {
 
   state = {
     isLoading: false,
@@ -104,7 +117,7 @@ export default class GalleryPage extends React.Component {
     mediaData.getGalleryImages(this.galleryId)
       .then(res => {
         this.setState({ images: res.data });
-      })
+      });
   }
 
   verifyAuthor = (id) => {
@@ -122,7 +135,7 @@ export default class GalleryPage extends React.Component {
             this.setState({ isPostAuthor: true });
           }
         }
-      })
+      });
     }
   }
 
@@ -134,12 +147,12 @@ export default class GalleryPage extends React.Component {
     this.props.history.replace({
       ...this.props.history.location,
       state: null,
-    })
-    this.setState({ galleryOpen: false })
+    });
+    this.setState({ galleryOpen: false });
   }
 
   selectPhoto = index => {
-    this.setState({ galleryIndex: index })
+    this.setState({ galleryIndex: index });
     this.showGallery();
   }
 
@@ -155,6 +168,9 @@ export default class GalleryPage extends React.Component {
   }
 
   toggleEdit = () => {
+    if (this.state.isEditing) {
+      this.setState({ selectedImages: [] });
+    }
     this.setState({ isEditing: !this.state.isEditing });
   }
 
@@ -164,7 +180,7 @@ export default class GalleryPage extends React.Component {
     mediaData.addImages(gallery.id, photos).then(res => {
       this.refreshGallery();
       this.setState({ isAdding: false });
-    })
+    });
   }
 
   deletePhotos = () => {
@@ -172,7 +188,7 @@ export default class GalleryPage extends React.Component {
     this.setState({ selectedImages: [] });
     mediaData.deleteImages(gallery.id, selectedImages).then(res => {
       this.refreshGallery();
-    })
+    });
   }
 
   render() {
@@ -189,7 +205,7 @@ export default class GalleryPage extends React.Component {
     } = this.state;
 
     const countImages = selectedImages.length;
-    const canEdit = (isPostAuthor || authData.hasRole([ADMIN, POST_MANAGER]))
+    const canEdit = (isPostAuthor || authData.hasRole([ADMIN, POST_MANAGER]));
     const shouldEdit = canEdit && isEditing;
     return (
       <FluidContent>

@@ -94,7 +94,7 @@ export default class FooterView extends React.Component {
                       </a>
                     </Box>
                     <Box width={1 / 4} p={1}>
-                      <a href="" target="_blank" rel="noopener noreferrer">
+                      <a href="https://www.snapchat.com/add/iseplive" target="_blank" rel="noopener noreferrer">
                         <img src="/img/svg/snapchat.svg" alt="Snapchat logo" />
                       </a>
                     </Box>

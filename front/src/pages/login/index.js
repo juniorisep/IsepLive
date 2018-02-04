@@ -135,7 +135,7 @@ const ButtonContainer = styled.div`
 `;
 
 const BigButton = styled(Button) `
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
   font-size: 1.5em !important;
   color: white !important;
   background: ${MAIN_COLOR} !important;

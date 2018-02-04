@@ -100,10 +100,10 @@ class Gallery extends Component {
             float: 'right',
             top: 20,
             right: 20,
-            color: 'white'
+            zIndex: 3,
           }}
           onClick={() => this.props.onEscKey()}>
-          <CloseIcon />
+          <CloseIcon style={{ color: 'white' }} />
         </IconButton>
         <GalleryStyle>
           <SlideShow

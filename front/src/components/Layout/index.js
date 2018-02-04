@@ -261,7 +261,7 @@ class Layout extends React.Component {
           }
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
 
@@ -341,7 +341,9 @@ class Layout extends React.Component {
         <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Responsive maxWidth={WIDTH_THRESHOLD}>
-              <IconButton color="secondary" onClick={() => this.setState({ sidebarOpen: true })}>
+              <IconButton color="secondary" onClick={() =>
+                this.setState({ sidebarOpen: true })
+              }>
                 <MenuIcon />
               </IconButton>
             </Responsive>
@@ -383,7 +385,7 @@ class Layout extends React.Component {
               <IconButton
                 style={{ marginLeft: 10 }}
                 onClick={() => this.setState({ connexionOpen: true })}>
-                <LockOpen />
+                <LockOpen style={{ color: 'white' }} />
               </IconButton>
               <LoginForm
                 loginDisabled={this.isLoginDisabled()}

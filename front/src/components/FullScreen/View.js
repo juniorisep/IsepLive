@@ -90,6 +90,7 @@ class View extends Component {
             float: 'right',
             top: 20,
             right: 20,
+            zIndex: 3,
           }}
           onClick={() => this.props.onEscKey()}>
           <CloseIcon style={{ color: 'white' }} />

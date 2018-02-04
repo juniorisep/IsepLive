@@ -35,6 +35,8 @@ const theme = createMuiTheme({
     primary: indigo,
     secondary: amber,
     error: red,
+
+    contrastThreshold: 1,
   },
 
   overrides: {

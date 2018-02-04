@@ -20,24 +20,39 @@ import Loader from 'components/Loader';
 import * as authData from '../../data/auth';
 import { getPromo } from '../../data/users/student';
 
+const BadgeYear = styled.div`
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  line-height: initial;
+  border-radius: 20px;
+  margin-left: 5px;
+  background: ${p => p.theme.main};
+  color: white;
+`;
+
 const Person = (props) => {
   const MainText = styled.div`
     padding: 10px;
     color: ${props => props.theme.main};
     p {
       margin: 0;
+      vertical-align: middle;
     }
     p.name {
       font-weight: 500;
       margin-bottom: 5px;
     }
   `;
+  const promo = getPromo(props.promotion);
   return (
     <div style={{ boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)' }}>
       <ProfileImage src={props.url} sz="100%" mh="200px" />
       <MainText>
         <p className="name">{props.name}</p>
-        <p>Promo {props.promotion} {getPromo(props.promotion, v => `(${v})`) || ''}</p>
+        <p>Promo {props.promotion} {promo && <BadgeYear>{promo}</BadgeYear>}</p>
       </MainText>
     </div>
   );
@@ -88,7 +103,10 @@ export default class AddressBook extends Component {
                 <Select
                   multiple
                   value={this.props.year}
-                  renderValue={years => years.map(year => getPromo(year) || year).join(', ')}
+                  renderValue={years =>
+                    years.map(year =>
+                      <BadgeYear>{getPromo(year) || year}</BadgeYear>)
+                  }
                   onChange={this.props.onPromoFilter}
                   input={<Input id="year-multiple" />}
                   MenuProps={{
@@ -101,19 +119,25 @@ export default class AddressBook extends Component {
                   }}
                 >
                   {
-                    years.map(year => (
-                      <MenuItem
-                        key={year}
-                        value={year}
-                        style={{
-                          background: 'none',
-                          fontWeight: this.props.year.indexOf(year) !== -1 ? 500 : 'normal',
-                          color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
-                        }}
-                      >
-                        <span>{year} {getPromo(year, v => `(${v})`) || ''}</span>
-                      </MenuItem>
-                    ))
+                    years.map(year => {
+                      const promo = getPromo(year);
+                      return (
+                        <MenuItem
+                          key={year}
+                          value={year}
+                          style={{
+                            background: 'none',
+                            fontWeight: this.props.year.indexOf(year) !== -1 ? 500 : 'normal',
+                            color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <span>
+                            {year} {promo && <BadgeYear>{promo}</BadgeYear>}
+                          </span>
+                        </MenuItem>
+                      );
+                    })
                   }
                 </Select>
                 <FormHelperText>Sélection multiple</FormHelperText>

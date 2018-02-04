@@ -101,7 +101,7 @@ export function getClubMembers(id: number): AxiosPromise<ClubMember[]> {
   return axios.get(`/user/student/${id}/club`);
 }
 
-export function getPromo(promo: number, render: (val: string) => any): any {
+export function getPromo(promo: number, render?: (val: string) => any): any {
   const date = new Date();
   date.setFullYear(new Date().getFullYear() + 5);
   let lastPromo = date.getFullYear();

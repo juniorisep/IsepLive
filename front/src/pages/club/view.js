@@ -98,7 +98,7 @@ export default class Club extends Component<Props, State> {
             <p>Participez à la vie étudiante de l'ISEP</p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar placeholder="Rechercher des associations" onChange={this.handleSearch} />
+            <SearchBar type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" placeholder="Rechercher des associations" onChange={this.handleSearch} />
           </FluidContent>
         </Header>
         <FluidContent>

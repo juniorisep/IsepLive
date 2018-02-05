@@ -28,6 +28,7 @@ export default function LoginForm(props) {
               label="Nom d'utilisateur"
               margin="normal"
               fullWidth
+              type="text"
               onChange={(e) => props.onChange('username', e)} />
             <TextField
               type="password"

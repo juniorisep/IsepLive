@@ -18,7 +18,6 @@ import Select from 'material-ui/Select';
 import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 
-
 import {
   Paper,
   FluidContent,
@@ -34,7 +33,6 @@ import * as rolesKey from '../../../constants';
 import { MAIN_COLOR } from '../../../colors';
 
 import { getPromo } from '../../../data/users/student';
-
 
 import UpdateStudent from './UpdateStudent';
 
@@ -265,6 +263,7 @@ class Users extends Component {
                   <TextField
                     label="Filtrer par nom et prénom"
                     fullWidth
+                    type="text"
                     value={filter}
                     onChange={this.changeFilter} />
                 </Box>

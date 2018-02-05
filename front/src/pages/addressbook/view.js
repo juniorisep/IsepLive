@@ -87,7 +87,7 @@ export default class AddressBook extends Component {
           <FluidContent p="0">
             <Flex align="center">
               <Box flex="1 1 auto">
-                <SearchBar placeholder="Rechercher des ami(e)s" onChange={this.props.onSearch} />
+                <SearchBar type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" placeholder="Rechercher des ami(e)s" onChange={this.props.onSearch} />
               </Box>
             </Flex>
           </FluidContent>

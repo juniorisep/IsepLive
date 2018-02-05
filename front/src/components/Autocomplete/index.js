@@ -87,6 +87,8 @@ export default class Autocomplete extends React.Component<Props, State> {
         <TextField
           autoFocus
           fullWidth
+          type="text"
+          autoComplete="off"
           label={label}
           value={value}
           onFocus={() => this.setState({ focus: true })}

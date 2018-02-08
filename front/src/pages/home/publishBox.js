@@ -52,6 +52,8 @@ const PublishBox = styled.div`
   background: ${props => props.theme.main};
   margin-bottom: 20px;
   padding: 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 `;
 
 const TitleBox = styled.input`

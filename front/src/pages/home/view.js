@@ -25,6 +25,7 @@ import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
+import IsepDorHome from '../isepdor/Home';
 
 import { BACKGROUND_COLOR, SECONDARY_COLOR } from '../../colors';
 
@@ -132,6 +133,7 @@ export default function Home(props) {
             </Loader>
           </PostSection>
         </FluidContent>
+        <IsepDorHome />
       </div>
     </div>
   );

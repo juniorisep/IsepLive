@@ -14,19 +14,27 @@ import java.util.Date;
 public class VoteDor {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
   private Long id;
 
-  @OneToOne
+  private boolean secondTurn;
+
+  @ManyToOne
   private SessionDor session;
 
-  @OneToOne
+  @ManyToOne
   private Student student;
 
-  @OneToOne
+  @ManyToOne
   private Employee employee;
 
-  @OneToOne
+  @ManyToOne
+  private EventDor event;
+
+  @ManyToOne
+  private PartyDor partyDor;
+
+  @ManyToOne
   private QuestionDor questionDor;
 
   private Date date;
@@ -77,5 +85,29 @@ public class VoteDor {
 
   public void setSession(SessionDor session) {
     this.session = session;
+  }
+
+  public PartyDor getPartyDor() {
+    return partyDor;
+  }
+
+  public void setPartyDor(PartyDor partyDor) {
+    this.partyDor = partyDor;
+  }
+
+  public EventDor getEvent() {
+    return event;
+  }
+
+  public void setEvent(EventDor event) {
+    this.event = event;
+  }
+
+  public boolean isSecondTurn() {
+    return secondTurn;
+  }
+
+  public void setSecondTurn(boolean secondTurn) {
+    this.secondTurn = secondTurn;
   }
 }

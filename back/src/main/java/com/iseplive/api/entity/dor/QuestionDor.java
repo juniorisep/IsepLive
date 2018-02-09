@@ -2,7 +2,6 @@ package com.iseplive.api.entity.dor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -12,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class QuestionDor {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
   private Long id;
   private Integer position;
   private String title;
@@ -22,6 +21,7 @@ public class QuestionDor {
   private Boolean enableStudent;
   private Boolean enableEmployee;
   private Boolean enableParty;
+
   private Integer promo;
 
   public Long getId() {
@@ -34,18 +34,6 @@ public class QuestionDor {
 
   public Integer getPosition() {
     return position;
-  }
-
-  public void setPosition(Integer position) {
-    this.position = position;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
   }
 
   public Boolean getEnableEvent() {
@@ -88,6 +76,18 @@ public class QuestionDor {
     this.enableParty = enableParty;
   }
 
+  public void setPosition(Integer position) {
+    this.position = position;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
   public Integer getPromo() {
     return promo;
   }
@@ -95,4 +95,5 @@ public class QuestionDor {
   public void setPromo(Integer promo) {
     this.promo = promo;
   }
+
 }

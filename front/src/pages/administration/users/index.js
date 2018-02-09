@@ -23,8 +23,7 @@ import {
   FluidContent,
   Title,
   Text,
-  ProfileImage,
-  Filler
+  ProfileImage
 } from "../../../components/common";
 
 import * as userData from '../../../data/users/student';
@@ -354,7 +353,6 @@ class Users extends Component {
             </Paper>
           </Box>
         </Flex>
-        <Filler h={200} />
       </FluidContent>
     );
   }

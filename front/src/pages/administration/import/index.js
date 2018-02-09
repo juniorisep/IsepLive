@@ -16,7 +16,7 @@ import { LinearProgress } from 'material-ui/Progress';
 import FileUpload from 'material-ui-icons/FileUpload';
 import Done from 'material-ui-icons/Done';
 
-import { FluidContent, Title, Paper, Text, Filler } from "../../../components/common";
+import { FluidContent, Title, Paper, Text } from "../../../components/common";
 import { sendAlert } from '../../../components/Alert';
 import * as studentData from '../../../data/users/student';
 
@@ -244,10 +244,7 @@ export default class ImportStudents extends React.Component {
               </TableFooter>
             </Table>
           }
-
-
         </Paper>
-        <Filler h={200} />
       </FluidContent>
     );
   }

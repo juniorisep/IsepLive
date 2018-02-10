@@ -16,11 +16,11 @@ public class QuestionDor {
   private Integer position;
   private String title;
 
-  private Boolean enableClub;
-  private Boolean enableStudent;
-  private Boolean enableEmployee;
-  private Boolean enableEvent;
-  private Boolean enableParty;
+  private boolean enableClub;
+  private boolean enableStudent;
+  private boolean enableEmployee;
+  private boolean enableEvent;
+  private boolean enableParty;
 
   private Integer promo;
 
@@ -34,46 +34,6 @@ public class QuestionDor {
 
   public Integer getPosition() {
     return position;
-  }
-
-  public Boolean getEnableEvent() {
-    return enableEvent;
-  }
-
-  public void setEnableEvent(Boolean enableEvent) {
-    this.enableEvent = enableEvent;
-  }
-
-  public Boolean getEnableClub() {
-    return enableClub;
-  }
-
-  public void setEnableClub(Boolean enableClub) {
-    this.enableClub = enableClub;
-  }
-
-  public Boolean getEnableStudent() {
-    return enableStudent;
-  }
-
-  public void setEnableStudent(Boolean enableStudent) {
-    this.enableStudent = enableStudent;
-  }
-
-  public Boolean getEnableEmployee() {
-    return enableEmployee;
-  }
-
-  public void setEnableEmployee(Boolean enableEmployee) {
-    this.enableEmployee = enableEmployee;
-  }
-
-  public Boolean getEnableParty() {
-    return enableParty;
-  }
-
-  public void setEnableParty(Boolean enableParty) {
-    this.enableParty = enableParty;
   }
 
   public void setPosition(Integer position) {
@@ -96,4 +56,43 @@ public class QuestionDor {
     this.promo = promo;
   }
 
+  public boolean isEnableClub() {
+    return enableClub;
+  }
+
+  public void setEnableClub(boolean enableClub) {
+    this.enableClub = enableClub;
+  }
+
+  public boolean isEnableStudent() {
+    return enableStudent;
+  }
+
+  public void setEnableStudent(boolean enableStudent) {
+    this.enableStudent = enableStudent;
+  }
+
+  public boolean isEnableEmployee() {
+    return enableEmployee;
+  }
+
+  public void setEnableEmployee(boolean enableEmployee) {
+    this.enableEmployee = enableEmployee;
+  }
+
+  public boolean isEnableEvent() {
+    return enableEvent;
+  }
+
+  public void setEnableEvent(boolean enableEvent) {
+    this.enableEvent = enableEvent;
+  }
+
+  public boolean isEnableParty() {
+    return enableParty;
+  }
+
+  public void setEnableParty(boolean enableParty) {
+    this.enableParty = enableParty;
+  }
 }

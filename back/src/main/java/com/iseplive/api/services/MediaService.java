@@ -129,8 +129,9 @@ public class MediaService {
 
     Gallery galleryRes = mediaRepository.save(gallery);
 
-    List<Image> images = new ArrayList<>();
-    files.forEach(file -> images.add(addImage(file, galleryRes)));
+    List<Image> images = files.parallelStream()
+      .map(file -> addImage(file, galleryRes))
+      .collect(Collectors.toList());
     mediaRepository.save(images);
 
     return galleryRes;

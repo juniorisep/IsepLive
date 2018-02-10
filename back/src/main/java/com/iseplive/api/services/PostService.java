@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import springfox.documentation.annotations.Cacheable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,6 +83,7 @@ public class PostService {
     return new PageRequest(page, POSTS_PER_PAGE);
   }
 
+  @Cacheable("posts")
   public Page<PostView> getPosts(int page) {
     Page<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(
       PublishStateEnum.PUBLISHED, false, createPage(page));
@@ -94,6 +96,7 @@ public class PostService {
     return posts.map(post -> postFactory.entityToView(post));
   }
 
+  @Cacheable("pinned-posts")
   public List<PostView> getPinnedPosts() {
     List<Post> posts = postRepository.findByPublishStateAndIsPinnedOrderByCreationDateDesc(
       PublishStateEnum.PUBLISHED, true);

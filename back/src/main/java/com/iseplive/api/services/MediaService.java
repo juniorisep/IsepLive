@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.Cacheable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,6 +78,7 @@ public class MediaService {
     );
   }
 
+  @Cacheable("media-list")
   public Page<Media> getAllGalleryGazetteVideo(int page) {
     return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeOrderByCreationDesc(
       Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),

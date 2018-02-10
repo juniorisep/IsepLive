@@ -123,12 +123,6 @@ public class MediaUtils {
     try {
       Path path = Paths.get(getPath(filePath));
       Files.createDirectories(path.getParent());
-//      File out = path.toFile();
-//      boolean created = out.createNewFile();
-//
-//      if (!created) {
-//        throw new FileException("could not create file: " + getPath(filePath));
-//      }
 
       Files.copy(file.getInputStream(), path);
 

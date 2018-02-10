@@ -50,8 +50,8 @@ import { ProfileImage, Text } from 'components/common';
 
 const PublishBox = styled.div`
   background: ${props => props.theme.main};
-  margin-bottom: 20px;
   padding: 20px;
+  margin-bottom: 3px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 `;
@@ -132,6 +132,7 @@ type PublishBoxState = {
   mediaSelected: ?MediaType,
   isUploading: boolean,
   uploadMode: string,
+  uploadProgress: number,
   messageRows: number,
   anchorEl: ?any,
 };
@@ -150,7 +151,8 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     form: null,
     mediaSelected: null,
     isUploading: false,
-    uploadMode: 'undeterminate',
+    uploadMode: 'indeterminate',
+    uploadProgress: 0,
     messageRows: 2,
     anchorEl: null,
   };
@@ -309,6 +311,18 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     this.setState({ form });
   };
 
+  onProgress = (progressEvent) => {
+    if (this.state.isUploading) {
+      const percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+      console.log('progress', percent);
+      if (percent === 100) {
+        this.setState({ uploadMode: 'indeterminate' });
+      } else {
+        this.setState({ uploadMode: 'determinate', uploadProgress: percent });
+      }
+    }
+  }
+
   canPublish() {
     const { author, title, message, mediaSelected } = this.state;
 
@@ -345,11 +359,11 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
       case 'poll':
         return pollData.createPoll(this.state.form);
       case 'image':
-        return imageData.createImage(this.state.form.file);
+        return imageData.createImage(this.state.form.file, this.onProgress);
       case 'videoEmbed':
         return videoData.createVideoEmbed(this.state.form);
       case 'video':
-        return videoData.createVideo(this.state.form);
+        return videoData.createVideo(this.state.form, this.onProgress);
       case 'gallery':
         return imageData.createGallery(this.state.form);
       case 'event':
@@ -390,7 +404,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     const { author, isUploading } = this.state;
     const canPublish = this.canPublish();
     return (
-      <div>
+      <div style={{ marginBottom: 20 }}>
         <PublishBox>
           {
             author && author.type === 'club' &&
@@ -446,14 +460,6 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
                 disabled={!canPublish || isUploading}>Publier</Button>
             </Box>
           </Flex>
-          <input
-            id="file"
-            type="file"
-            ref={inputFile => this.inputFile = inputFile}
-            accept="jpg,jpeg,JPG,JPEG"
-            multiple
-            style={{ display: 'none' }}
-          />
           <Menu
             anchorEl={this.state.anchorEl}
             open={this.state.authorMenuOpen}
@@ -481,8 +487,14 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
               })
             }
           </Menu>
-          {isUploading && <LinearProgress />}
         </PublishBox>
+        {
+          isUploading &&
+          <LinearProgress
+            color="primary"
+            mode={this.state.uploadMode}
+            value={this.state.uploadProgress} />
+        }
       </div>
     );
   }

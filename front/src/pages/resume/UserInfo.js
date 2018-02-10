@@ -38,37 +38,39 @@ function UserInfo(props) {
   const user = props.user;
   return (
     <table>
-      <tr>
-        <InfoDescriptor label="Promotion" />
-        <InfoValue label={user.promo} default="Non renseigné" />
-      </tr>
-      <tr>
-        <InfoDescriptor label="Numéro ISEP" />
-        <InfoValue label={user.studentId} default="Non renseigné" />
-      </tr>
-      <tr>
-        <InfoDescriptor label="Téléphone" />
-        <InfoValue label={user.phone} default="Non renseigné" />
-      </tr>
-      <tr>
-        <InfoDescriptor label="Adresse" />
-        <InfoValue label={user.address} default="Non renseignée" />
-      </tr>
-      <tr>
-        <InfoDescriptor label="Mail" />
-        <InfoValue label={user.mail} default="Non renseigné" />
-      </tr>
-      <tr>
-        <InfoDescriptor label="Mail ISEP" />
-        <InfoValue label={user.mailISEP} default="Non renseigné" />
-      </tr>
-      <tr>
-        <InfoDescriptor label="Date de naissance" />
-        <InfoValue
-          label={user.birthDate}
-          display={(l) => <Time date={l} format="DD/MM/YYYY" />}
-          default="Non renseignée" />
-      </tr>
+      <tbody>
+        <tr>
+          <InfoDescriptor label="Promotion" />
+          <InfoValue label={user.promo} default="Non renseigné" />
+        </tr>
+        <tr>
+          <InfoDescriptor label="Numéro ISEP" />
+          <InfoValue label={user.studentId} default="Non renseigné" />
+        </tr>
+        <tr>
+          <InfoDescriptor label="Téléphone" />
+          <InfoValue label={user.phone} default="Non renseigné" />
+        </tr>
+        <tr>
+          <InfoDescriptor label="Adresse" />
+          <InfoValue label={user.address} default="Non renseignée" />
+        </tr>
+        <tr>
+          <InfoDescriptor label="Mail" />
+          <InfoValue label={user.mail} default="Non renseigné" />
+        </tr>
+        <tr>
+          <InfoDescriptor label="Mail ISEP" />
+          <InfoValue label={user.mailISEP} default="Non renseigné" />
+        </tr>
+        <tr>
+          <InfoDescriptor label="Date de naissance" />
+          <InfoValue
+            label={user.birthDate}
+            display={(l) => <Time date={l} format="DD/MM/YYYY" />}
+            default="Non renseignée" />
+        </tr>
+      </tbody>
     </table >
   );
 }

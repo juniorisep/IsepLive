@@ -32,19 +32,21 @@ axios.defaults.baseURL = backUrl;
 const theme = createMuiTheme({
   palette: {
     type: "light",
-    primary: indigo,
-    secondary: amber,
+    primary: {
+      main: indigo[500],
+    },
+    secondary: {
+      main: amber[500],
+      contrastText: indigo[500],
+    },
     error: red,
 
-    contrastThreshold: 1,
+    contrastThreshold: 3,
   },
 
   overrides: {
     MuiButton: {
       root: {
-        color: 'white',
-      },
-      raisedAccent: {
         color: 'white',
       },
     },

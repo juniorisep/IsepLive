@@ -75,8 +75,8 @@ export default function AdressbookDetailView(props) {
               <Tabs
                 value={props.tabIndex}
                 onChange={props.changeTab}
-                indicatorColor={SECONDARY_COLOR}
-                textColor={MAIN_COLOR}
+                indicatorColor="secondary"
+                textColor="primary"
                 centered
               >
                 <Tab label="Compte" />

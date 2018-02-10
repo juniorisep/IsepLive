@@ -51,8 +51,8 @@ class Whoarewe extends Component {
           <Tabs
             value={tabOpen}
             onChange={this.handleChangeTab}
-            indicatorColor={SECONDARY_COLOR}
-            textColor={MAIN_COLOR}
+            indicatorColor="secondary"
+            textColor="primary"
             centered
           >
             <Tab label="Nos objectifs" component={Link} to={`${match.url}/target`} />

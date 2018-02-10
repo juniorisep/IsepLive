@@ -52,7 +52,7 @@ const Person = (props) => {
       <ProfileImage src={props.url} sz="100%" mh="200px" />
       <MainText>
         <p className="name">{props.name}</p>
-        <p>Promo {props.promotion} {promo && <BadgeYear>{promo}</BadgeYear>}</p>
+        <div>Promo {props.promotion} {promo && <BadgeYear>{promo}</BadgeYear>}</div>
       </MainText>
     </div>
   );

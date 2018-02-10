@@ -40,8 +40,8 @@ class Admin extends React.Component {
       <main>
         <Tabs
           value={tabOpen}
-          indicatorColor={SECONDARY_COLOR}
-          textColor={MAIN_COLOR}
+          indicatorColor="secondary"
+          textColor="primary"
           centered
           onChange={this.handleChangeTab}>
           <Tab label="Utilisateurs" component={Link} to={`${match.url}/utilisateurs`} />

@@ -5,10 +5,10 @@ import type { AxiosPromise } from 'axios';
 
 import type { Image, Gallery, Match } from './type';
 
-export function createImage(file: File): AxiosPromise<Image> {
+export function createImage(file: File, onUploadProgress): AxiosPromise<Image> {
   var data = new FormData();
   data.append('image', file);
-  return axios.post('/media/image', data);
+  return axios.post('/media/image', data, { onUploadProgress });
 }
 
 export function createGallery(form): AxiosPromise<Gallery> {

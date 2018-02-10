@@ -7,9 +7,9 @@ export function createVideoEmbed(form: VideoEmbed) {
   return axios.post('/media/videoEmbed', form);
 }
 
-export function createVideo(form: Video) {
+export function createVideo(form: Video, onUploadProgress) {
   var data = new FormData();
   data.append('video', form.video);
   data.append('name', form.name);
-  return axios.post('/media/video', data);
+  return axios.post('/media/video', data, { onUploadProgress });
 }

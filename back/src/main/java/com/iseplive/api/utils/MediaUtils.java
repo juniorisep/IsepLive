@@ -131,8 +131,7 @@ public class MediaUtils {
         throw new FileException("could not create file: " + getPath(filePath));
       }
 
-      byte[] bytes = file.getBytes();
-      Files.write(path, bytes);
+      Files.copy(file.getInputStream(), path);
 
     } catch (IOException e) {
       throw new FileException("could not create file: " + getPath(filePath), e);

@@ -7,7 +7,7 @@ import com.iseplive.api.dao.image.ImageRepository;
 import com.iseplive.api.dao.image.MatchedRepository;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
-import com.iseplive.api.dto.VideoEmbedDTO;
+import com.iseplive.api.dto.media.VideoEmbedDTO;
 import com.iseplive.api.dto.view.MatchedView;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.user.Student;

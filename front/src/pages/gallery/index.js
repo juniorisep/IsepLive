@@ -273,7 +273,7 @@ export default class GalleryPage extends React.Component<{}, State> {
                           <Flex
                             align="center"
                             justify="center"
-                            direction="column"
+                            flexDirection="column"
                             style={{ height: '100%' }}>
                             <Link to={{
                               pathname: '/gallery/' + gallery.id,

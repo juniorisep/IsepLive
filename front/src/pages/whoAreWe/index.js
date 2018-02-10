@@ -16,7 +16,7 @@ import Target from './target';
 
 class Whoarewe extends Component {
   state = {
-    index: 0,
+    tabOpen: 0,
   };
 
   componentDidMount() {
@@ -27,16 +27,17 @@ class Whoarewe extends Component {
       [base + '/hall-of-fame']: 2,
     };
     if (urlToTab[this.props.location.pathname]) {
-      this.setState({ index: urlToTab[this.props.location.pathname] });
+      this.setState({ tabOpen: urlToTab[this.props.location.pathname] });
     }
   }
 
-  handleChange = (event, index) => {
-    this.setState({ index });
-  };
+  handleChangeTab = (event: Event, index: number) => {
+    this.setState({ tabOpen: index });
+  }
 
   render() {
     const { match } = this.props;
+    const { tabOpen } = this.state;
     return (
       <div>
         <Header url="/img/background.jpg">
@@ -48,8 +49,8 @@ class Whoarewe extends Component {
         </Header>
         <Paper>
           <Tabs
-            value={this.state.index}
-            onChange={this.handleChange}
+            value={tabOpen}
+            onChange={this.handleChangeTab}
             indicatorColor={SECONDARY_COLOR}
             textColor={MAIN_COLOR}
             centered

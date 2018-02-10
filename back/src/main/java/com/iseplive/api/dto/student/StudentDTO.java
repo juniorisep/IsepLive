@@ -1,4 +1,4 @@
-package com.iseplive.api.dto;
+package com.iseplive.api.dto.student;
 
 import java.util.Date;
 

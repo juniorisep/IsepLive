@@ -3,7 +3,7 @@ package com.iseplive.api.services;
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dao.event.EventFactory;
 import com.iseplive.api.dao.event.EventRepository;
-import com.iseplive.api.dto.EventDTO;
+import com.iseplive.api.dto.media.EventDTO;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.media.Event;
 import com.iseplive.api.exceptions.IllegalArgumentException;

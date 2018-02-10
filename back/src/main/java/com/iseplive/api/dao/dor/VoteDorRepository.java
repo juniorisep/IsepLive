@@ -1,8 +1,12 @@
 package com.iseplive.api.dao.dor;
 
+import com.iseplive.api.entity.dor.QuestionDor;
+import com.iseplive.api.entity.dor.SessionDor;
 import com.iseplive.api.entity.dor.VoteDor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by Guillaume on 09/02/2018.
@@ -10,5 +14,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface VoteDorRepository extends CrudRepository<VoteDor, Long> {
-
+  List<VoteDor> findAllByRoundAndStudentIdAndQuestionDorAndSession(
+    int round, Long student_id, QuestionDor questionDor, SessionDor session);
 }

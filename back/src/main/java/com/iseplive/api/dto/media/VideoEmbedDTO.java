@@ -1,4 +1,4 @@
-package com.iseplive.api.dto;
+package com.iseplive.api.dto.media;
 
 import com.iseplive.api.constants.VideoEmbedEnum;
 

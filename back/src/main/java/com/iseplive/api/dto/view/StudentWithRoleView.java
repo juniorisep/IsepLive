@@ -1,6 +1,6 @@
 package com.iseplive.api.dto.view;
 
-import com.iseplive.api.dto.StudentUpdateAdminDTO;
+import com.iseplive.api.dto.student.StudentUpdateAdminDTO;
 
 import java.util.List;
 

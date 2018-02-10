@@ -2,7 +2,7 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dao.student.StudentRepository;
-import com.iseplive.api.dto.ImportStudentResult;
+import com.iseplive.api.dto.view.ImportStudentResultView;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,9 @@ public class StudentImportService {
   @Autowired
   StudentRepository studentRepository;
 
-  public ImportStudentResult importStudents(MultipartFile csv, List<MultipartFile> photos) {
+  public ImportStudentResultView importStudents(MultipartFile csv, List<MultipartFile> photos) {
 
-    ImportStudentResult res = new ImportStudentResult();
+    ImportStudentResultView res = new ImportStudentResultView();
 
     // Map of studentID : Student
     Map<String, Student> students = new HashMap<>();
@@ -77,8 +77,8 @@ public class StudentImportService {
     return res;
   }
 
-  private ImportStudentResult createStudents(List<MultipartFile> photos, Map<String, Student> students) {
-    ImportStudentResult res = new ImportStudentResult();
+  private ImportStudentResultView createStudents(List<MultipartFile> photos, Map<String, Student> students) {
+    ImportStudentResultView res = new ImportStudentResultView();
     res.setPhotosSent(photos.size());
     res.setStudentsSent(students.size());
 

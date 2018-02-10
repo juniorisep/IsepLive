@@ -1,6 +1,6 @@
 package com.iseplive.api.dao.event;
 
-import com.iseplive.api.dto.EventDTO;
+import com.iseplive.api.dto.media.EventDTO;
 import com.iseplive.api.entity.media.Event;
 import org.springframework.stereotype.Service;
 

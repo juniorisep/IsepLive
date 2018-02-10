@@ -17,6 +17,8 @@ public class EventDor {
 
   private String name;
 
+  private boolean party;
+
   public Long getId() {
     return id;
   }
@@ -31,5 +33,13 @@ public class EventDor {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isParty() {
+    return party;
+  }
+
+  public void setParty(boolean party) {
+    this.party = party;
   }
 }

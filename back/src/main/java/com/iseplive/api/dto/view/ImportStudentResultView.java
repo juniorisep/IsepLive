@@ -1,10 +1,10 @@
-package com.iseplive.api.dto;
+package com.iseplive.api.dto.view;
 
 /**
  * Created by Guillaume on 08/12/2017.
  * back
  */
-public class ImportStudentResult {
+public class ImportStudentResultView {
   private Integer alreadyImported = 0;
   private Integer studentAndPhotoNotMatched = 0;
   private Integer imported = 0;

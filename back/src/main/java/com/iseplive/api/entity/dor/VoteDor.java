@@ -1,9 +1,12 @@
 package com.iseplive.api.entity.dor;
 
-import com.iseplive.api.entity.user.Employee;
+import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 /**
@@ -26,18 +29,17 @@ public class VoteDor {
   private Student student;
 
   @ManyToOne
-  private Employee employee;
+  private Author resAuthor;
 
   @ManyToOne
-  private EventDor event;
-
-  @ManyToOne
-  private PartyDor partyDor;
+  private EventDor resEvent;
 
   @ManyToOne
   private QuestionDor questionDor;
 
   private Date date;
+
+  private int round;
 
   public Long getId() {
     return id;
@@ -53,14 +55,6 @@ public class VoteDor {
 
   public void setStudent(Student student) {
     this.student = student;
-  }
-
-  public Employee getEmployee() {
-    return employee;
-  }
-
-  public void setEmployee(Employee employee) {
-    this.employee = employee;
   }
 
   public QuestionDor getQuestionDor() {
@@ -87,27 +81,35 @@ public class VoteDor {
     this.session = session;
   }
 
-  public PartyDor getPartyDor() {
-    return partyDor;
-  }
-
-  public void setPartyDor(PartyDor partyDor) {
-    this.partyDor = partyDor;
-  }
-
-  public EventDor getEvent() {
-    return event;
-  }
-
-  public void setEvent(EventDor event) {
-    this.event = event;
-  }
-
   public boolean isSecondTurn() {
     return secondTurn;
   }
 
   public void setSecondTurn(boolean secondTurn) {
     this.secondTurn = secondTurn;
+  }
+
+  public int getRound() {
+    return round;
+  }
+
+  public void setRound(int round) {
+    this.round = round;
+  }
+
+  public Author getResAuthor() {
+    return resAuthor;
+  }
+
+  public void setResAuthor(Author resAuthor) {
+    this.resAuthor = resAuthor;
+  }
+
+  public EventDor getResEvent() {
+    return resEvent;
+  }
+
+  public void setResEvent(EventDor resEvent) {
+    this.resEvent = resEvent;
   }
 }

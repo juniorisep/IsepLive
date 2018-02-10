@@ -16,10 +16,10 @@ public class QuestionDor {
   private Integer position;
   private String title;
 
-  private Boolean enableEvent;
   private Boolean enableClub;
   private Boolean enableStudent;
   private Boolean enableEmployee;
+  private Boolean enableEvent;
   private Boolean enableParty;
 
   private Integer promo;

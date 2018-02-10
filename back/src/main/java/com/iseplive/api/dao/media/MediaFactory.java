@@ -1,6 +1,6 @@
 package com.iseplive.api.dao.media;
 
-import com.iseplive.api.dto.VideoEmbedDTO;
+import com.iseplive.api.dto.media.VideoEmbedDTO;
 import com.iseplive.api.entity.media.VideoEmbed;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package com.iseplive.api.dao.student;
 
-import com.iseplive.api.dto.StudentDTO;
-import com.iseplive.api.dto.StudentUpdateAdminDTO;
-import com.iseplive.api.dto.StudentUpdateDTO;
+import com.iseplive.api.dto.student.StudentDTO;
+import com.iseplive.api.dto.student.StudentUpdateAdminDTO;
+import com.iseplive.api.dto.student.StudentUpdateDTO;
 import com.iseplive.api.dto.view.StudentWithRoleView;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;

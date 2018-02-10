@@ -2,10 +2,10 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.Roles;
-import com.iseplive.api.dto.ImportStudentResult;
-import com.iseplive.api.dto.StudentDTO;
-import com.iseplive.api.dto.StudentUpdateAdminDTO;
-import com.iseplive.api.dto.StudentUpdateDTO;
+import com.iseplive.api.dto.view.ImportStudentResultView;
+import com.iseplive.api.dto.student.StudentDTO;
+import com.iseplive.api.dto.student.StudentUpdateAdminDTO;
+import com.iseplive.api.dto.student.StudentUpdateDTO;
 import com.iseplive.api.dto.view.ClubMemberView;
 import com.iseplive.api.dto.view.MatchedView;
 import com.iseplive.api.dto.view.PostView;
@@ -144,8 +144,8 @@ public class UserController {
 
   @PostMapping("/student/import")
   @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
-  public ImportStudentResult importStudents(@RequestParam("csv") MultipartFile csv,
-                                            @RequestParam("images[]") List<MultipartFile> photos) {
+  public ImportStudentResultView importStudents(@RequestParam("csv") MultipartFile csv,
+                                                @RequestParam("images[]") List<MultipartFile> photos) {
     return studentImportService.importStudents(csv, photos);
   }
 

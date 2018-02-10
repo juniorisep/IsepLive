@@ -2,7 +2,7 @@ package com.iseplive.api.controllers.media;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.Roles;
-import com.iseplive.api.dto.PollCreationDTO;
+import com.iseplive.api.dto.media.PollCreationDTO;
 import com.iseplive.api.entity.media.poll.Poll;
 import com.iseplive.api.entity.media.poll.PollVote;
 import com.iseplive.api.services.PollService;

@@ -4,7 +4,7 @@ import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.dao.poll.PollAnswerRepository;
 import com.iseplive.api.dao.poll.PollRepository;
 import com.iseplive.api.dao.poll.PollVoteRepository;
-import com.iseplive.api.dto.PollCreationDTO;
+import com.iseplive.api.dto.media.PollCreationDTO;
 import com.iseplive.api.entity.media.poll.Poll;
 import com.iseplive.api.entity.media.poll.PollAnswer;
 import com.iseplive.api.entity.media.poll.PollVote;

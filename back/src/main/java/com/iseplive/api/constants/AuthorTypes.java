@@ -7,4 +7,5 @@ package com.iseplive.api.constants;
 public interface AuthorTypes {
   String STUDENT = "student";
   String CLUB = "club";
+  String EMPLOYEE = "employee";
 }

@@ -1,28 +1,20 @@
 package com.iseplive.api.entity.user;
 
+import com.iseplive.api.constants.AuthorTypes;
+
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 /**
  * Created by Guillaume on 28/07/2017.
  * back
  */
 @Entity
-public class Employee {
-  @Id
-  @GeneratedValue
-  private Long id;
+@DiscriminatorValue(AuthorTypes.EMPLOYEE)
+public class Employee extends Author {
+
   private String firstname;
   private String lastname;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public String getFirstname() {
     return firstname;

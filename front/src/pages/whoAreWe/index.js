@@ -33,7 +33,7 @@ class Whoarewe extends Component {
 
   handleChangeTab = (event: Event, index: number) => {
     this.setState({ tabOpen: index });
-  }
+  };
 
   render() {
     const { match } = this.props;
@@ -55,9 +55,21 @@ class Whoarewe extends Component {
             textColor="primary"
             centered
           >
-            <Tab label="Nos objectifs" component={Link} to={`${match.url}/target`} />
-            <Tab label="Notre équipe" component={Link} to={`${match.url}/team`} />
-            <Tab label="Hall of Fame" component={Link} to={`${match.url}/hall-of-fame`} />
+            <Tab
+              label="Nos objectifs"
+              component={Link}
+              to={`${match.url}/target`}
+            />
+            <Tab
+              label="Notre équipe"
+              component={Link}
+              to={`${match.url}/team`}
+            />
+            <Tab
+              label="Hall of Fame"
+              component={Link}
+              to={`${match.url}/hall-of-fame`}
+            />
           </Tabs>
           <Switch>
             <Redirect path={`${match.url}`} exact to={`${match.url}/target`} />

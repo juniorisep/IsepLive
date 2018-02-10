@@ -1,4 +1,4 @@
-package com.iseplive.api.dto;
+package com.iseplive.api.dto.dor;
 
 /**
  * Created by Guillaume on 10/02/2018.

@@ -2,14 +2,14 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.Roles;
-import com.iseplive.api.dto.VoteDorDTO;
-import com.iseplive.api.services.IsepDorService;
+import com.iseplive.api.dto.dor.SessionDorDTO;
+import com.iseplive.api.dto.dor.VoteDorDTO;
+import com.iseplive.api.entity.dor.SessionDor;
+import com.iseplive.api.entity.dor.VoteDor;
+import com.iseplive.api.services.DorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -22,11 +22,17 @@ import javax.annotation.security.RolesAllowed;
 public class DorController {
 
   @Autowired
-  IsepDorService dorService;
+  DorService dorService;
+
+  @PostMapping("/session")
+  @RolesAllowed({ Roles.ADMIN })
+  public SessionDor createSession(@RequestBody SessionDorDTO sessionDorDTO) {
+    return dorService.createSession(sessionDorDTO);
+  }
 
   @PutMapping("/vote")
   @RolesAllowed({ Roles.STUDENT })
-  public void vote(@RequestBody VoteDorDTO voteDor, @AuthenticationPrincipal TokenPayload payload) {
-    dorService.handleVote(voteDor, payload);
+  public VoteDor vote(@RequestBody VoteDorDTO voteDor, @AuthenticationPrincipal TokenPayload payload) {
+    return dorService.handleVote(voteDor, payload);
   }
 }

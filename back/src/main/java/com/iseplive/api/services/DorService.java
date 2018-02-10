@@ -6,7 +6,8 @@ import com.iseplive.api.dao.dor.QuestionDorRepository;
 import com.iseplive.api.dao.dor.SessionDorRepository;
 import com.iseplive.api.dao.dor.VoteDorRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
-import com.iseplive.api.dto.VoteDorDTO;
+import com.iseplive.api.dto.dor.SessionDorDTO;
+import com.iseplive.api.dto.dor.VoteDorDTO;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.dor.EventDor;
 import com.iseplive.api.entity.dor.QuestionDor;
@@ -27,7 +28,7 @@ import java.util.List;
  * back
  */
 @Service
-public class IsepDorService {
+public class DorService {
 
   @Autowired
   QuestionDorRepository questionDorRepository;
@@ -49,6 +50,14 @@ public class IsepDorService {
 
   public SessionDor getCurrentSession() {
     return sessionDorRepository.findByEnabled(true);
+  }
+
+  public SessionDor createSession(SessionDorDTO sessionDorDTO) {
+    SessionDor sessionDor = new SessionDor();
+    sessionDor.setFirstTurn(sessionDorDTO.getFirstTurn());
+    sessionDor.setSecondTurn(sessionDorDTO.getSecondTurn());
+    sessionDor.setResult(sessionDorDTO.getResult());
+    return sessionDorRepository.save(sessionDor);
   }
 
   public VoteDor handleVote(VoteDorDTO voteDor, TokenPayload payload) {

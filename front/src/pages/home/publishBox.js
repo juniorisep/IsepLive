@@ -365,7 +365,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
       case 'video':
         return videoData.createVideo(this.state.form, this.onProgress);
       case 'gallery':
-        return imageData.createGallery(this.state.form);
+        return imageData.createGallery(this.state.form, this.onProgress);
       case 'event':
         return mediaData.createEvent(this.state.form, this.state.author.id);
       case 'document':

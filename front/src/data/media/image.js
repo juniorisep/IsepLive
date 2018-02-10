@@ -11,13 +11,13 @@ export function createImage(file: File, onUploadProgress): AxiosPromise<Image> {
   return axios.post('/media/image', data, { onUploadProgress });
 }
 
-export function createGallery(form): AxiosPromise<Gallery> {
+export function createGallery(form, onUploadProgress): AxiosPromise<Gallery> {
   var data = new FormData();
   data.append('name', form.title);
   for (var i = 0; i < form.images.length; i++) {
     data.append('images[]', form.images[i]);
   }
-  return axios.post('/media/gallery', data);
+  return axios.post('/media/gallery', data, { onUploadProgress });
 }
 
 export function getGallery(id: number): AxiosPromise<Gallery> {

@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -124,12 +123,12 @@ public class MediaUtils {
     try {
       Path path = Paths.get(getPath(filePath));
       Files.createDirectories(path.getParent());
-      File out = path.toFile();
-      boolean created = out.createNewFile();
-
-      if (!created) {
-        throw new FileException("could not create file: " + getPath(filePath));
-      }
+//      File out = path.toFile();
+//      boolean created = out.createNewFile();
+//
+//      if (!created) {
+//        throw new FileException("could not create file: " + getPath(filePath));
+//      }
 
       Files.copy(file.getInputStream(), path);
 

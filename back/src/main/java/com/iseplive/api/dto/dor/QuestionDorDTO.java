@@ -1,20 +1,11 @@
-package com.iseplive.api.entity.dor;
-
-import javax.persistence.*;
+package com.iseplive.api.dto.dor;
 
 /**
- * Created by Guillaume on 28/07/2017.
+ * Created by Guillaume on 11/02/2018.
  * back
  */
-@Entity
-public class QuestionDor {
-  @Id
-  @GeneratedValue
-  private Long id;
-
-  @Column(unique = true)
+public class QuestionDorDTO {
   private int position;
-
   private String title;
 
   private boolean enableClub;
@@ -24,14 +15,6 @@ public class QuestionDor {
   private boolean enableParty;
 
   private Integer promo;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public int getPosition() {
     return position;
@@ -47,14 +30,6 @@ public class QuestionDor {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public Integer getPromo() {
-    return promo;
-  }
-
-  public void setPromo(Integer promo) {
-    this.promo = promo;
   }
 
   public boolean isEnableClub() {
@@ -95,5 +70,13 @@ public class QuestionDor {
 
   public void setEnableParty(boolean enableParty) {
     this.enableParty = enableParty;
+  }
+
+  public Integer getPromo() {
+    return promo;
+  }
+
+  public void setPromo(Integer promo) {
+    this.promo = promo;
   }
 }

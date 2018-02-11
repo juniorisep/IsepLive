@@ -17,7 +17,7 @@ public class SessionDor {
   private Date firstTurn;
   private Date secondTurn;
   private Date result;
-  private Boolean enabled;
+  private boolean enabled;
 
   public Long getId() {
     return id;
@@ -51,11 +51,12 @@ public class SessionDor {
     this.result = result;
   }
 
-  public Boolean getEnabled() {
-    return enabled;
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
-  public void setEnabled(Boolean enabled) {
-    this.enabled = enabled;
+  public boolean isEnabled() {
+    return enabled;
   }
 }

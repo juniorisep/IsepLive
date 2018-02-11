@@ -6,6 +6,7 @@ import com.iseplive.api.dao.dor.QuestionDorRepository;
 import com.iseplive.api.dao.dor.SessionDorRepository;
 import com.iseplive.api.dao.dor.VoteDorRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
+import com.iseplive.api.dto.dor.QuestionDorDTO;
 import com.iseplive.api.dto.dor.SessionDorDTO;
 import com.iseplive.api.dto.dor.VoteDorDTO;
 import com.iseplive.api.entity.club.Club;
@@ -48,10 +49,6 @@ public class DorService {
   @Autowired
   StudentService studentService;
 
-  public SessionDor getCurrentSession() {
-    return sessionDorRepository.findByEnabled(true);
-  }
-
   public SessionDor createSession(SessionDorDTO sessionDorDTO) {
     SessionDor sessionDor = new SessionDor();
     sessionDor.setFirstTurn(sessionDorDTO.getFirstTurn());
@@ -60,8 +57,33 @@ public class DorService {
     return sessionDorRepository.save(sessionDor);
   }
 
+  public QuestionDor createQuestion(QuestionDorDTO questionDorDTO) {
+    QuestionDor questionDor = new QuestionDor();
+    questionDor.setPosition(questionDor.getPosition());
+    questionDor.setTitle(questionDorDTO.getTitle());
+
+    questionDor.setEnableStudent(questionDorDTO.isEnableStudent());
+    questionDor.setEnableClub(questionDorDTO.isEnableClub());
+    questionDor.setEnableEmployee(questionDorDTO.isEnableEmployee());
+    questionDor.setEnableEvent(questionDorDTO.isEnableEvent());
+    questionDor.setEnableParty(questionDorDTO.isEnableParty());
+    return questionDorRepository.save(questionDor);
+  }
+
+  public List<SessionDor> getSessions() {
+    return sessionDorRepository.findAll();
+  }
+
+  public List<QuestionDor> getQuestions() {
+    return questionDorRepository.findAll();
+  }
+
   public VoteDor handleVote(VoteDorDTO voteDor, TokenPayload payload) {
     SessionDor sessionDor = getCurrentSession();
+    if (sessionDor == null) {
+      throw new IllegalArgumentException("No session active");
+    }
+
     QuestionDor questionDor = getQuestionDor(voteDor.getQuestionID());
     Student student = studentService.getStudent(payload.getId());
 
@@ -91,6 +113,12 @@ public class DorService {
         throw new IllegalArgumentException("this answer is not available");
       }
 
+      if (author instanceof Student) {
+        if (!((Student) author).getPromo().equals(questionDor.getPromo())) {
+          throw new IllegalArgumentException("you cannot choose this student");
+        }
+      }
+
       newVoteDor.setResAuthor(author);
       return voteDorRepository.save(newVoteDor);
     }
@@ -113,6 +141,10 @@ public class DorService {
     }
 
     throw new IllegalArgumentException("cannot vote for this");
+  }
+
+  private SessionDor getCurrentSession() {
+    return sessionDorRepository.findByEnabled(true);
   }
 
   private int getRound(SessionDor sessionDor) {
@@ -153,5 +185,4 @@ public class DorService {
 
     throw new IllegalArgumentException("this session is closed");
   }
-
 }

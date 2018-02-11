@@ -78,6 +78,7 @@ export default function Home(props) {
             <PublishBoxView refreshPosts={props.refreshPosts} />
             <Separator />
           </Auth>
+          <IsepDorHome />
           <PostSection>
             <Loader loading={props.isLoading}>
               <div>
@@ -133,7 +134,6 @@ export default function Home(props) {
             </Loader>
           </PostSection>
         </FluidContent>
-        <IsepDorHome />
       </div>
     </div>
   );

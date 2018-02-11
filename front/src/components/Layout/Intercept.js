@@ -27,8 +27,8 @@ const noConnectStyle = {
   marginBottom: 30,
 };
 
-function refreshPage(){
-    window.location.reload();
+function refreshPage() {
+  window.location.reload();
 }
 
 const ErrorView = (props) => (
@@ -44,9 +44,9 @@ const ErrorView = (props) => (
       lineHeight: 1.5,
     }}>
       {props.message} <br />
-      Essayez de recharger votre page.
+      Essayez de recharger la page.
     </div>
-    <div style={{textAlign: 'center'}}>
+    <div style={{ textAlign: 'center' }}>
       <Button raised color="primary" onClick={refreshPage}>
         Recharger
       </Button>

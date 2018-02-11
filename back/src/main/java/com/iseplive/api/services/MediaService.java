@@ -138,7 +138,7 @@ public class MediaService {
   }
 
   public Image addImage(MultipartFile file) {
-    return addImage(file, null);
+    return mediaRepository.save(addImage(file, null));
   }
 
   public void deleteImageFile(Image image) {
@@ -269,7 +269,7 @@ public class MediaService {
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
     image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
     image.setOriginalUrl(mediaUtils.getPublicUrl(pathOriginal));
-    return mediaRepository.save(image);
+    return image;
   }
 
   private Image getImage(Long id) {

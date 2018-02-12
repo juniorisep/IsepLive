@@ -11,6 +11,7 @@ import com.iseplive.api.dto.media.VideoEmbedDTO;
 import com.iseplive.api.dto.view.MatchedView;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.FileException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.utils.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.Cacheable;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -128,17 +134,31 @@ public class MediaService {
     gallery.setCreation(new Date());
 
     Gallery galleryRes = mediaRepository.save(gallery);
+    String baseUrl = "/tmp/gallery/";
 
-    List<Image> images = files.parallelStream()
-      .map(file -> addImage(file, galleryRes))
-      .collect(Collectors.toList());
-    mediaRepository.save(images);
+    List<TempFile> tempFiles = new ArrayList<>();
+    files.forEach(f -> {
+      try {
+        Files.createDirectories(Paths.get(baseUrl));
+        File tempFile = new File(baseUrl + f.getOriginalFilename());
+        TempFile tempFileData = new TempFile(f.getContentType(), tempFile);
+        f.transferTo(tempFile);
+        tempFiles.add(tempFileData);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    });
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    executor.submit(() ->
+      tempFiles.forEach(file -> {
+        mediaRepository.save(addImage(file.getFile(), file.getFile().getName(), file.getContentType(), galleryRes));
+        if (!file.getFile().delete()) {
+          throw new FileException("could not delete this temp file: " + file.getFile().getName());
+        }
+      }));
 
     return galleryRes;
-  }
-
-  public Image addImage(MultipartFile file) {
-    return mediaRepository.save(addImage(file, null));
   }
 
   public void deleteImageFile(Image image) {
@@ -246,6 +266,10 @@ public class MediaService {
     imageRepository.delete(images);
   }
 
+  public Image addImage(MultipartFile file) {
+    return mediaRepository.save(addImage(file, null));
+  }
+
   private Image addImage(MultipartFile file, Gallery gallery) {
     Image image = new Image();
     image.setCreation(new Date());
@@ -264,11 +288,37 @@ public class MediaService {
       mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
       file.getOriginalFilename().replaceAll(" ", "-")
     );
+
     mediaUtils.saveFile(pathOriginal, file);
 
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
     image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
     image.setOriginalUrl(mediaUtils.getPublicUrl(pathOriginal));
+    return image;
+  }
+
+  private Image addImage(File file, String originalName, String contentType, Gallery gallery) {
+    Image image = new Image();
+    image.setCreation(new Date());
+    image.setGallery(gallery);
+
+    String name = mediaUtils.randomName();
+    String path = mediaUtils.resolvePath(imageDir, name, false, image.getCreation());
+    String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
+    String pathOriginal = String.format(
+      "%s_%s",
+      mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
+      originalName.replaceAll(" ", "-")
+    );
+
+    image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
+    image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
+    image.setOriginalUrl(mediaUtils.getPublicUrl(pathOriginal));
+
+    mediaUtils.saveJPG(file, contentType, WIDTH_IMAGE_SIZE, path);
+    mediaUtils.saveJPG(file, contentType, WIDTH_IMAGE_SIZE_THUMB, pathThumb);
+    mediaUtils.saveFile(pathOriginal, file);
+
     return image;
   }
 

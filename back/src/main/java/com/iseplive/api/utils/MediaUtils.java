@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -131,24 +131,53 @@ public class MediaUtils {
     }
   }
 
+  public void saveFile(String filePath, File file) {
+    try {
+      Path path = Paths.get(getPath(filePath));
+      Files.createDirectories(path.getParent());
+
+      Files.copy(new FileInputStream(file), path);
+
+    } catch (IOException e) {
+      throw new FileException("could not create file: " + getPath(filePath), e);
+    }
+  }
+
+  public void saveJPG(File image, String contentType, int newWidth, String outputPath) {
+    try {
+      saveJPG(new FileInputStream(image), contentType, newWidth, outputPath);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void saveJPG(MultipartFile image, int newWidth, String outputPath) {
+    try {
+      saveJPG(image.getInputStream(), image.getContentType(), newWidth, outputPath);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Method to resize image and save to jpg
    * extension set by the method
    *
-   * @param image
+   * @param contentType
+   * @param imageInputStream
    * @param newWidth
    * @param outputPath
    */
-  public void saveJPG(MultipartFile image, int newWidth, String outputPath) {
+  public void saveJPG(InputStream imageInputStream, String contentType, int newWidth, String outputPath) {
     try {
       // verify it is an image
-      if (!Arrays.asList("image/png", "image/jpeg").contains(image.getContentType())) {
-        throw new IllegalArgumentException("The file provided is not a valid image or is not supported (should be png or jpeg): " + image.getContentType());
+      if (!Arrays.asList("image/png", "image/jpeg").contains(contentType)) {
+        throw new IllegalArgumentException("The file provided is not a valid image or is not supported (should be png or jpeg): " + contentType);
       }
 
 
       // Create input image
-      BufferedImage inputImage = ImageIO.read(image.getInputStream());
+      BufferedImage inputImage = ImageIO.read(imageInputStream);
       newWidth = newWidth > inputImage.getWidth() ? inputImage.getWidth() : newWidth;
       double ratio = (double) inputImage.getWidth() / (double) inputImage.getHeight();
       int scaledHeight = (int) (newWidth / ratio);

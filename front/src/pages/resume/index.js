@@ -108,6 +108,7 @@ class Resume extends Component {
       case 0:
         return (
           <AccountTab
+            parameters
             data={data}
             posts={posts}
             toggleNotif={this.toggleNotif}

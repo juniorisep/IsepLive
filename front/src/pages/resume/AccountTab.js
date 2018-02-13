@@ -30,7 +30,7 @@ export default function AccountTab(props) {
             <div>
               <FormControlLabel
                 control={<Checkbox checked={allowNotifications} onChange={props.toggleNotif} />}
-                label="Notification lorsqu'une association publie un post / évènement."
+                label="Notification lorsqu'une association publie un post."
               />
             </div>
           </Paper>

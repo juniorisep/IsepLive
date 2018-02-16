@@ -48,7 +48,7 @@ import NotFound from 'pages/404';
 import Resume from 'pages/resume';
 import Whoarewe from 'pages/whoAreWe';
 // import Contact from 'pages/contact';
-// import Help from 'pages/help';
+import Help from 'pages/help';
 import LegalNotice from 'pages/legalNotice';
 // import UserAgreement from 'pages/userAgreement';
 import Admin from 'pages/administration';
@@ -424,7 +424,7 @@ class Layout extends React.Component {
           <Route path="/profile" component={Resume} />
           <Route path="/whoarewe" component={Whoarewe} />
           <Route path="/contact" component={NotFound} />
-          <Route path="/aide" component={NotFound} />
+          <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={NotFound} />
           <Route path="/mentions-legales" component={LegalNotice} />
           <AuthenticatedRoute roles={[roles.ADMIN, roles.USER_MANAGER]} path="/administration" component={Admin} />

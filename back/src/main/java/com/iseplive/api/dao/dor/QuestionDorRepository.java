@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface QuestionDorRepository extends CrudRepository<QuestionDor, Long> {
   List<QuestionDor> findAll();
+  QuestionDor findByPosition(int position);
 }

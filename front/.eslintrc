@@ -1,6 +1,7 @@
 {
   "extends": ["react-app", "eslint:recommended"],
   "rules": {
-    "semi":"error"
+    "semi": "error",
+    "no-console": "warn"
   }
 }

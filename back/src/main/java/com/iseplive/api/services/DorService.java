@@ -18,9 +18,11 @@ import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Employee;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.IllegalArgumentException;
+import com.iseplive.api.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -184,5 +186,36 @@ public class DorService {
     }
 
     throw new IllegalArgumentException("this session is closed");
+  }
+
+  public void toggleSession(Long id) {
+    SessionDor sessionDor = sessionDorRepository.findOne(id);
+    if (sessionDor == null) {
+      throw new NotFoundException("cannot find this session");
+    }
+    sessionDor.setEnabled(!sessionDor.isEnabled());
+    sessionDorRepository.save(sessionDor);
+  }
+
+  public void swapQuestion(Long id, Long otherId) {
+    QuestionDor otherQuestionDor = getQuestionDor(otherId);
+    QuestionDor questionDor = getQuestionDor(id);
+    int position = otherQuestionDor.getPosition();
+    otherQuestionDor.setPosition(questionDor.getPosition());
+    questionDor.setPosition(position);
+    questionDorRepository.save(Arrays.asList(questionDor, otherQuestionDor));
+  }
+
+  public void deleteSession(Long id) {
+    SessionDor sessionDor = sessionDorRepository.findOne(id);
+    if (sessionDor == null) {
+      throw new NotFoundException("cannot find this session");
+    }
+    sessionDorRepository.delete(sessionDor);
+  }
+
+  public void deleteQuestion(Long id) {
+    QuestionDor questionDor = getQuestionDor(id);
+    questionDorRepository.delete(questionDor);
   }
 }

@@ -39,6 +39,18 @@ public class DorController {
     return dorService.getSessions();
   }
 
+  @DeleteMapping("/session/{id}")
+  @RolesAllowed({ Roles.ADMIN })
+  public void deleteSession(@PathVariable Long id) {
+    dorService.deleteSession(id);
+  }
+
+  @PutMapping("/session/{id}/enable")
+  @RolesAllowed({ Roles.ADMIN })
+  public void toggleEnableSession(@PathVariable Long id) {
+    dorService.toggleSession(id);
+  }
+
   @GetMapping("/question")
   @RolesAllowed({ Roles.STUDENT })
   public List<QuestionDor> getQuestions() {
@@ -49,6 +61,17 @@ public class DorController {
   @RolesAllowed({ Roles.ADMIN })
   public QuestionDor createQuestion(@RequestBody QuestionDorDTO questionDorDTO) {
     return dorService.createQuestion(questionDorDTO);
+  }
+
+  @GetMapping("/question/{id}/swap/{otherId}")
+  @RolesAllowed({ Roles.ADMIN })
+  public void orderQuestion(@PathVariable Long id, @PathVariable Long otherId) {
+    dorService.swapQuestion(id, otherId);
+  }
+  @DeleteMapping("/question/{id}")
+  @RolesAllowed({ Roles.ADMIN })
+  public void deleteQuestion(@PathVariable Long id) {
+    dorService.deleteQuestion(id);
   }
 
   @PutMapping("/vote")

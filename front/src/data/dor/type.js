@@ -8,9 +8,9 @@ export type SessionDor = {
 };
 
 export type SessionDorCreate = {
-  firstTurn: Date,
-  secondTurn: Date,
-  result: Date,
+  firstTurn: ?Date,
+  secondTurn: ?Date,
+  result: ?Date,
 };
 
 export type QuestionDor = {

@@ -23,7 +23,7 @@ public class QuestionDor {
   private boolean enableEvent;
   private boolean enableParty;
 
-  private Integer promo;
+  private int promo;
 
   public Long getId() {
     return id;
@@ -47,14 +47,6 @@ public class QuestionDor {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public Integer getPromo() {
-    return promo;
-  }
-
-  public void setPromo(Integer promo) {
-    this.promo = promo;
   }
 
   public boolean isEnableClub() {
@@ -95,5 +87,13 @@ public class QuestionDor {
 
   public void setEnableParty(boolean enableParty) {
     this.enableParty = enableParty;
+  }
+
+  public int getPromo() {
+    return promo;
+  }
+
+  public void setPromo(int promo) {
+    this.promo = promo;
   }
 }

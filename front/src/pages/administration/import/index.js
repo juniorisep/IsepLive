@@ -1,7 +1,7 @@
 // @flow
 
-import React from "react";
-import { Flex, Box } from "grid-styled";
+import React from 'react';
+import { Flex, Box } from 'grid-styled';
 
 import Table, {
   TableBody,
@@ -16,7 +16,7 @@ import { LinearProgress } from 'material-ui/Progress';
 import FileUpload from 'material-ui-icons/FileUpload';
 import Done from 'material-ui-icons/Done';
 
-import { FluidContent, Title, Paper, Text } from "../../../components/common";
+import { FluidContent, Title, Paper, Text } from '../../../components/common';
 import { sendAlert } from '../../../components/Alert';
 import * as studentData from '../../../data/users/student';
 
@@ -31,33 +31,29 @@ export default class ImportStudents extends React.Component {
     uploadState: 'determinate',
     page: 0,
     result: null,
-  }
+  };
 
   importStudents = () => {
     const { csv, photos } = this.state;
     this.setState({ uploading: true });
 
-    studentData.importStudents(csv, photos, progress => {
-      let percentCompleted = Math.floor((progress.loaded * 100) / progress.total);
-      this.setState({
-        progress: percentCompleted,
-        uploadState: progress.loaded === progress.total ? 'indeterminate' : 'determinate',
-      });
-    }).then(r => {
-      sendAlert("Users imported");
-      this.setState({
-        result: r.data,
-        uploading: false,
-        progress: 0,
-        csv: null,
-        photos: [],
-        photosData: {},
-        students: [],
-      });
-    }).catch(err => {
-      if (err.response) {
-        sendAlert("Erreur lors de l'import");
+    studentData
+      .importStudents(csv, photos, progress => {
+        let percentCompleted = Math.floor(
+          progress.loaded * 100 / progress.total,
+        );
         this.setState({
+          progress: percentCompleted,
+          uploadState:
+            progress.loaded === progress.total
+              ? 'indeterminate'
+              : 'determinate',
+        });
+      })
+      .then(r => {
+        sendAlert('Users imported');
+        this.setState({
+          result: r.data,
           uploading: false,
           progress: 0,
           csv: null,
@@ -65,12 +61,24 @@ export default class ImportStudents extends React.Component {
           photosData: {},
           students: [],
         });
-      }
-    });
+      })
+      .catch(err => {
+        if (err.response) {
+          sendAlert("Erreur lors de l'import");
+          this.setState({
+            uploading: false,
+            progress: 0,
+            csv: null,
+            photos: [],
+            photosData: {},
+            students: [],
+          });
+        }
+      });
   };
 
   handle = name => e => {
-    let file = (name === 'csv') ? e.target.files[0] : e.target.files;
+    let file = name === 'csv' ? e.target.files[0] : e.target.files;
 
     this.setState({ [name]: file });
   };
@@ -80,7 +88,7 @@ export default class ImportStudents extends React.Component {
     e.target.value = null;
 
     let reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = e => {
       let text = e.target.result;
       let students = [];
       let csvParsed = text
@@ -102,16 +110,17 @@ export default class ImportStudents extends React.Component {
     reader.readAsText(csv);
 
     this.setState({ csv, result: null });
-  }
+  };
 
-  importPhoto = (e) => {
+  importPhoto = e => {
     let photos = [...e.target.files];
     e.target.value = null;
-    const readerPromise = (file) => new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.onload = (e) => resolve({ url: e.target.result, file });
-      reader.readAsDataURL(file);
-    });
+    const readerPromise = file =>
+      new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.onload = e => resolve({ url: e.target.result, file });
+        reader.readAsDataURL(file);
+      });
 
     const tmpUrls = [];
     for (let i = 0; i < photos.length; i++) {
@@ -127,14 +136,13 @@ export default class ImportStudents extends React.Component {
     });
 
     this.setState({ photosData, photos, result: null });
-  }
+  };
 
   handleChangePage = (e, page) => {
     this.setState({ page });
-  }
+  };
 
   render() {
-
     const discList = {
       listStyle: 'disc',
     };
@@ -154,47 +162,88 @@ export default class ImportStudents extends React.Component {
       <FluidContent>
         <Title invert>Import Élèves</Title>
         <Paper p="2em">
-
           <Flex>
             <Box mr={2} mb={2}>
-              <input id="csvFile" type="file" accept=".csv" style={{ display: "none" }} onChange={this.addCsv} />
+              <input
+                id="csvFile"
+                type="file"
+                accept=".csv"
+                style={{ display: 'none' }}
+                onChange={this.addCsv}
+              />
               <label htmlFor="csvFile">
-                <Button component="span" raised color="primary"><FileUpload style={{ marginRight: 5 }} /> CSV Eleves</Button>
+                <Button component="span" variant="raised" color="primary">
+                  <FileUpload style={{ marginRight: 5 }} /> CSV Eleves
+                </Button>
               </label>
             </Box>
             <Box>
-              <input id="photos" type="file" multiple accept=".jpg,.jpeg" style={{ display: "none" }} onChange={this.importPhoto} />
+              <input
+                id="photos"
+                type="file"
+                multiple
+                accept=".jpg,.jpeg"
+                style={{ display: 'none' }}
+                onChange={this.importPhoto}
+              />
               <label htmlFor="photos">
-                <Button component="span" raised color="primary"><FileUpload style={{ marginRight: 5 }} /> Photos</Button>
+                <Button component="span" variant="raised" color="primary">
+                  <FileUpload style={{ marginRight: 5 }} /> Photos
+                </Button>
               </label>
-
             </Box>
           </Flex>
 
           <Box mb={2}>
-            {csv && <Text>CSV élèves: {csv.name} - {students.length} élèves à importer</Text>}
-            {photos.length !== 0 && <Text>{photos.length} photo{photos.length !== 1 && 's'} sélectionnée{photos.length !== 1 && 's'}</Text>}
+            {csv && (
+              <Text>
+                CSV élèves: {csv.name} - {students.length} élèves à importer
+              </Text>
+            )}
+            {photos.length !== 0 && (
+              <Text>
+                {photos.length} photo{photos.length !== 1 && 's'} sélectionnée{photos.length !==
+                  1 && 's'}
+              </Text>
+            )}
           </Box>
           <Box mb={1}>
-            {uploading && <LinearProgress mode={uploadState} value={progress} />}
+            {uploading && (
+              <LinearProgress variant={uploadState} value={progress} />
+            )}
           </Box>
           <Box mb={1}>
-            <Button disabled={uploading || !csv || photos.length === 0} raised color="secondary" onClick={this.importStudents}><Done style={{ marginRight: 5 }} /> Importer</Button>
+            <Button
+              disabled={uploading || !csv || photos.length === 0}
+              variant="raised"
+              color="secondary"
+              onClick={this.importStudents}
+            >
+              <Done style={{ marginRight: 5 }} /> Importer
+            </Button>
           </Box>
-          {
-            result &&
+          {result && (
             <Text>
               <span>Résultats</span>
               <ul>
-                <li style={discList}>{result.imported}/{result.studentsSent} étudiants importés</li>
-                <li style={discList}>{result.photoAdded}/{result.photosSent} photos ajoutées</li>
-                <li style={discList}>{result.alreadyImported}/{result.studentsSent} étudiants déjà existants</li>
-                <li style={discList}>{result.studentAndPhotoNotMatched} photos non associées à un étudiant</li>
+                <li style={discList}>
+                  {result.imported}/{result.studentsSent} étudiants importés
+                </li>
+                <li style={discList}>
+                  {result.photoAdded}/{result.photosSent} photos ajoutées
+                </li>
+                <li style={discList}>
+                  {result.alreadyImported}/{result.studentsSent} étudiants déjà
+                  existants
+                </li>
+                <li style={discList}>
+                  {result.studentAndPhotoNotMatched} photos non associées à un
+                  étudiant
+                </li>
               </ul>
             </Text>
-          }
-          {
-            csv &&
+          )}
+          {csv && (
             <Table>
               <TableHead>
                 <TableRow>
@@ -213,23 +262,23 @@ export default class ImportStudents extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {
-                  students.slice(page * 20, page * 20 + 20).map(s => {
-                    return (
-                      <TableRow key={s.id}>
-                        <TableCell>
-                          <img alt="student" src={photosData[s.studentid]} style={{ width: "50px" }} />
-                        </TableCell>
-                        <TableCell>
-                          {s.firstname} {s.lastname}
-                        </TableCell>
-                        <TableCell numeric>
-                          {s.promo}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                }
+                {students.slice(page * 20, page * 20 + 20).map(s => {
+                  return (
+                    <TableRow key={s.id}>
+                      <TableCell>
+                        <img
+                          alt="student"
+                          src={photosData[s.studentid]}
+                          style={{ width: '50px' }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {s.firstname} {s.lastname}
+                      </TableCell>
+                      <TableCell numeric>{s.promo}</TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
               <TableFooter>
                 <TableRow>
@@ -243,7 +292,7 @@ export default class ImportStudents extends React.Component {
                 </TableRow>
               </TableFooter>
             </Table>
-          }
+          )}
         </Paper>
       </FluidContent>
     );

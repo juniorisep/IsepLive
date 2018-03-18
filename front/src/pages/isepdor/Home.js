@@ -23,7 +23,7 @@ export default class IsepDorHome extends React.Component {
         <Title>ISEP d'Or</Title>
         <Text>Les résultats de la session de 2018 sont disponibles !</Text>
         <div>
-          <Button style={btnStyle} raised color="primary">
+          <Button style={btnStyle} variant="raised" color="primary">
             Résultats
           </Button>
           <Button style={btnStyle} color="primary">
@@ -31,7 +31,7 @@ export default class IsepDorHome extends React.Component {
           </Button>
         </div>
         {/* <ToolTip title="ISEP d'Or" placement="left"> */}
-        <Button fab color="secondary" style={pollBtnStyle}>
+        <Button variant="fab" color="secondary" style={pollBtnStyle}>
           <StarIcon />
         </Button>
         {/* </ToolTip> */}

@@ -125,7 +125,7 @@ export default function Home(props) {
                 {
                   !props.lastPage && props.posts.length > 0 &&
                   <Center>
-                    <Button fab color="primary" raised onClick={props.onSeeMore}>
+                    <Button variant="fab" color="primary" variant="raised" onClick={props.onSeeMore}>
                       <ArrowDownwardIcon />
                     </Button>
                   </Center>

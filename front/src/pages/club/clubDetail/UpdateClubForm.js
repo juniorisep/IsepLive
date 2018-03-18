@@ -102,7 +102,7 @@ export default class AddClubForm extends React.Component {
           <div style={{ marginTop: 10 }}>
             <input onChange={(e) => this.change('logo', e.target.files[0])} accept="jpg,jpeg,JPG,JPEG" id="file" type="file" style={{ display: 'none' }} />
             <label htmlFor="file">
-              <Button raised component="span">
+              <Button variant="raised" component="span">
                 Ajouter logo
               </Button>
             </label>

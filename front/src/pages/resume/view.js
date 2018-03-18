@@ -85,7 +85,7 @@ export default function ResumeView(props) {
                       </Title>
                     </Box>
                     <Box ml="auto">
-                      <Button raised color="primary" onClick={props.onModify}>
+                      <Button variant="raised" color="primary" onClick={props.onModify}>
                         Modifier
                       </Button>
                     </Box>

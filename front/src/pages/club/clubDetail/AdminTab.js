@@ -249,7 +249,7 @@ export class AddRolePanel extends React.Component {
                   <Text>{r.name}</Text>
                 </Box>
                 <Box ml="auto">
-                  <Button mini fab color="primary" onClick={() =>
+                  <Button mini variant="fab" color="primary" onClick={() =>
                     this.setState({
                       roleToDelete: r,
                       openDeletePopup: true,

@@ -28,7 +28,7 @@ export default function PostTab(props) {
       {
         !lastPage && posts.length > 0 &&
         <div style={{ textAlign: 'center' }}>
-          <Button fab color="primary" raised onClick={props.onSeeMore}>
+          <Button variant="fab" color="primary" variant="raised" onClick={props.onSeeMore}>
             <ArrowDownwardIcon />
           </Button>
         </div>

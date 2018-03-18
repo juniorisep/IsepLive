@@ -47,7 +47,7 @@ const ErrorView = (props) => (
       Essayez de recharger la page.
     </div>
     <div style={{ textAlign: 'center' }}>
-      <Button raised color="primary" onClick={refreshPage}>
+      <Button variant="raised" color="primary" onClick={refreshPage}>
         Recharger
       </Button>
     </div>

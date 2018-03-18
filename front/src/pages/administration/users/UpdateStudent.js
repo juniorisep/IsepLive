@@ -207,7 +207,7 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
                   {
                     !file &&
                     <label htmlFor="image">
-                      <Button raised component="span">
+                      <Button variant="raised" component="span">
                         Modifier
                       </Button>
                     </label>
@@ -215,7 +215,7 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
                   {
                     file &&
                     <Button
-                      raised
+                      variant="raised"
                       onClick={() =>
                         this.setState({ file: null, imagePreview: null })
                       }>
@@ -338,13 +338,13 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
         </ExpansionPanel>
 
         <div style={{ margin: 10 }}>
-          <Button fab color="primary" style={{ margin: 5 }} onClick={this.updateUser}>
+          <Button variant="fab" color="primary" style={{ margin: 5 }} onClick={this.updateUser}>
             <Save />
           </Button>
           {
             !selected.archived &&
             <Button
-              fab
+              variant="fab"
               color="secondary"
               style={{ margin: 5 }}
               onClick={() => this.setState({

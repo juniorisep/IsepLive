@@ -177,7 +177,7 @@ export default class EventForm extends React.Component<Props, State> {
             )}
         </Paper>
         <Button
-          fab
+          variant="fab"
           size="medium"
           color="primary"
           style={{ marginRight: 10 }}
@@ -193,7 +193,7 @@ export default class EventForm extends React.Component<Props, State> {
         </Button>
         {selected && (
           <Button
-            fab
+            variant="fab"
             size="medium"
             color="secondary"
             onClick={this.deleteEvent}

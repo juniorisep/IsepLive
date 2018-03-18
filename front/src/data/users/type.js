@@ -50,6 +50,15 @@ type StudentValue = {
 
 export type Student = AuthorValue & StudentValue;
 
+export type PagedStudent = {
+  content: Student[],
+  first: boolean,
+  last: boolean,
+  number: number,
+  size: number,
+  totalElements: number,
+};
+
 export type Role = {
   id: number,
   name: string,

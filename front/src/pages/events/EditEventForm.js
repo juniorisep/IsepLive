@@ -62,7 +62,7 @@ export default class EditEventForm extends React.Component {
       <Dialog open={this.props.open} onClose={this.props.handleRequestClose} >
         <DialogTitle>Editer l'évenement</DialogTitle>
         <DialogContent>
-          <Flex wrap>
+          <Flex flexWrap="wrap">
             <Box w={1} mb={2}>
               <TextField fullWidth label="Titre" value={this.state.title} onChange={this.change('title')} />
             </Box>
@@ -70,7 +70,7 @@ export default class EditEventForm extends React.Component {
               <TextField fullWidth label="Lieu" value={this.state.location} onChange={this.change('location')} />
             </Box>
           </Flex>
-          <Flex wrap>
+          <Flex flexWrap="wrap">
             <Box w={1} mb={2}>
               <DatePicker date={this.state.date} onChange={this.handleChangeDate} />
             </Box>

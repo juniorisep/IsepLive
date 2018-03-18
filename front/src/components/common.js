@@ -24,6 +24,7 @@ export const FluidContent = styled.div`
   margin: 0 auto;
   padding: ${props => props.p || '50px'};
   position: relative;
+  min-height: ${({ mh }) => mh || 0};
 
   @media (max-width: 40em) {
     padding: 5%;
@@ -281,6 +282,7 @@ export const Paper = styled.div`
   box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
   background: white;
   padding: ${({ p }) => p || 0};
+  margin-bottom: ${({ mb }) => mb || 0};
 `;
 
 export const FileUpload = props => {

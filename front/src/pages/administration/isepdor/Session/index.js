@@ -95,7 +95,7 @@ export default class Session extends React.Component<{}, State> {
   render() {
     const { sessions, selectedSession, create } = this.state;
     return (
-      <Flex p={2} wrap>
+      <Flex p={2} flexWrap="wrap">
         <Box w={1 / 3} p={2}>
           <SessionForm
             selected={selectedSession}

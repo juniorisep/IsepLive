@@ -105,7 +105,7 @@ class HallOfFame extends Component {
             </Box>
           </Flex>
           <Title invert>Les dictateurs</Title>
-          <Flex wrap>
+          <Flex flexWrap="wrap">
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/nahed.jpg"
@@ -171,7 +171,7 @@ class HallOfFame extends Component {
             </Box>
           </Flex>
           <Title invert>Les rambos</Title>
-          <Flex wrap>
+          <Flex flexWrap="wrap">
             <Box p={2} width={[1, 1 / 4]}>
               <Person
                 url="/img/alloffame/mathu.jpg"

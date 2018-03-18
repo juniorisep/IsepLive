@@ -80,7 +80,7 @@ class QuestionList extends React.Component<{}, State> {
   render() {
     const { questions, selectedQuestion } = this.state;
     return (
-      <Flex p={2} wrap>
+      <Flex p={2} flexWrap="wrap">
         <Box w={1 / 3} p={2}>
           <QuestionForm
             selected={selectedQuestion}

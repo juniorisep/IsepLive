@@ -12,8 +12,15 @@ import { MenuItem } from 'material-ui/Menu';
 import Button from 'material-ui/Button';
 import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 
-
-import { Banner, Filler, FluidContent, Header, ProfileImage, SearchBar, Text } from 'components/common';
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  ProfileImage,
+  SearchBar,
+  Text,
+} from 'components/common';
 import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
@@ -33,7 +40,7 @@ const BadgeYear = styled.div`
   color: white;
 `;
 
-const Person = (props) => {
+const Person = props => {
   const MainText = styled.div`
     padding: 10px;
     color: ${props => props.theme.main};
@@ -52,7 +59,9 @@ const Person = (props) => {
       <ProfileImage src={props.url} sz="100%" mh="200px" />
       <MainText>
         <p className="name">{props.name}</p>
-        <div>Promo {props.promotion} {promo && <BadgeYear>{promo}</BadgeYear>}</div>
+        <div>
+          Promo {props.promotion} {promo && <BadgeYear>{promo}</BadgeYear>}
+        </div>
       </MainText>
     </div>
   );
@@ -87,15 +96,25 @@ export default class AddressBook extends Component {
           <FluidContent p="0">
             <Flex align="center">
               <Box flex="1 1 auto">
-                <SearchBar type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" placeholder="Rechercher des ami(e)s" onChange={this.props.onSearch} />
+                <SearchBar
+                  type="text"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                  placeholder="Rechercher des ami(e)s"
+                  onChange={this.props.onSearch}
+                />
               </Box>
             </Flex>
           </FluidContent>
         </Header>
         <FluidContent>
-          <Flex align="center" wrap>
+          <Flex align="center" flexWrap="wrap">
             <Box>
-              {this.props.isSearching && <Text>{this.props.total} étudiants trouvé</Text>}
+              {this.props.isSearching && (
+                <Text>{this.props.total} étudiants trouvé</Text>
+              )}
             </Box>
             <Box flex="0 0 auto" ml="auto" w={['100%', 120]}>
               <FormControl style={STYLE_FORMCONTROL}>
@@ -104,8 +123,9 @@ export default class AddressBook extends Component {
                   multiple
                   value={this.props.year}
                   renderValue={years =>
-                    years.map(year =>
-                      <BadgeYear>{getPromo(year) || year}</BadgeYear>)
+                    years.map(year => (
+                      <BadgeYear>{getPromo(year) || year}</BadgeYear>
+                    ))
                   }
                   onChange={this.props.onPromoFilter}
                   input={<Input id="year-multiple" />}
@@ -118,27 +138,31 @@ export default class AddressBook extends Component {
                     },
                   }}
                 >
-                  {
-                    years.map(year => {
-                      const promo = getPromo(year);
-                      return (
-                        <MenuItem
-                          key={year}
-                          value={year}
-                          style={{
-                            background: 'none',
-                            fontWeight: this.props.year.indexOf(year) !== -1 ? 500 : 'normal',
-                            color: this.props.year.indexOf(year) !== -1 ? MAIN_COLOR : 'black',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <span>
-                            {year} {promo && <BadgeYear>{promo}</BadgeYear>}
-                          </span>
-                        </MenuItem>
-                      );
-                    })
-                  }
+                  {years.map(year => {
+                    const promo = getPromo(year);
+                    return (
+                      <MenuItem
+                        key={year}
+                        value={year}
+                        style={{
+                          background: 'none',
+                          fontWeight:
+                            this.props.year.indexOf(year) !== -1
+                              ? 500
+                              : 'normal',
+                          color:
+                            this.props.year.indexOf(year) !== -1
+                              ? MAIN_COLOR
+                              : 'black',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <span>
+                          {year} {promo && <BadgeYear>{promo}</BadgeYear>}
+                        </span>
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
                 <FormHelperText>Sélection multiple</FormHelperText>
               </FormControl>
@@ -151,46 +175,48 @@ export default class AddressBook extends Component {
                   onChange={this.props.onSort}
                   input={<Input id="alpha-simple" />}
                 >
-                  <MenuItem value='a'>Az</MenuItem>
-                  <MenuItem value='z'>Za</MenuItem>
+                  <MenuItem value="a">Az</MenuItem>
+                  <MenuItem value="z">Za</MenuItem>
                 </Select>
                 <FormHelperText>Sélection simple</FormHelperText>
               </FormControl>
             </Box>
           </Flex>
           <Loader loading={this.props.loading}>
-            <Flex wrap>
-              {
-                this.props.students.map(e => {
-                  return (
-                    <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
-                      {
-                        authData.isLoggedIn() ?
-                          <Link to={`/annuaire/${e.id}`}>
-                            <Person
-                              url={e.photoUrlThumb}
-                              name={e.firstname + ' ' + e.lastname}
-                              promotion={e.promo} />
-                          </Link>
-                          :
-                          <Person
-                            url={e.photoUrlThumb}
-                            name={e.firstname + ' ' + e.lastname}
-                            promotion={e.promo} />
-                      }
-                    </Box>
-                  );
-                })
-              }
+            <Flex flexWrap="wrap">
+              {this.props.students.map(e => {
+                return (
+                  <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
+                    {authData.isLoggedIn() ? (
+                      <Link to={`/annuaire/${e.id}`}>
+                        <Person
+                          url={e.photoUrlThumb}
+                          name={e.firstname + ' ' + e.lastname}
+                          promotion={e.promo}
+                        />
+                      </Link>
+                    ) : (
+                      <Person
+                        url={e.photoUrlThumb}
+                        name={e.firstname + ' ' + e.lastname}
+                        promotion={e.promo}
+                      />
+                    )}
+                  </Box>
+                );
+              })}
             </Flex>
-            {
-              !this.props.lastPage &&
+            {!this.props.lastPage && (
               <div style={{ textAlign: 'center' }}>
-                <Button variant="fab" color="primary" onClick={this.props.onSeeMore}>
+                <Button
+                  variant="fab"
+                  color="primary"
+                  onClick={this.props.onSeeMore}
+                >
                   <ArrowDownwardIcon />
                 </Button>
               </div>
-            }
+            )}
           </Loader>
         </FluidContent>
       </div>

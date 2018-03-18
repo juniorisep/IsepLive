@@ -40,6 +40,9 @@ import CalendarEvents from 'pages/events/calendar';
 import NotFound from 'pages/404';
 import Resume from 'pages/resume';
 import Whoarewe from 'pages/whoAreWe';
+
+import IsepDorPoll from '../../pages/isepdor/Poll';
+
 // import Contact from 'pages/contact';
 import Help from 'pages/help';
 import LegalNotice from 'pages/legalNotice';
@@ -431,7 +434,8 @@ class Layout extends React.Component {
           <Route path="/profile" component={Resume} />
           <Route path="/whoarewe" component={Whoarewe} />
           <Route path="/contact" component={NotFound} />
-          <Route path="/aide" component={Help} />
+          <Route path="/isepdor/poll" component={IsepDorPoll} />
+          <Route path="/aide" component={NotFound} />
           <Route path="/convention-utilisation" component={NotFound} />
           <Route path="/mentions-legales" component={LegalNotice} />
           <AuthenticatedRoute

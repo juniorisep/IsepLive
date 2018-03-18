@@ -3,8 +3,11 @@ import React from 'react';
 import { Paper, Title, Text, FluidContent } from '../../components/common';
 
 import Button from 'material-ui/Button';
-
+import Tooltip from 'material-ui/Tooltip';
 import StarIcon from 'material-ui-icons/Star';
+
+import { Link, Switch, Route } from 'react-router-dom';
+
 const btnStyle = {
   margin: 10,
 };
@@ -30,11 +33,18 @@ export default class IsepDorHome extends React.Component {
             Voir tout
           </Button>
         </div>
-        {/* <ToolTip title="ISEP d'Or" placement="left"> */}
-        <Button variant="fab" color="secondary" style={pollBtnStyle}>
-          <StarIcon />
-        </Button>
-        {/* </ToolTip> */}
+
+        <Tooltip title="ISEP d'Or" placement="left">
+          <Button
+            component={Link}
+            to="/isepdor/poll"
+            variant="fab"
+            color="secondary"
+            style={pollBtnStyle}
+          >
+            <StarIcon />
+          </Button>
+        </Tooltip>
       </Paper>
     );
   }

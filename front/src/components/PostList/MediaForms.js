@@ -136,7 +136,7 @@ export class PollForm extends Component {
           })
         }
         <AddButton color="secondary" onClick={this.addAnswer}>Ajouter une réponse</AddButton>
-        <Flex wrap>
+        <Flex flexWrap="wrap">
           <Box width={1} mt={2}>
             <TextField
               type="number"
@@ -453,7 +453,7 @@ export class EventForm extends Component {
     const widthTF = this.props.fullw ? 1 : [1, 1, 1 / 2];
     return (
       <div>
-        <Flex wrap>
+        <Flex flexWrap="wrap">
           <Box w={widthTF} mb={2}>
             <TextField fullWidth label="Titre" value={this.state.title} onChange={this.change('title')} />
           </Box>
@@ -461,7 +461,7 @@ export class EventForm extends Component {
             <TextField fullWidth label="Lieu" value={this.state.location} onChange={this.change('location')} />
           </Box>
         </Flex>
-        <Flex wrap>
+        <Flex flexWrap="wrap">
           <Box w={widthTF} mb={2}>
             <DatePicker date={this.state.date} onChange={this.handleChangeDate} />
           </Box>

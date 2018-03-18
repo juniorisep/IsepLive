@@ -50,7 +50,7 @@ export default function AdressbookDetailView(props) {
       <Loader loading={props.isLoading}>
         {
           user &&
-          <Flex wrap>
+          <Flex flexWrap="wrap">
             <Box p={2} width={[1, 1 / 4]}>
               <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
                 <ProfileImage src={user.photoUrl} sz="100%" mh="200px" />

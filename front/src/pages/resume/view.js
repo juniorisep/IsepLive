@@ -65,7 +65,7 @@ export default function ResumeView(props) {
         <Loader loading={props.isLoading}>
           {
             user &&
-            <Flex wrap>
+            <Flex flexWrap="wrap">
               <Box p={2} width={[1, 1 / 4]}>
                 <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
                   <ProfileImage

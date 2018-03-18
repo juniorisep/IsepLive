@@ -227,7 +227,7 @@ class Users extends Component {
     const { users, page, total, filter, selected } = this.state;
     return (
       <div style={{ margin: 30 }}>
-        <Flex wrap>
+        <Flex flexWrap="wrap">
           <Box w={[1, 1 / 3]} p={1}>
             <div>
               <Title invert>Etudiant</Title>

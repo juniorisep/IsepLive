@@ -22,7 +22,7 @@ const STYLE = {
 
 const InputButton = styled.button`
   outline: none;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
   border-radius: 30px;
   padding: 7px 9px;
@@ -30,25 +30,24 @@ const InputButton = styled.button`
   height: auto;
   border: 0;
   font-family: inherit;
-  transition: background .3s ease;
+  transition: background 0.3s ease;
   cursor: pointer;
 
   &:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
   }
   &:active {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.3);
   }
 `;
 
 export default class PeopleMatcher extends Component {
-
   state = {
     dialogOpen: false,
     students: [],
     imageId: null,
     tags: [],
-  }
+  };
 
   componentDidMount() {
     if (this.props.internalRefresh) {
@@ -69,12 +68,11 @@ export default class PeopleMatcher extends Component {
     this.setState({ imageId: props.image.id });
   }
 
-
   findStudents = event => {
     studentData.searchStudents(event.target.value).then(res => {
       this.setState({ students: res.data.content.slice(0, 5) });
     });
-  }
+  };
 
   refresh() {
     imageData.getImageTags(this.props.image.id).then(res => {
@@ -85,26 +83,26 @@ export default class PeopleMatcher extends Component {
   closeDialog = () => {
     this.props.onOpenMatcher(false);
     this.setState({ dialogOpen: false });
-  }
+  };
 
   tag = () => {
     this.props.onOpenMatcher(true);
     this.setState({ dialogOpen: true });
-  }
+  };
 
   selectStudent = stud => e => {
     imageData.matchStudent(this.props.image.id, stud.id).then(res => {
       this.refresh();
       this.closeDialog();
     });
-  }
+  };
 
   removeStudent = stud => e => {
     imageData.unmatchStudent(this.props.image.id, stud.id).then(res => {
       this.refresh();
       this.closeDialog();
     });
-  }
+  };
 
   getStudentSelection() {
     const { students, tags } = this.state;
@@ -118,41 +116,56 @@ export default class PeopleMatcher extends Component {
     if (!this.props.image) return null;
     return (
       <div style={STYLE}>
-        {
-          this.state.tags.map(e => {
-            const onDelete = this.removeStudent(e.match);
-            let props = {};
-            if (e.owner.id === ownerId) {
-              props = { onDelete };
-            }
-            const avatarUrl = e.match.photoUrlThumb ?
-              backUrl + e.match.photoUrlThumb : '/img/svg/user.svg';
-            return <Chip
+        {this.state.tags.map(e => {
+          const onDelete = this.removeStudent(e.match);
+          let props = {};
+          if (e.owner.id === ownerId) {
+            props = { onDelete };
+          }
+          const avatarUrl = e.match.photoUrlThumb
+            ? backUrl + e.match.photoUrlThumb
+            : '/img/svg/user.svg';
+          return (
+            <Chip
               key={e.id}
               style={{ marginRight: 10, marginBottom: 10 }}
               avatar={<Avatar src={avatarUrl} />}
               label={`${e.match.firstname} ${e.match.lastname}`}
-              {...props} />;
-          })
-        }
+              {...props}
+            />
+          );
+        })}
         <InputButton onClick={this.tag}>Tagger une personne</InputButton>
-        <Dialog
-          open={this.state.dialogOpen}
-          onClose={this.closeDialog} >
+        <Dialog open={this.state.dialogOpen} onClose={this.closeDialog}>
           <DialogTitle>Tagger une personne</DialogTitle>
           <DialogContent>
-            <TextField fullWidth label="Prénom ou Nom" onChange={this.findStudents} />
+            <TextField
+              fullWidth
+              label="Prénom ou Nom"
+              onChange={this.findStudents}
+            />
             <List>
-              {
-                this.getStudentSelection().map(stud => {
-                  return (
-                    <ListItem key={stud.id} button onClick={this.selectStudent(stud)}>
-                      <Avatar alt="student" src={stud.photoUrlThumb ? backUrl + stud.photoUrlThumb : '/img/svg/user.svg'} />
-                      <ListItemText primary={stud.firstname + ' ' + stud.lastname} />
-                    </ListItem>
-                  );
-                })
-              }
+              {this.getStudentSelection().map(stud => {
+                return (
+                  <ListItem
+                    key={stud.id}
+                    button
+                    onClick={this.selectStudent(stud)}
+                  >
+                    <Avatar
+                      alt="student"
+                      src={
+                        stud.photoUrlThumb
+                          ? backUrl + stud.photoUrlThumb
+                          : '/img/svg/user.svg'
+                      }
+                    />
+                    <ListItemText
+                      primary={stud.firstname + ' ' + stud.lastname}
+                    />
+                  </ListItem>
+                );
+              })}
             </List>
           </DialogContent>
         </Dialog>

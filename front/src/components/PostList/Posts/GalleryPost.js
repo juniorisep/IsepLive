@@ -31,7 +31,7 @@ class GalleryPost extends Component {
             <Link to={`/gallery/${gallery.id}`}>
               <Title>{gallery.name}</Title>
             </Link>
-            <Flex wrap>
+            <Flex flexWrap="wrap">
               {
                 images.map((img, index) => {
                   return (

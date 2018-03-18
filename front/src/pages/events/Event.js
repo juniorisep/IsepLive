@@ -57,7 +57,7 @@ export default class Event extends React.Component {
     const { event } = this.props;
     return (
       <Paper style={{ marginBottom: 30 }}>
-        <Flex wrap>
+        <Flex flexWrap="wrap">
           <Box w={[1, 1 / 2]}>
             <BgImage src={event.imageUrl} mh="250px" />
           </Box>

@@ -136,7 +136,7 @@ export default class DatePicker extends React.Component {
 
     return (
       <div>
-        <Flex wrap>
+        <Flex flexWrap="wrap">
           {
             !this.props.dateonly &&
             <Box p={1} w={[1 / 2, 1 / size]} >

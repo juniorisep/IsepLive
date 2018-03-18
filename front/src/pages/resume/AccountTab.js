@@ -45,7 +45,7 @@ export default function AccountTab(props) {
       <Box p={2} width={1}>
         <Title fontSize={1.5} invert>Associations</Title>
         {clubMembers.length === 0 && <Text>Membre d'aucune association</Text>}
-        <Flex wrap>
+        <Flex flexWrap="wrap">
           {
             clubMembers.map(cm => {
               return (

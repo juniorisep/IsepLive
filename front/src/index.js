@@ -7,7 +7,12 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
 
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import indigo from 'material-ui/colors/indigo';
@@ -15,6 +20,11 @@ import amber from 'material-ui/colors/amber';
 import red from 'material-ui/colors/red';
 
 import { ThemeProvider } from 'styled-components';
+
+import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+
+import moment from 'moment';
 
 // import AuthenticatedRoute from './components/Auth/AuthenticatedRoute';
 
@@ -26,12 +36,12 @@ import AlertCenter from 'components/Alert';
 
 import { backUrl } from './config';
 
-
+moment.locale('fr');
 axios.defaults.baseURL = backUrl;
 
 const theme = createMuiTheme({
   palette: {
-    type: "light",
+    type: 'light',
     primary: {
       main: indigo[500],
     },
@@ -55,10 +65,9 @@ const theme = createMuiTheme({
         backgroundColor: 'white',
         color: MAIN_COLOR,
         fontSize: 18,
-      }
-    }
+      },
+    },
   },
-
 });
 
 const styledTheme = {
@@ -69,21 +78,22 @@ const styledTheme = {
 const App = () => (
   <MuiThemeProvider theme={theme}>
     <ThemeProvider theme={styledTheme}>
-      <div>
-        <Router>
-          <Switch>
-            <Redirect path="/" exact to="/connexion" />
-            <Route path="/connexion" component={Login} />
-            {/* <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} /> */}
-            <Route path="/" component={Layout} />
-          </Switch>
-        </Router>
-        <AlertCenter />
-      </div>
+      <MuiPickersUtilsProvider utils={MomentUtils} moment={moment} locale="fr">
+        <div>
+          <Router>
+            <Switch>
+              <Redirect path="/" exact to="/connexion" />
+              <Route path="/connexion" component={Login} />
+              {/* <AuthenticatedRoute roles={['ROLE_USER', 'ROLE_ADMIN']} path="/" component={Layout} /> */}
+              <Route path="/" component={Layout} />
+            </Switch>
+          </Router>
+          <AlertCenter />
+        </div>
+      </MuiPickersUtilsProvider>
     </ThemeProvider>
   </MuiThemeProvider>
 );
 
-ReactDOM.render(
-  <App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

@@ -73,7 +73,7 @@ class EventList extends React.Component<{}, State> {
   render() {
     const { events, selectedEvent } = this.state;
     return (
-      <Flex p={2} wrap>
+      <Flex p={2} flexWrap="wrap">
         <Box w={1 / 3} p={2}>
           <EventForm
             selected={selectedEvent}

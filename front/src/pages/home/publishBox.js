@@ -438,7 +438,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
               {this.renderForm()}
             </MediaCreator>
           )}
-          <Flex align="center" wrap>
+          <Flex align="center" flexWrap="wrap">
             <Box>
               <IconButton onClick={this.openMediaMenu}>
                 <AddCircleIcon style={{ color: 'white' }} />

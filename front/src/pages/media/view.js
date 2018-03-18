@@ -117,7 +117,7 @@ class MediaView extends Component {
           </FluidContent> */}
         </Header>
         <FluidContent>
-          <Flex align="center" wrap>
+          <Flex align="center" flexWrap="wrap">
             <Box mb={2}>
               <FormControlLabel control={
                 <Switch
@@ -183,7 +183,7 @@ class MediaView extends Component {
                 return (
                   <div key={m.date}>
                     <DateSeparator date={<Time date={m.date} format="MMMM YYYY" />} />
-                    <Flex wrap>
+                    <Flex flexWrap="wrap">
                       {
                         m.medias.map(e => {
                           return (

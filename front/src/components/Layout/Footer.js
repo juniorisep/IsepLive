@@ -65,7 +65,7 @@ export default class FooterView extends React.Component {
       <div>
         <Footer>
           <FluidContent>
-            <Flex wrap>
+            <Flex flexWrap="wrap">
               <Box w={[
                 1, 1, 2 / 6
               ]} p={2}>

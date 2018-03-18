@@ -22,6 +22,7 @@ export type QuestionDor = {
   enableEmployee: boolean,
   enableEvent: boolean,
   enableParty: boolean,
+  enablePromo: boolean,
   promo: number,
 };
 
@@ -33,5 +34,17 @@ export type QuestionDorCreate = {
   enableEmployee: boolean,
   enableEvent: boolean,
   enableParty: boolean,
+  enablePromo: boolean,
   promo: number,
+};
+
+export type EventDor = {
+  id: number,
+  name: string,
+  party: boolean,
+};
+
+export type EventDorCreate = {
+  name: string,
+  party: boolean,
 };

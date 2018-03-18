@@ -5,6 +5,7 @@ import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dto.dor.QuestionDorDTO;
 import com.iseplive.api.dto.dor.SessionDorDTO;
 import com.iseplive.api.dto.dor.VoteDorDTO;
+import com.iseplive.api.entity.dor.EventDor;
 import com.iseplive.api.entity.dor.QuestionDor;
 import com.iseplive.api.entity.dor.SessionDor;
 import com.iseplive.api.entity.dor.VoteDor;
@@ -45,6 +46,12 @@ public class DorController {
     dorService.deleteSession(id);
   }
 
+  @PutMapping("/session/{id}")
+  @RolesAllowed({ Roles.ADMIN })
+  public void updateSession(@PathVariable Long id, @RequestBody SessionDor dorSession) {
+    dorService.updateSession(id, dorSession);
+  }
+
   @PutMapping("/session/{id}/enable")
   @RolesAllowed({ Roles.ADMIN })
   public void toggleEnableSession(@PathVariable Long id) {
@@ -63,11 +70,12 @@ public class DorController {
     return dorService.createQuestion(questionDorDTO);
   }
 
-  @GetMapping("/question/{id}/swap/{otherId}")
+  @PutMapping("/question/{id}")
   @RolesAllowed({ Roles.ADMIN })
-  public void orderQuestion(@PathVariable Long id, @PathVariable Long otherId) {
-    dorService.swapQuestion(id, otherId);
+  public QuestionDor updateQuestion(@PathVariable Long id, @RequestBody QuestionDor questionDor) {
+    return dorService.updateQuestion(id, questionDor);
   }
+
   @DeleteMapping("/question/{id}")
   @RolesAllowed({ Roles.ADMIN })
   public void deleteQuestion(@PathVariable Long id) {
@@ -78,5 +86,29 @@ public class DorController {
   @RolesAllowed({ Roles.STUDENT })
   public VoteDor vote(@RequestBody VoteDorDTO voteDor, @AuthenticationPrincipal TokenPayload payload) {
     return dorService.handleVote(voteDor, payload);
+  }
+
+  @GetMapping("/event")
+  @RolesAllowed({ Roles.STUDENT })
+  public List<EventDor> getEvents() {
+    return dorService.getEvents();
+  }
+
+  @PostMapping("/event")
+  @RolesAllowed({ Roles.ADMIN })
+  public EventDor createEvent(@RequestBody EventDor event) {
+    return dorService.createEvent(event);
+  }
+
+  @DeleteMapping("/event/{id}")
+  @RolesAllowed({ Roles.ADMIN })
+  public void deleteEvent(@PathVariable Long id) {
+    dorService.deleteEvent(id);
+  }
+
+  @PutMapping("/event/{id}")
+  @RolesAllowed({ Roles.ADMIN })
+  public EventDor updateEvent(@PathVariable Long id, @RequestBody EventDor event) {
+    return dorService.updateEvent(id, event);
   }
 }

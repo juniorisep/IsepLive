@@ -4,9 +4,11 @@ import { DatePicker } from 'material-ui-pickers';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
 
-import { Title, Paper } from '../../../../components/common';
+import AddIcon from 'material-ui-icons/Add';
+import DeleteIcon from 'material-ui-icons/Delete';
+
+import { Title, Text, Paper } from '../../../../components/common';
 
 import * as dorData from '../../../../data/dor';
 
@@ -19,13 +21,19 @@ export default class SessionForm extends React.Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    if (props.selected && props.selected !== this.state.sessionForm) {
+      this.setState({ create: false, sessionForm: props.selected });
+    }
+  }
+
   changeForm = (name: string) => (date: Date) => {
-    this.setState({
+    this.setState(state => ({
       sessionForm: {
-        ...this.state.sessionForm,
+        ...state.sessionForm,
         [name]: date,
       },
-    });
+    }));
   };
 
   getDefaultForm = () => {
@@ -58,94 +66,125 @@ export default class SessionForm extends React.Component {
       });
   };
 
+  updateSession = async () => {
+    const { sessionForm } = this.state;
+    await dorData.updateSession(this.props.selected.id, {
+      result: sessionForm.result,
+      firstTurn: sessionForm.firstTurn,
+      secondTurn: sessionForm.secondTurn,
+      enabled: sessionForm.enabled,
+    });
+    this.props.refreshTable();
+  };
+
+  deleteSession = async () => {
+    if (this.props.selected) {
+      await dorData.deleteSession(this.props.selected.id);
+      this.props.refreshTable();
+      this.props.deselect();
+    }
+  };
+
   isCreateFormValid() {
     const { result, firstTurn, secondTurn } = this.state.sessionForm;
     return result != null && firstTurn != null && secondTurn != null;
   }
 
   saveSession = () => {
-    this.createSession();
+    if (this.state.create) {
+      this.createSession();
+      return;
+    }
+    this.updateSession();
   };
 
   render() {
-    let { sessionForm, create } = this.state;
+    const { sessionForm, create } = this.state;
     const { selected } = this.props;
-    if (selected) {
-      sessionForm = selected;
-    }
     return (
       <div>
         <Paper p="2em" style={{ marginBottom: 20 }}>
           <Title invert fontSize={1.2}>
             {create ? 'Créer une Session' : 'Session'}
           </Title>
-          <DatePicker
-            margin="normal"
-            label="1er tour"
-            value={sessionForm.firstTurn}
-            onChange={this.changeForm('firstTurn')}
-            format="DD/MM/YY"
-            fullWidth
-          />
-          <DatePicker
-            margin="normal"
-            label="2e tour"
-            value={sessionForm.secondTurn}
-            onChange={this.changeForm('secondTurn')}
-            format="DD/MM/YY"
-            fullWidth
-          />
-          <DatePicker
-            margin="normal"
-            label="Résultats"
-            value={sessionForm.result}
-            onChange={this.changeForm('result')}
-            format="DD/MM/YY"
-            fullWidth
-          />
-          {!create && (
-            <FormControlLabel
-              style={{ width: '100%' }}
-              control={
-                <Checkbox
-                  checked={sessionForm.enabled}
-                  onChange={(e, checked) =>
-                    this.setState({
-                      sessionForm: {
-                        ...this.state.sessionForm,
-                        enabled: checked,
-                      },
-                    })
+          {(selected || create) && (
+            <div>
+              <DatePicker
+                margin="normal"
+                label="1er tour"
+                value={sessionForm.firstTurn}
+                onChange={this.changeForm('firstTurn')}
+                format="DD/MM/YY"
+                fullWidth
+              />
+              <DatePicker
+                margin="normal"
+                label="2e tour"
+                value={sessionForm.secondTurn}
+                onChange={this.changeForm('secondTurn')}
+                format="DD/MM/YY"
+                fullWidth
+              />
+              <DatePicker
+                margin="normal"
+                label="Résultats"
+                value={sessionForm.result}
+                onChange={this.changeForm('result')}
+                format="DD/MM/YY"
+                fullWidth
+              />
+              {!create && (
+                <FormControlLabel
+                  style={{ width: '100%' }}
+                  control={
+                    <Checkbox
+                      checked={sessionForm.enabled}
+                      onChange={(e, checked) =>
+                        this.setState({
+                          sessionForm: {
+                            ...this.state.sessionForm,
+                            enabled: checked,
+                          },
+                        })
+                      }
+                    />
                   }
+                  label="Activé"
                 />
-              }
-              label="Activé"
-            />
-          )}
+              )}
 
-          {create && (
-            <Button
-              color="primary"
-              onClick={this.createSession}
-              disabled={!this.isCreateFormValid()}
-            >
-              Créer
-            </Button>
+              {create && (
+                <Button
+                  color="primary"
+                  onClick={this.createSession}
+                  disabled={!this.isCreateFormValid()}
+                >
+                  Créer
+                </Button>
+              )}
+              {!create && (
+                <Button
+                  color="primary"
+                  onClick={this.saveSession}
+                  disabled={!this.isCreateFormValid()}
+                >
+                  Enregistrer
+                </Button>
+              )}
+            </div>
           )}
-          {!create && (
-            <Button
-              color="primary"
-              onClick={this.saveSession}
-              disabled={!this.isCreateFormValid()}
-            >
-              Enregistrer
-            </Button>
-          )}
+          {!selected &&
+            !create && (
+              <div>
+                <Text>Sélectionnez une session de la liste</Text>
+              </div>
+            )}
         </Paper>
         <Button
           fab
           size="medium"
           color="primary"
+          style={{ marginRight: 10 }}
           onClick={() => {
             this.props.deselect();
             this.setState({
@@ -156,6 +195,16 @@ export default class SessionForm extends React.Component {
         >
           <AddIcon />
         </Button>
+        {selected && (
+          <Button
+            fab
+            size="medium"
+            color="secondary"
+            onClick={this.deleteSession}
+          >
+            <DeleteIcon />
+          </Button>
+        )}
       </div>
     );
   }

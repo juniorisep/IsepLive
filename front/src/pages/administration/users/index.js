@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Flex, Box } from "grid-styled";
+import { Flex, Box } from 'grid-styled';
 
 import Table, {
   TableBody,
@@ -23,8 +23,8 @@ import {
   FluidContent,
   Title,
   Text,
-  ProfileImage
-} from "../../../components/common";
+  ProfileImage,
+} from '../../../components/common';
 
 import * as userData from '../../../data/users/student';
 
@@ -38,24 +38,24 @@ import UpdateStudent from './UpdateStudent';
 function getRoleName(role) {
   switch (role) {
     case rolesKey.ADMIN:
-      return "Super Admin";
+      return 'Super Admin';
     case rolesKey.CLUB_MANAGER:
-      return "Gestion associations";
+      return 'Gestion associations';
     case rolesKey.EVENT_MANAGER:
-      return "Gestion évenements";
+      return 'Gestion évenements';
     case rolesKey.POST_MANAGER:
-      return "Gestion posts";
+      return 'Gestion posts';
     case rolesKey.USER_MANAGER:
-      return "Gestion utilisateurs";
+      return 'Gestion utilisateurs';
     case rolesKey.STUDENT:
-      return "Eleve";
+      return 'Eleve';
 
     default:
       return role;
   }
 }
 
-const SelectRoles = (props) => {
+const SelectRoles = props => {
   return (
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="roles">Roles</InputLabel>
@@ -66,32 +66,32 @@ const SelectRoles = (props) => {
         onChange={props.handleSelectRoles}
         input={<Input fullWidth id="roles" />}
       >
-        {
-          props.roles.map(r => (
-            <MenuItem
-              key={r}
-              value={r}
-              style={{
-                color: props.filterRoles.includes(r) ? MAIN_COLOR : 'black'
-              }}>
-              {getRoleName(r)}
-            </MenuItem>
-          ))
-        }
+        {props.roles.map(r => (
+          <MenuItem
+            key={r}
+            value={r}
+            style={{
+              color: props.filterRoles.includes(r) ? MAIN_COLOR : 'black',
+            }}
+          >
+            {getRoleName(r)}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );
 };
 
-
-const SelectPromo = (props) => {
+const SelectPromo = props => {
   return (
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
       <Select
         multiple
         value={props.filterPromo}
-        renderValue={years => years.map(year => getPromo(year) || year).join(', ')}
+        renderValue={years =>
+          years.map(year => getPromo(year) || year).join(', ')
+        }
         onChange={props.onPromoFilter}
         input={<Input id="year-multiple" />}
         MenuProps={{
@@ -100,27 +100,29 @@ const SelectPromo = (props) => {
               maxHeight: 300,
             },
           },
-        }}>
-        {
-          props.years.map(year => (
-            <MenuItem
-              key={year}
-              value={year}
-              style={{
-                color: props.filterPromo.includes(year) ? MAIN_COLOR : 'black',
-              }}
-            >
-              <span>{year} {getPromo(year, v => `(${v})`) || ''}</span>
-            </MenuItem>
-          ))
-        }
+        }}
+      >
+        {props.years.map(year => (
+          <MenuItem
+            key={year}
+            value={year}
+            style={{
+              color: props.filterPromo.includes(year) ? MAIN_COLOR : 'black',
+            }}
+          >
+            <span>
+              {year} {getPromo(year, v => `(${v})`) || ''}
+            </span>
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );
 };
 
-class Users extends Component {
+type UsersState = {};
 
+class Users extends Component {
   state = {
     users: [],
     page: 0,
@@ -130,7 +132,7 @@ class Users extends Component {
     filter: '',
     filterRoles: [],
     filterPromo: [],
-  }
+  };
 
   componentDidMount() {
     this.loadUsers(0);
@@ -150,73 +152,64 @@ class Users extends Component {
     filter: string,
     filterRoles: string[],
     filterPromo: number[],
-    page: number
+    page: number,
   ) => {
-
     if (filter !== '' || filterRoles.length > 0 || filterPromo.length > 0) {
       if (this.filterTimeout) clearTimeout(this.filterTimeout);
       this.filterTimeout = setTimeout(() => {
-        userData.searchStudentsAdmin(filter, filterRoles, filterPromo, "a", page).then(res => {
-          this.setState({
-            users: res.data.content,
-            total: res.data.totalElements,
-            page,
+        userData
+          .searchStudentsAdmin(filter, filterRoles, filterPromo, 'a', page)
+          .then(res => {
+            this.setState({
+              users: res.data.content,
+              total: res.data.totalElements,
+              page,
+            });
           });
-        });
       }, 300);
     } else {
       this.loadUsers(page);
     }
 
     this.setState({ filter, filterRoles, filterPromo });
-  }
+  };
 
   handleChangePage = (event: Event, page: number) => {
     this.filterUsers(
       this.state.filter,
       this.state.filterRoles,
       this.state.filterPromo,
-      page
+      page,
     );
-  }
+  };
 
-  changeFilter = (event) => {
+  changeFilter = event => {
     const filter = event.target.value;
-    this.filterUsers(
-      filter,
-      this.state.filterRoles,
-      this.state.filterPromo,
-      0
-    );
-  }
+    this.filterUsers(filter, this.state.filterRoles, this.state.filterPromo, 0);
+  };
 
   selectRow = selected => e => {
     this.setState({ selected });
-  }
+  };
 
   onChangeField = (name: string, value: string) => {
     this.setState(state => ({
       selected: {
         ...state.selected,
         [name]: value,
-      }
+      },
     }));
-  }
+  };
 
-  handleSelectRoles = (e) => {
+  handleSelectRoles = e => {
     const filterRoles = e.target.value;
     this.filterUsers(this.state.filter, filterRoles, this.state.filterPromo, 0);
-  }
+  };
 
-  onPromoFilter = (e) => {
+  onPromoFilter = e => {
     const filterPromo = e.target.value;
-    this.filterUsers(
-      this.state.filter,
-      this.state.filterRoles,
-      filterPromo,
-      0
-    );
-  }
+    this.filterUsers(this.state.filter, this.state.filterRoles, filterPromo, 0);
+  };
 
   getYears() {
     let now = new Date().getFullYear();
@@ -231,28 +224,22 @@ class Users extends Component {
   }
 
   render() {
-    const {
-      users,
-      page,
-      total,
-      filter,
-      selected,
-    } = this.state;
+    const { users, page, total, filter, selected } = this.state;
     return (
-      <FluidContent>
+      <div style={{ margin: 30 }}>
         <Flex wrap>
           <Box w={[1, 1 / 3]} p={1}>
             <div>
               <Title invert>Etudiant</Title>
               {!selected && <Text>Sélectionnez un étudiant</Text>}
-              {
-                selected &&
+              {selected && (
                 <UpdateStudent
                   selected={selected}
                   onChangeField={this.onChangeField}
                   refreshTable={() => this.loadUsers(this.state.page)}
-                  selectRow={(selected) => this.setState({ selected })} />
-              }
+                  selectRow={selected => this.setState({ selected })}
+                />
+              )}
             </div>
           </Box>
           <Box w={[1, 2 / 3]} p={1} pl={2}>
@@ -264,13 +251,15 @@ class Users extends Component {
                     fullWidth
                     type="text"
                     value={filter}
-                    onChange={this.changeFilter} />
+                    onChange={this.changeFilter}
+                  />
                 </Box>
                 <Box p={1} w={1 / 4}>
                   <SelectPromo
                     filterPromo={this.state.filterPromo}
                     onPromoFilter={this.onPromoFilter}
-                    years={this.getYears()} />
+                    years={this.getYears()}
+                  />
                 </Box>
                 <Box p={1} w={1 / 4}>
                   <SelectRoles
@@ -283,7 +272,8 @@ class Users extends Component {
                       rolesKey.EVENT_MANAGER,
                       rolesKey.POST_MANAGER,
                       rolesKey.STUDENT,
-                    ]} />
+                    ]}
+                  />
                 </Box>
               </Flex>
             </Paper>
@@ -308,35 +298,33 @@ class Users extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {
-                    users.map(u => {
-                      return (
-                        <TableRow
-                          key={u.id}
-                          hover
-                          style={{
-                            opacity: u.archived ? 0.2 : 1,
-                            cursor: 'pointer',
-                            backgroundColor: selected && u.id === selected.id && '#e2e7ff',
-                          }}
-                          selected={selected && u.id === selected.id}
-                          onClick={this.selectRow(u)} >
-                          <TableCell>
-                            <ProfileImage src={u.photoUrlThumb} sz="50px" />
-                          </TableCell>
-                          <TableCell>
-                            {u.firstname} {u.lastname}
-                          </TableCell>
-                          <TableCell numeric>
-                            {u.promo}
-                          </TableCell>
-                          <TableCell>
-                            {u.rolesValues.map(v => getRoleName(v)).join(', ')}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })
-                  }
+                  {users.map(u => {
+                    return (
+                      <TableRow
+                        key={u.id}
+                        hover
+                        style={{
+                          opacity: u.archived ? 0.2 : 1,
+                          cursor: 'pointer',
+                          backgroundColor:
+                            selected && u.id === selected.id && '#e2e7ff',
+                        }}
+                        selected={selected && u.id === selected.id}
+                        onClick={this.selectRow(u)}
+                      >
+                        <TableCell>
+                          <ProfileImage src={u.photoUrlThumb} sz="50px" />
+                        </TableCell>
+                        <TableCell>
+                          {u.firstname} {u.lastname}
+                        </TableCell>
+                        <TableCell numeric>{u.promo}</TableCell>
+                        <TableCell>
+                          {u.rolesValues.map(v => getRoleName(v)).join(', ')}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
                 <TableFooter>
                   <TableRow>
@@ -353,7 +341,7 @@ class Users extends Component {
             </Paper>
           </Box>
         </Flex>
-      </FluidContent>
+      </div>
     );
   }
 }

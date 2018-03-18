@@ -42,17 +42,16 @@ export default class Session extends React.Component<{}, State> {
     this.refreshTable();
   }
 
-  refreshTable(id: ?number) {
+  refreshTable = (id: ?number) => {
     this.getQuestions().then(res => {
       if (id) {
         this.selectRow(id);
       }
     });
-  }
+  };
 
   getQuestions() {
     return dorData.getSessions().then(res => {
-      console.log(res.data);
       this.setState({ sessions: res.data });
     });
   }
@@ -68,6 +67,30 @@ export default class Session extends React.Component<{}, State> {
   };
 
   saveSession = () => {};
+
+  renderTableCell = (session: SessionDor) => {
+    return (
+      <TableRow
+        key={session.id}
+        hover
+        style={{ cursor: 'pointer' }}
+        onClick={this.selectRow(session.id)}
+      >
+        <TableCell>
+          <Time date={session.result} format="DD/MM/YY" />
+        </TableCell>
+        <TableCell>
+          <Time date={session.firstTurn} format="DD/MM/YY" />
+        </TableCell>
+        <TableCell>
+          <Time date={session.secondTurn} format="DD/MM/YY" />
+        </TableCell>
+        <TableCell>
+          <Checkbox disableRipple checked={session.enabled} />
+        </TableCell>
+      </TableRow>
+    );
+  };
 
   render() {
     const { sessions, selectedSession, create } = this.state;
@@ -96,31 +119,7 @@ export default class Session extends React.Component<{}, State> {
                   <TableCell>Actif</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {sessions.map(s => {
-                  return (
-                    <TableRow
-                      key={s.id}
-                      hover
-                      style={{ cursor: 'pointer' }}
-                      onClick={this.selectRow(s.id)}
-                    >
-                      <TableCell>
-                        <Time date={s.result} format="DD/MM/YY" />
-                      </TableCell>
-                      <TableCell>
-                        <Time date={s.firstTurn} format="DD/MM/YY" />
-                      </TableCell>
-                      <TableCell>
-                        <Time date={s.secondTurn} format="DD/MM/YY" />
-                      </TableCell>
-                      <TableCell>
-                        <Checkbox checked={s.enabled} />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
+              <TableBody>{sessions.map(this.renderTableCell)}</TableBody>
             </Table>
           </Paper>
         </Box>

@@ -201,7 +201,7 @@ class MediaView extends Component {
             {
               !this.props.lastPage &&
               <div style={{ textAlign: 'center' }}>
-                <Button fab color="primary" onClick={this.props.seeMore}>
+                <Button variant="fab" color="primary" onClick={this.props.seeMore}>
                   <ArrowDownwardIcon />
                 </Button>
               </div>

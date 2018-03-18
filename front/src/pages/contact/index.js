@@ -51,7 +51,7 @@ class Contact extends Component {
           />
           <p>Adresse</p>
           <p>Mail</p>
-          <Button raised color="secondary">Envoyer</Button>
+          <Button variant="raised" color="secondary">Envoyer</Button>
           {/* TODO Mettre google maps ici ou avant le formulaire*/}
         </FluidContent>
       </div>

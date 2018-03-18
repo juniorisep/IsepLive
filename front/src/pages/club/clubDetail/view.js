@@ -56,7 +56,7 @@ export default function ClubDetailView(props) {
               {
                 props.isAdmin &&
                 <Box p={1}>
-                  <Button fab mini color="primary" onClick={props.onEdit}>
+                  <Button variant="fab" mini color="primary" onClick={props.onEdit}>
                     <EditIcon />
                   </Button>
                 </Box>
@@ -64,7 +64,7 @@ export default function ClubDetailView(props) {
               {
                 authData.hasRole([ADMIN, CLUB_MANAGER]) &&
                 <Box p={1}>
-                  <Button fab mini color="secondary" onClick={props.onDelete}>
+                  <Button variant="fab" mini color="secondary" onClick={props.onDelete}>
                     <DeleteIcon />
                   </Button>
                 </Box>

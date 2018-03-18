@@ -186,7 +186,7 @@ export default class AddressBook extends Component {
             {
               !this.props.lastPage &&
               <div style={{ textAlign: 'center' }}>
-                <Button fab color="primary" onClick={this.props.onSeeMore}>
+                <Button variant="fab" color="primary" onClick={this.props.onSeeMore}>
                   <ArrowDownwardIcon />
                 </Button>
               </div>

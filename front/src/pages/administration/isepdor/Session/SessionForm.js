@@ -181,7 +181,7 @@ export default class SessionForm extends React.Component {
             )}
         </Paper>
         <Button
-          fab
+          variant="fab"
           size="medium"
           color="primary"
           style={{ marginRight: 10 }}
@@ -197,7 +197,7 @@ export default class SessionForm extends React.Component {
         </Button>
         {selected && (
           <Button
-            fab
+            variant="fab"
             size="medium"
             color="secondary"
             onClick={this.deleteSession}

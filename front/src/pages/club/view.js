@@ -105,7 +105,7 @@ export default class Club extends Component<Props, State> {
           <Auth roles={[roles.ADMIN, roles.CLUB_MANAGER]}>
             <Flex>
               <Box ml="auto">
-                <Button fab color="primary" aria-label="add" onClick={() => this.setState({ open: true })}>
+                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.setState({ open: true })}>
                   <AddIcon />
                 </Button>
               </Box>

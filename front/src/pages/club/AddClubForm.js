@@ -147,7 +147,7 @@ export default class AddClubForm extends React.Component<Props, State> {
             <label htmlFor="file">
               <Flex align="center">
                 <Box>
-                  <Button color="primary" raised component="span">
+                  <Button color="primary" variant="raised" component="span">
                     Choisir logo
                 </Button>
                 </Box>

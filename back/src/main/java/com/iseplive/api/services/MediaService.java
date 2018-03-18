@@ -204,10 +204,10 @@ public class MediaService {
     });
   }
 
-  public VideoEmbed createVideoEmbed(VideoEmbedDTO dto) {
-    VideoEmbed videoEmbed = mediaFactory.dtoToVideoEmbedEntity(dto);
-    return mediaRepository.save(videoEmbed);
-  }
+//  public VideoEmbed createVideoEmbed(VideoEmbedDTO dto) {
+//    VideoEmbed videoEmbed = mediaFactory.dtoToVideoEmbedEntity(dto);
+//    return mediaRepository.save(videoEmbed);
+//  }
 
   public Video uploadVideo(String name, MultipartFile videoFile) {
     String random = mediaUtils.randomName();

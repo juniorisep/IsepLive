@@ -22,7 +22,6 @@ import com.iseplive.api.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +60,8 @@ public class DorService {
 
   public QuestionDor createQuestion(QuestionDorDTO questionDorDTO) {
     QuestionDor questionDor = new QuestionDor();
-    questionDor.setPosition(questionDor.getPosition());
+    int nbQuestions = getQuestions().size();
+    questionDor.setPosition(nbQuestions + 1);
     questionDor.setTitle(questionDorDTO.getTitle());
 
     questionDor.setEnableStudent(questionDorDTO.isEnableStudent());
@@ -69,6 +69,8 @@ public class DorService {
     questionDor.setEnableEmployee(questionDorDTO.isEnableEmployee());
     questionDor.setEnableEvent(questionDorDTO.isEnableEvent());
     questionDor.setEnableParty(questionDorDTO.isEnableParty());
+    questionDor.setEnablePromo(questionDor.isEnablePromo());
+    questionDor.setPromo(questionDor.getPromo());
     return questionDorRepository.save(questionDor);
   }
 
@@ -77,7 +79,7 @@ public class DorService {
   }
 
   public List<QuestionDor> getQuestions() {
-    return questionDorRepository.findAll();
+    return questionDorRepository.findAllByOrderByPosition();
   }
 
   public VoteDor handleVote(VoteDorDTO voteDor, TokenPayload payload) {
@@ -169,6 +171,14 @@ public class DorService {
     return questionDor;
   }
 
+  private SessionDor getSessionDor(Long sessionID) {
+    SessionDor sessionDor = sessionDorRepository.findOne(sessionID);
+    if (sessionDor == null) {
+      throw new IllegalArgumentException("session not found");
+    }
+    return sessionDor;
+  }
+
   private List<VoteDor> getPreviousVotes(SessionDor sessionDor, QuestionDor questionDor, Long userID) {
     Date now = new Date();
     if (sessionDor == null) {
@@ -189,33 +199,79 @@ public class DorService {
   }
 
   public void toggleSession(Long id) {
-    SessionDor sessionDor = sessionDorRepository.findOne(id);
-    if (sessionDor == null) {
-      throw new NotFoundException("cannot find this session");
-    }
+    SessionDor sessionDor = getSessionDor(id);
     sessionDor.setEnabled(!sessionDor.isEnabled());
     sessionDorRepository.save(sessionDor);
   }
 
-  public void swapQuestion(Long id, Long otherId) {
-    QuestionDor otherQuestionDor = getQuestionDor(otherId);
-    QuestionDor questionDor = getQuestionDor(id);
-    int position = otherQuestionDor.getPosition();
-    otherQuestionDor.setPosition(questionDor.getPosition());
-    questionDor.setPosition(position);
-    questionDorRepository.save(Arrays.asList(questionDor, otherQuestionDor));
-  }
-
   public void deleteSession(Long id) {
-    SessionDor sessionDor = sessionDorRepository.findOne(id);
-    if (sessionDor == null) {
-      throw new NotFoundException("cannot find this session");
-    }
+    SessionDor sessionDor = getSessionDor(id);
     sessionDorRepository.delete(sessionDor);
   }
 
   public void deleteQuestion(Long id) {
     QuestionDor questionDor = getQuestionDor(id);
+    int pos = questionDor.getPosition();
     questionDorRepository.delete(questionDor);
+    questionDorRepository.updatePosAfterDelete(pos);
+  }
+
+  public void updateSession(Long id, SessionDor dorSession) {
+    SessionDor sessionDor = getSessionDor(id);
+    sessionDor.setEnabled(dorSession.isEnabled());
+    sessionDor.setFirstTurn(dorSession.getFirstTurn());
+    sessionDor.setSecondTurn(dorSession.getSecondTurn());
+    sessionDor.setResult(dorSession.getResult());
+    sessionDorRepository.save(sessionDor);
+  }
+
+  public QuestionDor updateQuestion(Long id, QuestionDor questionDor) {
+    QuestionDor newQuestionDor = getQuestionDor(id);
+
+    if (newQuestionDor.getPosition() != questionDor.getPosition()) {
+      questionDorRepository.beforeMoveToPos(newQuestionDor.getPosition(), questionDor.getPosition());
+    }
+
+    newQuestionDor.setPosition(questionDor.getPosition());
+    newQuestionDor.setTitle(questionDor.getTitle());
+
+    newQuestionDor.setEnableStudent(questionDor.isEnableStudent());
+    newQuestionDor.setEnableClub(questionDor.isEnableClub());
+    newQuestionDor.setEnableEmployee(questionDor.isEnableEmployee());
+    newQuestionDor.setEnableEvent(questionDor.isEnableEvent());
+    newQuestionDor.setEnableParty(questionDor.isEnableParty());
+    newQuestionDor.setEnablePromo(questionDor.isEnablePromo());
+    newQuestionDor.setPromo(questionDor.getPromo());
+
+    return questionDorRepository.save(newQuestionDor);
+  }
+
+  public EventDor createEvent(EventDor event) {
+    return eventDorRepository.save(event);
+  }
+
+  public List<EventDor> getEvents() {
+    return eventDorRepository.findAll();
+  }
+
+  public EventDor getEvent(Long id) {
+    EventDor eventDor = eventDorRepository.findOne(id);
+    if (eventDor == null) {
+      throw new NotFoundException("could not find this event");
+    }
+    return eventDor;
+  }
+
+  public void deleteEvent(Long id) {
+    EventDor eventDor = getEvent(id);
+    eventDorRepository.delete(eventDor);
+  }
+
+  public EventDor updateEvent(Long id, EventDor event) {
+    EventDor eventDor = getEvent(id);
+
+    eventDor.setName(event.getName());
+    eventDor.setParty(event.isParty());
+    return eventDorRepository.save(eventDor);
   }
 }

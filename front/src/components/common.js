@@ -81,7 +81,7 @@ export const Banner = styled.div`
 class ImageStyle extends React.Component {
   state = {
     loaded: false,
-  }
+  };
 
   componentDidMount() {
     const hdLoaderImg = new window.Image();
@@ -95,45 +95,58 @@ class ImageStyle extends React.Component {
 
   render() {
     if (this.state.loaded) {
-      return <img
-        alt=""
-        {...this.props}
+      return (
+        <img
+          alt=""
+          {...this.props}
+          style={{
+            ...this.props.style,
+            width: this.props.w,
+            marginLeft: this.props.ml || 'auto',
+            verticalAlign: 'middle',
+          }}
+          src={this.props.src}
+        />
+      );
+    }
+    return (
+      <div
         style={{
-          ...this.props.style,
+          background: '#EEE',
+          height: this.props.h || 130,
           width: this.props.w,
           marginLeft: this.props.ml || 'auto',
           verticalAlign: 'middle',
         }}
-        src={this.props.src} />;
-    }
-    return <div style={{
-      background: '#EEE',
-      height: this.props.h || 130,
-      width: this.props.w,
-      marginLeft: this.props.ml || 'auto',
-      verticalAlign: 'middle',
-    }}></div>;
+      />
+    );
   }
 }
 
-
 type ImageType = {
-  src?: ?string, alt?: string, w?: string | number, ml?: string
+  src?: ?string,
+  alt?: string,
+  w?: string | number,
+  ml?: string,
 };
 
-export const Image = (props: ImageType) => <ImageStyle {...props} src={props.src && backUrl + props.src} />;
+export const Image = (props: ImageType) => (
+  <ImageStyle {...props} src={props.src && backUrl + props.src} />
+);
 
 export const BgImageProfileStyle = props => (
-  <div style={{
-    backgroundImage: `url(${props.src})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    width: props.sz,
-    height: props.h || props.sz,
-    marginLeft: props.ml || 'auto',
-    minHeight: props.mh || '100%',
-  }}></div>
+  <div
+    style={{
+      backgroundImage: `url(${props.src})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      width: props.sz,
+      height: props.h || props.sz,
+      marginLeft: props.ml || 'auto',
+      minHeight: props.mh || '100%',
+    }}
+  />
 );
 
 export const ProfileImage = (props: ImageType) => {
@@ -151,11 +164,11 @@ const BgImageStyle = styled.div`
   min-height: ${props => props.mh || '100%'};
 `;
 
-export const BgImage = (props) => {
+export const BgImage = props => {
   return <BgImageStyle {...props} src={props.src && backUrl + props.src} />;
 };
 
-export const ImageLink = (props) => {
+export const ImageLink = props => {
   return <a href={backUrl + props.src}>{props.children}</a>;
 };
 
@@ -171,11 +184,14 @@ export const Title = styled.h1`
   font-size: ${props => props.fontSize}em;
   font-weight: 500;
   display: inline-block;
-  color: ${props => props.invert ? props.theme.main : props.theme.accent};
-  ${props => props.framed && `background: ${props.invert ? props.theme.accent : props.theme.main};`}
-  margin: 0;
+  color: ${props => (props.invert ? props.theme.main : props.theme.accent)};
+  ${props =>
+    props.framed &&
+    `background: ${
+      props.invert ? props.theme.accent : props.theme.main
+    };`} margin: 0;
   margin-bottom: ${props => props.mb || '.5em'};
-  padding: ${props => props.framed ? '.3em .4em' : 0};
+  padding: ${props => (props.framed ? '.3em .4em' : 0)};
 `;
 
 export const Subtitle = styled.h3`
@@ -214,10 +230,16 @@ const IframeWrap = styled.div`
   }
 `;
 
-export const FacebookVideo = (props) => {
+export const FacebookVideo = props => {
   return (
     <IframeWrap>
-      <iframe title="facebook-video" src={props.url} scrolling="no" allowTransparency allowFullScreen />
+      <iframe
+        title="facebook-video"
+        src={props.url}
+        scrolling="no"
+        allowTransparency
+        allowFullScreen
+      />
     </IframeWrap>
   );
 };
@@ -227,8 +249,16 @@ const Iframe = styled.iframe`
   height: 100%;
 `;
 
-export const YoutubeVideo = (props) => {
-  return <Iframe src={props.url} scrolling="no" allowTransparency allowFullScreen frameBorder="0"></Iframe>;
+export const YoutubeVideo = props => {
+  return (
+    <Iframe
+      src={props.url}
+      scrolling="no"
+      allowTransparency
+      allowFullScreen
+      frameBorder="0"
+    />
+  );
 };
 
 const VideoStyle = styled.video`
@@ -238,7 +268,12 @@ const VideoStyle = styled.video`
 
 export const Video = props => {
   return (
-    <VideoStyle preload='preload' src={backUrl + props.url} type="video/mp4" controls />
+    <VideoStyle
+      preload="preload"
+      src={backUrl + props.url}
+      type="video/mp4"
+      controls
+    />
   );
 };
 
@@ -248,8 +283,7 @@ export const Paper = styled.div`
   padding: ${({ p }) => p || 0};
 `;
 
-
-export const FileUpload = (props) => {
+export const FileUpload = props => {
   const hash = new Date().getTime().toString(32);
   return (
     <div>
@@ -259,12 +293,20 @@ export const FileUpload = (props) => {
         style={{ display: 'none' }}
         accept={props.accept ? props.accept.map(e => '.' + e).join(',') : null}
         multiple={props.multiple}
-        onChange={(e) => props.onFile(e.target.files)} />
+        onChange={e => props.onFile(e.target.files)}
+      />
       <label htmlFor={hash}>
-        <Button style={{
-          marginTop: 10,
-          ...props.style,
-        }} component="span" color="secondary" {...props.btnProps}>{props.children}</Button>
+        <Button
+          style={{
+            marginTop: 10,
+            ...props.style,
+          }}
+          component="span"
+          color="secondary"
+          {...props.btnProps}
+        >
+          {props.children}
+        </Button>
       </label>
     </div>
   );
@@ -275,7 +317,7 @@ export class ImageLoader extends React.Component {
     url: '',
     loadImage: '',
     loaded: false,
-  }
+  };
 
   getUrl() {
     return backUrl + this.props.src;
@@ -295,36 +337,39 @@ export class ImageLoader extends React.Component {
 
   handleImageLoaded = () => {
     this.setState({ url: this.getUrl(), loaded: true });
-  }
+  };
 
-  handleImageErrored = () => {
-
-  }
+  handleImageErrored = () => {};
 
   render() {
     return (
-      <div style={{
-        width: '100%',
-        height: '100%',
-        transition: 'opacity .5s ease',
-        opacity: this.state.loaded ? 1 : 0,
-      }}>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          transition: 'opacity .5s ease',
+          opacity: this.state.loaded ? 1 : 0,
+        }}
+      >
         <img
           src={this.state.loadImage}
           alt="loading"
           style={{ display: 'none' }}
           onLoad={this.handleImageLoaded}
-          onError={this.handleImageErrored} />
-        <div style={{
-          width: '100%',
-          height: '100%',
-          backgroundPosition: 'center',
-          backgroundSize: this.props.coverMode,
-          backgroundImage: `url(${this.state.url})`,
-          backgroundRepeat: 'no-repeat',
-          overflow: 'hidden',
-          ...this.props.style,
-        }}></div>
+          onError={this.handleImageErrored}
+        />
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundPosition: 'center',
+            backgroundSize: this.props.coverMode,
+            backgroundImage: `url(${this.state.url})`,
+            backgroundRepeat: 'no-repeat',
+            overflow: 'hidden',
+            ...this.props.style,
+          }}
+        />
       </div>
     );
   }

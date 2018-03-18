@@ -23,6 +23,7 @@ public class QuestionDor {
   private boolean enableEvent;
   private boolean enableParty;
 
+  private boolean enablePromo;
   private int promo;
 
   public Long getId() {
@@ -95,5 +96,13 @@ public class QuestionDor {
 
   public void setPromo(int promo) {
     this.promo = promo;
+  }
+
+  public boolean isEnablePromo() {
+    return enablePromo;
+  }
+
+  public void setEnablePromo(boolean enablePromo) {
+    this.enablePromo = enablePromo;
   }
 }

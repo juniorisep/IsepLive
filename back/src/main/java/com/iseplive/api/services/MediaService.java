@@ -7,7 +7,7 @@ import com.iseplive.api.dao.image.ImageRepository;
 import com.iseplive.api.dao.image.MatchedRepository;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
-import com.iseplive.api.dto.media.VideoEmbedDTO;
+import com.iseplive.api.dto.TempFile;
 import com.iseplive.api.dto.view.MatchedView;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.user.Student;
@@ -22,7 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.Cacheable;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;

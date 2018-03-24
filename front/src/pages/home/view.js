@@ -45,15 +45,17 @@ const Circle = styled.div`
   height: 50px;
   border-radius: 50px;
   background: white;
-  box-shadow: 0 5px 15px rgba(0,0,0,.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 `;
 
-const CircleIcon = (props) => (
+const CircleIcon = props => (
   <Circle>
-    <span style={{
-      width: '100%',
-      textAlign: 'center',
-    }}>
+    <span
+      style={{
+        width: '100%',
+        textAlign: 'center',
+      }}
+    >
       {props.children}
     </span>
   </Circle>
@@ -82,8 +84,7 @@ export default function Home(props) {
           <PostSection>
             <Loader loading={props.isLoading}>
               <div>
-                {
-                  props.pinnedPosts.length > 0 &&
+                {props.pinnedPosts.length > 0 && (
                   <div>
                     <Flex align="center">
                       <Box mr="20px">
@@ -92,16 +93,19 @@ export default function Home(props) {
                         </CircleIcon>
                       </Box>
                       <Box>
-                        <Title invert mb="0" fontSize={2}>A l'affiche</Title>
+                        <Title invert mb="0" fontSize={2}>
+                          A l'affiche
+                        </Title>
                       </Box>
                     </Flex>
                     <PostListView
                       canPin
                       posts={props.pinnedPosts}
-                      refreshPosts={props.refreshPosts} />
+                      refreshPosts={props.refreshPosts}
+                    />
                     <Filler h={50} />
                   </div>
-                }
+                )}
                 <Flex align="center">
                   <Box mr="20px">
                     <CircleIcon>
@@ -109,27 +113,39 @@ export default function Home(props) {
                     </CircleIcon>
                   </Box>
                   <Box>
-                    <Title invert mb="0" fontSize={2}>Publications</Title>
+                    <Title invert mb="0" fontSize={2}>
+                      Publications
+                    </Title>
                   </Box>
                 </Flex>
-                {
-                  props.posts.length === 0 &&
-                  <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
+                {props.posts.length === 0 && (
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      minHeight: 300,
+                      marginTop: 100,
+                    }}
+                  >
                     <Text fs="2em">Aucune publication</Text>
                   </div>
-                }
+                )}
                 <PostListView
                   canPin
                   posts={props.posts}
-                  refreshPosts={props.refreshPosts} />
-                {
-                  !props.lastPage && props.posts.length > 0 &&
-                  <Center>
-                    <Button variant="fab" color="primary" variant="raised" onClick={props.onSeeMore}>
-                      <ArrowDownwardIcon />
-                    </Button>
-                  </Center>
-                }
+                  refreshPosts={props.refreshPosts}
+                />
+                {!props.lastPage &&
+                  props.posts.length > 0 && (
+                    <Center>
+                      <Button
+                        variant="fab"
+                        color="primary"
+                        onClick={props.onSeeMore}
+                      >
+                        <ArrowDownwardIcon />
+                      </Button>
+                    </Center>
+                  )}
               </div>
             </Loader>
           </PostSection>

@@ -8,6 +8,8 @@ import type {
   QuestionDorCreate,
   EventDor,
   EventDorCreate,
+  AnswerDor,
+  VoteDor,
 } from './type';
 
 export function getSessions(): AxiosPromise<SessionDor[]> {
@@ -15,14 +17,14 @@ export function getSessions(): AxiosPromise<SessionDor[]> {
 }
 
 export function createSession(
-  session: SessionDorCreate,
+  session: SessionDorCreate
 ): AxiosPromise<SessionDor> {
   return axios.post('/dor/session', session);
 }
 
 export function updateSession(
   id: number,
-  session: SessionDor,
+  session: SessionDor
 ): AxiosPromise<SessionDor> {
   return axios.put(`/dor/session/${id}`, session);
 }
@@ -36,14 +38,14 @@ export function getQuestions(): AxiosPromise<QuestionDor[]> {
 }
 
 export function createQuestion(
-  question: QuestionDorCreate,
+  question: QuestionDorCreate
 ): AxiosPromise<QuestionDor> {
   return axios.post('/dor/question', question);
 }
 
 export function updateQuestion(
   id: number,
-  question: QuestionDorCreate,
+  question: QuestionDorCreate
 ): AxiosPromise<QuestionDor> {
   return axios.put(`/dor/question/${id}`, question);
 }
@@ -66,7 +68,35 @@ export function deleteEvent(id: number): AxiosPromise<{}> {
 
 export function updateEvent(
   id: number,
-  event: EventDorCreate,
+  event: EventDorCreate
 ): AxiosPromise<EventDor> {
   return axios.put(`/dor/event/${id}`, event);
+}
+
+export function handleVote(questionId: number, vote: AnswerDor) {
+  const payload = {};
+  switch (vote.type) {
+    case 'student':
+    case 'employee':
+    case 'club':
+      payload.authorID = vote.value.id;
+      break;
+    case 'event':
+      payload.eventID = vote.value.id;
+      break;
+    default:
+      break;
+  }
+  return axios.put(`/dor/vote`, {
+    questionID: questionId,
+    ...payload,
+  });
+}
+
+export function getCurrentVotes(round: number): AxiosPromise<VoteDor[]> {
+  return axios.get(`/dor/vote/round/${round}`);
+}
+
+export function getCurrentSession(): AxiosPromise<SessionDor> {
+  return axios.get('/dor/session/current');
 }

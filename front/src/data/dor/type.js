@@ -1,4 +1,7 @@
 // @flow
+
+import type { Student, Club, Employee, Author } from '../../data/users/type';
+
 export type SessionDor = {
   id: number,
   firstTurn: Date,
@@ -47,4 +50,19 @@ export type EventDor = {
 export type EventDorCreate = {
   name: string,
   party: boolean,
+};
+
+export type AnswerDor = {
+  type: 'student' | 'club' | 'employee' | 'event',
+  value: Student & Club & Employee & EventDor,
+};
+
+export type VoteDor = {
+  id: number,
+  secondTurn: boolean,
+  resAuthor: ?Author,
+  resEvent: ?EventDor,
+  questionDor: QuestionDor,
+  date: Date,
+  round: number,
 };

@@ -40,6 +40,12 @@ public class DorController {
     return dorService.getSessions();
   }
 
+  @GetMapping("/session/current")
+  @RolesAllowed({ Roles.STUDENT })
+  public SessionDor getCurrentSession() {
+    return dorService.getCurrentSession();
+  }
+
   @DeleteMapping("/session/{id}")
   @RolesAllowed({ Roles.ADMIN })
   public void deleteSession(@PathVariable Long id) {
@@ -80,6 +86,12 @@ public class DorController {
   @RolesAllowed({ Roles.ADMIN })
   public void deleteQuestion(@PathVariable Long id) {
     dorService.deleteQuestion(id);
+  }
+
+  @GetMapping("/vote/round/{round}")
+  @RolesAllowed({ Roles.STUDENT })
+  public List<VoteDor> getCurrentVotes(@PathVariable int round, @AuthenticationPrincipal TokenPayload payload) {
+    return dorService.getCurrentVotes(payload.getId(), round);
   }
 
   @PutMapping("/vote")

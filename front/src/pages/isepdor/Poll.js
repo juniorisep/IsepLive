@@ -4,29 +4,75 @@ import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import Avatar from 'material-ui/Avatar';
 
-import { Paper, Title, Text, FluidContent } from '../../components/common';
+import {
+  Paper,
+  Title,
+  Text,
+  FluidContent,
+  BgImage,
+} from '../../components/common';
 
 import Autocomplete from '../../components/Autocomplete';
 
-import type { QuestionDor } from '../../data/dor/type';
+import type { QuestionDor, VoteDor, SessionDor } from '../../data/dor/type';
 import * as dorData from '../../data/dor';
 
 import * as userData from '../../data/users/student';
-
 import { backUrl } from '../../config';
+
+import Time from '../../components/Time';
+
+import PollQuestion from './PollQuestion';
+
+const SessionDisplay = ({ secondTurn, result }) => {
+  const now = new Date().getTime();
+  if (secondTurn > now) {
+    return (
+      <Text>
+        Fin du premier tour le <Time date={secondTurn} format="Do MMMM YYYY" />
+      </Text>
+    );
+  }
+  if (result > now) {
+    return (
+      <Text>
+        Résultats le <Time date={result} format="Do MMMM YYYY" />
+      </Text>
+    );
+  }
+  return null;
+};
 
 type State = {
   questions: QuestionDor[],
+  answers: VoteDor[],
+  session: ?SessionDor,
 };
 
 export default class DorPoll extends React.Component<{}, State> {
   state = {
     questions: [],
     answers: [],
+    session: null,
   };
 
   componentDidMount() {
     this.getQuestions();
+    this.getCurrentSession().then(session => {
+      this.getCurrentVotes(this.getCurrentRound(session));
+    });
+  }
+
+  getCurrentRound(session: SessionDor): number {
+    return session.secondTurn > new Date().getTime() ? 1 : 2;
+  }
+
+  async getCurrentSession() {
+    const res = await dorData.getCurrentSession();
+    this.setState({
+      session: res.data,
+    });
+    return res.data;
   }
 
   async getQuestions() {
@@ -36,54 +82,49 @@ export default class DorPoll extends React.Component<{}, State> {
     });
   }
 
-  renderStudentSugg = stud => {
-    const name = `${stud.firstname} ${stud.lastname}`;
-    const url = stud.photoUrlThumb
-      ? backUrl + stud.photoUrlThumb
-      : '/img/svg/user.svg';
-    return (
-      <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-        <Avatar alt={name} src={url} style={{ marginRight: 10 }} />
-        <span>{name}</span>
-      </div>
-    );
-  };
-
-  selectStudent = (data, name) => {};
-  searchStudent = search => {
-    this.setState({ selectValue: search });
-    if (!search) {
-      this.setState({ selected: false });
-      return Promise.resolve([]);
-    }
-    return userData.searchStudents(search, [], 'a', 0).then(res => {
-      return res.data.content;
+  async getCurrentVotes(round: number) {
+    const res = await dorData.getCurrentVotes(round);
+    this.setState({
+      answers: res.data,
     });
+  }
+
+  onAnswer = () => {
+    if (this.state.session) {
+      this.getCurrentVotes(this.getCurrentRound(this.state.session));
+    }
   };
 
   renderQuestions = (question: QuestionDor) => {
+    const { answers } = this.state;
+    const answer = answers.find(ans => ans.questionDor.id === question.id);
+
     return (
-      <Box p={3} w={[1 / 2]}>
-        <Paper p="20px">
-          <Title invert>{question.title}</Title>
-          {question.enableStudent && (
-            <Autocomplete
-              label="Elève"
-              renderSuggestion={this.renderStudentSugg}
-              onSelect={this.selectStudent}
-              search={this.searchStudent}
-            />
-          )}
-        </Paper>
+      <Box key={question.id} p={3} w={[1, 1 / 3]}>
+        <PollQuestion
+          question={question}
+          answer={answer}
+          onAnswer={this.onAnswer}
+        />
       </Box>
     );
   };
 
   render() {
-    const { questions } = this.state;
+    const { session, questions } = this.state;
     return (
       <FluidContent mh="700px">
-        <Title>ISEP d'Or</Title>
+        <Title mb="0.2em" fontSize={3}>
+          ISEP d'Or
+        </Title>
+        {session && (
+          <Box mb="20px">
+            <SessionDisplay
+              secondTurn={session.secondTurn}
+              result={session.result}
+            />
+          </Box>
+        )}
         <Flex flexWrap="wrap">{questions.map(this.renderQuestions)}</Flex>
       </FluidContent>
     );

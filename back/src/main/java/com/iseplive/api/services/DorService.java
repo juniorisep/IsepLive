@@ -9,6 +9,8 @@ import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dto.dor.QuestionDorDTO;
 import com.iseplive.api.dto.dor.SessionDorDTO;
 import com.iseplive.api.dto.dor.VoteDorDTO;
+import com.iseplive.api.dto.view.AnswerDorDTO;
+import com.iseplive.api.dto.view.AnswerDorType;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.dor.EventDor;
 import com.iseplive.api.entity.dor.QuestionDor;
@@ -22,8 +24,9 @@ import com.iseplive.api.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 09/02/2018.
@@ -73,6 +76,47 @@ public class DorService {
     questionDor.setPromo(questionDor.getPromo());
     return questionDorRepository.save(questionDor);
   }
+
+  /**
+   * Compute the top three candidates of the second turn for each
+   * question of a particular session
+   * @param sessionId
+   * @return
+   */
+  public Map<QuestionDor, List<AnswerDorDTO>> computeFirstRoundWinners(Long sessionId) {
+    List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndSecondTurn(sessionId, false);
+    Map<QuestionDor, List<AnswerDorDTO>> frWinners = new HashMap<>();
+    for (VoteDor voteDor: voteDors) {
+      frWinners.computeIfAbsent(voteDor.getQuestionDor(), k -> new ArrayList<>());
+      AnswerDorDTO answerDorDTO = voteToAnswerDTO(voteDor);
+      frWinners.get(voteDor.getQuestionDor()).add(answerDorDTO);
+    }
+
+    for (QuestionDor questionDor: frWinners.keySet()) {
+      Map<AnswerDorDTO, Long> grouped = frWinners.get(questionDor).stream()
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+      for (AnswerDorDTO answerDorDTO: grouped.keySet()) {
+        answerDorDTO.setScore(grouped.get(answerDorDTO));
+      }
+      List<AnswerDorDTO> answers = new ArrayList<>(grouped.keySet());
+      answers.sort(Comparator.comparingLong(AnswerDorDTO::getScore));
+      frWinners.put(questionDor, answers.stream().limit(3).collect(Collectors.toList()));
+    }
+
+    return frWinners;
+  }
+
+  public AnswerDorDTO voteToAnswerDTO(VoteDor voteDor) {
+    if (voteDor.getResAuthor() != null) {
+      return new AnswerDorDTO(voteDor.getResAuthor().getId(), AnswerDorType.USER);
+    }
+    if (voteDor.getResEvent() != null) {
+      return new AnswerDorDTO(voteDor.getResEvent().getId(), AnswerDorType.EVENT);
+    }
+    return null;
+  }
+
+
 
   public List<SessionDor> getSessions() {
     return sessionDorRepository.findAll();
@@ -127,7 +171,7 @@ public class DorService {
       return voteDorRepository.save(newVoteDor);
     }
 
-    if (voteDor.getEventID() != null || voteDor.getPartyID() != null) {
+    if (voteDor.getEventID() != null) {
       EventDor event = eventDorRepository.findOne(voteDor.getEventID());
       if (event == null) {
         throw new IllegalArgumentException("this event does not exist");
@@ -147,7 +191,7 @@ public class DorService {
     throw new IllegalArgumentException("cannot vote for this");
   }
 
-  private SessionDor getCurrentSession() {
+  public SessionDor getCurrentSession() {
     return sessionDorRepository.findByEnabled(true);
   }
 
@@ -273,5 +317,13 @@ public class DorService {
     eventDor.setName(event.getName());
     eventDor.setParty(event.isParty());
     return eventDorRepository.save(eventDor);
+  }
+
+  public List<VoteDor> getCurrentVotes(Long userId, int round) {
+    SessionDor sessionDor = getCurrentSession();
+    if (sessionDor != null) {
+      return voteDorRepository.findAllByStudent_IdAndSessionAndRound(userId, sessionDor, round);
+    }
+    return new ArrayList<>();
   }
 }

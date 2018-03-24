@@ -1,5 +1,6 @@
 package com.iseplive.api.entity.dor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
 
@@ -23,9 +24,11 @@ public class VoteDor {
   private boolean secondTurn;
 
   @ManyToOne
+  @JsonIgnore
   private SessionDor session;
 
   @ManyToOne
+  @JsonIgnore
   private Student student;
 
   @ManyToOne

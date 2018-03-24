@@ -9,15 +9,6 @@ export type StudentUpdate = {
   address: string,
 };
 
-export type AuthorType = 'student' | 'club' | 'employee';
-
-type AuthorValue = {
-  id: number,
-  authorType: AuthorType,
-};
-
-export type Author = Student | Club;
-
 type ClubValue = {
   name: string,
   description: string,
@@ -49,6 +40,22 @@ type StudentValue = {
 };
 
 export type Student = AuthorValue & StudentValue;
+
+type EmployeeValue = {
+  firstname: string,
+  lastname: string,
+};
+
+export type Employee = AuthorValue & EmployeeValue;
+
+export type AuthorType = 'student' | 'club' | 'employee';
+
+type AuthorValue = {
+  id: number,
+  authorType: AuthorType,
+};
+
+export type Author = Student & Club & Employee;
 
 export type PagedStudent = {
   content: Student[],

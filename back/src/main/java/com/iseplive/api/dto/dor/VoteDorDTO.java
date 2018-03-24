@@ -9,7 +9,6 @@ public class VoteDorDTO {
 
   private Long authorID;
   private Long eventID;
-  private Long partyID;
 
   public Long getQuestionID() {
     return questionID;
@@ -25,14 +24,6 @@ public class VoteDorDTO {
 
   public void setEventID(Long eventID) {
     this.eventID = eventID;
-  }
-
-  public Long getPartyID() {
-    return partyID;
-  }
-
-  public void setPartyID(Long partyID) {
-    this.partyID = partyID;
   }
 
   public Long getAuthorID() {

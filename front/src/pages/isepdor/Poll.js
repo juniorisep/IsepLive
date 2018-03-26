@@ -14,7 +14,12 @@ import {
 
 import Autocomplete from '../../components/Autocomplete';
 
-import type { QuestionDor, VoteDor, SessionDor } from '../../data/dor/type';
+import type {
+  QuestionDor,
+  VoteDor,
+  SessionDor,
+  AnswerDorScore,
+} from '../../data/dor/type';
 import * as dorData from '../../data/dor';
 
 import * as userData from '../../data/users/student';
@@ -28,16 +33,28 @@ const SessionDisplay = ({ secondTurn, result }) => {
   const now = new Date().getTime();
   if (secondTurn > now) {
     return (
-      <Text>
-        Fin du premier tour le <Time date={secondTurn} format="Do MMMM YYYY" />
-      </Text>
+      <div>
+        <Title fontSize={1.2} invert>
+          1ER TOUR
+        </Title>
+        <Text>
+          <span>Fin du premier tour le </span>
+          <Time date={secondTurn} format="Do MMMM YYYY" />
+        </Text>
+      </div>
     );
   }
   if (result > now) {
     return (
-      <Text>
-        Résultats le <Time date={result} format="Do MMMM YYYY" />
-      </Text>
+      <div>
+        <Title fontSize={1} invert>
+          2EME TOUR
+        </Title>
+        <Text>
+          <span>Fin du 2ème tour le </span>
+          <Time date={result} format="Do MMMM YYYY" />
+        </Text>
+      </div>
     );
   }
   return null;
@@ -47,6 +64,7 @@ type State = {
   questions: QuestionDor[],
   answers: VoteDor[],
   session: ?SessionDor,
+  results: ?{ [id: number]: AnswerDorScore[] },
 };
 
 export default class DorPoll extends React.Component<{}, State> {
@@ -54,12 +72,14 @@ export default class DorPoll extends React.Component<{}, State> {
     questions: [],
     answers: [],
     session: null,
+    results: null,
   };
 
   componentDidMount() {
     this.getQuestions();
     this.getCurrentSession().then(session => {
-      this.getCurrentVotes(this.getCurrentRound(session));
+      const round = this.getCurrentRound(session);
+      this.getCurrentVotes(round);
     });
   }
 
@@ -83,9 +103,13 @@ export default class DorPoll extends React.Component<{}, State> {
   }
 
   async getCurrentVotes(round: number) {
-    const res = await dorData.getCurrentVotes(round);
+    const currentVotes = await dorData.getCurrentVotes(round);
+    if (round === 2) {
+      const roundResults = await dorData.getRoundResults(1);
+      this.setState({ results: roundResults.data });
+    }
     this.setState({
-      answers: res.data,
+      answers: currentVotes.data,
     });
   }
 
@@ -96,14 +120,15 @@ export default class DorPoll extends React.Component<{}, State> {
   };
 
   renderQuestions = (question: QuestionDor) => {
-    const { answers } = this.state;
+    const { answers, results } = this.state;
     const answer = answers.find(ans => ans.questionDor.id === question.id);
 
     return (
-      <Box key={question.id} p={3} w={[1, 1 / 3]}>
+      <Box key={question.id} p={3} w={[1, 1 / 2, 1 / 3]}>
         <PollQuestion
           question={question}
           answer={answer}
+          results={results}
           onAnswer={this.onAnswer}
         />
       </Box>

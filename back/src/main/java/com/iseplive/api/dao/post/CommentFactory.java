@@ -4,13 +4,13 @@ import com.iseplive.api.dto.view.CommentView;
 import com.iseplive.api.entity.Comment;
 import com.iseplive.api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Guillaume on 16/08/2017.
  * back
  */
-@Service
+@Component
 public class CommentFactory {
 
   @Autowired

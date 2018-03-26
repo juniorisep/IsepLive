@@ -31,25 +31,31 @@ export function getPosts(id: number, page: number = 0): AxiosPromise<Post[]> {
 
 export function createClub(form): AxiosPromise<void> {
   const formData = new FormData();
-  formData.append('club', JSON.stringify({
-    name: form.name,
-    creation: form.creation.getTime(),
-    adminId: form.president,
-    description: form.description,
-    website: form.website,
-  }));
+  formData.append(
+    'club',
+    JSON.stringify({
+      name: form.name,
+      creation: form.creation.getTime(),
+      adminId: form.president,
+      description: form.description,
+      website: form.website,
+    })
+  );
   formData.append('logo', form.logo);
   return axios.post('/club', formData);
 }
 
 export function updateClub(id: number, form): AxiosPromise<void> {
   const formData = new FormData();
-  formData.append('club', JSON.stringify({
-    name: form.name,
-    creation: form.creation.getTime(),
-    description: form.description,
-    website: form.website,
-  }));
+  formData.append(
+    'club',
+    JSON.stringify({
+      name: form.name,
+      creation: form.creation.getTime(),
+      description: form.description,
+      website: form.website,
+    })
+  );
   formData.append('logo', form.logo);
   return axios.put(`/club/${id}`, formData);
 }
@@ -58,15 +64,24 @@ export function deleteClub(id: number): AxiosPromise<void> {
   return axios.delete(`/club/${id}`);
 }
 
-export function updateMemberRole(memberId: number, roleId: number): AxiosPromise<void> {
+export function updateMemberRole(
+  memberId: number,
+  roleId: number
+): AxiosPromise<void> {
   return axios.put(`/club/member/${memberId}/role/${roleId}`);
 }
 
-export function addAdmin(clubid: number, studentid: number): AxiosPromise<void> {
+export function addAdmin(
+  clubid: number,
+  studentid: number
+): AxiosPromise<void> {
   return axios.put(`/club/${clubid}/admin/${studentid}`);
 }
 
-export function removeAdmin(clubid: number, studentid: number): AxiosPromise<void> {
+export function removeAdmin(
+  clubid: number,
+  studentid: number
+): AxiosPromise<void> {
   return axios.delete(`/club/${clubid}/admin/${studentid}`);
 }
 
@@ -81,18 +96,18 @@ export function deleteMember(memberId: number): AxiosPromise<void> {
 export function getClubRoleName(roleName: string): string {
   switch (roleName) {
     case constants.CLUB_ROLE_PRESIDENT:
-      return "Président";
+      return 'Président';
     case constants.CLUB_ROLE_TREASURER:
-      return "Trésorier";
+      return 'Trésorier';
     case constants.CLUB_ROLE_MEMBER:
-      return "Membre";
+      return 'Membre';
 
     default:
       return roleName;
   }
 }
 
-export function getClubRoles(clubid: number): AxiosPromise<ClubRole[]>  {
+export function getClubRoles(clubid: number): AxiosPromise<ClubRole[]> {
   return axios.get(`/club/${clubid}/role`);
 }
 
@@ -100,6 +115,13 @@ export function addRoleName(clubid: number, name: string): AxiosPromise<void> {
   return axios.post(`/club/${clubid}/role/${name}`);
 }
 
-export function deleteClubRole(clubid: number, roleId: number): AxiosPromise<void> {
+export function deleteClubRole(
+  clubid: number,
+  roleId: number
+): AxiosPromise<void> {
   return axios.delete(`/club/${clubid}/role/${roleId}`);
+}
+
+export function searchClub(name: string): AxiosPromise<Club[]> {
+  return axios.get(`/club/search?name=${name}`);
 }

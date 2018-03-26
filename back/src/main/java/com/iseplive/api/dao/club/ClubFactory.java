@@ -2,13 +2,13 @@ package com.iseplive.api.dao.club;
 
 import com.iseplive.api.dto.ClubDTO;
 import com.iseplive.api.entity.club.Club;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Guillaume on 30/07/2017.
  * back
  */
-@Service
+@Component
 public class ClubFactory {
   public Club dtoToEntity(ClubDTO dto) {
     Club club = new Club();

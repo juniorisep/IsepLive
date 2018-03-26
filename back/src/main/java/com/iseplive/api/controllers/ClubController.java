@@ -48,6 +48,11 @@ public class ClubController {
     return clubService.getAll();
   }
 
+  @GetMapping("/search")
+  public List<Club> searchClubs(@RequestParam String name) {
+    return clubService.searchClubs(name);
+  }
+
   @PostMapping
   @RolesAllowed({Roles.ADMIN, Roles.CLUB_MANAGER})
   public Club createClub(@RequestParam("logo") MultipartFile logo,

@@ -33,4 +33,5 @@ public class VoteDorDTO {
   public void setAuthorID(Long authorID) {
     this.authorID = authorID;
   }
+
 }

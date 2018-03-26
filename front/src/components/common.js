@@ -169,6 +169,9 @@ export const BgImage = props => {
   if (!props.src && props.defaultSrc) {
     return <BgImageStyle {...props} src={props.defaultSrc} />;
   }
+  if (props.local) {
+    return <BgImageStyle {...props} src={props.src} />;
+  }
   return <BgImageStyle {...props} src={props.src && backUrl + props.src} />;
 };
 

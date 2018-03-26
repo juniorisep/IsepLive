@@ -8,6 +8,7 @@ import { FluidContent, Title, Paper } from '../../../components/common';
 import Session from './Session';
 import Question from './Question';
 import Events from './Events';
+import Employee from './Employee';
 
 type State = {
   activeTab: number,
@@ -30,6 +31,8 @@ export default class ImportStudents extends React.Component<{}, State> {
         return <Question />;
       case 2:
         return <Events />;
+      case 3:
+        return <Employee />;
       default:
         return null;
     }
@@ -49,6 +52,7 @@ export default class ImportStudents extends React.Component<{}, State> {
             <Tab label="Sessions" />
             <Tab label="Questions" />
             <Tab label="Evènements" />
+            <Tab label="Employés" />
             <Tab label="Diplome" />
           </Tabs>
           {this.renderTab(activeTab)}

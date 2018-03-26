@@ -5,6 +5,7 @@ import { Flex, Box } from 'grid-styled';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import Chip from 'material-ui/Chip';
+import Radio from 'material-ui/Radio';
 
 import {
   Paper,
@@ -20,8 +21,11 @@ import type {
   EventDor,
   AnswerDor,
   VoteDor,
+  AnswerDorScore,
 } from '../../data/dor/type';
+
 import * as dorData from '../../data/dor';
+import * as clubData from '../../data/club';
 
 import * as userData from '../../data/users/student';
 import { backUrl } from '../../config';
@@ -30,6 +34,7 @@ type Props = {
   answer: ?VoteDor,
   question: QuestionDor,
   onAnswer: () => mixed,
+  results: ?{ [id: number]: AnswerDorScore[] },
 };
 
 type State = {
@@ -43,52 +48,120 @@ export default class PollQuestionDor extends React.Component<Props, State> {
     selected: null,
   };
 
-  renderSugg = (ans: AnswerDor) => {
-    if (ans.type === 'student') {
-      const name = `${ans.value.firstname} ${ans.value.lastname}`;
-      const url = ans.value.photoUrlThumb
-        ? backUrl + ans.value.photoUrlThumb
-        : '/img/svg/user.svg';
-      return (
-        <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-          <Avatar alt={name} src={url} style={{ marginRight: 10 }} />
-          <span>{name}</span>
-        </div>
-      );
+  renderSugg = (ans: ?AnswerDor) => {
+    let name, url;
+    if (ans) {
+      if (ans.type === 'author') {
+        if (ans.value.authorType === 'student') {
+          name = `${ans.value.firstname} ${ans.value.lastname}`;
+          url = ans.value.photoUrlThumb
+            ? this.buildBackUrl(ans.value.photoUrlThumb)
+            : '/img/svg/user.svg';
+        } else if (ans.value.authorType === 'club') {
+          name = ans.value.name;
+          url = this.buildBackUrl(ans.value.logoUrl);
+        } else if (ans.value.authorType === 'employee') {
+          name = `${ans.value.firstname} ${ans.value.lastname}`;
+          url = '/img/svg/user.svg';
+        }
+      } else if (ans.type === 'event') {
+        name = ans.value.name;
+        url = '/img/svg/user.svg';
+      }
     }
-    return null;
+    return (
+      <div style={{ display: 'inherit', alignItems: 'inherit' }}>
+        <Avatar alt={name} src={url} style={{ marginRight: 10 }} />
+        <span>{name}</span>
+      </div>
+    );
   };
 
   onSelect = (data: AnswerDor) => {
-    this.setState({
-      selected: data,
-    });
-    if (data.type === 'student') {
-      return `${data.value.firstname} ${data.value.lastname}`;
+    const { answer } = this.props;
+    if (!answer) {
+      this.setState({
+        selected: data,
+      });
+      if (data.type === 'author') {
+        if (
+          data.value.authorType === 'student' ||
+          data.value.authorType === 'employee'
+        ) {
+          return `${data.value.firstname} ${data.value.lastname}`;
+        }
+        if (data.value.authorType === 'club') {
+          return data.value.name;
+        }
+      }
+      if (data.type === 'event') {
+        return data.value.name;
+      }
     }
     return '';
   };
 
-  onSearch = (search: string): Promise<any[]> => {
+  onSearch = (search: string): Promise<AnswerDor[]> => {
     this.setState({ selectedValue: search });
     if (!search) {
+      this.setState({
+        selected: null,
+      });
       return Promise.resolve([]);
     }
 
     const { question } = this.props;
-    const promoFilter = [];
-    if (question.enablePromo) {
-      promoFilter.push(question.promo);
+
+    const all = [];
+    if (question.enableStudent) {
+      const promoFilter = question.enablePromo ? [question.promo] : [];
+      const students = userData
+        .searchStudents(search, promoFilter, 'a', 0)
+        .then(res => {
+          return res.data.content.map(s => ({
+            type: 'author',
+            value: s,
+          }));
+        });
+      all.push(students);
     }
-    const students = userData
-      .searchStudents(search, promoFilter, 'a', 0)
-      .then(res => {
-        return res.data.content.map(s => ({
-          type: 'student',
-          value: s,
+    if (question.enableEmployee) {
+      const employees = userData.searchEmployees(search).then(res => {
+        return res.data.map(u => ({
+          type: 'author',
+          value: u,
         }));
       });
-    const all = [students];
+      all.push(employees);
+    }
+    if (question.enableClub) {
+      const clubs = clubData.searchClub(search).then(res => {
+        return res.data.map(c => ({
+          type: 'author',
+          value: c,
+        }));
+      });
+      all.push(clubs);
+    }
+    if (question.enableEvent || question.enableParty) {
+      const events = dorData.searchEvents(search).then(res => {
+        return res.data
+          .filter(event => {
+            if (question.enableEvent) {
+              return !event.party;
+            }
+            if (question.enableParty) {
+              return event.party;
+            }
+            return false;
+          })
+          .map(e => ({
+            type: 'event',
+            value: e,
+          }));
+      });
+      all.push(events);
+    }
     return Promise.all(all).then(res =>
       res.reduce((all, el) => all.concat(el), [])
     );
@@ -104,6 +177,13 @@ export default class PollQuestionDor extends React.Component<Props, State> {
     }
   };
 
+  buildBackUrl(url: ?string): ?string {
+    if (url) {
+      return backUrl + url;
+    }
+    return null;
+  }
+
   getImg(): ?string {
     const { selected } = this.state;
     const { answer } = this.props;
@@ -112,14 +192,34 @@ export default class PollQuestionDor extends React.Component<Props, State> {
       if (answer.resAuthor) {
         const author = answer.resAuthor;
         if (author.authorType === 'student') {
-          return author.photoUrlThumb;
+          return this.buildBackUrl(author.photoUrlThumb);
         }
+        if (author.authorType === 'club') {
+          return this.buildBackUrl(author.logoUrl);
+        }
+        if (author.authorType === 'employee') {
+          return '/img/svg/user.svg';
+        }
+      }
+      if (answer.resEvent) {
+        return '/img/svg/user.svg';
       }
     }
 
     if (selected) {
-      if (selected.type === 'student') {
-        return selected.value.photoUrlThumb;
+      if (selected.type === 'author') {
+        if (selected.value.authorType === 'student') {
+          return this.buildBackUrl(selected.value.photoUrlThumb);
+        }
+        if (selected.value.authorType === 'club') {
+          return this.buildBackUrl(selected.value.logoUrl);
+        }
+        if (selected.value.authorType === 'employee') {
+          return '/img/svg/user.svg';
+        }
+      }
+      if (selected.type === 'event') {
+        return '/img/svg/user.svg';
       }
     }
 
@@ -142,39 +242,112 @@ export default class PollQuestionDor extends React.Component<Props, State> {
     );
   }
 
-  render() {
-    const { question, answer } = this.props;
-    let answerTextValue;
+  getValue(): ?string {
+    const { answer } = this.props;
     if (answer) {
       if (answer.resAuthor) {
         const author = answer.resAuthor;
-        if (author.authorType === 'student') {
-          answerTextValue = `${author.firstname} ${author.lastname}`;
+        if (
+          author.authorType === 'student' ||
+          author.authorType === 'employee'
+        ) {
+          return `${author.firstname} ${author.lastname}`;
+        }
+        if (author.authorType === 'club') {
+          return author.name;
         }
       }
     }
+    return null;
+  }
+
+  isChecked(ans: AnswerDor) {
+    const { answer } = this.props;
+    const { selected } = this.state;
+    if (answer) {
+      if (answer.resAuthor) {
+        return answer.resAuthor.id === ans.value.id;
+      }
+      if (answer.resEvent) {
+        return answer.resEvent.id === ans.value.id;
+      }
+      return false;
+    }
+    if (selected) {
+      return selected.value.id === ans.value.id;
+    }
+    return false;
+  }
+
+  renderChoices() {
+    const { question, results } = this.props;
+    if (results) {
+      let resultList = results[question.id];
+      if (results[question.id]) {
+        const resultAnswers: AnswerDor[] = resultList.map(r => {
+          if (r.voteDor.resAuthor) {
+            return {
+              type: 'author',
+              value: r.voteDor.resAuthor,
+            };
+          } else if (r.voteDor.resEvent) {
+            return {
+              type: 'event',
+              value: r.voteDor.resEvent,
+            };
+          }
+        });
+        return resultAnswers.map(ans => (
+          <Box key={ans.value.id}>
+            <Flex align="center">
+              {this.renderSugg(ans)}
+              <Radio
+                style={{ marginLeft: 'auto' }}
+                name={`radio-result-${question.id}`}
+                checked={this.isChecked(ans)}
+                onChange={() => this.onSelect(ans)}
+              />
+            </Flex>
+          </Box>
+        ));
+      }
+    }
+    return null;
+  }
+
+  render() {
+    const { question, answer, results } = this.props;
+    const { selected } = this.state;
+
     return (
       <Paper>
         <BgImage
           mh="200px"
+          local
           src={this.getImg()}
           defaultSrc="/img/svg/unknown.svg"
         />
         <Box p="20px">
           <Title invert>{question.title}</Title>
           <Box mb="10px">{this.getLabels()}</Box>
-          <Autocomplete
-            label="Mon choix"
-            disabled={answer != null}
-            value={answerTextValue}
-            renderSuggestion={this.renderSugg}
-            onSelect={this.onSelect}
-            search={this.onSearch}
-          />
+          {!results && (
+            <Autocomplete
+              label="Mon choix"
+              disabled={answer != null}
+              value={this.getValue()}
+              renderSuggestion={this.renderSugg}
+              onSelect={this.onSelect}
+              search={this.onSearch}
+            />
+          )}
+          {results && (
+            <Flex flexDirection="column">{this.renderChoices()}</Flex>
+          )}
           {!answer && (
             <Button
               onClick={this.handleVote}
               style={{ marginTop: 10 }}
+              disabled={selected == null}
               size="small"
               color="secondary"
             >

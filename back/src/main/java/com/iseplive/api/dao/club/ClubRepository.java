@@ -15,6 +15,9 @@ import java.util.List;
 public interface ClubRepository extends CrudRepository<Club, Long> {
   List<Club> findAllByOrderByName();
 
+  List<Club> findAllByNameContainingIgnoringCase(String name);
+
   List<Club> findByAdminsContains(Student admin);
+
   Club findByIsAdmin(Boolean isAdmin);
 }

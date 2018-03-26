@@ -5,7 +5,10 @@ import com.iseplive.api.dao.dor.EventDorRepository;
 import com.iseplive.api.dao.dor.QuestionDorRepository;
 import com.iseplive.api.dao.dor.SessionDorRepository;
 import com.iseplive.api.dao.dor.VoteDorRepository;
+import com.iseplive.api.dao.employee.EmployeeFactory;
+import com.iseplive.api.dao.employee.EmployeeRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
+import com.iseplive.api.dto.EmployeeDTO;
 import com.iseplive.api.dto.dor.QuestionDorDTO;
 import com.iseplive.api.dto.dor.SessionDorDTO;
 import com.iseplive.api.dto.dor.VoteDorDTO;
@@ -25,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -51,7 +53,14 @@ public class DorService {
   AuthorRepository authorRepository;
 
   @Autowired
+  EmployeeRepository employeeRepository;
+
+  @Autowired
+  EmployeeFactory employeeFactory;
+
+  @Autowired
   StudentService studentService;
+
 
   public SessionDor createSession(SessionDorDTO sessionDorDTO) {
     SessionDor sessionDor = new SessionDor();
@@ -77,15 +86,20 @@ public class DorService {
     return questionDorRepository.save(questionDor);
   }
 
+  public List<EventDor> searchEvent(String name) {
+    return eventDorRepository.findAllByNameContainingIgnoreCase(name);
+  }
+
   /**
    * Compute the top three candidates of the second turn for each
    * question of a particular session
    * @param sessionId
    * @return
    */
-  public Map<QuestionDor, List<AnswerDorDTO>> computeFirstRoundWinners(Long sessionId) {
-    List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndSecondTurn(sessionId, false);
+  public Map<Long, List<AnswerDorDTO>> computeFirstRoundWinners(Long sessionId) {
+    List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndRound(sessionId, 1);
     Map<QuestionDor, List<AnswerDorDTO>> frWinners = new HashMap<>();
+    Map<Long, List<AnswerDorDTO>> answersMap = new HashMap<>();
     for (VoteDor voteDor: voteDors) {
       frWinners.computeIfAbsent(voteDor.getQuestionDor(), k -> new ArrayList<>());
       AnswerDorDTO answerDorDTO = voteToAnswerDTO(voteDor);
@@ -93,25 +107,37 @@ public class DorService {
     }
 
     for (QuestionDor questionDor: frWinners.keySet()) {
-      Map<AnswerDorDTO, Long> grouped = frWinners.get(questionDor).stream()
-        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-      for (AnswerDorDTO answerDorDTO: grouped.keySet()) {
-        answerDorDTO.setScore(grouped.get(answerDorDTO));
+      Map<String, Long> grouped = new HashMap<>();
+      Map<String, AnswerDorDTO> mapping = new HashMap<>();
+      for (AnswerDorDTO answerDorDTO: frWinners.get(questionDor)) {
+        if (grouped.get(answerDorDTO.getName()) != null) {
+          grouped.put(answerDorDTO.getName(), grouped.get(answerDorDTO.getName()) + 1);
+        } else {
+          mapping.put(answerDorDTO.getName(), answerDorDTO);
+          grouped.put(answerDorDTO.getName(), 1L);
+        }
       }
-      List<AnswerDorDTO> answers = new ArrayList<>(grouped.keySet());
-      answers.sort(Comparator.comparingLong(AnswerDorDTO::getScore));
-      frWinners.put(questionDor, answers.stream().limit(3).collect(Collectors.toList()));
-    }
 
-    return frWinners;
+      for (String key: grouped.keySet()) {
+        mapping.get(key).setScore(grouped.get(key));
+      }
+      List<AnswerDorDTO> answers = new ArrayList<>(mapping.values());
+      answers.sort(Comparator.comparingLong(AnswerDorDTO::getScore));
+      Collections.reverse(answers);
+      List<AnswerDorDTO> answerSelection = answers.stream()
+        .limit(3).collect(Collectors.toList());
+      frWinners.put(questionDor, answerSelection);
+      answersMap.put(questionDor.getId(), answerSelection);
+    }
+    return answersMap;
   }
 
   public AnswerDorDTO voteToAnswerDTO(VoteDor voteDor) {
     if (voteDor.getResAuthor() != null) {
-      return new AnswerDorDTO(voteDor.getResAuthor().getId(), AnswerDorType.USER);
+      return new AnswerDorDTO(voteDor.getResAuthor().getId(), AnswerDorType.USER, voteDor);
     }
     if (voteDor.getResEvent() != null) {
-      return new AnswerDorDTO(voteDor.getResEvent().getId(), AnswerDorType.EVENT);
+      return new AnswerDorDTO(voteDor.getResEvent().getId(), AnswerDorType.EVENT, voteDor);
     }
     return null;
   }
@@ -197,11 +223,11 @@ public class DorService {
 
   private int getRound(SessionDor sessionDor) {
     Date now = new Date();
-    if (sessionDor.getFirstTurn().after(now)) {
+    if (sessionDor.getSecondTurn().after(now)) {
       return 1;
     }
 
-    if (sessionDor.getSecondTurn().after(now)) {
+    if (sessionDor.getResult().after(now)) {
       return 2;
     }
     throw new IllegalArgumentException("session ended");
@@ -229,14 +255,16 @@ public class DorService {
       throw new IllegalArgumentException("no session active at the moment");
     }
 
-    // if it is the first turn
-    if (sessionDor.getFirstTurn().after(now)) {
-      return voteDorRepository.findAllByRoundAndStudentIdAndQuestionDorAndSession(1, userID, questionDor, sessionDor);
-    }
+    if (sessionDor.getFirstTurn().before(now)) {
+      // if it is the first turn
+      if (sessionDor.getSecondTurn().after(now)) {
+        return voteDorRepository.findAllByRoundAndStudentIdAndQuestionDorAndSession(1, userID, questionDor, sessionDor);
+      }
 
-    // if it is the second turn
-    if (sessionDor.getSecondTurn().after(now)) {
-      return voteDorRepository.findAllByRoundAndStudentIdAndQuestionDorAndSession(2, userID, questionDor, sessionDor);
+      // if it is the second turn
+      if (sessionDor.getResult().after(now)) {
+        return voteDorRepository.findAllByRoundAndStudentIdAndQuestionDorAndSession(2, userID, questionDor, sessionDor);
+      }
     }
 
     throw new IllegalArgumentException("this session is closed");
@@ -319,11 +347,63 @@ public class DorService {
     return eventDorRepository.save(eventDor);
   }
 
+  /**
+   * Get the current votes of a user during a round
+   * @param userId
+   * @param round
+   * @return
+   */
   public List<VoteDor> getCurrentVotes(Long userId, int round) {
     SessionDor sessionDor = getCurrentSession();
     if (sessionDor != null) {
       return voteDorRepository.findAllByStudent_IdAndSessionAndRound(userId, sessionDor, round);
     }
     return new ArrayList<>();
+  }
+
+  /**
+   * Search for an employee
+   * @param name
+   * @return
+   */
+  public List<Employee> searchEmployee(String name) {
+    return employeeRepository.searchEmployeesByName(name);
+  }
+
+  /**
+   * List all of the employees
+   * @return
+   */
+  public List<Employee> getEmployees() {
+    return employeeRepository.findAll();
+  }
+
+  /**
+   * Create a new Employee
+   * @param employeeDTO
+   * @return
+   */
+  public Employee createEmployee(EmployeeDTO employeeDTO) {
+    Employee employee = employeeFactory.dtoToEntity(employeeDTO);
+    return employeeRepository.save(employee);
+  }
+
+  public Employee updateEmployee(Long id, EmployeeDTO employeeDTO) {
+    Employee employee = employeeRepository.findOne(id);
+    if (employee != null) {
+      employee.setFirstname(employeeDTO.getFirstname());
+      employee.setLastname(employeeDTO.getLastname());
+      return employeeRepository.save(employee);
+    }
+    throw new NotFoundException("could not find this employee");
+  }
+
+
+  public void deleteEmployee(Long id) {
+    Employee employee = employeeRepository.findOne(id);
+    if (employee != null) {
+      employeeRepository.delete(employee);
+    }
+    throw new NotFoundException("could not find this employee");
   }
 }

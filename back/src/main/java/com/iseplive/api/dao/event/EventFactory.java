@@ -2,13 +2,13 @@ package com.iseplive.api.dao.event;
 
 import com.iseplive.api.dto.media.EventDTO;
 import com.iseplive.api.entity.media.Event;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Guillaume on 01/08/2017.
  * back
  */
-@Service
+@Component
 public class EventFactory {
   public Event dtoToEntity(EventDTO dto) {
     Event event = new Event();

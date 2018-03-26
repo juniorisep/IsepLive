@@ -10,13 +10,13 @@ import com.iseplive.api.services.AuthService;
 import com.iseplive.api.services.PostService;
 import com.iseplive.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Guillaume on 28/07/2017.
  * back
  */
-@Service
+@Component
 public class PostFactory {
 
   @Autowired

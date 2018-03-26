@@ -17,6 +17,6 @@ public interface VoteDorRepository extends CrudRepository<VoteDor, Long> {
   List<VoteDor> findAllByRoundAndStudentIdAndQuestionDorAndSession(
     int round, Long student_id, QuestionDor questionDor, SessionDor session);
 
-  List<VoteDor> findAllBySession_IdAndSecondTurn(Long session_id, boolean secondTurn);
+  List<VoteDor> findAllBySession_IdAndRound(Long session_id, int round);
   List<VoteDor> findAllByStudent_IdAndSessionAndRound(Long student_id, SessionDor session, int round);
 }

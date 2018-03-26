@@ -21,8 +21,6 @@ public class VoteDor {
   @GeneratedValue
   private Long id;
 
-  private boolean secondTurn;
-
   @ManyToOne
   @JsonIgnore
   private SessionDor session;
@@ -82,14 +80,6 @@ public class VoteDor {
 
   public void setSession(SessionDor session) {
     this.session = session;
-  }
-
-  public boolean isSecondTurn() {
-    return secondTurn;
-  }
-
-  public void setSecondTurn(boolean secondTurn) {
-    this.secondTurn = secondTurn;
   }
 
   public int getRound() {

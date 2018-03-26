@@ -6,7 +6,7 @@ import com.iseplive.api.dto.student.StudentUpdateDTO;
 import com.iseplive.api.dto.view.StudentWithRoleView;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Created by Guillaume on 16/10/2017.
  * back
  */
-@Service
+@Component
 public class StudentFactory {
   public Student dtoToEntity(StudentDTO dto) {
     Student student = new Student();

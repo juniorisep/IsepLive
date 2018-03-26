@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface EventDorRepository extends CrudRepository<EventDor, Long> {
   List<EventDor> findAll();
+  List<EventDor> findAllByNameContainingIgnoreCase(String name);
 }

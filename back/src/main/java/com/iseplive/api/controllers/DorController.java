@@ -2,20 +2,25 @@ package com.iseplive.api.controllers;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.Roles;
+import com.iseplive.api.dto.EmployeeDTO;
 import com.iseplive.api.dto.dor.QuestionDorDTO;
 import com.iseplive.api.dto.dor.SessionDorDTO;
 import com.iseplive.api.dto.dor.VoteDorDTO;
+import com.iseplive.api.dto.view.AnswerDorDTO;
 import com.iseplive.api.entity.dor.EventDor;
 import com.iseplive.api.entity.dor.QuestionDor;
 import com.iseplive.api.entity.dor.SessionDor;
 import com.iseplive.api.entity.dor.VoteDor;
+import com.iseplive.api.entity.user.Employee;
 import com.iseplive.api.services.DorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Guillaume on 10/02/2018.
@@ -44,6 +49,16 @@ public class DorController {
   @RolesAllowed({ Roles.STUDENT })
   public SessionDor getCurrentSession() {
     return dorService.getCurrentSession();
+  }
+
+  @GetMapping("/session/current/round/{round}")
+  @RolesAllowed({ Roles.STUDENT })
+  public Map<Long, List<AnswerDorDTO>> getRoundWinner(@PathVariable int round) {
+    SessionDor sessionDor = getCurrentSession();
+    if (round == 1){
+      return dorService.computeFirstRoundWinners(sessionDor.getId());
+    }
+    return new HashMap<>();
   }
 
   @DeleteMapping("/session/{id}")
@@ -106,6 +121,12 @@ public class DorController {
     return dorService.getEvents();
   }
 
+  @GetMapping("/event/search")
+  @RolesAllowed({ Roles.STUDENT })
+  public List<EventDor> searchEvents(@RequestParam String name) {
+    return dorService.searchEvent(name);
+  }
+
   @PostMapping("/event")
   @RolesAllowed({ Roles.ADMIN })
   public EventDor createEvent(@RequestBody EventDor event) {
@@ -122,5 +143,35 @@ public class DorController {
   @RolesAllowed({ Roles.ADMIN })
   public EventDor updateEvent(@PathVariable Long id, @RequestBody EventDor event) {
     return dorService.updateEvent(id, event);
+  }
+
+  @GetMapping("/employee/search")
+  @RolesAllowed({ Roles.STUDENT })
+  public List<Employee> searchEmployees(@RequestParam String name) {
+    return dorService.searchEmployee(name);
+  }
+
+  @GetMapping("/employee")
+  @RolesAllowed({ Roles.STUDENT })
+  public List<Employee> getEmployees() {
+    return dorService.getEmployees();
+  }
+
+  @PostMapping("/employee")
+  @RolesAllowed({ Roles.STUDENT })
+  public Employee createEmployee(@RequestBody EmployeeDTO employee) {
+    return dorService.createEmployee(employee);
+  }
+
+  @PutMapping("/employee/{id}")
+  @RolesAllowed({ Roles.STUDENT })
+  public Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
+    return dorService.updateEmployee(id, employee);
+  }
+
+  @DeleteMapping("/employee/{id}")
+  @RolesAllowed({ Roles.STUDENT })
+  public void deleteEmployee(@PathVariable Long id) {
+    dorService.deleteEmployee(id);
   }
 }

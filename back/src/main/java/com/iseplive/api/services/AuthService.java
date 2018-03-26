@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AuthService {
+
   @Autowired
   StudentService studentService;
-
 
   /**
    * Check if user has one of the roles listed

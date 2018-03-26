@@ -81,6 +81,10 @@ public class ClubService {
     return authorRepository.save(club);
   }
 
+  public List<Club> searchClubs(String name) {
+    return clubRepository.findAllByNameContainingIgnoringCase(name);
+  }
+
   public ClubRole getClubRole(String role) {
     ClubRole clubRole = clubRoleRepository.findOneByName(role);
     if (clubRole == null) {

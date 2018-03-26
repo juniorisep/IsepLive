@@ -15,7 +15,7 @@ type Props = {
   label: string,
   fullWidth?: boolean,
   disabled?: boolean,
-  value?: string,
+  value?: ?string,
   renderSuggestion: (value: any) => Node,
   onSelect: (value: any) => string,
   search: (data: string) => Promise<any[]>,
@@ -110,7 +110,6 @@ export default class Autocomplete extends React.Component<Props, State> {
               width: '100%',
             },
           }}
-          // floatingLabelStyle={}
           onFocus={() => this.setState({ focus: true })}
           onBlur={e => this.setState({ focus: false })}
           onChange={this.handleChange}

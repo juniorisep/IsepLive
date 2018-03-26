@@ -1,13 +1,22 @@
 package com.iseplive.api.dto.view;
 
+import com.iseplive.api.entity.dor.VoteDor;
+
 public class AnswerDorDTO {
   private Long idAnswer;
   private AnswerDorType type;
-  private long score = 0;
+  private VoteDor voteDor;
+  private Long score = 0L;
 
-  public AnswerDorDTO(Long idAnswer, AnswerDorType type) {
+  public AnswerDorDTO(Long idAnswer, AnswerDorType type, VoteDor voteDor) {
     this.idAnswer = idAnswer;
     this.type = type;
+    this.voteDor = voteDor;
+  }
+
+
+  public String getName() {
+    return String.format("%d_%s", idAnswer, type);
   }
 
 
@@ -41,5 +50,13 @@ public class AnswerDorDTO {
 
   public void setScore(Long score) {
     this.score = score;
+  }
+
+  public VoteDor getVoteDor() {
+    return voteDor;
+  }
+
+  public void setVoteDor(VoteDor voteDor) {
+    this.voteDor = voteDor;
   }
 }

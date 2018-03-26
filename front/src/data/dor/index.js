@@ -10,6 +10,7 @@ import type {
   EventDorCreate,
   AnswerDor,
   VoteDor,
+  AnswerDorScore,
 } from './type';
 
 export function getSessions(): AxiosPromise<SessionDor[]> {
@@ -76,9 +77,7 @@ export function updateEvent(
 export function handleVote(questionId: number, vote: AnswerDor) {
   const payload = {};
   switch (vote.type) {
-    case 'student':
-    case 'employee':
-    case 'club':
+    case 'author':
       payload.authorID = vote.value.id;
       break;
     case 'event':
@@ -99,4 +98,14 @@ export function getCurrentVotes(round: number): AxiosPromise<VoteDor[]> {
 
 export function getCurrentSession(): AxiosPromise<SessionDor> {
   return axios.get('/dor/session/current');
+}
+
+export function getRoundResults(
+  round: number
+): AxiosPromise<{ [id: number]: AnswerDorScore[] }> {
+  return axios.get(`/dor/session/current/round/${round}`);
+}
+
+export function searchEvents(name: string): AxiosPromise<EventDor[]> {
+  return axios.get(`/dor/event/search?name=${name}`);
 }

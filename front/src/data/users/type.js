@@ -48,6 +48,8 @@ type EmployeeValue = {
 
 export type Employee = AuthorValue & EmployeeValue;
 
+export type CreateEmployee = EmployeeValue;
+
 export type AuthorType = 'student' | 'club' | 'employee';
 
 type AuthorValue = {

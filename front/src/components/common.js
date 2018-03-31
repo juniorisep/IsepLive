@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import * as React from 'react';
 
 import styled from 'styled-components';
 
@@ -208,7 +208,7 @@ export const Subtitle = styled.h3`
   margin: 0;
 `;
 
-export class ScrollToTopOnMount extends Component {
+export class ScrollToTopOnMount extends React.Component {
   componentDidMount(prevProps) {
     window.scrollTo(0, 0);
   }
@@ -291,7 +291,16 @@ export const Paper = styled.div`
   margin-bottom: ${({ mb }) => mb || 0};
 `;
 
-export const FileUpload = props => {
+type FileUploadProps = {
+  accept?: string[],
+  multiple?: boolean,
+  btnProps?: any,
+  style?: any,
+  children: React.Node,
+  onFile: (files: File[]) => mixed,
+};
+
+export const FileUpload = (props: FileUploadProps) => {
   const hash = new Date().getTime().toString(32);
   return (
     <div>

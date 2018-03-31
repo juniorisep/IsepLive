@@ -5,7 +5,7 @@ import com.iseplive.api.exceptions.IllegalArgumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -23,7 +23,7 @@ import java.util.Date;
  * Created by Guillaume on 01/08/2017.
  * back
  */
-@Service
+@Component
 public class MediaUtils {
 
   private final Logger LOG = LoggerFactory.getLogger(MediaUtils.class);

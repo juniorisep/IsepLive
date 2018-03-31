@@ -3,12 +3,18 @@
 import React from 'react';
 
 import Tabs, { Tab } from 'material-ui/Tabs';
+
+import { Link, Route, Switch, Redirect } from 'react-router-dom';
+
 import { FluidContent, Title, Paper } from '../../../components/common';
+
+import { routes } from './isepdor.routes';
 
 import Session from './Session';
 import Question from './Question';
 import Events from './Events';
 import Employee from './Employee';
+import Diploma from './Diploma';
 
 type State = {
   activeTab: number,
@@ -19,27 +25,27 @@ export default class ImportStudents extends React.Component<{}, State> {
     activeTab: 0,
   };
 
+  componentDidMount() {
+    const routeIndex = this.findRouteIndex(this.props.location.pathname);
+    if (routeIndex !== -1) {
+      this.setState({
+        activeTab: routeIndex,
+      });
+    }
+  }
+
+  findRouteIndex(path: string): number {
+    const { match, location } = this.props;
+    return routes.findIndex(e => match.url + e.path === location.pathname);
+  }
+
   handleChange = (event: any, value: number) => {
     this.setState({ activeTab: value });
   };
 
-  renderTab(tab: number) {
-    switch (tab) {
-      case 0:
-        return <Session />;
-      case 1:
-        return <Question />;
-      case 2:
-        return <Events />;
-      case 3:
-        return <Employee />;
-      default:
-        return null;
-    }
-  }
-
   render() {
     const { activeTab } = this.state;
+    const { match } = this.props;
     return (
       <div style={{ margin: 30 }}>
         <Title invert>ISEP d'Or</Title>
@@ -49,13 +55,16 @@ export default class ImportStudents extends React.Component<{}, State> {
             value={activeTab}
             onChange={this.handleChange}
           >
-            <Tab label="Sessions" />
-            <Tab label="Questions" />
-            <Tab label="Evènements" />
-            <Tab label="Employés" />
-            <Tab label="Diplome" />
+            {routes.map(r => (
+              <Tab label={r.tabName} component={Link} to={match.url + r.path} />
+            ))}
           </Tabs>
-          {this.renderTab(activeTab)}
+          <Switch>
+            <Redirect exact path={`${match.url}`} to={`${match.url}/session`} />
+            {routes.map(r => (
+              <Route path={match.url + r.path} component={r.comp} />
+            ))}
+          </Switch>
         </div>
       </div>
     );

@@ -12,26 +12,29 @@ import Users from './users';
 import Import from './import';
 import Isepdor from './isepdor';
 
+const routes = ['/utilisateur', '/importer', '/isep-dor'];
+
 class Admin extends React.Component {
   state = {
     tabOpen: 0,
   };
 
   componentDidMount() {
-    const base = this.props.match.url;
-    const urlToTab = {
-      [base + '/utilisateur']: 0,
-      [base + '/importer']: 1,
-      [base + '/isep-dor']: 2,
-    };
-    if (urlToTab[this.props.location.pathname]) {
-      this.setState({ tabOpen: urlToTab[this.props.location.pathname] });
+    const routeIndex = this.getRoute();
+    if (routeIndex !== -1) {
+      this.setState({ tabOpen: routeIndex });
     }
+  }
+
+  getRoute() {
+    const { match, location } = this.props;
+    console.log(location, match);
+    return routes.findIndex(r => location.pathname.includes(match.url + r));
   }
 
   handleChangeTab = (event: Event, index: number) => {
     this.setState({ tabOpen: index });
-  }
+  };
 
   render() {
     const { match } = this.props;
@@ -43,13 +46,26 @@ class Admin extends React.Component {
           indicatorColor="secondary"
           textColor="primary"
           centered
-          onChange={this.handleChangeTab}>
-          <Tab label="Utilisateurs" component={Link} to={`${match.url}/utilisateurs`} />
+          onChange={this.handleChangeTab}
+        >
+          <Tab
+            label="Utilisateurs"
+            component={Link}
+            to={`${match.url}/utilisateurs`}
+          />
           <Tab label="Importer" component={Link} to={`${match.url}/importer`} />
-          <Tab label="Isep d'or" component={Link} to={`${match.url}/isep-dor`} />
+          <Tab
+            label="Isep d'or"
+            component={Link}
+            to={`${match.url}/isep-dor`}
+          />
         </Tabs>
         <Switch>
-          <Redirect path={`${match.url}`} exact to={`${match.url}/utilisateurs`} />
+          <Redirect
+            path={`${match.url}`}
+            exact
+            to={`${match.url}/utilisateurs`}
+          />
           <Route path={`${match.url}/utilisateurs`} component={Users} />
           <Route path={`${match.url}/importer`} component={Import} />
           <Route path={`${match.url}/isep-dor`} component={Isepdor} />

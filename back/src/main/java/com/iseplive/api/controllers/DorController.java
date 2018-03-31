@@ -3,6 +3,7 @@ package com.iseplive.api.controllers;
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dto.EmployeeDTO;
+import com.iseplive.api.dto.dor.DorConfigDTO;
 import com.iseplive.api.dto.dor.QuestionDorDTO;
 import com.iseplive.api.dto.dor.SessionDorDTO;
 import com.iseplive.api.dto.dor.VoteDorDTO;
@@ -16,6 +17,7 @@ import com.iseplive.api.services.DorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.HashMap;
@@ -173,5 +175,16 @@ public class DorController {
   @RolesAllowed({ Roles.STUDENT })
   public void deleteEmployee(@PathVariable Long id) {
     dorService.deleteEmployee(id);
+  }
+
+  @GetMapping("/config")
+  public DorConfigDTO getDorConfig() {
+    return dorService.readDorConfig();
+  }
+
+  @PutMapping("/config")
+  @RolesAllowed({ Roles.ADMIN })
+  public void updateDorConfig(@RequestParam MultipartFile photo, @RequestParam String configValue) {
+    dorService.updateDorConfig(photo, configValue);
   }
 }

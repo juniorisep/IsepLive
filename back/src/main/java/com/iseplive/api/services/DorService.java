@@ -1,6 +1,8 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.ConfigKeys;
+import com.iseplive.api.dao.config.ConfigRepository;
 import com.iseplive.api.dao.dor.EventDorRepository;
 import com.iseplive.api.dao.dor.QuestionDorRepository;
 import com.iseplive.api.dao.dor.SessionDorRepository;
@@ -9,11 +11,13 @@ import com.iseplive.api.dao.employee.EmployeeFactory;
 import com.iseplive.api.dao.employee.EmployeeRepository;
 import com.iseplive.api.dao.post.AuthorRepository;
 import com.iseplive.api.dto.EmployeeDTO;
+import com.iseplive.api.dto.dor.DorConfigDTO;
 import com.iseplive.api.dto.dor.QuestionDorDTO;
 import com.iseplive.api.dto.dor.SessionDorDTO;
 import com.iseplive.api.dto.dor.VoteDorDTO;
 import com.iseplive.api.dto.view.AnswerDorDTO;
 import com.iseplive.api.dto.view.AnswerDorType;
+import com.iseplive.api.entity.Config;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.dor.EventDor;
 import com.iseplive.api.entity.dor.QuestionDor;
@@ -24,8 +28,12 @@ import com.iseplive.api.entity.user.Employee;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.exceptions.NotFoundException;
+import com.iseplive.api.utils.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +44,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class DorService {
+
+  private Logger LOG = LoggerFactory.getLogger(DorService.class);
 
   @Autowired
   QuestionDorRepository questionDorRepository;
@@ -56,11 +66,16 @@ public class DorService {
   EmployeeRepository employeeRepository;
 
   @Autowired
+  ConfigRepository configRepository;
+
+  @Autowired
   EmployeeFactory employeeFactory;
 
   @Autowired
   StudentService studentService;
 
+  @Autowired
+  JsonUtils jsonUtils;
 
   public SessionDor createSession(SessionDorDTO sessionDorDTO) {
     SessionDor sessionDor = new SessionDor();
@@ -398,7 +413,6 @@ public class DorService {
     throw new NotFoundException("could not find this employee");
   }
 
-
   public void deleteEmployee(Long id) {
     Employee employee = employeeRepository.findOne(id);
     if (employee != null) {
@@ -406,4 +420,22 @@ public class DorService {
     }
     throw new NotFoundException("could not find this employee");
   }
+
+  public void updateDorConfig(MultipartFile photo, String configValue) {
+    Config dorConfig = configRepository.findByKeyName(ConfigKeys.DOR_CONFIG);
+    if (dorConfig == null) {
+      dorConfig = new Config();
+      dorConfig.setKeyName(ConfigKeys.DOR_CONFIG);
+    }
+    // Test if we can read config
+    jsonUtils.deserialize(configValue, DorConfigDTO.class);
+    dorConfig.setValue(configValue);
+    configRepository.save(dorConfig);
+  }
+
+  public DorConfigDTO readDorConfig() {
+    Config dorConfig = configRepository.findByKeyName(ConfigKeys.DOR_CONFIG);
+    return jsonUtils.deserialize(dorConfig.getValue(), DorConfigDTO.class);
+  }
+
 }

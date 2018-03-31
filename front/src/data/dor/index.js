@@ -109,3 +109,14 @@ export function getRoundResults(
 export function searchEvents(name: string): AxiosPromise<EventDor[]> {
   return axios.get(`/dor/event/search?name=${name}`);
 }
+
+export function getConfig() {
+  return axios.get('/dor/config');
+}
+
+export function updateConfig(file, config) {
+  const data = new FormData();
+  data.append('configValue', JSON.stringify(config));
+  data.append('photo', file);
+  return axios.put('/dor/config', data);
+}

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 @EnableCaching
 public class IsepliveApplication {
-  public static void main(String[] args) {
+public static void main(String[] args) {
     ConfigurableApplicationContext ac = SpringApplication.run(IsepliveApplication.class, args);
     DatabaseSeeder tdbs = ac.getBeanFactory().createBean(DatabaseSeeder.class);
     tdbs.seedDatabase();

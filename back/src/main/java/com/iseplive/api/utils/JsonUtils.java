@@ -2,7 +2,7 @@ package com.iseplive.api.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iseplive.api.exceptions.IllegalArgumentException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
  * Created by Guillaume on 25/10/2017.
  * back
  */
-@Service
+@Component
 public class JsonUtils {
   public <T> T deserialize(String raw, Class<T> type) {
     try {

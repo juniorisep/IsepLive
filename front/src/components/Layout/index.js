@@ -2,15 +2,8 @@
 
 import React from 'react';
 
-import {
-  Link,
-  NavLink,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
-
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -122,8 +115,11 @@ function Nav(props) {
         component={NavLink}
         to={props.to}
         activeStyle={{
-          color: SECONDARY_COLOR
-        }}>{props.children}</Button>
+          color: SECONDARY_COLOR,
+        }}
+      >
+        {props.children}
+      </Button>
     </div>
   );
 }
@@ -138,18 +134,22 @@ function SideNav(props) {
   );
 }
 
-const NavItem = (props) => (
-  <div style={{
-    display: 'flex',
-    alignItems: 'center',
-  }}>{props.children}</div>
+const NavItem = props => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+    }}
+  >
+    {props.children}
+  </div>
 );
 
-const NavIcon = (props) => (
+const NavIcon = props => (
   <props.icon style={{ color: MAIN_COLOR, marginRight: 10 }} />
 );
 
-const navListMenu = (Component) => (
+const navListMenu = Component => (
   <div>
     <Component to="/accueil">
       <NavItem>
@@ -163,12 +163,14 @@ const navListMenu = (Component) => (
         <div style={{ color: MAIN_COLOR }}>Media</div>
       </NavItem>
     </Component>
-    <Component to="/annuaire">
-      <NavItem>
-        <NavIcon icon={People} />
-        <div style={{ color: MAIN_COLOR }}>Annuaire</div>
-      </NavItem>
-    </Component>
+    <Auth>
+      <Component to="/annuaire">
+        <NavItem>
+          <NavIcon icon={People} />
+          <div style={{ color: MAIN_COLOR }}>Annuaire</div>
+        </NavItem>
+      </Component>
+    </Auth>
     <Component to="/associations">
       <NavItem>
         <NavIcon icon={Casino} />
@@ -190,26 +192,16 @@ const navListMenu = (Component) => (
   </div>
 );
 
-const navListBar = (Component) => (
+const navListBar = Component => (
   <div>
-    <Component to="/accueil">
-      Accueil
-    </Component>
-    <Component to="/media">
-      Media
-    </Component>
-    <Component to="/annuaire">
-      Annuaire
-    </Component>
-    <Component to="/associations">
-      Associations
-    </Component>
-    <Component to="/evenements">
-      Evenements
-    </Component>
-    <Component to="/whoarewe">
-      Qui sommes-nous ?
-    </Component>
+    <Component to="/accueil">Accueil</Component>
+    <Component to="/media">Media</Component>
+    <Auth>
+      <Component to="/annuaire">Annuaire</Component>
+    </Auth>
+    <Component to="/associations">Associations</Component>
+    <Component to="/evenements">Evenements</Component>
+    <Component to="/whoarewe">Qui sommes-nous ?</Component>
   </div>
 );
 
@@ -246,16 +238,20 @@ class Layout extends React.Component {
       this.conn.send(localStorage.getItem('token'));
     };
 
-    this.conn.onmessage = (msg) => {
+    this.conn.onmessage = msg => {
       try {
         const message = JSON.parse(msg.data);
         const authorData = message.author;
-        const body = authorData.authorType === 'club' ? message.title : message.content;
-        const image = authorData.authorType === 'club' ? authorData.logoThumbUrl : authorData.photoUrlThumb;
+        const body =
+          authorData.authorType === 'club' ? message.title : message.content;
+        const image =
+          authorData.authorType === 'club'
+            ? authorData.logoThumbUrl
+            : authorData.photoUrlThumb;
 
-        Notification.requestPermission().then((status) => {
+        Notification.requestPermission().then(status => {
           if (status !== 'denied') {
-            new Notification("Nouveau Post !", { body, icon: backUrl + image }); // this also shows the notification
+            new Notification('Nouveau Post !', { body, icon: backUrl + image }); // this also shows the notification
             const postEvent = new CustomEvent('new-post');
             document.dispatchEvent(postEvent);
           }
@@ -265,7 +261,7 @@ class Layout extends React.Component {
       }
     };
 
-    this.conn.onclose = (e) => {
+    this.conn.onclose = e => {
       if (this.restartWS) {
         this.restartTimeout = setTimeout(() => {
           this.initWebsocket();
@@ -306,27 +302,30 @@ class Layout extends React.Component {
 
   handleLoginForm = (name, event) => {
     this.setState({ [name]: event.target.value });
-  }
+  };
 
-  handleConnect = (e) => {
+  handleConnect = e => {
     e.preventDefault();
     const { username, password } = this.state;
-    authData.connect(username, password).then(res => {
-      this.handleRequestClose();
-      this.props.history.push('/');
-    }).catch(err => {
-      if (err.response) {
-        if (err.response.status === 401) {
-          this.setState({ error: true, loading: false });
+    authData
+      .connect(username, password)
+      .then(res => {
+        this.handleRequestClose();
+        this.props.history.push('/');
+      })
+      .catch(err => {
+        if (err.response) {
+          if (err.response.status === 401) {
+            this.setState({ error: true, loading: false });
+          }
+          if (err.response.status === 503) {
+            sendAlert('Serveur indisponible', 'error');
+          }
+        } else {
+          this.setState({ loading: false });
+          sendAlert('Serveur indisponible', 'error');
         }
-        if (err.response.status === 503) {
-          sendAlert("Serveur indisponible", 'error');
-        }
-      } else {
-        this.setState({ loading: false });
-        sendAlert("Serveur indisponible", 'error');
-      }
-    });
+      });
   };
 
   isLoginDisabled() {
@@ -341,50 +340,57 @@ class Layout extends React.Component {
         <AppBar style={{ position: 'relative' }}>
           <Toolbar>
             <Responsive maxWidth={WIDTH_THRESHOLD}>
-              <IconButton color="secondary" onClick={() =>
-                this.setState({ sidebarOpen: true })
-              }>
+              <IconButton
+                color="secondary"
+                onClick={() => this.setState({ sidebarOpen: true })}
+              >
                 <MenuIcon />
               </IconButton>
             </Responsive>
             <Link to="/">
-              <Logo
-                src="/img/layout/iseplive.png"
-                alt="isep-live-logo" />
+              <Logo src="/img/layout/iseplive.png" alt="isep-live-logo" />
             </Link>
-            <NavMenu>
-              {navListBar(Nav)}
-            </NavMenu>
+            <NavMenu>{navListBar(Nav)}</NavMenu>
             <span style={{ marginLeft: 'auto' }}>
-              <Auth >
+              <Auth>
                 <Profile onClick={this.handleClick} />
-                <Menu id="simple-menu"
+                <Menu
+                  id="simple-menu"
                   anchorEl={this.state.anchorEl}
                   open={this.state.open}
                   onClose={this.handleRequestClose}
                 >
-                  {
-                    authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) &&
+                  {authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) && (
                     <MenuItem
                       onClick={this.handleRequestClose}
                       component={NavLink}
-                      to="/administration">Administration</MenuItem>
-                  }
+                      to="/administration"
+                    >
+                      Administration
+                    </MenuItem>
+                  )}
                   <MenuItem
                     onClick={this.handleRequestClose}
                     component={NavLink}
-                    to="/profile">Profil</MenuItem>
+                    to="/profile"
+                  >
+                    Profil
+                  </MenuItem>
                   <MenuItem
                     onClick={this.handleDisconnect}
                     component={NavLink}
-                    to="/connexion">Déconnexion</MenuItem>
+                    to="/connexion"
+                  >
+                    Déconnexion
+                  </MenuItem>
                 </Menu>
               </Auth>
             </span>
             <Auth not>
               <IconButton
                 style={{ marginLeft: 10 }}
-                onClick={() => this.setState({ connexionOpen: true })}>
+                onClick={() => this.setState({ connexionOpen: true })}
+              >
                 <LockOpen style={{ color: 'white' }} />
               </IconButton>
               <LoginForm
@@ -404,7 +410,8 @@ class Layout extends React.Component {
             anchor="left"
             open={this.state.sidebarOpen}
             onClose={this.handleSideBarClose}
-            onClick={this.handleSideBarClose}>
+            onClick={this.handleSideBarClose}
+          >
             {navListMenu(SideNav)}
           </Drawer>
         </Responsive>
@@ -427,7 +434,11 @@ class Layout extends React.Component {
           <Route path="/aide" component={Help} />
           <Route path="/convention-utilisation" component={NotFound} />
           <Route path="/mentions-legales" component={LegalNotice} />
-          <AuthenticatedRoute roles={[roles.ADMIN, roles.USER_MANAGER]} path="/administration" component={Admin} />
+          <AuthenticatedRoute
+            roles={[roles.ADMIN, roles.USER_MANAGER]}
+            path="/administration"
+            component={Admin}
+          />
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer />

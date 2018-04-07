@@ -54,6 +54,7 @@ public class UserController {
   JsonUtils jsonUtils;
 
   @GetMapping("/student")
+  @RolesAllowed({ Roles.STUDENT })
   public Page<Student> getAllStudents(@RequestParam(defaultValue = "0") int page) {
     return studentService.getAll(page);
   }
@@ -72,11 +73,13 @@ public class UserController {
   }
 
   @GetMapping("/student/admin")
+  @RolesAllowed({ Roles.ADMIN, Roles.USER_MANAGER })
   public Page<StudentWithRoleView> getAllStudentsAdmin(@RequestParam(defaultValue = "0") int page) {
     return studentService.getAllForAdmin(page);
   }
 
   @GetMapping("/student/search")
+  @RolesAllowed({ Roles.STUDENT })
   public Page<Student> searchStudents(String name, String promos, String sort,
                                       @RequestParam(defaultValue = "0") int page) {
     return studentService.search(name, promos, sort, page);

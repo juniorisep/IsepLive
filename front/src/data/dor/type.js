@@ -72,3 +72,15 @@ export type AnswerDorScore = {
   voteDor: VoteDor,
   score: number,
 };
+
+type DorConfigAttribute = {
+  x: number,
+  y: number,
+  fontSize: number,
+};
+
+export type ConfigDor = {
+  titre: DorConfigAttribute,
+  name: DorConfigAttribute,
+  birthdate: DorConfigAttribute,
+};

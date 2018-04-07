@@ -11,6 +11,7 @@ import type {
   AnswerDor,
   VoteDor,
   AnswerDorScore,
+  ConfigDor,
 } from './type';
 
 export function getSessions(): AxiosPromise<SessionDor[]> {
@@ -110,13 +111,16 @@ export function searchEvents(name: string): AxiosPromise<EventDor[]> {
   return axios.get(`/dor/event/search?name=${name}`);
 }
 
-export function getConfig() {
+export function getConfig(): AxiosPromise<ConfigDor> {
   return axios.get('/dor/config');
 }
 
-export function updateConfig(file, config) {
-  const data = new FormData();
-  data.append('configValue', JSON.stringify(config));
-  data.append('photo', file);
-  return axios.put('/dor/config', data);
+export function updateConfig(config: ConfigDor): AxiosPromise<void> {
+  return axios.put('/dor/config', config);
+}
+
+export function updateDiploma(file: File): AxiosPromise<void> {
+  const form = new FormData();
+  form.append('diploma', file);
+  return axios.put('/dor/config/diploma', form);
 }

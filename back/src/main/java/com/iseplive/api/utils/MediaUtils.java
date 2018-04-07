@@ -101,8 +101,19 @@ public class MediaUtils {
     }
   }
 
-  public void removeIfExist(String path) {
+  public void removeIfExistJPEG(String path) {
     Path p = Paths.get(baseUrl + path + ".jpg");
+    if (Files.exists(p)) {
+      try {
+        Files.delete(p);
+      } catch (IOException e) {
+        throw new FileException("could not delete file: " + p, e);
+      }
+    }
+  }
+
+  public void removeIfExist(String path) {
+    Path p = Paths.get(baseUrl + path);
     if (Files.exists(p)) {
       try {
         Files.delete(p);

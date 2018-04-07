@@ -33,6 +33,9 @@ storage:
     url: "/gazette"
   document:
     url: "/document"
+  dor:
+    config:
+      url: "/dor/config"
 
 logging:
   level:

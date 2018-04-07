@@ -28,7 +28,6 @@ class Admin extends React.Component {
 
   getRoute() {
     const { match, location } = this.props;
-    console.log(location, match);
     return routes.findIndex(r => location.pathname.includes(match.url + r));
   }
 

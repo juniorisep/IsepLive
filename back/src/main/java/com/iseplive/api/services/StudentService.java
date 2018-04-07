@@ -189,12 +189,12 @@ public class StudentService {
   private void updateProfileImage(Student student, MultipartFile image) {
     String path = imageUtils.resolvePath(studentImageStorage,
       student.getStudentId(), false, student.getStudentId());
-    imageUtils.removeIfExist(path);
+    imageUtils.removeIfExistJPEG(path);
     imageUtils.saveJPG(image, WIDTH_PROFILE_IMAGE, path);
 
     String pathThumb = imageUtils.resolvePath(studentImageStorage,
       student.getStudentId(), true, student.getStudentId());
-    imageUtils.removeIfExist(pathThumb);
+    imageUtils.removeIfExistJPEG(pathThumb);
     imageUtils.saveJPG(image, WIDTH_PROFILE_IMAGE_THUMB, pathThumb);
 
     student.setPhotoUrl(imageUtils.getPublicUrlImage(path));

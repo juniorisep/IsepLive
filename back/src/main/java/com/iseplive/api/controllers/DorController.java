@@ -13,6 +13,7 @@ import com.iseplive.api.entity.dor.QuestionDor;
 import com.iseplive.api.entity.dor.SessionDor;
 import com.iseplive.api.entity.dor.VoteDor;
 import com.iseplive.api.entity.user.Employee;
+import com.iseplive.api.exceptions.NotFoundException;
 import com.iseplive.api.services.DorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,10 +57,13 @@ public class DorController {
   @RolesAllowed({ Roles.STUDENT })
   public Map<Long, List<AnswerDorDTO>> getRoundWinner(@PathVariable int round) {
     SessionDor sessionDor = getCurrentSession();
-    if (round == 1){
+    if (round == 1) {
       return dorService.computeFirstRoundWinners(sessionDor.getId());
     }
-    return new HashMap<>();
+    if (round == 2) {
+      return dorService.computeFinalResults(sessionDor.getId());
+    }
+    throw new NotFoundException("round not available");
   }
 
   @DeleteMapping("/session/{id}")
@@ -184,7 +187,14 @@ public class DorController {
 
   @PutMapping("/config")
   @RolesAllowed({ Roles.ADMIN })
-  public void updateDorConfig(@RequestParam MultipartFile photo, @RequestParam String configValue) {
-    dorService.updateDorConfig(photo, configValue);
+  public void updateDorConfig(@RequestBody DorConfigDTO configDTO) {
+    dorService.updateDorConfig(configDTO);
   }
+
+  @PutMapping("/config/diploma")
+  @RolesAllowed({ Roles.ADMIN })
+  public void updateDorDiploma(@RequestParam MultipartFile diploma) {
+    dorService.updateDiploma(diploma);
+  }
+
 }

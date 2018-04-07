@@ -95,7 +95,7 @@ public class ClubService {
 
   public void setClubLogo(Club club, MultipartFile file) {
     String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
-    imageUtils.removeIfExist(path);
+    imageUtils.removeIfExistJPEG(path);
     imageUtils.saveJPG(file, WIDTH_LOGO_CLUB, path);
     club.setLogoUrl(imageUtils.getPublicUrlImage(path));
   }

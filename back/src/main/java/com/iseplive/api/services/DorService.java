@@ -28,13 +28,17 @@ import com.iseplive.api.entity.user.Employee;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.exceptions.NotFoundException;
+import com.iseplive.api.utils.DiplomaFactory;
 import com.iseplive.api.utils.JsonUtils;
+import com.iseplive.api.utils.MediaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -77,6 +81,12 @@ public class DorService {
   @Autowired
   JsonUtils jsonUtils;
 
+  @Autowired
+  MediaUtils mediaUtils;
+
+  @Value("${storage.dor.config.url}")
+  String dorConfigUrl;
+
   public SessionDor createSession(SessionDorDTO sessionDorDTO) {
     SessionDor sessionDor = new SessionDor();
     sessionDor.setFirstTurn(sessionDorDTO.getFirstTurn());
@@ -105,6 +115,39 @@ public class DorService {
     return eventDorRepository.findAllByNameContainingIgnoreCase(name);
   }
 
+  private Map<QuestionDor, List<AnswerDorDTO>> getRoundAnswersByQuestion(Long sessionId, int round) {
+    List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndRound(sessionId, round);
+    Map<QuestionDor, List<AnswerDorDTO>> frWinners = new HashMap<>();
+    for (VoteDor voteDor: voteDors) {
+      frWinners.computeIfAbsent(voteDor.getQuestionDor(), k -> new ArrayList<>());
+      AnswerDorDTO answerDorDTO = voteToAnswerDTO(voteDor);
+      frWinners.get(voteDor.getQuestionDor()).add(answerDorDTO);
+    }
+    return frWinners;
+  }
+
+
+  private List<AnswerDorDTO> getAnswerSelection(QuestionDor questionDor, Map<QuestionDor, List<AnswerDorDTO>> roundAnswers) {
+    Map<String, Long> grouped = new HashMap<>();
+    Map<String, AnswerDorDTO> mapping = new HashMap<>();
+    for (AnswerDorDTO answerDorDTO: roundAnswers.get(questionDor)) {
+      if (grouped.get(answerDorDTO.getName()) != null) {
+        grouped.put(answerDorDTO.getName(), grouped.get(answerDorDTO.getName()) + 1);
+      } else {
+        mapping.put(answerDorDTO.getName(), answerDorDTO);
+        grouped.put(answerDorDTO.getName(), 1L);
+      }
+    }
+
+    for (String key: grouped.keySet()) {
+      mapping.get(key).setScore(grouped.get(key));
+    }
+    List<AnswerDorDTO> answers = new ArrayList<>(mapping.values());
+    answers.sort(Comparator.comparingLong(AnswerDorDTO::getScore));
+    Collections.reverse(answers);
+    return answers;
+  }
+
   /**
    * Compute the top three candidates of the second turn for each
    * question of a particular session
@@ -112,36 +155,24 @@ public class DorService {
    * @return
    */
   public Map<Long, List<AnswerDorDTO>> computeFirstRoundWinners(Long sessionId) {
-    List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndRound(sessionId, 1);
-    Map<QuestionDor, List<AnswerDorDTO>> frWinners = new HashMap<>();
+    Map<QuestionDor, List<AnswerDorDTO>> firstRoundAnswers = getRoundAnswersByQuestion(sessionId, 1);
+
     Map<Long, List<AnswerDorDTO>> answersMap = new HashMap<>();
-    for (VoteDor voteDor: voteDors) {
-      frWinners.computeIfAbsent(voteDor.getQuestionDor(), k -> new ArrayList<>());
-      AnswerDorDTO answerDorDTO = voteToAnswerDTO(voteDor);
-      frWinners.get(voteDor.getQuestionDor()).add(answerDorDTO);
-    }
-
-    for (QuestionDor questionDor: frWinners.keySet()) {
-      Map<String, Long> grouped = new HashMap<>();
-      Map<String, AnswerDorDTO> mapping = new HashMap<>();
-      for (AnswerDorDTO answerDorDTO: frWinners.get(questionDor)) {
-        if (grouped.get(answerDorDTO.getName()) != null) {
-          grouped.put(answerDorDTO.getName(), grouped.get(answerDorDTO.getName()) + 1);
-        } else {
-          mapping.put(answerDorDTO.getName(), answerDorDTO);
-          grouped.put(answerDorDTO.getName(), 1L);
-        }
-      }
-
-      for (String key: grouped.keySet()) {
-        mapping.get(key).setScore(grouped.get(key));
-      }
-      List<AnswerDorDTO> answers = new ArrayList<>(mapping.values());
-      answers.sort(Comparator.comparingLong(AnswerDorDTO::getScore));
-      Collections.reverse(answers);
-      List<AnswerDorDTO> answerSelection = answers.stream()
+    for (QuestionDor questionDor: firstRoundAnswers.keySet()) {
+      List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, firstRoundAnswers).stream()
         .limit(3).collect(Collectors.toList());
-      frWinners.put(questionDor, answerSelection);
+      answersMap.put(questionDor.getId(), answerSelection);
+    }
+    return answersMap;
+  }
+
+  public Map<Long, List<AnswerDorDTO>> computeFinalResults(Long sessionId) {
+    Map<QuestionDor, List<AnswerDorDTO>> finalRoundAnswers = getRoundAnswersByQuestion(sessionId, 2);
+
+    Map<Long, List<AnswerDorDTO>> answersMap = new HashMap<>();
+    for (QuestionDor questionDor: finalRoundAnswers.keySet()) {
+      List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, finalRoundAnswers).stream()
+        .limit(3).collect(Collectors.toList());
       answersMap.put(questionDor.getId(), answerSelection);
     }
     return answersMap;
@@ -421,21 +452,32 @@ public class DorService {
     throw new NotFoundException("could not find this employee");
   }
 
-  public void updateDorConfig(MultipartFile photo, String configValue) {
+  public void updateDorConfig(DorConfigDTO configDTO) {
     Config dorConfig = configRepository.findByKeyName(ConfigKeys.DOR_CONFIG);
     if (dorConfig == null) {
       dorConfig = new Config();
       dorConfig.setKeyName(ConfigKeys.DOR_CONFIG);
     }
-    // Test if we can read config
-    jsonUtils.deserialize(configValue, DorConfigDTO.class);
-    dorConfig.setValue(configValue);
+    dorConfig.setValue(jsonUtils.serialize(configDTO));
     configRepository.save(dorConfig);
   }
 
   public DorConfigDTO readDorConfig() {
     Config dorConfig = configRepository.findByKeyName(ConfigKeys.DOR_CONFIG);
     return jsonUtils.deserialize(dorConfig.getValue(), DorConfigDTO.class);
+  }
+
+  public void updateDiploma(MultipartFile diploma) {
+    String path = mediaUtils.resolvePath(dorConfigUrl, "diploma", false) + ".png";
+    mediaUtils.removeIfExist(path);
+    mediaUtils.saveFile(path, diploma);
+  }
+
+  public void generateDiplomas() throws IOException {
+    DorConfigDTO conf = readDorConfig();
+    String path = mediaUtils.resolvePath(dorConfigUrl, "diploma", false) + ".png";
+    DiplomaFactory dFactory = new DiplomaFactory(conf, path);
+
   }
 
 }

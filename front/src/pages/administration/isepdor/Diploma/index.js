@@ -10,6 +10,8 @@ import * as cm from '../../../../components/common';
 import InfoIcon from 'material-ui-icons/Info';
 
 import * as dorData from '../../../../data/dor';
+import { backUrl } from '../../../../config';
+import { sendAlert } from '../../../../components/Alert';
 
 // class Surface extends React.Component {
 //   state = {
@@ -97,12 +99,25 @@ export default class Diploma extends React.Component<{}, State> {
   };
 
   componentDidMount() {
-    this.loadImage('/img/diplomeIsepDOr9652.png');
+    this.loadImage();
+    this.loadConfig();
   }
 
-  loadImage(url: string) {
+  async loadConfig() {
+    const res = await dorData.getConfig();
+    const conf = res.data;
+    this.setState({
+      attrTitre: conf.titre,
+      attrName: conf.name,
+      attrBirth: conf.birthdate,
+      fontSize: conf.name.fontSize,
+    });
+  }
+
+  loadImage() {
     const image = new window.Image();
-    image.src = url;
+    image.src =
+      backUrl + '/storage/dor/config/diploma.png?t=' + new Date().getTime();
     image.onload = () => {
       // setState will redraw layer
       // because "image" property is changed
@@ -112,10 +127,10 @@ export default class Diploma extends React.Component<{}, State> {
     };
   }
 
-  updateConfig = () => {
+  updateConfig = async () => {
     const { attrTitre, attrName, attrBirth, fontSize } = this.state;
-    dorData
-      .updateConfig({
+    try {
+      await dorData.updateConfig({
         titre: {
           ...attrTitre,
           fontSize,
@@ -128,15 +143,20 @@ export default class Diploma extends React.Component<{}, State> {
           ...attrBirth,
           fontSize,
         },
-      })
-      .then(res => {
-        console.log('updated');
       });
+
+      if (this.state.file) {
+        await dorData.updateDiploma(this.state.file);
+      }
+      sendAlert('Config mise à jour');
+      this.loadImage();
+    } catch (err) {
+      sendAlert('Erreur de mise à jour', 'error');
+    }
   };
 
   dragEnd = (e: any) => {
     const { x, y, name } = e.target.attrs;
-    console.log(name, x, y);
     if (name === 'titre') {
       this.updatePos('attrTitre', { x, y });
     }
@@ -221,8 +241,8 @@ export default class Diploma extends React.Component<{}, State> {
             }
           />
           <Box mb="20px">
-            <Flex alignItems="center">
-              <Box mr={2}>
+            <Flex flexDirection="column">
+              <Box mb={2}>
                 <cm.FileUpload
                   onFile={this.onSelectFile}
                   accept={['png']}
@@ -236,7 +256,7 @@ export default class Diploma extends React.Component<{}, State> {
                 </cm.FileUpload>
               </Box>
               <Box>
-                <cm.Text fs="12px">{file && file.name}</cm.Text>
+                <cm.Text fs="14px">{file && file.name}</cm.Text>
               </Box>
             </Flex>
           </Box>

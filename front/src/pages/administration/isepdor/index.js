@@ -56,13 +56,22 @@ export default class ImportStudents extends React.Component<{}, State> {
             onChange={this.handleChange}
           >
             {routes.map(r => (
-              <Tab label={r.tabName} component={Link} to={match.url + r.path} />
+              <Tab
+                key={r.path}
+                label={r.tabName}
+                component={Link}
+                to={match.url + r.path}
+              />
             ))}
           </Tabs>
           <Switch>
             <Redirect exact path={`${match.url}`} to={`${match.url}/session`} />
             {routes.map(r => (
-              <Route path={match.url + r.path} component={r.comp} />
+              <Route
+                key={r.path}
+                path={match.url + r.path}
+                component={r.comp}
+              />
             ))}
           </Switch>
         </div>

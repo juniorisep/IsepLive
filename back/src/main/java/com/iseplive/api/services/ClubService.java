@@ -85,7 +85,7 @@ public class ClubService {
     return clubRepository.findAllByNameContainingIgnoringCase(name);
   }
 
-  public ClubRole getClubRole(String role) {
+  private ClubRole getClubRole(String role) {
     ClubRole clubRole = clubRoleRepository.findOneByName(role);
     if (clubRole == null) {
       throw new IllegalArgumentException("Could not find this role: "+role);
@@ -93,7 +93,7 @@ public class ClubService {
     return clubRole;
   }
 
-  public void setClubLogo(Club club, MultipartFile file) {
+  private void setClubLogo(Club club, MultipartFile file) {
     String path = imageUtils.resolvePath(clubLogoStorage, club.getName(), false);
     imageUtils.removeIfExistJPEG(path);
     imageUtils.saveJPG(file, WIDTH_LOGO_CLUB, path);
@@ -135,7 +135,7 @@ public class ClubService {
    * @param student student id
    * @return a club list
    */
-  public List<Club> getClubAuthors(Student student) {
+  List<Club> getClubAuthors(Student student) {
     return clubRepository.findByAdminsContains(student);
   }
 

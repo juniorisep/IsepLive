@@ -144,7 +144,7 @@ public class PostService {
 
   public void deletePost(Long postId, TokenPayload auth) {
     Post post = getPost(postId);
-    if (!hasRightOnPost(auth, post)) {
+    if (hasRightOnPost(auth, post)) {
       throw new AuthException("you cannot delete this post");
     }
 
@@ -234,7 +234,7 @@ public class PostService {
     }
   }
 
-  public Post getPost(Long postId) {
+  private Post getPost(Long postId) {
     Post post = postRepository.findOne(postId);
     if (post == null) {
       throw new IllegalArgumentException("Could not find a post with id: " + postId);
@@ -299,7 +299,7 @@ public class PostService {
 
   public Post updatePost(Long id, PostUpdateDTO update, TokenPayload auth) {
     Post post = getPost(id);
-    if (!hasRightOnPost(auth, post)) {
+    if (hasRightOnPost(auth, post)) {
       throw new AuthException("you cannot update this post");
     }
     post.setTitle(update.getTitle());
@@ -322,11 +322,9 @@ public class PostService {
 
   private boolean hasRightOnPost(TokenPayload auth, Post post) {
     if (!auth.getRoles().contains(Roles.ADMIN) && !auth.getRoles().contains(Roles.POST_MANAGER)) {
-      if (!post.getAuthor().getId().equals(auth.getId()) && !auth.getClubsAdmin().contains(post.getAuthor().getId())) {
-        return false;
-      }
+      return !post.getAuthor().getId().equals(auth.getId()) && !auth.getClubsAdmin().contains(post.getAuthor().getId());
     }
-    return true;
+    return false;
   }
 
   public void deleteComment(Long comId, Long id) {

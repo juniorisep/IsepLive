@@ -42,7 +42,7 @@ public class PollController {
   }
 
   @GetMapping("/{id}/vote/all")
-  public List<PollVote> getAllVotes(@PathVariable Long id, @AuthenticationPrincipal TokenPayload auth) {
+  public List<PollVote> getAllVotes(@PathVariable Long id, @AuthenticationPrincipal TokenPayload auth) { //TODO
     return pollService.getUserVotes(id);
   }
 

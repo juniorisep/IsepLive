@@ -8,12 +8,12 @@ public class TokenSet {
   private String token;
   private String refreshToken;
 
-  public TokenSet(String token, String refreshToken) {
+  TokenSet(String token, String refreshToken) {
     this.token = token;
     this.refreshToken = refreshToken;
   }
 
-  public String getToken() {
+  String getToken() {
     return token;
   }
 
@@ -21,7 +21,7 @@ public class TokenSet {
     this.token = token;
   }
 
-  public String getRefreshToken() {
+  String getRefreshToken() {
     return refreshToken;
   }
 

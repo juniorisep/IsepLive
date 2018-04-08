@@ -20,7 +20,7 @@ public class DatabaseSeeder {
   @Autowired
   private RoleRepository roleRepository;
 
-  public void seedDatabase() {
+  void seedDatabase() {
     if (isDatabaseSeeded()) {
       System.out.println("Database is already seeded. Exiting seeder.");
       return;

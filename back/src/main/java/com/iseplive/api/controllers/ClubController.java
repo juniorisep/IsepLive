@@ -83,7 +83,7 @@ public class ClubController {
                          @RequestParam("club") String club,
                          @AuthenticationPrincipal TokenPayload payload) {
     ClubDTO clubDTO = jsonUtils.deserialize(club, ClubDTO.class);
-    if (!hasAdminAccess(payload, id)) {
+    if (hasAdminAccess(payload, id)) {
       throw new AuthException("no rights to modify this club");
     }
     return clubService.updateClub(id, clubDTO, logo);
@@ -102,11 +102,9 @@ public class ClubController {
 
   private boolean hasAdminAccess(TokenPayload token, Long club) {
     if (!token.getRoles().contains(Roles.ADMIN) && token.getRoles().contains(Roles.CLUB_MANAGER)) {
-      if (!token.getClubsAdmin().contains(club)) {
-        return false;
-      }
+      return !token.getClubsAdmin().contains(club);
     }
-    return true;
+    return false;
   }
 
   @GetMapping("/{id}/role")
@@ -120,7 +118,7 @@ public class ClubController {
   public ClubRole createRole(@PathVariable String name,
                              @PathVariable Long id,
                              @AuthenticationPrincipal TokenPayload auth) {
-    if (!hasAdminAccess(auth, id)) {
+    if (hasAdminAccess(auth, id)) {
       throw new AuthException("no rights to modify this club");
     }
     return clubService.createRole(name, id);
@@ -131,7 +129,7 @@ public class ClubController {
   public void deleteClubRole(@PathVariable Long id,
                              @PathVariable Long roleid,
                              @AuthenticationPrincipal TokenPayload auth) {
-    if (!hasAdminAccess(auth, id)) {
+    if (hasAdminAccess(auth, id)) {
       throw new AuthException("no rights to modify this club");
     }
     clubService.deleteClubRole(id, roleid);
@@ -142,7 +140,7 @@ public class ClubController {
   public ClubMember addMember(@PathVariable Long id,
                               @PathVariable Long student,
                               @AuthenticationPrincipal TokenPayload auth) {
-    if (!hasAdminAccess(auth, id)) {
+    if (hasAdminAccess(auth, id)) {
       throw new AuthException("no rights to modify this club");
     }
     return clubService.addMember(id, student);
@@ -158,7 +156,7 @@ public class ClubController {
   public void addAdmin(@PathVariable Long id,
                        @PathVariable Long stud,
                        @AuthenticationPrincipal TokenPayload auth) {
-    if (!hasAdminAccess(auth, id)) {
+    if (hasAdminAccess(auth, id)) {
       throw new AuthException("no rights to modify this club");
     }
     clubService.addAdmin(id, stud);
@@ -169,7 +167,7 @@ public class ClubController {
   public void deleteAdmin(@PathVariable Long id,
                           @PathVariable Long stud,
                           @AuthenticationPrincipal TokenPayload auth) {
-    if (!hasAdminAccess(auth, id)) {
+    if (hasAdminAccess(auth, id)) {
       throw new AuthException("no rights to modify this club");
     }
     clubService.removeAdmin(id, stud);

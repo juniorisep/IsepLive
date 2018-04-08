@@ -179,7 +179,7 @@ public class MediaUtils {
    * @param newWidth
    * @param outputPath
    */
-  public void saveJPG(InputStream imageInputStream, String contentType, int newWidth, String outputPath) {
+  private void saveJPG(InputStream imageInputStream, String contentType, int newWidth, String outputPath) {
     try {
       // verify it is an image
       if (!Arrays.asList("image/png", "image/jpeg").contains(contentType)) {
@@ -225,7 +225,7 @@ public class MediaUtils {
       .replaceAll(" ", "-");
   }
 
-  public String getPath(String url) {
+  private String getPath(String url) {
     return baseUrl + url;
   }
 

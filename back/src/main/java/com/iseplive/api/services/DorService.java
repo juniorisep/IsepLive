@@ -178,7 +178,7 @@ public class DorService {
     return answersMap;
   }
 
-  public AnswerDorDTO voteToAnswerDTO(VoteDor voteDor) {
+  private AnswerDorDTO voteToAnswerDTO(VoteDor voteDor) {
     if (voteDor.getResAuthor() != null) {
       return new AnswerDorDTO(voteDor.getResAuthor().getId(), AnswerDorType.USER, voteDor);
     }
@@ -187,8 +187,6 @@ public class DorService {
     }
     return null;
   }
-
-
 
   public List<SessionDor> getSessions() {
     return sessionDorRepository.findAll();
@@ -372,7 +370,7 @@ public class DorService {
     return eventDorRepository.findAll();
   }
 
-  public EventDor getEvent(Long id) {
+  private EventDor getEvent(Long id) {
     EventDor eventDor = eventDorRepository.findOne(id);
     if (eventDor == null) {
       throw new NotFoundException("could not find this event");

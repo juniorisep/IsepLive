@@ -32,7 +32,7 @@ public class TokenPayload {
     return clubsAdmin;
   }
 
-  public void setClubsAdmin(List<Long> clubsAdmin) {
+  void setClubsAdmin(List<Long> clubsAdmin) {
     this.clubsAdmin = clubsAdmin;
   }
 

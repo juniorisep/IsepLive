@@ -163,7 +163,7 @@ public class MediaService {
     return galleryRes;
   }
 
-  public void deleteImageFile(Image image) {
+  void deleteImageFile(Image image) {
     mediaUtils.removeIfExistPublic(image.getThumbUrl());
     mediaUtils.removeIfExistPublic(image.getFullSizeUrl());
     mediaUtils.removeIfExistPublic(image.getOriginalUrl());

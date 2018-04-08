@@ -32,11 +32,9 @@ public class EventController {
   private boolean hasRights(TokenPayload payload, Long clubId) {
     if (!payload.getRoles().contains(Roles.ADMIN) && !payload.getRoles().contains(Roles.EVENT_MANAGER)) {
       // if user is not the club admin
-      if (!payload.getClubsAdmin().contains(clubId)) {
-        return false;
-      }
+      return !payload.getClubsAdmin().contains(clubId);
     }
-    return true;
+    return false;
   }
 
   @PostMapping
@@ -45,7 +43,7 @@ public class EventController {
                            @RequestParam("event") String event,
                            @AuthenticationPrincipal TokenPayload auth) {
     EventDTO eventDTO = jsonUtils.deserialize(event, EventDTO.class);
-    if (!hasRights(auth, eventDTO.getClubId())) {
+    if (hasRights(auth, eventDTO.getClubId())) {
       throw new AuthException("you are not this club's admin");
     }
     return eventService.createEvent(file, eventDTO, auth);
@@ -68,7 +66,7 @@ public class EventController {
                            @RequestParam("event") String event,
                            @AuthenticationPrincipal TokenPayload auth) {
     EventDTO eventDTO = jsonUtils.deserialize(event, EventDTO.class);
-    if (!hasRights(auth, eventDTO.getClubId())) {
+    if (hasRights(auth, eventDTO.getClubId())) {
       throw new AuthException("you are not this club's admin");
     }
     return eventService.updateEvent(id, eventDTO, file);

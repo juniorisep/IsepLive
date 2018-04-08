@@ -20,7 +20,7 @@ public class AnswerDorDTO {
   }
 
 
-  public Long getIdAnswer() {
+  private Long getIdAnswer() {
     return idAnswer;
   }
 
@@ -28,7 +28,7 @@ public class AnswerDorDTO {
     this.idAnswer = idAnswer;
   }
 
-  public AnswerDorType getType() {
+  private AnswerDorType getType() {
     return type;
   }
 

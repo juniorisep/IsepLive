@@ -79,7 +79,7 @@ public class StudentService {
     return authorRepository.save(student);
   }
 
-  public void addProfileImage(String studentId, MultipartFile image) {
+  void addProfileImage(String studentId, MultipartFile image) {
     Student student = studentRepository.findFirstByStudentId(studentId);
     updateProfileImage(student, image);
     studentRepository.save(student);

@@ -125,6 +125,12 @@ export function updateDiploma(file: File): AxiosPromise<void> {
   return axios.put('/dor/config/diploma', form);
 }
 
+export function updateDiplomaFont(file: File): AxiosPromise<void> {
+  const form = new FormData();
+  form.append('font', file);
+  return axios.put('/dor/config/font', form);
+}
+
 export function generateDiploma(id: number) {
   return axios.get(`/dor/session/${id}/diploma`);
 }

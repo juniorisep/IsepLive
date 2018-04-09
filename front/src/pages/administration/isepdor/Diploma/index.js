@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import { Stage, Layer, Rect, Image, Transformer, Text } from 'react-konva';
+import { Stage, Layer, Rect, Image, Text } from 'react-konva';
 import { Flex, Box } from 'grid-styled';
 
 import TextField from 'material-ui/TextField';
@@ -12,59 +12,6 @@ import InfoIcon from 'material-ui-icons/Info';
 import * as dorData from '../../../../data/dor';
 import { backUrl } from '../../../../config';
 import { sendAlert } from '../../../../components/Alert';
-
-// class Surface extends React.Component {
-//   state = {
-//     x: 0,
-//     y: 0,
-//   };
-//   render() {
-//     return (
-//       <React.Fragment>
-//         <Rect
-//           name={this.props.name}
-//           x={this.state.x}
-//           y={this.state.y}
-//           width={this.props.width}
-//           height={this.props.height}
-//           draggable="true"
-//           fill={this.props.color}
-//           onDragEnd={e => {
-//             this.setState({
-//               x: e.target.attrs.x,
-//               y: e.target.attrs.y,
-//             });
-//           }}
-//           onClick={() => {
-//             this.setState({
-//               showTransform: !this.state.showTransform,
-//             });
-//           }}
-//         />
-//         {this.state.showTransform && <Handler link={this.props.name} />}
-//       </React.Fragment>
-//     );
-//   }
-// }
-
-// class Handler extends React.Component {
-//   componentDidMount() {
-//     // not really "react-way". But it works.
-//     const stage = this.transformer.getStage();
-//     const rectangle = stage.findOne('.' + this.props.link);
-//     this.transformer.attachTo(rectangle);
-//     this.transformer.getLayer().batchDraw();
-//   }
-//   render() {
-//     return (
-//       <Transformer
-//         ref={node => {
-//           this.transformer = node;
-//         }}
-//       />
-//     );
-//   }
-// }
 
 type Attr = {
   x: number,
@@ -82,7 +29,8 @@ type State = {
   attrTitre: Attr,
   attrName: Attr,
   attrBirth: Attr,
-  file: ?window.File,
+  diplomaImg: ?window.File,
+  fontFile: ?window.File,
 };
 
 export default class Diploma extends React.Component<{}, State> {
@@ -96,7 +44,8 @@ export default class Diploma extends React.Component<{}, State> {
     attrBirth: { x: 172, y: 351 },
     font: 'Arial',
     fontSize: 15,
-    file: null,
+    diplomaImg: null,
+    fontFile: null,
   };
 
   componentDidMount() {
@@ -156,8 +105,11 @@ export default class Diploma extends React.Component<{}, State> {
         },
       });
 
-      if (this.state.file) {
-        await dorData.updateDiploma(this.state.file);
+      if (this.state.diplomaImg) {
+        await dorData.updateDiploma(this.state.diplomaImg);
+      }
+      if (this.state.fontFile) {
+        await dorData.updateDiplomaFont(this.state.fontFile);
       }
       sendAlert('Config mise à jour');
       this.loadImage();
@@ -185,9 +137,9 @@ export default class Diploma extends React.Component<{}, State> {
     });
   }
 
-  onSelectFile = (files: File[]) => {
+  onSelectFile = (name: string) => (files: File[]) => {
     this.setState({
-      file: files[0],
+      [name]: files[0],
     });
   };
 
@@ -197,7 +149,7 @@ export default class Diploma extends React.Component<{}, State> {
       overflow: 'hidden',
       height: 600,
     };
-    const { attrTitre, attrName, attrBirth, file } = this.state;
+    const { attrTitre, attrName, attrBirth, fontFile, diplomaImg } = this.state;
     console.log(attrTitre);
     return (
       <Flex>
@@ -252,26 +204,48 @@ export default class Diploma extends React.Component<{}, State> {
               this.setState({ fontSize: parseInt(e.target.value) })
             }
           />
-          <Box mb="20px">
-            <Flex flexDirection="column">
-              <Box mb={2}>
-                <cm.FileUpload
-                  onFile={this.onSelectFile}
-                  accept={['png']}
-                  btnProps={{
-                    size: 'small',
-                    color: 'primary',
-                    variant: 'raised',
-                  }}
-                >
-                  Changer photo
-                </cm.FileUpload>
-              </Box>
-              <Box>
-                <cm.Text fs="14px">{file && file.name}</cm.Text>
-              </Box>
-            </Flex>
-          </Box>
+          <Flex mb="20px">
+            <Box mr="10px">
+              <div>
+                <Box>
+                  <cm.FileUpload
+                    onFile={this.onSelectFile('diplomaImg')}
+                    accept={['png']}
+                    btnProps={{
+                      size: 'small',
+                      color: 'primary',
+                      variant: 'raised',
+                    }}
+                  >
+                    Changer photo
+                  </cm.FileUpload>
+                </Box>
+                <Box>
+                  <cm.Text fs="14px">{diplomaImg && diplomaImg.name}</cm.Text>
+                </Box>
+              </div>
+            </Box>
+            <Box>
+              <div>
+                <Box mb={2}>
+                  <cm.FileUpload
+                    onFile={this.onSelectFile('fontFile')}
+                    accept={['ttf']}
+                    btnProps={{
+                      size: 'small',
+                      color: 'primary',
+                      variant: 'raised',
+                    }}
+                  >
+                    Changer Police
+                  </cm.FileUpload>
+                </Box>
+                <Box>
+                  <cm.Text fs="14px">{fontFile && fontFile.name}</cm.Text>
+                </Box>
+              </div>
+            </Box>
+          </Flex>
           <Button
             onClick={this.updateConfig}
             color="secondary"
@@ -319,8 +293,6 @@ export default class Diploma extends React.Component<{}, State> {
                   fontFamily={this.state.font}
                   fontSize={this.state.fontSize}
                 />
-                {/* <Surface name="test" color="red" width={300} height={40} />
-            <Surface name="test1" color="blue" width={300} height={40} /> */}
               </Layer>
             </Stage>
           </cm.Paper>

@@ -2,19 +2,18 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.dto.LDAPUserDTO;
 import com.iseplive.api.exceptions.AuthException;
+import com.iseplive.api.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.naming.Context;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
+import javax.naming.*;
 import javax.naming.directory.*;
 import java.util.Hashtable;
 
 @Service
 public class LDAPService {
-  private Logger logger = LoggerFactory.getLogger(LDAPService.class);
+  private Logger LOG = LoggerFactory.getLogger(LDAPService.class);
 
   public LDAPUserDTO retrieveUser(String user, String mdp) {
     // Initial context implementation
@@ -46,11 +45,11 @@ public class LDAPService {
     try {
       // Get a reference to a directory context
       ctx = new InitialDirContext(env);
+    } catch (AuthenticationException e) {
+      LOG.error("User not found");
+      throw new AuthException("User not found", e);
     } catch (NamingException e) {
-      logger.error("Failed to connnect to the LDAP server (NamingException)");
-      throw new AuthException("LDAP unavailable", e);
-    } catch (Exception e) {
-      logger.error("Failed to connnect to the LDAP server (Exception)");
+      LOG.error("Failed to connnect to the LDAP server");
       throw new AuthException("LDAP unavailable", e);
     }
 
@@ -64,8 +63,6 @@ public class LDAPService {
       // containing the scope of the search
       NamingEnumeration<SearchResult> results = null;
 
-      logger.error("Failed to connnect to the LDAP server");
-
       results = ctx.search(MY_SEARCHBASE, MY_FILTER, constraints);
 
       // Now step through the search results
@@ -78,7 +75,7 @@ public class LDAPService {
         NamingEnumeration<String> attributesIds = attributes.getIDs();
         while (attributesIds.hasMoreElements()) {
           String attribute = attributesIds.nextElement();
-          logger.debug("attribute: {}", attribute);
+          LOG.debug("attribute: {}", attribute);
         }
 
         Attribute cn = attributes.get("cn");
@@ -112,11 +109,11 @@ public class LDAPService {
         return ldapUserDTO;
       }
 
-      logger.info("Failed to retrieve {} from LDAP server", user);
-      throw new AuthException("Could not retrieve user from LDAP");
+      LOG.error("Failed to retrieve {} from LDAP server", user);
+      throw new NotFoundException("Could not retrieve user from LDAP");
     } catch (NamingException e) {
-      logger.info("Naming exception", user);
-      throw new AuthException("Naming exception", e);
+      LOG.error("LDAP unavailable");
+      throw new AuthException("LDAP unavailable", e);
     }
   }
 }

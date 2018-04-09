@@ -10,6 +10,7 @@ import {
   Text,
   FluidContent,
   BgImage,
+  ScrollToTopOnMount,
 } from '../../components/common';
 
 import Autocomplete from '../../components/Autocomplete';
@@ -55,6 +56,15 @@ const SessionDisplay = ({ secondTurn, result }) => {
           <span>Fin du 2ème tour le </span>
           <Time date={result} format="Do MMMM YYYY" />
         </Text>
+      </div>
+    );
+  }
+  if (now > result) {
+    return (
+      <div>
+        <Title fontSize={1} invert>
+          RÉSULTATS
+        </Title>
       </div>
     );
   }
@@ -166,6 +176,7 @@ export default class DorPoll extends React.Component<{}, State> {
     const { session, questions } = this.state;
     return (
       <FluidContent mh="700px">
+        <ScrollToTopOnMount />
         <Title mb="0.2em" fontSize={3}>
           ISEP d'Or
         </Title>

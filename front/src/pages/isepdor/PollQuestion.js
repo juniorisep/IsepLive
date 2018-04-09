@@ -42,6 +42,8 @@ type State = {
   selected: ?AnswerDor,
 };
 
+const IMG_EVENT = '/img/svg/event-dor.svg';
+
 export default class PollQuestionDor extends React.Component<Props, State> {
   state = {
     selectedValue: '',
@@ -66,7 +68,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
         }
       } else if (ans.type === 'event') {
         name = ans.value.name;
-        url = '/img/svg/user.svg';
+        url = IMG_EVENT;
       }
     }
     return (
@@ -202,7 +204,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
         }
       }
       if (answer.resEvent) {
-        return '/img/svg/user.svg';
+        return IMG_EVENT;
       }
     }
 
@@ -219,7 +221,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
         }
       }
       if (selected.type === 'event') {
-        return '/img/svg/user.svg';
+        return IMG_EVENT;
       }
     }
 

@@ -69,6 +69,7 @@ import { sendAlert } from '../../../../components/Alert';
 type Attr = {
   x: number,
   y: number,
+  fontSize?: number,
 };
 
 type State = {
@@ -106,11 +107,16 @@ export default class Diploma extends React.Component<{}, State> {
   async loadConfig() {
     const res = await dorData.getConfig();
     const conf = res.data;
+    const toScale = (pos: Attr) => {
+      pos.x = pos.x * 0.7;
+      pos.y = pos.y * 0.7;
+      return pos;
+    };
     this.setState({
-      attrTitre: conf.titre,
-      attrName: conf.name,
-      attrBirth: conf.birthdate,
-      fontSize: conf.name.fontSize,
+      attrTitre: toScale(conf.titre),
+      attrName: toScale(conf.name),
+      attrBirth: toScale(conf.birthdate),
+      fontSize: conf.name.fontSize * 0.7,
     });
   }
 
@@ -129,19 +135,24 @@ export default class Diploma extends React.Component<{}, State> {
 
   updateConfig = async () => {
     const { attrTitre, attrName, attrBirth, fontSize } = this.state;
+    const toScale = (pos: Attr) => {
+      pos.x = pos.x / 0.7;
+      pos.y = pos.y / 0.7;
+      return pos;
+    };
     try {
       await dorData.updateConfig({
         titre: {
-          ...attrTitre,
-          fontSize,
+          ...toScale(attrTitre),
+          fontSize: fontSize / 0.7,
         },
         name: {
-          ...attrName,
-          fontSize,
+          ...toScale(attrName),
+          fontSize: fontSize / 0.7,
         },
         birthdate: {
-          ...attrBirth,
-          fontSize,
+          ...toScale(attrBirth),
+          fontSize: fontSize / 0.7,
         },
       });
 
@@ -187,6 +198,7 @@ export default class Diploma extends React.Component<{}, State> {
       height: 600,
     };
     const { attrTitre, attrName, attrBirth, file } = this.state;
+    console.log(attrTitre);
     return (
       <Flex>
         <Box w={[1, 1 / 4]} p={3}>

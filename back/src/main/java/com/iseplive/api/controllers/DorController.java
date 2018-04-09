@@ -56,7 +56,10 @@ public class DorController {
   @GetMapping("/session/current/round/{round}")
   @RolesAllowed({ Roles.STUDENT })
   public Map<Long, List<AnswerDorDTO>> getRoundWinner(@PathVariable int round) {
-    SessionDor sessionDor = getCurrentSession();
+    SessionDor sessionDor = dorService.getCurrentSession();
+    if (sessionDor == null) {
+      throw new NotFoundException("no session currently available");
+    }
     if (round == 1) {
       return dorService.computeFirstRoundWinners(sessionDor.getId());
     }
@@ -83,6 +86,13 @@ public class DorController {
   public void toggleEnableSession(@PathVariable Long id) {
     dorService.toggleSession(id);
   }
+
+  @GetMapping("/session/{id}/diploma")
+  @RolesAllowed({ Roles.ADMIN })
+  public void generateDiploma(@PathVariable Long id) {
+    dorService.generateDiploma(id);
+  }
+
 
   @GetMapping("/question")
   @RolesAllowed({ Roles.STUDENT })

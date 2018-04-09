@@ -55,6 +55,7 @@ export type EventDorCreate = {
 export type AnswerDor = {
   type: 'author' | 'event',
   value: Author & EventDor,
+  score?: number,
 };
 
 export type VoteDor = {

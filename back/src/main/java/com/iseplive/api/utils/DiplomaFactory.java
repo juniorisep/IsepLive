@@ -26,26 +26,32 @@ public class DiplomaFactory implements ImageObserver {
 
   public DiplomaFactory(DorConfigDTO configDTO, String diplomaPath) throws IOException {
     this.config = configDTO;
-    this.fontTitle = new Font("Arial", Font.PLAIN, configDTO.getTitre().getFontSize());
-    this.fontName = new Font("Arial", Font.PLAIN, configDTO.getName().getFontSize());
-    this.fontBirthDay = new Font("Arial", Font.PLAIN, configDTO.getBirthdate().getFontSize());
+    String fontName = "Times";
+    this.fontTitle = new Font(fontName, Font.PLAIN, configDTO.getTitre().getFontSize());
+    this.fontName = new Font(fontName, Font.PLAIN, configDTO.getName().getFontSize());
+    this.fontBirthDay = new Font(fontName, Font.PLAIN, configDTO.getBirthdate().getFontSize());
 
     this.bufferedImage = ImageIO.read(new File(diplomaPath));
   }
 
-  public Image generateDiploma(QuestionDor questionDor, Student student) {
+  public BufferedImage generateDiploma(QuestionDor questionDor, Student student) {
 
     BufferedImage newDiploma = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
-    Graphics g = newDiploma.getGraphics();
+    Graphics2D g = newDiploma.createGraphics();
+
+    g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
     g.drawImage(bufferedImage, 0, 0, this);
+
+    g.setColor(Color.BLACK);
+
 
     // Draw title
     g.setFont(fontTitle);
     g.drawString(
       questionDor.getTitle(),
       config.getTitre().getX(),
-      config.getTitre().getY()
+      config.getTitre().getY() + g.getFont().getSize()
     );
 
     // Draw name
@@ -53,16 +59,18 @@ public class DiplomaFactory implements ImageObserver {
     g.drawString(
       String.format("%s %s", student.getFirstname(), student.getLastname()),
       config.getName().getX(),
-      config.getName().getY()
+      config.getName().getY() + g.getFont().getSize()
     );
 
-    // Draw birthday
-    g.setFont(fontBirthDay);
-    g.drawString(
-      formater.format(student.getBirthDate()),
-      config.getName().getX(),
-      config.getName().getY()
-    );
+    if (student.getBirthDate() != null) {
+      // Draw birthday
+      g.setFont(fontBirthDay);
+      g.drawString(
+        formater.format(student.getBirthDate()),
+        config.getName().getX(),
+        config.getName().getY() + g.getFont().getSize()
+      );
+    }
 
     g.dispose();
     return newDiploma;

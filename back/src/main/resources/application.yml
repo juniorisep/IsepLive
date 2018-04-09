@@ -36,6 +36,8 @@ storage:
   dor:
     config:
       url: "/dor/config"
+    diploma:
+      url: "/dor/diploma"
 
 logging:
   level:

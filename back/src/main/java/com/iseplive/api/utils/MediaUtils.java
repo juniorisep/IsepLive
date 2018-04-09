@@ -225,7 +225,7 @@ public class MediaUtils {
       .replaceAll(" ", "-");
   }
 
-  private String getPath(String url) {
+  public String getPath(String url) {
     return baseUrl + url;
   }
 

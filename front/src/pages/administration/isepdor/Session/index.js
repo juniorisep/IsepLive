@@ -66,8 +66,6 @@ export default class Session extends React.Component<{}, State> {
     }
   };
 
-  saveSession = () => {};
-
   renderTableCell = (session: SessionDor) => {
     return (
       <TableRow

@@ -280,7 +280,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
   }
 
   renderChoices() {
-    const { question, results } = this.props;
+    const { question, results, answer } = this.props;
     if (results) {
       let resultList = results[question.id];
       if (results[question.id]) {
@@ -303,6 +303,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
               {this.renderSugg(ans)}
               <Radio
                 style={{ marginLeft: 'auto' }}
+                disabled={answer != null}
                 name={`radio-result-${question.id}`}
                 checked={this.isChecked(ans)}
                 onChange={() => this.onSelect(ans)}

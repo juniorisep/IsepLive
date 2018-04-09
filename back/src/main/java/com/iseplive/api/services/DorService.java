@@ -38,7 +38,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -86,6 +91,9 @@ public class DorService {
 
   @Value("${storage.dor.config.url}")
   String dorConfigUrl;
+
+  @Value("${storage.dor.diploma.url}")
+  String dorDiplomaUrl;
 
   public SessionDor createSession(SessionDorDTO sessionDorDTO) {
     SessionDor sessionDor = new SessionDor();
@@ -188,6 +196,31 @@ public class DorService {
     return null;
   }
 
+  /**
+   * Check if the 3 answer selected during the first round
+   * match with the vote
+   *
+   * @param sessionDor
+   * @param questionDor
+   * @param voteDor
+   * @return
+   */
+  private boolean canVoteSecondRound(SessionDor sessionDor, QuestionDor questionDor, VoteDorDTO voteDor) {
+    Map<QuestionDor, List<AnswerDorDTO>> firstRoundAnswers = getRoundAnswersByQuestion(sessionDor.getId(), 1);
+    List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, firstRoundAnswers).stream()
+      .limit(3)
+      .filter(a ->
+        a.getVoteDor()
+          .getResAuthor()
+          .getId().equals(voteDor.getAuthorID()) ||
+          a.getVoteDor()
+            .getResEvent()
+            .getId().equals(voteDor.getEventID())
+      )
+      .collect(Collectors.toList());
+    return !answerSelection.isEmpty();
+  }
+
   public List<SessionDor> getSessions() {
     return sessionDorRepository.findAll();
   }
@@ -216,6 +249,12 @@ public class DorService {
     newVoteDor.setQuestionDor(questionDor);
     newVoteDor.setStudent(student);
     newVoteDor.setDate(new Date());
+
+    if (round == 2) {
+      if (!canVoteSecondRound(sessionDor, questionDor, voteDor)) {
+        throw new IllegalArgumentException("you cannot choose this answer");
+      }
+    }
 
     if (voteDor.getAuthorID() != null) {
       Author author = authorRepository.findOne(voteDor.getAuthorID());
@@ -471,11 +510,39 @@ public class DorService {
     mediaUtils.saveFile(path, diploma);
   }
 
-  public void generateDiplomas() throws IOException {
+  public void generateDiploma(Long sessionId) {
     DorConfigDTO conf = readDorConfig();
-    String path = mediaUtils.resolvePath(dorConfigUrl, "diploma", false) + ".png";
-    DiplomaFactory dFactory = new DiplomaFactory(conf, path);
+    String pathDiploma = mediaUtils.getPath(mediaUtils.resolvePath(dorConfigUrl, "diploma", false) + ".png");
+    try {
 
+      DiplomaFactory dFactory = new DiplomaFactory(conf, pathDiploma);
+      Map<QuestionDor, List<AnswerDorDTO>> finalRoundAnswers = getRoundAnswersByQuestion(sessionId, 2);
+      for (QuestionDor questionDor: finalRoundAnswers.keySet()) {
+        List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, finalRoundAnswers).stream()
+          .limit(3).collect(Collectors.toList());
+        AnswerDorDTO answerDorDTO = answerSelection.get(0);
+        if (answerDorDTO != null && answerDorDTO.getVoteDor().getResAuthor() != null) {
+          if (answerDorDTO.getVoteDor().getResAuthor() instanceof Student) {
+            BufferedImage image = dFactory.generateDiploma(questionDor, (Student) answerDorDTO.getVoteDor().getResAuthor());
+            String pathParts = String.format(
+              "%s/%d/%d-question-diploma.png",
+              dorDiplomaUrl,
+              sessionId,
+              questionDor.getId()
+            );
+            System.out.println(pathParts);
+            mediaUtils.removeIfExist(pathParts);
+            Path path = Paths.get(mediaUtils.getPath(pathParts));
+            Files.createDirectories(path);
+            ImageIO.write(image, "png", path.toFile());
+          }
+        }
+      }
+
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
 }

@@ -124,3 +124,7 @@ export function updateDiploma(file: File): AxiosPromise<void> {
   form.append('diploma', file);
   return axios.put('/dor/config/diploma', form);
 }
+
+export function generateDiploma(id: number) {
+  return axios.get(`/dor/session/${id}/diploma`);
+}

@@ -28,6 +28,7 @@ import { backUrl } from '../../config';
 import Time from '../../components/Time';
 
 import PollQuestion from './PollQuestion';
+import ResultQuestion from './ResultQuestion';
 
 const SessionDisplay = ({ secondTurn, result }) => {
   const now = new Date().getTime();
@@ -65,6 +66,7 @@ type State = {
   answers: VoteDor[],
   session: ?SessionDor,
   results: ?{ [id: number]: AnswerDorScore[] },
+  isPollEnded: boolean,
 };
 
 export default class DorPoll extends React.Component<{}, State> {
@@ -73,11 +75,17 @@ export default class DorPoll extends React.Component<{}, State> {
     answers: [],
     session: null,
     results: null,
+    isPollEnded: false,
   };
 
   componentDidMount() {
     this.getQuestions();
     this.getCurrentSession().then(session => {
+      if (this.isSessionFinished(session)) {
+        this.showResultsSession(session);
+        return;
+      }
+
       const round = this.getCurrentRound(session);
       this.getCurrentVotes(round);
     });
@@ -85,6 +93,18 @@ export default class DorPoll extends React.Component<{}, State> {
 
   getCurrentRound(session: SessionDor): number {
     return session.secondTurn > new Date().getTime() ? 1 : 2;
+  }
+
+  async showResultsSession(session: SessionDor) {
+    const res = await dorData.getRoundResults(2);
+    this.setState({
+      isPollEnded: true,
+      results: res.data,
+    });
+  }
+
+  isSessionFinished(session: SessionDor): boolean {
+    return session.result < new Date().getTime();
   }
 
   async getCurrentSession() {
@@ -120,11 +140,18 @@ export default class DorPoll extends React.Component<{}, State> {
   };
 
   renderQuestions = (question: QuestionDor) => {
-    const { answers, results } = this.state;
+    const { answers, results, isPollEnded } = this.state;
     const answer = answers.find(ans => ans.questionDor.id === question.id);
-
+    const breakPoints = [1, 1 / 2, 1 / 3];
+    if (isPollEnded) {
+      return (
+        <Box key={question.id} p={3} w={breakPoints}>
+          <ResultQuestion question={question} results={results} />
+        </Box>
+      );
+    }
     return (
-      <Box key={question.id} p={3} w={[1, 1 / 2, 1 / 3]}>
+      <Box key={question.id} p={3} w={breakPoints}>
         <PollQuestion
           question={question}
           answer={answer}

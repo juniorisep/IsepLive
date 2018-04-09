@@ -24,14 +24,25 @@ public class DiplomaFactory implements ImageObserver {
   private SimpleDateFormat formater = new SimpleDateFormat("dd/MM/YYYY");
 
 
-  public DiplomaFactory(DorConfigDTO configDTO, String diplomaPath) throws IOException {
+  public DiplomaFactory(DorConfigDTO configDTO, String diplomaPath, String fontPath) throws Exception {
     this.config = configDTO;
-    String fontName = "Times";
-    this.fontTitle = new Font(fontName, Font.PLAIN, configDTO.getTitre().getFontSize());
-    this.fontName = new Font(fontName, Font.PLAIN, configDTO.getName().getFontSize());
-    this.fontBirthDay = new Font(fontName, Font.PLAIN, configDTO.getBirthdate().getFontSize());
 
-    this.bufferedImage = ImageIO.read(new File(diplomaPath));
+    try {
+      Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontPath));
+      this.fontTitle = customFont.deriveFont(Font.PLAIN, configDTO.getTitre().getFontSize());
+      this.fontName = customFont.deriveFont(Font.PLAIN, configDTO.getName().getFontSize());
+      this.fontBirthDay = customFont.deriveFont(Font.PLAIN, configDTO.getBirthdate().getFontSize());
+
+    } catch (IOException | FontFormatException e) {
+      throw new Exception("could not find the font: " + e.getLocalizedMessage());
+    }
+
+    try {
+      this.bufferedImage = ImageIO.read(new File(diplomaPath));
+    } catch (IOException e) {
+      throw new Exception("could not read diploma file: " + e.getLocalizedMessage());
+    }
+
   }
 
   public BufferedImage generateDiploma(QuestionDor questionDor, Student student) {
@@ -44,7 +55,6 @@ public class DiplomaFactory implements ImageObserver {
     g.drawImage(bufferedImage, 0, 0, this);
 
     g.setColor(Color.BLACK);
-
 
     // Draw title
     g.setFont(fontTitle);
@@ -67,8 +77,8 @@ public class DiplomaFactory implements ImageObserver {
       g.setFont(fontBirthDay);
       g.drawString(
         formater.format(student.getBirthDate()),
-        config.getName().getX(),
-        config.getName().getY() + g.getFont().getSize()
+        config.getBirthdate().getX(),
+        config.getBirthdate().getY() + g.getFont().getSize()
       );
     }
 

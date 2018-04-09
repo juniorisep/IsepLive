@@ -40,7 +40,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -512,15 +511,19 @@ public class DorService {
 
   public void generateDiploma(Long sessionId) {
     DorConfigDTO conf = readDorConfig();
-    String pathDiploma = mediaUtils.getPath(mediaUtils.resolvePath(dorConfigUrl, "diploma", false) + ".png");
-    try {
 
-      DiplomaFactory dFactory = new DiplomaFactory(conf, pathDiploma);
+    String pathDiploma = mediaUtils.getPath(mediaUtils.resolvePath(dorConfigUrl, "diploma", false) + ".png");
+    String pathFont = mediaUtils.getPath(mediaUtils.resolvePath(dorConfigUrl, "font", false) + ".ttf");
+
+    try {
+      DiplomaFactory dFactory = new DiplomaFactory(conf, pathDiploma, pathFont);
       Map<QuestionDor, List<AnswerDorDTO>> finalRoundAnswers = getRoundAnswersByQuestion(sessionId, 2);
+
       for (QuestionDor questionDor: finalRoundAnswers.keySet()) {
         List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, finalRoundAnswers).stream()
           .limit(3).collect(Collectors.toList());
         AnswerDorDTO answerDorDTO = answerSelection.get(0);
+
         if (answerDorDTO != null && answerDorDTO.getVoteDor().getResAuthor() != null) {
           if (answerDorDTO.getVoteDor().getResAuthor() instanceof Student) {
             BufferedImage image = dFactory.generateDiploma(questionDor, (Student) answerDorDTO.getVoteDor().getResAuthor());
@@ -530,7 +533,6 @@ public class DorService {
               sessionId,
               questionDor.getId()
             );
-            System.out.println(pathParts);
             mediaUtils.removeIfExist(pathParts);
             Path path = Paths.get(mediaUtils.getPath(pathParts));
             Files.createDirectories(path);
@@ -540,9 +542,15 @@ public class DorService {
       }
 
 
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      LOG.error("could not generate the diploma", e);
+      throw new IllegalArgumentException("could not generate the diploma");
     }
   }
 
+  public void updateDiplomaFont(MultipartFile font) {
+    String path = mediaUtils.resolvePath(dorConfigUrl, "font", false) + ".ttf";
+    mediaUtils.removeIfExist(path);
+    mediaUtils.saveFile(path, font);
+  }
 }

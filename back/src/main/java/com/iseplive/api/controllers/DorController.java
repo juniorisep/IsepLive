@@ -207,4 +207,9 @@ public class DorController {
     dorService.updateDiploma(diploma);
   }
 
+  @PutMapping("/config/font")
+  @RolesAllowed({ Roles.ADMIN })
+  public void updateDorDiplomaFont(@RequestParam MultipartFile font) {
+    dorService.updateDiplomaFont(font);
+  }
 }

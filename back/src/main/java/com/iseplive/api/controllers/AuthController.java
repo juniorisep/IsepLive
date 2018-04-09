@@ -35,22 +35,23 @@ public class AuthController {
   @Value("${auth.password}")
   String defaultPassword;
 
+  @Value("${auth.enable}")
+  Boolean passwordEnable;
+
   @PostMapping
   public TokenSet getToken(@RequestBody JwtAuthRequest authRequest) {
 
     // TODO: replace with correct auth, currently only for testing
-    if (authRequest.getUsername().equals("admin") && authRequest.getPassword().equals(defaultPassword)) {
-      return jwtTokenUtil.generateToken(studentService.getStudent(1L));
+    if (passwordEnable) {
+      if (authRequest.getUsername().equals("admin") && authRequest.getPassword().equals(defaultPassword)) {
+        return jwtTokenUtil.generateToken(studentService.getStudent(1L));
+      }
     }
 
-    // TODO: WIP auth
     LDAPUserDTO user = ldapService.retrieveUser(authRequest.getUsername(), authRequest.getPassword());
     if (user != null) {
       Student ldapStudent = studentService.getStudent(user.getEmployeeNumber());
-      if (ldapStudent == null) {
-        throw new AuthException("User not found");
-      }
-      if (ldapStudent.isArchived()) {
+      if (ldapStudent == null || ldapStudent.isArchived()) {
         throw new AuthException("User not found");
       }
       return jwtTokenUtil.generateToken(ldapStudent);

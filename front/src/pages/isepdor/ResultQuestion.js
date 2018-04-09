@@ -4,7 +4,7 @@ import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import Avatar from 'material-ui/Avatar';
 
-import { Paper, Title } from '../../components/common';
+import { Paper, Title, BgImage } from '../../components/common';
 
 import type {
   QuestionDor,
@@ -21,6 +21,7 @@ type Props = {
 };
 
 const DEFAULT_USER_IMAGE = '/img/svg/user.svg';
+const DEFAULT_EVENT_IMAGE = '/img/svg/event-dor.svg';
 
 function Rank({ pos, score }) {
   const isFirst = pos === 1;
@@ -63,7 +64,7 @@ export default class ResultQuestion extends React.Component<Props> {
         }
       } else if (ans.type === 'event') {
         name = ans.value.name;
-        url = DEFAULT_USER_IMAGE;
+        url = DEFAULT_EVENT_IMAGE;
       }
     }
     return (
@@ -121,10 +122,44 @@ export default class ResultQuestion extends React.Component<Props> {
     return null;
   }
 
+  getImg(): ?string {
+    const { question, results } = this.props;
+
+    if (results) {
+      const answers = results[question.id];
+      if (answers && answers.length > 0) {
+        const res = answers[0];
+        if (res.voteDor.resAuthor) {
+          const author = res.voteDor.resAuthor;
+          if (author.authorType === 'student') {
+            return this.buildBackUrl(author.photoUrlThumb);
+          }
+          if (author.authorType === 'club') {
+            return this.buildBackUrl(author.logoUrl);
+          }
+          if (author.authorType === 'employee') {
+            return '/img/svg/user.svg';
+          }
+        }
+        if (res.voteDor.resEvent) {
+          return DEFAULT_EVENT_IMAGE;
+        }
+      }
+    }
+
+    return null;
+  }
+
   render() {
     const { question, results } = this.props;
     return (
       <Paper>
+        <BgImage
+          mh="200px"
+          local
+          src={this.getImg()}
+          defaultSrc="/img/svg/unknown.svg"
+        />
         <Box p="20px">
           <Title invert>{question.title}</Title>
           <Flex flexDirection="column">{this.renderResults()}</Flex>

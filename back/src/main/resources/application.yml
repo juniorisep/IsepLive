@@ -55,3 +55,4 @@ jwt:
 
 auth:
   password: password
+  enable: true

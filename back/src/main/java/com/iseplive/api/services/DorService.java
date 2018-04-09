@@ -370,13 +370,13 @@ public class DorService {
     questionDorRepository.updatePosAfterDelete(pos);
   }
 
-  public void updateSession(Long id, SessionDor dorSession) {
+  public SessionDor updateSession(Long id, SessionDor dorSession) {
     SessionDor sessionDor = getSessionDor(id);
     sessionDor.setEnabled(dorSession.isEnabled());
     sessionDor.setFirstTurn(dorSession.getFirstTurn());
     sessionDor.setSecondTurn(dorSession.getSecondTurn());
     sessionDor.setResult(dorSession.getResult());
-    sessionDorRepository.save(sessionDor);
+    return sessionDorRepository.save(sessionDor);
   }
 
   public QuestionDor updateQuestion(Long id, QuestionDor questionDor) {

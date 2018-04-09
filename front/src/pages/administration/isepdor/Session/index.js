@@ -42,19 +42,17 @@ export default class Session extends React.Component<{}, State> {
     this.refreshTable();
   }
 
-  refreshTable = (id: ?number) => {
-    this.getQuestions().then(res => {
-      if (id) {
-        this.selectRow(id);
+  refreshTable = async (id: ?number) => {
+    const res = await dorData.getSessions();
+    let updateState = { sessions: res.data };
+    if (id) {
+      const session = res.data.find(s => s.id === id);
+      if (session) {
+        updateState = { ...updateState, selectedSession: session };
       }
-    });
+    }
+    this.setState(updateState);
   };
-
-  getQuestions() {
-    return dorData.getSessions().then(res => {
-      this.setState({ sessions: res.data });
-    });
-  }
 
   selectRow = (id: number) => (e: any) => {
     const session = this.state.sessions.find(s => s.id === id);

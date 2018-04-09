@@ -77,8 +77,8 @@ public class DorController {
 
   @PutMapping("/session/{id}")
   @RolesAllowed({ Roles.ADMIN })
-  public void updateSession(@PathVariable Long id, @RequestBody SessionDor dorSession) {
-    dorService.updateSession(id, dorSession);
+  public SessionDor updateSession(@PathVariable Long id, @RequestBody SessionDor dorSession) {
+    return dorService.updateSession(id, dorSession);
   }
 
   @PutMapping("/session/{id}/enable")

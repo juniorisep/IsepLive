@@ -8,6 +8,8 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import * as cm from '../../../../components/common';
 import InfoIcon from 'material-ui-icons/Info';
+import FontIcon from 'material-ui-icons/FormatSize';
+import DiplomaIcon from 'material-ui-icons/InsertPhoto';
 
 import * as dorData from '../../../../data/dor';
 import { backUrl } from '../../../../config';
@@ -156,7 +158,7 @@ export default class Diploma extends React.Component<{}, State> {
         <Box w={[1, 1 / 4]} p={3}>
           <Box mt="10px">
             <cm.Text fs="12px">
-              3 zones de texte sont déplaçable à droite
+              Les 3 zones de texte suivantes sont déplaçable à droite
             </cm.Text>
           </Box>
           <TextField
@@ -180,13 +182,6 @@ export default class Diploma extends React.Component<{}, State> {
             value={this.state.birth}
             onChange={e => this.setState({ birth: e.target.value })}
           />
-          <Box mb="10px">
-            <cm.Text fs="12px">
-              Les données précédentes sont factices et ne seront pas
-              enregistrées, elles servent uniquement à aider au positionnement
-              des zones de texte.
-            </cm.Text>
-          </Box>
           <TextField
             label="Nom police"
             margin="normal"
@@ -194,6 +189,14 @@ export default class Diploma extends React.Component<{}, State> {
             value={this.state.font}
             onChange={e => this.setState({ font: e.target.value })}
           />
+          <Box mb="10px">
+            <cm.Text fs="12px">
+              Les données précédentes sont factices et ne seront pas
+              enregistrées, elles servent uniquement à aider au positionnement
+              des zones de texte.
+            </cm.Text>
+          </Box>
+
           <TextField
             type="number"
             label="Taille de police"
@@ -217,7 +220,7 @@ export default class Diploma extends React.Component<{}, State> {
                       variant: 'raised',
                     }}
                   >
-                    Changer photo
+                    <DiplomaIcon style={{ marginRight: 10 }} /> Diplôme
                   </cm.FileUpload>
                 </Box>
                 <Box>
@@ -237,7 +240,7 @@ export default class Diploma extends React.Component<{}, State> {
                       variant: 'raised',
                     }}
                   >
-                    Changer Police
+                    <FontIcon style={{ marginRight: 10 }} /> Police
                   </cm.FileUpload>
                 </Box>
                 <Box>

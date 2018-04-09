@@ -46,36 +46,33 @@ export default class SessionForm extends React.Component {
     };
   };
 
-  createSession = () => {
+  createSession = async () => {
     const { sessionForm } = this.state;
-    dorData
-      .createSession({
-        result: sessionForm.result,
-        firstTurn: sessionForm.firstTurn,
-        secondTurn: sessionForm.secondTurn,
-      })
-      .then(res => {
-        this.setState({
-          sessionForm: {
-            result: null,
-            firstTurn: null,
-            secondTurn: null,
-          },
-          create: false,
-        });
-        this.props.refreshTable(res.data.id);
-      });
+    const res = await dorData.createSession({
+      result: sessionForm.result,
+      firstTurn: sessionForm.firstTurn,
+      secondTurn: sessionForm.secondTurn,
+    });
+    this.setState({
+      sessionForm: {
+        result: null,
+        firstTurn: null,
+        secondTurn: null,
+      },
+      create: false,
+    });
+    this.props.refreshTable(res.data.id);
   };
 
   updateSession = async () => {
     const { sessionForm } = this.state;
-    await dorData.updateSession(this.props.selected.id, {
+    const res = await dorData.updateSession(this.props.selected.id, {
       result: sessionForm.result,
       firstTurn: sessionForm.firstTurn,
       secondTurn: sessionForm.secondTurn,
       enabled: sessionForm.enabled,
     });
-    this.props.refreshTable();
+    this.props.refreshTable(res.data.id);
   };
 
   deleteSession = async () => {

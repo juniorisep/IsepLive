@@ -26,7 +26,7 @@ import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
 import IsepDorHome from '../isepdor/Home';
-
+import { ADMIN } from '../../constants';
 import { BACKGROUND_COLOR, SECONDARY_COLOR } from '../../colors';
 
 const PostSection = styled.div`
@@ -80,7 +80,13 @@ export default function Home(props) {
             <PublishBoxView refreshPosts={props.refreshPosts} />
             <Separator />
           </Auth>
-          <IsepDorHome />
+
+          {/* ! TEMPORARY ! */}
+          <Auth roles={[ADMIN]}>
+            <IsepDorHome />
+          </Auth>
+          {/* ! TEMPORARY ! */}
+
           <PostSection>
             <Loader loading={props.isLoading}>
               <div>

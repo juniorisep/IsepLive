@@ -26,7 +26,13 @@ public interface QuestionDorRepository extends CrudRepository<QuestionDor, Long>
   @Modifying
   @Transactional
   @Query("UPDATE QuestionDor q SET q.position = q.position - 1 WHERE q.position > :position AND q.position <= :dest")
-  int beforeMoveToPos(@Param("position") int position, @Param("dest") int dest);
+  int beforeMoveToPosInc(@Param("position") int position, @Param("dest") int dest);
+
+  @Modifying
+  @Transactional
+  @Query("UPDATE QuestionDor q SET q.position = q.position + 1 WHERE q.position < :position AND q.position >= :dest")
+  int beforeMoveToPosDec(@Param("position") int position, @Param("dest") int dest);
+
 
   QuestionDor findByPosition(int position);
 }

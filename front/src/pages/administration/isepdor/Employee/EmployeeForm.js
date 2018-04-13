@@ -13,6 +13,7 @@ import { Title, Text, Paper } from '../../../../components/common';
 
 import * as userData from '../../../../data/users/student';
 import type { Employee, CreateEmployee } from '../../../../data/users/type';
+import { sendAlert } from '../../../../components/Alert';
 
 type State = {
   employeeForm: Employee,
@@ -80,6 +81,7 @@ export default class EmployeeForm extends React.Component<Props, State> {
         this.props.selected.id,
         this.createForm(employeeForm)
       );
+      sendAlert('Employé mis à jour');
       this.props.refreshTable(res.data.id);
     }
   };

@@ -12,6 +12,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import { Title, Text, Paper } from '../../../../components/common';
 import type { QuestionDor, QuestionDorCreate } from '../../../../data/dor/type';
 import * as dorData from '../../../../data/dor';
+import { sendAlert } from '../../../../components/Alert';
 
 const CheckBoxAnswer = props => (
   <FormControlLabel
@@ -101,6 +102,7 @@ export default class QuestionForm extends React.Component<Props, State> {
         this.props.selected.id,
         this.createForm(questionForm),
       );
+      sendAlert('Question mise à jour');
       this.props.refreshTable(res.data.id);
     }
   };

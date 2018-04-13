@@ -25,7 +25,7 @@ public class JwtAuthenticationToken implements Authentication {
   private final Map<String, Claim> claims;
   private boolean isAuthenticated;
 
-  JwtAuthenticationToken(DecodedJWT jwt) {
+  public JwtAuthenticationToken(DecodedJWT jwt) {
     List<GrantedAuthority> tmp = new ArrayList<>();
     ObjectMapper mapper = new ObjectMapper();
     try {

@@ -24,12 +24,12 @@ public class PostMessageService {
   @Autowired
   private JsonUtils jsonUtils;
 
-  void addSession(Long id, WebSocketSession session) {
+  public void addSession(Long id, WebSocketSession session) {
     clients.computeIfAbsent(id, k -> ConcurrentHashMap.newKeySet());
     clients.get(id).add(session);
   }
 
-  void removeSession(WebSocketSession session) {
+  public void removeSession(WebSocketSession session) {
     clients.forEach((id, sessions) -> {
       if (sessions.contains(session)) {
         clients.get(id).remove(session);

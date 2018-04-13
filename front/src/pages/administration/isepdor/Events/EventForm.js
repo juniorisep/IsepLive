@@ -12,6 +12,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import { Title, Text, Paper } from '../../../../components/common';
 import type { EventDor, EventDorCreate } from '../../../../data/dor/type';
 import * as dorData from '../../../../data/dor';
+import { sendAlert } from '../../../../components/Alert';
 
 type State = {
   eventForm: EventDor,
@@ -77,8 +78,9 @@ export default class EventForm extends React.Component<Props, State> {
     if (this.props.selected) {
       const res = await dorData.updateEvent(
         this.props.selected.id,
-        this.createForm(eventForm),
+        this.createForm(eventForm)
       );
+      sendAlert('Evenement mis à jour');
       this.props.refreshTable(res.data.id);
     }
   };

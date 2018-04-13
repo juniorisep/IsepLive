@@ -73,13 +73,13 @@ export default class Session extends React.Component<{}, State> {
         onClick={this.selectRow(session.id)}
       >
         <TableCell>
-          <Time date={session.result} format="DD/MM/YY" />
-        </TableCell>
-        <TableCell>
           <Time date={session.firstTurn} format="DD/MM/YY" />
         </TableCell>
         <TableCell>
           <Time date={session.secondTurn} format="DD/MM/YY" />
+        </TableCell>
+        <TableCell>
+          <Time date={session.result} format="DD/MM/YY" />
         </TableCell>
         <TableCell>
           <Checkbox disableRipple checked={session.enabled} />
@@ -109,9 +109,9 @@ export default class Session extends React.Component<{}, State> {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Resultats</TableCell>
                   <TableCell>1er tour</TableCell>
                   <TableCell>2e tour</TableCell>
+                  <TableCell>Resultats</TableCell>
                   <TableCell>Actif</TableCell>
                 </TableRow>
               </TableHead>

@@ -380,24 +380,28 @@ public class DorService {
   }
 
   public QuestionDor updateQuestion(Long id, QuestionDor questionDor) {
-    QuestionDor newQuestionDor = getQuestionDor(id);
+    QuestionDor currentQuestionDor = getQuestionDor(id);
 
-    if (newQuestionDor.getPosition() != questionDor.getPosition()) {
-      questionDorRepository.beforeMoveToPos(newQuestionDor.getPosition(), questionDor.getPosition());
+    if (currentQuestionDor .getPosition() != questionDor.getPosition()) {
+      if (currentQuestionDor.getPosition() < questionDor.getPosition()) {
+        questionDorRepository.beforeMoveToPosInc(currentQuestionDor.getPosition(), questionDor.getPosition());
+      } else {
+        questionDorRepository.beforeMoveToPosDec(currentQuestionDor.getPosition(), questionDor.getPosition());
+      }
     }
 
-    newQuestionDor.setPosition(questionDor.getPosition());
-    newQuestionDor.setTitle(questionDor.getTitle());
+    currentQuestionDor.setPosition(questionDor.getPosition());
+    currentQuestionDor.setTitle(questionDor.getTitle());
 
-    newQuestionDor.setEnableStudent(questionDor.isEnableStudent());
-    newQuestionDor.setEnableClub(questionDor.isEnableClub());
-    newQuestionDor.setEnableEmployee(questionDor.isEnableEmployee());
-    newQuestionDor.setEnableEvent(questionDor.isEnableEvent());
-    newQuestionDor.setEnableParty(questionDor.isEnableParty());
-    newQuestionDor.setEnablePromo(questionDor.isEnablePromo());
-    newQuestionDor.setPromo(questionDor.getPromo());
+    currentQuestionDor.setEnableStudent(questionDor.isEnableStudent());
+    currentQuestionDor.setEnableClub(questionDor.isEnableClub());
+    currentQuestionDor.setEnableEmployee(questionDor.isEnableEmployee());
+    currentQuestionDor.setEnableEvent(questionDor.isEnableEvent());
+    currentQuestionDor.setEnableParty(questionDor.isEnableParty());
+    currentQuestionDor.setEnablePromo(questionDor.isEnablePromo());
+    currentQuestionDor.setPromo(questionDor.getPromo());
 
-    return questionDorRepository.save(newQuestionDor);
+    return questionDorRepository.save(currentQuestionDor);
   }
 
   public EventDor createEvent(EventDor event) {

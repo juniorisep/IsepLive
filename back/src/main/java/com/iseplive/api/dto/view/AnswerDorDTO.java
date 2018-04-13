@@ -19,8 +19,7 @@ public class AnswerDorDTO {
     return String.format("%d_%s", idAnswer, type);
   }
 
-
-  private Long getIdAnswer() {
+  public Long getIdAnswer() {
     return idAnswer;
   }
 
@@ -28,20 +27,12 @@ public class AnswerDorDTO {
     this.idAnswer = idAnswer;
   }
 
-  private AnswerDorType getType() {
+  public AnswerDorType getType() {
     return type;
   }
 
   public void setType(AnswerDorType type) {
     this.type = type;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof AnswerDorDTO) {
-      return ((AnswerDorDTO) obj).getIdAnswer().equals(idAnswer) && ((AnswerDorDTO) obj).getType().equals(type);
-    }
-    return super.equals(obj);
   }
 
   public Long getScore() {
@@ -58,5 +49,13 @@ public class AnswerDorDTO {
 
   public void setVoteDor(VoteDor voteDor) {
     this.voteDor = voteDor;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof AnswerDorDTO) {
+      return ((AnswerDorDTO) obj).getIdAnswer().equals(idAnswer) && ((AnswerDorDTO) obj).getType().equals(type);
+    }
+    return super.equals(obj);
   }
 }

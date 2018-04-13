@@ -41,7 +41,7 @@ public class JwtTokenUtil {
   @Autowired
   ClubService clubService;
 
-  static final String CLAIM_PAYLOAD = "payload";
+  public static final String CLAIM_PAYLOAD = "payload";
   private static final String CLAIM_USER_ID = "userID";
   private static final String SECRET_HASHING_ALGORITHM = "SHA-256";
   private final Locale locale = Locale.FRANCE;
@@ -92,7 +92,7 @@ public class JwtTokenUtil {
     return null;
   }
 
-  String refreshToken(DecodedJWT jwt) {
+  public String refreshToken(DecodedJWT jwt) {
     String payloadString = jwt.getClaim(CLAIM_PAYLOAD).asString();
     try {
       TokenPayload tokenPayload = new ObjectMapper().readValue(payloadString, TokenPayload.class);
@@ -111,7 +111,7 @@ public class JwtTokenUtil {
    * @return a set of new tokens
    * @throws JWTVerificationException
    */
-  TokenSet refreshWithToken(String token) throws JWTVerificationException {
+  public TokenSet refreshWithToken(String token) throws JWTVerificationException {
     try {
       DecodedJWT decodedJWT = JWT.decode(token);
       Long id = decodedJWT.getClaim(CLAIM_USER_ID).asLong();

@@ -10,6 +10,7 @@ import SendIcon from 'material-ui-icons/Send';
 import DeleteIcon from 'material-ui-icons/Delete';
 
 import { Title, Text, Paper } from '../../../../components/common';
+import { sendAlert } from '../../../../components/Alert';
 
 import * as dorData from '../../../../data/dor';
 
@@ -72,6 +73,7 @@ export default class SessionForm extends React.Component {
       secondTurn: sessionForm.secondTurn,
       enabled: sessionForm.enabled,
     });
+    sendAlert('Session mise à jour');
     this.props.refreshTable(res.data.id);
   };
 

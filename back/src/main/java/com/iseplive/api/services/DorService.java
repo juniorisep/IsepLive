@@ -504,6 +504,9 @@ public class DorService {
 
   public DorConfigDTO readDorConfig() {
     Config dorConfig = configRepository.findByKeyName(ConfigKeys.DOR_CONFIG);
+    if (dorConfig == null) {
+      throw new NotFoundException("config not found");
+    }
     return jsonUtils.deserialize(dorConfig.getValue(), DorConfigDTO.class);
   }
 

@@ -146,13 +146,12 @@ export default class Diploma extends React.Component<{}, State> {
   };
 
   render() {
-    if (!this.state.image) return null;
+    // if (!this.state.image) return null;
     const stageStyle = {
       overflow: 'hidden',
       height: 600,
     };
     const { attrTitre, attrName, attrBirth, fontFile, diplomaImg } = this.state;
-    console.log(attrTitre);
     return (
       <Flex>
         <Box w={[1, 1 / 4]} p={3}>
@@ -261,11 +260,14 @@ export default class Diploma extends React.Component<{}, State> {
           <cm.Paper>
             <Stage style={stageStyle} width={window.innerWidth} height={900}>
               <Layer draggable="true">
+              {
+                this.state.image &&
                 <Image
                   width={0.7 * this.state.image.naturalWidth}
                   height={0.7 * this.state.image.naturalHeight}
                   image={this.state.image}
                 />
+              }
                 <Text
                   x={attrTitre.x}
                   y={attrTitre.y}

@@ -1,25 +1,25 @@
 // @flow
 
-import React, { Component } from 'react';
+import * as React from 'react';
 
 import { hasRole, isLoggedIn } from 'data/auth';
 
-class Auth extends Component {
+class Auth extends React.Component {
   render() {
     const { children, roles, not, logged } = this.props;
 
-    if (isLoggedIn() && logged) {
-      return children;
-    }
+    if (children) {
+      if (isLoggedIn() && logged)
+        return <React.Fragment>{children}</React.Fragment>;
 
-    if (not && !isLoggedIn()) {
-      return children;
-    }
+      if (not && !isLoggedIn())
+        return <React.Fragment>{children}</React.Fragment>;
 
-    if (!roles && !not && isLoggedIn()) return children;
+      if (!roles && !not && isLoggedIn())
+        return <React.Fragment>{children}</React.Fragment>;
 
-    if (roles && isLoggedIn() && hasRole(roles)) {
-      return children;
+      if (roles && isLoggedIn() && hasRole(roles))
+        return <React.Fragment>{children}</React.Fragment>;
     }
 
     return null;

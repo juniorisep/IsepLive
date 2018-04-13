@@ -10,9 +10,7 @@ import Button from 'material-ui/Button';
 
 import Auth from '../Auth/AuthComponent';
 
-import {
-  BgImage,
-} from '../common';
+import { BgImage } from '../common';
 
 import { backUrl } from 'config';
 
@@ -35,10 +33,9 @@ const ViewStyle = styled.div`
 `;
 
 class View extends Component {
-
   state = {
     matcherOpen: false,
-  }
+  };
 
   componentWillUnmount() {
     this.removeEscListener();
@@ -48,9 +45,9 @@ class View extends Component {
     document.removeEventListener('keydown', this.keyHandler);
   }
 
-  openMatcher = (open) => {
+  openMatcher = open => {
     this.setState({ matcherOpen: open });
-  }
+  };
 
   componentWillReceiveProps(props) {
     if (!props.visible) {
@@ -60,7 +57,6 @@ class View extends Component {
     }
 
     document.body.style.overflow = props.visible ? 'hidden' : 'auto';
-
   }
 
   keyHandler = ({ key }) => {
@@ -72,7 +68,7 @@ class View extends Component {
   render() {
     const lightButton = {
       color: 'white',
-      background: 'rgba(255,255,255,0.1)'
+      background: 'rgba(255,255,255,0.1)',
     };
     const {
       visible,
@@ -92,7 +88,8 @@ class View extends Component {
             right: 20,
             zIndex: 3,
           }}
-          onClick={() => this.props.onEscKey()}>
+          onClick={() => this.props.onEscKey()}
+        >
           <CloseIcon style={{ color: 'white' }} />
         </IconButton>
         <ViewStyle>
@@ -103,18 +100,19 @@ class View extends Component {
             style={lightButton}
             download
             size="small"
-            href={backUrl + (imageOriginal || image)}>
+            href={backUrl + (imageOriginal || image)}
+          >
             <FileDownload style={{ marginRight: 5 }} /> Télecharger
-        </Button>
-          <Auth logged>
-            {
-              matcher &&
+          </Button>
+          {matcher && (
+            <Auth logged>
               <PeopleMatcher
                 internalRefresh={internalRefresh}
                 onOpenMatcher={this.openMatcher}
-                image={data} />
-            }
-          </Auth>
+                image={data}
+              />
+            </Auth>
+          )}
         </div>
       </Wrapper>
     );

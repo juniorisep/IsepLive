@@ -13,7 +13,7 @@ public class TokenSet {
     this.refreshToken = refreshToken;
   }
 
-  public String getToken() {
+  String getToken() {
     return token;
   }
 
@@ -21,7 +21,7 @@ public class TokenSet {
     this.token = token;
   }
 
-  public String getRefreshToken() {
+  String getRefreshToken() {
     return refreshToken;
   }
 

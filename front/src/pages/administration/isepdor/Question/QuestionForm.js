@@ -100,7 +100,7 @@ export default class QuestionForm extends React.Component<Props, State> {
     if (this.props.selected) {
       const res = await dorData.updateQuestion(
         this.props.selected.id,
-        this.createForm(questionForm),
+        this.createForm(questionForm)
       );
       sendAlert('Question mise à jour');
       this.props.refreshTable(res.data.id);

@@ -92,7 +92,7 @@ public class JwtTokenUtil {
     return null;
   }
 
-  public String refreshToken(DecodedJWT jwt) {
+  String refreshToken(DecodedJWT jwt) {
     String payloadString = jwt.getClaim(CLAIM_PAYLOAD).asString();
     try {
       TokenPayload tokenPayload = new ObjectMapper().readValue(payloadString, TokenPayload.class);
@@ -111,7 +111,7 @@ public class JwtTokenUtil {
    * @return a set of new tokens
    * @throws JWTVerificationException
    */
-  public TokenSet refreshWithToken(String token) throws JWTVerificationException {
+  TokenSet refreshWithToken(String token) throws JWTVerificationException {
     try {
       DecodedJWT decodedJWT = JWT.decode(token);
       Long id = decodedJWT.getClaim(CLAIM_USER_ID).asLong();

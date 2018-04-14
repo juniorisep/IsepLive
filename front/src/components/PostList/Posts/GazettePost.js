@@ -18,6 +18,7 @@ const Background = styled.div`
     ${({ theme }) => theme.accent}
   );
   height: 100%;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;

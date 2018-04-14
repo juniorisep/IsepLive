@@ -1,9 +1,10 @@
 package com.iseplive.api.entity.dor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Guillaume on 28/07/2017.
@@ -18,6 +19,10 @@ public class SessionDor {
   private Date secondTurn;
   private Date result;
   private boolean enabled;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+  private List<VoteDor> votes;
 
   public Long getId() {
     return id;
@@ -58,5 +63,13 @@ public class SessionDor {
 
   public boolean isEnabled() {
     return enabled;
+  }
+
+  public List<VoteDor> getVotes() {
+    return votes;
+  }
+
+  public void setVotes(List<VoteDor> votes) {
+    this.votes = votes;
   }
 }

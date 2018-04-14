@@ -5,6 +5,7 @@ import { Box } from 'grid-styled';
 import { Post } from 'components/PostList';
 
 import { Video, Paper } from 'components/common';
+import VideoPlayer from 'components/Video';
 
 class VideoPost extends Component {
   render() {
@@ -14,7 +15,8 @@ class VideoPost extends Component {
       <Post invert={props.invert}>
         <Box w={size}>
           <Paper style={{ height: '100%' }}>
-            <Video url={props.post.media.url} />
+            {/* <Video url={props.post.media.url} /> */}
+            <VideoPlayer source={props.post.media.url} />
           </Paper>
         </Box>
         {props.textView(size)}

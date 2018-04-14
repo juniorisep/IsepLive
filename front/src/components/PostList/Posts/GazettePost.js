@@ -12,8 +12,12 @@ import { Post } from 'components/PostList';
 import { Paper } from 'components/common';
 
 const Background = styled.div`
-  background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
-  height: 250px;
+  background: linear-gradient(
+    to bottom right,
+    ${({ theme }) => theme.main},
+    ${({ theme }) => theme.accent}
+  );
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,7 +43,7 @@ class GazettePost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Paper>
+          <Paper style={{ height: '100%' }}>
             <Background>
               <a href={backUrl + props.post.media.url}>
                 <Tooltip title="Télécharger la gazette" placement="top">

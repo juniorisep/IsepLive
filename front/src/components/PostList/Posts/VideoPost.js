@@ -13,7 +13,7 @@ class VideoPost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Paper>
+          <Paper style={{ height: '100%' }}>
             <Video url={props.post.media.url} />
           </Paper>
         </Box>

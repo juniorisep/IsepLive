@@ -12,8 +12,12 @@ import { Post } from 'components/PostList';
 import { Paper } from 'components/common';
 
 const Background = styled.div`
-  background: linear-gradient(to bottom right, ${({ theme }) => theme.main}, ${({ theme }) => theme.accent});
-  height: 250px;
+  background: linear-gradient(
+    to bottom right,
+    ${({ theme }) => theme.main},
+    ${({ theme }) => theme.accent}
+  );
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,7 +36,6 @@ const FileName = styled.h2`
   margin: 0;
 `;
 
-
 class DocumentPost extends Component {
   render() {
     const props = this.props;
@@ -40,7 +43,7 @@ class DocumentPost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Paper>
+          <Paper style={{ height: '100%' }}>
             <Background>
               <a href={backUrl + props.post.media.path}>
                 <Tooltip title={props.post.media.originalName} placement="top">

@@ -15,7 +15,7 @@ class ImagePost extends Component {
     return (
       <Post invert={props.invert}>
         <Box w={size}>
-          <Paper>
+          <Paper style={{ height: '100%' }}>
             <BgImage
               onClick={() => {
                 if (!props.preview) {
@@ -24,9 +24,12 @@ class ImagePost extends Component {
               }}
               style={{ cursor: !props.preview ? 'pointer' : 'normal' }}
               src={
-                props.preview ? props.post.media.fullSizeUrl : props.post.media.thumbUrl
+                props.preview
+                  ? props.post.media.fullSizeUrl
+                  : props.post.media.thumbUrl
               }
-              mh={props.preview ? '400px' : '250px'} />
+              mh={props.preview ? '400px' : '250px'}
+            />
           </Paper>
         </Box>
         {props.textView(size)}

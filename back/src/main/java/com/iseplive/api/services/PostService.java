@@ -28,10 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import springfox.documentation.annotations.Cacheable;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -183,11 +180,11 @@ public class PostService {
     postRepository.delete(postId);
   }
 
-  public void addMediaEmbed(Long id, Long mediaId) {
+  public Post addMediaEmbed(Long id, Long mediaId) {
     Post post = postRepository.findOne(id);
     Media media = mediaRepository.findOne(mediaId);
     post.setMedia(media);
-    postRepository.save(post);
+    return postRepository.save(post);
   }
 
   public Comment commentPost(Long postId, CommentDTO dto, Long studentId) {
@@ -234,7 +231,7 @@ public class PostService {
     }
   }
 
-  private Post getPost(Long postId) {
+  public Post getPost(Long postId) {
     Post post = postRepository.findOne(postId);
     if (post == null) {
       throw new IllegalArgumentException("Could not find a post with id: " + postId);
@@ -336,5 +333,15 @@ public class PostService {
       throw new AuthException("you cannot delete this comment");
     }
     commentRepository.delete(comment);
+  }
+
+  public List<PostView> getWaitingPosts(TokenPayload token) {
+    List<Long> authors = new ArrayList<>();
+    authors.add(token.getId());
+    authors.addAll(token.getClubsAdmin());
+    List<Post> waitingPosts = postRepository.findByPublishStateAndAuthor_IdInOrderByCreationDateDesc(PublishStateEnum.WAITING, authors);
+    return waitingPosts.stream()
+      .map(p -> postFactory.entityToView(p))
+      .collect(Collectors.toList());
   }
 }

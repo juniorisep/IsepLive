@@ -41,7 +41,6 @@ public class Post {
   @ManyToMany
   private Set<Student> like = new HashSet<>();
 
-  @JsonIgnore
   @Enumerated(EnumType.STRING)
   private PublishStateEnum publishState;
 

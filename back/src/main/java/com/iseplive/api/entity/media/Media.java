@@ -53,4 +53,5 @@ public abstract class Media {
   public Post getPost() {
     return post;
   }
+
 }

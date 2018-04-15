@@ -2,18 +2,23 @@ package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.MediaType;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.constants.Roles;
 import com.iseplive.api.dao.image.ImageRepository;
 import com.iseplive.api.dao.image.MatchedRepository;
 import com.iseplive.api.dao.media.MediaFactory;
 import com.iseplive.api.dao.media.MediaRepository;
+import com.iseplive.api.dao.post.PostRepository;
 import com.iseplive.api.dto.TempFile;
 import com.iseplive.api.dto.view.MatchedView;
+import com.iseplive.api.entity.Post;
 import com.iseplive.api.entity.media.*;
 import com.iseplive.api.entity.user.Student;
 import com.iseplive.api.exceptions.FileException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.utils.MediaUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -25,11 +30,14 @@ import springfox.documentation.annotations.Cacheable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -40,6 +48,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class MediaService {
+
+  private final Logger LOG = LoggerFactory.getLogger(MediaService.class);
 
   @Autowired
   MediaUtils mediaUtils;
@@ -55,6 +65,12 @@ public class MediaService {
 
   @Autowired
   ImageRepository imageRepository;
+
+  @Autowired
+  PostRepository postRepository;
+
+  @Autowired
+  PostService postService;
 
   @Autowired
   StudentService studentService;
@@ -93,7 +109,7 @@ public class MediaService {
     );
   }
 
-  public Gazette createGazette(String title, MultipartFile file) {
+  public Gazette createGazette(Long postId, String title, MultipartFile file) {
     String random = mediaUtils.randomName();
     String gazettePath = String.format(
       "%s_%s.pdf",
@@ -107,10 +123,12 @@ public class MediaService {
     gazette.setCreation(new Date());
     gazette.setTitle(title);
     gazette.setUrl(mediaUtils.getPublicUrl(gazettePath));
-    return mediaRepository.save(gazette);
+    gazette = mediaRepository.save(gazette);
+    postService.addMediaEmbed(postId, gazette.getId());
+    return gazette;
   }
 
-  public Document createDocument(String name, MultipartFile fileUploaded) {
+  public Document createDocument(Long postId, String name, MultipartFile fileUploaded) {
     Document document = new Document();
     document.setCreation(new Date());
 
@@ -126,15 +144,18 @@ public class MediaService {
     document.setName(name);
     document.setOriginalName(fileUploaded.getOriginalFilename());
     document.setPath(mediaUtils.getPublicUrl(documentPath));
-    return mediaRepository.save(document);
+    document = mediaRepository.save(document);
+    postService.addMediaEmbed(postId, document.getId());
+    return document;
   }
 
-  public Gallery createGallery(String name, List<MultipartFile> files) {
+  public Gallery createGallery(Long postId, String name, List<MultipartFile> files) {
     Gallery gallery = new Gallery();
     gallery.setName(name);
     gallery.setCreation(new Date());
 
     Gallery galleryRes = mediaRepository.save(gallery);
+    postService.addMediaEmbed(postId, galleryRes.getId());
     String baseUrl = "/tmp/gallery/";
 
     List<TempFile> tempFiles = new ArrayList<>();
@@ -209,7 +230,7 @@ public class MediaService {
 //    return mediaRepository.save(videoEmbed);
 //  }
 
-  public Video uploadVideo(String name, MultipartFile videoFile) {
+  public Video uploadVideo(Long postId, String name, MultipartFile videoFile) {
     String random = mediaUtils.randomName();
     String videoPath = String.format(
       "%s_%s.mp4",
@@ -217,13 +238,41 @@ public class MediaService {
       videoFile.getName()
     );
 
-    mediaUtils.saveFile(videoPath, videoFile);
-
     Video video = new Video();
     video.setCreation(new Date());
     video.setName(name);
     video.setUrl(mediaUtils.getPublicUrl(videoPath));
-    return mediaRepository.save(video);
+    video = mediaRepository.save(video);
+    Post post = postService.addMediaEmbed(postId, video.getId());
+
+    try {
+      // temporary store video before compressing it
+      Path copyVid = Files.createTempFile(name, ".tmp");
+      // the file should be deleted when the JVM exits to free space.
+      copyVid.toFile().deleteOnExit();
+      Files.copy(videoFile.getInputStream(), copyVid, StandardCopyOption.REPLACE_EXISTING);
+
+      CompletableFuture.runAsync(() -> {
+        try {
+          mediaUtils.compressVideo(copyVid, videoPath);
+          if (!copyVid.toFile().delete()) {
+            LOG.error("could not delete temp file");
+          }
+          post.setPublishState(PublishStateEnum.PUBLISHED);
+          postRepository.save(post);
+        } catch (IOException e) {
+          LOG.error("could not compress video", e);
+        }
+      });
+
+    } catch (IOException e) {
+      LOG.error("could not create temp video", e);
+      throw new FileException("could not create temp video");
+    }
+
+    //mediaUtils.saveFile(videoPath, videoFile);
+
+    return video;
   }
 
   public Gallery getGallery(Long id) {
@@ -267,8 +316,10 @@ public class MediaService {
     imageRepository.delete(images);
   }
 
-  public Image addImage(MultipartFile file) {
-    return mediaRepository.save(addImage(file, null));
+  public Image addImage(Long postId, MultipartFile file) {
+    Image image = mediaRepository.save(addImage(file, null));
+    postService.addMediaEmbed(postId, image.getId());
+    return image;
   }
 
   private Image addImage(MultipartFile file, Gallery gallery) {

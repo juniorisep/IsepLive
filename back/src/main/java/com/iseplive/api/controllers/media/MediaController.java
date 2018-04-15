@@ -48,14 +48,17 @@ public class MediaController {
 
   @PostMapping("/image")
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
-  public Image addStandaloneImage(@RequestParam("image") MultipartFile image) {
-    return mediaService.addImage(image);
+  public Image addStandaloneImage(@RequestParam("post") Long postId,
+                                  @RequestParam("image") MultipartFile image) {
+    return mediaService.addImage(postId, image);
   }
 
   @PostMapping("/video")
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
-  public Video uploadVideo(@RequestParam("name") String name, @RequestParam("video") MultipartFile video) {
-    return mediaService.uploadVideo(name, video);
+  public Video uploadVideo(@RequestParam("name") String name,
+                           @RequestParam("post") Long postId,
+                           @RequestParam("video") MultipartFile video) {
+    return mediaService.uploadVideo(postId, name, video);
   }
 
   @GetMapping("/image/{id}/tags")
@@ -86,8 +89,10 @@ public class MediaController {
 
   @PostMapping("/gallery")
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
-  public Gallery createGallery(@RequestParam("name") String name, @RequestParam("images[]") List<MultipartFile> images) {
-    return mediaService.createGallery(name, images);
+  public Gallery createGallery(@RequestParam("post") Long postId,
+                               @RequestParam("name") String name,
+                               @RequestParam("images[]") List<MultipartFile> images) {
+    return mediaService.createGallery(postId, name, images);
   }
 
   @GetMapping("/gallery/{id}")
@@ -131,20 +136,23 @@ public class MediaController {
 
   @PostMapping("/gazette")
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
-  public Gazette createGazette(@RequestParam("title") String title,
+  public Gazette createGazette(@RequestParam("post") Long postId,
+                               @RequestParam("title") String title,
                                @RequestParam("file") MultipartFile file,
                                @AuthenticationPrincipal TokenPayload auth) {
     Club club = clubService.getIsepLive();
     if (!auth.getClubsAdmin().contains(club.getId())) {
       throw new AuthException("you cannot create a gazette");
     }
-    return mediaService.createGazette(title, file);
+    return mediaService.createGazette(postId, title, file);
   }
 
   @PostMapping("/document")
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
-  public Document createDocument(@RequestParam("name") String name, @RequestParam("document") MultipartFile document) {
-    return mediaService.createDocument(name, document);
+  public Document createDocument(@RequestParam("post") Long postId,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("document") MultipartFile document) {
+    return mediaService.createDocument(postId, name, document);
   }
 
 //  @GetMapping(value = "/ressource/video/{filename:.+}", produces = "video/png", headers = "Accept-range: byte")

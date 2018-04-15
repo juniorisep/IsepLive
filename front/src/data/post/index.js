@@ -19,6 +19,10 @@ export function getPost(id: number): AxiosPromise<Post> {
   return axios.get(`/post/${id}`);
 }
 
+export function getWaitingPost(): AxiosPromise<Post[]> {
+  return axios.get('/post/waiting');
+}
+
 export function updatePost(id: number, form): AxiosPromise<Post> {
   return axios.put(`/post/${id}`, form);
 }
@@ -27,15 +31,24 @@ export function getComments(postId: number): AxiosPromise<Comment[]> {
   return axios.get(`/post/${postId}/comment`);
 }
 
-export function comment(postId: number, message: string): AxiosPromise<Comment> {
+export function comment(
+  postId: number,
+  message: string
+): AxiosPromise<Comment> {
   return axios.put(`/post/${postId}/comment`, { message });
 }
 
-export function deleteComment(postId: number, commId: number): AxiosPromise<void> {
+export function deleteComment(
+  postId: number,
+  commId: number
+): AxiosPromise<void> {
   return axios.delete(`/post/${postId}/comment/${commId}`);
 }
 
-export function toggleLikeComment(postId: number, comId: number): AxiosPromise<void> {
+export function toggleLikeComment(
+  postId: number,
+  comId: number
+): AxiosPromise<void> {
   return axios.put(`/post/${postId}/comment/${comId}/like`);
 }
 

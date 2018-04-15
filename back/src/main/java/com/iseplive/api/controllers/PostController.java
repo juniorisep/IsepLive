@@ -37,6 +37,12 @@ public class PostController {
   @Autowired
   AuthService authService;
 
+  @GetMapping("/waiting")
+  @RolesAllowed({ Roles.STUDENT })
+  public List<PostView> getWaitingPosts(@AuthenticationPrincipal TokenPayload token) {
+    return postService.getWaitingPosts(token);
+  }
+
   @GetMapping
   public Page<PostView> getPosts(@RequestParam(defaultValue = "0") int page) {
     if (authService.isUserAnonymous()) {

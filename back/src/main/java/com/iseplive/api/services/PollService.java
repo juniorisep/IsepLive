@@ -38,6 +38,9 @@ public class PollService {
   @Autowired
   AuthService authService;
 
+  @Autowired
+  PostService postService;
+
   public void addVote(Long pollId, Long pollAnswId, Long studentId) {
     Poll poll = getPoll(pollId);
 
@@ -68,13 +71,15 @@ public class PollService {
     return pollVoteRepository.findByAnswer_IdAndStudent_Id(answerId, userid) != null;
   }
 
-  public Poll createPoll(PollCreationDTO pollDTO) {
+  public Poll createPoll(Long postId, PollCreationDTO pollDTO) {
     // Create poll
     Poll poll = new Poll();
     poll.setName(pollDTO.getTitle());
     poll.setEndDate(pollDTO.getEndDate());
     poll.setMultiAnswers(pollDTO.getMultiAnswers());
     Poll saved = pollRepository.save(poll);
+
+    postService.addMediaEmbed(postId, saved.getId());
 
     // Add answers
     pollDTO.getAnswers().forEach(q -> {

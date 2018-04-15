@@ -5,11 +5,25 @@ import React, { Component } from 'react';
 import HomeView from './view';
 
 import * as postData from 'data/post';
+import type {
+  Post as PostType,
+  PostCreation as PostCreationType,
+} from '../../data/post/type';
 
-class Home extends Component {
+type State = {
+  posts: PostType[],
+  pinnedPosts: PostType[],
+  waitingPosts: PostType[],
+  page: number,
+  lastPage: boolean,
+  isLoading: boolean,
+};
+
+class Home extends Component<{}, State> {
   state = {
     posts: [],
     pinnedPosts: [],
+    waitingPosts: [],
     page: 0,
     lastPage: false,
     isLoading: true,
@@ -18,6 +32,7 @@ class Home extends Component {
   componentDidMount() {
     this.getPosts();
     this.getPinnedPosts();
+    this.getWaitingPosts();
     document.addEventListener('new-post', this.refreshPosts.bind(this));
   }
 
@@ -34,9 +49,14 @@ class Home extends Component {
         isLoading: false,
         posts: this.state.posts.concat(res.data.content),
         page: this.state.page + 1,
-        lastPage: res.data.last
+        lastPage: res.data.last,
       });
     });
+  }
+
+  async getWaitingPosts() {
+    const postsRes = await postData.getWaitingPost();
+    this.setState({ waitingPosts: postsRes.data });
   }
 
   getPinnedPosts = async () => {
@@ -53,10 +73,11 @@ class Home extends Component {
       this.setState({
         posts: res.data.content,
         page: 1,
-        lastPage: res.data.last
+        lastPage: res.data.last,
       });
     });
     this.getPinnedPosts();
+    this.getWaitingPosts();
   };
 
   render() {
@@ -64,6 +85,7 @@ class Home extends Component {
       <HomeView
         posts={this.state.posts}
         pinnedPosts={this.state.pinnedPosts}
+        waitingPosts={this.state.waitingPosts}
         lastPage={this.state.lastPage}
         onSeeMore={this.seeMore}
         refreshPosts={this.refreshPosts}

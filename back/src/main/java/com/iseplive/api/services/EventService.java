@@ -33,12 +33,15 @@ public class EventService {
   @Autowired
   MediaUtils mediaUtils;
 
+  @Autowired
+  PostService postService;
+
   @Value("${storage.event.url}")
   String eventBaseUrl;
 
   private final int WIDTH_EVENT_IMAGE = 1024;
 
-  public Event createEvent(MultipartFile image, EventDTO dto, TokenPayload auth) {
+  public Event createEvent(Long postId, MultipartFile image, EventDTO dto, TokenPayload auth) {
     Event event = eventFactory.dtoToEntity(dto);
     Club club = clubService.getClub(dto.getClubId());
     if (club == null) {
@@ -49,7 +52,9 @@ public class EventService {
     String eventPath = createImageEvent(image);
 
     event.setImageUrl(mediaUtils.getPublicUrlImage(eventPath));
-    return eventRepository.save(event);
+    event = eventRepository.save(event);
+    postService.addMediaEmbed(postId, event.getId());
+    return event;
   }
 
   private String createImageEvent(MultipartFile image) {

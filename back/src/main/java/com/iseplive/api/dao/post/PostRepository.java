@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,4 +35,5 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
   Page<Post> findByAuthorIdAndIsPrivateOrderByCreationDateDesc(Long author_id, Boolean isPrivate, Pageable pageable);
 
+  List<Post> findByPublishStateAndAuthor_IdInOrderByCreationDateDesc(PublishStateEnum publishState, Collection<Long> author_ids);
 }

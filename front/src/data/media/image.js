@@ -5,14 +5,24 @@ import type { AxiosPromise } from 'axios';
 
 import type { Image, Gallery, Match } from './type';
 
-export function createImage(file: File, onUploadProgress): AxiosPromise<Image> {
+export function createImage(
+  postId: number,
+  file: File,
+  onUploadProgress
+): AxiosPromise<Image> {
   var data = new FormData();
+  data.append('post', String(postId));
   data.append('image', file);
   return axios.post('/media/image', data, { onUploadProgress });
 }
 
-export function createGallery(form, onUploadProgress): AxiosPromise<Gallery> {
+export function createGallery(
+  postId: number,
+  form,
+  onUploadProgress
+): AxiosPromise<Gallery> {
   var data = new FormData();
+  data.append('post', String(postId));
   data.append('name', form.title);
   for (var i = 0; i < form.images.length; i++) {
     data.append('images[]', form.images[i]);
@@ -28,11 +38,17 @@ export function getGalleryImages(id: number): AxiosPromise<Image[]> {
   return axios.get(`/media/gallery/${id}/images`);
 }
 
-export function matchStudent(photoId: number, studId: number): AxiosPromise<void> {
+export function matchStudent(
+  photoId: number,
+  studId: number
+): AxiosPromise<void> {
   return axios.put(`/media/image/${photoId}/match/${studId}/tag`);
 }
 
-export function unmatchStudent(photoId: number, studId: number): AxiosPromise<void> {
+export function unmatchStudent(
+  photoId: number,
+  studId: number
+): AxiosPromise<void> {
   return axios.put(`/media/image/${photoId}/match/${studId}/untag`);
 }
 
@@ -40,11 +56,17 @@ export function getImageTags(id: number): AxiosPromise<Match[]> {
   return axios.get(`/media/image/${id}/tags`);
 }
 
-export function deleteImages(galleryId: number, imageids: number[]): AxiosPromise<void> {
+export function deleteImages(
+  galleryId: number,
+  imageids: number[]
+): AxiosPromise<void> {
   return axios.put(`/media/gallery/${galleryId}/images/remove`, imageids);
 }
 
-export function addImages(galleryId: number, images: File[]): AxiosPromise<void> {
+export function addImages(
+  galleryId: number,
+  images: File[]
+): AxiosPromise<void> {
   const form = new FormData();
   for (var i = 0; i < images.length; i++) {
     form.append('images[]', images[i]);

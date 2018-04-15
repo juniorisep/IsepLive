@@ -214,6 +214,33 @@ public class MediaUtils {
     }
   }
 
+  public void compressVideo(Path file, String videoPath) throws IOException {
+    String inputPath = file.toString();
+    LOG.info("writing file {} to {}", inputPath, getPath(videoPath));
+    String videoCodec = "h264";
+    String audioCodec = "aac";
+    Process p = Runtime.getRuntime().exec(
+      String.format(
+        "ffmpeg -i %s -vf scale=-1:720 -vcodec %s -acodec %s %s",
+        inputPath,
+        videoCodec,
+        audioCodec,
+        getPath(videoPath)
+      )
+    );
+
+    try {
+      int exitCode = p.waitFor();
+      if (exitCode != 0) {
+        LOG.error("an error occured during compression");
+        throw new IOException("an ffmpeg error occured: exit code " + exitCode);
+      }
+      LOG.info("compression ended");
+    } catch (InterruptedException e) {
+      LOG.error("could not complete video compression for file {}", videoPath, e);
+    }
+  }
+
 
   public String getBaseUrl() {
     return baseUrl;

@@ -88,6 +88,11 @@ function SendAs(props) {
   );
 }
 
+type MediaChoice = {
+  id: string,
+  name: string,
+};
+
 const mediaAvailable = [
   {
     id: 'poll',
@@ -111,7 +116,9 @@ const mediaAvailable = [
   // },
 ];
 
-type PublishBoxProps = {};
+type PublishBoxProps = {
+  refreshPosts: () => mixed,
+};
 
 type CustomAuthorType = {
   id: number,
@@ -132,7 +139,7 @@ type PublishBoxState = {
   authorList: CustomAuthorType[],
   mediaCreatorOpen: boolean,
   form: ?FormType,
-  mediaSelected: ?MediaType,
+  mediaSelected: ?MediaChoice,
   isUploading: boolean,
   uploadMode: string,
   uploadProgress: number,
@@ -211,7 +218,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     this.setState({ isPrivateMessage: !this.state.isPrivateMessage });
   };
 
-  async publishPost() {
+  async createPost(): Promise<?number> {
     if (!this.state.author) return;
 
     const dto: PostCreationType = {
@@ -222,12 +229,13 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     };
 
     const postRes = await postData.createPost(dto);
-    await postData.publishPost(postRes.data.id);
+    // await postData.publishPost(postRes.data.id);
 
     return postRes.data.id;
   }
 
-  handleErrors = err => {
+  handleErrors = (err?: Error) => {
+    this.setState({ isUploading: false });
     sendAlert("Le post n'a pu être publié", 'error');
   };
 
@@ -241,8 +249,15 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
       let mediaRes, postResId;
 
       try {
-        mediaRes = await this.createMedia();
-        postResId = await this.publishPost();
+        // create post in WAITING state
+        postResId = await this.createPost();
+      } catch (error) {
+        this.handleErrors(error);
+      }
+
+      try {
+        // upload media and save entity
+        mediaRes = await this.createMedia(postResId);
       } catch (error) {
         this.handleErrors(error);
       }
@@ -252,7 +267,12 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
         return;
       }
 
-      await postData.addMedia(postResId, mediaRes.data.id);
+      // link media to post
+      //await postData.addMedia(postResId, mediaRes.data.id);
+      if (this.state.mediaSelected.id !== 'video') {
+        // set post state to PUBLISHED
+        await postData.publishPost(postResId);
+      }
       this.closeMediaCreator();
 
       sendAlert('Post publié');
@@ -264,7 +284,12 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     }
 
     try {
-      const postRes = await this.publishPost();
+      // create post without media
+      const postId = await this.createPost();
+      if (postId) {
+        // set post state to PUBLISHED
+        await postData.publishPost(postId);
+      }
       sendAlert('Post publié');
       localStorage.removeItem('saved-message');
 
@@ -320,7 +345,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
   onProgress = progressEvent => {
     if (this.state.isUploading) {
       const percent = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total,
+        progressEvent.loaded * 100 / progressEvent.total
       );
       console.log('progress', percent);
       if (percent === 100) {
@@ -362,24 +387,36 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     return mediaAvailable;
   }
 
-  createMedia = () => {
+  createMedia = (postId: number) => {
     switch (this.state.mediaSelected.id) {
       case 'poll':
-        return pollData.createPoll(this.state.form);
+        return pollData.createPoll(postId, this.state.form);
       case 'image':
-        return imageData.createImage(this.state.form.file, this.onProgress);
-      case 'videoEmbed':
-        return videoData.createVideoEmbed(this.state.form);
+        return imageData.createImage(
+          postId,
+          this.state.form.file,
+          this.onProgress
+        );
+      // case 'videoEmbed':
+      //   return videoData.createVideoEmbed(this.state.form);
       case 'video':
-        return videoData.createVideo(this.state.form, this.onProgress);
+        return videoData.createVideo(postId, this.state.form, this.onProgress);
       case 'gallery':
-        return imageData.createGallery(this.state.form, this.onProgress);
+        return imageData.createGallery(
+          postId,
+          this.state.form,
+          this.onProgress
+        );
       case 'event':
-        return mediaData.createEvent(this.state.form, this.state.author.id);
+        return mediaData.createEvent(
+          postId,
+          this.state.form,
+          this.state.author.id
+        );
       case 'document':
-        return mediaData.createDocument(this.state.form);
+        return mediaData.createDocument(postId, this.state.form);
       case 'gazette':
-        return mediaData.createGazette(this.state.form);
+        return mediaData.createGazette(postId, this.state.form);
       default:
         break;
     }

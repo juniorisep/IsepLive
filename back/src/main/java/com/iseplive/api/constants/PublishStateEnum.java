@@ -6,7 +6,7 @@ package com.iseplive.api.constants;
  */
 public enum PublishStateEnum {
   /**
-   * Item not published yer
+   * Item not published yet
    */
   WAITING,
 

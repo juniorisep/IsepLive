@@ -5,8 +5,8 @@ import type { AxiosPromise } from 'axios';
 
 import type { Poll, Answer } from './type';
 
-export function createPoll(poll: Poll): AxiosPromise<Poll> {
-  return axios.post('/poll', poll);
+export function createPoll(postId: number, poll: Poll): AxiosPromise<Poll> {
+  return axios.post(`/poll?post=${postId}`, poll);
 }
 
 export function getPoll(id: number): AxiosPromise<Poll> {

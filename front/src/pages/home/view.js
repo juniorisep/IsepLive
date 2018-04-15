@@ -22,6 +22,7 @@ import Auth from 'components/Auth/AuthComponent';
 import BookmarkIcon from 'material-ui-icons/Bookmark';
 import SubjectIcon from 'material-ui-icons/Subject';
 import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
+import ScheduleIcon from 'material-ui-icons/Schedule';
 
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';
@@ -90,6 +91,28 @@ export default function Home(props) {
           <PostSection>
             <Loader loading={props.isLoading}>
               <div>
+                {props.waitingPosts.length > 0 && (
+                  <div>
+                    <Flex align="center">
+                      <Box mr="20px">
+                        <CircleIcon>
+                          <ScheduleIcon style={{ color: SECONDARY_COLOR }} />
+                        </CircleIcon>
+                      </Box>
+                      <Box>
+                        <Title invert mb="0" fontSize={2}>
+                          En attente
+                        </Title>
+                      </Box>
+                    </Flex>
+                    <PostListView
+                      canPin
+                      posts={props.waitingPosts}
+                      refreshPosts={props.refreshPosts}
+                    />
+                    <Filler h={50} />
+                  </div>
+                )}
                 {props.pinnedPosts.length > 0 && (
                   <div>
                     <Flex align="center">

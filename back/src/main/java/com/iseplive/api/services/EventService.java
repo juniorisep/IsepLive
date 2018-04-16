@@ -1,6 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.event.EventFactory;
 import com.iseplive.api.dao.event.EventRepository;
 import com.iseplive.api.dto.media.EventDTO;
@@ -54,6 +55,7 @@ public class EventService {
     event.setImageUrl(mediaUtils.getPublicUrlImage(eventPath));
     event = eventRepository.save(event);
     postService.addMediaEmbed(postId, event.getId());
+    postService.setPublishState(postId, PublishStateEnum.PUBLISHED);
     return event;
   }
 

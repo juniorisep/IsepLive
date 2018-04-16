@@ -26,8 +26,7 @@ import * as roles from '../../constants';
 
 import type { Club as ClubType } from '../../data/users/type';
 
-
-const ClubTile = (props) => {
+const ClubTile = props => {
   const ClubStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -52,16 +51,15 @@ const ClubTile = (props) => {
 type State = {
   open: boolean,
   search: string,
-}
+};
 
 type Props = {
   clubs: ClubType[],
   loading: boolean,
   addClub: (s: any) => Promise<any>,
-}
+};
 
 export default class Club extends Component<Props, State> {
-
   static defaultProps = {
     clubs: [],
     loading: false,
@@ -74,17 +72,17 @@ export default class Club extends Component<Props, State> {
 
   handleRequestClose = () => {
     this.setState({ open: false });
-  }
+  };
 
   handleSearch = (event: any) => {
     this.setState({ search: event.target.value });
-  }
+  };
 
   getClubs() {
     const { search } = this.state;
-    return this.props.clubs
-      .filter(c => c.name.toLowerCase()
-        .indexOf(search.toLowerCase()) !== -1);
+    return this.props.clubs.filter(
+      c => c.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
+    );
   }
 
   render() {
@@ -98,14 +96,27 @@ export default class Club extends Component<Props, State> {
             <p>Participez à la vie étudiante de l'ISEP</p>
           </Banner>
           <FluidContent p="0">
-            <SearchBar type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" placeholder="Rechercher des associations" onChange={this.handleSearch} />
+            <SearchBar
+              type="text"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              placeholder="Rechercher des associations"
+              onChange={this.handleSearch}
+            />
           </FluidContent>
         </Header>
         <FluidContent>
           <Auth roles={[roles.ADMIN, roles.CLUB_MANAGER]}>
             <Flex>
               <Box ml="auto">
-                <Button variant="fab" color="primary" aria-label="add" onClick={() => this.setState({ open: true })}>
+                <Button
+                  variant="fab"
+                  color="primary"
+                  aria-label="add"
+                  onClick={() => this.setState({ open: true })}
+                >
                   <AddIcon />
                 </Button>
               </Box>
@@ -118,24 +129,23 @@ export default class Club extends Component<Props, State> {
             </Flex>
           </Auth>
           <Loader loading={loading}>
-            {
-              this.props.clubs.length === 0 &&
-              <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
+            {this.props.clubs.length === 0 && (
+              <div
+                style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}
+              >
                 <Text fs="2em">Aucune association</Text>
               </div>
-            }
-            <Flex wrap style={{ minHeight: 300 }} >
-              {
-                this.getClubs().map(e => {
-                  return (
-                    <Box key={e.id} w={[1, 1 / 3, 1 / 4]} p={2}>
-                      <Link to={`/associations/${e.id}`}>
-                        <ClubTile url={e.logoUrl} name={e.name} />
-                      </Link>
-                    </Box>
-                  );
-                })
-              }
+            )}
+            <Flex flexWrap="wrap" style={{ minHeight: 300 }}>
+              {this.getClubs().map(e => {
+                return (
+                  <Box key={e.id} w={[1, 1 / 3, 1 / 4]} p={2}>
+                    <Link to={`/associations/${e.id}`}>
+                      <ClubTile url={e.logoUrl} name={e.name} />
+                    </Link>
+                  </Box>
+                );
+              })}
             </Flex>
           </Loader>
         </FluidContent>

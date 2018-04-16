@@ -269,10 +269,10 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
 
       // link media to post
       //await postData.addMedia(postResId, mediaRes.data.id);
-      if (this.state.mediaSelected.id !== 'video') {
-        // set post state to PUBLISHED
-        await postData.publishPost(postResId);
-      }
+      // if (.includes(this.state.mediaSelected.id)) {
+      // set post state to PUBLISHED
+      // await postData.publishPost(postResId);
+      // }
       this.closeMediaCreator();
 
       sendAlert('Post publié');

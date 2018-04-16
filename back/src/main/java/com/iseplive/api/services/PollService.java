@@ -1,6 +1,7 @@
 package com.iseplive.api.services;
 
 import com.iseplive.api.conf.jwt.TokenPayload;
+import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.poll.PollAnswerRepository;
 import com.iseplive.api.dao.poll.PollRepository;
 import com.iseplive.api.dao.poll.PollVoteRepository;
@@ -88,6 +89,8 @@ public class PollService {
       pollAnswer.setContent(q);
       pollAnswerRepository.save(pollAnswer);
     });
+
+    postService.setPublishState(postId, PublishStateEnum.PUBLISHED);
     return pollRepository.findOne(saved.getId());
   }
 

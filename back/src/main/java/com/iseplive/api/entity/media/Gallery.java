@@ -21,7 +21,7 @@ public class Gallery extends Media {
 
   private String name;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "gallery")
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "gallery")
   private List<Image> images = new ArrayList<>();
 
   @Override

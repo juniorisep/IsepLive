@@ -50,7 +50,7 @@ public class MediaController {
   @RolesAllowed({Roles.ADMIN, Roles.POST_MANAGER, Roles.STUDENT})
   public Image addStandaloneImage(@RequestParam("post") Long postId,
                                   @RequestParam("image") MultipartFile image) {
-    return mediaService.addImage(postId, image);
+    return mediaService.addSingleImage(postId, image);
   }
 
   @PostMapping("/video")
@@ -130,7 +130,7 @@ public class MediaController {
         throw new AuthException("you cannot edit this gallery");
       }
     }
-    mediaService.deleteImagesGallery(images);
+    mediaService.deleteImagesGallery(id, images);
   }
 
 

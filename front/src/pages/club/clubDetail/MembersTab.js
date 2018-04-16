@@ -7,12 +7,12 @@ import { Box, Flex } from 'grid-styled';
 
 import { Link } from 'react-router-dom';
 
-import { ProfileImage, Text, } from 'components/common';
+import { ProfileImage, Text } from 'components/common';
 import Loader from 'components/Loader';
 import * as clubData from '../../../data/club';
 import * as authData from '../../../data/auth';
 
-const Member = (props) => {
+const Member = props => {
   const MemberStyle = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 
@@ -51,34 +51,31 @@ const Member = (props) => {
 export default function MembersTab(props) {
   return (
     <Loader loading={props.loading}>
-      <Flex wrap style={{ minHeight: 400 }}>
+      <Flex flexWrap="wrap" style={{ minHeight: 400 }}>
         {props.members.length === 0 && <Text>Aucun membre</Text>}
-        {
-          props.members.map(m => {
-            return (
-              <Box key={m.id} w={[1, 1 / 3, 1 / 5]} p={2}>
-                {
-                  authData.isLoggedIn() ?
-                    <Link to={`/annuaire/${m.member.id}`}>
-                      <Member
-                        url={m.member.photoUrlThumb}
-                        name={m.member.firstname + ' ' + m.member.lastname}
-                        role={clubData.getClubRoleName(m.role.name)}
-                        promotion={m.member.promo}
-                      />
-                    </Link>
-                    :
-                    <Member
-                      url={m.member.photoUrlThumb}
-                      name={m.member.firstname + ' ' + m.member.lastname}
-                      role={clubData.getClubRoleName(m.role.name)}
-                      promotion={m.member.promo}
-                    />
-                }
-              </Box>
-            );
-          })
-        }
+        {props.members.map(m => {
+          return (
+            <Box key={m.id} w={[1, 1 / 3, 1 / 5]} p={2}>
+              {authData.isLoggedIn() ? (
+                <Link to={`/annuaire/${m.member.id}`}>
+                  <Member
+                    url={m.member.photoUrlThumb}
+                    name={m.member.firstname + ' ' + m.member.lastname}
+                    role={clubData.getClubRoleName(m.role.name)}
+                    promotion={m.member.promo}
+                  />
+                </Link>
+              ) : (
+                <Member
+                  url={m.member.photoUrlThumb}
+                  name={m.member.firstname + ' ' + m.member.lastname}
+                  role={clubData.getClubRoleName(m.role.name)}
+                  promotion={m.member.promo}
+                />
+              )}
+            </Box>
+          );
+        })}
       </Flex>
     </Loader>
   );

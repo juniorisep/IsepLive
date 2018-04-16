@@ -264,7 +264,7 @@ export default class GalleryPage extends React.Component<{}, State> {
                       }}
                       btnProps={{
                         variant: 'raised',
-                        color: 'accent',
+                        color: 'secondary',
                         disabled: isAdding,
                       }}
                       onFile={this.addPhotos}
@@ -281,7 +281,7 @@ export default class GalleryPage extends React.Component<{}, State> {
                   </Box>
                 </Flex>
               )}
-              <Flex wrap style={{ marginTop: 30 }}>
+              <Flex flexWrap="wrap" style={{ marginTop: 30 }}>
                 {images.map((img, index) => {
                   return (
                     <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 5]} p={1}>

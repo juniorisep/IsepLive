@@ -70,7 +70,7 @@ class HallOfFame extends Component {
           </div>
           <Title fontSize={1.3} invert>Tous les héros ne portent pas de capes</Title>
 
-          <Flex wrap align="center">
+          <Flex flexWrap="wrap" align="center">
             <Box p={2} width={[1, 1 / 4]}>
               <BgImageStyle>
                 <img alt="raptor-jesus" src="/img/alloffame/RaptorJesus.jpg" />

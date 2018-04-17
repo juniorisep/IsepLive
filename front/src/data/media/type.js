@@ -4,7 +4,7 @@ import type { Student } from '../users/type';
 import type { Club } from '../users/type';
 
 type EventValue = {
-  mediaType: 'event',  
+  mediaType: 'event',
   title: string,
   location: string,
   date: Date,
@@ -16,7 +16,7 @@ type EventValue = {
 export type Event = MediaValue & EventValue;
 
 type PollValue = {
-  mediaType: 'poll',  
+  mediaType: 'poll',
   title: string,
   answers: Array<string>,
   isMultiAnswers: boolean,
@@ -27,26 +27,26 @@ export type Poll = MediaValue & PollValue;
 
 export type Answer = {
   id: number,
-}
+};
 
-type VideoEmbedType = "YOUTUBE" | "FACEBOOK";
+type VideoEmbedType = 'YOUTUBE' | 'FACEBOOK';
 
 export type VideoEmbed = {
-  mediaType: 'videoEmbed',  
+  mediaType: 'videoEmbed',
   type: VideoEmbedType,
   url: string,
 };
 
 type VideoValue = {
-  mediaType: 'video',  
+  mediaType: 'video',
   name: string,
-  video: File,
+  url: string,
+  poster: string,
 };
 export type Video = MediaValue & VideoValue;
 
-
 type ImageValue = {
-  mediaType: 'image',  
+  mediaType: 'image',
   thumbUrl: string,
   fullSizeUrl: string,
   originalUrl: string,
@@ -70,14 +70,14 @@ type GalleryValue = {
 export type Gallery = MediaValue & GalleryValue;
 
 type GazetteValue = {
-  mediaType: 'gazette',  
+  mediaType: 'gazette',
   title: string,
   url: string,
 };
 export type Gazette = MediaValue & GazetteValue;
 
 type DocumentValue = {
-  mediaType: 'document',  
+  mediaType: 'document',
   name: string,
   path: string,
   originalName: string,
@@ -89,4 +89,13 @@ type MediaValue = {
   creation: Date,
 };
 
-export type Media = MediaValue & (GalleryValue | ImageValue | EventValue | DocumentValue | GazetteValue | PollValue | VideoValue);
+export type Media = MediaValue &
+  (
+    | GalleryValue
+    | ImageValue
+    | EventValue
+    | DocumentValue
+    | GazetteValue
+    | PollValue
+    | VideoValue
+  );

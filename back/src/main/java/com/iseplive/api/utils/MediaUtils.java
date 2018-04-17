@@ -241,6 +241,28 @@ public class MediaUtils {
     }
   }
 
+  public void generateVideoThumbnail(Path file, String thumbnailPath) throws IOException {
+    String inputPath = file.toString();
+    LOG.info("writing file {} to {}", inputPath, getPath(thumbnailPath));
+    Process p = Runtime.getRuntime().exec(
+      String.format(
+        "ffmpeg -i %s -ss 00:00:02 -vframes 1 -vf scale=-1:720 %s",
+        inputPath,
+        getPath(thumbnailPath)
+      )
+    );
+
+    try {
+      int exitCode = p.waitFor();
+      if (exitCode != 0) {
+        LOG.error("an error occured during thumbnail generation");
+        throw new IOException("an ffmpeg error occured: exit code " + exitCode);
+      }
+    } catch (InterruptedException e) {
+      LOG.error("could not complete thumbnail generation for file {}", thumbnailPath, e);
+    }
+  }
+
 
   public String getBaseUrl() {
     return baseUrl;

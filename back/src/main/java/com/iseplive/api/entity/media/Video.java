@@ -13,9 +13,13 @@ import java.util.Date;
 @Entity
 @DiscriminatorValue(MediaType.VIDEO)
 public class Video extends Media {
-  private String url;
   private String name;
+
+  private String url;
+  private String poster;
+
   private Integer views = 0;
+
 
   @Override
   public void setCreation(Date creation) {
@@ -46,4 +50,11 @@ public class Video extends Media {
     this.views = views;
   }
 
+  public String getPoster() {
+    return poster;
+  }
+
+  public void setPoster(String poster) {
+    this.poster = poster;
+  }
 }

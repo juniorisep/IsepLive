@@ -188,11 +188,17 @@ public class MediaService {
       videoFile.getName()
     );
 
+    String thumbnailPath = String.format(
+      "%s_%s.png",
+      mediaUtils.resolvePath(videoDir, random, false),
+      videoFile.getName()
+    );
+
     Video video = new Video();
     video.setCreation(new Date());
     video.setName(name);
     video.setUrl(mediaUtils.getPublicUrl(videoPath));
-    video = mediaRepository.save(video);
+    Video savedVideo = mediaRepository.save(video);
     Post post = postService.addMediaEmbed(postId, video.getId());
 
     try {
@@ -204,14 +210,21 @@ public class MediaService {
 
       CompletableFuture.runAsync(() -> {
         try {
+          // generate thumbnail from video
+          mediaUtils.generateVideoThumbnail(copyVid, thumbnailPath);
+          savedVideo.setPoster(mediaUtils.getPublicUrl(thumbnailPath));
+          mediaRepository.save(savedVideo);
+
+          // then compress video
           mediaUtils.compressVideo(copyVid, videoPath);
           if (!copyVid.toFile().delete()) {
             LOG.error("could not delete temp file");
           }
+
           post.setPublishState(PublishStateEnum.PUBLISHED);
           postRepository.save(post);
         } catch (IOException e) {
-          LOG.error("could not compress video", e);
+          LOG.error("could not compress video and generate thumbnail", e);
         }
       });
 
@@ -222,7 +235,7 @@ public class MediaService {
 
     //mediaUtils.saveFile(videoPath, videoFile);
 
-    return video;
+    return savedVideo;
   }
 
   /**

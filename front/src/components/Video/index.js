@@ -147,8 +147,9 @@ function pad(n, width) {
 }
 
 type Props = {
-  poster?: string,
   source: string,
+  poster?: string,
+  preload?: string,
 };
 
 type State = {
@@ -269,7 +270,12 @@ class Video extends Component<Props, State> {
     const props = this.props;
     return (
       <Wrapper onMouseOver={this.onHover} onMouseLeave={this.onMouseLeave}>
-        <video poster={props.poster} ref={v => (this.video = v)} controls>
+        <video
+          poster={props.poster && backUrl + props.poster}
+          ref={v => (this.video = v)}
+          controls
+          preload={props.preload || 'auto'}
+        >
           <source src={backUrl + props.source} type="video/mp4" />
         </video>
         {!this.state.started && (

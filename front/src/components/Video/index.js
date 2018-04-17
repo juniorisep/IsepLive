@@ -146,10 +146,19 @@ function pad(n, width) {
   return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
 }
 
+const LargePlayBtn = props => (
+  <img
+    style={{ width: props.huge ? 140 : 90, cursor: 'pointer' }}
+    src="/img/svg/play.svg"
+    alt="play"
+  />
+);
+
 type Props = {
   source: string,
   poster?: string,
   preload?: string,
+  hugePlayButton?: boolean,
 };
 
 type State = {
@@ -279,7 +288,13 @@ class Video extends Component<Props, State> {
           <source src={backUrl + props.source} type="video/mp4" />
         </video>
         {!this.state.started && (
-          <Abs style={{ justifyContent: 'center' }}>
+          <Abs
+            style={{
+              justifyContent: 'center',
+              // opacity: 0.9,
+              // background: `linear-gradient(to bottom right, ${MAIN_COLOR}, ${SECONDARY_COLOR})`,
+            }}
+          >
             <div
               onClick={() => {
                 this.togglePlay();
@@ -288,6 +303,7 @@ class Video extends Component<Props, State> {
                 });
               }}
             >
+              {/* <LargePlayBtn huge={this.props.hugePlayButton} /> */}
               <PlayIcon
                 style={{
                   color: SECONDARY_COLOR,

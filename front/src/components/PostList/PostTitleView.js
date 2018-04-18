@@ -12,6 +12,13 @@ import * as authData from '../../data/auth';
 import Time from '../Time';
 import Author from '../Author';
 
+const DynamicTitle = Title.extend`
+  padding-right: 10px;
+  @media (max-width: 400px) {
+    font-size: 1.1em;
+  }
+`;
+
 export default function PostTitleView({ post }) {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
   if (post.author.authorType === 'student') {
@@ -21,15 +28,20 @@ export default function PostTitleView({ post }) {
           <ProfileImage src={post.author.photoUrl} sz="40px" />
         </Box>
         <Box>
-          {
-            authData.isLoggedIn() ?
-              <Link to={`/annuaire/${post.author.id}`}>
-                <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
-              </Link>
-              :
-              <Title fontSize={1} invert>{post.author.firstname} {post.author.lastname}</Title>
-          }
-          <Subtitle>Publié le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
+          {authData.isLoggedIn() ? (
+            <Link to={`/annuaire/${post.author.id}`}>
+              <Title fontSize={1} invert>
+                {post.author.firstname} {post.author.lastname}
+              </Title>
+            </Link>
+          ) : (
+            <Title fontSize={1} invert>
+              {post.author.firstname} {post.author.lastname}
+            </Title>
+          )}
+          <Subtitle>
+            Publié le <Time date={post.creationDate} format={dateFormat} />
+          </Subtitle>
         </Box>
       </Flex>
     );
@@ -37,11 +49,14 @@ export default function PostTitleView({ post }) {
   return (
     <Flex mb="10px">
       <Box>
-        {
-          post.title &&
-          <Title fontSize={2} invert>{post.title}</Title>
-        }
-        <Subtitle>Publié le <Time date={post.creationDate} format={dateFormat} /></Subtitle>
+        {post.title && (
+          <DynamicTitle fontSize={2} invert>
+            {post.title}
+          </DynamicTitle>
+        )}
+        <Subtitle>
+          Publié le <Time date={post.creationDate} format={dateFormat} />
+        </Subtitle>
       </Box>
       <Box ml="auto">
         <Author data={post.author} />

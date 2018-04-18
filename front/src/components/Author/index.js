@@ -15,24 +15,33 @@ const Sub = styled.div`
   margin-top: 10px;
 `;
 
-
 export default function Author(props) {
-  const a = props.data;
-  switch (a.authorType) {
+  const user = props.data;
+  switch (user.authorType) {
     case 'club':
       return (
-        <Link to={`/associations/${a.id}`}>
+        <Link to={`/associations/${user.id}`}>
           <Flex flexDirection="column">
-            <Image src={a.logoUrl} alt="logo-club" w="60px" h="60px" ml="auto" />
-            <Sub>{a.name}</Sub>
+            <Image
+              src={user.logoUrl}
+              alt="logo-club"
+              w="60px"
+              h="60px"
+              ml="auto"
+            />
+            <Sub>{user.name}</Sub>
           </Flex>
         </Link>
       );
     case 'student':
       return (
         <Flex flexDirection="column">
-          <ProfileImage src={a.photoUrlThumb} sz="40px" ml="auto" />
-          <Sub>{a.firstname}<br />{a.lastname}</Sub>
+          <ProfileImage src={user.photoUrlThumb} sz="40px" ml="auto" />
+          <Sub>
+            {user.firstname}
+            <br />
+            {user.lastname}
+          </Sub>
         </Flex>
       );
     default:

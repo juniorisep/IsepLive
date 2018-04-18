@@ -23,6 +23,7 @@ const pollBtnStyle = {
   right: 0,
   bottom: 0,
   margin: 20,
+  zIndex: 10,
 };
 
 type State = {

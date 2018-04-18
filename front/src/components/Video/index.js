@@ -186,11 +186,15 @@ class Video extends Component<Props, State> {
     if (this.video && this.video.canPlayType) {
       this.video.controls = false;
       this.video.addEventListener('loadedmetadata', () => {
-        this.setState({ vidLength: this.video.duration });
+        if (this.video) {
+          this.setState({ vidLength: this.video.duration });
+        }
       });
 
       this.video.addEventListener('timeupdate', () => {
-        this.setState({ currentTime: this.video.currentTime });
+        if (this.video) {
+          this.setState({ currentTime: this.video.currentTime });
+        }
       });
 
       this.video.addEventListener('ended', () => {

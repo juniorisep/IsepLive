@@ -26,20 +26,21 @@ import * as roles from '../../constants';
 
 import type { Club as ClubType } from '../../data/users/type';
 
-const ClubTile = props => {
-  const ClubStyle = styled.div`
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
+const ClubStyle = styled.div`
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
 
-    > p {
-      padding: 10px;
-      margin: 0;
-      text-align: center;
-      font-size: 1.2em;
-      font-weight: 500;
-      color: ${props => props.theme.main};
-    }
-  `;
+  > p {
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: ${props => props.theme.main};
+  }
+`;
+
+const ClubTile = props => {
   return (
     <ClubStyle>
       <BgImage src={props.url} mh="200px" />

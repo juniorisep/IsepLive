@@ -43,11 +43,11 @@ const theme = createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      main: indigo[500],
+      main: MAIN_COLOR, //indigo[500],
     },
     secondary: {
-      main: amber[500],
-      contrastText: indigo[500],
+      main: SECONDARY_COLOR, //amber[500],
+      contrastText: MAIN_COLOR, //indigo[500],
     },
     error: red,
 

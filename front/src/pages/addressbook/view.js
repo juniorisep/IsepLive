@@ -40,23 +40,26 @@ const BadgeYear = styled.div`
   color: white;
 `;
 
+const MainText = styled.div`
+  padding: 10px;
+  color: ${p => p.theme.accent};
+  font-weight: bold;
+  p {
+    margin: 0;
+    vertical-align: middle;
+  }
+  p.name {
+    margin-bottom: 5px;
+    font-size: 1.1em;
+    color: ${p => p.theme.main};
+  }
+`;
+
 const Person = props => {
-  const MainText = styled.div`
-    padding: 10px;
-    color: ${props => props.theme.main};
-    p {
-      margin: 0;
-      vertical-align: middle;
-    }
-    p.name {
-      font-weight: 500;
-      margin-bottom: 5px;
-    }
-  `;
   const promo = getPromo(props.promotion);
   return (
-    <div style={{ boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)' }}>
-      <ProfileImage src={props.url} sz="100%" mh="200px" />
+    <div style={{ boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)', height: '100%' }}>
+      <ProfileImage src={props.url} h="150px" mh="200px" />
       <MainText>
         <p className="name">{props.name}</p>
         <div>

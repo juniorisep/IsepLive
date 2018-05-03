@@ -5,6 +5,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Box } from 'grid-styled';
 
+import LazyLoad from 'react-lazyload';
+
 import { NavLink } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
@@ -45,7 +47,7 @@ export const Post = styled.li`
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
-  flex-direction: ${props => props.invert ? 'row-reverse' : 'row'};
+  flex-direction: ${props => (props.invert ? 'row-reverse' : 'row')};
 
   @media (max-width: 40em) {
     flex-direction: column;
@@ -53,9 +55,11 @@ export const Post = styled.li`
 `;
 
 export const PostText = Box.extend`
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  padding-bottom: 70px;
-  position: relative;
+  /* padding-bottom: 70px; */
+  /* position: relative; */
 
   @media (max-width: 40em) {
     height: auto;
@@ -63,13 +67,16 @@ export const PostText = Box.extend`
 `;
 
 export const PostActions = styled.div`
-  position: absolute;
+  /* position: absolute;
   bottom: 0;
-  left: 0;
-  padding: 10px;
-  width: 100%;
+  left: 0; */
+  /* padding: 10px; */
+  /* width: 100%; */
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  margin: -10px;
+  margin-top: auto;
 `;
 
 type PostTextViewProps = {
@@ -83,14 +90,13 @@ type PostTextViewProps = {
 };
 
 export class PostTextView extends Component<PostTextViewProps> {
-
   toggleLike = () => {
     postData.toggleLikePost(this.props.post.id);
-  }
+  };
 
   showLikes = () => {
     return postData.getLikes('post', this.props.post.id);
-  }
+  };
 
   render() {
     const { post, refresh, preview, modify, canPin, deletePost } = this.props;
@@ -99,31 +105,35 @@ export class PostTextView extends Component<PostTextViewProps> {
         <PostTitleView post={post} />
         <PostTextContent content={post.content} preview={!preview} />
         <PostActions>
-
-          {
-            !preview &&
-            <Button size="small" color="secondary" component={NavLink} to={`/post/${post.id}`}>
+          {!preview && (
+            <Button
+              size="small"
+              color="secondary"
+              component={NavLink}
+              to={`/post/${post.id}`}
+            >
               {post.nbComments} <ForumIcon style={{ marginLeft: 5 }} />
             </Button>
-          }
+          )}
 
-          {
-            post.hasWriteAccess &&
+          {post.hasWriteAccess && (
             <Box ml="5px">
               <EditButton
                 post={post}
                 refresh={refresh}
                 canPin={canPin}
                 modify={modify}
-                delete={deletePost} />
+                delete={deletePost}
+              />
             </Box>
-          }
+          )}
           <Box ml="auto">
             <LikeButton
               liked={post.liked}
               likes={post.nbLikes}
               toggleLike={this.toggleLike}
-              showLikes={this.showLikes} />
+              showLikes={this.showLikes}
+            />
           </Box>
         </PostActions>
       </PostText>
@@ -137,16 +147,26 @@ type TextContentProps = {
 };
 
 export function PostTextContent(props: TextContentProps) {
-  const text = props.preview ? props.content
-    .slice(0, 200)
-    .split('\n')
-    .slice(0, 3) : props.content.split('\n');
-  if (props.preview && (props.content.length > 200 || props.content.slice(0, 200).split('\n').length > 3)) {
+  const text = props.preview
+    ? props.content
+        .slice(0, 200)
+        .split('\n')
+        .slice(0, 3)
+    : props.content.split('\n');
+  if (
+    props.preview &&
+    (props.content.length > 200 ||
+      props.content.slice(0, 200).split('\n').length > 3)
+  ) {
     text[text.length - 1] += '...';
   }
   return (
     <div>
-      {text.map((par, i) => <Text key={i} mb={1} color="#555">{utils.parseText(par)}</Text>)}
+      {text.map((par, i) => (
+        <Text key={i} mb={1} color="#555">
+          {utils.parseText(par)}
+        </Text>
+      ))}
     </div>
   );
 }
@@ -165,13 +185,13 @@ export function PostView(props: PostViewProps) {
       case 'video':
         return <VideoPost {...props} />;
       case 'gallery':
-        return <GalleryPost { ...props} />;
+        return <GalleryPost {...props} />;
       case 'event':
-        return <EventPost { ...props} />;
+        return <EventPost {...props} />;
       case 'document':
-        return <DocumentPost { ...props} />;
+        return <DocumentPost {...props} />;
       case 'gazette':
-        return <GazettePost { ...props} />;
+        return <GazettePost {...props} />;
       default:
         break;
     }
@@ -194,7 +214,10 @@ type PostListViewState = {
   deleteEnabled: boolean,
 };
 
-export default class PostListView extends React.Component<PostListViewProps, PostListViewState> {
+export default class PostListView extends React.Component<
+  PostListViewProps,
+  PostListViewState
+> {
   state = {
     postSelected: null,
     media: null,
@@ -216,14 +239,14 @@ export default class PostListView extends React.Component<PostListViewProps, Pos
       this.setState({ media });
     }
     this.setState({ fullscreenOpen });
-  }
+  };
 
   deletePost = (post: PostType) => {
     this.setState({
       deleteEnabled: true,
       postSelected: post,
     });
-  }
+  };
 
   deleteResponse = (ok: boolean) => {
     if (ok) {
@@ -233,25 +256,24 @@ export default class PostListView extends React.Component<PostListViewProps, Pos
     }
     this.setState({
       deleteEnabled: false,
-      postSelected: null
+      postSelected: null,
     });
-  }
+  };
 
   render() {
     const props = this.props;
     return (
       <PostList>
-        {
-          props.posts.map((p, i) => {
-            return (
+        {props.posts.map((p, i) => {
+          return (
+            <LazyLoad key={p.id} offset={600} height={340} once>
               <PostView
-                key={p.id}
                 preview={false}
                 post={p}
                 list={true}
                 invert={i % 2 === 1}
                 openFullScreen={this.setFullScreen}
-                textView={(size) =>
+                textView={size => (
                   <PostTextView
                     post={p}
                     refresh={props.refreshPosts}
@@ -261,28 +283,30 @@ export default class PostListView extends React.Component<PostListViewProps, Pos
                     modify={this.modifyPost}
                     deletePost={this.deletePost}
                   />
-                }
+                )}
               />
-            );
-          })
-        }
+            </LazyLoad>
+          );
+        })}
         <ModifyPostModal
           post={this.state.postSelected}
           open={this.state.modifyEnable}
           refresh={props.refreshPosts}
-          requestClose={this.requestClose} />
+          requestClose={this.requestClose}
+        />
 
-        {
-          this.state.media && this.state.media.mediaType === 'image' &&
-          <FullScreenView
-            matcher
-            internalRefresh
-            visible={this.state.fullscreenOpen}
-            image={this.state.media.fullSizeUrl}
-            imageOriginal={this.state.media.originalUrl}
-            data={this.state.media}
-            onEscKey={() => this.setFullScreen(false)} />
-        }
+        {this.state.media &&
+          this.state.media.mediaType === 'image' && (
+            <FullScreenView
+              matcher
+              internalRefresh
+              visible={this.state.fullscreenOpen}
+              image={this.state.media.fullSizeUrl}
+              imageOriginal={this.state.media.originalUrl}
+              data={this.state.media}
+              onEscKey={() => this.setFullScreen(false)}
+            />
+          )}
         <Popup
           title="Suppression"
           description="Voulez vous supprimer cette publication ?"
@@ -293,7 +317,6 @@ export default class PostListView extends React.Component<PostListViewProps, Pos
     );
   }
 }
-
 
 // const PostContent = styled.div`
 //   height: ${props => props.fb ? 'auto' : '250px'};

@@ -27,11 +27,11 @@ import * as authData from '../../../data/auth';
 import { ADMIN, CLUB_MANAGER } from '../../../constants';
 import UpdateClubForm from './UpdateClubForm';
 
-const Explore = styled(ExploreAction) `
+const Explore = styled(ExploreAction)`
   margin-right: 10px;
 `;
 
-const Button = styled(MUIButton) `
+const Button = styled(MUIButton)`
   margin-top: ${props => props.mt || '0'};
 `;
 
@@ -49,26 +49,39 @@ export default function ClubDetailView(props) {
             <Text>{props.description}</Text>
             <Flex mt="15px" flexWrap="wrap">
               <Box p={1}>
-                <Button href={props.website} target="_blank" rel="noopener noreferrer" color="secondary">
+                <Button
+                  href={props.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  color="secondary"
+                >
                   <Explore /> Site internet
                 </Button>
               </Box>
-              {
-                props.isAdmin &&
+              {props.isAdmin && (
                 <Box p={1}>
-                  <Button variant="fab" mini color="primary" onClick={props.onEdit}>
+                  <Button
+                    variant="fab"
+                    mini
+                    color="primary"
+                    onClick={props.onEdit}
+                  >
                     <EditIcon />
                   </Button>
                 </Box>
-              }
-              {
-                authData.hasRole([ADMIN, CLUB_MANAGER]) &&
+              )}
+              {authData.hasRole([ADMIN, CLUB_MANAGER]) && (
                 <Box p={1}>
-                  <Button variant="fab" mini color="secondary" onClick={props.onDelete}>
+                  <Button
+                    variant="fab"
+                    mini
+                    color="secondary"
+                    onClick={props.onDelete}
+                  >
                     <DeleteIcon />
                   </Button>
                 </Box>
-              }
+              )}
             </Flex>
           </Box>
         </Flex>
@@ -97,9 +110,7 @@ export default function ClubDetailView(props) {
         <Tab label="Publications" />
         {props.isAdmin && <Tab label="Admin" />}
       </Tabs>
-      <FluidContent>
-        {props.renderTab()}
-      </FluidContent>
+      <FluidContent>{props.renderTab()}</FluidContent>
     </div>
   );
 }

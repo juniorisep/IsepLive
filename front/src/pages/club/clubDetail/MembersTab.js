@@ -12,30 +12,31 @@ import Loader from 'components/Loader';
 import * as clubData from '../../../data/club';
 import * as authData from '../../../data/auth';
 
+const MemberStyle = styled.div`
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+  > div {
+    padding: 10px;
+    color: ${props => props.theme.main};
+  }
+
+  > div p {
+    margin: 0;
+  }
+
+  > div p.name {
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .role {
+    margin-top: 5px;
+    font-weight: 500;
+    color: ${props => props.theme.accent};
+  }
+`;
+
 const Member = props => {
-  const MemberStyle = styled.div`
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-
-    > div {
-      padding: 10px;
-      color: ${props => props.theme.main};
-    }
-
-    > div p {
-      margin: 0;
-    }
-
-    > div p.name {
-      font-weight: 500;
-      margin-bottom: 5px;
-    }
-
-    .role {
-      margin-top: 5px;
-      font-weight: 500;
-      color: ${props => props.theme.accent};
-    }
-  `;
   return (
     <MemberStyle>
       <ProfileImage src={props.url} sz="100%" mh="200px" />

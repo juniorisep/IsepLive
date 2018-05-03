@@ -13,16 +13,24 @@ import { Link } from 'react-router-dom';
 
 import Time from 'components/Time';
 import Loader from 'components/Loader';
-import { Banner, Filler, FluidContent, Header, Separator, Text } from 'components/common';
+import {
+  Banner,
+  Filler,
+  FluidContent,
+  Header,
+  Separator,
+  Text,
+} from 'components/common';
 
 import { Album, Video, Gazette } from './mediaViews';
 
-const DateSeparator = (props) => {
-  const Title = styled.h2`
-    margin-right: 20px;
-    color: ${props => props.theme.main};
-    text-transform: capitalize;
-  `;
+const Title = styled.h2`
+  margin-right: 20px;
+  color: ${props => props.theme.main};
+  text-transform: capitalize;
+`;
+
+const DateSeparator = props => {
   return (
     <Flex align="center">
       <Box flex="0 0 auto" mr="20px">
@@ -69,10 +77,12 @@ class MediaView extends Component {
   }
 
   processMediaList() {
-    return this.props.medias.map(mg => {
-      const medias = mg.medias.filter(m => this.filterMedia(m.mediaType));
-      return { ...mg, medias };
-    }).filter(mg => mg.medias.length > 0);
+    return this.props.medias
+      .map(mg => {
+        const medias = mg.medias.filter(m => this.filterMedia(m.mediaType));
+        return { ...mg, medias };
+      })
+      .filter(mg => mg.medias.length > 0);
   }
 
   renderMediaComponent(e) {
@@ -84,11 +94,7 @@ class MediaView extends Component {
           </Link>
         );
       case 'gallery':
-        return (
-          <Album
-            url={e.coverImage.thumbUrl}
-            {...e} />
-        );
+        return <Album url={e.coverImage.thumbUrl} {...e} />;
       case 'gazette':
         return (
           <Link to={`/post/${e.postId}`}>
@@ -108,9 +114,7 @@ class MediaView extends Component {
           <Filler h={50} />
           <Banner>
             <h1>Media</h1>
-            <p>
-              Retrouvez photos, vidéos, gazettes de tous les évenements !
-            </p>
+            <p>Retrouvez photos, vidéos, gazettes de tous les évenements !</p>
           </Banner>
           {/* <FluidContent p="0">
             <SearchBar placeholder="Rechercher des medias" />
@@ -119,22 +123,33 @@ class MediaView extends Component {
         <FluidContent>
           <Flex align="center" flexWrap="wrap">
             <Box mb={2}>
-              <FormControlLabel control={
-                <Switch
-                  checked={this.state.photos}
-                  onChange={this.handleChange('photos')}
-                />
-              } label="Photos" />
-              <FormControlLabel control={
-                <Switch
-                  checked={this.state.videos}
-                  onChange={this.handleChange('videos')} />
-              } label="Vidéos" />
-              <FormControlLabel control={
-                <Switch
-                  checked={this.state.gazettes}
-                  onChange={this.handleChange('gazettes')} />
-              } label="Gazettes" />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.photos}
+                    onChange={this.handleChange('photos')}
+                  />
+                }
+                label="Photos"
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.videos}
+                    onChange={this.handleChange('videos')}
+                  />
+                }
+                label="Vidéos"
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.gazettes}
+                    onChange={this.handleChange('gazettes')}
+                  />
+                }
+                label="Gazettes"
+              />
             </Box>
             {/* <Box mb={2}>
               <div style={STYLE_CONTAINER}>
@@ -172,40 +187,42 @@ class MediaView extends Component {
             </Box> */}
           </Flex>
           <Loader loading={this.props.isLoading}>
-            {
-              this.processMediaList().length === 0 &&
-              <div style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}>
+            {this.processMediaList().length === 0 && (
+              <div
+                style={{ textAlign: 'center', minHeight: 300, marginTop: 100 }}
+              >
                 <Text fs="2em">Aucun media</Text>
               </div>
-            }
-            {
-              this.processMediaList().map(m => {
-                return (
-                  <div key={m.date}>
-                    <DateSeparator date={<Time date={m.date} format="MMMM YYYY" />} />
-                    <Flex flexWrap="wrap">
-                      {
-                        m.medias.map(e => {
-                          return (
-                            <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
-                              {this.renderMediaComponent(e)}
-                            </Box>
-                          );
-                        })
-                      }
-                    </Flex>
-                  </div>
-                );
-              })
-            }
-            {
-              !this.props.lastPage &&
+            )}
+            {this.processMediaList().map(m => {
+              return (
+                <div key={m.date}>
+                  <DateSeparator
+                    date={<Time date={m.date} format="MMMM YYYY" />}
+                  />
+                  <Flex flexWrap="wrap">
+                    {m.medias.map(e => {
+                      return (
+                        <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
+                          {this.renderMediaComponent(e)}
+                        </Box>
+                      );
+                    })}
+                  </Flex>
+                </div>
+              );
+            })}
+            {!this.props.lastPage && (
               <div style={{ textAlign: 'center' }}>
-                <Button variant="fab" color="primary" onClick={this.props.seeMore}>
+                <Button
+                  variant="fab"
+                  color="primary"
+                  onClick={this.props.seeMore}
+                >
                   <ArrowDownwardIcon />
                 </Button>
               </div>
-            }
+            )}
           </Loader>
         </FluidContent>
       </div>

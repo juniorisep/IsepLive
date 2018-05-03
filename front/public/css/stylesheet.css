@@ -1,18 +1,15 @@
-html, body, div#root {
+* {
+  box-sizing: border-box;
+}
+
+body {
   margin: 0;
   padding: 0;
   border: 0;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  position: absolute;
+  overflow: auto;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
   font-family: 'Roboto', sans-serif;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 a {
@@ -20,7 +17,17 @@ a {
   text-decoration: none;
 }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
   display: block;
 }
 
@@ -28,15 +35,20 @@ body {
   line-height: 1;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
-blockquote, q {
+blockquote,
+q {
   quotes: none;
 }
 
-blockquote:before, blockquote:after, q:before, q:after {
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
   content: '';
   content: none;
 }

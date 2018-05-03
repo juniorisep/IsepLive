@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 
 import HomeView from './view';
 
+import * as authData from '../../data/auth';
 import * as postData from 'data/post';
+
 import type {
   Post as PostType,
   PostCreation as PostCreationType,
@@ -32,7 +34,9 @@ class Home extends Component<{}, State> {
   componentDidMount() {
     this.getPosts();
     this.getPinnedPosts();
-    this.getWaitingPosts();
+    if (authData.isLoggedIn()) {
+      this.getWaitingPosts();
+    }
     document.addEventListener('new-post', this.refreshPosts.bind(this));
   }
 

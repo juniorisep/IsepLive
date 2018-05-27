@@ -113,36 +113,29 @@ export default class PollQuestionDor extends React.Component<Props, State> {
     }
 
     const { question } = this.props;
-
+    const mapAuthor = authors =>
+      authors.map(a => ({
+        type: 'author',
+        value: a,
+      }));
     const all = [];
     if (question.enableStudent) {
       const promoFilter = question.enablePromo ? [question.promo] : [];
       const students = userData
         .searchStudents(search, promoFilter, 'a', 0)
-        .then(res => {
-          return res.data.content.map(s => ({
-            type: 'author',
-            value: s,
-          }));
-        });
+        .then(res => mapAuthor(res.data.content));
       all.push(students);
     }
     if (question.enableEmployee) {
-      const employees = userData.searchEmployees(search).then(res => {
-        return res.data.map(u => ({
-          type: 'author',
-          value: u,
-        }));
-      });
+      const employees = userData
+        .searchEmployees(search)
+        .then(res => mapAuthor(res.data));
       all.push(employees);
     }
     if (question.enableClub) {
-      const clubs = clubData.searchClub(search).then(res => {
-        return res.data.map(c => ({
-          type: 'author',
-          value: c,
-        }));
-      });
+      const clubs = clubData
+        .searchClub(search)
+        .then(res => mapAuthor(res.data));
       all.push(clubs);
     }
     if (question.enableEvent || question.enableParty) {
@@ -237,7 +230,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
       <div>
         {question.enableStudent && <Chip style={style} label="Elève" />}
         {question.enableEmployee && <Chip style={style} label="Employé" />}
-        {question.enableClub && <Chip style={style} label="Club" />}
+        {question.enableClub && <Chip style={style} label="Association" />}
         {question.enableEvent && <Chip style={style} label="Evènement" />}
         {question.enableParty && <Chip style={style} label="Soirée" />}
       </div>

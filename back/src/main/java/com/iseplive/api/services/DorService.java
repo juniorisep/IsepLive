@@ -270,8 +270,10 @@ public class DorService {
       }
 
       if (author instanceof Student) {
-        if (!((Student) author).getPromo().equals(questionDor.getPromo())) {
-          throw new IllegalArgumentException("you cannot choose this student");
+        if (questionDor.isEnablePromo()) {
+          if (!((Student) author).getPromo().equals(questionDor.getPromo())) {
+            throw new IllegalArgumentException("you cannot choose this student");
+          }
         }
       }
 

@@ -69,7 +69,7 @@ class QuestionList extends React.Component<{}, State> {
         <TableCell>
           {question.enableStudent && <Chip style={style} label="Eleve" />}
           {question.enableEmployee && <Chip style={style} label="Employé" />}
-          {question.enableClub && <Chip style={style} label="Club" />}
+          {question.enableClub && <Chip style={style} label="Association" />}
           {question.enableEvent && <Chip style={style} label="Evenement" />}
           {question.enableParty && <Chip style={style} label="Soirée" />}
         </TableCell>

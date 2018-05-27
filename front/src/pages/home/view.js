@@ -82,11 +82,9 @@ export default function Home(props) {
             <Separator />
           </Auth>
 
-          {/* ! TEMPORARY ! */}
-          <Auth roles={[ADMIN]}>
+          <Auth>
             <IsepDorHome />
           </Auth>
-          {/* ! TEMPORARY ! */}
 
           <PostSection>
             <Loader loading={props.isLoading}>

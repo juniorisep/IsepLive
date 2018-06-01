@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.Cacheable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -133,24 +134,42 @@ public class DorService {
     return frWinners;
   }
 
+  private List<AnswerDorDTO> getRoundAnswersForQuestion(Long sessionId, int round, Long questionId) {
+    List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndRoundAndQuestionDor_id(sessionId, round, questionId);
+    return voteDors.stream().map(this::voteToAnswerDTO).collect(Collectors.toList());
+  }
 
-  private List<AnswerDorDTO> getAnswerSelection(QuestionDor questionDor, Map<QuestionDor, List<AnswerDorDTO>> roundAnswers) {
-    Map<String, Long> grouped = new HashMap<>();
-    Map<String, AnswerDorDTO> mapping = new HashMap<>();
-    for (AnswerDorDTO answerDorDTO: roundAnswers.get(questionDor)) {
-      if (grouped.get(answerDorDTO.getName()) != null) {
-        grouped.put(answerDorDTO.getName(), grouped.get(answerDorDTO.getName()) + 1);
+  private List<AnswerDorDTO> getAnswerSelection(List<AnswerDorDTO> roundAnswers) {
+    Map<String, AnswerDorDTO> grouped = new HashMap<>();
+    for (AnswerDorDTO answer: roundAnswers) {
+      if (grouped.containsKey(answer.getName())) {
+        AnswerDorDTO ans = grouped.get(answer.getName());
+        ans.setScore(ans.getScore() + 1);
       } else {
-        mapping.put(answerDorDTO.getName(), answerDorDTO);
-        grouped.put(answerDorDTO.getName(), 1L);
+        answer.setScore(1L);
+        grouped.put(answer.getName(), answer);
       }
     }
+//
+//    Map<String, Long> grouped = new HashMap<>();
+//    Map<String, AnswerDorDTO> mapping = new HashMap<>();
+//    for (AnswerDorDTO answerDorDTO: roundAnswers) {
+//      if (grouped.get(answerDorDTO.getName()) != null) {
+//        grouped.put(answerDorDTO.getName(), grouped.get(answerDorDTO.getName()) + 1);
+//      } else {
+//        mapping.put(answerDorDTO.getName(), answerDorDTO);
+//        grouped.put(answerDorDTO.getName(), 1L);
+//      }
+//    }
+//
+//    for (String key: grouped.keySet()) {
+//      mapping.get(key).setScore(grouped.get(key));
+//    }
+    return sortByTopScore(new ArrayList<>(grouped.values()));
+  }
 
-    for (String key: grouped.keySet()) {
-      mapping.get(key).setScore(grouped.get(key));
-    }
-    List<AnswerDorDTO> answers = new ArrayList<>(mapping.values());
-    answers.sort(Comparator.comparingLong(AnswerDorDTO::getScore));
+  private List<AnswerDorDTO> sortByTopScore(List<AnswerDorDTO> answers) {
+    answers.sort(Comparator.comparing(AnswerDorDTO::getScore));
     Collections.reverse(answers);
     return answers;
   }
@@ -161,24 +180,26 @@ public class DorService {
    * @param sessionId
    * @return
    */
+  @Cacheable("dor-firstround-winner")
   public Map<Long, List<AnswerDorDTO>> computeFirstRoundWinners(Long sessionId) {
     Map<QuestionDor, List<AnswerDorDTO>> firstRoundAnswers = getRoundAnswersByQuestion(sessionId, 1);
 
     Map<Long, List<AnswerDorDTO>> answersMap = new HashMap<>();
     for (QuestionDor questionDor: firstRoundAnswers.keySet()) {
-      List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, firstRoundAnswers).stream()
+      List<AnswerDorDTO> answerSelection = getAnswerSelection(firstRoundAnswers.get(questionDor)).stream()
         .limit(3).collect(Collectors.toList());
       answersMap.put(questionDor.getId(), answerSelection);
     }
     return answersMap;
   }
 
+  @Cacheable("dor-results")
   public Map<Long, List<AnswerDorDTO>> computeFinalResults(Long sessionId) {
     Map<QuestionDor, List<AnswerDorDTO>> finalRoundAnswers = getRoundAnswersByQuestion(sessionId, 2);
 
     Map<Long, List<AnswerDorDTO>> answersMap = new HashMap<>();
     for (QuestionDor questionDor: finalRoundAnswers.keySet()) {
-      List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, finalRoundAnswers).stream()
+      List<AnswerDorDTO> answerSelection = getAnswerSelection(finalRoundAnswers.get(questionDor)).stream()
         .limit(3).collect(Collectors.toList());
       answersMap.put(questionDor.getId(), answerSelection);
     }
@@ -205,10 +226,9 @@ public class DorService {
    * @return
    */
   private boolean canVoteSecondRound(SessionDor sessionDor, QuestionDor questionDor, VoteDorDTO voteDor) {
-    Map<QuestionDor, List<AnswerDorDTO>> firstRoundAnswers = getRoundAnswersByQuestion(sessionDor.getId(), 1);
-    List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, firstRoundAnswers).stream()
-      .limit(3)
-      .filter(a -> {
+    return getAnswerSelection(getRoundAnswersForQuestion(sessionDor.getId(), 1, questionDor.getId()))
+      .stream()
+      .limit(3).anyMatch(a -> {
         if (a.getVoteDor().getResAuthor() != null) {
           return a.getVoteDor()
             .getResAuthor()
@@ -220,9 +240,7 @@ public class DorService {
             .getId().equals(voteDor.getEventID());
         }
         return false;
-      })
-      .collect(Collectors.toList());
-    return !answerSelection.isEmpty();
+      });
   }
 
   public List<SessionDor> getSessions() {
@@ -534,7 +552,7 @@ public class DorService {
       Map<QuestionDor, List<AnswerDorDTO>> finalRoundAnswers = getRoundAnswersByQuestion(sessionId, 2);
 
       for (QuestionDor questionDor: finalRoundAnswers.keySet()) {
-        List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, finalRoundAnswers).stream()
+        List<AnswerDorDTO> answerSelection = getAnswerSelection(finalRoundAnswers.get(questionDor)).stream()
           .limit(3).collect(Collectors.toList());
         AnswerDorDTO answerDorDTO = answerSelection.get(0);
 

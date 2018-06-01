@@ -96,6 +96,7 @@ public class MediaUtils {
       try {
         Files.delete(p);
       } catch (IOException e) {
+        LOG.error("could not remove file", e);
         throw new FileException("could not delete file: " + p, e);
       }
     }
@@ -118,6 +119,7 @@ public class MediaUtils {
       try {
         Files.delete(p);
       } catch (IOException e) {
+        LOG.error("could not remove file", e);
         throw new FileException("could not delete file: " + p, e);
       }
     }
@@ -138,6 +140,7 @@ public class MediaUtils {
       Files.copy(file.getInputStream(), path);
 
     } catch (IOException e) {
+      LOG.error("could not save file", e);
       throw new FileException("could not create file: " + getPath(filePath), e);
     }
   }
@@ -158,7 +161,7 @@ public class MediaUtils {
     try {
       saveJPG(new FileInputStream(image), contentType, newWidth, outputPath);
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      LOG.error("could not create image stream", e);
     }
   }
 
@@ -166,7 +169,7 @@ public class MediaUtils {
     try {
       saveJPG(image.getInputStream(), image.getContentType(), newWidth, outputPath);
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error("could not create image stream", e);
     }
   }
 
@@ -210,7 +213,7 @@ public class MediaUtils {
       ImageIO.write(outputImage, "JPG", path.toFile());
 
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error("could not write image", e);
     }
   }
 

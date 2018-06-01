@@ -208,14 +208,19 @@ public class DorService {
     Map<QuestionDor, List<AnswerDorDTO>> firstRoundAnswers = getRoundAnswersByQuestion(sessionDor.getId(), 1);
     List<AnswerDorDTO> answerSelection = getAnswerSelection(questionDor, firstRoundAnswers).stream()
       .limit(3)
-      .filter(a ->
-        a.getVoteDor()
-          .getResAuthor()
-          .getId().equals(voteDor.getAuthorID()) ||
-          a.getVoteDor()
+      .filter(a -> {
+        if (a.getVoteDor().getResAuthor() != null) {
+          return a.getVoteDor()
+            .getResAuthor()
+            .getId().equals(voteDor.getAuthorID());
+        }
+        if (a.getVoteDor().getResEvent() != null) {
+          return a.getVoteDor()
             .getResEvent()
-            .getId().equals(voteDor.getEventID())
-      )
+            .getId().equals(voteDor.getEventID());
+        }
+        return false;
+      })
       .collect(Collectors.toList());
     return !answerSelection.isEmpty();
   }

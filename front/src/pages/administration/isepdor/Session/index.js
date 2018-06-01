@@ -21,14 +21,21 @@ import { Title, Paper } from '../../../../components/common';
 import Time from '../../../../components/Time';
 
 import * as dorData from '../../../../data/dor';
-import type { SessionDor, SessionDorCreate } from '../../../../data/dor/type';
+import type {
+  SessionDor,
+  SessionDorCreate,
+  AnswerDorScore,
+} from '../../../../data/dor/type';
 
 import SessionForm from './SessionForm';
+import ResultPanel from './ResultPanel';
 
 type State = {
   sessions: SessionDor[],
   selectedSession: ?SessionDor,
   create: boolean,
+  roundResults: AnswerDorScore[],
+  showResults: boolean,
 };
 
 export default class Session extends React.Component<{}, State> {
@@ -36,6 +43,8 @@ export default class Session extends React.Component<{}, State> {
     sessions: [],
     selectedSession: null,
     create: true,
+    roundResults: [],
+    showResults: false,
   };
 
   componentDidMount() {
@@ -62,6 +71,15 @@ export default class Session extends React.Component<{}, State> {
         create: false,
       });
     }
+  };
+
+  async getResults(round: number): AnswerDorScore[] {
+    const res = await dorData.getRoundResults(round);
+    return Object.keys(res.data).map(k => res.data[k]);
+  }
+
+  handleCloseResultsPanel = () => {
+    this.setState({ showResults: false });
   };
 
   renderTableCell = (session: SessionDor) => {
@@ -93,6 +111,15 @@ export default class Session extends React.Component<{}, State> {
     return (
       <Flex p={2} flexWrap="wrap">
         <Box w={1 / 3} p={2}>
+          <Button
+            color="primary"
+            onClick={async () => {
+              const results = await this.getResults(2);
+              this.setState({ roundResults: results, showResults: true });
+            }}
+          >
+            YO
+          </Button>
           <SessionForm
             selected={selectedSession}
             refreshTable={this.refreshTable}
@@ -119,6 +146,13 @@ export default class Session extends React.Component<{}, State> {
             </Table>
           </Paper>
         </Box>
+
+        <ResultPanel
+          open={this.state.showResults}
+          handleClose={this.handleCloseResultsPanel}
+          results={this.state.roundResults}
+          title="hello"
+        />
       </Flex>
     );
   }

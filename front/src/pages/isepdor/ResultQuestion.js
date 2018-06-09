@@ -104,19 +104,30 @@ export default class ResultQuestion extends React.Component<Props> {
         });
 
         const totalVotes = resultAnswers.reduce((all, v) => all + v.score, 0);
-        const computeSharePercent = (total, score) =>
-          Math.round(score * 100 / total);
-        return resultAnswers.map((ans, index) => (
-          <Box key={ans.value.id} mb={2}>
-            <Flex align="center">
-              {this.renderResultItem(ans)}
-              <Rank
-                pos={index + 1}
-                score={computeSharePercent(totalVotes, ans.score)}
-              />
-            </Flex>
-          </Box>
-        ));
+        const computeSharePercent = (total: number, score: number): number =>
+          Math.floor((score / total) * 100);
+
+        let remains =
+          100 -
+          resultAnswers.reduce((all, x) => {
+            return all + computeSharePercent(totalVotes, x.score);
+          }, 0);
+
+        return resultAnswers.map((ans, index) => {
+          let score = computeSharePercent(totalVotes, ans.score);
+          if (remains > 0) {
+            score++;
+            remains--;
+          }
+          return (
+            <Box key={ans.value.id} mb={2}>
+              <Flex align="center">
+                {this.renderResultItem(ans)}
+                <Rank pos={index + 1} score={score} />
+              </Flex>
+            </Box>
+          );
+        });
       }
     }
     return null;

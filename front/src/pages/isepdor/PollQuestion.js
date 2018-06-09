@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { Flex, Box } from 'grid-styled';
 import Avatar from 'material-ui/Avatar';
@@ -14,7 +14,9 @@ import {
   FluidContent,
   BgImage,
 } from '../../components/common';
+
 import Autocomplete from '../../components/Autocomplete';
+import Loader from '../../components/Loader';
 
 import type {
   QuestionDor,
@@ -40,6 +42,7 @@ type Props = {
 type State = {
   selectedValue: string,
   selected: ?AnswerDor,
+  loading: boolean,
 };
 
 const IMG_EVENT = '/img/svg/event-dor.svg';
@@ -48,6 +51,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
   state = {
     selectedValue: '',
     selected: null,
+    loading: false,
   };
 
   renderSugg = (ans: ?AnswerDor) => {
@@ -162,13 +166,14 @@ export default class PollQuestionDor extends React.Component<Props, State> {
     );
   };
 
-  handleVote = () => {
+  handleVote = async () => {
     const { question } = this.props;
     const { selected } = this.state;
     if (selected) {
-      dorData.handleVote(question.id, selected).then(res => {
-        this.props.onAnswer();
-      });
+      this.setState({ loading: true });
+      await dorData.handleVote(question.id, selected);
+      await this.props.onAnswer();
+      this.setState({ loading: false });
     }
   };
 
@@ -313,7 +318,7 @@ export default class PollQuestionDor extends React.Component<Props, State> {
 
   render() {
     const { question, answer, results } = this.props;
-    const { selected } = this.state;
+    const { selected, loading } = this.state;
 
     return (
       <Paper>
@@ -326,30 +331,34 @@ export default class PollQuestionDor extends React.Component<Props, State> {
         <Box p="20px">
           <Title invert>{question.title}</Title>
           <Box mb="10px">{this.getLabels()}</Box>
-          {!results && (
-            <Autocomplete
-              label="Mon choix"
-              disabled={answer != null}
-              value={this.getValue()}
-              renderSuggestion={this.renderSugg}
-              onSelect={this.onSelect}
-              search={this.onSearch}
-            />
-          )}
-          {results && (
-            <Flex flexDirection="column">{this.renderChoices()}</Flex>
-          )}
-          {!answer && (
-            <Button
-              onClick={this.handleVote}
-              style={{ marginTop: 10 }}
-              disabled={selected == null}
-              size="small"
-              color="secondary"
-            >
-              Valider
-            </Button>
-          )}
+          <Loader loading={loading}>
+            <Fragment>
+              {!results && (
+                <Autocomplete
+                  label="Mon choix"
+                  disabled={answer != null}
+                  value={this.getValue()}
+                  renderSuggestion={this.renderSugg}
+                  onSelect={this.onSelect}
+                  search={this.onSearch}
+                />
+              )}
+              {results && (
+                <Flex flexDirection="column">{this.renderChoices()}</Flex>
+              )}
+              {!answer && (
+                <Button
+                  onClick={this.handleVote}
+                  style={{ marginTop: 10 }}
+                  disabled={selected == null}
+                  size="small"
+                  color="secondary"
+                >
+                  Valider
+                </Button>
+              )}
+            </Fragment>
+          </Loader>
         </Box>
       </Paper>
     );

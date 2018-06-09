@@ -28,6 +28,8 @@ import { backUrl } from '../../config';
 
 import Time from '../../components/Time';
 
+import Loader from '../../components/Loader';
+
 import PollQuestion from './PollQuestion';
 import ResultQuestion from './ResultQuestion';
 
@@ -77,6 +79,7 @@ type State = {
   session: ?SessionDor,
   results: ?{ [id: number]: AnswerDorScore[] },
   isPollEnded: boolean,
+  loading: boolean,
 };
 
 export default class DorPoll extends React.Component<{}, State> {
@@ -86,19 +89,24 @@ export default class DorPoll extends React.Component<{}, State> {
     session: null,
     results: null,
     isPollEnded: false,
+    loading: true,
   };
 
-  componentDidMount() {
-    this.getQuestions();
-    this.getCurrentSession().then(session => {
-      if (this.isSessionFinished(session)) {
-        this.showResultsSession(session);
-        return;
-      }
-
-      const round = this.getCurrentRound(session);
-      this.getCurrentVotes(round);
+  async componentDidMount() {
+    await Promise.all([this.getQuestions(), this.loadSession()]);
+    this.setState({
+      loading: false,
     });
+  }
+
+  async loadSession() {
+    const session = await this.getCurrentSession();
+    if (this.isSessionFinished(session)) {
+      await this.showResultsSession(session);
+      return;
+    }
+    const round = this.getCurrentRound(session);
+    await this.getCurrentVotes(round);
   }
 
   getCurrentRound(session: SessionDor): number {
@@ -143,9 +151,9 @@ export default class DorPoll extends React.Component<{}, State> {
     });
   }
 
-  onAnswer = () => {
+  onAnswer = async () => {
     if (this.state.session) {
-      this.getCurrentVotes(this.getCurrentRound(this.state.session));
+      await this.getCurrentVotes(this.getCurrentRound(this.state.session));
     }
   };
 
@@ -188,7 +196,9 @@ export default class DorPoll extends React.Component<{}, State> {
             />
           </Box>
         )}
-        <Flex flexWrap="wrap">{questions.map(this.renderQuestions)}</Flex>
+        <Loader loading={this.state.loading}>
+          <Flex flexWrap="wrap">{questions.map(this.renderQuestions)}</Flex>
+        </Loader>
       </FluidContent>
     );
   }

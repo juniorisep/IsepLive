@@ -2,7 +2,13 @@
 import React from 'react';
 
 import { Flex, Box } from 'grid-styled';
-import { Paper, Title, Text, FluidContent } from '../../components/common';
+import {
+  Paper,
+  Title,
+  Text,
+  FluidContent,
+  Image,
+} from '../../components/common';
 
 import Button from 'material-ui/Button';
 import Tooltip from 'material-ui/Tooltip';
@@ -78,20 +84,33 @@ export default class IsepDorHome extends React.Component<{}, State> {
     const now = new Date().getTime();
     return (
       <Paper p="2em">
-        <Title>ISEP d'Or</Title>
-        {this.infoText(sessionActive)}
-        <Box mt={2}>
-          <Button
-            style={btnStyle}
-            variant="raised"
-            color="primary"
-            component={Link}
-            to="/isepdor/poll"
-            disabled={now < sessionActive.firstTurn}
-          >
-            {sessionActive.result > now ? 'Voter' : 'Résultats'}
-          </Button>
-        </Box>
+        <Flex flexDirection={['column', 'row']}>
+          <Box>
+            <Title>ISEP d'Or</Title>
+            {this.infoText(sessionActive)}
+            <Box mt={2}>
+              <Button
+                style={btnStyle}
+                variant="raised"
+                color="primary"
+                component={Link}
+                to="/isepdor/poll"
+                disabled={now < sessionActive.firstTurn}
+              >
+                {sessionActive.result > now ? 'Voter' : 'Résultats'}
+              </Button>
+            </Box>
+          </Box>
+          <Box p={1} ml={[0, 'auto']} mb={[2, 0]} order={[-1, 1]}>
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              style={{ height: '100%' }}
+            >
+              <img style={{ width: 100 }} src="/img/layout/trophy.png" alt="" />
+            </Flex>
+          </Box>
+        </Flex>
 
         {sessionActive &&
           sessionActive.firstTurn < now && (

@@ -6,6 +6,8 @@ import Avatar from 'material-ui/Avatar';
 
 import { Paper, Title, BgImage } from '../../components/common';
 
+import { Link } from 'react-router-dom';
+
 import type {
   QuestionDor,
   AnswerDor,
@@ -47,15 +49,17 @@ function Rank({ pos, score }) {
 
 export default class ResultQuestion extends React.Component<Props> {
   renderResultItem = (ans: ?AnswerDor) => {
-    let name, url;
+    let name, url, link;
     if (ans) {
       if (ans.type === 'author') {
         if (ans.value.authorType === 'student') {
+          link = `/annuaire/${ans.value.id}`;
           name = `${ans.value.firstname} ${ans.value.lastname}`;
           url = ans.value.photoUrlThumb
             ? this.buildBackUrl(ans.value.photoUrlThumb)
             : DEFAULT_USER_IMAGE;
         } else if (ans.value.authorType === 'club') {
+          link = `/associations/${ans.value.id}`;
           name = ans.value.name;
           url = this.buildBackUrl(ans.value.logoUrl);
         } else if (ans.value.authorType === 'employee') {
@@ -70,7 +74,8 @@ export default class ResultQuestion extends React.Component<Props> {
     return (
       <div style={{ display: 'inherit', alignItems: 'inherit' }}>
         <Avatar alt={name} src={url} style={{ marginRight: 10 }} />
-        <span>{name}</span>
+        {link && <Link to={link}>{name}</Link>}
+        {!link && <span>{name}</span>}
       </div>
     );
   };

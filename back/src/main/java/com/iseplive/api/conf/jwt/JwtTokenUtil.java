@@ -10,8 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iseplive.api.entity.club.Club;
 import com.iseplive.api.entity.user.Author;
 import com.iseplive.api.entity.user.Student;
+import com.iseplive.api.exceptions.IllegalArgumentException;
 import com.iseplive.api.services.ClubService;
 import com.iseplive.api.services.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +37,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class JwtTokenUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(JwtTokenUtil.class);
 
   @Autowired
   StudentService studentService;
@@ -62,17 +67,16 @@ public class JwtTokenUtil {
   private int refreshTokenDuration;
 
   public DecodedJWT decodeToken(String token) throws JWTVerificationException {
-    DecodedJWT jwt = null;
     try {
       Algorithm algorithm = Algorithm.HMAC256(secret);
       JWTVerifier verifier = JWT.require(algorithm)
         .withIssuer(issuer)
         .build(); //Reusable verifier instance
-      jwt = verifier.verify(token);
+      return verifier.verify(token);
     } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
+      LOG.error("could not decode token", e);
     }
-    return jwt;
+    throw new JWTVerificationException("invalid token");
   }
 
   public TokenSet generateToken(Student student) {
@@ -124,12 +128,12 @@ public class JwtTokenUtil {
           .withIssuer(issuer)
           .build(); //Reusable verifier instance
         verifier.verify(token);
+        return generateToken(student);
       }
-      return generateToken(student);
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
+    } catch (UnsupportedEncodingException | IllegalArgumentException e) {
+      LOG.error("could not refresh token", e);
     }
-    return null;
+    throw new JWTVerificationException("token invalid");
   }
 
   private TokenPayload generatePayload(Student student) {

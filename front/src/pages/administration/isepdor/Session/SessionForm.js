@@ -1,4 +1,5 @@
-import React from 'react';
+// @flow
+import React, { Fragment } from 'react';
 
 import { DatePicker } from 'material-ui-pickers';
 import { FormControlLabel } from 'material-ui/Form';
@@ -13,21 +14,38 @@ import { Title, Text, Paper } from '../../../../components/common';
 import { sendAlert } from '../../../../components/Alert';
 
 import * as dorData from '../../../../data/dor';
+import ResultPanel from './ResultPanel';
+import { type SessionDor } from '../../../../data/dor/type';
 
-export default class SessionForm extends React.Component {
-  constructor(props) {
+type Props = {
+  selected: ?SessionDor,
+};
+
+type State = {
+  sessionForm: any,
+  create: boolean,
+  showResults: boolean,
+};
+
+export default class SessionForm extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       sessionForm: this.getDefaultForm(),
       create: false,
+      showResults: false,
     };
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     if (props.selected && props.selected !== this.state.sessionForm) {
       this.setState({ create: false, sessionForm: props.selected });
     }
   }
+
+  handleCloseResultsPanel = () => {
+    this.setState({ showResults: false });
+  };
 
   changeForm = (name: string) => (date: Date) => {
     this.setState(state => ({
@@ -182,13 +200,21 @@ export default class SessionForm extends React.Component {
                 </Button>
               )}
               {!create && (
-                <Button
-                  color="primary"
-                  onClick={this.saveSession}
-                  disabled={!this.isCreateFormValid()}
-                >
-                  Enregistrer
-                </Button>
+                <Fragment>
+                  <Button
+                    color="primary"
+                    onClick={this.saveSession}
+                    disabled={!this.isCreateFormValid()}
+                  >
+                    Enregistrer
+                  </Button>
+                  <Button
+                    color="secondary"
+                    onClick={() => this.setState({ showResults: true })}
+                  >
+                    Résultats
+                  </Button>
+                </Fragment>
               )}
             </div>
           )}
@@ -215,25 +241,33 @@ export default class SessionForm extends React.Component {
           <AddIcon />
         </Button>
         {selected && (
-          <Button
-            variant="fab"
-            size="medium"
-            color="secondary"
-            style={{ marginRight: 10 }}
-            onClick={this.deleteSession}
-          >
-            <DeleteIcon />
-          </Button>
-        )}
-        {selected && (
-          <Button
-            variant="fab"
-            size="medium"
-            color="secondary"
-            onClick={this.genDiploma}
-          >
-            <SendIcon />
-          </Button>
+          <Fragment>
+            <Button
+              variant="fab"
+              size="medium"
+              color="secondary"
+              style={{ marginRight: 10 }}
+              onClick={this.deleteSession}
+            >
+              <DeleteIcon />
+            </Button>
+
+            <Button
+              variant="fab"
+              size="medium"
+              color="secondary"
+              onClick={this.genDiploma}
+            >
+              <SendIcon />
+            </Button>
+
+            <ResultPanel
+              selected={selected}
+              open={this.state.showResults}
+              handleClose={this.handleCloseResultsPanel}
+              title="Résultat de session"
+            />
+          </Fragment>
         )}
       </div>
     );

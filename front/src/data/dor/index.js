@@ -1,6 +1,7 @@
 // @flow
 import axios from 'axios';
 import type { AxiosPromise } from 'axios';
+import { backUrl } from '../../config';
 import type {
   SessionDorCreate,
   SessionDor,
@@ -107,6 +108,16 @@ export function getRoundResults(
   return axios.get(`/dor/session/current/round/${round}`);
 }
 
+export function getRoundResultsForQuestion(
+  sessionId: number,
+  round: number,
+  questionId: number
+): AxiosPromise<AnswerDorScore[]> {
+  return axios.get(
+    `/dor/session/${sessionId}/round/${round}/question/${questionId}`
+  );
+}
+
 export function searchEvents(name: string): AxiosPromise<EventDor[]> {
   return axios.get(`/dor/event/search?name=${name}`);
 }
@@ -133,4 +144,51 @@ export function updateDiplomaFont(file: File): AxiosPromise<void> {
 
 export function generateDiploma(id: number) {
   return axios.get(`/dor/session/${id}/diploma`);
+}
+
+const IMG_EVENT = '/img/svg/event-dor.svg';
+
+function buildBackUrl(url: ?string): ?string {
+  if (url) {
+    return backUrl + url;
+  }
+  return null;
+}
+
+export function getAnswerData(
+  ans: AnswerDorScore
+): { name: ?string, url: ?string } {
+  let name, url;
+  if (ans) {
+    switch (ans.type) {
+      case 'USER':
+        const author = ans.voteDor.resAuthor;
+        if (author) {
+          switch (author.authorType) {
+            case 'student':
+              name = `${author.firstname} ${author.lastname}`;
+              url = author.photoUrlThumb
+                ? buildBackUrl(author.photoUrlThumb)
+                : '/img/svg/user.svg';
+              break;
+            case 'club':
+              name = author.name;
+              url = buildBackUrl(author.logoUrl);
+              break;
+            case 'employee':
+              name = `${author.firstname} ${author.lastname}`;
+              url = '/img/svg/user.svg';
+              break;
+          }
+        }
+        break;
+      case 'EVENT':
+        if (ans.voteDor.resEvent) {
+          name = ans.voteDor.resEvent.name;
+          url = IMG_EVENT;
+        }
+        break;
+    }
+  }
+  return { name, url };
 }

@@ -69,6 +69,14 @@ public class DorController {
     throw new NotFoundException("round not available");
   }
 
+  @GetMapping("/session/{sessionId}/round/{rnd}/question/{questionId}")
+  @RolesAllowed({ Roles.ADMIN })
+  public List<AnswerDorDTO> getSortedAnswersForQuestion(@PathVariable Long sessionId,
+                                                  @PathVariable int rnd,
+                                                  @PathVariable Long questionId) {
+    return dorService.getAnswers(sessionId, rnd, questionId);
+  }
+
   @DeleteMapping("/session/{id}")
   @RolesAllowed({ Roles.ADMIN })
   public void deleteSession(@PathVariable Long id) {

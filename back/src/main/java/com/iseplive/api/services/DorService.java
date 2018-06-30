@@ -123,6 +123,12 @@ public class DorService {
     return eventDorRepository.findAllByNameContainingIgnoreCase(name);
   }
 
+  /**
+   * Get answers grouped by question
+   * @param sessionId
+   * @param round
+   * @return
+   */
   private Map<QuestionDor, List<AnswerDorDTO>> getRoundAnswersByQuestion(Long sessionId, int round) {
     List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndRound(sessionId, round);
     Map<QuestionDor, List<AnswerDorDTO>> frWinners = new HashMap<>();
@@ -134,11 +140,25 @@ public class DorService {
     return frWinners;
   }
 
+  /**
+   * Convert list of vote to list of AnswerDTO
+   * @param sessionId
+   * @param round
+   * @param questionId
+   * @return
+   */
   private List<AnswerDorDTO> getRoundAnswersForQuestion(Long sessionId, int round, Long questionId) {
     List<VoteDor> voteDors = voteDorRepository.findAllBySession_IdAndRoundAndQuestionDor_id(sessionId, round, questionId);
-    return voteDors.stream().map(this::voteToAnswerDTO).collect(Collectors.toList());
+    return voteDors.stream()
+      .map(this::voteToAnswerDTO)
+      .collect(Collectors.toList());
   }
 
+  /**
+   * Sort answers by top score
+   * @param roundAnswers
+   * @return
+   */
   private List<AnswerDorDTO> getAnswerSelection(List<AnswerDorDTO> roundAnswers) {
     Map<String, AnswerDorDTO> grouped = new HashMap<>();
     for (AnswerDorDTO answer: roundAnswers) {
@@ -150,28 +170,29 @@ public class DorService {
         grouped.put(answer.getName(), answer);
       }
     }
-//
-//    Map<String, Long> grouped = new HashMap<>();
-//    Map<String, AnswerDorDTO> mapping = new HashMap<>();
-//    for (AnswerDorDTO answerDorDTO: roundAnswers) {
-//      if (grouped.get(answerDorDTO.getName()) != null) {
-//        grouped.put(answerDorDTO.getName(), grouped.get(answerDorDTO.getName()) + 1);
-//      } else {
-//        mapping.put(answerDorDTO.getName(), answerDorDTO);
-//        grouped.put(answerDorDTO.getName(), 1L);
-//      }
-//    }
-//
-//    for (String key: grouped.keySet()) {
-//      mapping.get(key).setScore(grouped.get(key));
-//    }
     return sortByTopScore(new ArrayList<>(grouped.values()));
   }
 
+  /**
+   * Sort answers by score (descending order)
+   * @param answers
+   * @return
+   */
   private List<AnswerDorDTO> sortByTopScore(List<AnswerDorDTO> answers) {
     answers.sort(Comparator.comparing(AnswerDorDTO::getScore));
     Collections.reverse(answers);
     return answers;
+  }
+
+  /**
+   * Get sorted answers for a question (admin access only)
+   * @param sessionId
+   * @param round
+   * @param questionId
+   * @return
+   */
+  public List<AnswerDorDTO> getAnswers(Long sessionId, int round, Long questionId) {
+    return getAnswerSelection(getRoundAnswersForQuestion(sessionId, round, questionId));
   }
 
   /**
@@ -193,6 +214,12 @@ public class DorService {
     return answersMap;
   }
 
+  /**
+   * Compute the top three candidates of the final results for each
+   * question of a particular session
+   * @param sessionId
+   * @return
+   */
   @Cacheable("dor-results")
   public Map<Long, List<AnswerDorDTO>> computeFinalResults(Long sessionId) {
     Map<QuestionDor, List<AnswerDorDTO>> finalRoundAnswers = getRoundAnswersByQuestion(sessionId, 2);
@@ -206,6 +233,11 @@ public class DorService {
     return answersMap;
   }
 
+  /**
+   * Convert Vote to AnswerDTO
+   * @param voteDor
+   * @return
+   */
   private AnswerDorDTO voteToAnswerDTO(VoteDor voteDor) {
     if (voteDor.getResAuthor() != null) {
       return new AnswerDorDTO(voteDor.getResAuthor().getId(), AnswerDorType.USER, voteDor);
@@ -217,7 +249,7 @@ public class DorService {
   }
 
   /**
-   * Check if the 3 answer selected during the first round
+   * Check if one of the 3 answers selected during the first round
    * match with the vote
    *
    * @param sessionDor
@@ -251,6 +283,13 @@ public class DorService {
     return questionDorRepository.findAllByOrderByPosition();
   }
 
+  /**
+   * Handle a vote for the current session if one is active and current round.
+   * Checks if the user can vote for a certain question
+   * @param voteDor
+   * @param payload
+   * @return
+   */
   public VoteDor handleVote(VoteDorDTO voteDor, TokenPayload payload) {
     SessionDor sessionDor = getCurrentSession();
     if (sessionDor == null) {

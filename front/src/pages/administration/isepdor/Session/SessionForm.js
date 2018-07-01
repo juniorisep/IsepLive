@@ -16,9 +16,12 @@ import { sendAlert } from '../../../../components/Alert';
 import * as dorData from '../../../../data/dor';
 import ResultPanel from './ResultPanel';
 import { type SessionDor } from '../../../../data/dor/type';
+import { Tooltip } from 'material-ui';
 
 type Props = {
   selected: ?SessionDor,
+  deselect: () => mixed,
+  refreshTable: (id: ?number) => mixed,
 };
 
 type State = {
@@ -85,14 +88,21 @@ export default class SessionForm extends React.Component<Props, State> {
 
   updateSession = async () => {
     const { sessionForm } = this.state;
-    const res = await dorData.updateSession(this.props.selected.id, {
-      result: sessionForm.result,
-      firstTurn: sessionForm.firstTurn,
-      secondTurn: sessionForm.secondTurn,
-      enabled: sessionForm.enabled,
-    });
-    sendAlert('Session mise à jour');
-    this.props.refreshTable(res.data.id);
+    const { selected } = this.props;
+    if (selected) {
+      try {
+        const res = await dorData.updateSession(selected.id, {
+          result: sessionForm.result,
+          firstTurn: sessionForm.firstTurn,
+          secondTurn: sessionForm.secondTurn,
+          enabled: sessionForm.enabled,
+        });
+        sendAlert('Session mise à jour');
+        this.props.refreshTable(res.data.id);
+      } catch (e) {
+        sendAlert('Erreur lors de la mise à jour');
+      }
+    }
   };
 
   deleteSession = async () => {
@@ -118,7 +128,9 @@ export default class SessionForm extends React.Component<Props, State> {
 
   genDiploma = async () => {
     const { selected } = this.props;
-    await dorData.generateDiploma(selected.id);
+    if (selected) {
+      await dorData.generateDiploma(selected.id);
+    }
   };
 
   render() {
@@ -242,24 +254,28 @@ export default class SessionForm extends React.Component<Props, State> {
         </Button>
         {selected && (
           <Fragment>
-            <Button
-              variant="fab"
-              size="medium"
-              color="secondary"
-              style={{ marginRight: 10 }}
-              onClick={this.deleteSession}
-            >
-              <DeleteIcon />
-            </Button>
+            <Tooltip placement="top" title="Supprimer la session">
+              <Button
+                variant="fab"
+                size="medium"
+                color="secondary"
+                style={{ marginRight: 10 }}
+                onClick={this.deleteSession}
+              >
+                <DeleteIcon />
+              </Button>
+            </Tooltip>
 
-            <Button
-              variant="fab"
-              size="medium"
-              color="secondary"
-              onClick={this.genDiploma}
-            >
-              <SendIcon />
-            </Button>
+            <Tooltip placement="top" title="Générer et envoyer les diplômes">
+              <Button
+                variant="fab"
+                size="medium"
+                color="secondary"
+                onClick={this.genDiploma}
+              >
+                <SendIcon />
+              </Button>
+            </Tooltip>
 
             <ResultPanel
               selected={selected}

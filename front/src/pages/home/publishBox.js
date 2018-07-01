@@ -345,9 +345,8 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
   onProgress = progressEvent => {
     if (this.state.isUploading) {
       const percent = Math.floor(
-        progressEvent.loaded * 100 / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total
       );
-      console.log('progress', percent);
       if (percent === 100) {
         this.setState({ uploadMode: 'indeterminate' });
       } else {

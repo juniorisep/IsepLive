@@ -198,9 +198,10 @@ class ResultPanel extends Component<Props, State> {
                   <Tab label="1er tour" />
                   <Tab label="2ème tour" />
                 </Tabs>
-                {answers.length == 0 && (
-                  <h2 style={{ margin: '1em' }}>Aucun résultat</h2>
-                )}
+                {!loading &&
+                  answers.length == 0 && (
+                    <h2 style={{ margin: '1em' }}>Aucun résultat</h2>
+                  )}
                 <Loader loading={loading}>
                   <List>
                     {answers.map((a, i) => (

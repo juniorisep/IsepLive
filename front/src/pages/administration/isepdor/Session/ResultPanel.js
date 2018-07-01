@@ -28,6 +28,7 @@ import { ListItemText } from 'material-ui';
 import styled from 'styled-components';
 
 import { MAIN_COLOR } from '../../../../colors';
+import Loader from '../../../../components/Loader';
 
 const Index = styled.span`
   margin-right: 1em;
@@ -79,6 +80,7 @@ type State = {
   tabSelected: number,
   roundSelected: number,
   selectedQuestion: ?number,
+  loading: boolean,
 };
 
 class ResultPanel extends Component<Props, State> {
@@ -88,6 +90,7 @@ class ResultPanel extends Component<Props, State> {
     tabSelected: 0,
     roundSelected: 1,
     selectedQuestion: null,
+    loading: false,
   };
 
   componentDidMount() {
@@ -102,12 +105,13 @@ class ResultPanel extends Component<Props, State> {
   async getAnswers(questionId: ?number, round: number) {
     const { selected } = this.props;
     if (selected && questionId) {
+      this.setState({ loading: true });
       const res = await dorData.getRoundResultsForQuestion(
         selected.id,
         round,
         questionId
       );
-      this.setState({ answers: res.data });
+      this.setState({ answers: res.data, loading: false });
     }
   }
 
@@ -128,7 +132,13 @@ class ResultPanel extends Component<Props, State> {
   };
 
   render() {
-    const { selectedQuestion, tabSelected, answers, questions } = this.state;
+    const {
+      selectedQuestion,
+      tabSelected,
+      answers,
+      questions,
+      loading,
+    } = this.state;
     return (
       <Dialog open={this.props.open} fullScreen onClose={this.handleClose}>
         <AppBar style={{ position: 'relative' }}>
@@ -191,11 +201,13 @@ class ResultPanel extends Component<Props, State> {
                 {answers.length == 0 && (
                   <h2 style={{ margin: '1em' }}>Aucun résultat</h2>
                 )}
-                <List>
-                  {answers.map((a, i) => (
-                    <AnswerItem key={i} index={i} answer={a} />
-                  ))}
-                </List>
+                <Loader loading={loading}>
+                  <List>
+                    {answers.map((a, i) => (
+                      <AnswerItem key={i} index={i} answer={a} />
+                    ))}
+                  </List>
+                </Loader>
               </Fragment>
             )}
             {!selectedQuestion && (

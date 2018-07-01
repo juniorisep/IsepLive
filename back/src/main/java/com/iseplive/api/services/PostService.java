@@ -175,6 +175,7 @@ public class PostService {
     if (post.getMedia() instanceof Video) {
       Video video = (Video) post.getMedia();
       mediaUtils.removeIfExistPublic(video.getUrl());
+      mediaUtils.removeIfExistPublic(video.getPoster());
     }
 
     postRepository.delete(postId);

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import Checkbox from 'material-ui/Checkbox';
 import Button from 'material-ui/Button';
+import Fade from 'material-ui/transitions/Fade';
 
 import {
   Title,
@@ -24,6 +25,8 @@ import Time from '../../components/Time';
 import { ADMIN, POST_MANAGER } from '../../constants';
 
 import LazyLoad from 'react-lazyload';
+
+import { backUrl } from '../../config';
 
 import type {
   Gallery as GalleryType,
@@ -50,6 +53,29 @@ const Edit = props => {
     </div>
   );
 };
+
+class ThumbnailAnimation extends React.Component<{}, {}> {
+  state = {
+    loaded: false,
+  };
+
+  componentDidMount() {
+    this.loadImage();
+  }
+
+  loadImage() {
+    const img = new window.Image();
+    img.onload = () => {
+      this.setState({ loaded: true });
+    };
+    img.src = backUrl + this.props.src;
+  }
+
+  render() {
+    const { loaded } = this.state;
+    return this.props.children(loaded);
+  }
+}
 
 type State = {
   isLoading: boolean,
@@ -287,9 +313,9 @@ export default class GalleryPage extends React.Component<{}, State> {
                     <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 5]} p={1}>
                       <LazyLoad
                         height="130px"
-                        offsetTop={200}
-                        once
+                        offsetTop={100}
                         placeholder={<ImagePlaceholder />}
+                        once
                       >
                         <Flex
                           align="center"
@@ -304,7 +330,13 @@ export default class GalleryPage extends React.Component<{}, State> {
                             }}
                             style={{ width: '100%' }}
                           >
-                            <Image w="100%" src={img.thumbUrl} />
+                            <ThumbnailAnimation src={img.thumbUrl}>
+                              {loaded => (
+                                <Fade in={loaded} timeout={500}>
+                                  <Image w="100%" src={img.thumbUrl} />
+                                </Fade>
+                              )}
+                            </ThumbnailAnimation>
                           </Link>
                           {shouldEdit && (
                             <Edit img={img} onSelect={this.selectPhotoEdit} />

@@ -79,7 +79,7 @@ const ITEM_PADDING_TOP = 8;
 
 let now = new Date().getFullYear();
 let years = [];
-if (new Date().getMonth() < 9) {
+if (new Date().getMonth() < 8) {
   now--;
 }
 for (var i = 5; i > -15; i--) {

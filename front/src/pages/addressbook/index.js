@@ -39,7 +39,9 @@ class AddressBook extends Component {
   };
 
   onSeeMore = () => {
-    this.getStudents();
+    if(!this.State.isLoading){
+        this.getStudents();
+    }
   };
 
   searchStudents = ({ target }) => {

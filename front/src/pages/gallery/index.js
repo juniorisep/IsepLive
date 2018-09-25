@@ -27,6 +27,7 @@ import { ADMIN, POST_MANAGER } from '../../constants';
 import LazyLoad from 'react-lazyload';
 
 import { backUrl } from '../../config';
+import styled from 'styled-components';
 
 import type {
   Gallery as GalleryType,
@@ -37,14 +38,10 @@ import * as mediaData from '../../data/media/image';
 import * as authData from '../../data/auth';
 import * as postData from '../../data/post';
 
-const ImagePlaceholder = () => (
-  <div
-    style={{
-      background: '#EEE',
-      height: 130,
-    }}
-  />
-);
+const ImagePlaceholder = styled.div`
+  background: #eee;
+  height: 130;
+`;
 
 const Edit = props => {
   return (
@@ -255,7 +252,8 @@ export default class GalleryPage extends React.Component<{}, State> {
                     />
                   </Text>
                   <Text mb={1} fs="13px">
-                    {images.length} photo{images.length !== 1 && 's'}
+                    {images.length} photo
+                    {images.length !== 1 && 's'}
                   </Text>
                 </Box>
                 <Box ml="auto">
@@ -301,8 +299,9 @@ export default class GalleryPage extends React.Component<{}, State> {
                   </Box>
                   <Box ml="auto">
                     <Text fs="1.2em">
-                      {countImages} photo{countImages !== 1 && 's'} sélectionnée{countImages !==
-                        1 && 's'}
+                      {countImages} photo
+                      {countImages !== 1 && 's'} sélectionnée
+                      {countImages !== 1 && 's'}
                     </Text>
                   </Box>
                 </Flex>

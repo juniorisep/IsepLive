@@ -50,7 +50,7 @@ class ImageLoader extends React.Component {
     url: null,
     loadImage: null,
     loaded: false,
-  }
+  };
 
   componentDidMount() {
     if (this.props.load) {
@@ -66,11 +66,9 @@ class ImageLoader extends React.Component {
 
   handleImageLoaded = () => {
     this.setState({ url: this.props.img, loaded: true });
-  }
+  };
 
-  handleImageErrored = () => {
-
-  }
+  handleImageErrored = () => {};
 
   render() {
     return (
@@ -80,14 +78,15 @@ class ImageLoader extends React.Component {
           alt="loading"
           style={{ display: 'none' }}
           onLoad={this.handleImageLoaded}
-          onError={this.handleImageErrored} />
-        <span style={{
-          transition: 'opacity .5s ease',
-          opacity: this.state.loaded ? 1 : 0,
-        }} >
-          <Image
-            {...this.props}
-            img={this.state.url} />
+          onError={this.handleImageErrored}
+        />
+        <span
+          style={{
+            transition: 'opacity .5s ease',
+            opacity: this.state.loaded ? 1 : 0,
+          }}
+        >
+          <Image {...this.props} img={this.state.url} />
         </span>
       </span>
     );
@@ -103,9 +102,9 @@ const transitionStyles = {
   // exiting: { opacity: 0, transform: 'scale(.4)' },
 };
 
-const ImageTransition = (props) => (
+const ImageTransition = props => (
   <Transition in={props.in} timeout={props.duration}>
-    {(state) => (
+    {state => (
       <ImageLoader
         load={props.shouldLoad}
         coverMode={props.coverMode}
@@ -114,19 +113,42 @@ const ImageTransition = (props) => (
           opacity: 0,
           ...transitionStyles[state],
         }}
-        img={props.image} />
+        img={props.image}
+      />
     )}
   </Transition>
 );
 
-export default class SlideShow extends React.Component {
+type SlideShowState = {
+  pos: number,
+  animEnabled: boolean,
+  direction: number,
+};
+
+type SlideShowProps = {
+  duration: number,
+  initPos: number,
+  auto: boolean,
+  handleKey: boolean,
+  play: boolean,
+  loop: boolean,
+  showControls: boolean,
+  coverMode: boolean,
+  items: any[],
+  onChange: (newPos: number) => mixed,
+};
+
+export default class SlideShow extends React.Component<
+  SlideShowProps,
+  SlideShowState
+> {
   state = {
     pos: 0,
     animEnabled: true,
     direction: DIR_FORWARD,
-  }
+  };
 
-  task: number;
+  task: any;
 
   getDuration() {
     return (this.props.duration || 5) * 1000 + 500;
@@ -144,7 +166,7 @@ export default class SlideShow extends React.Component {
     document.addEventListener('keydown', this.handleKey);
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: SlideShowProps) {
     if (props.play === true) {
       this.autoSlide();
     }
@@ -160,7 +182,7 @@ export default class SlideShow extends React.Component {
     document.removeEventListener('keydown', this.handleKey);
   }
 
-  handleKey = ({ key }) => {
+  handleKey = ({ key }: KeyboardEvent) => {
     if (this.props.handleKey) {
       const { pos } = this.state;
       switch (key) {
@@ -174,12 +196,12 @@ export default class SlideShow extends React.Component {
           break;
       }
     }
-  }
+  };
 
-  handleArrow = (direction) => e => {
+  handleArrow = (direction: number) => () => {
     const { pos } = this.state;
     this.goTo(pos + direction, direction);
-  }
+  };
 
   autoSlide() {
     if (this.task) clearInterval(this.task);
@@ -216,7 +238,7 @@ export default class SlideShow extends React.Component {
     }
   }
 
-  shouldLoadImage(imgPos) {
+  shouldLoadImage(imgPos: number) {
     const { pos } = this.state;
     return Math.abs(imgPos - pos) < 3;
   }
@@ -226,40 +248,36 @@ export default class SlideShow extends React.Component {
     const { pos } = this.state;
     return (
       <ImageList>
-        {
-          showControls &&
+        {showControls && (
           <Controls>
             <Control>
-              {
-                pos !== 0 &&
+              {pos !== 0 && (
                 <IconButton onClick={this.handleArrow(DIR_BACKWARD)}>
                   <ArrLeft style={{ color: 'white' }} />
                 </IconButton>
-              }
+              )}
             </Control>
-            <Control style={{ right: 0 }} >
-              {
-                pos !== items.length - 1 &&
+            <Control style={{ right: 0 }}>
+              {pos !== items.length - 1 && (
                 <IconButton onClick={this.handleArrow(DIR_FORWARD)}>
                   <ArrRight style={{ color: 'white' }} />
                 </IconButton>
-              }
+              )}
             </Control>
           </Controls>
-        }
-        {
-          items.map((img, key) => {
-            return (
-              <ImageTransition
-                key={key}
-                in={key === pos}
-                shouldLoad={this.shouldLoadImage(key)}
-                coverMode={this.props.coverMode}
-                duration={200}
-                image={img} />
-            );
-          })
-        }
+        )}
+        {items.map((img, key) => {
+          return (
+            <ImageTransition
+              key={key}
+              in={key === pos}
+              shouldLoad={this.shouldLoadImage(key)}
+              coverMode={this.props.coverMode}
+              duration={200}
+              image={img}
+            />
+          );
+        })}
       </ImageList>
     );
   }

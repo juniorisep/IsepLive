@@ -2,18 +2,20 @@
 
 import React from 'react';
 
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import { Flex, Box } from 'grid-styled';
 
-import Table, {
+import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
-import { FormControlLabel } from 'material-ui/Form';
+} from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import { DatePicker } from 'material-ui-pickers';
 

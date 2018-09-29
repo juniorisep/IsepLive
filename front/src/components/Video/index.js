@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import IconButton from 'material-ui/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 
-import PlayIcon from 'material-ui-icons/PlayArrow';
-import PauseIcon from 'material-ui-icons/Pause';
-import FullScreenIcon from 'material-ui-icons/Fullscreen';
-import SoundIcon from 'material-ui-icons/VolumeUp';
-import MuteIcon from 'material-ui-icons/VolumeOff';
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+import FullScreenIcon from '@material-ui/icons/Fullscreen';
+import SoundIcon from '@material-ui/icons/VolumeUp';
+import MuteIcon from '@material-ui/icons/VolumeOff';
 
 import { backUrl } from '../../config';
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';

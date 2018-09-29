@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import { NavLink, Redirect } from 'react-router-dom';
 
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import styled from 'styled-components';
 

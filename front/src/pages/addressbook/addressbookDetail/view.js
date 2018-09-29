@@ -5,8 +5,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { Link } from 'react-router-dom';
-import Button from 'material-ui/Button';
-import Tabs, { Tab } from 'material-ui/Tabs';
+import Button from '@material-ui/core/Button';
+import { Tabs, Tab } from '@material-ui/core';
 
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
@@ -39,26 +39,22 @@ const PersonStyle = styled.div`
 `;
 
 export default function AdressbookDetailView(props) {
-  const {
-    user,
-    posts,
-    clubMembers,
-  } = props;
+  const { user, posts, clubMembers } = props;
   return (
     <FluidContent>
       <ScrollToTopOnMount />
       <Loader loading={props.isLoading}>
-        {
-          user &&
+        {user && (
           <Flex flexWrap="wrap">
             <Box p={2} width={[1, 1 / 4]}>
-              <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
+              <PersonStyle
+                onClick={props.setFullScreen(true)}
+                style={{ cursor: 'pointer' }}
+              >
                 <ProfileImage src={user.photoUrl} sz="100%" mh="200px" />
               </PersonStyle>
             </Box>
-            <Box p={2} width={[
-              1, 3 / 4
-            ]}>
+            <Box p={2} width={[1, 3 / 4]}>
               <Paper p="20px">
                 <Flex>
                   <Box>
@@ -88,9 +84,10 @@ export default function AdressbookDetailView(props) {
             <FullScreenView
               visible={props.fullscreenOpen}
               image={user.photoUrl}
-              onEscKey={props.setFullScreen(false)} />
+              onEscKey={props.setFullScreen(false)}
+            />
           </Flex>
-        }
+        )}
       </Loader>
     </FluidContent>
   );

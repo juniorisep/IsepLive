@@ -10,9 +10,9 @@ import {
   Image,
 } from '../../components/common';
 
-import Button from 'material-ui/Button';
-import Tooltip from 'material-ui/Tooltip';
-import StarIcon from 'material-ui-icons/Star';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import StarIcon from '@material-ui/icons/Star';
 
 import { Link, Switch, Route } from 'react-router-dom';
 import Time from '../../components/Time';

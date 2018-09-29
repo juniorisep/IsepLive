@@ -1,13 +1,13 @@
 // @flow
 
 import React from 'react';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import { Text } from 'components/common';
 
 import PostList from 'components/PostList';
 import Loader from 'components/Loader';
-import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 export default function PostsTab(props) {
   return (

@@ -4,7 +4,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
 
 import {

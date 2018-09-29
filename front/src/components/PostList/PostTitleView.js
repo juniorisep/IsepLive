@@ -11,8 +11,9 @@ import * as authData from '../../data/auth';
 
 import Time from '../Time';
 import Author from '../Author';
+import styled from 'styled-components';
 
-const DynamicTitle = Title.extend`
+const DynamicTitle = styled(Title)`
   padding-right: 10px;
   @media (max-width: 400px) {
     font-size: 1.1em;

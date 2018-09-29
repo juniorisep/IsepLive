@@ -5,14 +5,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import { FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
-import { LinearProgress } from 'material-ui/Progress';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import { Menu, MenuItem } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Checkbox from '@material-ui/core/Checkbox';
 
-import AddCircleIcon from 'material-ui-icons/AddCircle';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import * as postData from 'data/post';
 import * as mediaData from 'data/media';
@@ -67,7 +67,7 @@ const TitleBox = styled.input`
 `;
 
 let MessageBox = TitleBox.withComponent('textarea');
-MessageBox = MessageBox.extend`
+MessageBox = styled(MessageBox)`
   resize: none;
   min-height: 80px;
 `;

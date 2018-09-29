@@ -2,10 +2,10 @@
 import React, { Fragment } from 'react';
 
 import { Flex, Box } from 'grid-styled';
-import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import Chip from 'material-ui/Chip';
-import Radio from 'material-ui/Radio';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
+import Radio from '@material-ui/core/Radio';
 
 import {
   Paper,

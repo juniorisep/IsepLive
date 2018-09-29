@@ -6,25 +6,25 @@ import { Box, Flex } from 'grid-styled';
 
 import { Title, Text, Paper } from 'components/common';
 
-import List, { ListItem, ListItemText, ListItemIcon } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
+import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 
-import Delete from 'material-ui-icons/Delete';
-import Done from 'material-ui-icons/Done';
-import VerifiedUser from 'material-ui-icons/VerifiedUser';
-import DeleteIcon from 'material-ui-icons/Delete';
+import Delete from '@material-ui/icons/Delete';
+import Done from '@material-ui/icons/Done';
+import VerifiedUser from '@material-ui/icons/VerifiedUser';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import Checkbox from 'material-ui/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox';
 
-import { FormControlLabel } from 'material-ui/Form';
-import TextField from 'material-ui/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 
-import { MenuItem } from 'material-ui/Menu';
-import Select from 'material-ui/Select';
-import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl } from 'material-ui/Form';
+import { MenuItem } from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import { Input, InputLabel } from '@material-ui/core';
 
 import Autocomplete from '../../../components/Autocomplete';
 import Popup from 'components/Popup';

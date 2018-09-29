@@ -3,12 +3,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui-icons/Close';
-import FileDownload from 'material-ui-icons/FileDownload';
-import PlayIcon from 'material-ui-icons/PlayArrow';
-import PauseIcon from 'material-ui-icons/Pause';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import FileDownload from '@material-ui/icons/CloudDownload';
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 
 import Auth from '../Auth/AuthComponent';
 
@@ -34,21 +34,20 @@ const GalleryStyle = styled.div`
   margin: 5vh;
 `;
 
-
 class Gallery extends Component {
   state = {
     currentIndex: 0,
     matcherOpen: false,
     isPlaying: false,
-  }
+  };
 
   componentWillUnmount() {
     this.removeEscListener();
   }
 
-  openMatcher = (open) => {
+  openMatcher = open => {
     this.setState({ matcherOpen: open });
-  }
+  };
 
   removeEscListener() {
     document.removeEventListener('keydown', this.keyHandler);
@@ -67,7 +66,6 @@ class Gallery extends Component {
     if (props.index !== this.state.currentIndex) {
       this.setState({ currentIndex: props.index });
     }
-
   }
 
   keyHandler = ({ key }) => {
@@ -76,13 +74,13 @@ class Gallery extends Component {
     }
   };
 
-  updateIndex = (index) => {
+  updateIndex = index => {
     this.setState({ currentIndex: index });
-  }
+  };
 
   togglePlay = () => {
     this.setState({ isPlaying: !this.state.isPlaying });
-  }
+  };
 
   render() {
     const lightButton = {
@@ -102,7 +100,8 @@ class Gallery extends Component {
             right: 20,
             zIndex: 3,
           }}
-          onClick={() => this.props.onEscKey()}>
+          onClick={() => this.props.onEscKey()}
+        >
           <CloseIcon style={{ color: 'white' }} />
         </IconButton>
         <GalleryStyle>
@@ -113,41 +112,47 @@ class Gallery extends Component {
             coverMode="contain"
             initPos={index}
             onChange={this.updateIndex}
-            items={
-              images.map(img => backUrl + img.fullSizeUrl)
-            }
-            duration={5} />
+            items={images.map(img => backUrl + img.fullSizeUrl)}
+            duration={5}
+          />
         </GalleryStyle>
-        {
-          images.length > 0 &&
+        {images.length > 0 && (
           <div style={{ margin: 30 }}>
             <Button
               style={lightButton}
               download
               size="small"
-              href={backUrl + images[this.state.currentIndex].originalUrl}>
+              href={backUrl + images[this.state.currentIndex].originalUrl}
+            >
               <FileDownload style={{ marginRight: 5 }} /> Télecharger
             </Button>
-            {
-              this.state.isPlaying ?
-                <Button style={lightButton} size="small" onClick={this.togglePlay}>
-                  <PauseIcon style={{ marginRight: 5 }} /> Pause
+            {this.state.isPlaying ? (
+              <Button
+                style={lightButton}
+                size="small"
+                onClick={this.togglePlay}
+              >
+                <PauseIcon style={{ marginRight: 5 }} /> Pause
               </Button>
-                :
-                <Button style={lightButton} size="small" onClick={this.togglePlay}>
-                  <PlayIcon style={{ marginRight: 5 }} /> Lecture
+            ) : (
+              <Button
+                style={lightButton}
+                size="small"
+                onClick={this.togglePlay}
+              >
+                <PlayIcon style={{ marginRight: 5 }} /> Lecture
               </Button>
-            }
-            {
-              !this.state.isPlaying &&
+            )}
+            {!this.state.isPlaying && (
               <Auth logged>
                 <PeopleMatcher
                   onOpenMatcher={this.openMatcher}
-                  image={images[this.state.currentIndex]} />
+                  image={images[this.state.currentIndex]}
+                />
               </Auth>
-            }
+            )}
           </div>
-        }
+        )}
       </Wrapper>
     );
   }

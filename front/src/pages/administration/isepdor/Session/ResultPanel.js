@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, Fragment } from 'react';
-import Dialog, { DialogTitle } from 'material-ui/Dialog';
+import { Dialog, DialogTitle } from '@material-ui/core';
 import { Flex, Box } from 'grid-styled';
 
 import * as dorData from '../../../../data/dor';
@@ -20,11 +20,11 @@ import {
   Avatar,
   Tabs,
   Tab,
-} from 'material-ui';
-import Typography from 'material-ui/Typography';
+} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
-import CloseIcon from 'material-ui-icons/Close';
-import { ListItemText } from 'material-ui';
+import CloseIcon from '@material-ui/icons/Close';
+import { ListItemText } from '@material-ui/core';
 import styled from 'styled-components';
 
 import { MAIN_COLOR } from '../../../../colors';
@@ -59,7 +59,8 @@ function AnswerItem({ answer, index }) {
         <Avatar src={data.url} />
         <Name>{data.name}</Name>
         <Score>
-          {answer.score} vote{answer.score != 1 && 's'}
+          {answer.score} vote
+          {answer.score != 1 && 's'}
         </Score>
       </Item>
       <Divider />

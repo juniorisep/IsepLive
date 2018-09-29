@@ -2,9 +2,14 @@
 
 import React from 'react';
 
-import Button from 'material-ui/Button';
-import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 
 import { EventForm } from './MediaForms';
 import { Title } from 'components/common';
@@ -13,10 +18,9 @@ import * as postData from 'data/post';
 import * as eventData from 'data/event';
 
 export default class ModifyPostModal extends React.Component {
-
   state = {
     post: null,
-  }
+  };
 
   componentWillReceiveProps(props) {
     if (props.post) {
@@ -34,7 +38,11 @@ export default class ModifyPostModal extends React.Component {
 
       if (post.media) {
         if (post.media.mediaType === 'event') {
-          await eventData.updateEvent(post.media.id, post.media, post.author.id);
+          await eventData.updateEvent(
+            post.media.id,
+            post.media,
+            post.author.id
+          );
         }
       }
       this.props.refresh();
@@ -51,14 +59,8 @@ export default class ModifyPostModal extends React.Component {
   };
 
   changeMedia = data => {
-    const {
-      title,
-      location,
-      date,
-      description,
-      image,
-    } = data;
-    this.setState((state) => ({
+    const { title, location, date, description, image } = data;
+    this.setState(state => ({
       post: {
         ...state.post,
         media: {
@@ -76,20 +78,23 @@ export default class ModifyPostModal extends React.Component {
   render() {
     const { post } = this.state;
     return (
-      <Dialog fullWidth open={this.props.open} onClose={this.props.requestClose}>
+      <Dialog
+        fullWidth
+        open={this.props.open}
+        onClose={this.props.requestClose}
+      >
         <DialogTitle>Modifier un post</DialogTitle>
-        {
-          post &&
+        {post && (
           <DialogContent>
-            {
-              post.author.authorType === 'club' &&
+            {post.author.authorType === 'club' && (
               <TextField
                 margin="dense"
                 label="Titre"
                 value={post.title}
                 onChange={this.change('title')}
-                fullWidth />
-            }
+                fullWidth
+              />
+            )}
             <TextField
               multiline
               fullWidth
@@ -97,18 +102,21 @@ export default class ModifyPostModal extends React.Component {
               margin="normal"
               label="Message"
               value={post.content}
-              onChange={this.change('content')} />
-            {
-              post.media && post.media.mediaType === 'event' &&
-              <div style={{ marginTop: 20 }}>
-                <Title fontSize={1.4} invert>Evenement</Title>
-                <EventForm fullw post={post} update={this.changeMedia} />
-              </div>
-            }
+              onChange={this.change('content')}
+            />
+            {post.media &&
+              post.media.mediaType === 'event' && (
+                <div style={{ marginTop: 20 }}>
+                  <Title fontSize={1.4} invert>
+                    Evenement
+                  </Title>
+                  <EventForm fullw post={post} update={this.changeMedia} />
+                </div>
+              )}
           </DialogContent>
-        }
+        )}
         <DialogActions>
-          <Button onClick={this.props.requestClose} color="default" autoFocus >
+          <Button onClick={this.props.requestClose} color="default" autoFocus>
             Annuler
           </Button>
           <Button onClick={this.requestSave} color="primary">

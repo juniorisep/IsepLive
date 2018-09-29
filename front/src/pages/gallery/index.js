@@ -5,9 +5,9 @@ import React from 'react';
 import { Flex, Box } from 'grid-styled';
 import { Link } from 'react-router-dom';
 
-import Checkbox from 'material-ui/Checkbox';
-import Button from 'material-ui/Button';
-import Fade from 'material-ui/transitions/Fade';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Fade from '@material-ui/core/Fade';
 
 import {
   Title,

@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import * as moment from 'moment';
 import { Flex, Box } from 'grid-styled';
 
-import InsertChartIcon from 'material-ui-icons/InsertChart';
+import InsertChartIcon from '@material-ui/icons/InsertChart';
 
-import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
+import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 
 import { Title, Text, ProfileImage } from '../common';
 
@@ -56,7 +56,7 @@ type State = {
   answers: AnswerDTO[],
   data: PostDTO,
   showVotesModal: boolean,
-}
+};
 
 class Poll extends Component {
   state: State = {
@@ -97,9 +97,9 @@ class Poll extends Component {
 
   hasEnded = () => {
     return this.state.data.endDate < new Date().getTime();
-  }
+  };
 
-  handleVote = async (choice) => {
+  handleVote = async choice => {
     if (this.hasEnded()) {
       this.setState({ showVote: true });
       return;
@@ -120,12 +120,11 @@ class Poll extends Component {
     let res = await pollData.getPoll(this.props.data.id);
     this.setState({ data: res.data });
     this.retrieveVotes();
-  }
+  };
 
   isAnswered(answer) {
     const user = authData.getUser();
-    return user && answer.voters
-      .filter(vid => vid === user.id).length > 0;
+    return user && answer.voters.filter(vid => vid === user.id).length > 0;
   }
 
   isSelectable(answer) {
@@ -142,14 +141,16 @@ class Poll extends Component {
 
   getTotal() {
     const poll = this.state.data;
-    return poll.answers
-      .reduce((acc, x) => acc + x.votesNb, 0);
+    return poll.answers.reduce((acc, x) => acc + x.votesNb, 0);
   }
 
   renderPollStatus() {
     const { data: poll } = this.state;
     if (this.hasEnded()) {
-      return 'Sondage terminé le ' + moment(poll.endDate).format('Do MMMM YYYY [à] HH:mm');
+      return (
+        'Sondage terminé le ' +
+        moment(poll.endDate).format('Do MMMM YYYY [à] HH:mm')
+      );
     } else {
       const remainDate = moment(poll.endDate).fromNow();
       return `Fini ${remainDate}`;
@@ -161,40 +162,46 @@ class Poll extends Component {
     const total = this.getTotal();
     return (
       <Wrapper>
-        <TopBar><InsertChartIcon style={{ marginRight: 10 }} /> Sondage</TopBar>
+        <TopBar>
+          <InsertChartIcon style={{ marginRight: 10 }} /> Sondage
+        </TopBar>
         <Main>
           <Question>{poll.name}</Question>
-          {
-            poll.answers.map(ans => {
-              return (
-                <Answer
-                  key={ans.id}
-                  showVote={this.state.showVote || this.hasEnded()}
-                  selectable={this.isSelectable(ans)}
-                  voted={this.isAnswered(ans)}
-                  multiAnswers={poll.multiAnswers}
-                  total={this.getTotal()}
-                  ended={this.hasEnded()}
-                  onClick={() => this.handleVote(ans)}
-                  answer={ans} />
-              );
-            })
-          }
-          {
-            poll.multiAnswers &&
-            <Text fs="0.8em" mb={0.5}>Plusieurs réponses possibles</Text>
-          }
+          {poll.answers.map(ans => {
+            return (
+              <Answer
+                key={ans.id}
+                showVote={this.state.showVote || this.hasEnded()}
+                selectable={this.isSelectable(ans)}
+                voted={this.isAnswered(ans)}
+                multiAnswers={poll.multiAnswers}
+                total={this.getTotal()}
+                ended={this.hasEnded()}
+                onClick={() => this.handleVote(ans)}
+                answer={ans}
+              />
+            );
+          })}
+          {poll.multiAnswers && (
+            <Text fs="0.8em" mb={0.5}>
+              Plusieurs réponses possibles
+            </Text>
+          )}
           <Flex>
             <Box>
               <Text fs="0.9em">{this.renderPollStatus()}</Text>
             </Box>
             <Box ml="auto">
-              {
-                this.state.showVote &&
-                <Caption onClick={() => {
-                  this.setState({ showVotesModal: true });
-                }}>{total} vote{total !== 1 && 's'}</Caption>
-              }
+              {this.state.showVote && (
+                <Caption
+                  onClick={() => {
+                    this.setState({ showVotesModal: true });
+                  }}
+                >
+                  {total} vote
+                  {total !== 1 && 's'}
+                </Caption>
+              )}
             </Box>
           </Flex>
         </Main>
@@ -218,21 +225,23 @@ const AnswerStyle = styled.div`
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
-  transition: background .3s ease;
+  transition: background 0.3s ease;
 
   &:hover {
-    ${props => (props.selectable) && `
+    ${props =>
+      props.selectable &&
+      `
       background: rgba(63, 81, 181, 0.7);
       color: white;
       cursor: pointer;
-    `}
+    `};
   }
 `;
 
 const AnswerText = styled.div`
   padding: 10px 15px;
-  color: ${props => props.voted ? props.theme.accent : 'white'};
-  font-weight: ${props => props.voted ? 600 : 400};
+  color: ${props => (props.voted ? props.theme.accent : 'white')};
+  font-weight: ${props => (props.voted ? 600 : 400)};
   position: relative;
   z-index: 1;
 `;
@@ -250,37 +259,33 @@ const AnswerBar = styled.div`
 
 function Answer(props) {
   const answer = props.answer;
-  const percent = props.total > 0 ? Math.round((answer.votesNb / props.total) * 100) : 0;
+  const percent =
+    props.total > 0 ? Math.round((answer.votesNb / props.total) * 100) : 0;
   return (
     <AnswerStyle
       showVote={props.showVote}
       selectable={props.selectable}
-      onClick={props.onClick}>
+      onClick={props.onClick}
+    >
       <AnswerText voted={props.voted}>
         <Flex>
-          <Box mr="5px">
-            {answer.content}
-          </Box>
-          <Box ml="auto">
-            {
-              props.showVote &&
-              <span>{percent}%</span>
-            }
-          </Box>
+          <Box mr="5px">{answer.content}</Box>
+          <Box ml="auto">{props.showVote && <span>{percent}%</span>}</Box>
         </Flex>
       </AnswerText>
-      <AnswerBar style={{
-        width: (props.showVote ? percent : 0) + '%'
-      }} />
+      <AnswerBar
+        style={{
+          width: (props.showVote ? percent : 0) + '%',
+        }}
+      />
     </AnswerStyle>
   );
 }
 
-
 export class VotesList extends React.Component {
   state = {
     votes: [],
-  }
+  };
   componentWillReceiveProps(props) {
     if (props.open) {
       this.retrieveAllVotes();
@@ -298,28 +303,28 @@ export class VotesList extends React.Component {
   render() {
     const props = this.props;
     return (
-      <Dialog open={props.open} onClose={props.handleRequestClose} >
+      <Dialog open={props.open} onClose={props.handleRequestClose}>
         <DialogTitle>Votes</DialogTitle>
         <DialogContent>
-          {
-            this.state.votes.map(v => {
-              return (
-                <Flex p={2} key={v.id}>
-                  <Box>
-                    <ProfileImage mh="auto" sz="40px" src={v.student.photoUrlThumb} />
-                  </Box>
-                  <Box ml="10px">
-                    <Title invert fontSize={1.2}>
-                      {v.student.firstname} {v.student.lastname}
-                    </Title>
-                    <Text>
-                      A voté pour: "{v.answer.content}"
-                    </Text>
-                  </Box>
-                </Flex>
-              );
-            })
-          }
+          {this.state.votes.map(v => {
+            return (
+              <Flex p={2} key={v.id}>
+                <Box>
+                  <ProfileImage
+                    mh="auto"
+                    sz="40px"
+                    src={v.student.photoUrlThumb}
+                  />
+                </Box>
+                <Box ml="10px">
+                  <Title invert fontSize={1.2}>
+                    {v.student.firstname} {v.student.lastname}
+                  </Title>
+                  <Text>A voté pour: "{v.answer.content}"</Text>
+                </Box>
+              </Flex>
+            );
+          })}
         </DialogContent>
       </Dialog>
     );

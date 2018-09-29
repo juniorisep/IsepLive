@@ -4,8 +4,8 @@ import React from 'react';
 
 import { Box } from 'grid-styled';
 
-import Button from 'material-ui/Button';
-import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
+import Button from '@material-ui/core/Button';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import PostListView from 'components/PostList';
 

@@ -13,7 +13,7 @@ const Cell = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 `;
 
-const AlbumStyle = Cell.extend`
+const AlbumStyle = styled(Cell)`
   .caption {
     padding: 10px;
     color: ${props => props.theme.main};
@@ -38,7 +38,7 @@ export const Album = props => {
   );
 };
 
-const VideoStyle = Cell.extend`
+const VideoStyle = styled(Cell)`
   .image {
     position: absolute;
     top: 0;
@@ -99,7 +99,7 @@ export const Video = props => {
   );
 };
 
-const GazetteStyle = Cell.extend`
+const GazetteStyle = styled(Cell)`
   .image {
     display: flex;
     align-items: center;

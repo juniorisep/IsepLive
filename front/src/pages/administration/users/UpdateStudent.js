@@ -1,27 +1,28 @@
 // @flow
 
 import React from 'react';
-import { Flex, Box } from "grid-styled";
+import { Flex, Box } from 'grid-styled';
 
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
-import ArchiveIcon from 'material-ui-icons/Archive';
-import Save from 'material-ui-icons/Save';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import Save from '@material-ui/icons/Save';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import ExpansionPanel, {
+import {
+  ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-} from 'material-ui/ExpansionPanel';
+} from '@material-ui/core';
 
-import { MenuItem } from 'material-ui/Menu';
-import Select from 'material-ui/Select';
-import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl } from 'material-ui/Form';
+import { MenuItem } from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import { Input, InputLabel } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
 
 import DatePicker from '../../../components/DatePicker';
-import { Title, Text, ProfileImage } from "../../../components/common";
+import { Title, Text, ProfileImage } from '../../../components/common';
 import Popup from '../../../components/Popup';
 
 import { Link } from 'react-router-dom';
@@ -35,7 +36,7 @@ import { MAIN_COLOR } from '../../../colors';
 import { sendAlert } from '../../../components/Alert';
 import type {
   Role as RoleType,
-    Student as StudentType
+  Student as StudentType,
 } from '../../../data/users/type';
 
 type UpdateProps = {
@@ -53,15 +54,17 @@ type UpdateState = {
   openArchivePopup: boolean,
 };
 
-export default class UpdateStudent extends React.Component<UpdateProps, UpdateState> {
-
+export default class UpdateStudent extends React.Component<
+  UpdateProps,
+  UpdateState
+> {
   state = {
     roles: [],
     userRoles: [],
     file: null,
     imagePreview: null,
     openArchivePopup: false,
-  }
+  };
 
   componentDidMount() {
     this.loadAllRoles();
@@ -76,11 +79,11 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
 
   onChangeField = (name: string) => (e: SyntheticEvent<HTMLInputElement>) => {
     this.props.onChangeField(name, e.currentTarget.value);
-  }
+  };
 
   handleSelectRoles = (e: any) => {
     this.setState({ userRoles: e.target.value });
-  }
+  };
 
   loadAllRoles() {
     authData.getAllRoles().then(res => {
@@ -97,23 +100,22 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
   getRoleName(role: string) {
     switch (role) {
       case rolesKey.ADMIN:
-        return "Super Admin";
+        return 'Super Admin';
       case rolesKey.CLUB_MANAGER:
-        return "Gestion associations";
+        return 'Gestion associations';
       case rolesKey.EVENT_MANAGER:
-        return "Gestion évenements";
+        return 'Gestion évenements';
       case rolesKey.POST_MANAGER:
-        return "Gestion posts";
+        return 'Gestion posts';
       case rolesKey.USER_MANAGER:
-        return "Gestion utilisateurs";
+        return 'Gestion utilisateurs';
       case rolesKey.STUDENT:
-        return "Eleve";
+        return 'Eleve';
 
       default:
         return role;
     }
   }
-
 
   updateUser = () => {
     const data = {
@@ -125,9 +127,9 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
     userData.updateStudentFull(data).then(res => {
       this.props.refreshTable();
       this.props.selectRow(res.data);
-      sendAlert("Etudiant mis à jour");
+      sendAlert('Etudiant mis à jour');
     });
-  }
+  };
 
   changeFile = (file: File) => {
     const reader = new FileReader();
@@ -140,26 +142,34 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
     };
 
     reader.readAsDataURL(file);
-  }
+  };
 
   archiveAccepted = (ok: boolean) => {
     if (ok) {
       userData.toggleArchiveStudent(this.props.selected.id).then(res => {
         this.props.refreshTable();
         this.props.selectRow(null);
-        sendAlert("Etudiant Archivé");
+        sendAlert('Etudiant Archivé');
       });
     }
     this.setState({ openArchivePopup: false });
-  }
+  };
 
   render() {
     const { selected } = this.props;
-    const { roles, userRoles, imagePreview, file, openArchivePopup } = this.state;
+    const {
+      roles,
+      userRoles,
+      imagePreview,
+      file,
+      openArchivePopup,
+    } = this.state;
     return (
       <div>
         <Link to={`/annuaire/${selected.id}`}>
-          <Title fontSize={1.1}>{selected.firstname} {selected.lastname}</Title>
+          <Title fontSize={1.1}>
+            {selected.firstname} {selected.lastname}
+          </Title>
         </Link>
         <ExpansionPanel defaultExpanded>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -167,61 +177,75 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div>
-              {
-                selected.archived &&
+              {selected.archived && (
                 <Flex align="center">
                   <Box p={1}>
                     <Text fs="13px">Cet étudiant est archivé </Text>
                   </Box>
                   <Box ml="auto">
-                    <Button size="small" style={{ fontSize: 12 }}
-                      onClick={() => this.archiveAccepted(true)}>Annuler</Button>
+                    <Button
+                      size="small"
+                      style={{ fontSize: 12 }}
+                      onClick={() => this.archiveAccepted(true)}
+                    >
+                      Annuler
+                    </Button>
                   </Box>
                 </Flex>
-              }
+              )}
               <TextField
                 margin="normal"
                 label="Prénom"
                 value={selected.firstname || ''}
                 fullWidth
-                onChange={this.onChangeField('firstname')} />
+                onChange={this.onChangeField('firstname')}
+              />
               <TextField
                 margin="normal"
                 label="Nom"
                 value={selected.lastname || ''}
                 fullWidth
-                onChange={this.onChangeField('lastname')} />
+                onChange={this.onChangeField('lastname')}
+              />
               <Flex align="center">
                 <Box mr={1}>
-                  {imagePreview && <img alt="student" src={imagePreview} style={{ width: 100 }} />}
-                  {!imagePreview && <ProfileImage src={selected.photoUrlThumb} sz="100px" />}
+                  {imagePreview && (
+                    <img
+                      alt="student"
+                      src={imagePreview}
+                      style={{ width: 100 }}
+                    />
+                  )}
+                  {!imagePreview && (
+                    <ProfileImage src={selected.photoUrlThumb} sz="100px" />
+                  )}
                 </Box>
                 <Box>
                   <input
-                    onChange={(e) => this.changeFile(e.target.files[0])}
+                    onChange={e => this.changeFile(e.target.files[0])}
                     accept=".jpg,.jpeg,.JPG,.JPEG"
                     id="image"
                     type="file"
-                    style={{ display: 'none' }} />
+                    style={{ display: 'none' }}
+                  />
 
-                  {
-                    !file &&
+                  {!file && (
                     <label htmlFor="image">
                       <Button variant="raised" component="span">
                         Modifier
                       </Button>
                     </label>
-                  }
-                  {
-                    file &&
+                  )}
+                  {file && (
                     <Button
                       variant="raised"
                       onClick={() =>
                         this.setState({ file: null, imagePreview: null })
-                      }>
+                      }
+                    >
                       Supprimer
                     </Button>
-                  }
+                  )}
                 </Box>
               </Flex>
               <TextField
@@ -230,44 +254,55 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
                 label="Promotion"
                 value={selected.promo || ''}
                 fullWidth
-                onChange={this.onChangeField('promo')} />
+                onChange={this.onChangeField('promo')}
+              />
               <TextField
                 margin="normal"
                 label="Numéro ISEP"
                 value={selected.studentId || ''}
                 disabled
-                fullWidth />
+                fullWidth
+              />
               <TextField
                 margin="normal"
                 label="Email"
                 value={selected.mail || ''}
                 fullWidth
-                onChange={this.onChangeField('mail')} />
+                onChange={this.onChangeField('mail')}
+              />
               <TextField
                 margin="normal"
                 label="Email ISEP"
                 value={selected.mailISEP || ''}
                 fullWidth
-                onChange={this.onChangeField('mailISEP')} />
+                onChange={this.onChangeField('mailISEP')}
+              />
               <TextField
                 margin="normal"
                 label="Téléphone"
                 value={selected.phone || ''}
                 fullWidth
-                onChange={this.onChangeField('phone')} />
+                onChange={this.onChangeField('phone')}
+              />
               <TextField
                 margin="normal"
                 label="Adresse"
                 value={selected.address || ''}
                 fullWidth
-                onChange={this.onChangeField('address')} />
+                onChange={this.onChangeField('address')}
+              />
               <div>
                 <Text>Date de naissance</Text>
                 <DatePicker
                   dateonly
                   startYear={new Date().getFullYear() - 30}
-                  date={selected.birthDate ? new Date(selected.birthDate) : new Date()}
-                  onChange={(date) => this.props.onChangeField('birthDate', date)} />
+                  date={
+                    selected.birthDate
+                      ? new Date(selected.birthDate)
+                      : new Date()
+                  }
+                  onChange={date => this.props.onChangeField('birthDate', date)}
+                />
               </div>
               <TextField
                 multiline
@@ -276,31 +311,36 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
                 label="Bio"
                 value={selected.bio || ''}
                 fullWidth
-                onChange={this.onChangeField('bio')} />
+                onChange={this.onChangeField('bio')}
+              />
               <TextField
                 margin="normal"
                 label="Lien Facebook"
                 value={selected.facebook || ''}
                 fullWidth
-                onChange={this.onChangeField('facebook')} />
+                onChange={this.onChangeField('facebook')}
+              />
               <TextField
                 margin="normal"
                 label="Lien Twitter"
                 value={selected.twitter || ''}
                 fullWidth
-                onChange={this.onChangeField('twitter')} />
+                onChange={this.onChangeField('twitter')}
+              />
               <TextField
                 margin="normal"
                 label="Lien Instagram"
                 value={selected.instagram || ''}
                 fullWidth
-                onChange={this.onChangeField('instagram')} />
+                onChange={this.onChangeField('instagram')}
+              />
               <TextField
                 margin="normal"
                 label="Lien Snapchat"
                 value={selected.snapchat || ''}
                 fullWidth
-                onChange={this.onChangeField('snapchat')} />
+                onChange={this.onChangeField('snapchat')}
+              />
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -319,40 +359,52 @@ export default class UpdateStudent extends React.Component<UpdateProps, UpdateSt
                 onChange={this.handleSelectRoles}
                 input={<Input fullWidth id="roles" />}
               >
-                {
-                  roles.map(r => (
-                    <MenuItem
-                      key={r.id}
-                      value={r.id}
-                      style={{
-                        background: this.state.userRoles.indexOf(r.id) !== -1 ? MAIN_COLOR : 'inherit',
-                        color: this.state.userRoles.indexOf(r.id) !== -1 ? 'white' : 'black'
-                      }}>
-                      {this.getRoleName(r.role)}
-                    </MenuItem>
-                  ))
-                }
+                {roles.map(r => (
+                  <MenuItem
+                    key={r.id}
+                    value={r.id}
+                    style={{
+                      background:
+                        this.state.userRoles.indexOf(r.id) !== -1
+                          ? MAIN_COLOR
+                          : 'inherit',
+                      color:
+                        this.state.userRoles.indexOf(r.id) !== -1
+                          ? 'white'
+                          : 'black',
+                    }}
+                  >
+                    {this.getRoleName(r.role)}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
         <div style={{ margin: 10 }}>
-          <Button variant="fab" color="primary" style={{ margin: 5 }} onClick={this.updateUser}>
+          <Button
+            variant="fab"
+            color="primary"
+            style={{ margin: 5 }}
+            onClick={this.updateUser}
+          >
             <Save />
           </Button>
-          {
-            !selected.archived &&
+          {!selected.archived && (
             <Button
               variant="fab"
               color="secondary"
               style={{ margin: 5 }}
-              onClick={() => this.setState({
-                openArchivePopup: true,
-              })} >
+              onClick={() =>
+                this.setState({
+                  openArchivePopup: true,
+                })
+              }
+            >
               <ArchiveIcon />
             </Button>
-          }
+          )}
         </div>
         <Popup
           title="Archivage"

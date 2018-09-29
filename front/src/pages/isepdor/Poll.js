@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
-import Avatar from 'material-ui/Avatar';
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   Paper,

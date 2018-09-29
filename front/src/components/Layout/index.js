@@ -5,27 +5,27 @@ import React from 'react';
 import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Button from 'material-ui/Button';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import { Menu, MenuItem } from '@material-ui/core';
 
-import IconButton from 'material-ui/IconButton';
-import LockOpen from 'material-ui-icons/LockOpen';
-import MenuIcon from 'material-ui-icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import LockOpen from '@material-ui/icons/LockOpen';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import Drawer from 'material-ui/Drawer';
-import { ListItem, ListItemText } from 'material-ui/List';
+import Drawer from '@material-ui/core/Drawer';
+import { ListItem, ListItemText } from '@material-ui/core';
 
 import Auth from 'components/Auth/AuthComponent';
 import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
 
-import Forum from 'material-ui-icons/Forum';
-import Play from 'material-ui-icons/PlayCircleFilled';
-import People from 'material-ui-icons/People';
-import Casino from 'material-ui-icons/Casino';
-import Event from 'material-ui-icons/Event';
-import HelpIcon from 'material-ui-icons/Help';
+import Forum from '@material-ui/icons/Forum';
+import Play from '@material-ui/icons/PlayCircleFilled';
+import People from '@material-ui/icons/People';
+import Casino from '@material-ui/icons/Casino';
+import Event from '@material-ui/icons/Event';
+import HelpIcon from '@material-ui/icons/Help';
 
 import Home from 'pages/home';
 import PostDetail from 'pages/home/PostDetail';
@@ -311,7 +311,10 @@ class Layout extends React.Component {
     e.preventDefault();
     const { username, password } = this.state;
     authData
-      .connect(username, password)
+      .connect(
+        username,
+        password
+      )
       .then(res => {
         this.handleRequestClose();
         this.props.history.push('/');

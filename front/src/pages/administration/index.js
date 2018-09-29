@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
 
-import Tabs, { Tab } from 'material-ui/Tabs';
+import { Tabs, Tab } from '@material-ui/core';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 

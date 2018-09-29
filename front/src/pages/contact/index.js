@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 
 import { Banner, Filler, FluidContent, Header } from 'components/common';
 
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 class Contact extends Component {
   render() {

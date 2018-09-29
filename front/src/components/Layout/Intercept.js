@@ -4,7 +4,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import { withRouter } from 'react-router-dom';
 import { sendAlert } from '../../components/Alert';

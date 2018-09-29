@@ -8,7 +8,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 
 import { Flex, Box } from 'grid-styled';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
 import Loader from 'components/Loader';
 

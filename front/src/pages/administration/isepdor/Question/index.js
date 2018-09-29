@@ -3,13 +3,14 @@ import React from 'react';
 
 import { Flex, Box } from 'grid-styled';
 
-import Table, {
+import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from 'material-ui/Table';
-import Chip from 'material-ui/Chip';
+} from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
 
 import { Paper } from '../../../../components/common';
 import QuestionForm from './QuestionForm';

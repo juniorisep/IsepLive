@@ -2,9 +2,9 @@
 
 import React, { Component } from 'react';
 
-import Snackbar from 'material-ui/Snackbar';
+import Snackbar from '@material-ui/core/Snackbar';
 import { MAIN_COLOR } from '../../colors';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 const style = {
   error: {

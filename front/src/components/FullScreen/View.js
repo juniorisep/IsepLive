@@ -3,10 +3,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui-icons/Close';
-import FileDownload from 'material-ui-icons/FileDownload';
-import Button from 'material-ui/Button';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import FileDownload from '@material-ui/icons/CloudDownload';
+import Button from '@material-ui/core/Button';
 
 import Auth from '../Auth/AuthComponent';
 

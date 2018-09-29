@@ -8,7 +8,6 @@ import { Box } from 'grid-styled';
 import LazyLoad from 'react-lazyload';
 
 import { NavLink } from 'react-router-dom';
-
 import Slide from 'material-ui/transitions/Slide';
 
 import Button from 'material-ui/Button';
@@ -205,7 +204,7 @@ export function PostView(props: PostViewProps) {
 type PostListViewProps = {
   refreshPosts: (action?: string) => mixed,
   posts: PostType[],
-  canPin: boolean,
+  canPin: ?boolean,
 };
 
 type PostListViewState = {
@@ -268,28 +267,24 @@ export default class PostListView extends React.Component<
       <PostList>
         {props.posts.map((p, i) => {
           return (
-            <LazyLoad key={p.id} offset={40} height={340} once>
-              <Slide direction="up" in={true} mountOnEnter>
-                <PostView
-                  preview={false}
+            <PostView
+              preview={false}
+              post={p}
+              list={true}
+              invert={i % 2 === 1}
+              openFullScreen={this.setFullScreen}
+              textView={size => (
+                <PostTextView
                   post={p}
-                  list={true}
-                  invert={i % 2 === 1}
-                  openFullScreen={this.setFullScreen}
-                  textView={size => (
-                    <PostTextView
-                      post={p}
-                      refresh={props.refreshPosts}
-                      w={size}
-                      canPin={props.canPin}
-                      preview={false}
-                      modify={this.modifyPost}
-                      deletePost={this.deletePost}
-                    />
-                  )}
+                  refresh={props.refreshPosts}
+                  w={size}
+                  canPin={props.canPin}
+                  preview={false}
+                  modify={this.modifyPost}
+                  deletePost={this.deletePost}
                 />
-              </Slide>
-            </LazyLoad>
+              )}
+            />
           );
         })}
         <ModifyPostModal

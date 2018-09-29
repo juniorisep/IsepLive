@@ -444,6 +444,12 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     }
   }
 
+  onMessageBoxKeyDown = (e: KeyboardEvent) => {
+    if (e.shiftKey && e.keyCode === 13 && this.canPublish()) {
+      this.onPublish();
+    }
+  };
+
   render() {
     const { author, isUploading } = this.state;
     const canPublish = this.canPublish();
@@ -464,6 +470,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
             placeholder="Tapez votre message"
             onChange={this.onMessageChange}
             value={this.state.message}
+            onKeyDown={this.onMessageBoxKeyDown}
           />
           {this.state.mediaSelected && (
             <MediaCreator

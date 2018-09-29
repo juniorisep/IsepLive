@@ -87,7 +87,7 @@ export default function Home(props) {
           </Auth>
 
           <PostSection>
-            <Loader loading={props.isLoading}>
+            <Loader loading={props.page === 0 && props.isLoading}>
               <div>
                 {props.waitingPosts.length > 0 && (
                   <div>
@@ -167,6 +167,7 @@ export default function Home(props) {
                       <Button
                         variant="fab"
                         color="primary"
+                        disabled={props.isLoading}
                         onClick={props.onSeeMore}
                       >
                         <ArrowDownwardIcon />

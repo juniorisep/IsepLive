@@ -45,9 +45,7 @@ class Home extends Component<{}, State> {
   }
 
   getPosts() {
-    if (this.state.page === 0) {
-      this.setState({ isLoading: true });
-    }
+    this.setState({ isLoading: true });
     postData.getPosts(this.state.page).then(res => {
       this.setState({
         isLoading: false,
@@ -88,6 +86,7 @@ class Home extends Component<{}, State> {
     return (
       <HomeView
         posts={this.state.posts}
+        page={this.state.page}
         pinnedPosts={this.state.pinnedPosts}
         waitingPosts={this.state.waitingPosts}
         lastPage={this.state.lastPage}

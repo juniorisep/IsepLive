@@ -185,7 +185,7 @@ export default class AddressBook extends Component {
               </FormControl>
             </Box>
           </Flex>
-          <Loader loading={this.props.loading}>
+          <Loader loading={this.props.page === 0 && this.props.loading}>
             <Flex flexWrap="wrap">
               {this.props.students.map(e => {
                 return (
@@ -214,6 +214,7 @@ export default class AddressBook extends Component {
                 <Button
                   variant="fab"
                   color="primary"
+                  disabled={this.props.loading}
                   onClick={this.props.onSeeMore}
                 >
                   <ArrowDownwardIcon />

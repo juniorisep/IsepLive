@@ -16,7 +16,7 @@ const style = {
     fontSize: 18,
     background: 'white',
     color: MAIN_COLOR,
-  }
+  },
 };
 
 class AlertCenter extends Component {
@@ -29,11 +29,17 @@ class AlertCenter extends Component {
   timeout: number;
 
   componentDidMount() {
-    document.addEventListener('notification', this.onReceiveNotification.bind(this));
+    document.addEventListener(
+      'notification',
+      this.onReceiveNotification.bind(this)
+    );
   }
 
   componentWillUnmount() {
-    document.removeEventListener('notification', this.onReceiveNotification.bind(this));
+    document.removeEventListener(
+      'notification',
+      this.onReceiveNotification.bind(this)
+    );
   }
 
   onReceiveNotification(e: any) {
@@ -53,9 +59,7 @@ class AlertCenter extends Component {
     return (
       <Snackbar
         style={{ pointerEvents: 'none' }}
-        SnackbarContentProps={{
-          className: this.props.classes[type]
-        }}
+        className={this.props.classes[type]}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={open}
         message={message}
@@ -63,7 +67,6 @@ class AlertCenter extends Component {
     );
   }
 }
-
 
 export function sendAlert(message: string, type?: string) {
   const event = new CustomEvent('notification', { detail: { message, type } });

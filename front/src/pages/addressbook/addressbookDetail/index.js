@@ -9,8 +9,22 @@ import AdressbookDetailView from './view';
 import AccountTab from '../../resume/AccountTab';
 import PhotoTab from '../../resume/PhotoTab';
 import PostTab from '../../resume/PostTab';
+import type {} from 'react-router-dom';
 
-class AdressbookDetail extends Component {
+type State = {
+  data: any,
+  posts: any[],
+  page: number,
+  lastPage: boolean,
+  clubMembers: any[],
+  fullscreenOpen: boolean,
+  tabIndex: number,
+  isLoading: boolean,
+};
+
+type Props = {};
+
+class AdressbookDetail extends Component<Props, State> {
   state = {
     data: null,
     posts: [],
@@ -25,11 +39,11 @@ class AdressbookDetail extends Component {
   componentDidMount() {
     const id = this.getUserId();
     this.getUserData(id);
-    this.refreshPosts(id);
+    this.refreshPosts();
     this.getClubMembers(id);
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     this.setState({ tabIndex: 0 });
     const id = props.match.params.id;
     this.getUserData(id);
@@ -37,14 +51,15 @@ class AdressbookDetail extends Component {
     this.getClubMembers(id);
   }
 
-  getUserData = async (id) => {
+  getUserData = async (id: number) => {
     this.setState({ isLoading: true });
     const { data } = await studentData.getStudent(id);
     this.setState({ data, isLoading: false });
   };
 
-  refreshPosts = async (id) => {
-    const { data } = await studentData.getPosts(id, 0);
+  refreshPosts = async () => {
+    const userid = this.getUserId();
+    const { data } = await studentData.getPosts(userid, 0);
     this.setState({
       posts: data.content,
       page: 1,
@@ -52,28 +67,28 @@ class AdressbookDetail extends Component {
     });
   };
 
-  getNextPosts = async (id) => {
-    const { data } = await studentData.getPosts(id, this.state.page);
+  getNextPosts = async () => {
+    const userid = this.getUserId();
+    const { data } = await studentData.getPosts(userid, this.state.page);
     this.setState({
       posts: this.state.posts.concat(data.content),
       page: this.state.page + 1,
       lastPage: data.last,
     });
-  }
+  };
 
-  getClubMembers = (id) => {
-    studentData.getClubMembers(id).then(res => {
-      this.setState({ clubMembers: res.data });
-    });
-  }
+  getClubMembers = async (id: number) => {
+    const { data } = await studentData.getClubMembers(id);
+    this.setState({ clubMembers: data });
+  };
 
-  setFullScreen = (open) => e => {
+  setFullScreen = open => e => {
     this.setState({ fullscreenOpen: open });
-  }
+  };
 
   changeTab = (event: Event, index: number) => {
     this.setState({ tabIndex: index });
-  }
+  };
 
   getUserId() {
     return this.props.match.params.id;
@@ -81,19 +96,11 @@ class AdressbookDetail extends Component {
 
   renderTab = () => {
     const userid = this.getUserId();
-    const {
-      data,
-      posts,
-      clubMembers,
-      lastPage,
-    } = this.state;
+    const { data, posts, clubMembers, lastPage } = this.state;
     switch (this.state.tabIndex) {
       case 0:
         return (
-          <AccountTab
-            data={data}
-            posts={posts}
-            clubMembers={clubMembers} />
+          <AccountTab data={data} posts={posts} clubMembers={clubMembers} />
         );
       case 1:
         return (
@@ -101,34 +108,28 @@ class AdressbookDetail extends Component {
             posts={posts}
             lastPage={lastPage}
             refreshPosts={this.refreshPosts}
-            onSeeMore={this.getNextPosts} />
+            onSeeMore={this.getNextPosts}
+          />
         );
       case 2:
-        return (
-          <PhotoTab userId={userid} />
-        );
+        return <PhotoTab userId={userid} />;
       default:
         break;
     }
     return null;
-  }
+  };
 
   render() {
     return (
       <AdressbookDetailView
+        user={this.state.data}
         isLoading={this.state.isLoading}
         tabIndex={this.state.tabIndex}
-        renderTab={this.renderTab}
-        changeTab={this.changeTab}
-
-        user={this.state.data}
-        lastPage={this.state.lastPage}
-        posts={this.state.posts}
         fullscreenOpen={this.state.fullscreenOpen}
-        clubMembers={this.state.clubMembers}
-        refreshPosts={this.refreshPosts}
-        onSeeMore={this.getNextPosts}
-        setFullScreen={this.setFullScreen} />
+        setFullScreen={this.setFullScreen}
+        changeTab={this.changeTab}
+        renderTab={this.renderTab}
+      />
     );
   }
 }

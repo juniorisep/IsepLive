@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,7 @@ import { MAIN_COLOR } from '../../colors';
 import Loader from 'components/Loader';
 
 import * as authData from '../../data/auth';
-import { getPromo } from '../../data/users/student';
+import { getPromo, computeYearsPromo } from '../../data/users/student';
 
 const BadgeYear = styled.div`
   display: inline-block;
@@ -77,16 +77,9 @@ const STYLE_FORMCONTROL = {
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-let now = new Date().getFullYear();
-let years = [];
-if (new Date().getMonth() < 8) {
-  now--;
-}
-for (var i = 5; i > -15; i--) {
-  years.push(now + i);
-}
+const years = computeYearsPromo();
 
-export default class AddressBook extends Component {
+export default class AddressBook extends PureComponent {
   render() {
     return (
       <div>

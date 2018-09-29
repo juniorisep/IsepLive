@@ -3,6 +3,7 @@
 import axios from 'axios';
 import type { AxiosPromise } from 'axios';
 
+import { MAX_PROMO } from '../../constants';
 import type {
   StudentUpdate,
   Student,
@@ -128,12 +129,26 @@ export function getClubMembers(id: number): AxiosPromise<ClubMember[]> {
   return axios.get(`/user/student/${id}/club`);
 }
 
+export function computeYearsPromo(): number[] {
+  let now = new Date().getFullYear();
+  let years = [];
+  if (new Date().getMonth() < 8) {
+    now--;
+  }
+  let delta = 5;
+  while (now + delta >= MAX_PROMO) {
+    years.push(now + delta);
+    delta--;
+  }
+  return years;
+}
+
 export function getPromo(promo: number, render?: (val: string) => any): any {
   const date = new Date();
   date.setFullYear(new Date().getFullYear() + 5);
   let lastPromo = date.getFullYear();
 
-  if (date.getMonth() < 9) {
+  if (date.getMonth() < 8) {
     lastPromo--;
   }
 

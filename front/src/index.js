@@ -14,10 +14,10 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
-import indigo from 'material-ui/colors/indigo';
-import amber from 'material-ui/colors/amber';
-import red from 'material-ui/colors/red';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import indigo from '@material-ui/core/colors/indigo';
+import amber from '@material-ui/core/colors/amber';
+import red from '@material-ui/core/colors/red';
 
 import { ThemeProvider } from 'styled-components';
 

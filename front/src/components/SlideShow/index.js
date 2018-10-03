@@ -3,10 +3,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import IconButton from 'material-ui/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 
-import ArrRight from 'material-ui-icons/ChevronRight';
-import ArrLeft from 'material-ui-icons/ChevronLeft';
+import ArrRight from '@material-ui/icons/ChevronRight';
+import ArrLeft from '@material-ui/icons/ChevronLeft';
 
 import Transition from 'react-transition-group/Transition';
 

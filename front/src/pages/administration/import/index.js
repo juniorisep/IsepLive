@@ -3,18 +3,19 @@
 import React from 'react';
 import { Flex, Box } from 'grid-styled';
 
-import Table, {
+import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
   TablePagination,
   TableFooter,
-} from 'material-ui/Table';
-import Button from 'material-ui/Button';
-import { LinearProgress } from 'material-ui/Progress';
-import FileUpload from 'material-ui-icons/FileUpload';
-import Done from 'material-ui-icons/Done';
+} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import FileUpload from '@material-ui/icons/CloudUpload';
+import Done from '@material-ui/icons/Done';
 
 import { FluidContent, Title, Paper, Text } from '../../../components/common';
 import { sendAlert } from '../../../components/Alert';
@@ -40,7 +41,7 @@ export default class ImportStudents extends React.Component {
     studentData
       .importStudents(csv, photos, progress => {
         let percentCompleted = Math.floor(
-          progress.loaded * 100 / progress.total,
+          (progress.loaded * 100) / progress.total
         );
         this.setState({
           progress: percentCompleted,
@@ -202,8 +203,9 @@ export default class ImportStudents extends React.Component {
             )}
             {photos.length !== 0 && (
               <Text>
-                {photos.length} photo{photos.length !== 1 && 's'} sélectionnée{photos.length !==
-                  1 && 's'}
+                {photos.length} photo
+                {photos.length !== 1 && 's'} sélectionnée
+                {photos.length !== 1 && 's'}
               </Text>
             )}
           </Box>

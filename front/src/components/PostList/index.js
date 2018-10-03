@@ -8,10 +8,10 @@ import { Box } from 'grid-styled';
 import LazyLoad from 'react-lazyload';
 
 import { NavLink } from 'react-router-dom';
-import Slide from 'material-ui/transitions/Slide';
+import Slide from '@material-ui/core/Slide';
 
-import Button from 'material-ui/Button';
-import ForumIcon from 'material-ui-icons/Forum';
+import Button from '@material-ui/core/Button';
+import ForumIcon from '@material-ui/icons/Forum';
 
 import LikeButton from './LikeButton';
 import EditButton from './EditButton';
@@ -55,7 +55,7 @@ export const Post = styled.li`
   }
 `;
 
-export const PostText = Box.extend`
+export const PostText = styled(Box)`
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -268,6 +268,7 @@ export default class PostListView extends React.Component<
         {props.posts.map((p, i) => {
           return (
             <PostView
+              key={p.id}
               preview={false}
               post={p}
               list={true}

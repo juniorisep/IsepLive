@@ -14,8 +14,8 @@ import {
   Text,
 } from 'components/common';
 
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 import Auth from 'components/Auth/AuthComponent';
 import Loader from '../../components/Loader';

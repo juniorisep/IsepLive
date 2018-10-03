@@ -16,7 +16,7 @@ import {
   ScrollToTopOnMount,
 } from '../../components/common';
 
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import { NavLink } from 'react-router-dom';
 

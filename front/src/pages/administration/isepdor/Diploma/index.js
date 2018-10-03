@@ -4,12 +4,12 @@ import React from 'react';
 import { Stage, Layer, Rect, Image, Text } from 'react-konva';
 import { Flex, Box } from 'grid-styled';
 
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import * as cm from '../../../../components/common';
-import InfoIcon from 'material-ui-icons/Info';
-import FontIcon from 'material-ui-icons/FormatSize';
-import DiplomaIcon from 'material-ui-icons/InsertPhoto';
+import InfoIcon from '@material-ui/icons/Info';
+import FontIcon from '@material-ui/icons/FormatSize';
+import DiplomaIcon from '@material-ui/icons/InsertPhoto';
 
 import * as dorData from '../../../../data/dor';
 import { backUrl } from '../../../../config';

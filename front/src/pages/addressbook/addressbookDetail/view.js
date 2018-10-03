@@ -5,8 +5,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { Link } from 'react-router-dom';
-import Button from 'material-ui/Button';
-import Tabs, { Tab } from 'material-ui/Tabs';
+import Button from '@material-ui/core/Button';
+import { Tabs, Tab } from '@material-ui/core';
 
 import Time from 'components/Time';
 import PostListView from 'components/PostList';
@@ -38,27 +38,30 @@ const PersonStyle = styled.div`
   height: 100%;
 `;
 
-export default function AdressbookDetailView(props) {
-  const {
-    user,
-    posts,
-    clubMembers,
-  } = props;
+export default function AdressbookDetailView({
+  user,
+  isLoading,
+  tabIndex,
+  fullscreenOpen,
+  setFullScreen,
+  changeTab,
+  renderTab,
+}) {
   return (
     <FluidContent>
       <ScrollToTopOnMount />
-      <Loader loading={props.isLoading}>
-        {
-          user &&
+      <Loader loading={isLoading}>
+        {user && (
           <Flex flexWrap="wrap">
             <Box p={2} width={[1, 1 / 4]}>
-              <PersonStyle onClick={props.setFullScreen(true)} style={{ cursor: 'pointer' }}>
+              <PersonStyle
+                onClick={setFullScreen(true)}
+                style={{ cursor: 'pointer' }}
+              >
                 <ProfileImage src={user.photoUrl} sz="100%" mh="200px" />
               </PersonStyle>
             </Box>
-            <Box p={2} width={[
-              1, 3 / 4
-            ]}>
+            <Box p={2} width={[1, 3 / 4]}>
               <Paper p="20px">
                 <Flex>
                   <Box>
@@ -73,8 +76,8 @@ export default function AdressbookDetailView(props) {
             </Box>
             <Box w={1}>
               <Tabs
-                value={props.tabIndex}
-                onChange={props.changeTab}
+                value={tabIndex}
+                onChange={changeTab}
                 indicatorColor="secondary"
                 textColor="primary"
                 centered
@@ -84,13 +87,14 @@ export default function AdressbookDetailView(props) {
                 <Tab label="Photos" />
               </Tabs>
             </Box>
-            {props.renderTab()}
+            {renderTab()}
             <FullScreenView
-              visible={props.fullscreenOpen}
+              visible={fullscreenOpen}
               image={user.photoUrl}
-              onEscKey={props.setFullScreen(false)} />
+              onEscKey={setFullScreen(false)}
+            />
           </Flex>
-        }
+        )}
       </Loader>
     </FluidContent>
   );

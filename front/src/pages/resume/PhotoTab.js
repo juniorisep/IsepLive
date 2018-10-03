@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { Box, Flex } from 'grid-styled';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 import Loader from '../../components/Loader';

@@ -4,10 +4,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 
-import { FormControlLabel } from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
-import Button from 'material-ui/Button';
-import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import { Link } from 'react-router-dom';
 

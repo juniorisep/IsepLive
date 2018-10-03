@@ -5,8 +5,8 @@ import React, { Component } from 'react';
 import { Banner, Filler, Header } from 'components/common';
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
 
-import Paper from 'material-ui/Paper';
-import Tabs, { Tab } from 'material-ui/Tabs';
+import Paper from '@material-ui/core/Paper';
+import { Tabs, Tab } from '@material-ui/core';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 

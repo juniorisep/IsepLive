@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import IconButton from 'material-ui/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
 
 const iconStyle = {

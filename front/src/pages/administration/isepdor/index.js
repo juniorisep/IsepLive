@@ -2,8 +2,7 @@
 
 import React from 'react';
 
-import Tabs, { Tab } from 'material-ui/Tabs';
-
+import { Tabs, Tab } from '@material-ui/core';
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
 
 import { FluidContent, Title, Paper } from '../../../components/common';

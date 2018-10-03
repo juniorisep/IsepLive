@@ -2,11 +2,11 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
-import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
-import List, { ListItem, ListItemText } from 'material-ui/List';
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 
 import * as studentData from '../../data/users/student';
 import * as imageData from '../../data/media/image';

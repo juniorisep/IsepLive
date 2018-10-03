@@ -9,7 +9,7 @@ import {
   Title,
 } from 'components/common';
 
-import Paper from 'material-ui/Paper';
+import Paper from '@material-ui/core/Paper';
 
 import { Box, Flex } from 'grid-styled';
 

@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Flex, Box } from 'grid-styled';
 import styled from 'styled-components';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import {
   Banner,
@@ -19,10 +19,10 @@ import {
 import PostListView from 'components/PostList';
 import Auth from 'components/Auth/AuthComponent';
 
-import BookmarkIcon from 'material-ui-icons/Bookmark';
-import SubjectIcon from 'material-ui-icons/Subject';
-import ArrowDownwardIcon from 'material-ui-icons/ArrowDownward';
-import ScheduleIcon from 'material-ui-icons/Schedule';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import SubjectIcon from '@material-ui/icons/Subject';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
 import PublishBoxView from './publishBox';
 import Loader from 'components/Loader';

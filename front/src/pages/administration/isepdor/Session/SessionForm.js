@@ -2,13 +2,13 @@
 import React, { Fragment } from 'react';
 
 import { DatePicker } from 'material-ui-pickers';
-import { FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
-import Button from 'material-ui/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 
-import AddIcon from 'material-ui-icons/Add';
-import SendIcon from 'material-ui-icons/Send';
-import DeleteIcon from 'material-ui-icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+import SendIcon from '@material-ui/icons/Send';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Title, Text, Paper } from '../../../../components/common';
 import { sendAlert } from '../../../../components/Alert';
@@ -16,7 +16,7 @@ import { sendAlert } from '../../../../components/Alert';
 import * as dorData from '../../../../data/dor';
 import ResultPanel from './ResultPanel';
 import { type SessionDor } from '../../../../data/dor/type';
-import { Tooltip } from 'material-ui';
+import { Tooltip } from '@material-ui/core';
 
 type Props = {
   selected: ?SessionDor,

@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import { Flex, Box } from 'grid-styled';
 import { Link } from 'react-router-dom';
 
-import IconButton from 'material-ui/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 
-import DeleteIcon from 'material-ui-icons/Delete';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { ProfileImage, Text, Title } from '../../components/common';
 import LikeButton from '../../components/PostList/LikeButton';

@@ -3,20 +3,21 @@
 import React, { Component } from 'react';
 import { Flex, Box } from 'grid-styled';
 
-import Table, {
+import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
   TablePagination,
   TableFooter,
-} from 'material-ui/Table';
-import TextField from 'material-ui/TextField';
+} from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 
-import { MenuItem } from 'material-ui/Menu';
-import Select from 'material-ui/Select';
-import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl } from 'material-ui/Form';
+import { MenuItem } from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import { Input, InputLabel } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
 
 import {
   Paper,
@@ -152,7 +153,7 @@ class Users extends Component {
     filter: string,
     filterRoles: string[],
     filterPromo: number[],
-    page: number,
+    page: number
   ) => {
     if (filter !== '' || filterRoles.length > 0 || filterPromo.length > 0) {
       if (this.filterTimeout) clearTimeout(this.filterTimeout);
@@ -179,7 +180,7 @@ class Users extends Component {
       this.state.filter,
       this.state.filterRoles,
       this.state.filterPromo,
-      page,
+      page
     );
   };
 

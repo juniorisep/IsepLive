@@ -31,7 +31,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -435,20 +434,25 @@ public class MediaService {
 
     Gallery galleryRes = mediaRepository.save(gallery);
     postService.addMediaEmbed(postId, galleryRes.getId());
-    String baseUrl = "/tmp/gallery/";
 
     List<TempFile> tempFiles = new ArrayList<>();
-    files.forEach(f -> {
-      try {
-        Files.createDirectories(Paths.get(baseUrl));
-        File tempFile = new File(baseUrl + f.getOriginalFilename());
-        TempFile tempFileData = new TempFile(f.getContentType(), tempFile);
-        f.transferTo(tempFile);
-        tempFiles.add(tempFileData);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    });
+    try {
+      Path galleryTmpDirectory = Files.createTempDirectory("gallery");
+      files.forEach(f -> {
+        try {
+          File tempFile = Files.createTempFile(galleryTmpDirectory, f.getOriginalFilename(), null).toFile();
+          TempFile tempFileData = new TempFile(f.getContentType(), tempFile);
+          f.transferTo(tempFile);
+          tempFiles.add(tempFileData);
+        } catch (IOException e) {
+          LOG.error("could not create tmp image from gallery: {}", f.getOriginalFilename(), e);
+        }
+      });
+    } catch (IOException e) {
+      LOG.error("could not create tmp gallery directory", e);
+      throw new FileException("could not create tmp directory");
+    }
+
 
     CompletableFuture.runAsync(() -> {
       tempFiles.forEach(file -> {

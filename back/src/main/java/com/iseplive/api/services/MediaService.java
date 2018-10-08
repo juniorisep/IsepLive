@@ -299,12 +299,11 @@ public class MediaService {
   /**
    * Add an image to a gallery from a file
    * @param file
-   * @param originalName
    * @param contentType
    * @param gallery
    * @return
    */
-  private Image addImage(File file, String originalName, String contentType, Gallery gallery) {
+  private Image addImage(File file, String contentType, Gallery gallery) {
     Image image = new Image();
     image.setCreation(new Date());
     image.setGallery(gallery);
@@ -312,10 +311,11 @@ public class MediaService {
     String name = mediaUtils.randomName();
     String path = mediaUtils.resolvePath(imageDir, name, false, image.getCreation());
     String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
+
     String pathOriginal = String.format(
-      "%s_%s",
-      mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
-      originalName.replaceAll(" ", "-")
+      "%s.%s",
+      mediaUtils.resolvePath(imageDir, "original-"+name, false, image.getCreation()),
+      contentType.equals("image/jpeg") ? "jpg": contentType.equals("image/png") ? "png":""
     );
 
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
@@ -456,7 +456,7 @@ public class MediaService {
 
     CompletableFuture.runAsync(() -> {
       tempFiles.forEach(file -> {
-        mediaRepository.save(addImage(file.getFile(), file.getFile().getName(), file.getContentType(), galleryRes));
+        mediaRepository.save(addImage(file.getFile(), file.getContentType(), galleryRes));
         if (!file.getFile().delete()) {
           LOG.error("could not delete this temp file: {}", file.getFile().getName());
         }

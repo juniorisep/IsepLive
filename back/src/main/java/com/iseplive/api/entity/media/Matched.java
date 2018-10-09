@@ -22,7 +22,7 @@ public class Matched {
   @OneToOne
   private Student owner;
 
-  @OneToOne
+  @ManyToOne
   @JsonIgnore
   private Image image;
 

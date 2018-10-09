@@ -17,7 +17,7 @@ public class PollAnswer {
   private Long id;
   private String content;
 
-  @OneToOne
+  @ManyToOne
   private Poll poll;
 
   @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)

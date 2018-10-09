@@ -17,10 +17,10 @@ public class ClubRole {
 
   private String name;
 
-  @OneToOne
+  @ManyToOne
   private Club club;
 
-  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<ClubMember> members;
 
   public Long getId() {

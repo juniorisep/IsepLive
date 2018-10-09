@@ -40,6 +40,10 @@ public class Club extends Author {
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Post> posts;
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<ClubRole> clubRoles;
+
   private String logoUrl;
 
   public String getName() {

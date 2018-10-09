@@ -14,10 +14,10 @@ public class PollVote {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @OneToOne
+  @ManyToOne
   private Student student;
 
-  @OneToOne
+  @ManyToOne
   private PollAnswer answer;
 
   public Long getId() {

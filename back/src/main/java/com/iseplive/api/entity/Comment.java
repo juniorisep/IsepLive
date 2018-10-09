@@ -19,10 +19,10 @@ public class Comment {
   @GeneratedValue
   private Long id;
 
-  @OneToOne
+  @ManyToOne
   private Post post;
 
-  @OneToOne
+  @ManyToOne
   private Student student;
 
   private Date creation;

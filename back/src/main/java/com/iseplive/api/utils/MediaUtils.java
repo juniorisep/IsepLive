@@ -2,6 +2,8 @@ package com.iseplive.api.utils;
 
 import com.iseplive.api.exceptions.FileException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -132,12 +134,14 @@ public class MediaUtils {
    * @param filePath
    * @param file
    */
-  public void saveFile(String filePath, MultipartFile file) {
+  public File saveFile(String filePath, MultipartFile file) {
     try {
       Path path = Paths.get(getPath(filePath));
       Files.createDirectories(path.getParent());
 
       Files.copy(file.getInputStream(), path);
+
+      return new File(path.toString());
 
     } catch (IOException e) {
       LOG.error("could not save file", e);
@@ -145,12 +149,13 @@ public class MediaUtils {
     }
   }
 
-  public void saveFile(String filePath, File file) {
+  public File saveFile(String filePath, File file) {
     try {
       Path path = Paths.get(getPath(filePath));
       Files.createDirectories(path.getParent());
 
       Files.copy(new FileInputStream(file), path);
+      return new File(path.toString());
 
     } catch (IOException e) {
       throw new FileException("could not create file: " + getPath(filePath), e);
@@ -159,15 +164,16 @@ public class MediaUtils {
 
   public void saveJPG(File image, String contentType, int newWidth, String outputPath) {
     try {
-      saveJPG(new FileInputStream(image), contentType, newWidth, outputPath);
+      saveJPG(new FileInputStream(image), image, contentType, newWidth, outputPath);
     } catch (FileNotFoundException e) {
       LOG.error("could not create image stream", e);
     }
   }
 
+
   public void saveJPG(MultipartFile image, int newWidth, String outputPath) {
     try {
-      saveJPG(image.getInputStream(), image.getContentType(), newWidth, outputPath);
+      saveJPG(image.getInputStream(), new File(image.getOriginalFilename()), image.getContentType(), newWidth, outputPath);
     } catch (IOException e) {
       LOG.error("could not create image stream", e);
     }
@@ -177,41 +183,55 @@ public class MediaUtils {
    * Method to resize image and save to jpg
    * extension set by the method
    *
-   * @param contentType
-   * @param imageInputStream
-   * @param newWidth
-   * @param outputPath
+   * @param contentType type of image
+   * @param imageInputStream image
+   * @param newWidth width desired
+   * @param outputPath image's path
    */
-  private void saveJPG(InputStream imageInputStream, String contentType, int newWidth, String outputPath) {
+  private void saveJPG(InputStream imageInputStream, File file, String contentType, int newWidth, String outputPath) {
     try {
       // verify it is an image
       if (!Arrays.asList("image/png", "image/jpeg").contains(contentType)) {
         throw new IllegalArgumentException("The file provided is not a valid image or is not supported (should be png or jpeg): " + contentType);
       }
 
-
       // Create input image
       BufferedImage inputImage = ImageIO.read(imageInputStream);
       newWidth = newWidth > inputImage.getWidth() ? inputImage.getWidth() : newWidth;
       double ratio = (double) inputImage.getWidth() / (double) inputImage.getHeight();
-      int scaledHeight = (int) (newWidth / ratio);
+      int  scaledHeight = (int) (newWidth / ratio);
 
+      Path path = Paths.get(baseUrl + outputPath + ".jpg");
+
+      Thumbnails.of(file)
+        .size(newWidth, scaledHeight)
+        .toFile(path.toFile());
+
+      LOG.info("writing image to {}", path);
+
+    /*
       // Create output image
       BufferedImage outputImage = new BufferedImage(newWidth,
         scaledHeight, BufferedImage.TYPE_INT_RGB);
 
+
+
       // Scale output
       Graphics2D g2d = outputImage.createGraphics();
-      g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
       g2d.drawImage(inputImage, 0, 0, newWidth, scaledHeight, null);
       g2d.dispose();
+
+      g2d.setComposite(AlphaComposite.Src);
+      g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+      g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+      g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
       // Write output to file
       Path path = Paths.get(baseUrl + outputPath + ".jpg");
       Files.createDirectories(path);
       LOG.debug("writing image to {}", path);
       ImageIO.write(outputImage, "JPG", path.toFile());
-
+    */
     } catch (IOException e) {
       LOG.error("could not write image", e);
     }

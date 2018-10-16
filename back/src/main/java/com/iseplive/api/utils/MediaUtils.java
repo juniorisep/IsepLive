@@ -3,7 +3,6 @@ package com.iseplive.api.utils;
 import com.iseplive.api.exceptions.FileException;
 import com.iseplive.api.exceptions.IllegalArgumentException;
 import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.name.Rename;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

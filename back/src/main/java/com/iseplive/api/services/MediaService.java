@@ -273,6 +273,7 @@ public class MediaService {
     Image image = new Image();
     image.setCreation(new Date());
     image.setGallery(gallery);
+
     String name = mediaUtils.randomName();
 
     String pathOriginal = String.format(
@@ -280,7 +281,6 @@ public class MediaService {
       mediaUtils.resolvePath(imageDir, name, false, image.getCreation()),
       file.getOriginalFilename().replaceAll(" ", "-")
     );
-
     File originalFile = mediaUtils.saveFile(pathOriginal, file);
 
     String path = mediaUtils.resolvePath(imageDir, name, false, image.getCreation());
@@ -288,6 +288,9 @@ public class MediaService {
 
     String pathThumb = mediaUtils.resolvePath(imageDir, name, true, image.getCreation());
     mediaUtils.saveJPG(originalFile, file.getContentType(), WIDTH_IMAGE_SIZE_THUMB, pathThumb);
+
+
+
 
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
     image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
@@ -317,14 +320,13 @@ public class MediaService {
       contentType.equals("image/jpeg") ? "jpg": contentType.equals("image/png") ? "png":""
     );
 
+    mediaUtils.saveFile(pathOriginal, file);
+    mediaUtils.saveJPG(file, contentType, WIDTH_IMAGE_SIZE, path);
+    mediaUtils.saveJPG(file, contentType, WIDTH_IMAGE_SIZE_THUMB, pathThumb);
+
     image.setFullSizeUrl(mediaUtils.getPublicUrlImage(path));
     image.setThumbUrl(mediaUtils.getPublicUrlImage(pathThumb));
     image.setOriginalUrl(mediaUtils.getPublicUrl(pathOriginal));
-
-    File originalFile = mediaUtils.saveFile(pathOriginal, file);
-    mediaUtils.saveJPG(originalFile, contentType, WIDTH_IMAGE_SIZE, path);
-    mediaUtils.saveJPG(originalFile, contentType, WIDTH_IMAGE_SIZE_THUMB, pathThumb);
-
 
     return image;
   }

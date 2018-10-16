@@ -163,18 +163,45 @@ public class MediaUtils {
   }
 
   public void saveJPG(File image, String contentType, int newWidth, String outputPath) {
-    try {
-      saveJPG(new FileInputStream(image), image, contentType, newWidth, outputPath);
-    } catch (FileNotFoundException e) {
+    try (InputStream imageInputStream = new FileInputStream(image)) {
+      saveJPG(imageInputStream, image, contentType, newWidth, outputPath);
+    } catch (Exception e) {
       LOG.error("could not create image stream", e);
     }
   }
 
-
   public void saveJPG(MultipartFile image, int newWidth, String outputPath) {
-    try {
-      saveJPG(image.getInputStream(), new File(image.getOriginalFilename()), image.getContentType(), newWidth, outputPath);
-    } catch (IOException e) {
+    try (InputStream imageInputStream = image.getInputStream()) {
+      String contentType = image.getContentType();
+
+      if (!Arrays.asList("image/png", "image/jpeg").contains(contentType)) {
+        throw new IllegalArgumentException("The file provided is not a valid image or is not supported (should be png or jpeg): " + contentType);
+      }
+
+      // Create input image
+      BufferedImage inputImage = ImageIO.read(imageInputStream);
+      newWidth = newWidth > inputImage.getWidth() ? inputImage.getWidth() : newWidth;
+      double ratio = (double) inputImage.getWidth() / (double) inputImage.getHeight();
+      int  scaledHeight = (int) (newWidth / ratio);
+
+      // Create output image
+      BufferedImage outputImage = new BufferedImage(newWidth,
+        scaledHeight, BufferedImage.TYPE_INT_RGB);
+
+      // Scale output
+      Graphics2D g2d = outputImage.createGraphics();
+      g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+      g2d.drawImage(inputImage, 0, 0, newWidth, scaledHeight, null);
+      g2d.dispose();
+
+      // Write output to file
+      Path path = Paths.get(baseUrl + outputPath + ".jpg");
+      Files.createDirectories(path);
+      LOG.debug("writing image to {}", path);
+      ImageIO.write(outputImage, "JPG", path.toFile());
+
+
+    } catch (Exception e) {
       LOG.error("could not create image stream", e);
     }
   }
@@ -199,7 +226,7 @@ public class MediaUtils {
       BufferedImage inputImage = ImageIO.read(imageInputStream);
       newWidth = newWidth > inputImage.getWidth() ? inputImage.getWidth() : newWidth;
       double ratio = (double) inputImage.getWidth() / (double) inputImage.getHeight();
-      int  scaledHeight = (int) (newWidth / ratio);
+      int scaledHeight = (int) (newWidth / ratio);
 
       Path path = Paths.get(baseUrl + outputPath + ".jpg");
 
@@ -207,31 +234,8 @@ public class MediaUtils {
         .size(newWidth, scaledHeight)
         .toFile(path.toFile());
 
-      LOG.info("writing image to {}", path);
-
-    /*
-      // Create output image
-      BufferedImage outputImage = new BufferedImage(newWidth,
-        scaledHeight, BufferedImage.TYPE_INT_RGB);
-
-
-
-      // Scale output
-      Graphics2D g2d = outputImage.createGraphics();
-      g2d.drawImage(inputImage, 0, 0, newWidth, scaledHeight, null);
-      g2d.dispose();
-
-      g2d.setComposite(AlphaComposite.Src);
-      g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-      g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-      g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-
-      // Write output to file
-      Path path = Paths.get(baseUrl + outputPath + ".jpg");
-      Files.createDirectories(path);
       LOG.debug("writing image to {}", path);
-      ImageIO.write(outputImage, "JPG", path.toFile());
-    */
+
     } catch (IOException e) {
       LOG.error("could not write image", e);
     }

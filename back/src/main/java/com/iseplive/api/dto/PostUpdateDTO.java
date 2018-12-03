@@ -7,6 +7,7 @@ package com.iseplive.api.dto;
 public class PostUpdateDTO {
   private String title;
   private String content;
+  private Boolean isPrivate;
 
   public String getTitle() {
     return title;
@@ -23,4 +24,8 @@ public class PostUpdateDTO {
   public void setContent(String content) {
     this.content = content;
   }
+
+  public Boolean getPrivate() { return isPrivate;  }
+
+  public void setPrivate(Boolean aPrivate) {  isPrivate = aPrivate; }
 }

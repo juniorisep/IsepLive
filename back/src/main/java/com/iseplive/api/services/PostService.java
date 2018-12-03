@@ -306,6 +306,7 @@ public class PostService {
     }
     post.setTitle(update.getTitle());
     post.setContent(update.getContent());
+    post.setPrivate(update.getPrivate());
     return postRepository.save(post);
   }
 

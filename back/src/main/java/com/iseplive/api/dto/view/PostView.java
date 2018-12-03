@@ -21,6 +21,7 @@ public class PostView {
   private Integer nbComments;
   private Boolean isPinned;
   private Boolean hasWriteAccess;
+  private Boolean isPrivate;
 
   public Long getId() {
     return id;
@@ -109,4 +110,8 @@ public class PostView {
   public void setNbComments(Integer nbComments) {
     this.nbComments = nbComments;
   }
+
+  public Boolean getPrivate() { return isPrivate;  }
+
+  public void setPrivate(Boolean isPrivate) { this.isPrivate = isPrivate;  }
 }

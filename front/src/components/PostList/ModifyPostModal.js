@@ -16,6 +16,8 @@ import { Title } from 'components/common';
 
 import * as postData from 'data/post';
 import * as eventData from 'data/event';
+import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox/Checkbox";
 
 export default class ModifyPostModal extends React.Component {
   state = {
@@ -34,6 +36,7 @@ export default class ModifyPostModal extends React.Component {
       await postData.updatePost(post.id, {
         title: post.title,
         content: post.content,
+        private: post.private
       });
 
       if (post.media) {
@@ -53,7 +56,7 @@ export default class ModifyPostModal extends React.Component {
   change = name => event => {
     const post = this.state.post;
     if (post) {
-      post[name] = event.target.value;
+      post[name] = (name === "private") ? event.target.checked :event.target.value;
       this.setState({ post });
     }
   };
@@ -113,13 +116,26 @@ export default class ModifyPostModal extends React.Component {
                   <EventForm fullw post={post} update={this.changeMedia} />
                 </div>
               )}
+              <FormControlLabel
+                color="primary"
+                control={
+                  <Checkbox
+                    checked={post.private}
+                    color="primary"
+                    onChange={this.change('private')}
+                  />
+                }
+                label={
+                  <span style={{ fontWeight: 500 }}>PRIVÉ</span>
+                }
+              />
           </DialogContent>
         )}
         <DialogActions>
-          <Button onClick={this.props.requestClose} color="default" autoFocus>
+          <Button onClick={this.props.requestClose} variant="contained" color="primary" autoFocus>
             Annuler
           </Button>
-          <Button onClick={this.requestSave} color="primary">
+          <Button onClick={this.requestSave} variant="contained" color="secondary">
             Enregistrer
           </Button>
         </DialogActions>

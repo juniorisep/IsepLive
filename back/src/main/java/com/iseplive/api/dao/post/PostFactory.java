@@ -47,6 +47,7 @@ public class PostFactory {
     postView.setPinned(post.getPinned());
     postView.setNbComments(post.getComments().size());
 
+
     postView.setMedia(post.getMedia());
     postView.setAuthor(post.getAuthor());
 
@@ -55,7 +56,7 @@ public class PostFactory {
       postView.setHasWriteAccess(false);
     } else {
       Student user = authService.getLoggedUser();
-
+      postView.setPrivate(post.getPrivate());
       if (post.getAuthor() instanceof Club) {
         boolean isAdmin = (((Club) post.getAuthor()).getAdmins().contains(user));
         postView.setHasWriteAccess(isAdmin);

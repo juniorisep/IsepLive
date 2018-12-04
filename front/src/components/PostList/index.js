@@ -7,7 +7,7 @@ import { Box } from 'grid-styled';
 
 import LazyLoad from 'react-lazyload';
 
-import { NavLink } from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import Slide from '@material-ui/core/Slide';
 
 import Button from '@material-ui/core/Button';
@@ -104,7 +104,9 @@ export class PostTextView extends Component<PostTextViewProps> {
     return (
       <PostText w={this.props.w}>
         <PostTitleView post={post} />
+        <Link to={`/post/${post.id}`}>
         <PostTextContent content={post.content} preview={!preview} />
+        </Link>
         <PostActions>
           {!preview && (
             <Button

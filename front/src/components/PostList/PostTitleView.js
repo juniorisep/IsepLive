@@ -49,16 +49,18 @@ export default function PostTitleView({ post }) {
   }
   return (
     <Flex mb="10px">
-      <Box>
-        {post.title && (
-          <DynamicTitle fontSize={2} invert>
-            {post.title}
-          </DynamicTitle>
-        )}
-        <Subtitle>
-          Publié le <Time date={post.creationDate} format={dateFormat} />
-        </Subtitle>
-      </Box>
+      <Link to={`/post/${post.id}`}>
+        <Box>
+          {post.title && (
+            <DynamicTitle fontSize={2} invert>
+              {post.title}
+            </DynamicTitle>
+          )}
+          <Subtitle>
+            Publié le <Time date={post.creationDate} format={dateFormat} />
+          </Subtitle>
+        </Box>
+      </Link>
       <Box ml="auto">
         <Author data={post.author} />
       </Box>

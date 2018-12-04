@@ -28,6 +28,10 @@ const SocialBox = styled.div`
   img {
     width: 100%;
   }
+  
+  img:hover {
+    opacity : 0.5;
+  }
 `;
 
 const LinksBar = styled.div`
@@ -77,15 +81,10 @@ export default class FooterView extends React.Component {
               <Box w={[1, 1, 2 / 6]} p={2}>
                 <SocialBox>
                   <h2>Suivez-nous sur les réseaux de l'internet</h2>
-                  <Flex align="center">
+                  <Flex align="center" justifyContent="space-around">
                     <Box width={1 / 4} p={1}>
                       <a href="https://www.facebook.com/IsepLive/?fref=ts" target="_blank" rel="noopener noreferrer">
                         <img src="/img/svg/facebook.svg" alt="Facebook logo" />
-                      </a>
-                    </Box>
-                    <Box width={1 / 4} p={1}>
-                      <a href="https://twitter.com/iseplive" target="_blank" rel="noopener noreferrer">
-                        <img src="/img/svg/twitter.svg" alt="Twitter logo" />
                       </a>
                     </Box>
                     <Box width={1 / 4} p={1}>

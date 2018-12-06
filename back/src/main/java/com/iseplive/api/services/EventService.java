@@ -1,6 +1,5 @@
 package com.iseplive.api.services;
 
-import com.iseplive.api.conf.jwt.TokenPayload;
 import com.iseplive.api.constants.PublishStateEnum;
 import com.iseplive.api.dao.event.EventFactory;
 import com.iseplive.api.dao.event.EventRepository;
@@ -40,9 +39,9 @@ public class EventService {
   @Value("${storage.event.url}")
   String eventBaseUrl;
 
-  private final int WIDTH_EVENT_IMAGE = 1024;
+  private static final int WIDTH_EVENT_IMAGE = 1024;
 
-  public Event createEvent(Long postId, MultipartFile image, EventDTO dto, TokenPayload auth) {
+  public Event createEvent(Long postId, MultipartFile image, EventDTO dto) {
     Event event = eventFactory.dtoToEntity(dto);
     Club club = clubService.getClub(dto.getClubId());
     if (club == null) {

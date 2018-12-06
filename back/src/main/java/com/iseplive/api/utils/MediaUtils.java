@@ -12,7 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +35,7 @@ public class MediaUtils {
   @Value("${storage.url}")
   private String baseUrl;
 
-  private final String publicBaseUrl = "/storage";
+  private static final String publicBaseUrl = "/storage";
 
   public String resolvePath(String dir, String name, boolean thumb) {
     if (thumb) {
@@ -77,7 +80,7 @@ public class MediaUtils {
     return publicBaseUrl + path;
   }
 
-  public String randomName(int length) {
+  private String randomName(int length) {
     String random = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     StringBuilder out = new StringBuilder();
     for (int i = 0; i < length; i++) {
@@ -93,7 +96,7 @@ public class MediaUtils {
 
   public void removeIfExistPublic(String publicPath) {
     Path p = Paths.get(baseUrl + publicPath.replaceFirst(publicBaseUrl, ""));
-    if (Files.exists(p)) {
+    if (p.toFile().exists()) {
       try {
         Files.delete(p);
       } catch (IOException e) {
@@ -105,7 +108,7 @@ public class MediaUtils {
 
   public void removeIfExistJPEG(String path) {
     Path p = Paths.get(baseUrl + path + ".jpg");
-    if (Files.exists(p)) {
+    if (p.toFile().exists()) {
       try {
         Files.delete(p);
       } catch (IOException e) {
@@ -116,7 +119,7 @@ public class MediaUtils {
 
   public void removeIfExist(String path) {
     Path p = Paths.get(baseUrl + path);
-    if (Files.exists(p)) {
+    if (p.toFile().exists()) {
       try {
         Files.delete(p);
       } catch (IOException e) {
@@ -181,7 +184,7 @@ public class MediaUtils {
       BufferedImage inputImage = ImageIO.read(imageInputStream);
       newWidth = newWidth > inputImage.getWidth() ? inputImage.getWidth() : newWidth;
       double ratio = (double) inputImage.getWidth() / (double) inputImage.getHeight();
-      int  scaledHeight = (int) (newWidth / ratio);
+      int scaledHeight = (int) (newWidth / ratio);
 
       // Create output image
       BufferedImage outputImage = new BufferedImage(newWidth,
@@ -209,10 +212,10 @@ public class MediaUtils {
    * Method to resize image and save to jpg
    * extension set by the method
    *
-   * @param contentType type of image
+   * @param contentType      type of image
    * @param imageInputStream image
-   * @param newWidth width desired
-   * @param outputPath image's path
+   * @param newWidth         width desired
+   * @param outputPath       image's path
    */
   private void saveJPG(InputStream imageInputStream, File file, String contentType, int newWidth, String outputPath) {
     try {
@@ -264,6 +267,7 @@ public class MediaUtils {
       LOG.info("compression ended");
     } catch (InterruptedException e) {
       LOG.error("could not complete video compression for file {}", videoPath, e);
+      Thread.currentThread().interrupt();
     }
   }
 
@@ -286,6 +290,7 @@ public class MediaUtils {
       }
     } catch (InterruptedException e) {
       LOG.error("could not complete thumbnail generation for file {}", thumbnailPath, e);
+      Thread.currentThread().interrupt();
     }
   }
 

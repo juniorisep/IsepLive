@@ -6,13 +6,17 @@ import com.iseplive.api.dao.student.RoleRepository;
 import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
-public class DatabaseSeeder {
+class DatabaseSeeder {
+
+  private final Logger LOG = LoggerFactory.getLogger(DatabaseSeeder.class);
 
   @Autowired
   private StudentRepository studentRepository;
@@ -22,13 +26,16 @@ public class DatabaseSeeder {
 
   void seedDatabase() {
     if (isDatabaseSeeded()) {
-      System.out.println("Database is already seeded. Exiting seeder.");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Database is already seeded. Exiting seeder.");
+      }
       return;
     }
 
     runSeedDatabase();
-
-    System.out.println("Database successfully initialized ! Exiting seeder \uD83D\uDC4D");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Database successfully initialized ! Exiting seeder \uD83D\uDC4D");
+    }
   }
 
   private boolean isDatabaseSeeded() {

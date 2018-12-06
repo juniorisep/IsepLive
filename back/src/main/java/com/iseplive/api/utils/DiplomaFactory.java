@@ -21,8 +21,7 @@ public class DiplomaFactory implements ImageObserver {
 
   private BufferedImage bufferedImage;
 
-  private SimpleDateFormat formater = new SimpleDateFormat("dd/MM/YYYY");
-
+  private SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
 
   public DiplomaFactory(DorConfigDTO configDTO, String diplomaPath, String fontPath) throws Exception {
     this.config = configDTO;

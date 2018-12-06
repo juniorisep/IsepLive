@@ -58,7 +58,7 @@ public class ClubService {
   @Value("${storage.club.url}")
   public String clubLogoStorage;
 
-  private final int WIDTH_LOGO_CLUB = 256;
+  private static final int WIDTH_LOGO_CLUB = 256;
 
   public Club createClub(ClubDTO dto, MultipartFile logo) {
     Club club = clubFactory.dtoToEntity(dto);
@@ -243,7 +243,7 @@ public class ClubService {
     return clubRoleRepository.findByClub_Id(id);
   }
 
-  public void deleteClubRole(Long clubid, Long roleid) {
+  public void deleteClubRole(Long roleid) {
     ClubRole role = clubRoleRepository.findOne(roleid);
     if (role != null) {
       clubRoleRepository.delete(role);

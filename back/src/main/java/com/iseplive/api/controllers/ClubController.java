@@ -132,7 +132,7 @@ public class ClubController {
     if (hasAdminAccess(auth, id)) {
       throw new AuthException("no rights to modify this club");
     }
-    clubService.deleteClubRole(id, roleid);
+    clubService.deleteClubRole(roleid);
   }
 
   @PutMapping("/{id}/member/{student}")

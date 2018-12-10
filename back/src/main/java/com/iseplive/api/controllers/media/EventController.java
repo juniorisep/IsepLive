@@ -47,7 +47,7 @@ public class EventController {
     if (hasRights(auth, eventDTO.getClubId())) {
       throw new AuthException("you are not this club's admin");
     }
-    return eventService.createEvent(postId, file, eventDTO, auth);
+    return eventService.createEvent(postId, file, eventDTO);
   }
 
   @GetMapping

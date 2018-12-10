@@ -40,7 +40,7 @@
     "start:test": "REACT_APP_BACKEND_URL=service.isepliveback.docker-dev.juniorisep.com react-scripts start",
     "start:prod": "REACT_APP_BACKEND_URL=iseplive.fr/api REACT_APP_HTTP_PROTOCOL=https react-scripts start",
     "build": "react-scripts build",
-    "build:prod": "cross-env GENERATE_SOURCEMAP=false REACT_APP_HTTP_PROTOCOL=https REACT_APP_WS_PROTOCOL=wss REACT_APP_BACKEND_URL=iseplive.fr/api && react-scripts build",
+    "build:prod": "cross-env GENERATE_SOURCEMAP=false REACT_APP_HTTP_PROTOCOL=https REACT_APP_WS_PROTOCOL=wss REACT_APP_BACKEND_URL=iseplive.fr/api react-scripts build",
     "test": "react-scripts test",
     "check": "./check-flow-annotation.sh",
     "eject": "react-scripts eject",

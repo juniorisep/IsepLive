@@ -52,10 +52,10 @@ public class StudentService {
   @Value("${storage.student.url}")
   String studentImageStorage;
 
-  private final int RESULTS_PER_PAGE = 20;
+  private static final int RESULTS_PER_PAGE = 20;
 
-  private final int WIDTH_PROFILE_IMAGE = 768;
-  private final int WIDTH_PROFILE_IMAGE_THUMB = 384;
+  private static final int WIDTH_PROFILE_IMAGE = 768;
+  private static final int WIDTH_PROFILE_IMAGE_THUMB = 384;
 
 
   public Page<Student> getAll(int page) {

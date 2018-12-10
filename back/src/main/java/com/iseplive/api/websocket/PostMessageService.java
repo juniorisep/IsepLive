@@ -2,6 +2,8 @@ package com.iseplive.api.websocket;
 
 import com.iseplive.api.entity.Post;
 import com.iseplive.api.utils.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -18,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class PostMessageService {
+
+  private final Logger LOG = LoggerFactory.getLogger(PostMessageService.class);
 
   private Map<Long, Set<WebSocketSession>> clients = new ConcurrentHashMap<>();
 
@@ -45,7 +49,7 @@ public class PostMessageService {
           try {
             s.sendMessage(new TextMessage(message));
           } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
           }
         });
       }

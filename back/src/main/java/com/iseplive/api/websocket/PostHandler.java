@@ -4,8 +4,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.iseplive.api.conf.jwt.JwtTokenUtil;
 import com.iseplive.api.conf.jwt.TokenPayload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -17,8 +15,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  * back
  */
 public class PostHandler extends TextWebSocketHandler {
-
-  private final Logger LOG = LoggerFactory.getLogger(PostHandler.class);
 
   @Autowired
   private PostMessageService postMessageService;
@@ -34,7 +30,6 @@ public class PostHandler extends TextWebSocketHandler {
       TokenPayload tokenPayload = jwtTokenUtil.getPayload(jwt);
       postMessageService.addSession(tokenPayload.getId(), session);
     } catch (JWTVerificationException e) {
-//      LOG.error("token invalid: {}", e);
       session.close();
     }
   }

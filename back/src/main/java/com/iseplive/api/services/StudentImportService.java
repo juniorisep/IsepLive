@@ -5,6 +5,8 @@ import com.iseplive.api.dao.student.StudentRepository;
 import com.iseplive.api.dto.view.ImportStudentResultView;
 import com.iseplive.api.entity.user.Role;
 import com.iseplive.api.entity.user.Student;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,9 +24,7 @@ import java.util.*;
 @Service
 public class StudentImportService {
 
-  private final String CSV_SEPARATOR = ",";
-
-  private final int CSV_NUM_COLUMNS = 4;
+  private final Logger LOG = LoggerFactory.getLogger(StudentImportService.class);
 
   @Autowired
   StudentService studentService;
@@ -48,8 +48,10 @@ public class StudentImportService {
       Set<Role> roles = new HashSet<>();
       roles.add(studentRole);
       while ((line = br.readLine()) != null) {
-        String[] cols = line.split(CSV_SEPARATOR);
-        if (lineNum != 0 && cols.length == CSV_NUM_COLUMNS) {
+        String csvSeparator = ",";
+        String[] cols = line.split(csvSeparator);
+        int csvNumColumns = 4;
+        if (lineNum != 0 && cols.length == csvNumColumns) {
           String firstname = cols[0];
           String lastname = cols[1];
           String studentId = cols[2];
@@ -72,7 +74,7 @@ public class StudentImportService {
 
 
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
     return res;
   }
@@ -85,7 +87,7 @@ public class StudentImportService {
     List<Student> studentsToCreate = new ArrayList<>();
     Map<String, MultipartFile> photosToAdd = new HashMap<>();
 
-    for (MultipartFile photo: photos) {
+    for (MultipartFile photo : photos) {
       String fullname = photo.getOriginalFilename();
       String idIsep = fullname.split("\\.")[0];
       photosToAdd.put(idIsep, photo);
@@ -109,8 +111,8 @@ public class StudentImportService {
 
         // check photo exist
 //        if (photosToAdd.get(s.getStudentId()) != null) {
-          studentsToCreate.add(s);
-          res.incrImport();
+        studentsToCreate.add(s);
+        res.incrImport();
 //        } else {
 //          res.incrStudentPhotoNotMatched();
 //        }
@@ -119,7 +121,7 @@ public class StudentImportService {
 
     studentRepository.save(studentsToCreate);
     // add photo to new students
-    for (Student s: studentsToCreate) {
+    for (Student s : studentsToCreate) {
       if (photosToAdd.get(s.getStudentId()) != null) {
         studentService.addProfileImage(s.getStudentId(), photosToAdd.get(s.getStudentId()));
         res.incrPhotoAdded();

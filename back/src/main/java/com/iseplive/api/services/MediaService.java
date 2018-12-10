@@ -84,12 +84,12 @@ public class MediaService {
   @Value("${storage.document.url}")
   String documentDir;
 
-  private final int ALL_MEDIA_PAGE_SIZE = 20;
+  private static final int ALL_MEDIA_PAGE_SIZE = 20;
 
-  private final int WIDTH_IMAGE_SIZE = 1280;
-  private final int WIDTH_IMAGE_SIZE_THUMB = 768;
+  private static final int WIDTH_IMAGE_SIZE = 1280;
+  private static final int WIDTH_IMAGE_SIZE_THUMB = 768;
 
-  private final int PHOTOS_PER_PAGE = 30;
+  private static final int PHOTOS_PER_PAGE = 30;
 
   /**
    * List all galleries, gazette and video published in a public post

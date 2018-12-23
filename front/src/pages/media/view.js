@@ -1,8 +1,8 @@
-// @flow
+
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Box, Flex } from 'grid-styled';
+import { Box, Flex } from '@rebass/grid';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';

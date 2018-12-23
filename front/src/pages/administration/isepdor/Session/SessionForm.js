@@ -1,4 +1,4 @@
-// @flow
+
 import React, { Fragment } from 'react';
 
 import { DatePicker } from 'material-ui-pickers';

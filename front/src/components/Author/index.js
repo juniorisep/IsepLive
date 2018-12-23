@@ -1,8 +1,8 @@
-// @flow
+
 
 import React from 'react';
 import styled from 'styled-components';
-import { Flex } from 'grid-styled';
+import { Flex } from '@rebass/grid';
 
 import { Link } from 'react-router-dom';
 

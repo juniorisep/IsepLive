@@ -1,7 +1,7 @@
-// @flow
+
 
 import React from 'react';
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';

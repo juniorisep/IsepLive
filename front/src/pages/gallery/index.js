@@ -1,9 +1,9 @@
-// @flow
+
 
 import React from 'react';
 
-import { Flex, Box } from 'grid-styled';
-import {Link, Redirect} from 'react-router-dom';
+import { Flex, Box } from '@rebass/grid';
+import { Link } from 'react-router-dom';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';

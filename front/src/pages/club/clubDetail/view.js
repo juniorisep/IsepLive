@@ -1,9 +1,9 @@
-// @flow
+
 
 import React from 'react';
 
 import styled from 'styled-components';
-import { Box, Flex } from 'grid-styled';
+import { Box, Flex } from '@rebass/grid';
 
 import { Tabs, Tab } from '@material-ui/core';
 import MUIButton from '@material-ui/core/Button';

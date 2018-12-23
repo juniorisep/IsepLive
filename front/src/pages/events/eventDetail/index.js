@@ -1,4 +1,4 @@
-// @flow
+
 
 import React, { Component } from 'react';
 
@@ -13,7 +13,7 @@ import Loader from 'components/Loader';
 import Time from 'components/Time';
 import Author from 'components/Author';
 
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 
 import * as eventData from 'data/event';
 import * as utils from '../../../data/util';

@@ -1,10 +1,10 @@
-// @flow
+
 
 import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
-import { Box, Flex } from 'grid-styled';
+import { Box, Flex } from '@rebass/grid';
 
 import {
   Banner,

@@ -1,7 +1,7 @@
-// @flow
+
 import React, { Fragment } from 'react';
 
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';

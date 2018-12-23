@@ -1,7 +1,7 @@
-// @flow
+
 import React, { Component, Fragment } from 'react';
 import { Dialog, DialogTitle } from '@material-ui/core';
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 
 import * as dorData from '../../../../data/dor';
 

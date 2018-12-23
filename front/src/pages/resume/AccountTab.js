@@ -1,8 +1,8 @@
-// @flow
+
 
 import React from 'react';
 
-import { Box, Flex } from 'grid-styled';
+import { Box, Flex } from '@rebass/grid';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';

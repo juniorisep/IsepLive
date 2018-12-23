@@ -1,8 +1,8 @@
-// @flow
+
 import React from 'react';
 
 import { Stage, Layer, Rect, Image, Text } from 'react-konva';
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';

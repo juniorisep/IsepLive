@@ -1,8 +1,8 @@
-// @flow
+
 
 import React from 'react';
 
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 
 import { Text } from 'components/common';
 

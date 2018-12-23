@@ -1,9 +1,9 @@
-// @flow
+
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import * as moment from 'moment';
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 
 import InsertChartIcon from '@material-ui/icons/InsertChart';
 

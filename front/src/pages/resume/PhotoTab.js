@@ -1,8 +1,8 @@
-// @flow
+
 
 import React from 'react';
 
-import { Box, Flex } from 'grid-styled';
+import { Box, Flex } from '@rebass/grid';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 

@@ -1,8 +1,8 @@
-// @flow
+
 
 import React from 'react';
 
-import { Box } from 'grid-styled';
+import { Box } from '@rebass/grid';
 
 import Button from '@material-ui/core/Button';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';

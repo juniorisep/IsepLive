@@ -1,8 +1,8 @@
-// @flow
+
 
 import React, { Component, PureComponent } from 'react';
 import styled from 'styled-components';
-import { Box, Flex } from 'grid-styled';
+import { Box, Flex } from '@rebass/grid';
 import { Link } from 'react-router-dom';
 
 import FormControl from '@material-ui/core/FormControl';

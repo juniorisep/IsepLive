@@ -1,4 +1,4 @@
-// @flow
+
 
 import Session from './Session';
 import Question from './Question';

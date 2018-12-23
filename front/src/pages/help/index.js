@@ -1,4 +1,4 @@
-// @flow
+
 
 import React, { Component } from 'react';
 
@@ -13,7 +13,7 @@ import {
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { Box, Flex } from 'grid-styled';
+import { Box, Flex } from '@rebass/grid';
 
 import { Banner, Filler, FluidContent, Header } from 'components/common';
 

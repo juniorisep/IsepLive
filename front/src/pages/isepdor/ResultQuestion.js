@@ -1,7 +1,7 @@
-// @flow
+
 import React from 'react';
 
-import { Flex, Box } from 'grid-styled';
+import { Flex, Box } from '@rebass/grid';
 import Avatar from '@material-ui/core/Avatar';
 
 import { Paper, Title, BgImage } from '../../components/common';

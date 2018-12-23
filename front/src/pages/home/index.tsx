@@ -1,27 +1,19 @@
-
-
 import React, { Component } from 'react';
-
-import HomeView from './view';
-
 import * as authData from '../../data/auth';
-import * as postData from 'data/post';
+import * as postData from '../../data/post';
+import { Post } from '../../data/post/type';
+import { HomeView } from './view';
 
-import type {
-  Post as PostType,
-  PostCreation as PostCreationType,
-} from '../../data/post/type';
-
-type State = {
-  posts: PostType[],
-  pinnedPosts: PostType[],
-  waitingPosts: PostType[],
-  page: number,
-  lastPage: boolean,
-  isLoading: boolean,
+type HomeState = {
+  posts: Post[];
+  pinnedPosts: Post[];
+  waitingPosts: Post[];
+  page: number;
+  lastPage: boolean;
+  isLoading: boolean;
 };
 
-class Home extends Component<{}, State> {
+class Home extends Component<{}, HomeState> {
   state = {
     posts: [],
     pinnedPosts: [],

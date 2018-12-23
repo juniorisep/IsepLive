@@ -1,51 +1,35 @@
-
-
-import React, { Component } from 'react';
-
-import styled from 'styled-components';
-import { Box, Flex } from '@rebass/grid';
-
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import { Menu, MenuItem } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-
-import * as postData from 'data/post';
-import * as mediaData from 'data/media';
-import * as pollData from 'data/media/poll';
-import * as imageData from 'data/media/image';
-import * as videoData from 'data/media/video';
-import * as authData from 'data/auth';
-
-import type {
-  Post as PostType,
-  PostCreation as PostCreationType,
-} from '../../data/post/type';
-
-import type { Media as MediaType } from '../../data/media/type';
-import type { Form as FormType } from '../../components/PostList/MediaForms.type';
-
-import { makeCancelable } from '../../data/util';
-
+import { Box, Flex } from '@rebass/grid';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import { sendAlert } from '../../components/Alert';
-
+import { ProfileImage, Text } from '../../components/common';
 import {
+  DocumentForm,
+  EventForm,
+  GalleryForm,
+  GazetteForm,
+  ImageForm,
   MediaCreator,
   PollForm,
-  ImageForm,
   VideoEmbedForm,
   VideoForm,
-  GalleryForm,
-  DocumentForm,
-  GazetteForm,
-  EventForm,
-} from 'components/PostList/MediaForms';
-
-import { ProfileImage, Text } from 'components/common';
+} from '../../components/PostList/MediaForms';
+import * as authData from '../../data/auth';
+import * as mediaData from '../../data/media';
+import * as imageData from '../../data/media/image';
+import * as pollData from '../../data/media/poll';
+import * as videoData from '../../data/media/video';
+import * as postData from '../../data/post';
+import { PostCreation } from '../../data/post/type';
+import { Author, AuthorType } from '../../data/users/type';
+import { CancelablePromise, makeCancelable } from '../../data/util';
 
 const PublishBox = styled.div`
   background: ${props => props.theme.main};
@@ -55,6 +39,7 @@ const PublishBox = styled.div`
   border-top-right-radius: 5px;
 `;
 
+type TitleBoxProps = { m?: string };
 const TitleBox = styled.input`
   font-family: 'Roboto';
   font-size: 1.3em;
@@ -63,7 +48,7 @@ const TitleBox = styled.input`
   outline: 0;
   border-radius: 5px;
   width: 100%;
-  margin-bottom: ${props => props.m || '5px'};
+  margin-bottom: ${(props: TitleBoxProps) => props.m || '5px'};
 `;
 
 let MessageBox = TitleBox.withComponent('textarea');
@@ -72,25 +57,37 @@ MessageBox = styled(MessageBox)`
   min-height: 80px;
 `;
 
-function SendAs(props) {
-  const author = props.author;
+interface PublishBoxAuthor {
+  id: number;
+  name: string;
+  image: string;
+  type: AuthorType;
+  isAdmin: boolean;
+}
+
+interface SendAsProps {
+  author?: PublishBoxAuthor;
+  c?: string;
+}
+
+const SendAs: React.SFC<SendAsProps> = ({ author, c }) => {
   return (
-    <Flex align="center">
+    <Flex alignItems="center">
       <Box mr="10px">
-        <ProfileImage sz="20px" src={author && author.image} />
+        <ProfileImage w="20px" src={author && author.image} />
       </Box>
       <Box>
-        <Text color={props.c || 'white'} m="0">
+        <Text color={c || 'white'} m="0">
           {author && author.name}
         </Text>
       </Box>
     </Flex>
   );
-}
+};
 
 type MediaChoice = {
-  id: string,
-  name: string,
+  id: string;
+  name: string;
 };
 
 const mediaAvailable = [
@@ -117,38 +114,38 @@ const mediaAvailable = [
 ];
 
 type PublishBoxProps = {
-  refreshPosts: () => mixed,
+  refreshPosts: () => void;
 };
 
 type CustomAuthorType = {
-  id: number,
-  name: string,
-  image: string,
-  type: 'club' | 'student',
-  isAdmin: boolean,
+  id: number;
+  name: string;
+  image: string;
+  type: 'club' | 'student';
+  isAdmin: boolean;
 };
 
 type PublishBoxState = {
-  title: string,
-  message: string,
-  isPrivateMessage: boolean,
-  selectedIndex: number,
-  mediaMenuOpen: boolean,
-  authorMenuOpen: boolean,
-  author: ?CustomAuthorType,
-  authorList: CustomAuthorType[],
-  mediaCreatorOpen: boolean,
-  form: ?FormType,
-  mediaSelected: ?MediaChoice,
-  isUploading: boolean,
-  uploadMode: string,
-  uploadProgress: number,
-  messageRows: number,
-  anchorEl: ?any,
+  title: string;
+  message: string;
+  isPrivateMessage: boolean;
+  selectedIndex: number;
+  mediaMenuOpen: boolean;
+  authorMenuOpen: boolean;
+  author?: CustomAuthorType;
+  authorList: CustomAuthorType[];
+  mediaCreatorOpen: boolean;
+  form?: any;
+  mediaSelected?: MediaChoice;
+  isUploading: boolean;
+  uploadMode: 'determinate' | 'indeterminate' | 'buffer' | 'query';
+  uploadProgress: number;
+  messageRows: number;
+  anchorEl?: any;
 };
 
 class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
-  state = {
+  state: PublishBoxState = {
     title: '',
     message: '',
     isPrivateMessage: true,
@@ -167,7 +164,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     anchorEl: null,
   };
 
-  getAuthorsReq: { cancel: Function };
+  getAuthorsReq?: CancelablePromise;
 
   componentDidMount() {
     if (authData.isLoggedIn()) {
@@ -177,9 +174,9 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
       }
 
       this.getAuthorsReq = makeCancelable(postData.getAuthors());
-      this.getAuthorsReq.promise
-        .then(res => {
-          const authors = res.data.map(a => {
+      this.getAuthorsReq.promise.then(res => {
+        const authors = res.data.map(
+          (a: Author): PublishBoxAuthor => {
             return {
               id: a.id,
               name: a.authorType === 'student' ? 'Moi' : a.name,
@@ -187,10 +184,10 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
               type: a.authorType,
               isAdmin: a.authorType === 'club' ? a.admin : false,
             };
-          });
-          this.setState({ authorList: authors, author: authors[0] });
-        })
-        .catch(err => {});
+          }
+        );
+        this.setState({ authorList: authors, author: authors[0] });
+      });
     }
   }
 
@@ -200,11 +197,11 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     }
   }
 
-  onTitleChange = (event: SyntheticEvent<HTMLInputElement>) => {
+  onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ title: event.currentTarget.value });
   };
 
-  onMessageChange = (event: SyntheticEvent<HTMLInputElement>) => {
+  onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const message = event.currentTarget.value;
     localStorage.setItem('saved-message', message);
     const numLines = message.split('\n').length;
@@ -218,10 +215,10 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     this.setState({ isPrivateMessage: !this.state.isPrivateMessage });
   };
 
-  async createPost(): Promise<?number> {
+  async createPost(): Promise<number | null> {
     if (!this.state.author) return;
 
-    const dto: PostCreationType = {
+    const dto: PostCreation = {
       authorId: this.state.author.id,
       content: this.state.message,
       title: this.state.title,
@@ -444,7 +441,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     }
   }
 
-  onMessageBoxKeyDown = (e: KeyboardEvent) => {
+  onMessageBoxKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.shiftKey && e.keyCode === 13 && this.canPublish()) {
       this.onPublish();
     }
@@ -456,15 +453,14 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     return (
       <div style={{ marginBottom: 20 }}>
         <PublishBox>
-          {author &&
-            author.type === 'club' && (
-              <TitleBox
-                placeholder="Titre"
-                m="15px"
-                onChange={this.onTitleChange}
-                value={this.state.title}
-              />
-            )}
+          {author && author.type === 'club' && (
+            <TitleBox
+              placeholder="Titre"
+              m="15px"
+              onChange={this.onTitleChange}
+              value={this.state.title}
+            />
+          )}
           <MessageBox
             rows={this.state.messageRows}
             placeholder="Tapez votre message"
@@ -481,7 +477,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
               {this.renderForm()}
             </MediaCreator>
           )}
-          <Flex align="center" flexWrap="wrap">
+          <Flex alignItems="center" flexWrap="wrap">
             <Box>
               <IconButton onClick={this.openMediaMenu}>
                 <AddCircleIcon style={{ color: 'white' }} />

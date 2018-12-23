@@ -12,7 +12,7 @@ type ClubValue = {
   description: string;
   creation: Date;
   website: string;
-  isAdmin: boolean;
+  admin: boolean;
   logoUrl: string;
 };
 export type Club = AuthorValue & ClubValue;

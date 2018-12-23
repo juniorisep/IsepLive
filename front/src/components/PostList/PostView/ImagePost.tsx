@@ -16,7 +16,7 @@ class ImagePost extends React.Component<PostViewProps> {
           <Paper style={{ height: '100%' }}>
             <BgImage
               onClick={() => {
-                if (!preview) {
+                if (!preview && openFullScreen) {
                   openFullScreen(true, post.media);
                 }
               }}

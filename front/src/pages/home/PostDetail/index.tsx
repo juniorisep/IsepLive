@@ -1,13 +1,27 @@
-
-
 import React, { Component } from 'react';
-
-import PostDetailView from './view';
+import { RouteComponentProps } from 'react-router';
 import * as authData from '../../../data/auth';
 import * as postData from '../../../data/post';
+import { Comment, Post } from '../../../data/post/type';
 import * as studentData from '../../../data/users/student';
+import { Student } from '../../../data/users/type';
+import { PostDetailView } from './view';
 
-class PostDetail extends Component {
+interface PostDetailProps extends RouteComponentProps<{ id?: string }> {
+  post?: Post;
+}
+
+interface PostDetailState {
+  post?: Post;
+  comments: Comment[];
+  commenter?: Student;
+  modifyEnable?: boolean;
+  openDeleteComm?: boolean;
+  openDeletePost?: boolean;
+  toDeleteComm?: Comment;
+}
+
+class PostDetail extends Component<PostDetailProps, PostDetailState> {
   state = {
     post: null,
     comments: [],
@@ -17,16 +31,19 @@ class PostDetail extends Component {
     openDeleteComm: false,
     openDeletePost: false,
     toDeleteComm: null,
-  }
+  };
+
+  postId?: number;
+  autoRefresh?: number;
 
   componentDidMount() {
-    this.postId = this.props.match.params.id;
+    this.postId = parseInt(this.props.match.params.id, 10);
     this.refreshPost();
     this.refreshCom();
     if (authData.isLoggedIn()) {
       this.getCommenter();
     }
-    this.autoRefresh = setInterval(() => {
+    this.autoRefresh = window.setInterval(() => {
       this.refreshCom();
     }, 30000);
   }
@@ -41,15 +58,15 @@ class PostDetail extends Component {
     });
   }
 
-  refreshPost = (reason) => {
-    postData.getPost(this.postId)
-      .then(res => {
-        this.setState({ post: res.data });
-      });
+  refreshPost = () => {
+    postData.getPost(this.postId).then(res => {
+      this.setState({ post: res.data });
+    });
   };
 
   refreshCom = () => {
-    postData.getComments(this.postId)
+    postData
+      .getComments(this.postId)
       .then(res => this.setState({ comments: res.data }));
   };
 
@@ -57,45 +74,43 @@ class PostDetail extends Component {
     postData.toggleLikeComment(this.postId, comId);
   };
 
-  showLikes = (comId: number) => e => {
+  showLikes = (comId: number) => {
     return postData.getLikes('comment', comId);
-  }
-
-  comment = (message: string) => {
-    postData.comment(this.postId, message)
-      .then(this.refreshCom);
   };
 
-  modifyPost = (postModified) =>
+  comment = (message: string) => {
+    postData.comment(this.postId, message).then(this.refreshCom);
+  };
+
+  modifyPost = (postModified: Post) =>
     this.setState({ post: postModified, modifyEnable: true });
 
-  requestClose = () =>
-    this.setState({ modifyEnable: false });
+  requestClose = () => this.setState({ modifyEnable: false });
 
-  reqDeleteComment = (comment) =>
+  reqDeleteComment = (comment: Comment) =>
     this.setState({ toDeleteComm: comment, openDeleteComm: true });
 
-  deleteComment = (ok) => {
+  deleteComment = (ok: boolean) => {
     if (ok) {
-      postData.deleteComment(this.postId, this.state.toDeleteComm.id)
-        .then(res => {
+      postData
+        .deleteComment(this.postId, this.state.toDeleteComm.id)
+        .then(() => {
           this.refreshCom();
         });
     }
     this.setState({ openDeleteComm: false });
-  }
+  };
 
-  reqDeletePost = () =>
-    this.setState({ openDeletePost: true })
+  reqDeletePost = () => this.setState({ openDeletePost: true });
 
-  deletePost = (ok) => {
+  deletePost = (ok: boolean) => {
     if (ok) {
-      postData.deletePost(this.state.post.id).then(res => {
+      postData.deletePost(this.state.post.id).then(() => {
         this.props.history.push('/');
       });
     }
     this.setState({ openDeletePost: false });
-  }
+  };
 
   render() {
     return (
@@ -106,7 +121,6 @@ class PostDetail extends Component {
         modifyEnable={this.state.modifyEnable}
         openDeleteComm={this.state.openDeleteComm}
         openDeletePost={this.state.openDeletePost}
-
         refresh={this.refreshPost}
         toggleLikeCom={this.toggleLikeCom}
         showLikes={this.showLikes}

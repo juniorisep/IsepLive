@@ -1,40 +1,41 @@
-import React from 'react';
-
-import Button from '@material-ui/core/Button';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-
-import { EventForm } from './MediaForms';
-import { Title } from '../../components/common';
-
-import * as postData from '../../data/post';
-import * as eventData from '../../data/event';
-import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
+import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
+import React from 'react';
+import { Title } from '../../components/common';
+import * as eventData from '../../data/event';
+import * as postData from '../../data/post';
 import { Post } from '../../data/post/type';
+import { EventForm } from './MediaForms';
 
-interface Props {
+interface ModifyPostModalProps {
   open: boolean;
-  post: Post | null;
+  post?: Post;
   refresh: () => void;
   requestClose: () => void;
+  modifyPost: (postModified: Post) => void;
 }
 
-interface State {
-  post: Post | null;
+interface ModifyPostModalState {
+  post?: Post;
 }
 
-export default class ModifyPostModal extends React.Component<Props, State> {
+export default class ModifyPostModal extends React.Component<
+  ModifyPostModalProps,
+  ModifyPostModalState
+> {
   state = {
     post: null,
   };
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: ModifyPostModalProps) {
     if (prevProps.post !== this.state.post) {
       this.setState({ post: prevProps.post });
     }

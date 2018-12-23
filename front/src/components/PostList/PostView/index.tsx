@@ -14,7 +14,7 @@ export interface PostViewProps {
   invert?: boolean;
   list?: boolean;
   post: Post;
-  openFullScreen: (fullscreenOpen: boolean, media?: Media) => void;
+  openFullScreen?: (fullscreenOpen: boolean, media?: Media) => void;
   textView: (size: number[]) => React.ReactNode;
 }
 

@@ -1,6 +1,6 @@
 import axios, { AxiosPromise } from 'axios';
 import { Page } from '../request.type';
-import { Post, PostCreation } from './type';
+import { Post, PostCreation, Comment } from './type';
 import { Author, Student } from '../users/type';
 
 export function getPosts(page: number): AxiosPromise<Page<Post>> {

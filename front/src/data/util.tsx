@@ -1,12 +1,11 @@
 import React from 'react';
 import { SECONDARY_COLOR } from '../colors';
 
-export const makeCancelable = (
-  promise: Promise<any>
-): {
+export type CancelablePromise = {
   promise: Promise<any>;
   cancel: () => void;
-} => {
+};
+export const makeCancelable = (promise: Promise<any>): CancelablePromise => {
   let hasCanceled_ = false;
 
   const wrappedPromise = new Promise((resolve, reject) => {

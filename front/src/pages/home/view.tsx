@@ -1,9 +1,13 @@
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
-import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import SubjectIcon from '@material-ui/icons/Subject';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import styled from 'styled-components';
+import { BACKGROUND_COLOR, SECONDARY_COLOR } from '../../colors';
+import Auth from '../../components/Auth/AuthComponent';
 import {
   Banner,
   Filler,
@@ -12,21 +16,12 @@ import {
   Separator,
   Text,
   Title,
-} from 'components/common';
-
-import PostListView from 'components/PostList';
-import Auth from 'components/Auth/AuthComponent';
-
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import SubjectIcon from '@material-ui/icons/Subject';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-
-import PublishBoxView from './publishBox';
-import Loader from 'components/Loader';
+} from '../../components/common';
+import Loader from '../../components/Loader';
+import PostListView from '../../components/PostList';
 import IsepDorHome from '../isepdor/Home';
-import { ADMIN } from '../../constants';
-import { BACKGROUND_COLOR, SECONDARY_COLOR } from '../../colors';
+import PublishBoxView from './publishBox';
+import { Post } from '../../data/post/type';
 
 const PostSection = styled.div`
   margin: 30px 0;
@@ -60,7 +55,18 @@ const CircleIcon = props => (
   </Circle>
 );
 
-export default function Home(props) {
+interface HomeViewProps {
+  posts: Post[];
+  pinnedPosts: Post[];
+  waitingPosts: Post[];
+  page: number;
+  lastPage: boolean;
+  isLoading: boolean;
+  refreshPosts: () => void;
+  onSeeMore: () => void;
+}
+
+export const HomeView: React.SFC<HomeViewProps> = props => {
   return (
     <div>
       <Header url="/img/background.jpg">
@@ -89,7 +95,7 @@ export default function Home(props) {
               <div>
                 {props.waitingPosts.length > 0 && (
                   <div>
-                    <Flex align="center">
+                    <Flex alignItems="center">
                       <Box mr="20px">
                         <CircleIcon>
                           <ScheduleIcon style={{ color: SECONDARY_COLOR }} />
@@ -111,7 +117,7 @@ export default function Home(props) {
                 )}
                 {props.pinnedPosts.length > 0 && (
                   <div>
-                    <Flex align="center">
+                    <Flex alignItems="center">
                       <Box mr="20px">
                         <CircleIcon>
                           <BookmarkIcon style={{ color: SECONDARY_COLOR }} />
@@ -131,7 +137,7 @@ export default function Home(props) {
                     <Filler h={50} />
                   </div>
                 )}
-                <Flex align="center">
+                <Flex alignItems="center">
                   <Box mr="20px">
                     <CircleIcon>
                       <SubjectIcon style={{ color: SECONDARY_COLOR }} />
@@ -178,4 +184,4 @@ export default function Home(props) {
       </div>
     </div>
   );
-}
+};

@@ -1,26 +1,25 @@
-import React from 'react';
-
-import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
-
+import { AxiosPromise } from 'axios';
+import React from 'react';
+import styled from 'styled-components';
+import Auth from '../../../components/Auth/AuthComponent';
 import {
   FluidContent,
-  Title,
   Paper,
   ProfileImage,
   ScrollToTopOnMount,
   Text,
+  Title,
 } from '../../../components/common';
-
-import { PostView, PostTextView } from '../../../components/PostList';
-import Auth from '../../../components/Auth/AuthComponent';
-
 import Loader from '../../../components/Loader';
-
+import Popup from '../../../components/Popup';
+import { PostTextView } from '../../../components/PostList';
 import Comment from '../../../components/PostList/Comment';
 import CommentBox from '../../../components/PostList/CommentBox';
-import Popup from '../../../components/Popup';
 import ModifyPostModal from '../../../components/PostList/ModifyPostModal';
+import { PostView } from '../../../components/PostList/PostView';
+import { Comment as CommentType, Post } from '../../../data/post/type';
+import { Student } from '../../../data/users/type';
 
 const Background = styled.div`
   background: url(/img/background.jpg);
@@ -31,7 +30,27 @@ const Background = styled.div`
   position: relative;
 `;
 
-export default function PostDetailView(props) {
+interface PostDetailViewProps {
+  post?: Post;
+  comments: CommentType[];
+  commenter?: Student;
+  canPin?: boolean;
+  modifyEnable?: boolean;
+  openDeleteComm?: boolean;
+  openDeletePost?: boolean;
+  showLikes: (likeId: number) => AxiosPromise<Student[]>;
+  refresh: () => void;
+  modifyPost: (postModified: Post) => void;
+  reqDeletePost: () => void;
+  toggleLikeCom: (comId: number) => void;
+  reqDeleteComment: (comment: CommentType) => void;
+  onComment: (message: string) => void;
+  requestClose: () => void;
+  deleteComment: (ok: boolean) => void;
+  deletePost: (ok: boolean) => void;
+}
+
+export const PostDetailView: React.SFC<PostDetailViewProps> = props => {
   return (
     <div>
       <ScrollToTopOnMount />
@@ -113,4 +132,4 @@ export default function PostDetailView(props) {
       />
     </div>
   );
-}
+};

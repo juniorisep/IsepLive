@@ -11,13 +11,7 @@ export function getEvent(id: number): AxiosPromise<Event> {
 
 export function updateEvent(
   id: number,
-  data: {
-    title: string;
-    location: string;
-    date: number;
-    description: string;
-    image: string | Blob;
-  },
+  data: any,
   authorId: number
 ): AxiosPromise<void> {
   const form = new FormData();

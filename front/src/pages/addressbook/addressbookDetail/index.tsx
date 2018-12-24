@@ -1,28 +1,22 @@
-
-
 import React, { Component } from 'react';
-
-import * as studentData from 'data/users/student';
-
-import AdressbookDetailView from './view';
-
+import * as studentData from '../../../data/users/student';
 import AccountTab from '../../resume/AccountTab';
 import PhotoTab from '../../resume/PhotoTab';
 import PostTab from '../../resume/PostTab';
-import type {} from 'react-router-dom';
+import AdressbookDetailView from './view';
 
 type State = {
-  data: any,
-  posts: any[],
-  page: number,
-  lastPage: boolean,
-  clubMembers: any[],
-  fullscreenOpen: boolean,
-  tabIndex: number,
-  isLoading: boolean,
+  data: any;
+  posts: any[];
+  page: number;
+  lastPage: boolean;
+  clubMembers: any[];
+  fullscreenOpen: boolean;
+  tabIndex: number;
+  isLoading: boolean;
 };
 
-type Props = {};
+type Props = any;
 
 class AdressbookDetail extends Component<Props, State> {
   state = {
@@ -57,7 +51,7 @@ class AdressbookDetail extends Component<Props, State> {
     this.setState({ data, isLoading: false });
   };
 
-  refreshPosts = async () => {
+  refreshPosts = async (id: number) => {
     const userid = this.getUserId();
     const { data } = await studentData.getPosts(userid, 0);
     this.setState({

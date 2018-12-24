@@ -1,5 +1,3 @@
-
-
 import React, { Component, PureComponent } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';

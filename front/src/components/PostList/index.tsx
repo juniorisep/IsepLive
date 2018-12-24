@@ -156,22 +156,22 @@ export function PostTextContent(props: TextContentProps) {
 type PostListViewProps = {
   refreshPosts: (action?: string) => void;
   posts: PostType[];
-  canPin?: boolean;
+  canPin: boolean;
 };
 
 type PostListViewState = {
-  postSelected?: PostType;
-  media?: Media;
-  modifyEnable?: boolean;
-  fullscreenOpen?: boolean;
-  deleteEnabled?: boolean;
+  postSelected: PostType | null;
+  media: Media | null;
+  modifyEnable: boolean;
+  fullscreenOpen: boolean;
+  deleteEnabled: boolean;
 };
 
 export default class PostListView extends React.Component<
   PostListViewProps,
   PostListViewState
 > {
-  state = {
+  state: PostListViewState = {
     postSelected: null,
     media: null,
     modifyEnable: false,
@@ -202,7 +202,7 @@ export default class PostListView extends React.Component<
   };
 
   deleteResponse = (ok: boolean) => {
-    if (ok) {
+    if (ok && this.state.postSelected) {
       postData.deletePost(this.state.postSelected.id).then(res => {
         this.props.refreshPosts('delete');
       });

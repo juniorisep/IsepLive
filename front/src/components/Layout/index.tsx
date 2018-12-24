@@ -307,11 +307,8 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
     this.setState({ open: false });
   };
 
-  handleLoginForm = (
-    name: 'username' | 'password',
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    this.setState({ [name]: event.target.value } as any);
+  handleLoginForm = (name: 'username' | 'password', value: string) => {
+    this.setState({ [name]: value } as any);
   };
 
   handleConnect = async (event: React.FormEvent) => {

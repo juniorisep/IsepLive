@@ -57,15 +57,6 @@ type AuthorValue = {
 
 export type Author = Student & Club & Employee;
 
-export type PagedStudent = {
-  content: Student[];
-  first: boolean;
-  last: boolean;
-  number: number;
-  size: number;
-  totalElements: number;
-};
-
 export type Role = {
   id: number;
   name: string;

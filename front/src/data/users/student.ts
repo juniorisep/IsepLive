@@ -1,24 +1,18 @@
 import axios, { AxiosPromise } from 'axios';
 import { MAX_PROMO } from '../../constants';
-import {
-  PagedStudent,
-  StudentUpdate,
-  Student,
-  Role,
-  Employee,
-  CreateEmployee,
-} from './type';
-import { Post } from '../post/type';
-import { Image } from '../media/type';
 import { ClubMember } from '../club/type';
+import { Image } from '../media/type';
+import { Post } from '../post/type';
+import { Page } from '../request.type';
+import { CreateEmployee, Employee, Role, Student, StudentUpdate } from './type';
 
-export function getStudents(page: number = 0): AxiosPromise<PagedStudent> {
+export function getStudents(page: number = 0): AxiosPromise<Page<Student>> {
   return axios.get(`/user/student?page=${page}`);
 }
 
 export function getStudentsForAdmin(
   page: number = 0
-): AxiosPromise<PagedStudent> {
+): AxiosPromise<Page<Student>> {
   return axios.get(`/user/student/admin?page=${page}`);
 }
 
@@ -26,7 +20,7 @@ export function updateStudent(form: StudentUpdate): AxiosPromise<Student> {
   return axios.put('/user/student', form);
 }
 
-export function updateStudentFull(data): AxiosPromise<Student> {
+export function updateStudentFull(data: any): AxiosPromise<Student> {
   const form = new FormData();
 
   form.append(
@@ -60,7 +54,7 @@ export function searchStudents(
   promotionFilter: number[] = [],
   sort: string = 'a',
   page: number = 0
-): AxiosPromise<PagedStudent> {
+): AxiosPromise<Page<Student>> {
   const promos = promotionFilter.join(',');
   return axios.get(
     `/user/student/search?name=${name}&promos=${promos}&sort=${sort}&page=${page}`
@@ -73,7 +67,7 @@ export function searchStudentsAdmin(
   promotionFilter: number[] = [],
   sort: string = 'a',
   page: number = 0
-): AxiosPromise<PagedStudent> {
+): AxiosPromise<Page<Student>> {
   const promos = promotionFilter.join(',');
   const roles = rolesFilter.join(',');
   return axios.get(
@@ -93,14 +87,17 @@ export function getLoggedUser(): AxiosPromise<Student> {
   return axios.get('/user/student/me');
 }
 
-export function getPosts(id: number, page: number = 0): AxiosPromise<Post[]> {
+export function getPosts(
+  id: number,
+  page: number = 0
+): AxiosPromise<Page<Post>> {
   return axios.get(`/user/student/${id}/post?page=${page}`);
 }
 
 export function getTaggedPhotos(
   id: number,
   page: number = 0
-): AxiosPromise<Image[]> {
+): AxiosPromise<Page<Image>> {
   return axios.get(`/user/student/${id}/photo?page=${page}`);
 }
 

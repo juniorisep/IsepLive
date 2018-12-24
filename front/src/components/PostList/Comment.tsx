@@ -44,7 +44,12 @@ class Comment extends Component<CommentProps> {
     return (
       <Flex mb={3}>
         <Box>
-          <ProfileImage src={props.student.photoUrlThumb} w="60px" mh="auto" />
+          <ProfileImage
+            alt="Student profile picture"
+            src={props.student.photoUrlThumb}
+            w="60px"
+            mh="auto"
+          />
         </Box>
         <Box ml="20px" mt="5px" mr="5px">
           <Link to={`/annuaire/${props.student.id}`}>

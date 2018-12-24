@@ -16,8 +16,8 @@ type LoginFormProps = {
   error?: boolean;
   loginDisabled?: boolean;
   handleRequestClose: () => void;
-  onConnexion: () => void;
-  onChange: (name: string, value: string) => void;
+  onConnexion: (event: React.FormEvent) => Promise<void>;
+  onChange: (name: 'username' | 'password', value: string) => void;
 };
 
 const LoginForm: React.SFC<LoginFormProps> = props => {

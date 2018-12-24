@@ -1,5 +1,8 @@
 export type Page<T> = {
   content: T[];
-  page: number;
+  first: boolean;
   last: boolean;
+  number: number;
+  size: number;
+  totalElements: number;
 };

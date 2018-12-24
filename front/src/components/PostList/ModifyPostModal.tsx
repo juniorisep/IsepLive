@@ -14,24 +14,25 @@ import * as eventData from '../../data/event';
 import * as postData from '../../data/post';
 import { Post } from '../../data/post/type';
 import { EventForm } from './MediaForms';
+import { Event } from '../../data/media/type';
 
 interface ModifyPostModalProps {
   open: boolean;
-  post?: Post;
+  post: Post | null;
   refresh: () => void;
   requestClose: () => void;
   modifyPost: (postModified: Post) => void;
 }
 
 interface ModifyPostModalState {
-  post?: Post;
+  post: Post | null;
 }
 
 export default class ModifyPostModal extends React.Component<
   ModifyPostModalProps,
   ModifyPostModalState
 > {
-  state = {
+  state: ModifyPostModalState = {
     post: null,
   };
 
@@ -54,7 +55,7 @@ export default class ModifyPostModal extends React.Component<
         if (post.media.mediaType === 'event') {
           await eventData.updateEvent(
             post.media.id,
-            post.media,
+            post.media as Event,
             post.author.id
           );
         }

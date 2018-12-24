@@ -1,10 +1,7 @@
-
-
-import React, { Component } from 'react';
-
 import Snackbar from '@material-ui/core/Snackbar';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
 import { MAIN_COLOR } from '../../colors';
-import { withStyles } from '@material-ui/core/styles';
 
 const style = {
   error: {
@@ -19,14 +16,22 @@ const style = {
   },
 };
 
-class AlertCenter extends Component {
-  state = {
+interface AlertCenterProps extends WithStyles<typeof style> {}
+
+interface AlertCenterState {
+  open: boolean;
+  type: 'error' | 'message';
+  message: string;
+}
+
+class AlertCenter extends Component<AlertCenterProps, AlertCenterState> {
+  state: AlertCenterState = {
     open: false,
-    type: '',
+    type: 'error',
     message: '',
   };
 
-  timeout: number;
+  timeout?: number;
 
   componentDidMount() {
     document.addEventListener(
@@ -49,7 +54,7 @@ class AlertCenter extends Component {
       open: true,
     });
     if (this.timeout) clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
+    this.timeout = window.setTimeout(() => {
       this.setState({ open: false });
     }, 3000);
   }

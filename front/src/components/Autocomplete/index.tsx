@@ -1,34 +1,40 @@
-
-
+import { MenuItem } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 import React from 'react';
 
-import type { Node } from 'react';
-
-import TextField from '@material-ui/core/TextField';
-import { MenuItem } from '@material-ui/core';
-
-import type { AxiosPromise } from 'axios';
-
-import type { Student } from '../../data/users/type';
-
-type Props = {
-  label: string,
-  fullWidth?: boolean,
-  disabled?: boolean,
-  value?: ?string,
-  renderSuggestion: (value: any) => Node,
-  onSelect: (value: any) => string,
-  search: (data: string) => Promise<any[]>,
+const resStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: 5,
+  padding: '10px 0',
+  width: '100%',
+  background: 'white',
+  zIndex: 2,
+  overflow: 'auto',
+  maxHeight: 200,
+  boxShadow: '0 5px 10px rgba(0,0,0,0.1)',
 };
 
-type State = {
-  results: any[],
-  value: string,
-  focus: boolean,
-};
+interface AutocompleteProps {
+  label: string;
+  fullWidth?: boolean;
+  disabled?: boolean;
+  value?: string;
+  renderSuggestion: (value: any) => React.ReactNode;
+  onSelect: (value: any) => string;
+  search: (data: string) => Promise<any[]>;
+}
 
-export default class Autocomplete extends React.Component<Props, State> {
-  state: State = {
+interface AutocompleteState {
+  results: any[];
+  value: string;
+  focus: boolean;
+}
+
+export default class Autocomplete extends React.Component<
+  AutocompleteProps,
+  AutocompleteState
+> {
+  state: AutocompleteState = {
     results: [],
     value: '',
     focus: false,
@@ -39,7 +45,7 @@ export default class Autocomplete extends React.Component<Props, State> {
     label: '',
   };
 
-  componentWillReceiveProps(props: Props) {
+  componentWillReceiveProps(props: AutocompleteProps) {
     if (props.value || props.value === '') {
       this.setState({ value: props.value });
     }
@@ -76,23 +82,15 @@ export default class Autocomplete extends React.Component<Props, State> {
   render() {
     const { label, fullWidth, disabled } = this.props;
     const { results, value, focus } = this.state;
+
     const showResults =
       value && focus && value.length > 0 && results.length > 0;
-    const autocompleteStyle = {
+
+    const autocompleteStyle: React.CSSProperties = {
       position: 'relative',
       width: fullWidth ? '100%' : 300,
     };
-    const resStyle = {
-      position: 'absolute',
-      top: 5,
-      padding: '10px 0',
-      width: '100%',
-      background: 'white',
-      zIndex: 2,
-      overflow: 'auto',
-      maxHeight: 200,
-      boxShadow: '0 5px 10px rgba(0,0,0,0.1)',
-    };
+
     return (
       <div>
         <TextField

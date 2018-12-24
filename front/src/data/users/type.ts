@@ -31,7 +31,7 @@ type StudentValue = {
   twitter?: string;
   instagram?: string;
   snapchat?: string;
-  allowNotification: boolean;
+  allowNotifications: boolean;
   photoUrl?: string;
   photoUrlThumb?: string;
   bio?: string;

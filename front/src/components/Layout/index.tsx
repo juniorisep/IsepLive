@@ -1,69 +1,59 @@
-import React from 'react';
-
-import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import styled from 'styled-components';
-
+import { ListItem, ListItemText, Menu, MenuItem } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import { Menu, MenuItem } from '@material-ui/core';
-
-import IconButton from '@material-ui/core/IconButton';
-import LockOpen from '@material-ui/icons/LockOpen';
-import MenuIcon from '@material-ui/icons/Menu';
-
 import Drawer from '@material-ui/core/Drawer';
-import { ListItem, ListItemText } from '@material-ui/core';
-
-import Auth from 'components/Auth/AuthComponent';
-import AuthenticatedRoute from 'components/Auth/AuthenticatedRoute';
-
-import Forum from '@material-ui/icons/Forum';
-import Play from '@material-ui/icons/PlayCircleFilled';
-import People from '@material-ui/icons/People';
+import IconButton from '@material-ui/core/IconButton';
+import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import Toolbar from '@material-ui/core/Toolbar';
 import Casino from '@material-ui/icons/Casino';
 import Event from '@material-ui/icons/Event';
+import Forum from '@material-ui/icons/Forum';
 import HelpIcon from '@material-ui/icons/Help';
-
-import Home from 'pages/home';
-import PostDetail from 'pages/home/PostDetail';
-import Media from 'pages/media';
-import AddressBook from 'pages/addressbook';
-import AddressBookDetail from 'pages/addressbook/addressbookDetail';
-import Club from 'pages/club';
-import ClubDetail from 'pages/club/clubDetail';
-import Events from 'pages/events';
-import EventDetail from 'pages/events/eventDetail';
-import CalendarEvents from 'pages/events/calendar';
-import NotFound from 'pages/404';
-import Resume from 'pages/resume';
-import Whoarewe from 'pages/whoAreWe';
-
-import IsepDorPoll from '../../pages/isepdor/Poll';
-
-// import Contact from 'pages/contact';
-import Help from 'pages/help';
-import LegalNotice from 'pages/legalNotice';
-// import UserAgreement from 'pages/userAgreement';
-import Admin from 'pages/administration';
-import Gallery from 'pages/gallery';
-
+import LockOpen from '@material-ui/icons/LockOpen';
+import MenuIcon from '@material-ui/icons/Menu';
+import People from '@material-ui/icons/People';
+import Play from '@material-ui/icons/PlayCircleFilled';
+import { Flex } from '@rebass/grid';
+import React from 'react';
+import {
+  Link,
+  NavLink,
+  Redirect,
+  Route,
+  RouteComponentProps,
+  Switch,
+} from 'react-router-dom';
+import styled from 'styled-components';
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+import Auth from '../../components/Auth/AuthComponent';
+import AuthenticatedRoute from '../../components/Auth/AuthenticatedRoute';
 import { backUrl, wsUrl } from '../../config';
-
-import Footer from './Footer';
-
-import * as authData from 'data/auth';
-import * as userData from 'data/users/student';
-
 import * as roles from '../../constants';
-
+import * as authData from '../../data/auth';
+import * as userData from '../../data/users/student';
+import NotFound from '../../pages/404';
+import AddressBook from '../../pages/addressbook';
+import AddressBookDetail from '../../pages/addressbook/addressbookDetail';
+// import UserAgreement from '../../pages/userAgreement';
+import Admin from '../../pages/administration';
+import Club from '../../pages/club';
+import ClubDetail from '../../pages/club/clubDetail';
+import Events from '../../pages/events';
+import CalendarEvents from '../../pages/events/calendar';
+import EventDetail from '../../pages/events/eventDetail';
+import Gallery from '../../pages/gallery';
+import Home from '../../pages/home';
+import PostDetail from '../../pages/home/PostDetail';
+import IsepDorPoll from '../../pages/isepdor/Poll';
+import LegalNotice from '../../pages/legalNotice';
+import Media from '../../pages/media';
+import Resume from '../../pages/resume';
+import Whoarewe from '../../pages/whoAreWe';
 import { sendAlert } from '../Alert';
-
-import Profile from './Profile';
 import LoginForm from '../LoginForm';
-
+import Footer from './Footer';
 import Interceptor from './Intercept';
+import Profile from './Profile';
 
 const WIDTH_THRESHOLD = 1080;
 
@@ -102,30 +92,38 @@ const Root = styled.div`
   width: 100%;
 `;
 
+type ResponsiveProps = { maxWidth: number };
 const Responsive = styled.div`
   display: none;
-  @media (max-width: ${p => p.maxWidth}px) {
+  @media (max-width: ${(p: ResponsiveProps) => p.maxWidth}px) {
     display: block;
   }
 `;
 
-function Nav(props) {
+type NavProps = {
+  to: string;
+};
+
+const Nav: React.SFC<NavProps> = props => {
   return (
     <div>
       <Button
-        component={NavLink}
-        to={props.to}
-        activeStyle={{
-          color: SECONDARY_COLOR,
-        }}
+        component={() => (
+          <NavLink
+            to={props.to}
+            activeStyle={{
+              color: SECONDARY_COLOR,
+            }}
+          />
+        )}
       >
         {props.children}
       </Button>
     </div>
   );
-}
+};
 
-function SideNav(props) {
+const SideNav: React.SFC<NavProps> = props => {
   return (
     <NavLink to={props.to}>
       <ListItem button>
@@ -133,24 +131,17 @@ function SideNav(props) {
       </ListItem>
     </NavLink>
   );
-}
+};
 
-const NavItem = props => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-    }}
-  >
-    {props.children}
-  </div>
+const NavItem: React.SFC = props => (
+  <Flex alignItems="center">{props.children}</Flex>
 );
 
-const NavIcon = props => (
-  <props.icon style={{ color: MAIN_COLOR, marginRight: 10 }} />
-);
+const NavIcon: React.SFC<{
+  icon: React.ComponentType<SvgIconProps>;
+}> = props => <props.icon style={{ color: MAIN_COLOR, marginRight: 10 }} />;
 
-const navListMenu = Component => (
+const navListMenu = (Component: React.ComponentType<NavProps>) => (
   <div>
     <Component to="/accueil">
       <NavItem>
@@ -193,7 +184,7 @@ const navListMenu = Component => (
   </div>
 );
 
-const navListBar = Component => (
+const navListBar = (Component: React.ComponentType<NavProps>) => (
   <div>
     <Component to="/accueil">Accueil</Component>
     <Component to="/media">Media</Component>
@@ -206,8 +197,20 @@ const navListBar = Component => (
   </div>
 );
 
-class Layout extends React.Component {
-  state = {
+type LayoutProps = RouteComponentProps & {};
+type LayoutState = {
+  sidebarOpen: boolean;
+  anchorEl?: any;
+  open: boolean;
+  error: boolean;
+  loading: boolean;
+  connexionOpen: boolean;
+  username: string;
+  password: string;
+};
+
+class Layout extends React.Component<LayoutProps, LayoutState> {
+  state: LayoutState = {
     sidebarOpen: false,
     anchorEl: undefined,
     open: false,
@@ -218,7 +221,10 @@ class Layout extends React.Component {
     password: '',
   };
 
-  Profile = undefined;
+  Profile?: any;
+  restartWS?: boolean;
+  conn?: WebSocket;
+  restartTimeout?: number;
 
   componentDidMount() {
     this.restartWS = true;
@@ -236,7 +242,7 @@ class Layout extends React.Component {
   initWebsocket() {
     this.conn = new WebSocket(wsUrl + '/ws/post');
     this.conn.onopen = () => {
-      this.conn.send(localStorage.getItem('token'));
+      this.conn!.send(localStorage.getItem('token') || '');
     };
 
     this.conn.onmessage = msg => {
@@ -264,7 +270,7 @@ class Layout extends React.Component {
 
     this.conn.onclose = e => {
       if (this.restartWS) {
-        this.restartTimeout = setTimeout(() => {
+        this.restartTimeout = window.setTimeout(() => {
           this.initWebsocket();
         }, 5000);
       }
@@ -276,7 +282,7 @@ class Layout extends React.Component {
     if (authData.isLoggedIn()) {
       const res = await userData.getLoggedUser();
       if (res.data.allowNotifications) {
-        if (window.WebSocket) {
+        if (WebSocket) {
           this.initWebsocket();
         }
       }
@@ -287,7 +293,7 @@ class Layout extends React.Component {
     this.setState({ sidebarOpen: false });
   };
 
-  handleClick = event => {
+  handleClick = (event: React.MouseEvent) => {
     this.setState({ open: true, anchorEl: event.currentTarget });
   };
 
@@ -301,35 +307,36 @@ class Layout extends React.Component {
     this.setState({ open: false });
   };
 
-  handleLoginForm = (name, event) => {
-    this.setState({ [name]: event.target.value });
+  handleLoginForm = (
+    name: 'username' | 'password',
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    this.setState({ [name]: event.target.value } as any);
   };
 
-  handleConnect = e => {
-    e.preventDefault();
+  handleConnect = async (event: React.FormEvent) => {
+    event.preventDefault();
     const { username, password } = this.state;
-    authData
-      .connect(
+    try {
+      await authData.connect(
         username,
         password
-      )
-      .then(res => {
-        this.handleRequestClose();
-        this.props.history.push('/');
-      })
-      .catch(err => {
-        if (err.response) {
-          if (err.response.status === 401) {
-            this.setState({ error: true, loading: false });
-          }
-          if (err.response.status === 503) {
-            sendAlert('Serveur indisponible', 'error');
-          }
-        } else {
-          this.setState({ loading: false });
+      );
+      this.handleRequestClose();
+      this.props.history.push('/');
+    } catch (err) {
+      if (err.response) {
+        if (err.response.status === 401) {
+          this.setState({ error: true, loading: false });
+        }
+        if (err.response.status === 503) {
           sendAlert('Serveur indisponible', 'error');
         }
-      });
+      } else {
+        this.setState({ loading: false });
+        sendAlert('Serveur indisponible', 'error');
+      }
+    }
   };
 
   isLoginDisabled() {
@@ -367,23 +374,20 @@ class Layout extends React.Component {
                   {authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) && (
                     <MenuItem
                       onClick={this.handleRequestClose}
-                      component={NavLink}
-                      to="/administration"
+                      component={() => <NavLink to="/administration" />}
                     >
                       Administration
                     </MenuItem>
                   )}
                   <MenuItem
                     onClick={this.handleRequestClose}
-                    component={NavLink}
-                    to="/profile"
+                    component={() => <NavLink to="/profile" />}
                   >
                     Profil
                   </MenuItem>
                   <MenuItem
                     onClick={this.handleDisconnect}
-                    component={NavLink}
-                    to="/connexion"
+                    component={() => <NavLink to="/connexion" />}
                   >
                     Déconnexion
                   </MenuItem>

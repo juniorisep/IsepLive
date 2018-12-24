@@ -1,12 +1,15 @@
-
-
 import * as React from 'react';
+import { hasRole, isLoggedIn } from '../../data/auth';
 
-import { hasRole, isLoggedIn } from 'data/auth';
+type AuthProps = {
+  roles?: string[];
+  not?: boolean;
+  logged?: boolean;
+};
 
-class Auth extends React.Component {
+class Auth extends React.Component<AuthProps> {
   render() {
-    const { children, roles, not, logged } = this.props;
+    const { children, roles = [], not, logged } = this.props;
 
     if (children) {
       if (isLoggedIn() && logged)

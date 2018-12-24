@@ -1,8 +1,3 @@
-
-
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-
 import {
   Dialog,
   DialogActions,
@@ -10,15 +5,28 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import React, { Component } from 'react';
 
-class Popup extends Component {
-  state = {
+interface PopupProps {
+  open: boolean;
+  title: string;
+  description: string | React.ReactNode;
+  onRespond: (response: boolean) => void;
+}
+
+interface PopupState {
+  open: boolean;
+}
+
+class Popup extends Component<PopupProps, PopupState> {
+  state: PopupState = {
     open: false,
   };
 
-  componentWillReceiveProps(props) {
-    if (props.open !== this.state.open) {
-      this.setState({ open: props.open });
+  componentDidUpdate() {
+    if (this.props.open !== this.state.open) {
+      this.setState({ open: this.props.open });
     }
   }
 

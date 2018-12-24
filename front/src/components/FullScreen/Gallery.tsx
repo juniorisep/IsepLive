@@ -1,21 +1,16 @@
-
-
-import React, { Component } from 'react';
-import styled from 'styled-components';
-
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import FileDownload from '@material-ui/icons/CloudDownload';
-import PlayIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import SlideShow from '../../components/SlideShow';
+import { backUrl } from '../../config';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import Auth from '../Auth/AuthComponent';
-
-import SlideShow from 'components/SlideShow';
-import { backUrl } from 'config';
-
 import PeopleMatcher from './PeopleMatcher';
+import { Image } from '../../data/media/type';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -34,8 +29,20 @@ const GalleryStyle = styled.div`
   margin: 5vh;
 `;
 
-class Gallery extends Component {
-  state = {
+interface GalleryProps {
+  visible?: boolean;
+  index: number;
+  images: Image[];
+  onEscKey: () => void;
+}
+interface GalleryState {
+  currentIndex: number;
+  matcherOpen: boolean;
+  isPlaying: boolean;
+}
+
+class Gallery extends Component<GalleryProps, GalleryState> {
+  state: GalleryState = {
     currentIndex: 0,
     matcherOpen: false,
     isPlaying: false,
@@ -45,7 +52,7 @@ class Gallery extends Component {
     this.removeEscListener();
   }
 
-  openMatcher = open => {
+  openMatcher = (open: boolean) => {
     this.setState({ matcherOpen: open });
   };
 
@@ -53,28 +60,30 @@ class Gallery extends Component {
     document.removeEventListener('keydown', this.keyHandler);
   }
 
-  componentWillReceiveProps(props) {
-    if (!props.visible) {
-      this.removeEscListener();
-      this.setState({ isPlaying: false });
-    } else {
-      document.addEventListener('keydown', this.keyHandler);
+  componentDidUpdate(prevProps: GalleryProps) {
+    if (prevProps.visible !== this.props.visible) {
+      if (!this.props.visible) {
+        this.removeEscListener();
+        this.setState({ isPlaying: false });
+      } else {
+        document.addEventListener('keydown', this.keyHandler);
+      }
     }
 
-    document.body.style.overflow = props.visible ? 'hidden' : 'auto';
+    document.body.style.overflow = this.props.visible ? 'hidden' : 'auto';
 
-    if (props.index !== this.state.currentIndex) {
-      this.setState({ currentIndex: props.index });
+    if (this.props.index !== this.state.currentIndex) {
+      this.setState({ currentIndex: this.props.index });
     }
   }
 
-  keyHandler = ({ key }) => {
+  keyHandler = ({ key }: KeyboardEvent) => {
     if (key === 'Escape' && !this.state.matcherOpen) {
       this.props.onEscKey();
     }
   };
 
-  updateIndex = index => {
+  updateIndex = (index: number) => {
     this.setState({ currentIndex: index });
   };
 
@@ -92,7 +101,7 @@ class Gallery extends Component {
     const { visible, images, index } = this.props;
     if (!visible) return null;
     return (
-      <Wrapper visible={visible}>
+      <Wrapper>
         <IconButton
           style={{
             float: 'right',

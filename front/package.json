@@ -9,6 +9,7 @@
     "@material-ui/icons": "^3.0.1",
     "@rebass/grid": "^6.0.0-7",
     "@types/jest": "^23.3.10",
+    "@types/moment": "^2.13.0",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
@@ -54,5 +55,11 @@
     "eject": "react-scripts eject",
     "lint:css": "stylelint './src/**/*.js'",
     "flow": "flow --show-all-errors"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

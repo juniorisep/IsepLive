@@ -1,20 +1,13 @@
-
-
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import * as moment from 'moment';
-import { Flex, Box } from '@rebass/grid';
-
-import InsertChartIcon from '@material-ui/icons/InsertChart';
-
 import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
-
-import { Title, Text, ProfileImage } from '../common';
-
+import InsertChartIcon from '@material-ui/icons/InsertChart';
+import { Box, Flex } from '@rebass/grid';
+import moment from 'moment';
+import React, { Component } from 'react';
+import styled, { StyledProps } from 'styled-components';
+import * as authData from '../../data/auth';
 import * as pollData from '../../data/media/poll';
-import * as authData from 'data/auth';
-
-import type { AnswerDTO, PollDTO } from '../../data/media/type';
+import { Poll as PollType, PollVote, PollAnswer } from '../../data/media/type';
+import { ProfileImage, Text, Title } from '../common';
 
 const Wrapper = styled.div`
   background: white;
@@ -51,24 +44,28 @@ const Caption = styled.p`
   cursor: pointer;
 `;
 
-type State = {
-  showVote: boolean,
-  answers: AnswerDTO[],
-  data: PostDTO,
-  showVotesModal: boolean,
+interface PollProps {
+  data: PollType;
+}
+
+type PollState = {
+  showVote: boolean;
+  answers: PollAnswer[];
+  data: PollType;
+  showVotesModal: boolean;
 };
 
-class Poll extends Component {
-  state: State = {
+class Poll extends Component<PollProps, PollState> {
+  state: PollState = {
     showVote: false,
     answers: [],
     data: this.props.data,
     showVotesModal: false,
   };
 
-  componentWillReceiveProps(props) {
-    if (props.data) {
-      this.setState({ data: props.data });
+  componentDidUpdate(prevProps: PollProps) {
+    if (prevProps.data !== this.props.data) {
+      this.setState({ data: this.props.data });
     }
   }
 
@@ -96,10 +93,10 @@ class Poll extends Component {
   }
 
   hasEnded = () => {
-    return this.state.data.endDate < new Date().getTime();
+    return this.state.data.endDate.getTime() < Date.now();
   };
 
-  handleVote = async choice => {
+  handleVote = async (choice: PollAnswer) => {
     if (this.hasEnded()) {
       this.setState({ showVote: true });
       return;
@@ -122,12 +119,15 @@ class Poll extends Component {
     this.retrieveVotes();
   };
 
-  isAnswered(answer) {
+  isAnswered(answer: PollAnswer): boolean {
     const user = authData.getUser();
-    return user && answer.voters.filter(vid => vid === user.id).length > 0;
+    if (user) {
+      return answer.voters.filter(vid => vid === user.id).length > 0;
+    }
+    return false;
   }
 
-  isSelectable(answer) {
+  isSelectable(answer: PollAnswer) {
     if (this.hasEnded()) {
       return false;
     }
@@ -219,6 +219,7 @@ class Poll extends Component {
 
 export default Poll;
 
+type AnswerStyleProps = { selectable: boolean };
 const AnswerStyle = styled.div`
   position: relative;
   background: rgba(63, 81, 181, 0.6);
@@ -228,7 +229,7 @@ const AnswerStyle = styled.div`
   transition: background 0.3s ease;
 
   &:hover {
-    ${props =>
+    ${(props: AnswerStyleProps) =>
       props.selectable &&
       `
       background: rgba(63, 81, 181, 0.7);
@@ -238,10 +239,12 @@ const AnswerStyle = styled.div`
   }
 `;
 
+type AnswerTextProps = StyledProps<{ voted: boolean }>;
 const AnswerText = styled.div`
   padding: 10px 15px;
-  color: ${props => (props.voted ? props.theme.accent : 'white')};
-  font-weight: ${props => (props.voted ? 600 : 400)};
+  color: ${(props: AnswerTextProps) =>
+    props.voted ? props.theme.accent : 'white'};
+  font-weight: ${(props: AnswerTextProps) => (props.voted ? 600 : 400)};
   position: relative;
   z-index: 1;
 `;
@@ -257,16 +260,23 @@ const AnswerBar = styled.div`
   transition: width 0.5s ease;
 `;
 
-function Answer(props) {
+interface AnswerProps {
+  answer: PollAnswer;
+  total: number;
+  showVote: boolean;
+  selectable: boolean;
+  voted: boolean;
+  multiAnswers: boolean;
+  ended: boolean;
+  onClick: () => void;
+}
+
+const Answer: React.SFC<AnswerProps> = props => {
   const answer = props.answer;
   const percent =
     props.total > 0 ? Math.round((answer.votesNb / props.total) * 100) : 0;
   return (
-    <AnswerStyle
-      showVote={props.showVote}
-      selectable={props.selectable}
-      onClick={props.onClick}
-    >
+    <AnswerStyle selectable={props.selectable} onClick={props.onClick}>
       <AnswerText voted={props.voted}>
         <Flex>
           <Box mr="5px">{answer.content}</Box>
@@ -280,13 +290,23 @@ function Answer(props) {
       />
     </AnswerStyle>
   );
+};
+
+interface VotesListProps {
+  open: boolean;
+  pollid: number;
+  handleRequestClose: () => void;
 }
 
-export class VotesList extends React.Component {
-  state = {
+interface VotesListState {
+  votes: PollVote[];
+}
+
+export class VotesList extends React.Component<VotesListProps, VotesListState> {
+  state: VotesListState = {
     votes: [],
   };
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: VotesListProps) {
     if (props.open) {
       this.retrieveAllVotes();
     }
@@ -312,7 +332,8 @@ export class VotesList extends React.Component {
                 <Box>
                   <ProfileImage
                     mh="auto"
-                    sz="40px"
+                    w="40px"
+                    alt="Student profile picture"
                     src={v.student.photoUrlThumb}
                   />
                 </Box>

@@ -1,24 +1,30 @@
-
-
-import React from 'react';
-
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-
+import React from 'react';
 import Loader from '../Loader';
 
-export default function LoginForm(props) {
+type LoginFormProps = {
+  open: boolean;
+  loading?: boolean;
+  error?: boolean;
+  loginDisabled?: boolean;
+  handleRequestClose: () => void;
+  onConnexion: () => void;
+  onChange: (name: string, value: string) => void;
+};
+
+export const LoginForm: React.SFC<LoginFormProps> = props => {
   return (
     <Dialog
       open={props.open}
-      transition={Slide}
+      TransitionComponent={Slide}
       onClose={props.handleRequestClose}
     >
       <DialogTitle
@@ -44,7 +50,7 @@ export default function LoginForm(props) {
               margin="normal"
               fullWidth
               type="text"
-              onChange={e => props.onChange('username', e)}
+              onChange={e => props.onChange('username', e.target.value)}
             />
             <TextField
               type="password"
@@ -53,7 +59,7 @@ export default function LoginForm(props) {
               margin="normal"
               label="Mot de passe"
               fullWidth
-              onChange={e => props.onChange('password', e)}
+              onChange={e => props.onChange('password', e.target.value)}
             />
           </Loader>
         </DialogContent>
@@ -72,4 +78,4 @@ export default function LoginForm(props) {
       </form>
     </Dialog>
   );
-}
+};

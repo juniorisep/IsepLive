@@ -15,17 +15,27 @@ export type Event = MediaValue & EventValue;
 
 type PollValue = {
   mediaType: 'poll';
-  title: string;
-  answers: Array<string>;
-  isMultiAnswers: boolean;
+  name: string;
   endDate: Date;
+  answers: PollAnswer[];
+  multiAnswers: boolean;
+};
+
+export type PollAnswer = {
+  id: number;
+  content: string;
+  votes: PollVote[];
+  voters: number[];
+  votesNb: number;
+};
+
+export type PollVote = {
+  id: number;
+  student: Student;
+  answer: PollAnswer;
 };
 
 export type Poll = MediaValue & PollValue;
-
-export type Answer = {
-  id: number;
-};
 
 type VideoEmbedType = 'YOUTUBE' | 'FACEBOOK';
 

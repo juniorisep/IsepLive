@@ -41,7 +41,7 @@ type LoaderV2Props = {
   loading?: boolean;
   delayMs?: number;
   placeholder?: any;
-  children: () => React.ReactNode;
+  children?: React.ReactNode;
 };
 
 class LoaderV2 extends Component<LoaderV2Props, LoaderV2State> {
@@ -72,13 +72,16 @@ class LoaderV2 extends Component<LoaderV2Props, LoaderV2State> {
         return null;
       }
     }
-    return this.props.children();
+    return <React.Fragment>{this.props.children}</React.Fragment>;
   }
 }
 
-const Loader:
-  | React.SFC<LoaderV2Props & RotatingLoaderProps & { v2?: boolean }>
-  | React.ReactNode = props => {
+const Loader: React.SFC<
+  LoaderV2Props &
+    RotatingLoaderProps & {
+      v2?: boolean;
+    }
+> = props => {
   if (props.v2) {
     return <LoaderV2 {...props} />;
   }
@@ -86,7 +89,7 @@ const Loader:
   if (props.loading) {
     return <RotatingLoader mh={props.mh} />;
   }
-  return props.children;
+  return <React.Fragment>{props.children}</React.Fragment>;
 };
 
 export default Loader;

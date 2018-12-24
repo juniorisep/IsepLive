@@ -1,21 +1,12 @@
-
-
-import React, { Component } from 'react';
-
-import { NavLink, Redirect } from 'react-router-dom';
-
 import Button from '@material-ui/core/Button';
-
+import React, { Component } from 'react';
+import { NavLink, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
-
-import * as authData from 'data/auth';
-
-import LoginForm from 'components/LoginForm';
-import SlideShow from 'components/SlideShow';
-
 import { sendAlert } from '../../components/Alert';
+import LoginForm from '../../components/LoginForm';
+import SlideShow from '../../components/SlideShow';
+import * as authData from '../../data/auth';
 
 const Container = styled.div`
   display: flex;
@@ -134,7 +125,7 @@ const ButtonContainer = styled.div`
   text-align: center;
 `;
 
-const BigButton = styled(Button) `
+const BigButton = styled(Button)`
   margin-bottom: 20px !important;
   font-size: 1.5em !important;
   color: white !important;
@@ -154,29 +145,38 @@ export default class Login extends Component {
     this.setState({ connexionOpen: false, loading: false });
   };
 
-  handleLoginForm = (key, event) => {
+  handleLoginForm = (
+    key: string,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     this.setState({ [key]: event.target.value });
   };
 
-  handleConnect = (e) => {
+  handleConnect = (e: React.FormEvent) => {
     e.preventDefault();
     const { username, password } = this.state;
     this.setState({ loading: true });
-    authData.connect(username, password).then(res => {
-      this.handleRequestClose();
-    }).catch(err => {
-      if (err.response) {
-        if (err.response.status === 401) {
-          this.setState({ error: true, loading: false });
+    authData
+      .connect(
+        username,
+        password
+      )
+      .then(res => {
+        this.handleRequestClose();
+      })
+      .catch(err => {
+        if (err.response) {
+          if (err.response.status === 401) {
+            this.setState({ error: true, loading: false });
+          }
+          if (err.response.status === 503) {
+            sendAlert('Serveur indisponible', 'error');
+          }
+        } else {
+          this.setState({ loading: false });
+          sendAlert('Serveur indisponible', 'error');
         }
-        if (err.response.status === 503) {
-          sendAlert("Serveur indisponible", 'error');
-        }
-      } else {
-        this.setState({ loading: false });
-        sendAlert("Serveur indisponible", 'error');
-      }
-    });
+      });
   };
 
   isLoginDisabled() {
@@ -188,18 +188,9 @@ export default class Login extends Component {
     const images = [1, 2, 3, 4, 5].map(e => `img/login/${e}-medium.jpg`);
     return (
       <Container>
-        {
-          authData.isLoggedIn() &&
-          <Redirect to="/accueil" />
-        }
+        {authData.isLoggedIn() && <Redirect to="/accueil" />}
         <BackgroundContainer>
-          <SlideShow
-            auto
-            loop
-            coverMode="cover"
-            items={images}
-            duration={5}
-          />
+          <SlideShow auto loop coverMode="cover" items={images} duration={5} />
         </BackgroundContainer>
         <Content>
           <TitleContainer>
@@ -210,18 +201,41 @@ export default class Login extends Component {
               <Subtitle>Espace étudiant de l'Isep</Subtitle>
             </TitleHeader>
             <LogoPartner>
-              <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/juniorisep.png" alt="Junior ISEP logo" /></a>
-              <a href="https://www.bdedestiny.com/" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/genesis.png" alt="BDE logo" /></a>
-              <a href="https://www.isep.fr/" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/isep.png" alt="ISEP logo" /></a>
+              <a
+                href="https://www.juniorisep.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Logo src="/img/login/juniorisep.png" alt="Junior ISEP logo" />
+              </a>
+              <a
+                href="https://www.bdedestiny.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Logo src="/img/login/destiny.png" alt="BDE logo" />
+              </a>
+              <a
+                href="https://www.isep.fr/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Logo src="/img/login/isep.png" alt="ISEP logo" />
+              </a>
             </LogoPartner>
           </TitleContainer>
           <AccessContainer>
             <ButtonContainer>
               <BigButton // style={CUSTOM_STYLES.btn}
-                onClick={() => this.setState({ connexionOpen: true })}>Se connecter</BigButton>
+                onClick={() => this.setState({ connexionOpen: true })}
+              >
+                Se connecter
+              </BigButton>
             </ButtonContainer>
             <ButtonContainer>
-              <BigButton component={NavLink} to="/accueil">Accès visiteur</BigButton>
+              <BigButton component={() => <NavLink to="/accueil" />}>
+                Accès visiteur
+              </BigButton>
             </ButtonContainer>
           </AccessContainer>
         </Content>

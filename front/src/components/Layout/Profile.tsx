@@ -1,14 +1,12 @@
-
-
 import React, { Component } from 'react';
-
-import styled from 'styled-components';
+import styled, { StyledProps } from 'styled-components';
+import * as userData from '../../data/users/student';
+import { CancelablePromise, makeCancelable } from '../../data/util';
 import { ProfileImage } from '../common';
 
-import * as userData from 'data/users/student';
-
-import { makeCancelable } from '../../data/util';
-
+type ProfileProps = StyledProps<{
+  loading?: boolean;
+}>;
 const Profile = styled.div`
   display: flex;
   padding: 5px;
@@ -16,8 +14,8 @@ const Profile = styled.div`
   margin: 5px 0;
   margin-left: 5px;
   max-width: 150px;
-  transition: opacity .3s ease;
-  opacity: ${props => props.loading ? 0 : 1};
+  transition: opacity 0.3s ease;
+  opacity: ${(props: ProfileProps) => (props.loading ? 0 : 1)};
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -42,7 +40,11 @@ const Profile = styled.div`
   }
 `;
 
-class ProfileMenu extends Component {
+type ProfileMenuProps = {
+  onClick: (event: React.MouseEvent) => void;
+};
+
+class ProfileMenu extends Component<ProfileMenuProps> {
   state = {
     photoUrlThumb: '',
     firstname: '',
@@ -50,16 +52,22 @@ class ProfileMenu extends Component {
     loading: true,
   };
 
+  getLoggedUserReq?: CancelablePromise;
+
   componentDidMount() {
     this.getLoggedUserReq = makeCancelable(userData.getLoggedUser());
-    this.getLoggedUserReq.promise.then(res => {
-      const { photoUrlThumb, firstname, lastname } = res.data;
-      this.setState({ photoUrlThumb, firstname, lastname, loading: false });
-    }).catch(err => { });
+    this.getLoggedUserReq.promise
+      .then(res => {
+        const { photoUrlThumb, firstname, lastname } = res.data;
+        this.setState({ photoUrlThumb, firstname, lastname, loading: false });
+      })
+      .catch(err => {});
   }
 
   componentWillUnmount() {
-    this.getLoggedUserReq.cancel();
+    if (this.getLoggedUserReq) {
+      this.getLoggedUserReq.cancel();
+    }
   }
 
   render() {
@@ -67,7 +75,7 @@ class ProfileMenu extends Component {
     if (loading) return null;
     return (
       <Profile onClick={this.props.onClick} loading={loading}>
-        <ProfileImage src={photoUrlThumb} sz="40px" />
+        <ProfileImage src={photoUrlThumb} alt="User profile photo" w="40px" />
         <div className="infos">
           <span>{firstname}</span>
           <span>{lastname}</span>

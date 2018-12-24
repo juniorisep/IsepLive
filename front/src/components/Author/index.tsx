@@ -1,12 +1,9 @@
-
-
-import React from 'react';
-import styled from 'styled-components';
 import { Flex } from '@rebass/grid';
-
+import React from 'react';
 import { Link } from 'react-router-dom';
-
+import styled from 'styled-components';
 import { Image, ProfileImage } from '../common';
+import { Author } from '../../data/users/type';
 
 const Sub = styled.div`
   font-size: 15px;
@@ -15,20 +12,18 @@ const Sub = styled.div`
   margin-top: 10px;
 `;
 
-export default function Author(props) {
+interface AuthorProps {
+  data: Author;
+}
+
+const Author: React.SFC<AuthorProps> = props => {
   const user = props.data;
   switch (user.authorType) {
     case 'club':
       return (
         <Link to={`/associations/${user.id}`}>
           <Flex flexDirection="column">
-            <Image
-              src={user.logoUrl}
-              alt="logo-club"
-              w="60px"
-              h="60px"
-              ml="auto"
-            />
+            <Image src={user.logoUrl} alt="Club logo" w={60} h={60} ml="auto" />
             <Sub>{user.name}</Sub>
           </Flex>
         </Link>
@@ -36,7 +31,12 @@ export default function Author(props) {
     case 'student':
       return (
         <Flex flexDirection="column">
-          <ProfileImage src={user.photoUrlThumb} sz="40px" ml="auto" />
+          <ProfileImage
+            src={user.photoUrlThumb}
+            alt="Student profile image"
+            w="40px"
+            ml="auto"
+          />
           <Sub>
             {user.firstname}
             <br />
@@ -48,4 +48,6 @@ export default function Author(props) {
       break;
   }
   return null;
-}
+};
+
+export default Author;

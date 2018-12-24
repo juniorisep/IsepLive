@@ -115,7 +115,13 @@ const RangeBar = styled.div`
   background: ${props => props.theme.accent};
 `;
 
-const Range = props => {
+interface RangeProps {
+  currentTime: number;
+  vidLength: number;
+  seekVideo: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Range: React.SFC<RangeProps> = props => {
   const width = (props.currentTime * 100) / props.vidLength + '%';
   return (
     <RangeStyle>
@@ -136,12 +142,14 @@ const Range = props => {
   );
 };
 
-function pad(n, width) {
-  n = n + '';
-  return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+function pad(n: number, width: number): string {
+  const number = String(n);
+  return number.length >= width
+    ? number
+    : new Array(width - number.length + 1).join('0') + number;
 }
 
-const LargePlayBtn = props => (
+const LargePlayBtn: React.SFC<{ huge: boolean }> = props => (
   <img
     style={{ width: props.huge ? 140 : 90, cursor: 'pointer' }}
     src="/img/svg/play.svg"
@@ -149,14 +157,14 @@ const LargePlayBtn = props => (
   />
 );
 
-type Props = {
+interface VideoPlayerProps {
   source: string;
   poster?: string;
   preload?: string;
   hugePlayButton?: boolean;
-};
+}
 
-type State = {
+type VideoPlayerState = {
   isPlaying: boolean;
   vidLength: number;
   currentTime: number;
@@ -165,8 +173,8 @@ type State = {
   mute: boolean;
 };
 
-class VideoPlayer extends Component<Props, State> {
-  state = {
+class VideoPlayer extends Component<VideoPlayerProps, VideoPlayerState> {
+  state: VideoPlayerState = {
     started: false,
     isPlaying: false,
     vidLength: 0,
@@ -175,7 +183,7 @@ class VideoPlayer extends Component<Props, State> {
     mute: false,
   };
 
-  video: HTMLVideoElement;
+  video?: HTMLVideoElement | null;
 
   componentDidMount() {
     if (this.video && this.video.canPlayType) {
@@ -199,19 +207,19 @@ class VideoPlayer extends Component<Props, State> {
   }
 
   togglePlay = () => {
-    if (this.video.paused || this.video.ended) {
-      this.video.play();
+    if (this.video!.paused || this.video!.ended) {
+      this.video!.play();
       this.setState({ isPlaying: true });
       this.hideControls();
     } else {
       this.setState({ isPlaying: false });
-      this.video.pause();
+      this.video!.pause();
     }
   };
 
-  seekVideo = (e: any) => {
-    const time = parseFloat(e.target.value);
-    this.video.currentTime = time;
+  seekVideo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const time = parseFloat(event.target.value);
+    this.video!.currentTime = time;
     this.setState({ currentTime: time });
   };
 
@@ -236,31 +244,34 @@ class VideoPlayer extends Component<Props, State> {
   };
 
   toggleFullscreen = () => {
-    const videoEl = this.video.parentElement;
-    videoEl.requestFullscreen =
-      videoEl.requestFullscreen ||
-      videoEl.msRequestFullscreen ||
-      videoEl.mozRequestFullScreen ||
-      videoEl.webkitRequestFullscreen;
-    document.exitFullscreen =
-      document.exitFullscreen ||
-      document.msExitFullscreen ||
-      document.mozCancelFullScreen ||
-      document.webkitExitFullscreen;
-    const fullscreenElement =
-      document.fullscreenElement ||
-      document.msFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement;
-    if (fullscreenElement === videoEl) {
-      document.exitFullscreen();
-    } else {
-      videoEl.requestFullscreen();
+    const videoEl = this.video!.parentElement as any;
+    const document = window.document as any;
+    if (videoEl) {
+      videoEl.requestFullscreen =
+        videoEl.requestFullscreen ||
+        videoEl.msRequestFullscreen ||
+        videoEl.mozRequestFullScreen ||
+        videoEl.webkitRequestFullscreen;
+      document.exitFullscreen =
+        document.exitFullscreen ||
+        document.msExitFullscreen ||
+        document.mozCancelFullScreen ||
+        document.webkitExitFullscreen;
+      const fullscreenElement =
+        document.fullscreenElement ||
+        document.msFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.webkitFullscreenElement;
+      if (fullscreenElement === videoEl) {
+        document.exitFullscreen();
+      } else {
+        videoEl.requestFullscreen();
+      }
     }
   };
 
   toggleSound = () => {
-    this.video.muted = !this.state.mute;
+    this.video!.muted = !this.state.mute;
     this.setState({
       mute: !this.state.mute,
     });

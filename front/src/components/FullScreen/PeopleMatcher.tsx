@@ -1,20 +1,24 @@
-
-
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
+} from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import TextField from '@material-ui/core/TextField';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import { List, ListItem, ListItemText } from '@material-ui/core';
-
-import * as studentData from '../../data/users/student';
-import * as imageData from '../../data/media/image';
+import { backUrl } from '../../config';
 import * as authData from '../../data/auth';
+import * as imageData from '../../data/media/image';
+import * as studentData from '../../data/users/student';
+import { Student } from '../../data/users/type';
+import { Image, Match } from '../../data/media/type';
 
-import { backUrl } from 'config';
-
-const STYLE = {
+const STYLE: React.CSSProperties = {
   marginTop: 20,
   display: 'flex',
   flexWrap: 'wrap',
@@ -41,17 +45,40 @@ const InputButton = styled.button`
   }
 `;
 
-export default class PeopleMatcher extends Component {
-  state = {
+interface PeopleMatcherProps {
+  internalRefresh?: boolean;
+  image: Image;
+  onOpenMatcher: (open: boolean) => void;
+}
+
+interface PeopleMatcherState {
+  dialogOpen: boolean;
+  students: Student[];
+  imageId: number | null;
+  tags: Match[];
+}
+
+export default class PeopleMatcher extends Component<
+  PeopleMatcherProps,
+  PeopleMatcherState
+> {
+  state: PeopleMatcherState = {
     dialogOpen: false,
     students: [],
     imageId: null,
     tags: [],
   };
 
+  ownerId?: number;
+
   componentDidMount() {
     if (this.props.internalRefresh) {
       this.refresh();
+    }
+
+    const user = authData.getUser();
+    if (user) {
+      this.ownerId = user.id;
     }
 
     this.setState({
@@ -60,15 +87,17 @@ export default class PeopleMatcher extends Component {
     });
   }
 
-  componentWillReceiveProps(props) {
-    if (props.image.id !== this.state.imageId) {
-      this.setState({ tags: props.image.matched });
-    }
+  componentDidUpdate(prevProps: PeopleMatcherProps) {
+    if (this.props.image !== prevProps.image) {
+      if (this.props.image.id !== this.state.imageId) {
+        this.setState({ tags: this.props.image.matched });
+      }
 
-    this.setState({ imageId: props.image.id });
+      this.setState({ imageId: this.props.image.id });
+    }
   }
 
-  findStudents = event => {
+  findStudents = (event: React.ChangeEvent<HTMLInputElement>) => {
     studentData.searchStudents(event.target.value).then(res => {
       this.setState({ students: res.data.content.slice(0, 5) });
     });
@@ -90,15 +119,15 @@ export default class PeopleMatcher extends Component {
     this.setState({ dialogOpen: true });
   };
 
-  selectStudent = stud => e => {
-    imageData.matchStudent(this.props.image.id, stud.id).then(res => {
+  selectStudent = (student: Student) => () => {
+    imageData.matchStudent(this.props.image.id, student.id).then(res => {
       this.refresh();
       this.closeDialog();
     });
   };
 
-  removeStudent = stud => e => {
-    imageData.unmatchStudent(this.props.image.id, stud.id).then(res => {
+  removeStudent = (student: Student) => () => {
+    imageData.unmatchStudent(this.props.image.id, student.id).then(res => {
       this.refresh();
       this.closeDialog();
     });
@@ -112,14 +141,13 @@ export default class PeopleMatcher extends Component {
   }
 
   render() {
-    const ownerId = authData.getUser().id;
     if (!this.props.image) return null;
     return (
       <div style={STYLE}>
         {this.state.tags.map(e => {
           const onDelete = this.removeStudent(e.match);
           let props = {};
-          if (e.owner.id === ownerId) {
+          if (e.owner.id === this.ownerId) {
             props = { onDelete };
           }
           const avatarUrl = e.match.photoUrlThumb

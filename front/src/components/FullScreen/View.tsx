@@ -1,19 +1,13 @@
-
-
-import React, { Component } from 'react';
-import styled from 'styled-components';
-
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import FileDownload from '@material-ui/icons/CloudDownload';
-import Button from '@material-ui/core/Button';
-
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { backUrl } from '../../config';
+import { Image } from '../../data/media/type';
 import Auth from '../Auth/AuthComponent';
-
 import { BgImage } from '../common';
-
-import { backUrl } from 'config';
-
 import PeopleMatcher from './PeopleMatcher';
 
 const Wrapper = styled.div`
@@ -32,8 +26,22 @@ const ViewStyle = styled.div`
   margin: 5vh;
 `;
 
-class View extends Component {
-  state = {
+interface ViewProps {
+  visible?: boolean;
+  data: Image;
+  image: string;
+  imageOriginal?: string;
+  internalRefresh?: boolean;
+  matcher?: boolean;
+  onEscKey: () => void;
+}
+
+interface ViewState {
+  matcherOpen: boolean;
+}
+
+class View extends Component<ViewProps, ViewState> {
+  state: ViewState = {
     matcherOpen: false,
   };
 
@@ -45,11 +53,11 @@ class View extends Component {
     document.removeEventListener('keydown', this.keyHandler);
   }
 
-  openMatcher = open => {
+  openMatcher = (open: boolean) => {
     this.setState({ matcherOpen: open });
   };
 
-  componentWillReceiveProps(props) {
+  componentDidUpdate(props: ViewProps) {
     if (!props.visible) {
       this.removeEscListener();
     } else {
@@ -59,7 +67,7 @@ class View extends Component {
     document.body.style.overflow = props.visible ? 'hidden' : 'auto';
   }
 
-  keyHandler = ({ key }) => {
+  keyHandler = ({ key }: KeyboardEvent) => {
     if (key === 'Escape' && !this.state.matcherOpen) {
       this.props.onEscKey();
     }
@@ -80,7 +88,7 @@ class View extends Component {
     } = this.props;
     if (!visible) return null;
     return (
-      <Wrapper visible={visible}>
+      <Wrapper>
         <IconButton
           style={{
             float: 'right',

@@ -1,7 +1,4 @@
-
-
 import React, { Component } from 'react';
-
 import styled from 'styled-components';
 
 const Img = styled.img`
@@ -9,12 +6,13 @@ const Img = styled.img`
   height: 40px;
 `;
 
+type WrapProps = { mh: string };
 const Wrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-height: ${props => props.mh};
+  min-height: ${(props: WrapProps) => props.mh};
 `;
 
 const Box = styled.div`
@@ -25,7 +23,8 @@ const Box = styled.div`
   margin-bottom: 20px;
 `;
 
-const RotatingLoader = props => (
+type RotatingLoaderProps = { mh?: string };
+const RotatingLoader: React.SFC<RotatingLoaderProps> = props => (
   <Wrap mh={props.mh || '400px'}>
     <Box>
       <Img src="/img/svg/loader/tail-spin.svg" />
@@ -34,14 +33,15 @@ const RotatingLoader = props => (
 );
 
 type LoaderV2State = {
-  displayLoader: boolean,
+  displayLoader: boolean;
 };
 
 type LoaderV2Props = {
-  loading: boolean,
-  delayMs?: number,
-  placeholder?: any,
-  children: () => any,
+  mh?: string;
+  loading?: boolean;
+  delayMs?: number;
+  placeholder?: any;
+  children: () => React.ReactNode;
 };
 
 class LoaderV2 extends Component<LoaderV2Props, LoaderV2State> {
@@ -49,11 +49,11 @@ class LoaderV2 extends Component<LoaderV2Props, LoaderV2State> {
     displayLoader: false,
   };
 
-  timerRef: TimeoutID;
+  timerRef?: number;
 
   componentDidMount() {
     const timeout = this.props.delayMs || 100;
-    this.timerRef = setTimeout(() => {
+    this.timerRef = window.setTimeout(() => {
       if (this.props.loading) {
         this.setState({ displayLoader: true });
       }
@@ -76,7 +76,9 @@ class LoaderV2 extends Component<LoaderV2Props, LoaderV2State> {
   }
 }
 
-const Loader = props => {
+const Loader:
+  | React.SFC<LoaderV2Props & RotatingLoaderProps & { v2?: boolean }>
+  | React.ReactNode = props => {
   if (props.v2) {
     return <LoaderV2 {...props} />;
   }

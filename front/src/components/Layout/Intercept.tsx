@@ -1,15 +1,11 @@
-import React from 'react';
-
-import styled from 'styled-components';
-
 import Button from '@material-ui/core/Button';
-
-import { withRouter } from 'react-router-dom';
-import { sendAlert } from '../Alert';
-import axios from 'axios';
-import * as authData from 'data/auth';
-
+import axios, { AxiosResponse } from 'axios';
+import React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 import { MAIN_COLOR } from '../../colors';
+import * as authData from '../../data/auth';
+import { sendAlert } from '../Alert';
 
 const errServPhrases = [
   "Whoops nos serveurs ne répondent plus, nos techniciens s'en occupe 👊 !",
@@ -21,7 +17,7 @@ function refreshPage() {
   window.location.reload();
 }
 
-const noConnectStyle = {
+const noConnectStyle: React.CSSProperties = {
   fontSize: '2em',
   fontWeight: 'bold',
   color: MAIN_COLOR,
@@ -44,7 +40,12 @@ const ErrorWindow = styled.div`
   flex-direction: column;
 `;
 
-const ErrorView = props => (
+type ErrorViewProps = {
+  title: string;
+  message: string;
+};
+
+const ErrorView: React.SFC<ErrorViewProps> = props => (
   <div>
     <div style={noConnectStyle}>{props.title}</div>
     <div
@@ -66,16 +67,16 @@ const ErrorView = props => (
   </div>
 );
 
-type State = {
+type InterceptState = {
   error: string;
 };
 
-class Intercept extends React.Component<{}, State> {
-  state = {
+class Intercept extends React.Component<RouteComponentProps, InterceptState> {
+  state: InterceptState = {
     error: '',
   };
 
-  intercept: any;
+  intercept?: number;
 
   componentDidMount() {
     this.intercept = axios.interceptors.response.use(
@@ -88,7 +89,9 @@ class Intercept extends React.Component<{}, State> {
   }
 
   componentWillUnmount() {
-    axios.interceptors.response.eject(this.intercept);
+    if (this.intercept) {
+      axios.interceptors.response.eject(this.intercept);
+    }
     window.removeEventListener('offline', this.handleOffline);
     window.removeEventListener('online', this.handleOnline);
   }
@@ -101,7 +104,7 @@ class Intercept extends React.Component<{}, State> {
     sendAlert('De nouveau connecté');
   };
 
-  axiosResponseInterceptor = response => {
+  axiosResponseInterceptor = (response: AxiosResponse) => {
     // Do something with response data
     if (response.headers) {
       const token = response.headers['authorization'];
@@ -113,7 +116,7 @@ class Intercept extends React.Component<{}, State> {
     return response;
   };
 
-  axiosErrorInterceptor = error => {
+  axiosErrorInterceptor = (error: any) => {
     const props = this.props;
 
     if (error.response) {
@@ -148,7 +151,7 @@ class Intercept extends React.Component<{}, State> {
     return Promise.reject(error);
   };
 
-  selectRandom(phrases) {
+  selectRandom(phrases: string[]) {
     const rnd = Math.round(Math.random() * (phrases.length - 1));
     return phrases[rnd];
   }

@@ -80,12 +80,13 @@ export const Banner = styled.div`
 // `;
 
 type ImageStyleProps = {
-  src: string;
+  src?: string;
+  alt: string;
   style?: React.CSSProperties;
   w: number | string;
   ml?: string;
   mh?: string;
-  h?: number;
+  h?: number | string;
 };
 class ImageStyle extends React.Component<ImageStyleProps> {
   state = {
@@ -306,7 +307,7 @@ type FileUploadProps = {
   btnProps?: any;
   style?: React.CSSProperties;
   children: React.ReactNode;
-  onFile: (files: FileList) => any;
+  onFile: (files: FileList | null) => any;
 };
 
 export const FileUpload: React.SFC<FileUploadProps> = props => {
@@ -317,7 +318,9 @@ export const FileUpload: React.SFC<FileUploadProps> = props => {
         id={hash}
         type="file"
         style={{ display: 'none' }}
-        accept={props.accept ? props.accept.map(e => '.' + e).join(',') : null}
+        accept={
+          props.accept ? props.accept.map(e => '.' + e).join(',') : undefined
+        }
         multiple={props.multiple}
         onChange={e => props.onFile(e.target.files)}
       />
@@ -340,9 +343,10 @@ export const FileUpload: React.SFC<FileUploadProps> = props => {
 
 type ImageLoaderProps = {
   src: string;
-  load: boolean;
+  load?: boolean;
   coverMode: string;
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
+  onError?: (error: Error) => void;
 };
 export class ImageLoader extends React.Component<ImageLoaderProps> {
   state = {
@@ -361,9 +365,11 @@ export class ImageLoader extends React.Component<ImageLoaderProps> {
     }
   }
 
-  componentWillReceiveProps(props) {
-    if (props.load) {
-      this.setState({ loadImage: this.getUrl() });
+  componentDidUpdate(prevProps: ImageLoaderProps) {
+    if (this.props.load !== prevProps.load) {
+      if (this.props.load) {
+        this.setState({ loadImage: this.getUrl() });
+      }
     }
   }
 
@@ -371,7 +377,11 @@ export class ImageLoader extends React.Component<ImageLoaderProps> {
     this.setState({ url: this.getUrl(), loaded: true });
   };
 
-  handleImageErrored = () => {};
+  handleImageErrored = () => {
+    if (this.props.onError) {
+      this.props.onError(new Error('could not load image: ' + this.getUrl()));
+    }
+  };
 
   render() {
     return (

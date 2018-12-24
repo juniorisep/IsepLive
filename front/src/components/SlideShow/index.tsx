@@ -1,14 +1,9 @@
-
-
-import React from 'react';
-import styled from 'styled-components';
-
 import IconButton from '@material-ui/core/IconButton';
-
-import ArrRight from '@material-ui/icons/ChevronRight';
 import ArrLeft from '@material-ui/icons/ChevronLeft';
-
+import ArrRight from '@material-ui/icons/ChevronRight';
+import React from 'react';
 import Transition from 'react-transition-group/Transition';
+import styled from 'styled-components';
 
 const Controls = styled.div`
   position: absolute;
@@ -26,29 +21,39 @@ const Control = styled.div`
   display: flex;
   align-items: center;
 `;
+
+type ImageListProps = { h?: string; w?: string };
 const ImageList = styled.div`
   position: relative;
   display: block;
   overflow: hidden;
-  height: ${props => props.h || '100%'};
-  width: ${props => props.w || '100%'};
+  height: ${(props: ImageListProps) => props.h || '100%'};
+  width: ${(props: ImageListProps) => props.w || '100%'};
 `;
 
+type ImageProps = { coverMode: string; img: string };
 const Image = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   background-position: center;
-  background-size: ${props => props.coverMode};
-  background-image: url(${props => props.img});
+  background-size: ${(props: ImageProps) => props.coverMode};
+  background-image: url(${(props: ImageProps) => props.img});
   background-repeat: no-repeat;
   overflow: hidden;
 `;
 
-class ImageLoader extends React.Component {
+interface ImageLoaderProps {
+  load?: boolean;
+  img: string;
+  coverMode: string;
+  style?: React.CSSProperties;
+}
+
+class ImageLoader extends React.Component<ImageLoaderProps> {
   state = {
-    url: null,
-    loadImage: null,
+    url: '',
+    loadImage: '',
     loaded: false,
   };
 
@@ -58,7 +63,7 @@ class ImageLoader extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: ImageLoaderProps) {
     if (props.load) {
       this.setState({ loadImage: this.props.img });
     }
@@ -96,15 +101,22 @@ class ImageLoader extends React.Component {
 const DIR_FORWARD = 1;
 const DIR_BACKWARD = -1;
 
-const transitionStyles = {
+const transitionStyles: { [key: string]: React.CSSProperties } = {
   entering: { opacity: 0, transform: 'scale(.9)' },
   entered: { opacity: 1, transform: 'scale(1)' },
   // exiting: { opacity: 0, transform: 'scale(.4)' },
 };
 
-const ImageTransition = props => (
+interface ImageTransitionProps {
+  duration: number;
+  in?: boolean;
+  shouldLoad?: boolean;
+  coverMode: string;
+  image: string;
+}
+const ImageTransition: React.SFC<ImageTransitionProps> = props => (
   <Transition in={props.in} timeout={props.duration}>
-    {state => (
+    {(state: any) => (
       <ImageLoader
         load={props.shouldLoad}
         coverMode={props.coverMode}
@@ -120,22 +132,22 @@ const ImageTransition = props => (
 );
 
 type SlideShowState = {
-  pos: number,
-  animEnabled: boolean,
-  direction: number,
+  pos: number;
+  animEnabled: boolean;
+  direction: number;
 };
 
 type SlideShowProps = {
-  duration: number,
-  initPos: number,
-  auto: boolean,
-  handleKey: boolean,
-  play: boolean,
-  loop: boolean,
-  showControls: boolean,
-  coverMode: boolean,
-  items: any[],
-  onChange: (newPos: number) => mixed,
+  duration: number;
+  initPos: number;
+  auto?: boolean;
+  handleKey?: boolean;
+  play?: boolean;
+  loop?: boolean;
+  showControls?: boolean;
+  coverMode: string;
+  items: any[];
+  onChange?: (newPos: number) => void;
 };
 
 export default class SlideShow extends React.Component<

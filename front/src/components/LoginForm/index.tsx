@@ -20,7 +20,7 @@ type LoginFormProps = {
   onChange: (name: string, value: string) => void;
 };
 
-export const LoginForm: React.SFC<LoginFormProps> = props => {
+const LoginForm: React.SFC<LoginFormProps> = props => {
   return (
     <Dialog
       open={props.open}
@@ -79,3 +79,5 @@ export const LoginForm: React.SFC<LoginFormProps> = props => {
     </Dialog>
   );
 };
+
+export default LoginForm;

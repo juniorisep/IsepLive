@@ -11,7 +11,7 @@ export type PostCreation = {
 export type Post = {
   id: number;
   title?: string;
-  creationDate: Date;
+  creationDate: number;
   private: boolean;
   pinned: boolean;
   content: string;
@@ -26,7 +26,7 @@ export type Post = {
 export type Comment = {
   id: number;
   student: Student;
-  creation: Date;
+  creation: number;
   message: string;
   likes: Student[];
   liked: boolean;

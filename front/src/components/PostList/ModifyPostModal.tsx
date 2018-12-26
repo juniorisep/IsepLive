@@ -11,10 +11,10 @@ import TextField from '@material-ui/core/TextField';
 import React from 'react';
 import { Title } from '../../components/common';
 import * as eventData from '../../data/event';
+import { Event } from '../../data/media/type';
 import * as postData from '../../data/post';
 import { Post } from '../../data/post/type';
 import { EventForm } from './MediaForms';
-import { Event } from '../../data/media/type';
 
 interface ModifyPostModalProps {
   open: boolean;

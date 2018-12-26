@@ -2,6 +2,7 @@ import axios, { AxiosPromise } from 'axios';
 import { Page } from '../request.type';
 import { Post, PostCreation, Comment } from './type';
 import { Author, Student } from '../users/type';
+import { UpdateClubFormData } from '../../pages/club/clubDetail/UpdateClubForm';
 
 export function getPosts(page: number): AxiosPromise<Page<Post>> {
   return axios.get(`/post?page=${page}`);
@@ -19,7 +20,7 @@ export function getWaitingPost(): AxiosPromise<Post[]> {
   return axios.get('/post/waiting');
 }
 
-export function updatePost(id: number, form): AxiosPromise<Post> {
+export function updatePost(id: number, form: any): AxiosPromise<Post> {
   return axios.put(`/post/${id}`, form);
 }
 

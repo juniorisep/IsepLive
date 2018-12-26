@@ -10,9 +10,9 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { FileUpload, Text, Title } from '../../components/common';
-import DatePicker from '../DatePicker';
-import { Post } from '../../data/post/type';
 import { Media } from '../../data/media/type';
+import { Post } from '../../data/post/type';
+import DatePicker from '../DatePicker';
 
 const AddButton = styled(Button)`
   margin-top: 10px;
@@ -126,7 +126,7 @@ export class PollForm extends Component<
     this.setState({ multiAnswers: !this.state.multiAnswers });
   };
 
-  changeQues = event => {
+  changeQues = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.props.update({ ...this.state, title: event.target.value });
     this.setState({ title: event.target.value });
   };
@@ -208,19 +208,21 @@ export class ImageForm extends Component<UpdateForm<ImageFormProps>> {
     imagePreview: null,
   };
 
-  handleImageSelect = (files: FileList) => {
-    const reader = new FileReader();
-    const file = files[0];
+  handleImageSelect = (files: FileList | null) => {
+    if (files) {
+      const reader = new FileReader();
+      const file = files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreview: reader.result,
-      });
-    };
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          imagePreview: reader.result,
+        });
+      };
 
-    this.props.update({ file });
-    reader.readAsDataURL(file);
+      this.props.update({ file });
+      reader.readAsDataURL(file);
+    }
   };
 
   render() {
@@ -229,7 +231,7 @@ export class ImageForm extends Component<UpdateForm<ImageFormProps>> {
         {this.state.imagePreview && (
           <Flex justifyContent="center">
             <Box p={2}>
-              <PreviewImage src={this.state.imagePreview} alt="" />
+              <PreviewImage src={this.state.imagePreview || ''} alt="" />
             </Box>
           </Flex>
         )}
@@ -338,19 +340,21 @@ export class VideoForm extends Component<
   UpdateForm<VideoFormState>,
   VideoFormState
 > {
-  state = {
+  state: VideoFormState = {
     name: '',
     video: null,
   };
 
-  handleVideoSelect = (files: FileList) => {
-    const video = files[0];
-    this.setState({ video });
-    if (this.state.name === '') {
-      this.props.update({ ...this.state, video, name: video.name });
-      return this.setState({ name: video.name });
+  handleVideoSelect = (files: FileList | null) => {
+    if (files) {
+      const video = files[0];
+      this.setState({ video });
+      if (this.state.name === '') {
+        this.props.update({ ...this.state, video, name: video.name });
+        return this.setState({ name: video.name });
+      }
+      this.props.update({ ...this.state, video });
     }
-    this.props.update({ ...this.state, video });
   };
 
   changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -387,12 +391,12 @@ export class GalleryForm extends Component<
   UpdateForm<GalleryFormState>,
   GalleryFormState
 > {
-  state = {
+  state: GalleryFormState = {
     title: '',
     images: null,
   };
 
-  handleFileSelect = (files: FileList) => {
+  handleFileSelect = (files: FileList | null) => {
     this.update({ images: files });
   };
 
@@ -408,7 +412,8 @@ export class GalleryForm extends Component<
 
   render() {
     const { images } = this.state;
-    const p = (word: string) => word + (images.length !== 1 ? 's' : '');
+    const p = (word: string) =>
+      word + (images && images.length !== 1 ? 's' : '');
     return (
       <div>
         <div>
@@ -445,13 +450,15 @@ export class DocumentForm extends Component<
   UpdateForm<DocumentFormState>,
   DocumentFormState
 > {
-  state = {
+  state: DocumentFormState = {
     name: '',
     document: null,
   };
 
-  handleFileSelect = (files: FileList) => {
-    this.update({ document: files[0] });
+  handleFileSelect = (files: FileList | null) => {
+    if (files) {
+      this.update({ document: files[0] });
+    }
   };
 
   changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -494,13 +501,15 @@ export class GazetteForm extends Component<
   UpdateForm<GazetteFormState>,
   GazetteFormState
 > {
-  state = {
+  state: GazetteFormState = {
     title: '',
     file: null,
   };
 
-  handleFileSelect = (files: FileList) => {
-    this.update({ file: files[0] });
+  handleFileSelect = (files: FileList | null) => {
+    if (files) {
+      this.update({ file: files[0] });
+    }
   };
 
   changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -542,7 +551,7 @@ interface EventFormProps extends UpdateForm<EventFormState> {
 interface EventFormState {
   title: string;
   location: string;
-  date: Date;
+  date: number;
   description: string;
   image: File | null;
   imagePreview: string | ArrayBuffer | null;
@@ -550,10 +559,10 @@ interface EventFormState {
 }
 
 export class EventForm extends Component<EventFormProps, EventFormState> {
-  state = {
+  state: EventFormState = {
     title: '',
     location: '',
-    date: new Date(),
+    date: Date.now(),
     description: '',
     image: null,
     imagePreview: null,
@@ -566,18 +575,20 @@ export class EventForm extends Component<EventFormProps, EventFormState> {
     }
   }
 
-  handleFileSelect = (files: FileList) => {
-    const reader = new FileReader();
-    const file = files[0];
+  handleFileSelect = (files: FileList | null) => {
+    if (files) {
+      const reader = new FileReader();
+      const file = files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        imagePreview: reader.result,
-      });
-    };
+      reader.onloadend = () => {
+        this.setState({
+          imagePreview: reader.result,
+        });
+      };
 
-    reader.readAsDataURL(file);
-    this.update({ image: file });
+      reader.readAsDataURL(file);
+      this.update({ image: file });
+    }
   };
 
   change = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -590,7 +601,7 @@ export class EventForm extends Component<EventFormProps, EventFormState> {
   }
 
   handleChangeDate = (date: Date) => {
-    this.update({ date });
+    this.update({ date: date.getTime() });
   };
 
   render() {
@@ -637,7 +648,7 @@ export class EventForm extends Component<EventFormProps, EventFormState> {
           {this.state.image && this.state.imagePreview && (
             <Flex justifyContent="center">
               <Box p={2}>
-                <PreviewImage src={this.state.imagePreview} alt="" />
+                <PreviewImage src={this.state.imagePreview as string} alt="" />
               </Box>
             </Flex>
           )}

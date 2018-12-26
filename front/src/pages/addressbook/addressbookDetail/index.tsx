@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router';
+import { ClubMember } from '../../../data/club/type';
+import { Post } from '../../../data/post/type';
 import * as studentData from '../../../data/users/student';
 import AccountTab from '../../resume/AccountTab';
 import PhotoTab from '../../resume/PhotoTab';
 import PostTab from '../../resume/PostTab';
 import AdressbookDetailView from './view';
 
-type State = {
+type AdressbookDetailProps = RouteComponentProps<{ id: string }> & {};
+type AdressbookDetailState = {
   data: any;
-  posts: any[];
+  posts: Post[];
   page: number;
   lastPage: boolean;
-  clubMembers: any[];
+  clubMembers: ClubMember[];
   fullscreenOpen: boolean;
   tabIndex: number;
   isLoading: boolean;
 };
-
-type Props = any;
-
-class AdressbookDetail extends Component<Props, State> {
-  state = {
+class AdressbookDetail extends Component<
+  AdressbookDetailProps,
+  AdressbookDetailState
+> {
+  state: AdressbookDetailState = {
     data: null,
     posts: [],
     page: 0,
@@ -33,16 +37,18 @@ class AdressbookDetail extends Component<Props, State> {
   componentDidMount() {
     const id = this.getUserId();
     this.getUserData(id);
-    this.refreshPosts();
+    this.refreshPosts(id);
     this.getClubMembers(id);
   }
 
-  componentWillReceiveProps(props: Props) {
-    this.setState({ tabIndex: 0 });
-    const id = props.match.params.id;
-    this.getUserData(id);
-    this.refreshPosts(id);
-    this.getClubMembers(id);
+  componentDidUpdate(prevProps: AdressbookDetailProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.setState({ tabIndex: 0 });
+      const id = this.getUserId();
+      this.getUserData(id);
+      this.refreshPosts(id);
+      this.getClubMembers(id);
+    }
   }
 
   getUserData = async (id: number) => {
@@ -51,8 +57,8 @@ class AdressbookDetail extends Component<Props, State> {
     this.setState({ data, isLoading: false });
   };
 
-  refreshPosts = async (id: number) => {
-    const userid = this.getUserId();
+  refreshPosts = async (id?: number) => {
+    const userid = id || this.getUserId();
     const { data } = await studentData.getPosts(userid, 0);
     this.setState({
       posts: data.content,
@@ -76,16 +82,16 @@ class AdressbookDetail extends Component<Props, State> {
     this.setState({ clubMembers: data });
   };
 
-  setFullScreen = open => e => {
+  setFullScreen = (open: boolean) => () => {
     this.setState({ fullscreenOpen: open });
   };
 
-  changeTab = (event: Event, index: number) => {
-    this.setState({ tabIndex: index });
+  changeTab = (event: React.ChangeEvent<{}>, index: any) => {
+    this.setState({ tabIndex: index as number });
   };
 
   getUserId() {
-    return this.props.match.params.id;
+    return parseInt(this.props.match.params.id, 10);
   }
 
   renderTab = () => {

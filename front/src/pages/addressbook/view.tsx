@@ -1,16 +1,14 @@
-import React, { Component, PureComponent } from 'react';
-import styled from 'styled-components';
-import { Box, Flex } from '@rebass/grid';
-import { Link } from 'react-router-dom';
-
+import { Input, InputLabel, MenuItem } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
-import { Input, InputLabel } from '@material-ui/core';
-import { MenuItem } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
+import { Box, Flex } from '@rebass/grid';
+import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { MAIN_COLOR } from '../../colors';
 import {
   Banner,
   Filler,
@@ -19,12 +17,11 @@ import {
   ProfileImage,
   SearchBar,
   Text,
-} from 'components/common';
-import { MAIN_COLOR } from '../../colors';
-import Loader from 'components/Loader';
-
+} from '../../components/common';
+import Loader from '../../components/Loader';
 import * as authData from '../../data/auth';
-import { getPromo, computeYearsPromo } from '../../data/users/student';
+import { computeYearsPromo, getPromo } from '../../data/users/student';
+import { Student } from '../../data/users/type';
 
 const BadgeYear = styled.div`
   display: inline-block;
@@ -54,11 +51,21 @@ const MainText = styled.div`
   }
 `;
 
-const Person = props => {
+type PersonProps = {
+  url?: string;
+  name: string;
+  promotion: number;
+};
+const Person: React.SFC<PersonProps> = props => {
   const promo = getPromo(props.promotion);
   return (
     <div style={{ boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)', height: '100%' }}>
-      <ProfileImage src={props.url} h="150px" mh="200px" />
+      <ProfileImage
+        alt="Person profile picture"
+        src={props.url}
+        h="150px"
+        mh="200px"
+      />
       <MainText>
         <p className="name">{props.name}</p>
         <div>
@@ -78,7 +85,22 @@ const ITEM_PADDING_TOP = 8;
 
 const years = computeYearsPromo();
 
-export default class AddressBook extends PureComponent {
+type AddressBookViewProps = {
+  isSearching: boolean;
+  total: number;
+  year: number[];
+  alpha: string;
+  page: number;
+  loading: boolean;
+  students: Student[];
+  lastPage: boolean;
+  onSeeMore: () => void;
+  onSort: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onPromoFilter: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export class AddressBookView extends PureComponent<AddressBookViewProps> {
   render() {
     return (
       <div>
@@ -89,14 +111,14 @@ export default class AddressBook extends PureComponent {
             <p>Si vous voulez stalker, c'est ici que ça se passe !</p>
           </Banner>
           <FluidContent p="0">
-            <Flex align="center">
+            <Flex alignItems="center">
               <Box flex="1 1 auto">
                 <SearchBar
                   type="text"
                   autoComplete="off"
                   autoCorrect="off"
                   autoCapitalize="off"
-                  spellCheck="false"
+                  spellCheck={false}
                   placeholder="Rechercher des ami(e)s"
                   onChange={this.props.onSearch}
                 />
@@ -105,20 +127,20 @@ export default class AddressBook extends PureComponent {
           </FluidContent>
         </Header>
         <FluidContent>
-          <Flex align="center" flexWrap="wrap">
+          <Flex alignItems="center" flexWrap="wrap">
             <Box>
               {this.props.isSearching && (
                 <Text>{this.props.total} étudiants trouvé</Text>
               )}
             </Box>
-            <Box flex="0 0 auto" ml="auto" w={['100%', 120]}>
+            <Box flex="0 0 auto" ml="auto" width={['100%', 120]}>
               <FormControl style={STYLE_FORMCONTROL}>
                 <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
                 <Select
                   multiple
                   value={this.props.year}
                   renderValue={years =>
-                    years.map(year => (
+                    (years as number[]).map(year => (
                       <BadgeYear>{getPromo(year) || year}</BadgeYear>
                     ))
                   }
@@ -141,14 +163,12 @@ export default class AddressBook extends PureComponent {
                         value={year}
                         style={{
                           background: 'none',
-                          fontWeight:
-                            this.props.year.indexOf(year) !== -1
-                              ? 500
-                              : 'normal',
-                          color:
-                            this.props.year.indexOf(year) !== -1
-                              ? MAIN_COLOR
-                              : 'black',
+                          fontWeight: this.props.year.includes(year)
+                            ? 500
+                            : 'normal',
+                          color: this.props.year.includes(year)
+                            ? MAIN_COLOR
+                            : 'black',
                           alignItems: 'center',
                         }}
                       >
@@ -162,7 +182,7 @@ export default class AddressBook extends PureComponent {
                 <FormHelperText>Sélection multiple</FormHelperText>
               </FormControl>
             </Box>
-            <Box flex="0 0 auto" ml={[0, 10]} w={['100%', 120]}>
+            <Box flex="0 0 auto" ml={[0, 10]} width={['100%', 120]}>
               <FormControl style={STYLE_FORMCONTROL}>
                 <InputLabel htmlFor="alpha-simple">Nom</InputLabel>
                 <Select
@@ -181,7 +201,7 @@ export default class AddressBook extends PureComponent {
             <Flex flexWrap="wrap">
               {this.props.students.map(e => {
                 return (
-                  <Box key={e.id} w={[1, 1 / 3, 1 / 5]} p={2}>
+                  <Box key={e.id} width={[1, 1 / 3, 1 / 5]} p={2}>
                     {authData.isLoggedIn() ? (
                       <Link to={`/annuaire/${e.id}`}>
                         <Person

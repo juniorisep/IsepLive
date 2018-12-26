@@ -1,16 +1,12 @@
-
-
-import React from 'react';
-
-import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
-
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { ProfileImage, Text } from 'components/common';
-import Loader from 'components/Loader';
-import * as clubData from '../../../data/club';
+import styled from 'styled-components';
+import { ProfileImage, Text } from '../../../components/common';
+import Loader from '../../../components/Loader';
 import * as authData from '../../../data/auth';
+import * as clubData from '../../../data/club';
+import { ClubMember } from '../../../data/club/type';
 
 const MemberStyle = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -36,10 +32,21 @@ const MemberStyle = styled.div`
   }
 `;
 
-const Member = props => {
+type MemberProps = {
+  url?: string;
+  name: string;
+  promotion: number;
+  role: string;
+};
+const Member: React.SFC<MemberProps> = props => {
   return (
     <MemberStyle>
-      <ProfileImage src={props.url} sz="100%" mh="200px" />
+      <ProfileImage
+        src={props.url}
+        alt="Club member profile image"
+        w="100%"
+        mh="200px"
+      />
       <div>
         <p className="name">{props.name}</p>
         <p>Promo {props.promotion}</p>
@@ -49,14 +56,18 @@ const Member = props => {
   );
 };
 
-export default function MembersTab(props) {
+type MembersTabProps = {
+  loading: boolean;
+  members: ClubMember[];
+};
+const MembersTab: React.SFC<MembersTabProps> = props => {
   return (
     <Loader loading={props.loading}>
       <Flex flexWrap="wrap" style={{ minHeight: 400 }}>
         {props.members.length === 0 && <Text>Aucun membre</Text>}
         {props.members.map(m => {
           return (
-            <Box key={m.id} w={[1, 1 / 3, 1 / 5]} p={2}>
+            <Box key={m.id} width={[1, 1 / 3, 1 / 5]} p={2}>
               {authData.isLoggedIn() ? (
                 <Link to={`/annuaire/${m.member.id}`}>
                   <Member
@@ -80,4 +91,6 @@ export default function MembersTab(props) {
       </Flex>
     </Loader>
   );
-}
+};
+
+export default MembersTab;

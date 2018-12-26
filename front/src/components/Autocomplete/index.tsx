@@ -14,44 +14,41 @@ const resStyle: React.CSSProperties = {
   boxShadow: '0 5px 10px rgba(0,0,0,0.1)',
 };
 
-interface AutocompleteProps {
+interface AutocompleteProps<T> {
   label: string;
-  fullWidth?: boolean;
-  disabled?: boolean;
+  fullWidth: boolean;
+  disabled: boolean;
   value?: string;
-  renderSuggestion: (value: any) => React.ReactNode;
-  onSelect: (value: any) => string;
+  renderSuggestion: (value: T) => React.ReactNode;
+  onSelect: (value: T) => string | void;
   search: (data: string) => Promise<any[]>;
 }
 
-interface AutocompleteState {
-  results: any[];
+interface AutocompleteState<T> {
+  results: T[];
   value: string;
   focus: boolean;
 }
 
-export default class Autocomplete extends React.Component<
-  AutocompleteProps,
-  AutocompleteState
+export default class Autocomplete<T> extends React.Component<
+  AutocompleteProps<T>,
+  AutocompleteState<T>
 > {
-  state: AutocompleteState = {
+  state: AutocompleteState<T> = {
     results: [],
     value: '',
     focus: false,
   };
 
-  static defaultProps = {
-    fullWidth: true,
-    label: '',
-  };
-
-  componentWillReceiveProps(props: AutocompleteProps) {
-    if (props.value || props.value === '') {
-      this.setState({ value: props.value });
+  componentDidUpdate(prevProps: AutocompleteProps<T>) {
+    if (this.props.value !== this.state.value) {
+      if (this.props.value || this.props.value === '') {
+        this.setState({ value: this.props.value });
+      }
     }
   }
 
-  renderResults = (val: any, index: number) => {
+  renderResults = (val: T, index: number) => {
     return (
       <MenuItem key={index} onMouseDown={this.handleSelect(val)}>
         {this.props.renderSuggestion(val)}
@@ -59,8 +56,7 @@ export default class Autocomplete extends React.Component<
     );
   };
 
-  handleSelect = (sel: any) => () => {
-    // const fullName = val.firstname + ' ' + val.lastname;
+  handleSelect = (sel: T) => () => {
     const value = this.props.onSelect(sel);
     if (value) {
       this.setState({ value });
@@ -73,7 +69,7 @@ export default class Autocomplete extends React.Component<
     });
   };
 
-  handleChange = (event: any) => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.target.value;
     this.setState({ value: val });
     this.handleSuggestionsFetchRequested(val);
@@ -120,4 +116,13 @@ export default class Autocomplete extends React.Component<
       </div>
     );
   }
+
+  static defaultProps: AutocompleteProps<string> = {
+    fullWidth: true,
+    disabled: false,
+    renderSuggestion: () => null,
+    onSelect: () => {},
+    search: () => Promise.resolve([]),
+    label: '',
+  };
 }

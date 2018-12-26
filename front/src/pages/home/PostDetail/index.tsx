@@ -7,22 +7,22 @@ import * as studentData from '../../../data/users/student';
 import { Student } from '../../../data/users/type';
 import { PostDetailView } from './view';
 
-interface PostDetailProps extends RouteComponentProps<{ id?: string }> {
+interface PostDetailProps extends RouteComponentProps<{ id: string }> {
   post?: Post;
 }
 
 interface PostDetailState {
-  post?: Post;
+  post: Post | null;
   comments: Comment[];
-  commenter?: Student;
-  modifyEnable?: boolean;
-  openDeleteComm?: boolean;
-  openDeletePost?: boolean;
-  toDeleteComm?: Comment;
+  commenter: Student | null;
+  modifyEnable: boolean;
+  openDeleteComm: boolean;
+  openDeletePost: boolean;
+  toDeleteComm: Comment | null;
 }
 
 class PostDetail extends Component<PostDetailProps, PostDetailState> {
-  state = {
+  state: PostDetailState = {
     post: null,
     comments: [],
     commenter: null,
@@ -59,19 +59,25 @@ class PostDetail extends Component<PostDetailProps, PostDetailState> {
   }
 
   refreshPost = () => {
-    postData.getPost(this.postId).then(res => {
-      this.setState({ post: res.data });
-    });
+    if (this.postId) {
+      postData.getPost(this.postId).then(res => {
+        this.setState({ post: res.data });
+      });
+    }
   };
 
   refreshCom = () => {
-    postData
-      .getComments(this.postId)
-      .then(res => this.setState({ comments: res.data }));
+    if (this.postId) {
+      postData
+        .getComments(this.postId)
+        .then(res => this.setState({ comments: res.data }));
+    }
   };
 
   toggleLikeCom = (comId: number) => {
-    postData.toggleLikeComment(this.postId, comId);
+    if (this.postId) {
+      postData.toggleLikeComment(this.postId, comId);
+    }
   };
 
   showLikes = (comId: number) => {
@@ -79,7 +85,9 @@ class PostDetail extends Component<PostDetailProps, PostDetailState> {
   };
 
   comment = (message: string) => {
-    postData.comment(this.postId, message).then(this.refreshCom);
+    if (this.postId) {
+      postData.comment(this.postId, message).then(this.refreshCom);
+    }
   };
 
   modifyPost = (postModified: Post) =>
@@ -91,7 +99,7 @@ class PostDetail extends Component<PostDetailProps, PostDetailState> {
     this.setState({ toDeleteComm: comment, openDeleteComm: true });
 
   deleteComment = (ok: boolean) => {
-    if (ok) {
+    if (ok && this.postId && this.state.toDeleteComm) {
       postData
         .deleteComment(this.postId, this.state.toDeleteComm.id)
         .then(() => {
@@ -104,7 +112,7 @@ class PostDetail extends Component<PostDetailProps, PostDetailState> {
   reqDeletePost = () => this.setState({ openDeletePost: true });
 
   deletePost = (ok: boolean) => {
-    if (ok) {
+    if (ok && this.state.post) {
       postData.deletePost(this.state.post.id).then(() => {
         this.props.history.push('/');
       });

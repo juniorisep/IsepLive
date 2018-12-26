@@ -4,6 +4,7 @@ import * as postData from '../../data/post';
 import { Post } from '../../data/post/type';
 import { HomeView } from './view';
 
+type HomeProps = {};
 type HomeState = {
   posts: Post[];
   pinnedPosts: Post[];
@@ -13,8 +14,8 @@ type HomeState = {
   isLoading: boolean;
 };
 
-class Home extends Component<{}, HomeState> {
-  state = {
+class Home extends Component<HomeProps, HomeState> {
+  state: HomeState = {
     posts: [],
     pinnedPosts: [],
     waitingPosts: [],

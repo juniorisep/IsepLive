@@ -1,13 +1,23 @@
-
-
 import React, { Component } from 'react';
+import * as studentData from '../../data/users/student';
+import { AddressBookView } from './view';
+import { Student } from '../../data/users/type';
 
-import AddressBookView from './view';
+type AddressBookProps = {};
+type AddressBookState = {
+  students: Student[];
+  isSearching: boolean;
+  search: string;
+  promotionFilter: number[];
+  sort: studentData.SortOrder;
+  page: number;
+  lastPage: boolean;
+  isLoading: boolean;
+  total: number;
+};
 
-import * as studentData from 'data/users/student';
-
-class AddressBook extends Component {
-  state = {
+class AddressBook extends Component<AddressBookProps, AddressBookState> {
+  state: AddressBookState = {
     students: [],
     isSearching: false,
     search: '',
@@ -18,6 +28,8 @@ class AddressBook extends Component {
     isLoading: true,
     total: 0,
   };
+
+  searchTimeout?: number;
 
   componentDidMount() {
     this.getStudents();
@@ -45,13 +57,13 @@ class AddressBook extends Component {
     this.getStudents();
   };
 
-  searchStudents = ({ target }) => {
+  searchStudents = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const search = target.value;
     const { promotionFilter, sort } = this.state;
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
     }
-    this.searchTimeout = setTimeout(async () => {
+    this.searchTimeout = window.setTimeout(async () => {
       const res = await studentData.searchStudents(
         search,
         promotionFilter,
@@ -69,8 +81,8 @@ class AddressBook extends Component {
     }, 300);
   };
 
-  handleSort = async event => {
-    const sort = event.target.value;
+  handleSort = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const sort = event.target.value as studentData.SortOrder;
     const { search, promotionFilter } = this.state;
     const res = await studentData.searchStudents(
       search,
@@ -87,8 +99,10 @@ class AddressBook extends Component {
     });
   };
 
-  handlePromoFilter = async event => {
-    const promotionFilter = event.target.value;
+  handlePromoFilter = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const promotionFilter = Array.from(event.target.options)
+      .filter(opt => opt.selected)
+      .map(opt => parseInt(opt.value, 10));
     const { search, sort } = this.state;
     const res = await studentData.searchStudents(
       search,

@@ -42,7 +42,7 @@ const Circle = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 `;
 
-const CircleIcon = props => (
+const CircleIcon: React.SFC = props => (
   <Circle>
     <span
       style={{

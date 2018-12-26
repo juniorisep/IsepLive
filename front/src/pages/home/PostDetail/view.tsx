@@ -31,9 +31,9 @@ const Background = styled.div`
 `;
 
 interface PostDetailViewProps {
-  post?: Post;
+  post: Post | null;
   comments: CommentType[];
-  commenter?: Student;
+  commenter: Student | null;
   canPin?: boolean;
   modifyEnable?: boolean;
   openDeleteComm?: boolean;
@@ -65,17 +65,19 @@ export const PostDetailView: React.SFC<PostDetailViewProps> = props => {
             <PostView
               preview
               post={props.post}
-              textView={size => (
-                <PostTextView
-                  preview
-                  post={props.post}
-                  w={size}
-                  canPin={props.canPin}
-                  refresh={props.refresh}
-                  modify={props.modifyPost}
-                  deletePost={props.reqDeletePost}
-                />
-              )}
+              textView={size =>
+                props.post && (
+                  <PostTextView
+                    preview
+                    post={props.post}
+                    w={size}
+                    canPin={props.canPin || false}
+                    refresh={props.refresh}
+                    modify={props.modifyPost}
+                    deletePost={props.reqDeletePost}
+                  />
+                )
+              }
             />
           )}
         </FluidContent>
@@ -99,11 +101,14 @@ export const PostDetailView: React.SFC<PostDetailViewProps> = props => {
         <Auth logged>
           <Flex mt="30px">
             <Box>
-              <ProfileImage
-                src={props.commenter && props.commenter.photoUrlThumb}
-                w="60px"
-                mh="auto"
-              />
+              {props.commenter && (
+                <ProfileImage
+                  src={props.commenter.photoUrlThumb}
+                  alt="Logged user profile picture"
+                  w="60px"
+                  mh="auto"
+                />
+              )}
             </Box>
             <Box flex="1 1 auto" ml="20px">
               <CommentBox onComment={props.onComment} />
@@ -121,13 +126,13 @@ export const PostDetailView: React.SFC<PostDetailViewProps> = props => {
       <Popup
         title="Suppression commentaire"
         description="Voulez vous supprimer ce commentaire ?"
-        open={props.openDeleteComm}
+        open={props.openDeleteComm || false}
         onRespond={props.deleteComment}
       />
       <Popup
         title="Suppression post"
         description="Voulez vous supprimer cette publication ?"
-        open={props.openDeletePost}
+        open={props.openDeletePost || false}
         onRespond={props.deletePost}
       />
     </div>

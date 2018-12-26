@@ -23,10 +23,10 @@ const MediaIcon: React.SFC<MediaIconProps> = props => (
 
 interface SocialMediaProps {
   socials: {
-    facebook: string;
-    twitter: string;
-    snapchat: string;
-    instagram: string;
+    facebook?: string;
+    twitter?: string;
+    snapchat?: string;
+    instagram?: string;
   };
 }
 
@@ -49,3 +49,5 @@ const SocialMedia: React.SFC<SocialMediaProps> = props => {
     </div>
   );
 };
+
+export default SocialMedia;

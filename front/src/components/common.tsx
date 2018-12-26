@@ -80,10 +80,10 @@ export const Banner = styled.div`
 // `;
 
 type ImageStyleProps = {
-  src?: string;
+  src?: string | null;
   alt: string;
   style?: React.CSSProperties;
-  w: number | string;
+  w?: number | string;
   ml?: string;
   mh?: string;
   h?: number | string;
@@ -115,7 +115,7 @@ class ImageStyle extends React.Component<ImageStyleProps> {
             marginLeft: this.props.ml || 'auto',
             verticalAlign: 'middle',
           }}
-          src={this.props.src}
+          src={this.props.src || ''}
         />
       );
     }
@@ -157,9 +157,9 @@ export const ProfileImage: React.SFC<ImageStyleProps> = props => {
   return <BgImageProfileStyle {...props} src={src} />;
 };
 
-type BgImageStyleProps = { src: string; size?: string; mh?: string };
+type BgImageStyleProps = { src?: string; size?: string; mh?: string };
 const BgImageStyle = styled.div`
-  background: url(${(props: BgImageStyleProps) => props.src});
+  background: url(${(props: BgImageStyleProps) => props.src || ''});
   background-repeat: no-repeat;
   background-size: ${(props: BgImageStyleProps) => props.size || 'cover'};
   background-position: center;
@@ -293,7 +293,7 @@ export const Video: React.SFC<{ url: string }> = props => {
   return <VideoStyle preload="preload" src={backUrl + props.url} controls />;
 };
 
-type PaperProps = { p?: number; mb?: number };
+type PaperProps = { p?: string; mb?: number };
 export const Paper = styled.div`
   box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
   background: white;

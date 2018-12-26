@@ -1,6 +1,6 @@
 export type StudentUpdate = {
   id?: number;
-  birthDate?: Date;
+  birthDate?: number;
   phone?: string;
   bio?: string;
   mail: string;
@@ -10,7 +10,7 @@ export type StudentUpdate = {
 type ClubValue = {
   name: string;
   description: string;
-  creation: Date;
+  creation: number;
   website: string;
   admin: boolean;
   logoUrl: string;
@@ -21,7 +21,7 @@ type StudentValue = {
   promo: number;
   firstname: string;
   lastname: string;
-  birthDate?: Date;
+  birthDate?: number;
   phone?: string;
   address?: string;
   studentId: string;

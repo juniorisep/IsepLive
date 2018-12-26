@@ -1,61 +1,86 @@
-
-
-import React from 'react';
-
-import { Text } from 'components/common';
-
-import Button from '@material-ui/core/Button';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
-
+import React from 'react';
+import { Text } from '../../../components/common';
 import DatePicker from '../../../components/DatePicker';
 import * as userData from '../../../data/users/student';
+import { Student, Club } from '../../../data/users/type';
 
-export default class AddClubForm extends React.Component {
-  state = {
+type UpdateClubFormProps = {
+  open: boolean;
+  title: string;
+  form?: Club | null;
+  onSave: (state: UpdateClubFormData) => void;
+  handleRequestClose: () => void;
+};
+type UpdateClubFormState = {
+  name: string;
+  creation: number;
+  description: string;
+  website: string;
+  logo: File | null;
+};
+
+export type UpdateClubFormData = UpdateClubFormState;
+
+export default class UpdateClubForm extends React.Component<
+  UpdateClubFormProps,
+  UpdateClubFormState
+> {
+  state: UpdateClubFormState = {
     name: '',
-    creation: new Date(),
+    creation: Date.now(),
     description: '',
     website: '',
     logo: null,
   };
 
-  componentWillReceiveProps(props) {
-    if (props.form) {
-      const form = props.form;
+  componentDidUpdate(prevProps: UpdateClubFormProps) {
+    const { form } = this.props;
+    if (form && form !== prevProps.form) {
       this.setState({
         name: form.name,
-        creation: new Date(form.creation),
+        creation: form.creation,
         description: form.description,
         website: form.website,
       });
     }
   }
 
-  change = (name, value) => {
+  change = (name: keyof UpdateClubFormState, value: any) => {
     this.setState(state => ({
       ...state,
       [name]: value,
     }));
   };
 
-  handleInput = name => event => this.change(name, event.target.value);
-
-  search = value => {
-    return userData
-      .searchStudents(value, [], 'a', 0)
-      .then(res => res.data.content);
+  changeLogo = (files: FileList | null) => {
+    if (files) {
+      this.setState({
+        logo: files[0],
+      });
+    }
   };
 
-  renderSuggestion = sug => `${sug.firstname} ${sug.lastname}`;
+  handleInput = (name: keyof UpdateClubFormState) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => this.change(name, event.target.value);
 
-  handleSave = e => {
+  search = async (value: string) => {
+    const res = await userData.searchStudents(value, [], 'a', 0);
+    return res.data.content;
+  };
+
+  renderSuggestion = (sug: Student) => `${sug.firstname} ${sug.lastname}`;
+
+  handleSave = () => {
     this.props.onSave(this.state);
   };
 
@@ -65,7 +90,7 @@ export default class AddClubForm extends React.Component {
     return (
       <Dialog
         open={props.open}
-        transition={Slide}
+        TransitionComponent={Slide}
         onClose={props.handleRequestClose}
       >
         <DialogTitle>{props.title}</DialogTitle>
@@ -109,7 +134,7 @@ export default class AddClubForm extends React.Component {
 
           <div style={{ marginTop: 10 }}>
             <input
-              onChange={e => this.change('logo', e.target.files[0])}
+              onChange={e => this.changeLogo(e.target.files)}
               accept="jpg,jpeg,JPG,JPEG"
               id="file"
               type="file"

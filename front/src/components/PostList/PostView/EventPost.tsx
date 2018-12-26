@@ -59,10 +59,7 @@ export default class EventPost extends Component<PostViewProps> {
                   date={media.date}
                   fs="1.2em"
                   endDisplay={
-                    <Time
-                      date={media.date.getTime()}
-                      format="Do MMMM YYYY [à] HH:mm"
-                    />
+                    <Time date={media.date} format="Do MMMM YYYY [à] HH:mm" />
                   }
                 />
                 <Location>{media.location}</Location>

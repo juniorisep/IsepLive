@@ -93,7 +93,7 @@ class Poll extends Component<PollProps, PollState> {
   }
 
   hasEnded = () => {
-    return this.state.data.endDate.getTime() < Date.now();
+    return this.state.data.endDate < Date.now();
   };
 
   handleVote = async (choice: PollAnswer) => {

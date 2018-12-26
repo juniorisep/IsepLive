@@ -1,13 +1,22 @@
-
-
 import React, { Component } from 'react';
-
-import EventView from './view';
-
+import * as userData from '../../data/auth';
 import * as eventData from '../../data/event';
+import * as mediaTypes from '../../data/media/type';
+import { EventsView } from './view';
 
-class Event extends Component {
-  state = {
+type EventProps = {};
+export type EventState = {
+  events: mediaTypes.Event[];
+  eventsFilter: EventFilter;
+  isLoading: boolean;
+  editOpen: boolean;
+  popupDelete: boolean;
+  selectedEvent: mediaTypes.Event | null;
+};
+export type EventFilter = 'next' | 'past';
+
+class Event extends Component<EventProps, EventState> {
+  state: EventState = {
     events: [],
     isLoading: false,
     eventsFilter: 'next',
@@ -27,39 +36,43 @@ class Event extends Component {
     });
   }
 
-  modifyFilter = (eventsFilter: string) => e => {
+  modifyFilter = (eventsFilter: EventFilter) => () => {
     this.setState({ eventsFilter });
   };
 
-  filterEvents = (events) => {
+  filterEvents = (events: mediaTypes.Event[]) => {
     const now = new Date().getTime();
     return events
       .filter(e =>
-      this.state.eventsFilter === 'past' ? e.date < now : e.date > now)
-      .sort((a, b) => a.date > b.date ? 1 : -1);
+        this.state.eventsFilter === 'past' ? e.date < now : e.date > now
+      )
+      .sort((a, b) => (a.date > b.date ? 1 : -1));
   };
 
-  editEvent = (event) => {
+  editEvent = (event: mediaTypes.Event) => {
     this.setState({ editOpen: true, selectedEvent: event });
-  }
+  };
 
-  saveEvent = (event) => {
-    eventData.updateEvent(event.id, event).then(res => {
-      this.fetchEvents();
-      this.closeEditEvent();
-    });
-  }
+  saveEvent = (event: mediaTypes.Event) => {
+    const user = userData.getUser();
+    if (user) {
+      const id = eventData.updateEvent(event.id, event, user.id).then(() => {
+        this.fetchEvents();
+        this.closeEditEvent();
+      });
+    }
+  };
 
   closeEditEvent = () => {
     this.setState({ editOpen: false, selectedEvent: null });
-  }
+  };
 
-  deleteEvent = (event) => {
+  deleteEvent = (event: mediaTypes.Event) => {
     this.setState({ popupDelete: true, selectedEvent: event, editOpen: false });
-  }
+  };
 
-  handleDeleteEvent = (ok) => {
-    if (ok) {
+  handleDeleteEvent = (ok: boolean) => {
+    if (ok && this.state.selectedEvent) {
       eventData.deleteEvent(this.state.selectedEvent.id).then(res => {
         this.fetchEvents();
       });
@@ -68,24 +81,24 @@ class Event extends Component {
       popupDelete: false,
       selectedEvent: null,
     });
-  }
+  };
 
   render() {
     return (
-      <EventView
+      <EventsView
         isLoading={this.state.isLoading}
         events={this.filterEvents(this.state.events)}
         editOpen={this.state.editOpen}
         selectedEvent={this.state.selectedEvent}
         popupDelete={this.state.popupDelete}
-
         onModifyFilter={this.modifyFilter}
         editEvent={this.editEvent}
         saveEvent={this.saveEvent}
         closeEditEvent={this.closeEditEvent}
         handleDeleteEvent={this.handleDeleteEvent}
         deleteEvent={this.deleteEvent}
-        eventsFilter={this.state.eventsFilter} />
+        eventsFilter={this.state.eventsFilter}
+      />
     );
   }
 }

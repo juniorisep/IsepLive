@@ -1,22 +1,18 @@
-
-
 import React, { Component } from 'react';
-
+import * as clubData from '../../data/club';
+import * as userTypes from '../../data/users/type';
 import ClubView from './view';
 
-import * as clubData from 'data/club';
-import type { Club as ClubType } from '../../data/users/type';
+type ClubState = {
+  clubs: userTypes.Club[];
+  loading: boolean;
+};
 
-type State = {
-  clubs: ClubType[],
-  loading: boolean,
-}
-
-class Club extends Component {
-  state: State = {
+class Club extends Component<{}, ClubState> {
+  state: ClubState = {
     clubs: [],
     loading: false,
-  }
+  };
 
   componentDidMount() {
     this.getClubs();
@@ -27,21 +23,22 @@ class Club extends Component {
     clubData.getClubs().then(res => {
       this.setState({ clubs: res.data, loading: false });
     });
-  }
+  };
 
-  addClub = (form) => {
+  addClub = (form: React.FormEvent) => {
     return clubData.createClub(form).then(res => {
       this.getClubs();
       return res;
     });
-  }
+  };
 
   render() {
     return (
       <ClubView
         loading={this.state.loading}
         clubs={this.state.clubs}
-        addClub={this.addClub} />
+        addClub={this.addClub}
+      />
     );
   }
 }

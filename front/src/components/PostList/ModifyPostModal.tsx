@@ -65,7 +65,9 @@ export default class ModifyPostModal extends React.Component<
     }
   };
 
-  change = name => event => {
+  change = (name: keyof Post) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const post = this.state.post;
     if (post) {
       post[name] =
@@ -74,20 +76,24 @@ export default class ModifyPostModal extends React.Component<
     }
   };
 
-  changeMedia = ({ title, location, date, description, image }) => {
-    this.setState(state => ({
-      post: {
-        ...state.post,
-        media: {
-          ...state.post.media,
-          title,
-          location,
-          date,
-          description,
-          image,
-        },
-      },
-    }));
+  changeMedia = ({ title, location, date, description, image }: any) => {
+    this.setState(
+      state =>
+        state.post &&
+        ({
+          post: {
+            ...state.post,
+            media: {
+              ...state.post.media,
+              title,
+              location,
+              date,
+              description,
+              image,
+            },
+          },
+        } as any)
+    );
   };
 
   render() {
@@ -160,4 +166,12 @@ export default class ModifyPostModal extends React.Component<
       </Dialog>
     );
   }
+
+  static defaultProps: ModifyPostModalProps = {
+    open: false,
+    post: null,
+    refresh: () => {},
+    requestClose: () => {},
+    modifyPost: () => {},
+  };
 }

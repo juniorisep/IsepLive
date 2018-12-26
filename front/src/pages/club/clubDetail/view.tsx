@@ -1,50 +1,53 @@
-
-
-import React from 'react';
-
-import styled from 'styled-components';
-import { Box, Flex } from '@rebass/grid';
-
-import { Tabs, Tab } from '@material-ui/core';
-import MUIButton from '@material-ui/core/Button';
-import ExploreAction from '@material-ui/icons/Explore';
-
+import { Tab, Tabs } from '@material-ui/core';
+import MUIButton, { ButtonProps } from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-
+import ExploreAction from '@material-ui/icons/Explore';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import styled from 'styled-components';
+import { ClubDetailState } from '.';
+import { BACKGROUND_COLOR } from '../../../colors';
 import {
-  FluidContent,
   BgImage,
+  FluidContent,
+  ScrollToTopOnMount,
   Text,
   Title,
-  ScrollToTopOnMount,
-} from 'components/common';
-
-import Popup from 'components/Popup';
-
-import { BACKGROUND_COLOR, MAIN_COLOR, SECONDARY_COLOR } from '../../../colors';
-import * as authData from '../../../data/auth';
+} from '../../../components/common';
+import Popup from '../../../components/Popup';
 import { ADMIN, CLUB_MANAGER } from '../../../constants';
-import UpdateClubForm from './UpdateClubForm';
+import * as authData from '../../../data/auth';
+import UpdateClubForm, { UpdateClubFormData } from './UpdateClubForm';
 
 const Explore = styled(ExploreAction)`
   margin-right: 10px;
 `;
 
-const Button = styled(MUIButton)`
-  margin-top: ${props => props.mt || '0'};
+type BtnProps = ButtonProps & { mt?: string };
+const Button = styled(MUIButton as React.SFC<BtnProps>)`
+  margin-top: ${(props: BtnProps) => props.mt || '0'};
 `;
 
-export default function ClubDetailView(props) {
+type ClubDetailViewProps = ClubDetailState & {
+  changeTab: (event: React.ChangeEvent<{}>, value: any) => void;
+  renderTab: () => React.ReactNode | null;
+  onDelete: () => void;
+  onEdit: () => void;
+  updateClub: (form: UpdateClubFormData) => Promise<void>;
+  closeForm: () => void;
+  deleteAccepted: (accept: boolean) => void;
+};
+const ClubDetailView: React.SFC<ClubDetailViewProps> = props => {
   return (
     <div style={{ background: BACKGROUND_COLOR }}>
       <ScrollToTopOnMount />
       <FluidContent>
         <Flex flexWrap="wrap">
-          <Box w={[1, 1 / 4]} p={2}>
+          <Box width={[1, 1 / 4]} p={2}>
             <BgImage src={props.logoUrl} mh="150px" size="contain" />
           </Box>
-          <Box w={[1, 3 / 4]} p={2}>
+          <Box width={[1, 3 / 4]} p={2}>
             <Title invert>{props.name}</Title>
             <Text>{props.description}</Text>
             <Flex mt="15px" flexWrap="wrap">
@@ -55,7 +58,7 @@ export default function ClubDetailView(props) {
                   rel="noopener noreferrer"
                   color="secondary"
                 >
-                  <Explore /> Site internet
+                  <ExploreAction /> Site internet
                 </Button>
               </Box>
               {props.isAdmin && (
@@ -113,4 +116,6 @@ export default function ClubDetailView(props) {
       <FluidContent>{props.renderTab()}</FluidContent>
     </div>
   );
-}
+};
+
+export default ClubDetailView;

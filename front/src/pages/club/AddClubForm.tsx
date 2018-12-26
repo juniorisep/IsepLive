@@ -1,51 +1,46 @@
-
-
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
-
-import { Text } from 'components/common';
-
-import Button from '@material-ui/core/Button';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-
-import DatePicker from '../../components/DatePicker';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
 import AutoComplete from '../../components/Autocomplete';
-import * as userData from '../../data/users/student';
-
+import { Text } from '../../components/common';
+import DatePicker from '../../components/DatePicker';
 import { backUrl } from '../../config';
+import * as userData from '../../data/users/student';
+import { Student } from '../../data/users/type';
 
-import type { Student } from '../../data/users/type';
-
-type State = {
-  name: string,
-  creation: Date,
-  president: number,
-  description: string,
-  website: string,
-  logo: ?File,
-  autocompleteValue: string,
+type AddClubFormState = {
+  name: string;
+  creation: number;
+  president: number;
+  description: string;
+  website: string;
+  logo: File | null;
+  autocompleteValue: string;
 };
 
-type Props = {
-  onSave: (s: State) => Promise<any>,
-  handleRequestClose: () => mixed,
-  open: boolean,
-  title: string,
+type AddClubFormProps = {
+  onSave: (s: AddClubFormState) => Promise<any>;
+  handleRequestClose: () => void;
+  open: boolean;
+  title: string;
 };
 
-export default class AddClubForm extends React.Component<Props, State> {
-  state = {
+export default class AddClubForm extends React.Component<
+  AddClubFormProps,
+  AddClubFormState
+> {
+  state: AddClubFormState = {
     name: '',
-    creation: new Date(),
+    creation: Date.now(),
     president: -1,
     description: '',
     website: '',
@@ -53,14 +48,23 @@ export default class AddClubForm extends React.Component<Props, State> {
     autocompleteValue: '',
   };
 
-  change = (name: string, value: string) => {
+  change = (name: string, value: any): string => {
     this.setState(state => ({
       ...state,
       [name]: value,
     }));
+    return '';
   };
 
-  handleInput = name => event => this.change(name, event.target.value);
+  changeLogo = (files: FileList | null) => {
+    if (files && files.length > 0) {
+      this.setState({ logo: files[0] });
+    }
+  };
+
+  handleInput = (name: string) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => this.change(name, event.target.value);
 
   search = (value: string) => {
     this.setState({ autocompleteValue: value });
@@ -100,7 +104,7 @@ export default class AddClubForm extends React.Component<Props, State> {
     return (
       <Dialog
         open={props.open}
-        transition={Slide}
+        TransitionComponent={Slide}
         onClose={props.handleRequestClose}
       >
         <DialogTitle>{props.title}</DialogTitle>
@@ -127,7 +131,6 @@ export default class AddClubForm extends React.Component<Props, State> {
             search={this.search}
             onSelect={val => this.change('president', val.id)}
             renderSuggestion={this.renderSuggestion}
-            suggestionValue={e => e.id}
           />
           <TextField
             required
@@ -146,14 +149,14 @@ export default class AddClubForm extends React.Component<Props, State> {
           />
           <div style={{ marginTop: 10 }}>
             <input
-              onChange={e => this.change('logo', e.target.files[0])}
+              onChange={e => this.changeLogo(e.target.files)}
               accept="jpg,jpeg,JPG,JPEG"
               id="file"
               type="file"
               style={{ display: 'none' }}
             />
             <label htmlFor="file">
-              <Flex align="center">
+              <Flex alignItems="center">
                 <Box>
                   <Button color="primary" variant="raised" component="span">
                     Choisir logo

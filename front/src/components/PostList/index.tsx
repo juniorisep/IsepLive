@@ -267,4 +267,10 @@ export default class PostListView extends React.Component<
       </PostList>
     );
   }
+
+  static defaultProps: PostListViewProps = {
+    canPin: false,
+    posts: [],
+    refreshPosts: () => {},
+  };
 }

@@ -4,6 +4,8 @@ import * as constants from '../../constants';
 import { Club, Student } from '../users/type';
 import { ClubMember, ClubRole } from './type';
 import { Post } from '../post/type';
+import { Page } from '../request.type';
+import { UpdateClubFormData } from '../../pages/club/clubDetail/UpdateClubForm';
 
 export function getClubs(): AxiosPromise<Club[]> {
   return axios.get('/club');
@@ -21,11 +23,14 @@ export function getAdmins(id: number): AxiosPromise<Student[]> {
   return axios.get(`/club/${id}/admins`);
 }
 
-export function getPosts(id: number, page: number = 0): AxiosPromise<Post[]> {
+export function getPosts(
+  id: number,
+  page: number = 0
+): AxiosPromise<Page<Post>> {
   return axios.get(`/club/${id}/post?page=${page}`);
 }
 
-export function createClub(form): AxiosPromise<void> {
+export function createClub(form: any): AxiosPromise<void> {
   const formData = new FormData();
   formData.append(
     'club',
@@ -41,18 +46,21 @@ export function createClub(form): AxiosPromise<void> {
   return axios.post('/club', formData);
 }
 
-export function updateClub(id: number, form): AxiosPromise<void> {
+export function updateClub(
+  id: number,
+  form: UpdateClubFormData
+): AxiosPromise<void> {
   const formData = new FormData();
   formData.append(
     'club',
     JSON.stringify({
       name: form.name,
-      creation: form.creation.getTime(),
+      creation: form.creation,
       description: form.description,
       website: form.website,
     })
   );
-  formData.append('logo', form.logo);
+  formData.append('logo', form.logo as Blob);
   return axios.put(`/club/${id}`, formData);
 }
 

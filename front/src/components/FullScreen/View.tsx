@@ -28,8 +28,8 @@ const ViewStyle = styled.div`
 
 interface ViewProps {
   visible?: boolean;
-  data: Image;
-  image: string;
+  data?: Image;
+  image?: string;
   imageOriginal?: string;
   internalRefresh?: boolean;
   matcher?: boolean;
@@ -112,7 +112,7 @@ class View extends Component<ViewProps, ViewState> {
           >
             <FileDownload style={{ marginRight: 5 }} /> Télecharger
           </Button>
-          {matcher && (
+          {matcher && data && (
             <Auth logged>
               <PeopleMatcher
                 internalRefresh={internalRefresh}

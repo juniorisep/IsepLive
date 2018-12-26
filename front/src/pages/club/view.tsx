@@ -1,30 +1,22 @@
-
-
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import { Box, Flex } from '@rebass/grid';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Auth from '../../components/Auth/AuthComponent';
 import {
   Banner,
+  BgImage,
   Filler,
   FluidContent,
   Header,
-  BgImage,
   SearchBar,
   Text,
-} from 'components/common';
-
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-
-import Auth from 'components/Auth/AuthComponent';
+} from '../../components/common';
 import Loader from '../../components/Loader';
-
-import AddClubForm from './AddClubForm';
-
 import * as roles from '../../constants';
-
-import type { Club as ClubType } from '../../data/users/type';
+import AddClubForm from './AddClubForm';
 
 const ClubStyle = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -50,14 +42,14 @@ const ClubTile = props => {
 };
 
 type State = {
-  open: boolean,
-  search: string,
+  open: boolean;
+  search: string;
 };
 
 type Props = {
-  clubs: ClubType[],
-  loading: boolean,
-  addClub: (s: any) => Promise<any>,
+  clubs: ClubType[];
+  loading: boolean;
+  addClub: (s: any) => Promise<any>;
 };
 
 export default class Club extends Component<Props, State> {

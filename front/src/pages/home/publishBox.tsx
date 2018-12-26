@@ -66,7 +66,7 @@ interface PublishBoxAuthor {
 }
 
 interface SendAsProps {
-  author?: PublishBoxAuthor;
+  author?: PublishBoxAuthor | null;
   c?: string;
 }
 
@@ -74,7 +74,11 @@ const SendAs: React.SFC<SendAsProps> = ({ author, c }) => {
   return (
     <Flex alignItems="center">
       <Box mr="10px">
-        <ProfileImage w="20px" src={author && author.image} />
+        <ProfileImage
+          alt="Sender image"
+          w="20px"
+          src={author && author.image}
+        />
       </Box>
       <Box>
         <Text color={c || 'white'} m="0">
@@ -132,11 +136,11 @@ type PublishBoxState = {
   selectedIndex: number;
   mediaMenuOpen: boolean;
   authorMenuOpen: boolean;
-  author?: CustomAuthorType;
+  author: PublishBoxAuthor | null;
   authorList: CustomAuthorType[];
   mediaCreatorOpen: boolean;
-  form?: any;
-  mediaSelected?: MediaChoice;
+  form: any | null;
+  mediaSelected: MediaChoice | null;
   isUploading: boolean;
   uploadMode: 'determinate' | 'indeterminate' | 'buffer' | 'query';
   uploadProgress: number;
@@ -180,7 +184,8 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
             return {
               id: a.id,
               name: a.authorType === 'student' ? 'Moi' : a.name,
-              image: a.authorType === 'club' ? a.logoUrl : a.photoUrlThumb,
+              image:
+                a.authorType === 'club' ? a.logoUrl : a.photoUrlThumb || '',
               type: a.authorType,
               isAdmin: a.authorType === 'club' ? a.admin : false,
             };
@@ -215,17 +220,19 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     this.setState({ isPrivateMessage: !this.state.isPrivateMessage });
   };
 
-  async createPost(): Promise<number | null> {
-    if (!this.state.author) return;
+  async createPost(): Promise<number> {
+    if (!this.state.author) {
+      throw new Error('no author');
+    }
 
-    const dto: PostCreation = {
+    const post: PostCreation = {
       authorId: this.state.author.id,
       content: this.state.message,
       title: this.state.title,
       private: this.state.isPrivateMessage,
     };
 
-    const postRes = await postData.createPost(dto);
+    const postRes = await postData.createPost(post);
     // await postData.publishPost(postRes.data.id);
 
     return postRes.data.id;
@@ -243,24 +250,15 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
         this.setState({ isUploading: true });
       }
 
-      let mediaRes, postResId;
-
       try {
         // create post in WAITING state
-        postResId = await this.createPost();
-      } catch (error) {
-        this.handleErrors(error);
-      }
-
-      try {
+        const postResId = await this.createPost();
         // upload media and save entity
-        mediaRes = await this.createMedia(postResId);
+        if (postResId) {
+          await this.createMedia(postResId);
+        }
       } catch (error) {
         this.handleErrors(error);
-      }
-
-      if (!mediaRes || !postResId) {
-        this.handleErrors();
         return;
       }
 
@@ -274,10 +272,9 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
 
       sendAlert('Post publié');
       localStorage.removeItem('saved-message');
+
       this.setState({ title: '', message: '', isUploading: false });
       this.props.refreshPosts();
-
-      return;
     }
 
     try {
@@ -298,7 +295,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     }
   };
 
-  handleMediaSelect = item => {
+  handleMediaSelect = (item: MediaChoice) => {
     this.setState({ mediaSelected: item, mediaCreatorOpen: true });
     this.handleMediaMenuClose();
   };
@@ -307,7 +304,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     this.setState({ mediaMenuOpen: false });
   };
 
-  openMediaMenu = event => {
+  openMediaMenu = (event: React.MouseEvent) => {
     this.setState({ mediaMenuOpen: true, anchorEl: event.currentTarget });
   };
 
@@ -315,7 +312,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     this.setState({ authorMenuOpen: false });
   };
 
-  handleAuthorSelect = author => {
+  handleAuthorSelect = (author: CustomAuthorType) => {
     this.setState({
       title: '',
       message: '',
@@ -324,7 +321,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     });
   };
 
-  changeAuthor = event => {
+  changeAuthor = (event: React.MouseEvent) => {
     this.setState({
       authorMenuOpen: true,
       anchorEl: event.currentTarget,
@@ -335,11 +332,11 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
     this.setState({ mediaCreatorOpen: false, form: null, mediaSelected: null });
   };
 
-  onFormChange = form => {
+  onFormChange = (form: any) => {
     this.setState({ form });
   };
 
-  onProgress = progressEvent => {
+  onProgress = (progressEvent: { loaded: number; total: number }) => {
     if (this.state.isUploading) {
       const percent = Math.floor(
         (progressEvent.loaded * 100) / progressEvent.total
@@ -384,60 +381,71 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
   }
 
   createMedia = (postId: number) => {
-    switch (this.state.mediaSelected.id) {
-      case 'poll':
-        return pollData.createPoll(postId, this.state.form);
-      case 'image':
-        return imageData.createImage(
-          postId,
-          this.state.form.file,
-          this.onProgress
-        );
-      // case 'videoEmbed':
-      //   return videoData.createVideoEmbed(this.state.form);
-      case 'video':
-        return videoData.createVideo(postId, this.state.form, this.onProgress);
-      case 'gallery':
-        return imageData.createGallery(
-          postId,
-          this.state.form,
-          this.onProgress
-        );
-      case 'event':
-        return mediaData.createEvent(
-          postId,
-          this.state.form,
-          this.state.author.id
-        );
-      case 'document':
-        return mediaData.createDocument(postId, this.state.form);
-      case 'gazette':
-        return mediaData.createGazette(postId, this.state.form);
-      default:
-        break;
+    if (this.state.mediaSelected) {
+      switch (this.state.mediaSelected.id) {
+        case 'poll':
+          return pollData.createPoll(postId, this.state.form);
+        case 'image':
+          return imageData.createImage(
+            postId,
+            this.state.form.file,
+            this.onProgress
+          );
+        // case 'videoEmbed':
+        //   return videoData.createVideoEmbed(this.state.form);
+        case 'video':
+          return videoData.createVideo(
+            postId,
+            this.state.form,
+            this.onProgress
+          );
+        case 'gallery':
+          return imageData.createGallery(
+            postId,
+            this.state.form,
+            this.onProgress
+          );
+        case 'event':
+          if (this.state.author) {
+            return mediaData.createEvent(
+              postId,
+              this.state.form,
+              this.state.author.id
+            );
+          }
+          break;
+        case 'document':
+          return mediaData.createDocument(postId, this.state.form);
+        case 'gazette':
+          return mediaData.createGazette(postId, this.state.form);
+        default:
+          break;
+      }
     }
   };
 
   renderForm() {
-    switch (this.state.mediaSelected.id) {
-      case 'poll':
-        return <PollForm update={this.onFormChange} />;
-      case 'image':
-        return <ImageForm update={this.onFormChange} />;
-      case 'videoEmbed':
-        return <VideoEmbedForm update={this.onFormChange} />;
-      case 'video':
-        return <VideoForm update={this.onFormChange} />;
-      case 'gallery':
-        return <GalleryForm update={this.onFormChange} />;
-      case 'document':
-        return <DocumentForm update={this.onFormChange} />;
-      case 'gazette':
-        return <GazetteForm update={this.onFormChange} />;
-      case 'event':
-        return <EventForm update={this.onFormChange} />;
-      default:
-        break;
+    if (this.state.mediaSelected) {
+      switch (this.state.mediaSelected.id) {
+        case 'poll':
+          return <PollForm update={this.onFormChange} />;
+        case 'image':
+          return <ImageForm update={this.onFormChange} />;
+        case 'videoEmbed':
+          return <VideoEmbedForm update={this.onFormChange} />;
+        case 'video':
+          return <VideoForm update={this.onFormChange} />;
+        case 'gallery':
+          return <GalleryForm update={this.onFormChange} />;
+        case 'document':
+          return <DocumentForm update={this.onFormChange} />;
+        case 'gazette':
+          return <GazetteForm update={this.onFormChange} />;
+        case 'event':
+          return <EventForm update={this.onFormChange} />;
+        default:
+          break;
+      }
     }
   }
 

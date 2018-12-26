@@ -6,6 +6,8 @@ import { Post } from '../post/type';
 import { Page } from '../request.type';
 import { CreateEmployee, Employee, Role, Student, StudentUpdate } from './type';
 
+export type SortOrder = 'a' | 'z';
+
 export function getStudents(page: number = 0): AxiosPromise<Page<Student>> {
   return axios.get(`/user/student?page=${page}`);
 }
@@ -52,7 +54,7 @@ export function updateStudentFull(data: any): AxiosPromise<Student> {
 export function searchStudents(
   name: string,
   promotionFilter: number[] = [],
-  sort: string = 'a',
+  sort: SortOrder = 'a',
   page: number = 0
 ): AxiosPromise<Page<Student>> {
   const promos = promotionFilter.join(',');
@@ -65,7 +67,7 @@ export function searchStudentsAdmin(
   name: string,
   rolesFilter: string[] = [],
   promotionFilter: number[] = [],
-  sort: string = 'a',
+  sort: SortOrder = 'a',
   page: number = 0
 ): AxiosPromise<Page<Student>> {
   const promos = promotionFilter.join(',');

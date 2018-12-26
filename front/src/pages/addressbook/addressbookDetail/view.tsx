@@ -1,34 +1,19 @@
-
-
-import React from 'react';
-
-import styled from 'styled-components';
+import { Tab, Tabs } from '@material-ui/core';
 import { Box, Flex } from '@rebass/grid';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import { Tabs, Tab } from '@material-ui/core';
-
-import Time from 'components/Time';
-import PostListView from 'components/PostList';
-import SocialMedia from '../../../components/SocialMedia';
-import FullScreenView from '../../../components/FullScreen/View';
-import Loader from '../../../components/Loader';
-
-import UserInfo from '../../resume/UserInfo';
-
 import {
   FluidContent,
-  ProfileImage,
   Paper,
-  Text,
-  Title,
+  ProfileImage,
   ScrollToTopOnMount,
-  BgImage,
-} from 'components/common';
-
-import { MAIN_COLOR, SECONDARY_COLOR } from '../../../colors';
-
-import * as clubData from '../../../data/club';
+  Title,
+} from '../../../components/common';
+import React from 'react';
+import styled from 'styled-components';
+import FullScreenView from '../../../components/FullScreen/View';
+import Loader from '../../../components/Loader';
+import SocialMedia from '../../../components/SocialMedia';
+import UserInfo from '../../resume/UserInfo';
+import { Student } from '../../../data/users/type';
 
 const PersonStyle = styled.div`
   > div {
@@ -38,7 +23,17 @@ const PersonStyle = styled.div`
   height: 100%;
 `;
 
-export default function AdressbookDetailView({
+type AdressbookDetailViewProps = {
+  user: Student;
+  isLoading: boolean;
+  tabIndex: number;
+  fullscreenOpen: boolean;
+  setFullScreen: (fullscreenOpen: boolean) => () => void;
+  changeTab: (event: React.ChangeEvent<{}>, value: any) => void;
+  renderTab: () => React.ReactNode;
+};
+
+const AdressbookDetailView: React.SFC<AdressbookDetailViewProps> = ({
   user,
   isLoading,
   tabIndex,
@@ -46,7 +41,7 @@ export default function AdressbookDetailView({
   setFullScreen,
   changeTab,
   renderTab,
-}) {
+}) => {
   return (
     <FluidContent>
       <ScrollToTopOnMount />
@@ -58,7 +53,12 @@ export default function AdressbookDetailView({
                 onClick={setFullScreen(true)}
                 style={{ cursor: 'pointer' }}
               >
-                <ProfileImage src={user.photoUrl} sz="100%" mh="200px" />
+                <ProfileImage
+                  src={user.photoUrl}
+                  alt="User main profile picture"
+                  w="100%"
+                  mh="200px"
+                />
               </PersonStyle>
             </Box>
             <Box p={2} width={[1, 3 / 4]}>
@@ -74,7 +74,7 @@ export default function AdressbookDetailView({
                 <SocialMedia socials={user} />
               </Paper>
             </Box>
-            <Box w={1}>
+            <Box width={1}>
               <Tabs
                 value={tabIndex}
                 onChange={changeTab}
@@ -98,4 +98,6 @@ export default function AdressbookDetailView({
       </Loader>
     </FluidContent>
   );
-}
+};
+
+export default AdressbookDetailView;

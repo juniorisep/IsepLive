@@ -6,7 +6,7 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import Liked from '@material-ui/icons/Favorite';
 import NotLiked from '@material-ui/icons/FavoriteBorder';
 import { Flex } from '@rebass/grid';
@@ -19,7 +19,7 @@ import { Student } from '../../data/users/type';
 import Auth from '../Auth/AuthComponent';
 import { Text } from '../common';
 
-const CustomCheckbox = styled(Checkbox)`
+const CustomCheckbox = styled(Checkbox as React.SFC<CheckboxProps>)`
   color: ${props => props.theme.accent} !important;
 `;
 
@@ -39,7 +39,7 @@ interface LikesPanelProps {
 
 const LikesPanel: React.SFC<LikesPanelProps> = props => {
   return (
-    <Dialog open={props.open} onClose={props.onClose}>
+    <Dialog open={props.open || false} onClose={props.onClose}>
       <DialogTitle>{props.students.length} J'aime</DialogTitle>
       {props.students.length === 0 && (
         <Text style={{ width: 200, padding: 20 }}>Aucun like</Text>

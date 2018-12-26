@@ -1,15 +1,12 @@
-import React from 'react';
-
 import { Box, Flex } from '@rebass/grid';
-
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { ProfileImage, Subtitle, Title } from '../common';
-import * as authData from '../../data/auth';
-
-import Time from '../Time';
-import Author from '../Author';
 import styled from 'styled-components';
+import * as authData from '../../data/auth';
+import { Post } from '../../data/post/type';
+import Author from '../Author';
+import { ProfileImage, Subtitle, Title } from '../common';
+import Time from '../Time';
 
 const DynamicTitle = styled(Title)`
   padding-right: 10px;
@@ -18,13 +15,16 @@ const DynamicTitle = styled(Title)`
   }
 `;
 
-export default function PostTitleView({ post }) {
+type PostTitleViewProps = {
+  post: Post;
+};
+const PostTitleView: React.SFC<PostTitleViewProps> = ({ post }) => {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
   if (post.author.authorType === 'student') {
     return (
       <Flex alignItems="center" mb="10px">
         <Box mr="10px">
-          <ProfileImage src={post.author.photoUrl} w="40px" />
+          <ProfileImage src={post.author.photoUrl} alt="" w="40px" />
         </Box>
         <Box>
           {authData.isLoggedIn() ? (
@@ -64,4 +64,6 @@ export default function PostTitleView({ post }) {
       </Box>
     </Flex>
   );
-}
+};
+
+export default PostTitleView;

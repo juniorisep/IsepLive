@@ -10,15 +10,10 @@ const Style = styled.h3`
   margin: ${(props: StyleProps) => props.m || '1em'};
 `;
 
-const indic: React.CSSProperties = {
-  fontSize: 12,
-  textTransform: 'uppercase',
-  marginRight: 5,
-};
-
 interface CountDownProps {
   date: number;
-  endDisplay: boolean;
+  fs?: string;
+  endDisplay: React.ReactNode;
 }
 
 interface CountDownState {
@@ -73,6 +68,12 @@ export default class CountDown extends React.Component<
 
   render() {
     const { days, hours, minutes, seconds, isFinished } = this.state;
+
+    const indic: React.CSSProperties = {
+      fontSize: this.props.fs || 12,
+      textTransform: 'uppercase',
+      marginRight: 5,
+    };
     return (
       <Style {...this.props}>
         {isFinished && this.props.endDisplay}

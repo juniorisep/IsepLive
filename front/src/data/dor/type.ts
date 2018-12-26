@@ -2,16 +2,16 @@ import { Author } from '../users/type';
 
 export type SessionDor = {
   id: number;
-  firstTurn: Date;
-  secondTurn: Date;
-  result: Date;
+  firstTurn: number;
+  secondTurn: number;
+  result: number;
   enabled: boolean;
 };
 
 export type SessionDorCreate = {
-  firstTurn?: Date;
-  secondTurn?: Date;
-  result?: Date;
+  firstTurn?: number;
+  secondTurn?: number;
+  result?: number;
 };
 
 export type QuestionDor = {
@@ -61,7 +61,7 @@ export type VoteDor = {
   resAuthor?: Author;
   resEvent?: EventDor;
   questionDor: QuestionDor;
-  date: Date;
+  number: number;
   round: number;
 };
 
@@ -81,5 +81,5 @@ type DorConfigAttribute = {
 export type ConfigDor = {
   titre: DorConfigAttribute;
   name: DorConfigAttribute;
-  birthdate: DorConfigAttribute;
+  birthnumber: DorConfigAttribute;
 };

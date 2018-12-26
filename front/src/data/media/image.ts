@@ -4,7 +4,7 @@ import { Image, Gallery, Match } from './type';
 export function createImage(
   postId: number,
   file: File,
-  onUploadProgress
+  onUploadProgress: any
 ): AxiosPromise<Image> {
   var data = new FormData();
   data.append('post', String(postId));
@@ -14,8 +14,8 @@ export function createImage(
 
 export function createGallery(
   postId: number,
-  form,
-  onUploadProgress
+  form: any,
+  onUploadProgress: any
 ): AxiosPromise<Gallery> {
   var data = new FormData();
   data.append('post', String(postId));

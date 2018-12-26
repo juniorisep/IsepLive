@@ -1,38 +1,36 @@
-
-
+import Button from '@material-ui/core/Button';
+import { Box, Flex } from '@rebass/grid';
+import moment from 'moment';
 import React, { Component } from 'react';
-
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
-import moment from 'moment';
-
-import { Flex, Box } from '@rebass/grid';
-import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
-import Loader from 'components/Loader';
-
 import {
   Banner,
   Filler,
   FluidContent,
   Header,
+  ScrollToTopOnMount,
   SearchBar,
-  ScrollToTopOnMount
-} from 'components/common';
-
+} from '../../../components/common';
+import Loader from '../../../components/Loader';
 import * as eventData from '../../../data/event';
 
-BigCalendar.momentLocalizer(moment);
+const localizer = BigCalendar.momentLocalizer(moment);
 
-let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
+const allViews = [
+  BigCalendar.Views.AGENDA,
+  BigCalendar.Views.DAY,
+  BigCalendar.Views.MONTH,
+  BigCalendar.Views.WEEK,
+  BigCalendar.Views.WORK_WEEK,
+];
 
 class CalendarEvents extends Component {
-
   state = {
     events: [],
     isLoading: false,
-  }
+  };
 
   componentDidMount() {
     this.getEvents();
@@ -72,7 +70,12 @@ class CalendarEvents extends Component {
         <FluidContent>
           <Flex mb={2}>
             <Box ml="auto">
-              <Button color="primary" component={NavLink} to="/evenements">Liste</Button>
+              <Button
+                color="primary"
+                component={() => <NavLink to="/evenements" />}
+              >
+                Liste
+              </Button>
             </Box>
           </Flex>
           <Loader loading={isLoading}>
@@ -80,7 +83,7 @@ class CalendarEvents extends Component {
               events={events}
               views={allViews}
               step={60}
-              style={{ height: 600 }}
+              localizer={localizer}
               defaultDate={new Date()}
             />
           </Loader>

@@ -55,7 +55,7 @@ type AuthorValue = {
   authorType: AuthorType;
 };
 
-export type Author = Student & Club & Employee;
+export type Author = Student | Club | Employee;
 
 export type Role = {
   id: number;

@@ -1,11 +1,10 @@
-import Club from '../../pages/club';
-import { Student } from '../users/type';
+import { Student, Club } from '../users/type';
 
 type EventValue = {
   mediaType: 'event';
   title: string;
   location: string;
-  date: Date;
+  date: number;
   description: string;
   club: Club;
   imageUrl: string;
@@ -16,7 +15,7 @@ export type Event = MediaValue & EventValue;
 type PollValue = {
   mediaType: 'poll';
   name: string;
-  endDate: Date;
+  endDate: number;
   answers: PollAnswer[];
   multiAnswers: boolean;
 };
@@ -94,7 +93,7 @@ export type Document = MediaValue & DocumentValue;
 
 type MediaValue = {
   id: number;
-  creation: Date;
+  creation: number;
 };
 
 export type Media = MediaValue &

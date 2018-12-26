@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 import { Box, Flex } from '@rebass/grid';
@@ -8,15 +6,26 @@ import { Menu, MenuItem } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 
-import Time from 'components/Time';
-import Author from 'components/Author';
+import Time from '../../components/Time';
+import Author from '../../components/Author';
 import { BgImage, Text, Title, Paper } from '../../components/common';
 
 import Auth from '../../components/Auth/AuthComponent';
 import { ADMIN, EVENT_MANAGER } from '../../constants';
+import { Event } from '../../data/media/type';
 
-export default class Event extends React.Component {
-  state = {
+type EventCardProps = {
+  event: Event;
+  onEdit: (event: Event) => void;
+  onDelete: (event: Event) => void;
+};
+type EventCardState = {
+  anchorEl: any | null;
+  openMenu: boolean;
+};
+
+export class EventCard extends React.Component<EventCardProps, EventCardState> {
+  state: EventCardState = {
     anchorEl: null,
     openMenu: false,
   };
@@ -35,7 +44,7 @@ export default class Event extends React.Component {
     this.setState({ openMenu: false, anchorEl: null });
   };
 
-  handleMenu = e => {
+  handleMenu = (e: React.MouseEvent) => {
     this.setState({ openMenu: true, anchorEl: e.currentTarget });
   };
 
@@ -51,10 +60,10 @@ export default class Event extends React.Component {
     return (
       <Paper style={{ marginBottom: 30 }}>
         <Flex flexWrap="wrap">
-          <Box w={[1, 1 / 2]}>
+          <Box width={[1, 1 / 2]}>
             <BgImage src={event.imageUrl} mh="250px" />
           </Box>
-          <Box w={[1, 1 / 2]} p="20px">
+          <Box width={[1, 1 / 2]} p="20px">
             <Flex>
               <Link to={`/evenements/${event.id}`}>
                 <Box mb={2}>

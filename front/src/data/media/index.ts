@@ -6,8 +6,10 @@ export function getAllMedia(page: number = 0): AxiosPromise<Page<Media>> {
   return axios.get(`/media?page=${page}`);
 }
 
-export function groupMedia(list: Media[]): Media[] {
-  const monthlyGrouped = {};
+export function groupMedia(list: Media[]): { date: Date; medias: Media[] }[] {
+  const monthlyGrouped = {} as {
+    [key: string]: { date: Date; medias: Media[] };
+  };
   list.forEach(media => {
     const date = new Date(media.creation);
     const formedDate = date.getMonth() + '-' + date.getFullYear();
@@ -19,9 +21,9 @@ export function groupMedia(list: Media[]): Media[] {
     }
     monthlyGrouped[formedDate].medias.push(media);
   });
-  return Object.keys(monthlyGrouped)
-    .map(k => monthlyGrouped[k])
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  return Object.values(monthlyGrouped).sort((a, b) =>
+    a.date < b.date ? 1 : -1
+  );
 }
 
 export function createDocument(

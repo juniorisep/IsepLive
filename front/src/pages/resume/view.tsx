@@ -1,47 +1,35 @@
-
-
-import React from 'react';
-
-import styled from 'styled-components';
-import { Box, Flex } from '@rebass/grid';
-
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Tab,
+  Tabs,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
-
-import Time from 'components/Time';
-import PostListView from 'components/PostList';
-import FullScreenView from '../../components/FullScreen/View';
-import UserInfo from './UserInfo';
-
-import { Tabs, Tab } from '@material-ui/core';
-
+import { Box, Flex } from '@rebass/grid';
 import {
   Banner,
   Filler,
   FluidContent,
   Header,
-  ProfileImage,
   Paper,
+  ProfileImage,
   Text,
   Title,
-  BgImage,
-} from 'components/common';
-import Loader from '../../components/Loader';
-
-import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
-
+} from '../../components/common';
+import React from 'react';
+import styled from 'styled-components';
 import DatePicker from '../../components/DatePicker';
+import FullScreenView from '../../components/FullScreen/View';
+import Loader from '../../components/Loader';
 import SocialMedia from '../../components/SocialMedia';
+import UserInfo from './UserInfo';
+import { Student, StudentUpdate } from '../../data/users/type';
+import { Post } from '../../data/post/type';
+import { ClubMember } from '../../data/club/type';
 
 const PersonStyle = styled.div`
   > div {
@@ -51,8 +39,33 @@ const PersonStyle = styled.div`
   height: 100%;
 `;
 
-export default function ResumeView(props) {
-  const { user, posts, clubMembers } = props;
+type ResumeViewProps = {
+  user: Student;
+  open: boolean;
+  isLoading: boolean;
+  fullscreenOpen: boolean;
+  setFullScreen: (on: boolean) => () => void;
+  onModify: () => void;
+  changeTab: (event: React.ChangeEvent<{}>, value: any) => void;
+  tabIndex: number;
+  renderTab: () => React.ReactNode;
+  handleRequestClose: () => void;
+  handleUpdate: (form: StudentUpdate) => void;
+};
+
+export const ResumeView: React.SFC<ResumeViewProps> = ({
+  user,
+  open,
+  isLoading,
+  setFullScreen,
+  onModify,
+  tabIndex,
+  changeTab,
+  renderTab,
+  fullscreenOpen,
+  handleRequestClose,
+  handleUpdate,
+}) => {
   return (
     <div>
       <Header url="/img/background.jpg">
@@ -63,15 +76,20 @@ export default function ResumeView(props) {
         </Banner>
       </Header>
       <FluidContent>
-        <Loader loading={props.isLoading}>
+        <Loader loading={isLoading}>
           {user && (
             <Flex flexWrap="wrap">
               <Box p={2} width={[1, 1 / 4]}>
                 <PersonStyle
-                  onClick={props.setFullScreen(true)}
+                  onClick={setFullScreen(true)}
                   style={{ cursor: 'pointer' }}
                 >
-                  <ProfileImage src={user.photoUrl} sz="100%" mh="200px" />
+                  <ProfileImage
+                    alt=""
+                    src={user.photoUrl}
+                    w="100%"
+                    mh="200px"
+                  />
                 </PersonStyle>
               </Box>
               <Box p={2} width={[1, 3 / 4]}>
@@ -86,7 +104,7 @@ export default function ResumeView(props) {
                       <Button
                         variant="raised"
                         color="primary"
-                        onClick={props.onModify}
+                        onClick={onModify}
                       >
                         Modifier
                       </Button>
@@ -96,10 +114,10 @@ export default function ResumeView(props) {
                   <SocialMedia socials={user} />
                 </Paper>
               </Box>
-              <Box w={1}>
+              <Box width={1}>
                 <Tabs
-                  value={props.tabIndex}
-                  onChange={props.changeTab}
+                  value={tabIndex}
+                  onChange={changeTab}
                   indicatorColor="secondary"
                   textColor="primary"
                   centered
@@ -109,17 +127,17 @@ export default function ResumeView(props) {
                   <Tab label="Photos" />
                 </Tabs>
               </Box>
-              {props.renderTab()}
+              {renderTab()}
 
               <FullScreenView
-                visible={props.fullscreenOpen}
+                visible={fullscreenOpen}
                 image={user.photoUrl}
-                onEscKey={props.setFullScreen(false)}
+                onEscKey={setFullScreen(false)}
               />
               <UpdateResume
-                open={props.open}
-                handleRequestClose={props.handleRequestClose}
-                handleUpdate={props.handleUpdate}
+                open={open}
+                handleRequestClose={handleRequestClose}
+                handleUpdate={handleUpdate}
                 data={user}
               />
             </Flex>
@@ -128,18 +146,30 @@ export default function ResumeView(props) {
       </FluidContent>
     </div>
   );
-}
+};
 
-class UpdateResume extends React.Component {
-  state = {
+type UpdateResumeProps = {
+  data: Student;
+  open: boolean;
+  handleUpdate: (form: StudentUpdate) => void;
+  handleRequestClose: () => void;
+};
+type UpdateResumeState = {
+  form: Student;
+};
+
+class UpdateResume extends React.Component<UpdateResumeProps> {
+  state: UpdateResumeState = {
     form: this.props.data,
   };
 
-  handleChange = (name: string) => ({ target }) => {
+  handleChange = (name: string) => ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
     this.handleChangeForm(name, target.value);
   };
 
-  handleChangeForm = (name: string, value) => {
+  handleChangeForm = (name: string, value: any) => {
     this.setState({
       form: {
         ...this.state.form,
@@ -154,7 +184,7 @@ class UpdateResume extends React.Component {
     return (
       <Dialog
         open={props.open}
-        transition={Slide}
+        TransitionComponent={Slide}
         onClose={props.handleRequestClose}
       >
         <DialogTitle
@@ -237,7 +267,10 @@ class UpdateResume extends React.Component {
           <Button onClick={props.handleRequestClose} color="primary">
             Annuler
           </Button>
-          <Button onClick={() => props.handleUpdate(data)} color="secondary">
+          <Button
+            onClick={() => props.handleUpdate(data as StudentUpdate)}
+            color="secondary"
+          >
             Valider
           </Button>
         </DialogActions>

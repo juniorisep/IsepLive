@@ -1,22 +1,25 @@
-
-
-import React from 'react';
-
-import { Box, Flex } from '@rebass/grid';
 import Button from '@material-ui/core/Button';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import Loader from '../../components/Loader';
-
-import { Text, Title, Image } from 'components/common';
-
 import { MAIN_COLOR } from '../../colors';
-
+import { Image, Text } from '../../components/common';
+import Loader from '../../components/Loader';
 import * as userData from '../../data/users/student';
-import * as authData from '../../data/auth';
+import * as mediaTypes from '../../data/media/type';
 
-export default class PhotoTab extends React.Component {
-  state = {
+type PhotoTabProps = {
+  userId: number;
+};
+type PhotoTabState = {
+  matched: mediaTypes.MatchedView[];
+  page: number;
+  lastPage: boolean;
+  loading: boolean;
+};
+
+export class PhotoTab extends React.Component<PhotoTabProps, PhotoTabState> {
+  state: PhotoTabState = {
     matched: [],
     page: 0,
     lastPage: false,
@@ -28,17 +31,17 @@ export default class PhotoTab extends React.Component {
     this.requestPhotos(0);
   }
 
-  requestPhotos(page: number) {
-    return userData
-      .getTaggedPhotos(this.props.userId, this.state.page)
-      .then(res => {
-        this.setState({
-          matched: this.state.matched.concat(res.data.content),
-          page: this.state.page + 1,
-          lastPage: res.data.last,
-          loading: false,
-        });
-      });
+  async requestPhotos(page: number) {
+    const res = await userData.getTaggedPhotos(
+      this.props.userId,
+      this.state.page
+    );
+    this.setState({
+      matched: this.state.matched.concat(res.data.content),
+      page: this.state.page + 1,
+      lastPage: res.data.last,
+      loading: false,
+    });
   }
 
   onSeeMore = () => {
@@ -48,7 +51,7 @@ export default class PhotoTab extends React.Component {
   render() {
     const { matched, lastPage } = this.state;
     return (
-      <Box p={2} w={1}>
+      <Box p={2} width={1}>
         <Loader loading={this.state.loading}>
           {matched.length === 0 && (
             <div
@@ -61,8 +64,13 @@ export default class PhotoTab extends React.Component {
             <Flex flexWrap="wrap" style={{ marginTop: 30, minHeight: 300 }}>
               {matched.map((match, index) => {
                 return (
-                  <Box key={match.id} w={[1 / 2, 1 / 3, 1 / 5]} p={1} mb={2}>
-                    <Flex align="center" style={{ height: '100%' }}>
+                  <Box
+                    key={match.id}
+                    width={[1 / 2, 1 / 3, 1 / 5]}
+                    p={1}
+                    mb={2}
+                  >
+                    <Flex alignItems="center" style={{ height: '100%' }}>
                       <Link
                         to={{
                           pathname: '/gallery/' + match.galleryId,
@@ -70,7 +78,7 @@ export default class PhotoTab extends React.Component {
                         }}
                         style={{ width: '100%' }}
                       >
-                        <Image w="100%" src={match.image.thumbUrl} />
+                        <Image w="100%" alt="" src={match.image.thumbUrl} />
                       </Link>
                     </Flex>
                     <Text>

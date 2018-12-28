@@ -1,28 +1,47 @@
-
-
-import React from 'react';
-import { Flex, Box } from '@rebass/grid';
-
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableRow,
-  TablePagination,
   TableFooter,
+  TableHead,
+  TablePagination,
+  TableRow,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import FileUpload from '@material-ui/icons/CloudUpload';
 import Done from '@material-ui/icons/Done';
-
-import {FluidContent, Title, Paper, Text} from '../../../components/common';
-import {sendAlert} from '../../../components/Alert';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import { sendAlert } from '../../../components/Alert';
+import { FluidContent, Paper, Text, Title } from '../../../components/common';
 import * as studentData from '../../../data/users/student';
 
-export default class ImportStudents extends React.Component {
-  state = {
+type ImportStudent = {
+  firstname: string;
+  lastname: string;
+  studentid: string;
+  promo: string;
+};
+
+type ImportStudentsProps = {};
+type ImportStudentsState = {
+  csv: File | null;
+  photos: File[];
+  progress: number;
+  uploading: boolean;
+  students: ImportStudent[];
+  photosData: { [key: string]: string };
+  uploadState: 'buffer' | 'query' | 'determinate' | 'indeterminate';
+  page: number;
+  result: any | null;
+};
+
+export default class ImportStudents extends React.Component<
+  ImportStudentsProps,
+  ImportStudentsState
+> {
+  state: ImportStudentsState = {
     csv: null,
     photos: [],
     progress: 0,
@@ -34,27 +53,26 @@ export default class ImportStudents extends React.Component {
     result: null,
   };
 
-  importStudents = () => {
-    const {csv, photos} = this.state;
-    this.setState({uploading: true});
-
-    studentData
-      .importStudents(csv, photos, progress => {
-        let percentCompleted = Math.floor(
-          (progress.loaded * 100) / progress.total
-        );
-        this.setState({
-          progress: percentCompleted,
-          uploadState:
-            progress.loaded === progress.total
-              ? 'indeterminate'
-              : 'determinate',
+  importStudents = async () => {
+    const { csv, photos } = this.state;
+    if (csv) {
+      this.setState({ uploading: true });
+      try {
+        const res = await studentData.importStudents(csv, photos, progress => {
+          let percentCompleted = Math.floor(
+            (progress.loaded * 100) / progress.total
+          );
+          this.setState({
+            progress: percentCompleted,
+            uploadState:
+              progress.loaded === progress.total
+                ? 'indeterminate'
+                : 'determinate',
+          });
         });
-      })
-      .then(r => {
         sendAlert('Users imported');
         this.setState({
-          result: r.data,
+          result: res.data,
           uploading: false,
           progress: 0,
           csv: null,
@@ -62,8 +80,7 @@ export default class ImportStudents extends React.Component {
           photosData: {},
           students: [],
         });
-      })
-      .catch(err => {
+      } catch (err) {
         if (err.response) {
           sendAlert("Erreur lors de l'import");
           this.setState({
@@ -75,113 +92,75 @@ export default class ImportStudents extends React.Component {
             students: [],
           });
         }
-      });
-  };
-
-  importPhotosUpdate = () => {
-    const  {photos} = this.state;
-    this.setState({uploading: true});
-
-    studentData
-      .updateStudentsPhoto(photos, progress => {
-        let percentCompleted = Math.floor(
-          (progress.loaded * 100) / progress.total
-        );
-        this.setState({
-          progress: percentCompleted,
-          uploadState:
-            progress.loaded === progress.total
-              ? 'indeterminate'
-              : 'determinate',
-        });
-      })
-      .then(r => {
-        sendAlert('Photos mises à jour');
-        this.setState({
-          result: r.data,
-          uploading: false,
-          progress: 0,
-          photos: [],
-          photosData: {}
-        });
-      })
-      .catch(err => {
-        if (err.response) {
-          sendAlert("Erreur lors de l'import");
-          console.log(err.response);
-          this.setState({
-            uploading: false,
-            progress: 0,
-            photos: [],
-            photosData: {}
-          });
-        }
-      });
-  };
-
-  handle = name => e => {
-    let file = name === 'csv' ? e.target.files[0] : e.target.files;
-
-    this.setState({[name]: file});
-  };
-
-  addCsv = e => {
-    let csv = e.target.files[0];
-    e.target.value = null;
-
-    let reader = new FileReader();
-    reader.onload = e => {
-      let text = e.target.result;
-      let students = [];
-      let csvParsed = text
-        .split('\n')
-        .filter(l => l !== '')
-        .map(l => l.split(','));
-      csvParsed.forEach((l, i) => {
-        if (i !== 0) {
-          students.push({
-            firstname: l[0],
-            lastname: l[1],
-            studentid: l[2],
-            promo: l[3],
-          });
-        }
-      });
-      this.setState({students});
-    };
-    reader.readAsText(csv);
-
-    this.setState({csv, result: null});
-  };
-
-  importPhoto = e => {
-    let photos = [...e.target.files];
-    e.target.value = null;
-    const readerPromise = file =>
-      new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        reader.onload = e => resolve({url: e.target.result, file});
-        reader.readAsDataURL(file);
-      });
-
-    const tmpUrls = [];
-    for (let i = 0; i < photos.length; i++) {
-      const photoUrl = readerPromise(photos[i]);
-      tmpUrls.push(photoUrl);
+      }
     }
-
-    const photosData = {};
-    Promise.all(tmpUrls).then(res => {
-      res.forEach(d => {
-        photosData[d.file.name.split('.')[0]] = d.url;
-      });
-    });
-
-    this.setState({photosData, photos, result: null});
   };
 
-  handleChangePage = (e, page) => {
-    this.setState({page});
+  addCsv = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      let csv = files[0];
+      e.target.files = null;
+
+      let reader = new FileReader();
+      reader.onload = (fileReaderEvent: ProgressEvent) => {
+        let text = reader.result as string;
+        let students: ImportStudent[] = [];
+        let csvParsed = text
+          .split('\n')
+          .filter(l => l !== '')
+          .map(l => l.split(','));
+        csvParsed.forEach((l, i) => {
+          if (i !== 0) {
+            students.push({
+              firstname: l[0],
+              lastname: l[1],
+              studentid: l[2],
+              promo: l[3],
+            });
+          }
+        });
+        this.setState({ students });
+      };
+      reader.readAsText(csv);
+
+      this.setState({ csv, result: null });
+    }
+  };
+
+  importPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      let photos = Array.from(files);
+      e.target.files = null;
+      const readerPromise = (
+        file: File
+      ): Promise<{ url: string; file: File }> =>
+        new Promise(resolve => {
+          let reader = new FileReader();
+          reader.onload = e => resolve({ url: reader.result as string, file });
+          reader.readAsDataURL(file);
+        });
+
+      const tmpUrls = photos.map(photo => readerPromise(photo));
+
+      const photosData = {} as { [key: string]: string };
+      const res = await Promise.all(tmpUrls);
+      res.forEach(data => {
+        const fileName = data.file.name;
+        const parts = fileName.split('.');
+        if (parts.length > 0) {
+          const name = parts[0];
+          photosData[name] = data.url;
+        }
+      });
+
+      this.setState({ photosData, photos, result: null });
+    }
+  };
+
+  handleChangePage = (e: any, page: number) => {
+    this.setState({ page });
   };
 
   render() {
@@ -307,7 +286,7 @@ export default class ImportStudents extends React.Component {
               <TableBody>
                 {students.slice(page * 20, page * 20 + 20).map(s => {
                   return (
-                    <TableRow key={s.id}>
+                    <TableRow key={s.studentid}>
                       <TableCell>
                         <img
                           alt="student"

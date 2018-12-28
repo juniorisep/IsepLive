@@ -1,35 +1,25 @@
-import React from 'react';
-
-import ReactDOM from 'react-dom';
-
+import red from '@material-ui/core/colors/red';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import axios from 'axios';
-import registerServiceWorker from './registerServiceWorker';
-
+import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import moment from 'moment';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   Switch,
 } from 'react-router-dom';
-
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import indigo from '@material-ui/core/colors/indigo';
-import amber from '@material-ui/core/colors/amber';
-import red from '@material-ui/core/colors/red';
-
 import { ThemeProvider } from 'styled-components';
-
-import MomentUtils from 'material-ui-pickers/utils/moment-utils';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-
-import moment from 'moment';
-
 // import AuthenticatedRoute from './components/Auth/AuthenticatedRoute';
-
 import { MAIN_COLOR, SECONDARY_COLOR } from './colors';
-
 import { backUrl } from './config';
 import Login from './pages/login';
+import registerServiceWorker from './registerServiceWorker';
+import Layout from './components/Layout';
+import AlertCenter from './components/Alert';
 
 moment.locale('fr');
 axios.defaults.baseURL = backUrl;

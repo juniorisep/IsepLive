@@ -61,7 +61,7 @@ export function deleteImages(
 
 export function addImages(
   galleryId: number,
-  images: File[]
+  images: FileList
 ): AxiosPromise<void> {
   const form = new FormData();
   for (var i = 0; i < images.length; i++) {

@@ -38,7 +38,7 @@ export const PostView: React.SFC<PostViewProps> = props => {
       default:
         break;
     }
-  } else {
-    return <TextPost {...props} />;
   }
+
+  return <TextPost {...props} />;
 };

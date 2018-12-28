@@ -1,41 +1,44 @@
-
 import React from 'react';
 
 import Time from '../../components/Time';
 
-import {
-  Text,
-} from '../../components/common';
+import { Text } from '../../components/common';
+import styled from 'styled-components';
+import { Student } from '../../data/users/type';
 
-const InfoDescriptor = (props) => (
-  <td style={{
-    textAlign: 'right',
-    fontWeight: 'bold',
-    paddingRight: 10,
-  }}>
+const InfoDescriptorStyle = styled.td`
+  text-align: right;
+  font-weight: bold;
+  padding-right: 10px;
+`;
+
+type InfoDescriptorProps = {
+  label: string;
+};
+const InfoDescriptor: React.SFC<InfoDescriptorProps> = props => (
+  <InfoDescriptorStyle>
     <Text>{props.label}</Text>
+  </InfoDescriptorStyle>
+);
+
+type InfoValueProps = {
+  label?: any;
+  default: string;
+  display?: (value: any) => React.ReactNode;
+};
+const InfoValue: React.SFC<InfoValueProps> = props => (
+  <td style={{ fontStyle: props.label ? 'normal' : 'italic' }}>
+    {props.display && (
+      <Text>{props.label ? props.display(props.label) : props.default}</Text>
+    )}
+    {!props.display && <Text>{props.label || props.default}</Text>}
   </td>
 );
 
-const InfoValue = (props) => (
-  <td style={{
-    fontStyle: props.label ? 'normal' : 'italic'
-  }}>
-    {
-      props.display &&
-      <Text>
-        {props.label ? props.display(props.label) : props.default}
-      </Text>
-    }
-    {
-      !props.display &&
-      <Text>{props.label || props.default}</Text>
-    }
-  </td>
-);
-
-function UserInfo(props) {
-  const user = props.user;
+type UserInfoProps = {
+  user: Student;
+};
+const UserInfo: React.SFC<UserInfoProps> = ({ user }) => {
   return (
     <table>
       <tbody>
@@ -67,12 +70,15 @@ function UserInfo(props) {
           <InfoDescriptor label="Date de naissance" />
           <InfoValue
             label={user.birthDate}
-            display={(l) => <Time date={l} format="DD/MM/YYYY" />}
-            default="Non renseignée" />
+            display={birthDate => (
+              <Time date={birthDate as number} format="DD/MM/YYYY" />
+            )}
+            default="Non renseignée"
+          />
         </tr>
       </tbody>
-    </table >
+    </table>
   );
-}
+};
 
 export default UserInfo;

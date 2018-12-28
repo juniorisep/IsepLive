@@ -1,50 +1,38 @@
-
-
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
-import { Link } from 'react-router-dom';
-
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Fade from '@material-ui/core/Fade';
-
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import LazyLoad from 'react-lazyload';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import styled from 'styled-components';
 import {
-  Title,
+  FileUpload,
   FluidContent,
   Image,
-  Text,
   ScrollToTopOnMount,
-  FileUpload,
+  Text,
+  Title,
 } from '../../components/common';
-
 import FullScreenGallery from '../../components/FullScreen/Gallery';
 import Loader from '../../components/Loader';
 import Time from '../../components/Time';
-
-import { ADMIN, POST_MANAGER } from '../../constants';
-
-import LazyLoad from 'react-lazyload';
-
 import { backUrl } from '../../config';
-import styled from 'styled-components';
-
-import type {
-  Gallery as GalleryType,
-  Image as ImageType,
-} from '../../data/media/type';
-
-import * as mediaData from '../../data/media/image';
+import { ADMIN, POST_MANAGER } from '../../constants';
 import * as authData from '../../data/auth';
+import * as mediaData from '../../data/media/image';
 import * as postData from '../../data/post';
-import Popup from "../../components/Popup";
+import * as mediaTypes from '../../data/media/type';
 
 const ImagePlaceholder = styled.div`
   background: #eee;
   height: 130;
 `;
-
-const Edit = props => {
+type EditProps = {
+  onSelect: (img: mediaTypes.Image) => () => void;
+  img: mediaTypes.Image;
+};
+const Edit: React.SFC<EditProps> = props => {
   return (
     <div style={{ marginBottom: 10 }}>
       <Checkbox onChange={props.onSelect(props.img)} />
@@ -52,8 +40,19 @@ const Edit = props => {
   );
 };
 
-class ThumbnailAnimation extends React.Component<{}, {}> {
-  state = {
+type ThumbnailAnimationProps = {
+  src: string;
+  children(props: boolean): React.ReactNode;
+};
+type ThumbnailAnimationState = {
+  loaded: boolean;
+};
+
+class ThumbnailAnimation extends React.Component<
+  ThumbnailAnimationProps,
+  ThumbnailAnimationState
+> {
+  state: ThumbnailAnimationState = {
     loaded: false,
   };
 
@@ -62,7 +61,7 @@ class ThumbnailAnimation extends React.Component<{}, {}> {
   }
 
   loadImage() {
-    const img = new window.Image();
+    const img = new (window as any).Image();
     img.onload = () => {
       this.setState({ loaded: true });
     };
@@ -74,22 +73,28 @@ class ThumbnailAnimation extends React.Component<{}, {}> {
     return this.props.children(loaded);
   }
 }
-
-type State = {
-  isLoading: boolean,
-  gallery: GalleryType,
-  galleryOpen: boolean,
-  galleryIndex: number,
-  images: ImageType[],
-  selectedImages: number[],
-  isPostAuthor: boolean,
-  isEditing: boolean,
-  isAdding: boolean,
-  deleteEnable: boolean,
+type GalleryPageProps = RouteComponentProps<{ id: string }>;
+type GalleryPageState = {
+  isLoading: boolean;
+  gallery: mediaTypes.Gallery | null;
+  galleryOpen: boolean;
+  galleryIndex: number;
+  images: mediaTypes.Image[];
+  selectedImages: number[];
+  isPostAuthor: boolean;
+  isEditing: boolean;
+  isAdding: boolean;
 };
 
-export default class GalleryPage extends React.Component<{}, State> {
-  state = {
+type GalleryPageRouteState = {
+  imageId: number;
+};
+
+export default class GalleryPage extends React.Component<
+  GalleryPageProps,
+  GalleryPageState
+> {
+  state: GalleryPageState = {
     isLoading: false,
     gallery: null,
     galleryOpen: false,
@@ -102,12 +107,12 @@ export default class GalleryPage extends React.Component<{}, State> {
     deleteEnable: false
   };
 
-  galleryId: number;
-  photoId: number;
+  galleryId?: number;
+  photoId?: number;
 
   componentDidMount() {
     const { match, history } = this.props;
-    this.galleryId = match.params['id'];
+    this.galleryId = parseInt(match.params.id, 10);
     if (history.location.state) {
       this.photoId = history.location.state['imageId'];
     }
@@ -118,41 +123,47 @@ export default class GalleryPage extends React.Component<{}, State> {
     document.body.style.overflow = 'auto';
   }
 
-  componentWillReceiveProps(props) {
-    if (props.history.location.state) {
-      const photoId = props.history.location.state.imageId;
+  componentDidUpdate({ history: { location } }: GalleryPageProps) {
+    const newState = this.props.history.location.state as GalleryPageRouteState;
+    const state = location.state as GalleryPageRouteState;
+    if (newState.imageId !== state.imageId) {
+      const photoId = newState.imageId;
       const index = this.state.images.findIndex(e => e.id === photoId);
       this.selectPhoto(index);
     }
   }
 
   async getGallery() {
-    this.setState({ isLoading: true });
-    const galleryRes = await mediaData.getGallery(this.galleryId);
-    const imagesRes = await mediaData.getGalleryImages(this.galleryId);
+    if (this.galleryId) {
+      this.setState({ isLoading: true });
+      const galleryRes = await mediaData.getGallery(this.galleryId);
+      const imagesRes = await mediaData.getGalleryImages(this.galleryId);
 
-    this.verifyAuthor(galleryRes.data.postId);
-    this.setState({
-      images: imagesRes.data,
-      gallery: galleryRes.data,
-      isLoading: false,
-    });
-    if (this.photoId) {
-      const index = imagesRes.data.findIndex(e => e.id === this.photoId);
-      this.selectPhoto(index);
+      this.verifyAuthor(galleryRes.data.postId);
+      this.setState({
+        images: imagesRes.data,
+        gallery: galleryRes.data,
+        isLoading: false,
+      });
+      if (this.photoId) {
+        const index = imagesRes.data.findIndex(e => e.id === this.photoId);
+        this.selectPhoto(index);
+      }
     }
   }
 
   refreshGallery = () => {
-    mediaData.getGalleryImages(this.galleryId).then(res => {
-      this.setState({ images: res.data });
-    });
+    if (this.galleryId) {
+      mediaData.getGalleryImages(this.galleryId).then(res => {
+        this.setState({ images: res.data });
+      });
+    }
   };
 
-  verifyAuthor = id => {
+  verifyAuthor = (postId: number) => {
     const user = authData.getUser();
     if (user) {
-      postData.getPost(id).then(res => {
+      postData.getPost(postId).then(res => {
         const post = res.data;
         if (post.author.authorType === 'club') {
           if (user.clubsAdmin.includes(post.author.id)) {
@@ -179,12 +190,12 @@ export default class GalleryPage extends React.Component<{}, State> {
     this.setState({ galleryOpen: false });
   };
 
-  selectPhoto = index => {
+  selectPhoto = (index: number) => {
     this.setState({ galleryIndex: index });
     this.showGallery();
   };
 
-  selectPhotoEdit = img => e => {
+  selectPhotoEdit = (img: mediaTypes.Image) => () => {
     const { selectedImages } = this.state;
     if (!selectedImages.includes(img.id)) {
       selectedImages.push(img.id);
@@ -202,36 +213,25 @@ export default class GalleryPage extends React.Component<{}, State> {
     this.setState({ isEditing: !this.state.isEditing });
   };
 
-  addPhotos = photos => {
+  addPhotos = (photos: FileList | null) => {
     const { gallery } = this.state;
-    this.setState({ isAdding: true });
-    mediaData.addImages(gallery.id, photos).then(res => {
-      this.refreshGallery();
-      this.setState({ isAdding: false });
-    });
+    if (gallery && photos) {
+      this.setState({ isAdding: true });
+      mediaData.addImages(gallery.id, photos).then(res => {
+        this.refreshGallery();
+        this.setState({ isAdding: false });
+      });
+    }
   };
 
   deletePhotos = () => {
-    const { selectedImages, gallery, images } = this.state;
-    this.setState({ selectedImages: [] });
-    if(selectedImages.length === images.length) this.state.deleteEnabled = true;
-    else{
+    const { selectedImages, gallery } = this.state;
+    if (gallery) {
+      this.setState({ selectedImages: [] });
       mediaData.deleteImages(gallery.id, selectedImages).then(res => {
         this.refreshGallery();
       });
     }
-  };
-
-  deleteGallery = (ok: boolean) => {
-    if (ok) {
-      postData.deletePost(this.state.gallery.postId).then(res => {
-        this.props.history.push('/');
-      });
-
-    }
-    this.setState({
-      deleteEnabled: false,
-    });
   };
 
   render() {
@@ -260,7 +260,7 @@ export default class GalleryPage extends React.Component<{}, State> {
         <Loader loading={isLoading}>
           {gallery && (
             <div style={{ minHeight: 500 }}>
-              <Flex align="center">
+              <Flex alignItems="center">
                 <Box>
                   <Title>{gallery.name}</Title>
                   <Text mb={1}>
@@ -288,7 +288,7 @@ export default class GalleryPage extends React.Component<{}, State> {
                 </Box>
               </Flex>
               {shouldEdit && (
-                <Flex align="center">
+                <Flex alignItems="center">
                   <Box p={1}>
                     <Button
                       variant="raised"
@@ -328,16 +328,16 @@ export default class GalleryPage extends React.Component<{}, State> {
               <Flex flexWrap="wrap" style={{ marginTop: 30 }}>
                 {images.map((img, index) => {
                   return (
-                    <Box key={img.id} w={[1 / 2, 1 / 4, 1 / 5]} p={1}>
+                    <Box key={img.id} width={[1 / 2, 1 / 4, 1 / 5]} p={1}>
                       <LazyLoad
                         height="130px"
-                        offsetTop={100}
+                        offset={[100, 0]}
                         placeholder={<ImagePlaceholder />}
                         once
                       >
                         <Flex
-                          align="center"
-                          justify="center"
+                          alignItems="center"
+                          justifyContent="center"
                           flexDirection="column"
                           style={{ height: '100%' }}
                         >
@@ -351,7 +351,7 @@ export default class GalleryPage extends React.Component<{}, State> {
                             <ThumbnailAnimation src={img.thumbUrl}>
                               {loaded => (
                                 <Fade in={loaded} timeout={500}>
-                                  <Image w="100%" src={img.thumbUrl} />
+                                  <Image w="100%" alt="" src={img.thumbUrl} />
                                 </Fade>
                               )}
                             </ThumbnailAnimation>

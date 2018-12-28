@@ -52,6 +52,13 @@ type VideoValue = {
 };
 export type Video = MediaValue & VideoValue;
 
+export type MatchedView = {
+  id: number;
+  image: Image;
+  owner: Student;
+  galleryId: number;
+};
+
 type ImageValue = {
   mediaType: 'image';
   thumbUrl: string;
@@ -94,6 +101,7 @@ export type Document = MediaValue & DocumentValue;
 type MediaValue = {
   id: number;
   creation: number;
+  postId: number;
 };
 
 export type Media = MediaValue &

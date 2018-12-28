@@ -44,13 +44,19 @@ const PersonStyle = styled.div`
   }
 `;
 
-const Person = props => {
+type PersonProps = {
+  url: string;
+  name: string;
+  role: string;
+  promotion: string;
+};
+const Person: React.SFC<PersonProps> = props => {
   return (
     <PersonStyle>
-      <BgImageProfileStyle {...props} src={props.url} sz="100%" mh="200px" />{' '}
+      <BgImageProfileStyle alt="" src={props.url} w="100%" mh="200px" />{' '}
       <div>
         <p className="name">{props.name}</p>
-        <p>{props.post}</p>
+        <p>{props.role}</p>
         <p>{props.promotion}</p>
       </div>
     </PersonStyle>
@@ -118,7 +124,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/nahed.jpg"
                 name="Yann Nahed"
-                post="Président"
+                role="Président"
                 promotion="2013 / 2014"
               />
             </Box>
@@ -126,7 +132,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/cuver.jpg"
                 name="Martin De Cuverville"
-                post="Président"
+                role="Président"
                 promotion="2014"
               />
             </Box>
@@ -134,7 +140,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/danny.jpg"
                 name="Danny Canaan"
-                post="Président"
+                role="Président"
                 promotion="2014 / 2015"
               />
             </Box>
@@ -142,7 +148,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/raph.jpg"
                 name="Raphael Lefebure"
-                post="Vice-Président"
+                role="Vice-Président"
                 promotion="2014 / 2015"
               />
             </Box>
@@ -150,7 +156,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/pontier.jpg"
                 name="Aurélien Pontier"
-                post="Président"
+                role="Président"
                 promotion="2015 / 2016"
               />
             </Box>
@@ -158,7 +164,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/ratel.jpg"
                 name="Antoine Ratel"
-                post="Vice-Président"
+                role="Vice-Président"
                 promotion="2015 / 2016"
               />
             </Box>
@@ -166,7 +172,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/bado.jpg"
                 name="Lucas Bado"
-                post="Président"
+                role="Président"
                 promotion="2016 / 2018"
               />
             </Box>
@@ -174,7 +180,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/darny.jpg"
                 name="Olivier Darny"
-                post="Vice-Président"
+                role="Vice-Président"
                 promotion="2016 / 2017"
               />
             </Box>
@@ -182,7 +188,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/quillet.jpg"
                 name="Sébastien Quillet"
-                post="Vice-Président"
+                role="Vice-Président"
                 promotion="2017 / 2018"
               />
             </Box>
@@ -193,7 +199,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/mathu.jpg"
                 name="Mathurin Desplats"
-                post="SecGen / Respo montage"
+                role="SecGen / Respo montage"
                 promotion="2014 / 2016"
               />
             </Box>
@@ -201,7 +207,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/desmalades.jpg"
                 name="Charles Desmalades"
-                post="Respo montage"
+                role="Respo montage"
                 promotion="2015 / 2016"
               />
             </Box>
@@ -209,7 +215,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/hugo.jpg"
                 name="Hugo Nicolas"
-                post="SecGen / Respo montage"
+                role="SecGen / Respo montage"
                 promotion="2015 / 2017"
               />
             </Box>
@@ -217,7 +223,7 @@ class HallOfFame extends Component {
               <Person
                 url="/img/alloffame/sauvage.jpg"
                 name="Pierre Sauvage"
-                post="SecGen"
+                role="SecGen"
                 promotion="2016 / 2018"
               />
             </Box>

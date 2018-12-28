@@ -1,31 +1,23 @@
-
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
 import Avatar from '@material-ui/core/Avatar';
-
-import { Paper, Title, BgImage } from '../../components/common';
-
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import type {
+import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
+import { BgImage, Paper, Title } from '../../components/common';
+import { backUrl } from '../../config';
+import {
+  AnswerDorScore,
   QuestionDor,
   AnswerDor,
-  AnswerDorScore,
+  EventDor,
 } from '../../data/dor/type';
-
-import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
-import { backUrl } from '../../config';
-
-type Props = {
-  question: QuestionDor,
-  results: ?{ [id: number]: AnswerDorScore[] },
-};
+import { Student, Club, Employee } from '../../data/users/type';
 
 const DEFAULT_USER_IMAGE = '/img/svg/user.svg';
 const DEFAULT_EVENT_IMAGE = '/img/svg/event-dor.svg';
 
-function Rank({ pos, score }) {
+type RankProps = { pos: number; score: number };
+const Rank: React.SFC<RankProps> = ({ pos, score }) => {
   const isFirst = pos === 1;
   const style = {
     fontSize: isFirst ? 25 : 15,
@@ -45,42 +37,50 @@ function Rank({ pos, score }) {
       <div style={{ color: '#aaa', fontSize: 13 }}>{score}%</div>
     </div>
   );
-}
+};
 
-export default class ResultQuestion extends React.Component<Props> {
-  renderResultItem = (ans: ?AnswerDor) => {
+type ResultQuestionProps = {
+  question: QuestionDor;
+  results: { [id: number]: AnswerDorScore[] } | null;
+};
+
+export class ResultQuestion extends React.Component<ResultQuestionProps> {
+  renderResultItem = (ans: AnswerDor | null) => {
     let name, url, link;
     if (ans) {
       if (ans.type === 'author') {
         if (ans.value.authorType === 'student') {
-          link = `/annuaire/${ans.value.id}`;
-          name = `${ans.value.firstname} ${ans.value.lastname}`;
-          url = ans.value.photoUrlThumb
-            ? this.buildBackUrl(ans.value.photoUrlThumb)
+          const student = ans.value as Student;
+          link = `/annuaire/${student.id}`;
+          name = `${student.firstname} ${student.lastname}`;
+          url = student.photoUrlThumb
+            ? this.buildBackUrl(student.photoUrlThumb)
             : DEFAULT_USER_IMAGE;
         } else if (ans.value.authorType === 'club') {
-          link = `/associations/${ans.value.id}`;
-          name = ans.value.name;
-          url = this.buildBackUrl(ans.value.logoUrl);
+          const club = ans.value as Club;
+          link = `/associations/${club.id}`;
+          name = club.name;
+          url = this.buildBackUrl(club.logoUrl);
         } else if (ans.value.authorType === 'employee') {
-          name = `${ans.value.firstname} ${ans.value.lastname}`;
+          const emp = ans.value as Employee;
+          name = `${emp.firstname} ${emp.lastname}`;
           url = DEFAULT_USER_IMAGE;
         }
       } else if (ans.type === 'event') {
-        name = ans.value.name;
+        name = (ans.value as EventDor).name;
         url = DEFAULT_EVENT_IMAGE;
       }
     }
     return (
       <div style={{ display: 'inherit', alignItems: 'inherit' }}>
-        <Avatar alt={name} src={url} style={{ marginRight: 10 }} />
+        <Avatar alt={name || ''} src={url || ''} style={{ marginRight: 10 }} />
         {link && <Link to={link}>{name}</Link>}
         {!link && <span>{name}</span>}
       </div>
     );
   };
 
-  buildBackUrl(url: ?string): ?string {
+  buildBackUrl(url?: string | null): string | null {
     if (url) {
       return backUrl + url;
     }
@@ -92,53 +92,60 @@ export default class ResultQuestion extends React.Component<Props> {
     if (results) {
       let resultList = results[question.id];
       if (results[question.id]) {
-        const resultAnswers: AnswerDor[] = resultList.map(r => {
+        const resultAnswers = resultList.map(r => {
           if (r.voteDor.resAuthor) {
             return {
               type: 'author',
               score: r.score,
               value: r.voteDor.resAuthor,
-            };
+            } as AnswerDor;
           } else if (r.voteDor.resEvent) {
             return {
               type: 'event',
               score: r.score,
               value: r.voteDor.resEvent,
-            };
+            } as AnswerDor;
           }
         });
 
-        const totalVotes = resultAnswers.reduce((all, v) => all + v.score, 0);
-        const computeSharePercent = (total: number, score: number): number =>
-          Math.floor((score / total) * 100);
+        const totalVotes = resultAnswers.reduce(
+          (all, v) => (v && v.score ? all + v.score : 0),
+          0
+        );
+        const computeSharePercent = (total: number, score?: number): number =>
+          Math.floor(((score || 0) / total) * 100);
 
         let remains =
           100 -
           resultAnswers.reduce((all, x) => {
-            return all + computeSharePercent(totalVotes, x.score);
+            return x && x.score
+              ? all + computeSharePercent(totalVotes, x.score)
+              : 0;
           }, 0);
 
         return resultAnswers.map((ans, index) => {
-          let score = computeSharePercent(totalVotes, ans.score);
-          if (remains > 0) {
-            score++;
-            remains--;
+          if (ans) {
+            let score = computeSharePercent(totalVotes, ans.score);
+            if (remains > 0) {
+              score++;
+              remains--;
+            }
+            return (
+              <Box key={ans.value.id} mb={2}>
+                <Flex alignItems="center">
+                  {this.renderResultItem(ans)}
+                  <Rank pos={index + 1} score={score} />
+                </Flex>
+              </Box>
+            );
           }
-          return (
-            <Box key={ans.value.id} mb={2}>
-              <Flex align="center">
-                {this.renderResultItem(ans)}
-                <Rank pos={index + 1} score={score} />
-              </Flex>
-            </Box>
-          );
         });
       }
     }
     return null;
   }
 
-  getImg(): ?string {
+  getImg(): string | null {
     const { question, results } = this.props;
 
     if (results) {
@@ -148,10 +155,10 @@ export default class ResultQuestion extends React.Component<Props> {
         if (res.voteDor.resAuthor) {
           const author = res.voteDor.resAuthor;
           if (author.authorType === 'student') {
-            return this.buildBackUrl(author.photoUrlThumb);
+            return this.buildBackUrl((author as Student).photoUrlThumb);
           }
           if (author.authorType === 'club') {
-            return this.buildBackUrl(author.logoUrl);
+            return this.buildBackUrl((author as Club).logoUrl);
           }
           if (author.authorType === 'employee') {
             return '/img/svg/user.svg';

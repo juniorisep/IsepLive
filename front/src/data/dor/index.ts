@@ -12,6 +12,7 @@ import {
   AnswerDorScore,
   ConfigDor,
 } from './type';
+import { Student, Club, Employee } from '../users/type';
 
 export function getSessions(): AxiosPromise<SessionDor[]> {
   return axios.get('/dor/session');
@@ -155,8 +156,8 @@ function buildBackUrl(url?: string): string | null {
 
 export function getAnswerData(
   ans: AnswerDorScore
-): { name?: string; url?: string } {
-  let name: string, url: string;
+): { name?: string; url?: string | null } {
+  let name, url;
   if (ans) {
     switch (ans.type) {
       case 'USER':
@@ -164,17 +165,20 @@ export function getAnswerData(
         if (author) {
           switch (author.authorType) {
             case 'student':
-              name = `${author.firstname} ${author.lastname}`;
-              url = author.photoUrlThumb
-                ? buildBackUrl(author.photoUrlThumb)
+              const student = author as Student;
+              name = `${student.firstname} ${student.lastname}`;
+              url = student.photoUrlThumb
+                ? buildBackUrl(student.photoUrlThumb)
                 : '/img/svg/user.svg';
               break;
             case 'club':
-              name = author.name;
-              url = buildBackUrl(author.logoUrl);
+              const club = author as Club;
+              name = club.name;
+              url = buildBackUrl(club.logoUrl);
               break;
             case 'employee':
-              name = `${author.firstname} ${author.lastname}`;
+              const emp = author as Employee;
+              name = `${emp.firstname} ${emp.lastname}`;
               url = '/img/svg/user.svg';
               break;
           }

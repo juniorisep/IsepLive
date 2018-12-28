@@ -6,7 +6,12 @@ import React, { Component } from 'react';
 import styled, { StyledProps } from 'styled-components';
 import * as authData from '../../data/auth';
 import * as pollData from '../../data/media/poll';
-import { Poll as PollType, PollVote, PollAnswer } from '../../data/media/type';
+import {
+  Poll as PollType,
+  PollVote,
+  PollAnswer,
+  Media,
+} from '../../data/media/type';
 import { ProfileImage, Text, Title } from '../common';
 
 const Wrapper = styled.div`
@@ -45,7 +50,7 @@ const Caption = styled.p`
 `;
 
 interface PollProps {
-  data: PollType;
+  data: Media;
 }
 
 type PollState = {
@@ -59,13 +64,13 @@ class Poll extends Component<PollProps, PollState> {
   state: PollState = {
     showVote: false,
     answers: [],
-    data: this.props.data,
+    data: this.props.data as PollType,
     showVotesModal: false,
   };
 
   componentDidUpdate(prevProps: PollProps) {
     if (prevProps.data !== this.props.data) {
-      this.setState({ data: this.props.data });
+      this.setState({ data: this.props.data as PollType });
     }
   }
 

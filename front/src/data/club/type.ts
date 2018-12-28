@@ -1,9 +1,10 @@
-import { Student } from '../users/type';
+import { Student, Club } from '../users/type';
 
 export type ClubMember = {
   id: number;
   role: ClubRole;
   member: Student;
+  club: Club;
 };
 
 export type ClubRole = {

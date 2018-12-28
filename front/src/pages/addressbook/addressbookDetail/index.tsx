@@ -3,10 +3,10 @@ import { RouteComponentProps } from 'react-router';
 import { ClubMember } from '../../../data/club/type';
 import { Post } from '../../../data/post/type';
 import * as studentData from '../../../data/users/student';
-import AccountTab from '../../resume/AccountTab';
-import PhotoTab from '../../resume/PhotoTab';
-import PostTab from '../../resume/PostTab';
+import { PhotoTab } from '../../resume/PhotoTab';
+import { PostTab } from '../../resume/PostTab';
 import AdressbookDetailView from './view';
+import { AccountTab } from '../../resume/AccountTab';
 
 type AdressbookDetailProps = RouteComponentProps<{ id: string }> & {};
 type AdressbookDetailState = {
@@ -99,9 +99,7 @@ class AdressbookDetail extends Component<
     const { data, posts, clubMembers, lastPage } = this.state;
     switch (this.state.tabIndex) {
       case 0:
-        return (
-          <AccountTab data={data} posts={posts} clubMembers={clubMembers} />
-        );
+        return <AccountTab data={data} clubMembers={clubMembers} />;
       case 1:
         return (
           <PostTab

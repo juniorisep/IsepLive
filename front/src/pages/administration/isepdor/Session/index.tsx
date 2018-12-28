@@ -1,11 +1,3 @@
-
-
-import React from 'react';
-
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import { Flex, Box } from '@rebass/grid';
-
 import {
   Table,
   TableBody,
@@ -14,44 +6,39 @@ import {
   TableRow,
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
-import { DatePicker } from 'material-ui-pickers';
-
-import { Title, Paper } from '../../../../components/common';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import { Paper } from '../../../../components/common';
 import Time from '../../../../components/Time';
-
 import * as dorData from '../../../../data/dor';
-import type {
-  SessionDor,
-  SessionDorCreate,
-  AnswerDorScore,
-} from '../../../../data/dor/type';
-
+import { SessionDor } from '../../../../data/dor/type';
 import SessionForm from './SessionForm';
 
-type State = {
-  sessions: SessionDor[],
-  selectedSession: ?SessionDor,
-  create: boolean,
-  showResults: boolean,
+type SessionState = {
+  sessions: SessionDor[];
+  selectedSession: SessionDor | null;
+  create: boolean;
+  showResults: boolean;
 };
 
-export default class Session extends React.Component<{}, State> {
-  state = {
+export default class Session extends React.Component<{}, SessionState> {
+  state: SessionState = {
     sessions: [],
     selectedSession: null,
     create: true,
+    showResults: false,
   };
 
   componentDidMount() {
     this.refreshTable();
   }
 
-  refreshTable = async (id: ?number) => {
+  refreshTable = async (id?: number | null) => {
     const res = await dorData.getSessions();
-    let updateState = { sessions: res.data };
+    let updateState: SessionState = {
+      ...this.state,
+      sessions: res.data,
+    };
     if (id) {
       const session = res.data.find(s => s.id === id);
       if (session) {
@@ -99,7 +86,7 @@ export default class Session extends React.Component<{}, State> {
     const { sessions, selectedSession, create } = this.state;
     return (
       <Flex p={2} flexWrap="wrap">
-        <Box w={1 / 3} p={2}>
+        <Box width={1 / 3} p={2}>
           <SessionForm
             selected={selectedSession}
             refreshTable={this.refreshTable}
@@ -111,7 +98,7 @@ export default class Session extends React.Component<{}, State> {
           />
         </Box>
 
-        <Box w={2 / 3} p={2}>
+        <Box width={2 / 3} p={2}>
           <Paper>
             <Table>
               <TableHead>

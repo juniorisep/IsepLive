@@ -1,64 +1,51 @@
-
-
-import React from 'react';
-import { Flex, Box } from '@rebass/grid';
-
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-
-import ArchiveIcon from '@material-ui/icons/Archive';
-import Save from '@material-ui/icons/Save';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
+  Input,
+  InputLabel,
+  MenuItem,
 } from '@material-ui/core';
-
-import { MenuItem } from '@material-ui/core';
-import Select from '@material-ui/core/Select';
-import { Input, InputLabel } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-
-import DatePicker from '../../../components/DatePicker';
-import { Title, Text, ProfileImage } from '../../../components/common';
-import Popup from '../../../components/Popup';
-
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Save from '@material-ui/icons/Save';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import * as userData from '../../../data/users/student';
-import * as authData from '../../../data/auth';
-import * as rolesKey from '../../../constants';
-
 import { MAIN_COLOR } from '../../../colors';
-
 import { sendAlert } from '../../../components/Alert';
-import type {
-  Role as RoleType,
-  Student as StudentType,
-} from '../../../data/users/type';
+import { ProfileImage, Text, Title } from '../../../components/common';
+import DatePicker from '../../../components/DatePicker';
+import Popup from '../../../components/Popup';
+import * as rolesKey from '../../../constants';
+import * as authData from '../../../data/auth';
+import * as userData from '../../../data/users/student';
+import * as userType from '../../../data/users/type';
 
-type UpdateProps = {
-  selected: StudentType,
-  refreshTable: () => mixed,
-  selectRow: (student: ?StudentType) => mixed,
-  onChangeField: (name: string, value: string) => mixed,
+type UpdateStudentProps = {
+  selected: userType.Student;
+  refreshTable: () => void;
+  selectRow: (student: userType.Student | null) => void;
+  onChangeField: (name: string, value: any) => void;
 };
 
-type UpdateState = {
-  roles: RoleType[],
-  userRoles: number[],
-  file: ?File,
-  imagePreview: ?string,
-  openArchivePopup: boolean,
+type UpdateStudentState = {
+  roles: userType.Role[];
+  userRoles: number[];
+  file: File | null;
+  imagePreview: string | null;
+  openArchivePopup: boolean;
 };
 
 export default class UpdateStudent extends React.Component<
-  UpdateProps,
-  UpdateState
+  UpdateStudentProps,
+  UpdateStudentState
 > {
-  state = {
+  state: UpdateStudentState = {
     roles: [],
     userRoles: [],
     file: null,
@@ -71,13 +58,18 @@ export default class UpdateStudent extends React.Component<
     this.loadStudentRoles(this.props.selected.id);
   }
 
-  componentWillReceiveProps(props: UpdateProps) {
-    if (props.selected && props.selected.id !== this.props.selected.id) {
-      this.loadStudentRoles(props.selected.id);
+  componentDidUpdate(prevProps: UpdateStudentProps) {
+    if (
+      this.props.selected &&
+      this.props.selected.id !== prevProps.selected.id
+    ) {
+      this.loadStudentRoles(this.props.selected.id);
     }
   }
 
-  onChangeField = (name: string) => (e: SyntheticEvent<HTMLInputElement>) => {
+  onChangeField = (name: string) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     this.props.onChangeField(name, e.currentTarget.value);
   };
 
@@ -131,17 +123,19 @@ export default class UpdateStudent extends React.Component<
     });
   };
 
-  changeFile = (file: File) => {
-    const reader = new FileReader();
+  changeFile = (files: FileList | null) => {
+    if (files) {
+      const reader = new FileReader();
 
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreview: reader.result,
-      });
-    };
+      reader.onloadend = () => {
+        this.setState({
+          file: files[0],
+          imagePreview: reader.result as string,
+        });
+      };
 
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(files[0]);
+    }
   };
 
   archiveAccepted = (ok: boolean) => {
@@ -178,7 +172,7 @@ export default class UpdateStudent extends React.Component<
           <ExpansionPanelDetails>
             <div>
               {selected.archived && (
-                <Flex align="center">
+                <Flex alignItems="center">
                   <Box p={1}>
                     <Text fs="13px">Cet étudiant est archivé </Text>
                   </Box>
@@ -207,7 +201,7 @@ export default class UpdateStudent extends React.Component<
                 fullWidth
                 onChange={this.onChangeField('lastname')}
               />
-              <Flex align="center">
+              <Flex alignItems="center">
                 <Box mr={1}>
                   {imagePreview && (
                     <img
@@ -217,12 +211,16 @@ export default class UpdateStudent extends React.Component<
                     />
                   )}
                   {!imagePreview && (
-                    <ProfileImage src={selected.photoUrlThumb} sz="100px" />
+                    <ProfileImage
+                      src={selected.photoUrlThumb}
+                      alt=""
+                      w="100px"
+                    />
                   )}
                 </Box>
                 <Box>
                   <input
-                    onChange={e => this.changeFile(e.target.files[0])}
+                    onChange={e => this.changeFile(e.target.files)}
                     accept=".jpg,.jpeg,.JPG,.JPEG"
                     id="image"
                     type="file"
@@ -296,11 +294,7 @@ export default class UpdateStudent extends React.Component<
                 <DatePicker
                   dateonly
                   startYear={new Date().getFullYear() - 30}
-                  date={
-                    selected.birthDate
-                      ? new Date(selected.birthDate)
-                      : new Date()
-                  }
+                  date={selected.birthDate ? selected.birthDate : Date.now()}
                   onChange={date => this.props.onChangeField('birthDate', date)}
                 />
               </div>

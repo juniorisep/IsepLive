@@ -1,34 +1,29 @@
-
-import React, { Component, Fragment } from 'react';
-import { Dialog, DialogTitle } from '@material-ui/core';
-import { Flex, Box } from '@rebass/grid';
-
-import * as dorData from '../../../../data/dor';
-
-import {
-  type AnswerDorScore,
-  type QuestionDor,
-  type SessionDor,
-} from '../../../../data/dor/type';
 import {
   AppBar,
-  Toolbar,
+  Avatar,
+  Dialog,
+  Divider,
   IconButton,
   List,
   ListItem,
-  Divider,
-  Avatar,
-  Tabs,
+  ListItemText,
   Tab,
+  Tabs,
+  Toolbar,
 } from '@material-ui/core';
+import { ListItemProps } from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
-
 import CloseIcon from '@material-ui/icons/Close';
-import { ListItemText } from '@material-ui/core';
+import { Box, Flex } from '@rebass/grid';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-
-import { MAIN_COLOR } from '../../../../colors';
 import Loader from '../../../../components/Loader';
+import * as dorData from '../../../../data/dor';
+import {
+  AnswerDorScore,
+  QuestionDor,
+  SessionDor,
+} from '../../../../data/dor/type';
 
 const Index = styled.span`
   margin-right: 1em;
@@ -37,7 +32,7 @@ const Index = styled.span`
   color: #777;
 `;
 
-const Item = styled(ListItem)`
+const Item = styled(ListItem as React.SFC<ListItemProps>)`
   display: flex;
   align-items: center;
 `;
@@ -50,13 +45,17 @@ const Name = styled.span`
   font-weight: bold;
 `;
 
-function AnswerItem({ answer, index }) {
+type AnswerItemProps = {
+  answer: AnswerDorScore;
+  index: number;
+};
+const AnswerItem: React.SFC<AnswerItemProps> = ({ answer, index }) => {
   const data = dorData.getAnswerData(answer);
   return (
     <Fragment>
       <Item>
         <Index>#{index + 1}</Index>
-        <Avatar src={data.url} />
+        <Avatar src={data.url || ''} />
         <Name>{data.name}</Name>
         <Score>
           {answer.score} vote
@@ -66,26 +65,26 @@ function AnswerItem({ answer, index }) {
       <Divider />
     </Fragment>
   );
-}
-
-type Props = {
-  selected: ?SessionDor,
-  title: string,
-  open: boolean,
-  handleClose: () => mixed,
 };
 
-type State = {
-  questions: QuestionDor[],
-  answers: AnswerDorScore[],
-  tabSelected: number,
-  roundSelected: number,
-  selectedQuestion: ?number,
-  loading: boolean,
+type ResultPanelProps = {
+  selected: SessionDor | null;
+  title: string;
+  open: boolean;
+  handleClose: () => void;
 };
 
-class ResultPanel extends Component<Props, State> {
-  state = {
+type ResultPanelState = {
+  questions: QuestionDor[];
+  answers: AnswerDorScore[];
+  tabSelected: number;
+  roundSelected: number;
+  selectedQuestion: number | null;
+  loading: boolean;
+};
+
+class ResultPanel extends Component<ResultPanelProps, ResultPanelState> {
+  state: ResultPanelState = {
     questions: [],
     answers: [],
     tabSelected: 0,
@@ -103,7 +102,7 @@ class ResultPanel extends Component<Props, State> {
     this.setState({ questions: res.data });
   }
 
-  async getAnswers(questionId: ?number, round: number) {
+  async getAnswers(questionId: number | null, round: number) {
     const { selected } = this.props;
     if (selected && questionId) {
       this.setState({ loading: true });
@@ -158,7 +157,7 @@ class ResultPanel extends Component<Props, State> {
         </AppBar>
         <Flex flexWrap="wrap" style={{ height: '100%' }}>
           <Box
-            w={[1, 1 / 4]}
+            width={[1, 1 / 4]}
             style={{ borderRight: 'solid 1px #ddd', overflow: 'auto' }}
           >
             <List>
@@ -168,7 +167,7 @@ class ResultPanel extends Component<Props, State> {
                     <ListItem
                       button
                       style={{
-                        background: q.id == selectedQuestion && '#ccc',
+                        background: q.id == selectedQuestion ? '#ccc' : '',
                       }}
                       onClick={() => {
                         this.setState({ selectedQuestion: q.id });
@@ -186,7 +185,7 @@ class ResultPanel extends Component<Props, State> {
               })}
             </List>
           </Box>
-          <Box w={[1, 3 / 4]} style={{ overflow: 'auto' }}>
+          <Box width={[1, 3 / 4]} style={{ overflow: 'auto' }}>
             {selectedQuestion && (
               <Fragment>
                 <Tabs
@@ -199,10 +198,9 @@ class ResultPanel extends Component<Props, State> {
                   <Tab label="1er tour" />
                   <Tab label="2ème tour" />
                 </Tabs>
-                {!loading &&
-                  answers.length == 0 && (
-                    <h2 style={{ margin: '1em' }}>Aucun résultat</h2>
-                  )}
+                {!loading && answers.length == 0 && (
+                  <h2 style={{ margin: '1em' }}>Aucun résultat</h2>
+                )}
                 <Loader loading={loading}>
                   <List>
                     {answers.map((a, i) => (

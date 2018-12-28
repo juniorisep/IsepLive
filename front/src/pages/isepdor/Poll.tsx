@@ -1,39 +1,31 @@
-
-
+import { Box, Flex } from '@rebass/grid';
 import React from 'react';
-import { Flex, Box } from '@rebass/grid';
-import Avatar from '@material-ui/core/Avatar';
-
 import {
-  Paper,
-  Title,
-  Text,
   FluidContent,
-  BgImage,
   ScrollToTopOnMount,
+  Text,
+  Title,
 } from '../../components/common';
-
-import Autocomplete from '../../components/Autocomplete';
-
-import type {
-  QuestionDor,
-  VoteDor,
-  SessionDor,
-  AnswerDorScore,
-} from '../../data/dor/type';
-import * as dorData from '../../data/dor';
-
-import * as userData from '../../data/users/student';
-import { backUrl } from '../../config';
-
-import Time from '../../components/Time';
-
 import Loader from '../../components/Loader';
-
+import Time from '../../components/Time';
+import * as dorData from '../../data/dor';
+import {
+  AnswerDorScore,
+  QuestionDor,
+  SessionDor,
+  VoteDor,
+} from '../../data/dor/type';
 import PollQuestion from './PollQuestion';
-import ResultQuestion from './ResultQuestion';
+import { ResultQuestion } from './ResultQuestion';
 
-const SessionDisplay = ({ secondTurn, result }) => {
+type SessionDisplayProps = {
+  secondTurn: number;
+  result: number;
+};
+const SessionDisplay: React.SFC<SessionDisplayProps> = ({
+  secondTurn,
+  result,
+}) => {
   const now = new Date().getTime();
   if (secondTurn > now) {
     return (
@@ -73,17 +65,17 @@ const SessionDisplay = ({ secondTurn, result }) => {
   return null;
 };
 
-type State = {
-  questions: QuestionDor[],
-  answers: VoteDor[],
-  session: ?SessionDor,
-  results: ?{ [id: number]: AnswerDorScore[] },
-  isPollEnded: boolean,
-  loading: boolean,
+type DorPollState = {
+  questions: QuestionDor[];
+  answers: VoteDor[];
+  session: SessionDor | null;
+  results: { [id: number]: AnswerDorScore[] } | null;
+  isPollEnded: boolean;
+  loading: boolean;
 };
 
-export default class DorPoll extends React.Component<{}, State> {
-  state = {
+export default class DorPoll extends React.Component<{}, DorPollState> {
+  state: DorPollState = {
     questions: [],
     answers: [],
     session: null,
@@ -102,7 +94,7 @@ export default class DorPoll extends React.Component<{}, State> {
   async loadSession() {
     const session = await this.getCurrentSession();
     if (this.isSessionFinished(session)) {
-      await this.showResultsSession(session);
+      await this.showResultsSession();
       return;
     }
     const round = this.getCurrentRound(session);
@@ -113,7 +105,7 @@ export default class DorPoll extends React.Component<{}, State> {
     return session.secondTurn > new Date().getTime() ? 1 : 2;
   }
 
-  async showResultsSession(session: SessionDor) {
+  async showResultsSession() {
     const res = await dorData.getRoundResults(2);
     this.setState({
       isPollEnded: true,
@@ -161,15 +153,16 @@ export default class DorPoll extends React.Component<{}, State> {
     const { answers, results, isPollEnded } = this.state;
     const answer = answers.find(ans => ans.questionDor.id === question.id);
     const breakPoints = [1, 1 / 2, 1 / 3];
+
     if (isPollEnded) {
       return (
-        <Box key={question.id} p={3} w={breakPoints}>
+        <Box key={question.id} p={3} width={breakPoints}>
           <ResultQuestion question={question} results={results} />
         </Box>
       );
     }
     return (
-      <Box key={question.id} p={3} w={breakPoints}>
+      <Box key={question.id} p={3} width={breakPoints}>
         <PollQuestion
           question={question}
           answer={answer}

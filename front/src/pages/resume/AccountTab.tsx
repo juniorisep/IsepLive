@@ -1,18 +1,19 @@
-
-
-import React from 'react';
-
-import { Box, Flex } from '@rebass/grid';
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Box, Flex } from '@rebass/grid';
+import { BgImage, Paper, Text, Title } from '../../components/common';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { Paper, Text, Title, BgImage } from 'components/common';
-
 import * as clubData from '../../data/club';
+import { ClubMember } from '../../data/club/type';
 
-export default function AccountTab(props) {
+type AccountTabProps = {
+  data: any;
+  parameters?: boolean;
+  toggleNotif?: () => void;
+  clubMembers: ClubMember[];
+};
+export const AccountTab: React.SFC<AccountTabProps> = props => {
   const { data, clubMembers } = props;
   const { bio, allowNotifications } = data;
   return (
@@ -53,7 +54,7 @@ export default function AccountTab(props) {
         <Flex flexWrap="wrap">
           {clubMembers.map(cm => {
             return (
-              <Box w={[1, 1 / 3, 1 / 4]} key={cm.club.id} p={2}>
+              <Box width={[1, 1 / 3, 1 / 4]} key={cm.club.id} p={2}>
                 <Link to={`/associations/${cm.club.id}`}>
                   <Paper>
                     <BgImage src={cm.club.logoUrl} mh="200px" />
@@ -76,4 +77,4 @@ export default function AccountTab(props) {
       </Box>
     </div>
   );
-}
+};

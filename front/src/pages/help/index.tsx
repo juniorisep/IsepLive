@@ -1,23 +1,16 @@
-
-
-import React, { Component } from 'react';
-
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-
 import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
 } from '@material-ui/core';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import { Box, Flex } from '@rebass/grid';
+import React, { Component } from 'react';
+import { Banner, Filler, FluidContent, Header } from '../../components/common';
 
-import { Banner, Filler, FluidContent, Header } from 'components/common';
-
-const styles = theme => ({
+const styles = (theme: any) => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '33.33%',
@@ -29,14 +22,18 @@ const styles = theme => ({
   },
 });
 
-class Help extends Component {
-  state = {
+type HelpProps = WithStyles<typeof styles>;
+type HelpState = {
+  expanded: string | null;
+};
+class Help extends Component<HelpProps, HelpState> {
+  state: HelpState = {
     expanded: null,
   };
 
-  handleChange = panel => (event, expanded) => {
+  handleChange = (panel: string) => (event: any, expanded: boolean) => {
     this.setState({
-      expanded: expanded ? panel : false,
+      expanded: expanded ? panel : null,
     });
   };
 
@@ -53,7 +50,7 @@ class Help extends Component {
           </Banner>
         </Header>
         <FluidContent>
-          <Flex align="center">
+          <Flex alignItems="center">
             <Box flex="0 0 auto" ml="auto">
               <ExpansionPanel
                 expanded={expanded === 'panel1'}
@@ -119,9 +116,5 @@ class Help extends Component {
     );
   }
 }
-
-Help.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Help);

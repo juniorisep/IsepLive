@@ -28,7 +28,7 @@ import * as pollData from '../../data/media/poll';
 import * as videoData from '../../data/media/video';
 import * as postData from '../../data/post';
 import { PostCreation } from '../../data/post/type';
-import { Author, AuthorType } from '../../data/users/type';
+import * as userTypes from '../../data/users/type';
 import { CancelablePromise, makeCancelable } from '../../data/util';
 
 const PublishBox = styled.div`
@@ -61,7 +61,7 @@ interface PublishBoxAuthor {
   id: number;
   name: string;
   image: string;
-  type: AuthorType;
+  type: userTypes.AuthorType;
   isAdmin: boolean;
 }
 
@@ -125,7 +125,7 @@ type CustomAuthorType = {
   id: number;
   name: string;
   image: string;
-  type: 'club' | 'student';
+  type: userTypes.AuthorType;
   isAdmin: boolean;
 };
 
@@ -180,14 +180,22 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
       this.getAuthorsReq = makeCancelable(postData.getAuthors());
       this.getAuthorsReq.promise.then(res => {
         const authors = res.data.map(
-          (a: Author): PublishBoxAuthor => {
+          (author: userTypes.Author): PublishBoxAuthor => {
             return {
-              id: a.id,
-              name: a.authorType === 'student' ? 'Moi' : a.name,
+              id: author.id,
+              name:
+                author.authorType === 'student'
+                  ? 'Moi'
+                  : (author as userTypes.Club).name,
               image:
-                a.authorType === 'club' ? a.logoUrl : a.photoUrlThumb || '',
-              type: a.authorType,
-              isAdmin: a.authorType === 'club' ? a.admin : false,
+                author.authorType === 'club'
+                  ? (author as userTypes.Club).logoUrl
+                  : (author as userTypes.Student).photoUrlThumb || '',
+              type: author.authorType,
+              isAdmin:
+                author.authorType === 'club'
+                  ? (author as userTypes.Club).admin
+                  : false,
             };
           }
         );

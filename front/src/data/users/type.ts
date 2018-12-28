@@ -36,6 +36,7 @@ type StudentValue = {
   photoUrlThumb?: string;
   bio?: string;
   archived: boolean;
+  rolesValues: string[];
 };
 
 export type Student = AuthorValue & StudentValue;

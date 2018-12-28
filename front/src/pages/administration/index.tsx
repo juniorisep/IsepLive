@@ -1,21 +1,25 @@
-
-
+import { Tab, Tabs } from '@material-ui/core';
 import React from 'react';
-
-import { Link, Route, Switch, Redirect } from 'react-router-dom';
-
-import { Tabs, Tab } from '@material-ui/core';
-
-import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
-
-import Users from './users';
+import {
+  Link,
+  Redirect,
+  Route,
+  Switch,
+  RouteComponentProps,
+} from 'react-router-dom';
 import Import from './import';
 import Isepdor from './isepdor';
+import Users from './users';
 
 const routes = ['/utilisateur', '/importer', '/isep-dor'];
 
-class Admin extends React.Component {
-  state = {
+type AdminProps = RouteComponentProps;
+type AdminState = {
+  tabOpen: number;
+};
+
+class Admin extends React.Component<AdminProps, AdminState> {
+  state: AdminState = {
     tabOpen: 0,
   };
 
@@ -31,8 +35,8 @@ class Admin extends React.Component {
     return routes.findIndex(r => location.pathname.includes(match.url + r));
   }
 
-  handleChangeTab = (event: Event, index: number) => {
-    this.setState({ tabOpen: index });
+  handleChangeTab = (event: any, index: any) => {
+    this.setState({ tabOpen: index as number });
   };
 
   render() {
@@ -49,14 +53,15 @@ class Admin extends React.Component {
         >
           <Tab
             label="Utilisateurs"
-            component={Link}
-            to={`${match.url}/utilisateurs`}
+            component={() => <Link to={`${match.url}/utilisateurs`} />}
           />
-          <Tab label="Importer" component={Link} to={`${match.url}/importer`} />
+          <Tab
+            label="Importer"
+            component={() => <Link to={`${match.url}/importer`} />}
+          />
           <Tab
             label="Isep d'or"
-            component={Link}
-            to={`${match.url}/isep-dor`}
+            component={() => <Link to={`${match.url}/isep-dor`} />}
           />
         </Tabs>
         <Switch>

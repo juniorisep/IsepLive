@@ -16,6 +16,7 @@ import {
 } from '../../components/common';
 import Loader from '../../components/Loader';
 import * as roles from '../../constants';
+import * as userTypes from '../../data/users/type';
 import AddClubForm from './AddClubForm';
 
 const ClubStyle = styled.div`
@@ -31,8 +32,11 @@ const ClubStyle = styled.div`
     color: ${props => props.theme.main};
   }
 `;
-
-const ClubTile = props => {
+type ClubTitleProps = {
+  url: string;
+  name: string;
+};
+const ClubTitle: React.SFC<ClubTitleProps> = props => {
   return (
     <ClubStyle>
       <BgImage src={props.url} mh="200px" />
@@ -47,7 +51,7 @@ type State = {
 };
 
 type Props = {
-  clubs: ClubType[];
+  clubs: userTypes.Club[];
   loading: boolean;
   addClub: (s: any) => Promise<any>;
 };
@@ -94,7 +98,7 @@ export default class Club extends Component<Props, State> {
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
-              spellCheck="false"
+              spellCheck={false}
               placeholder="Rechercher des associations"
               onChange={this.handleSearch}
             />
@@ -132,9 +136,9 @@ export default class Club extends Component<Props, State> {
             <Flex flexWrap="wrap" style={{ minHeight: 300 }}>
               {this.getClubs().map(e => {
                 return (
-                  <Box key={e.id} w={[1, 1 / 3, 1 / 4]} p={2}>
+                  <Box key={e.id} width={[1, 1 / 3, 1 / 4]} p={2}>
                     <Link to={`/associations/${e.id}`}>
-                      <ClubTile url={e.logoUrl} name={e.name} />
+                      <ClubTitle url={e.logoUrl} name={e.name} />
                     </Link>
                   </Box>
                 );

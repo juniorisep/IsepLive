@@ -1,42 +1,37 @@
-
-import React from 'react';
-
-import { Stage, Layer, Rect, Image, Text } from 'react-konva';
-import { Flex, Box } from '@rebass/grid';
-
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import * as cm from '../../../../components/common';
-import InfoIcon from '@material-ui/icons/Info';
+import TextField from '@material-ui/core/TextField';
 import FontIcon from '@material-ui/icons/FormatSize';
 import DiplomaIcon from '@material-ui/icons/InsertPhoto';
-
-import * as dorData from '../../../../data/dor';
-import { backUrl } from '../../../../config';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import { Image, Layer, Stage, Text } from 'react-konva';
 import { sendAlert } from '../../../../components/Alert';
+import * as cm from '../../../../components/common';
+import { backUrl } from '../../../../config';
+import * as dorData from '../../../../data/dor';
 
 type Attr = {
-  x: number,
-  y: number,
-  fontSize?: number,
+  x: number;
+  y: number;
+  fontSize?: number;
 };
 
-type State = {
-  image: any,
-  titre: string,
-  name: string,
-  birth: string,
-  font: string,
-  fontSize: number,
-  attrTitre: Attr,
-  attrName: Attr,
-  attrBirth: Attr,
-  diplomaImg: ?window.File,
-  fontFile: ?window.File,
+type DiplomaState = {
+  image: any;
+  titre: string;
+  name: string;
+  birth: string;
+  font: string;
+  fontSize: number;
+  attrTitre: Attr;
+  attrName: Attr;
+  attrBirth: Attr;
+  diplomaImg: File | null;
+  fontFile: File | null;
 };
 
-export default class Diploma extends React.Component<{}, State> {
-  state = {
+export default class Diploma extends React.Component<{}, DiplomaState> {
+  state: DiplomaState = {
     image: null,
     titre: 'Question',
     name: 'Jean Dupont',
@@ -72,7 +67,7 @@ export default class Diploma extends React.Component<{}, State> {
   }
 
   loadImage() {
-    const image = new window.Image();
+    const image = new (window as any).Image();
     image.src =
       backUrl + '/storage/dor/config/diploma.png?t=' + new Date().getTime();
     image.onload = () => {
@@ -133,16 +128,18 @@ export default class Diploma extends React.Component<{}, State> {
     }
   };
 
-  updatePos(targetName: string, value: Attr) {
+  updatePos(targetName: keyof DiplomaState, value: Attr) {
     this.setState({
       [targetName]: value,
-    });
+    } as any);
   }
 
-  onSelectFile = (name: string) => (files: File[]) => {
-    this.setState({
-      [name]: files[0],
-    });
+  onSelectFile = (name: keyof DiplomaState) => (files: FileList | null) => {
+    if (files) {
+      this.setState({
+        [name]: files[0],
+      } as any);
+    }
   };
 
   render() {
@@ -154,7 +151,7 @@ export default class Diploma extends React.Component<{}, State> {
     const { attrTitre, attrName, attrBirth, fontFile, diplomaImg } = this.state;
     return (
       <Flex>
-        <Box w={[1, 1 / 4]} p={3}>
+        <Box width={[1, 1 / 4]} p={3}>
           <Box mt="10px">
             <cm.Text fs="12px">
               Les 3 zones de texte suivantes sont déplaçable à droite
@@ -256,24 +253,23 @@ export default class Diploma extends React.Component<{}, State> {
             Sauvegarder
           </Button>
         </Box>
-        <Box w={[1, 3 / 4]} p={3}>
+        <Box width={[1, 3 / 4]} p={3}>
           <cm.Paper>
             <Stage style={stageStyle} width={window.innerWidth} height={900}>
-              <Layer draggable="true">
-              {
-                this.state.image &&
-                <Image
-                  width={0.7 * this.state.image.naturalWidth}
-                  height={0.7 * this.state.image.naturalHeight}
-                  image={this.state.image}
-                />
-              }
+              <Layer draggable>
+                {this.state.image && (
+                  <Image
+                    width={0.7 * this.state.image.naturalWidth}
+                    height={0.7 * this.state.image.naturalHeight}
+                    image={this.state.image}
+                  />
+                )}
                 <Text
                   x={attrTitre.x}
                   y={attrTitre.y}
                   name="titre"
                   text={this.state.titre}
-                  draggable="true"
+                  draggable
                   onDragEnd={this.dragEnd}
                   fontFamily={this.state.font}
                   fontSize={this.state.fontSize}
@@ -283,7 +279,7 @@ export default class Diploma extends React.Component<{}, State> {
                   y={attrName.y}
                   name="name"
                   text={this.state.name}
-                  draggable="true"
+                  draggable
                   onDragEnd={this.dragEnd}
                   fontFamily={this.state.font}
                   fontSize={this.state.fontSize}
@@ -293,7 +289,7 @@ export default class Diploma extends React.Component<{}, State> {
                   y={attrBirth.y}
                   name="birth"
                   text={this.state.birth}
-                  draggable="true"
+                  draggable
                   onDragEnd={this.dragEnd}
                   fontFamily={this.state.font}
                   fontSize={this.state.fontSize}

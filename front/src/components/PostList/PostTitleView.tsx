@@ -7,6 +7,7 @@ import { Post } from '../../data/post/type';
 import Author from '../Author';
 import { ProfileImage, Subtitle, Title } from '../common';
 import Time from '../Time';
+import { Student } from '../../data/users/type';
 
 const DynamicTitle = styled(Title)`
   padding-right: 10px;
@@ -21,21 +22,22 @@ type PostTitleViewProps = {
 const PostTitleView: React.SFC<PostTitleViewProps> = ({ post }) => {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
   if (post.author.authorType === 'student') {
+    const student = post.author as Student;
     return (
       <Flex alignItems="center" mb="10px">
         <Box mr="10px">
-          <ProfileImage src={post.author.photoUrl} alt="" w="40px" />
+          <ProfileImage src={student.photoUrl} alt="" w="40px" />
         </Box>
         <Box>
           {authData.isLoggedIn() ? (
-            <Link to={`/annuaire/${post.author.id}`}>
+            <Link to={`/annuaire/${student.id}`}>
               <Title fontSize={1} invert>
-                {post.author.firstname} {post.author.lastname}
+                {student.firstname} {student.lastname}
               </Title>
             </Link>
           ) : (
             <Title fontSize={1} invert>
-              {post.author.firstname} {post.author.lastname}
+              {student.firstname} {student.lastname}
             </Title>
           )}
           <Subtitle>

@@ -1,8 +1,5 @@
-
-
 import React, { Component } from 'react';
-
-import { Banner, Filler, Header } from 'components/common';
+import { Banner, Filler, Header } from '../../components/common';
 
 class NotFound extends Component {
   render() {

@@ -1,12 +1,8 @@
-
-
 import React from 'react';
-import styled from 'styled-components';
-
-import Time from 'components/Time';
 import { Link } from 'react-router-dom';
-import { Title, Text, BgImage } from 'components/common';
-
+import styled, { StyledProps } from 'styled-components';
+import { BgImage, Text, Title } from '../../components/common';
+import Time from '../../components/Time';
 import { backUrl } from '../../config';
 
 const Cell = styled.div`
@@ -20,11 +16,17 @@ const AlbumStyle = styled(Cell)`
   }
 `;
 
-export const Album = props => {
+type AlbumProps = {
+  name: string;
+  creation: number;
+  id: number;
+  url: string | null;
+};
+export const Album: React.SFC<AlbumProps> = props => {
   return (
-    <AlbumStyle onClick={props.onClick}>
+    <AlbumStyle>
       <Link to={`/gallery/${props.id}`}>
-        <BgImage src={props.url} mh="200px" />
+        <BgImage src={props.url} defaultSrc="/img/background.jpg" mh="200px" />
       </Link>
       <div className="caption">
         <Title invert fontSize={1.3}>
@@ -38,7 +40,8 @@ export const Album = props => {
   );
 };
 
-const VideoStyle = styled(Cell)`
+type VideoStyleProps = StyledProps<{ poster: string | null }>;
+const VideoStyle = styled(Cell as React.SFC<VideoStyleProps>)`
   .image {
     position: absolute;
     top: 0;
@@ -75,12 +78,17 @@ const Poster = styled.div`
   background-position: center;
 `;
 
-export const Video = props => {
+type VideoProps = {
+  name: string;
+  poster: string | null;
+  creation: number;
+};
+export const Video: React.SFC<VideoProps> = props => {
   return (
     <VideoStyle poster={props.poster}>
       <Poster
         style={{
-          background: props.poster ? `url(${backUrl + props.poster})` : null,
+          background: props.poster ? `url(${backUrl + props.poster})` : '',
         }}
       >
         <div className="image">
@@ -121,7 +129,12 @@ const GazetteStyle = styled(Cell)`
     color: ${props => props.theme.main};
   }
 `;
-export const Gazette = props => {
+
+type GazetteProps = {
+  title: string;
+  creation: number;
+};
+export const Gazette: React.SFC<GazetteProps> = props => {
   return (
     <GazetteStyle>
       <div className="image">

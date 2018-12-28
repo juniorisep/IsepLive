@@ -1,25 +1,24 @@
-
-
+import { Tab, Tabs } from '@material-ui/core';
 import React from 'react';
-
-import { Tabs, Tab } from '@material-ui/core';
-import { Link, Route, Switch, Redirect } from 'react-router-dom';
-
-import { FluidContent, Title, Paper } from '../../../components/common';
-
+import {
+  Link,
+  Redirect,
+  Route,
+  Switch,
+  RouteComponentProps,
+} from 'react-router-dom';
+import { Title } from '../../../components/common';
 import { routes } from './isepdor.routes';
 
-import Session from './Session';
-import Question from './Question';
-import Events from './Events';
-import Employee from './Employee';
-import Diploma from './Diploma';
-
-type State = {
-  activeTab: number,
+type ImportStudentsProps = RouteComponentProps;
+type ImportStudentsState = {
+  activeTab: number;
 };
 
-export default class ImportStudents extends React.Component<{}, State> {
+export default class ImportStudents extends React.Component<
+  ImportStudentsProps,
+  ImportStudentsState
+> {
   state = {
     activeTab: 0,
   };
@@ -58,8 +57,7 @@ export default class ImportStudents extends React.Component<{}, State> {
               <Tab
                 key={r.path}
                 label={r.tabName}
-                component={Link}
-                to={match.url + r.path}
+                component={() => <Link to={match.url + r.path} />}
               />
             ))}
           </Tabs>

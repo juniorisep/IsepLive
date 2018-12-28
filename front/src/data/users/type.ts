@@ -35,6 +35,7 @@ type StudentValue = {
   photoUrl?: string;
   photoUrlThumb?: string;
   bio?: string;
+  archived: boolean;
 };
 
 export type Student = AuthorValue & StudentValue;
@@ -59,5 +60,5 @@ export type Author = Student | Club | Employee;
 
 export type Role = {
   id: number;
-  name: string;
+  role: string;
 };

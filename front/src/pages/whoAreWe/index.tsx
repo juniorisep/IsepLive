@@ -27,8 +27,8 @@ class Whoarewe extends Component<WhoareweProps> {
     }
   }
 
-  handleChangeTab = (event: React.ChangeEvent, index: number) => {
-    this.setState({ tabOpen: index });
+  handleChangeTab = (event: React.ChangeEvent<{}>, index: any) => {
+    this.setState({ tabOpen: index as number });
   };
 
   render() {

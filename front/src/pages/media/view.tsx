@@ -1,18 +1,11 @@
-
-
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Box, Flex } from '@rebass/grid';
-
+import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import Button from '@material-ui/core/Button';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
+import { Box, Flex } from '@rebass/grid';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
-import Time from 'components/Time';
-import Loader from 'components/Loader';
+import styled from 'styled-components';
 import {
   Banner,
   Filler,
@@ -20,9 +13,11 @@ import {
   Header,
   Separator,
   Text,
-} from 'components/common';
-
-import { Album, Video, Gazette } from './mediaViews';
+} from '../../components/common';
+import Loader from '../../components/Loader';
+import Time from '../../components/Time';
+import { Album, Gazette, Video } from './mediaViews';
+import * as mediaTypes from '../../data/media/type';
 
 const Title = styled.h2`
   margin-right: 20px;
@@ -30,9 +25,10 @@ const Title = styled.h2`
   text-transform: capitalize;
 `;
 
-const DateSeparator = props => {
+type DateSeparatorProps = { date: React.ReactNode };
+const DateSeparator: React.SFC<DateSeparatorProps> = props => {
   return (
-    <Flex align="center">
+    <Flex alignItems="center">
       <Box flex="0 0 auto" mr="20px">
         <Title>{props.date}</Title>
       </Box>
@@ -49,19 +45,40 @@ for (var i = 1; i < 6; i++) {
   years.push(now + i);
 }
 
-class MediaView extends Component {
-  state = {
+type MediaViewProps = {
+  medias: {
+    date: Date;
+    medias: mediaTypes.Media[];
+  }[];
+  isLoading: boolean;
+  lastPage: boolean;
+  seeMore: () => void;
+};
+type MediaViewState = {
+  photos: boolean;
+  videos: boolean;
+  gazettes: boolean;
+  year: number[];
+};
+
+type MediaViewTypes = 'gallery' | 'video' | 'gazette';
+
+class MediaView extends Component<MediaViewProps, MediaViewState> {
+  state: MediaViewState = {
     photos: true,
     videos: true,
     gazettes: true,
     year: [],
   };
 
-  handleChange = name => (event, checked) => {
-    this.setState({ [name]: checked });
+  handleChange = (name: keyof MediaViewState) => (
+    event: any,
+    checked: boolean
+  ) => {
+    this.setState({ [name]: checked } as any);
   };
 
-  filterMedia(mediaType) {
+  filterMedia(mediaType: MediaViewTypes) {
     const { photos, videos, gazettes } = this.state;
     switch (mediaType) {
       case 'gallery':
@@ -79,26 +96,33 @@ class MediaView extends Component {
   processMediaList() {
     return this.props.medias
       .map(mg => {
-        const medias = mg.medias.filter(m => this.filterMedia(m.mediaType));
+        const medias = mg.medias.filter(m =>
+          this.filterMedia(m.mediaType as MediaViewTypes)
+        );
         return { ...mg, medias };
       })
       .filter(mg => mg.medias.length > 0);
   }
 
-  renderMediaComponent(e) {
-    switch (e.mediaType) {
+  renderMediaComponent(media: mediaTypes.Media) {
+    switch (media.mediaType) {
       case 'video':
         return (
-          <Link to={`/post/${e.postId}`}>
-            <Video {...e} />
+          <Link to={`/post/${media.postId}`}>
+            <Video {...media} />
           </Link>
         );
       case 'gallery':
-        return <Album url={e.coverImage.thumbUrl} {...e} />;
+        return (
+          <Album
+            url={media.coverImage ? media.coverImage.thumbUrl : null}
+            {...media}
+          />
+        );
       case 'gazette':
         return (
-          <Link to={`/post/${e.postId}`}>
-            <Gazette {...e} />
+          <Link to={`/post/${media.postId}`}>
+            <Gazette {...media} />
           </Link>
         );
       default:
@@ -121,7 +145,7 @@ class MediaView extends Component {
           </FluidContent> */}
         </Header>
         <FluidContent>
-          <Flex align="center" flexWrap="wrap">
+          <Flex alignItems="center" flexWrap="wrap">
             <Box mb={2}>
               <FormControlLabel
                 control={
@@ -196,14 +220,14 @@ class MediaView extends Component {
             )}
             {this.processMediaList().map(m => {
               return (
-                <div key={m.date}>
+                <div key={m.date.toString()}>
                   <DateSeparator
-                    date={<Time date={m.date} format="MMMM YYYY" />}
+                    date={<Time date={m.date.getTime()} format="MMMM YYYY" />}
                   />
                   <Flex flexWrap="wrap">
                     {m.medias.map(e => {
                       return (
-                        <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
+                        <Box key={e.id} width={[1, 1 / 2, 1 / 3]} p={2}>
                           {this.renderMediaComponent(e)}
                         </Box>
                       );

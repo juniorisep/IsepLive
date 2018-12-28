@@ -17,7 +17,7 @@ export const Filler = styled.div`
   min-height: ${(props: FillerProps) => props.h}px;
 `;
 
-type FluidContentProps = { w?: number; p?: string; mh?: number };
+type FluidContentProps = { w?: number; p?: string; mh?: string };
 export const FluidContent = styled.div`
   max-width: ${(props: FluidContentProps) => props.w || '1100'}px;
   margin: 0 auto;
@@ -157,7 +157,7 @@ export const ProfileImage: React.SFC<ImageStyleProps> = props => {
   return <BgImageProfileStyle {...props} src={src} />;
 };
 
-type BgImageStyleProps = { src?: string; size?: string; mh?: string };
+type BgImageStyleProps = { src?: string | null; size?: string; mh?: string };
 const BgImageStyle = styled.div`
   background: url(${(props: BgImageStyleProps) => props.src || ''});
   background-repeat: no-repeat;

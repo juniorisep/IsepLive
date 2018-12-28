@@ -1,30 +1,19 @@
-
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
-import {
-  Paper,
-  Title,
-  Text,
-  FluidContent,
-  Image,
-} from '../../components/common';
-
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import StarIcon from '@material-ui/icons/Star';
-
-import { Link, Switch, Route } from 'react-router-dom';
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Paper, Text, Title } from '../../components/common';
 import Time from '../../components/Time';
-
 import * as dorData from '../../data/dor';
-import type { SessionDor } from '../../data/dor/type';
+import { SessionDor } from '../../data/dor/type';
 
-const btnStyle = {
+const btnStyle: React.CSSProperties = {
   margin: 10,
 };
 
-const pollBtnStyle = {
+const pollBtnStyle: React.CSSProperties = {
   position: 'fixed',
   right: 0,
   bottom: 0,
@@ -32,12 +21,12 @@ const pollBtnStyle = {
   zIndex: 10,
 };
 
-type State = {
-  sessionActive: ?SessionDor,
+type IsepDorHomeState = {
+  sessionActive: SessionDor | null;
 };
 
-export default class IsepDorHome extends React.Component<{}, State> {
-  state = {
+export default class IsepDorHome extends React.Component<{}, IsepDorHomeState> {
+  state: IsepDorHomeState = {
     sessionActive: null,
   };
 
@@ -93,8 +82,7 @@ export default class IsepDorHome extends React.Component<{}, State> {
                 style={btnStyle}
                 variant="raised"
                 color="primary"
-                component={Link}
-                to="/isepdor/poll"
+                component={() => <Link to="/isepdor/poll" />}
                 disabled={now < sessionActive.firstTurn}
               >
                 {sessionActive.result > now ? 'Voter' : 'Résultats'}
@@ -112,20 +100,18 @@ export default class IsepDorHome extends React.Component<{}, State> {
           </Box>
         </Flex>
 
-        {sessionActive &&
-          sessionActive.firstTurn < now && (
-            <Tooltip title="ISEP d'Or" placement="left">
-              <Button
-                component={Link}
-                to="/isepdor/poll"
-                variant="fab"
-                color="secondary"
-                style={pollBtnStyle}
-              >
-                <StarIcon />
-              </Button>
-            </Tooltip>
-          )}
+        {sessionActive && sessionActive.firstTurn < now && (
+          <Tooltip title="ISEP d'Or" placement="left">
+            <Button
+              component={() => <Link to="/isepdor/poll" />}
+              variant="fab"
+              color="secondary"
+              style={pollBtnStyle}
+            >
+              <StarIcon />
+            </Button>
+          </Tooltip>
+        )}
       </Paper>
     );
   }

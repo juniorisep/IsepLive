@@ -1,8 +1,3 @@
-
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
-
 import {
   Table,
   TableBody,
@@ -10,22 +5,21 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
 import { Paper } from '../../../../components/common';
-import EventForm from './EventForm';
-
-import type { EventDor } from '../../../../data/dor/type';
 import * as dorData from '../../../../data/dor';
+import EventForm from './EventForm';
+import { EventDor } from '../../../../data/dor/type';
 
-type State = {
-  events: EventDor[],
-  selectedEvent: ?EventDor,
+type EventListState = {
+  events: EventDor[];
+  selectedEvent: EventDor | null;
 };
 
-class EventList extends React.Component<{}, State> {
-  state = {
+class EventList extends React.Component<{}, EventListState> {
+  state: EventListState = {
     events: [],
     selectedEvent: null,
   };
@@ -45,7 +39,7 @@ class EventList extends React.Component<{}, State> {
 
   refreshTable = async (id?: number) => {
     const res = await dorData.getEvents();
-    let updateState = { events: res.data };
+    let updateState: EventListState = { events: res.data, selectedEvent: null };
     if (id) {
       const event = res.data.find(s => s.id === id);
       if (event) {
@@ -75,7 +69,7 @@ class EventList extends React.Component<{}, State> {
     const { events, selectedEvent } = this.state;
     return (
       <Flex p={2} flexWrap="wrap">
-        <Box w={1 / 3} p={2}>
+        <Box width={1 / 3} p={2}>
           <EventForm
             selected={selectedEvent}
             refreshTable={this.refreshTable}
@@ -83,7 +77,7 @@ class EventList extends React.Component<{}, State> {
           />
         </Box>
 
-        <Box w={2 / 3} p={2}>
+        <Box width={2 / 3} p={2}>
           <Paper>
             <Table>
               <TableHead>

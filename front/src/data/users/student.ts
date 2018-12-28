@@ -1,7 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
 import { MAX_PROMO } from '../../constants';
 import { ClubMember } from '../club/type';
-import { Image } from '../media/type';
+import { Image, Match, MatchedView } from '../media/type';
 import { Post } from '../post/type';
 import { Page } from '../request.type';
 import { CreateEmployee, Employee, Role, Student, StudentUpdate } from './type';
@@ -99,7 +99,7 @@ export function getPosts(
 export function getTaggedPhotos(
   id: number,
   page: number = 0
-): AxiosPromise<Page<Image>> {
+): AxiosPromise<Page<MatchedView>> {
   return axios.get(`/user/student/${id}/photo?page=${page}`);
 }
 
@@ -110,7 +110,7 @@ export function toggleNotifications(): AxiosPromise<void> {
 export function importStudents(
   csv: File,
   photos: File[],
-  onUploadProgress: () => void
+  onUploadProgress: (progress: { loaded: number; total: number }) => void
 ): AxiosPromise<any> {
   let form = new FormData();
   form.append('csv', csv);

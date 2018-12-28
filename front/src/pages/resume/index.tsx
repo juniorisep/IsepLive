@@ -1,18 +1,30 @@
-
-
 import React, { Component } from 'react';
-
-import * as userData from '../../data/users/student';
 import * as authData from '../../data/auth';
+import { TokenPayload } from '../../data/auth/type';
+import { ClubMember } from '../../data/club/type';
+import { Post } from '../../data/post/type';
+import * as userData from '../../data/users/student';
+import { AccountTab } from './AccountTab';
+import { PhotoTab } from './PhotoTab';
+import { ResumeView } from './view';
+import { PostTab } from './PostTab';
+import { Student, StudentUpdate } from '../../data/users/type';
 
-import ResumeView from './view';
+type ResumeProps = {};
+type ResumeState = {
+  open: boolean;
+  isLoading: boolean;
+  data: any | null;
+  page: number;
+  lastPage: boolean;
+  posts: Post[];
+  clubMembers: ClubMember[];
+  fullscreenOpen: boolean;
+  tabIndex: number;
+};
 
-import AccountTab from './AccountTab';
-import PostTab from './PostTab';
-import PhotoTab from './PhotoTab';
-
-class Resume extends Component {
-  state = {
+class Resume extends Component<ResumeProps, ResumeState> {
+  state: ResumeState = {
     open: false,
     isLoading: false,
     data: null,
@@ -23,6 +35,8 @@ class Resume extends Component {
     fullscreenOpen: false,
     tabIndex: 0,
   };
+
+  user?: TokenPayload | null;
 
   componentDidMount() {
     this.user = authData.getUser();
@@ -35,13 +49,12 @@ class Resume extends Component {
     this.setState({ open: false });
   };
 
-  handleUpdate = (form) => {
+  handleUpdate = (form: StudentUpdate) => {
     if (this.state.data) {
-      userData.updateStudent(form)
-        .then(() => {
-          this.setState({ open: false });
-          this.getUserData();
-        });
+      userData.updateStudent(form).then(() => {
+        this.setState({ open: false });
+        this.getUserData();
+      });
     }
   };
 
@@ -52,22 +65,26 @@ class Resume extends Component {
   };
 
   refreshPosts = async () => {
-    const { data } = await userData.getPosts(this.user.id, 0);
-    this.setState({
-      posts: data.content,
-      page: 1,
-      lastPage: data.last,
-    });
+    if (this.user) {
+      const { data } = await userData.getPosts(this.user.id, 0);
+      this.setState({
+        posts: data.content,
+        page: 1,
+        lastPage: data.last,
+      });
+    }
   };
 
   getNextPosts = async () => {
-    const { data } = await userData.getPosts(this.user.id, this.state.page);
-    this.setState({
-      posts: this.state.posts.concat(data.content),
-      page: this.state.page + 1,
-      lastPage: data.last,
-    });
-  }
+    if (this.user) {
+      const { data } = await userData.getPosts(this.user.id, this.state.page);
+      this.setState({
+        posts: this.state.posts.concat(data.content),
+        page: this.state.page + 1,
+        lastPage: data.last,
+      });
+    }
+  };
 
   toggleNotif = async () => {
     await userData.toggleNotifications();
@@ -84,35 +101,33 @@ class Resume extends Component {
   };
 
   getClubMembers = () => {
-    userData.getClubMembers(this.user.id).then(res => {
-      this.setState({ clubMembers: res.data });
-    });
-  }
+    if (this.user) {
+      userData.getClubMembers(this.user.id).then(res => {
+        this.setState({ clubMembers: res.data });
+      });
+    }
+  };
 
-  setFullScreen = (open) => e => {
+  setFullScreen = (open: boolean) => () => {
     this.setState({ fullscreenOpen: open });
-  }
+  };
 
-  changeTab = (event: Event, index: number) => {
-    this.setState({ tabIndex: index });
-  }
+  changeTab = (event: React.ChangeEvent<{}>, index: any) => {
+    this.setState({ tabIndex: index as number });
+  };
 
   renderTab = () => {
-    const {
-      data,
-      posts,
-      clubMembers,
-      lastPage,
-    } = this.state;
+    const { data, posts, clubMembers, lastPage } = this.state;
+    if (!this.user) return null;
     switch (this.state.tabIndex) {
       case 0:
         return (
           <AccountTab
             parameters
             data={data}
-            posts={posts}
             toggleNotif={this.toggleNotif}
-            clubMembers={clubMembers} />
+            clubMembers={clubMembers}
+          />
         );
       case 1:
         return (
@@ -120,28 +135,25 @@ class Resume extends Component {
             posts={posts}
             lastPage={lastPage}
             refreshPosts={this.refreshPosts}
-            onSeeMore={this.getNextPosts} />
+            onSeeMore={this.getNextPosts}
+          />
         );
       case 2:
-        return (
-          <PhotoTab userId={this.user.id} />
-        );
+        return <PhotoTab userId={this.user.id} />;
       default:
         break;
     }
     return null;
-  }
+  };
 
   render() {
     return (
       <ResumeView
-        parameters
         isLoading={this.state.isLoading}
         user={this.state.data}
         fullscreenOpen={this.state.fullscreenOpen}
         open={this.state.open}
         tabIndex={this.state.tabIndex}
-
         renderTab={this.renderTab}
         changeTab={this.changeTab}
         onModify={this.onModify}

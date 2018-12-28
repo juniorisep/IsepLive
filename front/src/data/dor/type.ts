@@ -81,5 +81,5 @@ type DorConfigAttribute = {
 export type ConfigDor = {
   titre: DorConfigAttribute;
   name: DorConfigAttribute;
-  birthnumber: DorConfigAttribute;
+  birthdate: DorConfigAttribute;
 };

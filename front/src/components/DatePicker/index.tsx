@@ -38,7 +38,7 @@ const TimeSelect: React.SFC<TimeSelectProps> = props => {
 };
 
 export interface DatePickerProps {
-  date: number;
+  date?: number;
   startYear?: number;
   endYear?: number;
   dateonly?: boolean;
@@ -121,12 +121,14 @@ export default class DatePicker extends React.PureComponent<DatePickerProps> {
   };
 
   onChange = (name: keyof DatePickerState) => (value: string) => {
-    const dateComps = this.getDateComp(this.props.date);
-    const { hour, minute, day, month, year } = {
-      ...dateComps,
-      [name]: parseInt(value, 10),
-    } as DatePickerState;
-    this.props.onChange(new Date(year, month, day, hour, minute));
+    if (this.props.date) {
+      const dateComps = this.getDateComp(this.props.date);
+      const { hour, minute, day, month, year } = {
+        ...dateComps,
+        [name]: parseInt(value, 10),
+      } as DatePickerState;
+      this.props.onChange(new Date(year, month, day, hour, minute));
+    }
   };
 
   getMonthName = (month: number): string => {
@@ -147,7 +149,7 @@ export default class DatePicker extends React.PureComponent<DatePickerProps> {
     const years = this.buildYears().map(e => ({ value: e, name: e }));
 
     const { hour, minute, day, month, year } = this.getDateComp(
-      this.props.date || new Date().getTime()
+      this.props.date || Date.now()
     );
 
     const size = this.props.dateonly ? 3 : 5;

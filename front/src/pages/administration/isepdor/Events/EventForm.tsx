@@ -1,32 +1,31 @@
-
-import React from 'react';
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
-
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-import { Title, Text, Paper } from '../../../../components/common';
-import type { EventDor, EventDorCreate } from '../../../../data/dor/type';
-import * as dorData from '../../../../data/dor';
+import React from 'react';
 import { sendAlert } from '../../../../components/Alert';
+import { Paper, Text, Title } from '../../../../components/common';
+import * as dorData from '../../../../data/dor';
+import { EventDor, EventDorCreate } from '../../../../data/dor/type';
 
-type State = {
-  eventForm: EventDor,
-  create: boolean,
+type EventFormState = {
+  eventForm: EventDor;
+  create: boolean;
 };
 
-type Props = {
-  selected: ?EventDor,
-  deselect: () => mixed,
-  refreshTable: (id?: number) => mixed,
+type EventFormProps = {
+  selected: EventDor | null;
+  deselect: () => void;
+  refreshTable: (id?: number) => void;
 };
 
-export default class EventForm extends React.Component<Props, State> {
-  constructor(props: Props) {
+export default class EventForm extends React.Component<
+  EventFormProps,
+  EventFormState
+> {
+  constructor(props: EventFormProps) {
     super(props);
     this.state = {
       eventForm: this.getDefaultForm(),
@@ -34,9 +33,11 @@ export default class EventForm extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(props: Props) {
-    if (props.selected && props.selected !== this.state.eventForm) {
-      this.setState({ create: false, eventForm: props.selected });
+  componentDidUpdate(prevProps: EventFormProps) {
+    if (this.props.selected !== prevProps.selected) {
+      if (this.props.selected && this.props.selected !== this.state.eventForm) {
+        this.setState({ create: false, eventForm: this.props.selected });
+      }
     }
   }
 
@@ -171,12 +172,11 @@ export default class EventForm extends React.Component<Props, State> {
               )}
             </div>
           )}
-          {!selected &&
-            !create && (
-              <div>
-                <Text>Sélectionnez un évènement de la liste</Text>
-              </div>
-            )}
+          {!selected && !create && (
+            <div>
+              <Text>Sélectionnez un évènement de la liste</Text>
+            </div>
+          )}
         </Paper>
         <Button
           variant="fab"

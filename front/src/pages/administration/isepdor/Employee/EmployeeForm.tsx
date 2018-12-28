@@ -1,33 +1,29 @@
-
-import React from 'react';
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-import { Title, Text, Paper } from '../../../../components/common';
-
-import * as userData from '../../../../data/users/student';
-import type { Employee, CreateEmployee } from '../../../../data/users/type';
+import React from 'react';
 import { sendAlert } from '../../../../components/Alert';
+import { Paper, Text, Title } from '../../../../components/common';
+import * as userData from '../../../../data/users/student';
+import { Employee, CreateEmployee } from '../../../../data/users/type';
 
-type State = {
-  employeeForm: Employee,
-  create: boolean,
+type EmployeeFormState = {
+  employeeForm: Employee;
+  create: boolean;
 };
 
-type Props = {
-  selected: ?Employee,
-  deselect: () => mixed,
-  refreshTable: (id?: number) => mixed,
+type EmployeeFormProps = {
+  selected: Employee | null;
+  deselect: () => void;
+  refreshTable: (id?: number) => void;
 };
 
-export default class EmployeeForm extends React.Component<Props, State> {
-  constructor(props: Props) {
+export default class EmployeeForm extends React.Component<
+  EmployeeFormProps,
+  EmployeeFormState
+> {
+  constructor(props: EmployeeFormProps) {
     super(props);
     this.state = {
       employeeForm: this.getDefaultForm(),
@@ -35,9 +31,14 @@ export default class EmployeeForm extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(props: Props) {
-    if (props.selected && props.selected !== this.state.employeeForm) {
-      this.setState({ create: false, employeeForm: props.selected });
+  componentDidUpdate(prevProps: EmployeeFormProps) {
+    if (this.props.selected !== prevProps.selected) {
+      if (
+        this.props.selected &&
+        this.props.selected !== this.state.employeeForm
+      ) {
+        this.setState({ create: false, employeeForm: this.props.selected });
+      }
     }
   }
 
@@ -50,12 +51,12 @@ export default class EmployeeForm extends React.Component<Props, State> {
     });
   };
 
-  getDefaultForm = () => {
+  getDefaultForm = (): Employee => {
     return {
       id: 0,
       firstname: '',
       lastname: '',
-    };
+    } as Employee;
   };
 
   createForm = (form: Employee): CreateEmployee => {
@@ -167,12 +168,11 @@ export default class EmployeeForm extends React.Component<Props, State> {
               )}
             </div>
           )}
-          {!selected &&
-            !create && (
-              <div>
-                <Text>Sélectionnez un employé de la liste</Text>
-              </div>
-            )}
+          {!selected && !create && (
+            <div>
+              <Text>Sélectionnez un employé de la liste</Text>
+            </div>
+          )}
         </Paper>
         <Button
           variant="fab"

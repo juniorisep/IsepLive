@@ -1,37 +1,40 @@
-
-import React, { Fragment } from 'react';
-
-import { DatePicker } from 'material-ui-pickers';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-
-import AddIcon from '@material-ui/icons/Add';
-import SendIcon from '@material-ui/icons/Send';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-import { Title, Text, Paper } from '../../../../components/common';
-import { sendAlert } from '../../../../components/Alert';
-
-import * as dorData from '../../../../data/dor';
-import ResultPanel from './ResultPanel';
-import { type SessionDor } from '../../../../data/dor/type';
 import { Tooltip } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SendIcon from '@material-ui/icons/Send';
+import { DatePicker } from 'material-ui-pickers';
+import React, { Fragment } from 'react';
+import { sendAlert } from '../../../../components/Alert';
+import { Paper, Text, Title } from '../../../../components/common';
+import * as dorData from '../../../../data/dor';
+import { SessionDor } from '../../../../data/dor/type';
+import ResultPanel from './ResultPanel';
 
-type Props = {
-  selected: ?SessionDor,
-  deselect: () => mixed,
-  refreshTable: (id: ?number) => mixed,
+type SessionFormProps = {
+  selected: SessionDor | null;
+  deselect: () => void;
+  refreshTable: (id?: number | null) => void;
 };
 
-type State = {
-  sessionForm: any,
-  create: boolean,
-  showResults: boolean,
+type SessionFormState = {
+  sessionForm: any;
+  create: boolean;
+  showResults: boolean;
 };
 
-export default class SessionForm extends React.Component<Props, State> {
-  constructor(props: Props) {
+type IntervalDate = {
+  maxDate?: number;
+  minDate?: number;
+};
+
+export default class SessionForm extends React.Component<
+  SessionFormProps,
+  SessionFormState
+> {
+  constructor(props: SessionFormProps) {
     super(props);
     this.state = {
       sessionForm: this.getDefaultForm(),
@@ -40,7 +43,7 @@ export default class SessionForm extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(props: Props) {
+  componentWillReceiveProps(props: SessionFormProps) {
     if (props.selected && props.selected !== this.state.sessionForm) {
       this.setState({ create: false, sessionForm: props.selected });
     }
@@ -96,7 +99,7 @@ export default class SessionForm extends React.Component<Props, State> {
           firstTurn: sessionForm.firstTurn,
           secondTurn: sessionForm.secondTurn,
           enabled: sessionForm.enabled,
-        });
+        } as SessionDor);
         sendAlert('Session mise à jour');
         this.props.refreshTable(res.data.id);
       } catch (e) {
@@ -137,12 +140,12 @@ export default class SessionForm extends React.Component<Props, State> {
     const { sessionForm, create } = this.state;
     const { selected } = this.props;
 
-    const firstTurnLimit = {};
+    const firstTurnLimit: IntervalDate = {};
     if (sessionForm.secondTurn) firstTurnLimit.maxDate = sessionForm.secondTurn;
-    const secondTurnLimit = {};
+    const secondTurnLimit: IntervalDate = {};
     if (sessionForm.firstTurn) secondTurnLimit.minDate = sessionForm.firstTurn;
     if (sessionForm.result) secondTurnLimit.maxDate = sessionForm.result;
-    const resultLimit = {};
+    const resultLimit: IntervalDate = {};
     if (sessionForm.secondTurn)
       secondTurnLimit.minDate = sessionForm.secondTurn;
 
@@ -230,12 +233,11 @@ export default class SessionForm extends React.Component<Props, State> {
               )}
             </div>
           )}
-          {!selected &&
-            !create && (
-              <div>
-                <Text>Sélectionnez une session de la liste</Text>
-              </div>
-            )}
+          {!selected && !create && (
+            <div>
+              <Text>Sélectionnez une session de la liste</Text>
+            </div>
+          )}
         </Paper>
         <Button
           variant="fab"

@@ -1,21 +1,18 @@
-
-
+import * as mediaData from '../../data/media';
 import React, { Component } from 'react';
-
 import MediaView from './view';
+import * as mediaTypes from '../../data/media/type';
 
-import * as mediaData from 'data/media';
-import type { Media as MediaType } from '../../data/media/type';
-
-type State = {
-  isLoading: boolean,
-  medias: MediaType[],
-  page: number,
-  lastPage: boolean,
+type MediaProps = {};
+type MediaState = {
+  isLoading: boolean;
+  medias: mediaTypes.Media[];
+  page: number;
+  lastPage: boolean;
 };
 
-class Media extends Component<{}, State> {
-  state = {
+class Media extends Component<MediaProps, MediaState> {
+  state: MediaState = {
     isLoading: false,
     medias: [],
     page: 0,
@@ -30,15 +27,14 @@ class Media extends Component<{}, State> {
     if (this.state.page === 0) {
       this.setState({ isLoading: true });
     }
-    mediaData.getAllMedia(this.state.page)
-      .then(res => {
-        this.setState({
-          medias: this.state.medias.concat(res.data.content),
-          isLoading: false,
-          page: this.state.page + 1,
-          lastPage: res.data.last,
-        });
+    mediaData.getAllMedia(this.state.page).then(res => {
+      this.setState({
+        medias: this.state.medias.concat(res.data.content),
+        isLoading: false,
+        page: this.state.page + 1,
+        lastPage: res.data.last,
       });
+    });
   }
 
   onSeeMore = () => {
@@ -51,7 +47,8 @@ class Media extends Component<{}, State> {
         medias={mediaData.groupMedia(this.state.medias)}
         isLoading={this.state.isLoading}
         lastPage={this.state.lastPage}
-        seeMore={this.onSeeMore} />
+        seeMore={this.onSeeMore}
+      />
     );
   }
 }

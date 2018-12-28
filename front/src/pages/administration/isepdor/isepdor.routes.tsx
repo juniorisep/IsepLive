@@ -1,16 +1,16 @@
-
-
 import Session from './Session';
 import Question from './Question';
 import Events from './Events';
 import Employee from './Employee';
 import Diploma from './Diploma';
 
-export const routes: {
-  tabName: string,
-  path: string,
-  comp: any,
-}[] = [
+type IsepDorRoute = {
+  tabName: string;
+  path: string;
+  comp: any;
+};
+
+export const routes: IsepDorRoute[] = [
   {
     tabName: 'Sessions',
     path: '/session',

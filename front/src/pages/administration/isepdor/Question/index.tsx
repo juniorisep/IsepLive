@@ -1,8 +1,3 @@
-
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
-
 import {
   Table,
   TableBody,
@@ -11,20 +6,20 @@ import {
   TableRow,
 } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
-
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
 import { Paper } from '../../../../components/common';
-import QuestionForm from './QuestionForm';
-
-import type { QuestionDor } from '../../../../data/dor/type';
 import * as dorData from '../../../../data/dor';
+import QuestionForm from './QuestionForm';
+import { QuestionDor } from '../../../../data/dor/type';
 
-type State = {
-  questions: QuestionDor[],
-  selectedQuestion: ?QuestionDor,
+type QuestionListState = {
+  questions: QuestionDor[];
+  selectedQuestion: QuestionDor | null;
 };
 
-class QuestionList extends React.Component<{}, State> {
-  state = {
+class QuestionList extends React.Component<{}, QuestionListState> {
+  state: QuestionListState = {
     questions: [],
     selectedQuestion: null,
   };
@@ -44,7 +39,10 @@ class QuestionList extends React.Component<{}, State> {
 
   refreshTable = async (id?: number) => {
     const res = await dorData.getQuestions();
-    let updateState = { questions: res.data };
+    let updateState: QuestionListState = {
+      questions: res.data,
+      selectedQuestion: null,
+    };
     if (id) {
       const question = res.data.find(s => s.id === id);
       if (question) {
@@ -82,7 +80,7 @@ class QuestionList extends React.Component<{}, State> {
     const { questions, selectedQuestion } = this.state;
     return (
       <Flex p={2} flexWrap="wrap">
-        <Box w={1 / 3} p={2}>
+        <Box width={1 / 3} p={2}>
           <QuestionForm
             selected={selectedQuestion}
             refreshTable={this.refreshTable}
@@ -90,7 +88,7 @@ class QuestionList extends React.Component<{}, State> {
           />
         </Box>
 
-        <Box w={2 / 3} p={2}>
+        <Box width={2 / 3} p={2}>
           <Paper>
             <Table>
               <TableHead>

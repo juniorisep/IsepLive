@@ -1,8 +1,5 @@
-
-
 import React, { Component } from 'react';
-
-import { Banner, Filler, FluidContent, Header } from 'components/common';
+import { Banner, Filler, FluidContent, Header } from '../../components/common';
 
 class UserAgreement extends Component {
   render() {

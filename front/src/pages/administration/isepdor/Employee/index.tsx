@@ -1,8 +1,3 @@
-
-import React from 'react';
-
-import { Flex, Box } from '@rebass/grid';
-
 import {
   Table,
   TableBody,
@@ -10,22 +5,20 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
-import Checkbox from '@material-ui/core/Checkbox';
-
+import { Box, Flex } from '@rebass/grid';
+import React from 'react';
 import { Paper } from '../../../../components/common';
+import * as userData from '../../../../data/users/student';
+import { Employee } from '../../../../data/users/type';
 import EmployeeForm from './EmployeeForm';
 
-import type { Employee } from '../../../../data/users/type';
-import * as userData from '../../../../data/users/student';
-
-type State = {
-  employees: Employee[],
-  selectedEmployee: ?Employee,
+type EventListState = {
+  employees: Employee[];
+  selectedEmployee: Employee | null;
 };
 
-class EventList extends React.Component<{}, State> {
-  state = {
+class EventList extends React.Component<{}, EventListState> {
+  state: EventListState = {
     employees: [],
     selectedEmployee: null,
   };
@@ -45,7 +38,10 @@ class EventList extends React.Component<{}, State> {
 
   refreshTable = async (id?: number) => {
     const res = await userData.getEmployees();
-    let updateState = { employees: res.data };
+    let updateState: EventListState = {
+      employees: res.data,
+      selectedEmployee: null,
+    };
     if (id) {
       const employee = res.data.find(s => s.id === id);
       if (employee) {
@@ -73,7 +69,7 @@ class EventList extends React.Component<{}, State> {
     const { employees, selectedEmployee } = this.state;
     return (
       <Flex p={2} flexWrap="wrap">
-        <Box w={1 / 3} p={2}>
+        <Box width={1 / 3} p={2}>
           <EmployeeForm
             selected={selectedEmployee}
             refreshTable={this.refreshTable}
@@ -81,7 +77,7 @@ class EventList extends React.Component<{}, State> {
           />
         </Box>
 
-        <Box w={2 / 3} p={2}>
+        <Box width={2 / 3} p={2}>
           <Paper>
             <Table>
               <TableHead>

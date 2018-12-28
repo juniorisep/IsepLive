@@ -1,20 +1,21 @@
-
-import React from 'react';
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
-
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-import { Title, Text, Paper } from '../../../../components/common';
-import type { QuestionDor, QuestionDorCreate } from '../../../../data/dor/type';
-import * as dorData from '../../../../data/dor';
+import React from 'react';
 import { sendAlert } from '../../../../components/Alert';
+import { Paper, Text, Title } from '../../../../components/common';
+import * as dorData from '../../../../data/dor';
+import { QuestionDor, QuestionDorCreate } from '../../../../data/dor/type';
 
-const CheckBoxAnswer = props => (
+type CheckBoxAnswerProps = {
+  enabled: boolean;
+  label: string;
+  onChange: (e: any, checked: boolean) => void;
+};
+const CheckBoxAnswer: React.SFC<CheckBoxAnswerProps> = props => (
   <FormControlLabel
     style={{ width: '100%' }}
     control={<Checkbox checked={props.enabled} onChange={props.onChange} />}
@@ -22,19 +23,22 @@ const CheckBoxAnswer = props => (
   />
 );
 
-type State = {
-  questionForm: QuestionDor,
-  create: boolean,
+type QuestionFormState = {
+  questionForm: QuestionDor;
+  create: boolean;
 };
 
-type Props = {
-  selected: ?QuestionDor,
-  deselect: () => mixed,
-  refreshTable: (id?: number) => mixed,
+type QuestionFormProps = {
+  selected: QuestionDor | null;
+  deselect: () => void;
+  refreshTable: (id?: number) => void;
 };
 
-export default class QuestionForm extends React.Component<Props, State> {
-  constructor(props: Props) {
+export default class QuestionForm extends React.Component<
+  QuestionFormProps,
+  QuestionFormState
+> {
+  constructor(props: QuestionFormProps) {
     super(props);
     this.state = {
       questionForm: this.getDefaultForm(),
@@ -42,7 +46,7 @@ export default class QuestionForm extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(props: Props) {
+  componentWillReceiveProps(props: QuestionFormProps) {
     if (props.selected && props.selected !== this.state.questionForm) {
       this.setState({ create: false, questionForm: props.selected });
     }
@@ -175,7 +179,7 @@ export default class QuestionForm extends React.Component<Props, State> {
                 />
               )}
 
-              <Text mb="10px">Réponses possibles</Text>
+              <Text mb={0.8}>Réponses possibles</Text>
               <CheckBoxAnswer
                 label="Evènement"
                 enabled={questionForm.enableEvent}
@@ -204,7 +208,7 @@ export default class QuestionForm extends React.Component<Props, State> {
 
               {!create && (
                 <div>
-                  <Text mb="10px">Promo</Text>
+                  <Text mb={0.8}>Promo</Text>
                   <CheckBoxAnswer
                     label="Filtrer par promo"
                     enabled={questionForm.enablePromo}
@@ -251,12 +255,11 @@ export default class QuestionForm extends React.Component<Props, State> {
               )}
             </div>
           )}
-          {!selected &&
-            !create && (
-              <div>
-                <Text>Sélectionnez une question de la liste</Text>
-              </div>
-            )}
+          {!selected && !create && (
+            <div>
+              <Text>Sélectionnez une question de la liste</Text>
+            </div>
+          )}
         </Paper>
         <Button
           variant="fab"

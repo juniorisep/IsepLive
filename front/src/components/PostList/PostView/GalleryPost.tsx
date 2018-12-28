@@ -54,6 +54,7 @@ class GalleryPost extends React.Component<PostViewProps> {
                       >
                         <Image
                           w="100%"
+                          alt=""
                           src={img.thumbUrl}
                           style={{ cursor: 'pointer' }}
                         />

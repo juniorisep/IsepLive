@@ -1,42 +1,29 @@
-
-
-import React, { Component } from 'react';
-import { Flex, Box } from '@rebass/grid';
-
 import {
+  Input,
+  InputLabel,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableRow,
-  TablePagination,
   TableFooter,
+  TableHead,
+  TablePagination,
+  TableRow,
 } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-
-import { MenuItem } from '@material-ui/core';
-import Select from '@material-ui/core/Select';
-import { Input, InputLabel } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
-
-import {
-  Paper,
-  FluidContent,
-  Title,
-  Text,
-  ProfileImage,
-} from '../../../components/common';
-
-import * as userData from '../../../data/users/student';
-
-import * as rolesKey from '../../../constants';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import { Box, Flex } from '@rebass/grid';
+import React, { Component } from 'react';
 import { MAIN_COLOR } from '../../../colors';
-
+import { Paper, ProfileImage, Text, Title } from '../../../components/common';
+import * as rolesKey from '../../../constants';
+import * as userData from '../../../data/users/student';
 import { getPromo } from '../../../data/users/student';
-
 import UpdateStudent from './UpdateStudent';
+import { Student } from '../../../data/users/type';
 
-function getRoleName(role) {
+function getRoleName(role: string) {
   switch (role) {
     case rolesKey.ADMIN:
       return 'Super Admin';
@@ -56,7 +43,12 @@ function getRoleName(role) {
   }
 }
 
-const SelectRoles = props => {
+type SelectRolesProps = {
+  roles: string[];
+  filterRoles: string[];
+  handleSelectRoles: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
+const SelectRoles: React.SFC<SelectRolesProps> = props => {
   return (
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="roles">Roles</InputLabel>
@@ -83,7 +75,12 @@ const SelectRoles = props => {
   );
 };
 
-const SelectPromo = props => {
+type SelectPromoProps = {
+  filterPromo: number[];
+  years: number[];
+  onPromoFilter: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
+const SelectPromo: React.SFC<SelectPromoProps> = props => {
   return (
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="year-multiple">Promotions</InputLabel>
@@ -91,7 +88,7 @@ const SelectPromo = props => {
         multiple
         value={props.filterPromo}
         renderValue={years =>
-          years.map(year => getPromo(year) || year).join(', ')
+          (years as number[]).map(year => getPromo(year) || year).join(', ')
         }
         onChange={props.onPromoFilter}
         input={<Input id="year-multiple" />}
@@ -121,10 +118,20 @@ const SelectPromo = props => {
   );
 };
 
-type UsersState = {};
+type UsersProps = {};
+type UsersState = {
+  users: Student[];
+  page: number;
+  total: number;
+  selected: Student | null;
 
-class Users extends Component {
-  state = {
+  filter: string;
+  filterRoles: string[];
+  filterPromo: number[];
+};
+
+class Users extends Component<UsersProps, UsersState> {
+  state: UsersState = {
     users: [],
     page: 0,
     total: 0,
@@ -134,6 +141,8 @@ class Users extends Component {
     filterRoles: [],
     filterPromo: [],
   };
+
+  filterTimeout?: number;
 
   componentDidMount() {
     this.loadUsers(0);
@@ -157,7 +166,7 @@ class Users extends Component {
   ) => {
     if (filter !== '' || filterRoles.length > 0 || filterPromo.length > 0) {
       if (this.filterTimeout) clearTimeout(this.filterTimeout);
-      this.filterTimeout = setTimeout(() => {
+      this.filterTimeout = window.setTimeout(() => {
         userData
           .searchStudentsAdmin(filter, filterRoles, filterPromo, 'a', page)
           .then(res => {
@@ -175,7 +184,7 @@ class Users extends Component {
     this.setState({ filter, filterRoles, filterPromo });
   };
 
-  handleChangePage = (event: Event, page: number) => {
+  handleChangePage = (event: any, page: number) => {
     this.filterUsers(
       this.state.filter,
       this.state.filterRoles,
@@ -184,31 +193,40 @@ class Users extends Component {
     );
   };
 
-  changeFilter = event => {
+  changeFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const filter = event.target.value;
     this.filterUsers(filter, this.state.filterRoles, this.state.filterPromo, 0);
   };
 
-  selectRow = selected => e => {
+  selectRow = (selected: Student) => () => {
     this.setState({ selected });
   };
 
-  onChangeField = (name: string, value: string) => {
-    this.setState(state => ({
-      selected: {
-        ...state.selected,
-        [name]: value,
-      },
-    }));
+  onChangeField = (name: string, value: any) => {
+    this.setState(state => {
+      if (state.selected) {
+        return {
+          selected: {
+            ...state.selected,
+            [name]: value,
+          },
+        } as any;
+      }
+      return state;
+    });
   };
 
-  handleSelectRoles = e => {
-    const filterRoles = e.target.value;
+  handleSelectRoles = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const filterRoles = Array.from(e.target.options)
+      .filter(opt => opt.selected)
+      .map(opt => opt.value);
     this.filterUsers(this.state.filter, filterRoles, this.state.filterPromo, 0);
   };
 
-  onPromoFilter = e => {
-    const filterPromo = e.target.value;
+  onPromoFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const filterPromo = Array.from(e.target.options)
+      .filter(opt => opt.selected)
+      .map(opt => parseInt(opt.value, 10));
     this.filterUsers(this.state.filter, this.state.filterRoles, filterPromo, 0);
   };
 
@@ -229,7 +247,7 @@ class Users extends Component {
     return (
       <div style={{ margin: 30 }}>
         <Flex flexWrap="wrap">
-          <Box w={[1, 1 / 3]} p={1}>
+          <Box width={[1, 1 / 3]} p={1}>
             <div>
               <Title invert>Etudiant</Title>
               {!selected && <Text>Sélectionnez un étudiant</Text>}
@@ -243,10 +261,10 @@ class Users extends Component {
               )}
             </div>
           </Box>
-          <Box w={[1, 2 / 3]} p={1} pl={2}>
+          <Box width={[1, 2 / 3]} p={1} pl={2}>
             <Paper p="1em">
               <Flex>
-                <Box p={1} w={1 / 2}>
+                <Box p={1} width={1 / 2}>
                   <TextField
                     label="Filtrer par nom et prénom"
                     fullWidth
@@ -255,14 +273,14 @@ class Users extends Component {
                     onChange={this.changeFilter}
                   />
                 </Box>
-                <Box p={1} w={1 / 4}>
+                <Box p={1} width={1 / 4}>
                   <SelectPromo
                     filterPromo={this.state.filterPromo}
                     onPromoFilter={this.onPromoFilter}
                     years={this.getYears()}
                   />
                 </Box>
-                <Box p={1} w={1 / 4}>
+                <Box p={1} width={1 / 4}>
                   <SelectRoles
                     filterRoles={this.state.filterRoles}
                     handleSelectRoles={this.handleSelectRoles}
@@ -308,13 +326,14 @@ class Users extends Component {
                           opacity: u.archived ? 0.2 : 1,
                           cursor: 'pointer',
                           backgroundColor:
-                            selected && u.id === selected.id && '#e2e7ff',
+                            (selected && u.id === selected.id && '#e2e7ff') ||
+                            '',
                         }}
-                        selected={selected && u.id === selected.id}
+                        selected={(selected && u.id === selected.id) || false}
                         onClick={this.selectRow(u)}
                       >
                         <TableCell>
-                          <ProfileImage src={u.photoUrlThumb} sz="50px" />
+                          <ProfileImage alt="" src={u.photoUrlThumb} w="50px" />
                         </TableCell>
                         <TableCell>
                           {u.firstname} {u.lastname}

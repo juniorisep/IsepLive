@@ -1,11 +1,7 @@
-
-
-import React, { Component } from 'react';
-
-import { Banner, Filler, FluidContent, Header } from 'components/common';
-
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import React, { Component } from 'react';
+import { Banner, Filler, FluidContent, Header } from '../../components/common';
 
 class Contact extends Component {
   render() {
@@ -51,7 +47,9 @@ class Contact extends Component {
           />
           <p>Adresse</p>
           <p>Mail</p>
-          <Button variant="raised" color="secondary">Envoyer</Button>
+          <Button variant="raised" color="secondary">
+            Envoyer
+          </Button>
           {/* TODO Mettre google maps ici ou avant le formulaire*/}
         </FluidContent>
       </div>

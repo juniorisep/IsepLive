@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
@@ -125,7 +125,7 @@ const ButtonContainer = styled.div`
   text-align: center;
 `;
 
-const BigButton = styled(Button)`
+const BigButton = styled(Button as React.SFC<ButtonProps>)`
   margin-bottom: 20px !important;
   font-size: 1.5em !important;
   color: white !important;
@@ -145,18 +145,15 @@ export default class Login extends Component {
     this.setState({ connexionOpen: false, loading: false });
   };
 
-  handleLoginForm = (
-    key: string,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    this.setState({ [key]: event.target.value });
+  handleLoginForm = (key: 'username' | 'password', value: string) => {
+    this.setState({ [key]: value });
   };
 
   handleConnect = (e: React.FormEvent) => {
     e.preventDefault();
     const { username, password } = this.state;
     this.setState({ loading: true });
-    authData
+    return authData
       .connect(
         username,
         password
@@ -190,7 +187,14 @@ export default class Login extends Component {
       <Container>
         {authData.isLoggedIn() && <Redirect to="/accueil" />}
         <BackgroundContainer>
-          <SlideShow auto loop coverMode="cover" items={images} duration={5} />
+          <SlideShow
+            auto
+            loop
+            coverMode="cover"
+            initPos={0}
+            items={images}
+            duration={5}
+          />
         </BackgroundContainer>
         <Content>
           <TitleContainer>

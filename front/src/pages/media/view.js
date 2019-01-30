@@ -201,12 +201,12 @@ class MediaView extends Component {
                     date={<Time date={m.date} format="MMMM YYYY" />}
                   />
                   <Flex flexWrap="wrap">
-                    {m.medias.map(e => {
+                    {m.medias.filter(e => e.coverImage).map(e => {
                       return (
                         <Box key={e.id} w={[1, 1 / 2, 1 / 3]} p={2}>
                           {this.renderMediaComponent(e)}
                         </Box>
-                      );
+                      )
                     })}
                   </Flex>
                 </div>

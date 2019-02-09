@@ -104,21 +104,20 @@ type NavProps = {
   to: string;
 };
 
-const Nav: React.SFC<NavProps> = props => {
+const NavLinkBtn: React.FC<any> = props => (
+  <NavLink
+    to={props.to}
+    activeStyle={{
+      color: SECONDARY_COLOR,
+    }}
+    {...props}
+  />
+);
+
+const Nav: React.SFC<any> = props => {
   return (
     <div>
-      <Button
-        component={() => (
-          <NavLink
-            to={props.to}
-            activeStyle={{
-              color: SECONDARY_COLOR,
-            }}
-          />
-        )}
-      >
-        {props.children}
-      </Button>
+      <Button component={NavLinkBtn} {...props} />
     </div>
   );
 };
@@ -371,20 +370,26 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
                   {authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) && (
                     <MenuItem
                       onClick={this.handleRequestClose}
-                      component={() => <NavLink to="/administration" />}
+                      component={(props: any) => (
+                        <NavLink to="/administration" {...props} />
+                      )}
                     >
                       Administration
                     </MenuItem>
                   )}
                   <MenuItem
                     onClick={this.handleRequestClose}
-                    component={() => <NavLink to="/profile" />}
+                    component={(props: any) => (
+                      <NavLink to="/profile" {...props} />
+                    )}
                   >
                     Profil
                   </MenuItem>
                   <MenuItem
                     onClick={this.handleDisconnect}
-                    component={() => <NavLink to="/connexion" />}
+                    component={(props: any) => (
+                      <NavLink to="/connexion" {...props} />
+                    )}
                   >
                     Déconnexion
                   </MenuItem>

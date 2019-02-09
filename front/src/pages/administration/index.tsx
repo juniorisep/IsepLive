@@ -53,15 +53,21 @@ class Admin extends React.Component<AdminProps, AdminState> {
         >
           <Tab
             label="Utilisateurs"
-            component={() => <Link to={`${match.url}/utilisateurs`} />}
+            component={(props: any) => (
+              <Link to={`${match.url}/utilisateurs`} {...props} />
+            )}
           />
           <Tab
             label="Importer"
-            component={() => <Link to={`${match.url}/importer`} />}
+            component={(props: any) => (
+              <Link to={`${match.url}/importer`} {...props} />
+            )}
           />
           <Tab
             label="Isep d'or"
-            component={() => <Link to={`${match.url}/isep-dor`} />}
+            component={(props: any) => (
+              <Link to={`${match.url}/isep-dor`} {...props} />
+            )}
           />
         </Tabs>
         <Switch>

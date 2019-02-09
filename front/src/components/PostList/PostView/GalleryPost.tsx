@@ -27,8 +27,8 @@ class GalleryPost extends React.Component<PostViewProps> {
     const gallery = post.media as Gallery;
     const galleryOrder = preview ? 2 : 1;
     const images = preview
-      ? gallery.previewImage
-      : gallery.previewImage.slice(0, 6);
+      ? gallery.previewImages
+      : gallery.previewImages.slice(0, 6);
     return (
       <Post invert={invert}>
         <Box width={size} order={galleryOrder}>

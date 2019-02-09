@@ -57,7 +57,9 @@ export default class ImportStudents extends React.Component<
               <Tab
                 key={r.path}
                 label={r.tabName}
-                component={() => <Link to={match.url + r.path} />}
+                component={(props: any) => (
+                  <Link to={match.url + r.path} {...props} />
+                )}
               />
             ))}
           </Tabs>

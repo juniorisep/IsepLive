@@ -92,7 +92,9 @@ export class PostTextView extends Component<PostTextViewProps> {
             <Button
               size="small"
               color="secondary"
-              component={() => <NavLink to={`/post/${post.id}`} />}
+              component={(props: any) => (
+                <NavLink to={`/post/${post.id}`} {...props} />
+              )}
             >
               {post.nbComments} <ForumIcon style={{ marginLeft: 5 }} />
             </Button>

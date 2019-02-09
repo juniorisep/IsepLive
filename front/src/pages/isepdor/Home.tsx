@@ -82,7 +82,9 @@ export default class IsepDorHome extends React.Component<{}, IsepDorHomeState> {
                 style={btnStyle}
                 variant="raised"
                 color="primary"
-                component={() => <Link to="/isepdor/poll" />}
+                component={(props: any) => (
+                  <Link to="/isepdor/poll" {...props} />
+                )}
                 disabled={now < sessionActive.firstTurn}
               >
                 {sessionActive.result > now ? 'Voter' : 'Résultats'}
@@ -103,7 +105,7 @@ export default class IsepDorHome extends React.Component<{}, IsepDorHomeState> {
         {sessionActive && sessionActive.firstTurn < now && (
           <Tooltip title="ISEP d'Or" placement="left">
             <Button
-              component={() => <Link to="/isepdor/poll" />}
+              component={(props: any) => <Link to="/isepdor/poll" {...props} />}
               variant="fab"
               color="secondary"
               style={pollBtnStyle}

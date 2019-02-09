@@ -3,6 +3,7 @@ import * as React from 'react';
 import styled, { StyledFunction } from 'styled-components';
 import { backUrl } from '../config';
 import { StyledProps } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 type SeparatorProps = { m?: string };
 export const Separator = styled.div`

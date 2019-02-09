@@ -237,7 +237,9 @@ export default class Login extends Component {
               </BigButton>
             </ButtonContainer>
             <ButtonContainer>
-              <BigButton component={() => <NavLink to="/accueil" />}>
+              <BigButton
+                component={(props: any) => <NavLink to="/accueil" {...props} />}
+              >
                 Accès visiteur
               </BigButton>
             </ButtonContainer>

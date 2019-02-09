@@ -1,3 +1,4 @@
+import React from 'react';
 import { Media } from '../../../data/media/type';
 import { Post } from '../../../data/post/type';
 import DocumentPost from './DocumentPost';

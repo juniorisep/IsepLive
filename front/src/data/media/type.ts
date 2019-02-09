@@ -79,7 +79,7 @@ type GalleryValue = {
   name: string;
   images: Image[];
   coverImage?: Image;
-  previewImage: Image[];
+  previewImages: Image[];
 };
 export type Gallery = MediaValue & GalleryValue;
 

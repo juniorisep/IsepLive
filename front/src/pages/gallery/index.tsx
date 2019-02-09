@@ -32,7 +32,7 @@ type EditProps = {
   onSelect: (img: mediaTypes.Image) => () => void;
   img: mediaTypes.Image;
 };
-const Edit: React.SFC<EditProps> = props => {
+const Edit: React.FC<EditProps> = props => {
   return (
     <div style={{ marginBottom: 10 }}>
       <Checkbox onChange={props.onSelect(props.img)} />
@@ -112,8 +112,9 @@ export default class GalleryPage extends React.Component<
   componentDidMount() {
     const { match, history } = this.props;
     this.galleryId = parseInt(match.params.id, 10);
-    if (history.location.state) {
-      this.photoId = history.location.state['imageId'];
+    const routerState = history.location.state as GalleryPageRouteState;
+    if (routerState) {
+      this.photoId = routerState.imageId;
     }
     this.getGallery();
   }
@@ -122,14 +123,29 @@ export default class GalleryPage extends React.Component<
     document.body.style.overflow = 'auto';
   }
 
-  componentDidUpdate({ history: { location } }: GalleryPageProps) {
-    const newState = this.props.history.location.state as GalleryPageRouteState;
-    const state = location.state as GalleryPageRouteState;
-    if (newState.imageId !== state.imageId) {
-      const photoId = newState.imageId;
-      const index = this.state.images.findIndex(e => e.id === photoId);
-      this.selectPhoto(index);
+  static getDerivedStateFromProps(
+    props: GalleryPageProps,
+    state: GalleryPageState
+  ): Partial<GalleryPageState> | null {
+    const routeState = props.history.location.state as GalleryPageRouteState;
+    if (
+      state.images.length > 0 &&
+      routeState &&
+      routeState.imageId !== state.galleryIndex
+    ) {
+      const photoId = routeState.imageId;
+      const index = state.images.findIndex(e => e.id === photoId);
+
+      return {
+        galleryIndex: index,
+        galleryOpen: true,
+      };
     }
+    return null;
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.location.state);
   }
 
   async getGallery() {

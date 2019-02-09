@@ -72,7 +72,9 @@ class CalendarEvents extends Component {
             <Box ml="auto">
               <Button
                 color="primary"
-                component={() => <NavLink to="/evenements" />}
+                component={(props: any) => (
+                  <NavLink to="/evenements" {...props} />
+                )}
               >
                 Liste
               </Button>

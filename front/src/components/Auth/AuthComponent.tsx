@@ -11,21 +11,37 @@ class Auth extends React.Component<AuthProps> {
   render() {
     const { children, roles = [], not, logged } = this.props;
 
-    if (children) {
-      if (isLoggedIn() && logged)
-        return <React.Fragment>{children}</React.Fragment>;
-
-      if (not && !isLoggedIn())
-        return <React.Fragment>{children}</React.Fragment>;
-
-      if (!roles && !not && isLoggedIn())
-        return <React.Fragment>{children}</React.Fragment>;
-
-      if (roles && isLoggedIn() && hasRole(roles))
-        return <React.Fragment>{children}</React.Fragment>;
+    if (!children) {
+      return null;
     }
 
-    return null;
+    if (isLoggedIn() && not) {
+      return null;
+    }
+
+    if (!isLoggedIn() && !not) {
+      return null;
+    }
+
+    if (roles.length > 0 && !hasRole(roles)) {
+      return null;
+    }
+
+    // if (children) {
+    //   if (isLoggedIn() && logged)
+    //     return <React.Fragment>{children}</React.Fragment>;
+
+    //   if (not && !isLoggedIn())
+    //     return <React.Fragment>{children}</React.Fragment>;
+
+    //   if (!not && isLoggedIn())
+    //     return <React.Fragment>{children}</React.Fragment>;
+
+    //   if (isLoggedIn() && hasRole(roles))
+    //     return <React.Fragment>{children}</React.Fragment>;
+    // }
+
+    return <React.Fragment>{children}</React.Fragment>;
   }
 }
 

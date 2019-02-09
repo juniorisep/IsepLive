@@ -73,7 +73,9 @@ export class EventsView extends Component<EventsViewProps> {
             <Box flex="0 0 auto" ml="10px">
               <Button
                 color="primary"
-                component={() => <NavLink to="/evenements/calendrier" />}
+                component={(props: any) => (
+                  <NavLink to="/evenements/calendrier" {...props} />
+                )}
               >
                 Calendrier
               </Button>

@@ -53,15 +53,21 @@ class Whoarewe extends Component<WhoareweProps> {
           >
             <Tab
               label="Nos objectifs"
-              component={() => <Link to={`${match.url}/target`} />}
+              component={(props: any) => (
+                <Link to={`${match.url}/target`} {...props} />
+              )}
             />
             <Tab
               label="Notre équipe"
-              component={() => <Link to={`${match.url}/team`} />}
+              component={(props: any) => (
+                <Link to={`${match.url}/team`} {...props} />
+              )}
             />
             <Tab
               label="Hall of Fame"
-              component={() => <Link to={`${match.url}/hall-of-fame`} />}
+              component={(props: any) => (
+                <Link to={`${match.url}/hall-of-fame`} {...props} />
+              )}
             />
           </Tabs>
           <Switch>

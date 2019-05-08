@@ -36,7 +36,7 @@ type ClubTitleProps = {
   url: string;
   name: string;
 };
-const ClubTitle: React.SFC<ClubTitleProps> = props => {
+const ClubTitle: React.FC<ClubTitleProps> = props => {
   return (
     <ClubStyle>
       <BgImage src={props.url} mh="200px" />

@@ -22,7 +22,7 @@ type SessionDisplayProps = {
   secondTurn: number;
   result: number;
 };
-const SessionDisplay: React.SFC<SessionDisplayProps> = ({
+const SessionDisplay: React.FC<SessionDisplayProps> = ({
   secondTurn,
   result,
 }) => {

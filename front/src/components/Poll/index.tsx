@@ -7,10 +7,10 @@ import styled, { StyledProps } from 'styled-components';
 import * as authData from '../../data/auth';
 import * as pollData from '../../data/media/poll';
 import {
-  Poll as PollType,
-  PollVote,
-  PollAnswer,
   Media,
+  Poll as PollType,
+  PollAnswer,
+  PollVote,
 } from '../../data/media/type';
 import { ProfileImage, Text, Title } from '../common';
 
@@ -276,7 +276,7 @@ interface AnswerProps {
   onClick: () => void;
 }
 
-const Answer: React.SFC<AnswerProps> = props => {
+const Answer: React.FC<AnswerProps> = props => {
   const answer = props.answer;
   const percent =
     props.total > 0 ? Math.round((answer.votesNb / props.total) * 100) : 0;

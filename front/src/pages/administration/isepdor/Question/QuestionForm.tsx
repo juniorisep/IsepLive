@@ -15,7 +15,7 @@ type CheckBoxAnswerProps = {
   label: string;
   onChange: (e: any, checked: boolean) => void;
 };
-const CheckBoxAnswer: React.SFC<CheckBoxAnswerProps> = props => (
+const CheckBoxAnswer: React.FC<CheckBoxAnswerProps> = props => (
   <FormControlLabel
     style={{ width: '100%' }}
     control={<Checkbox checked={props.enabled} onChange={props.onChange} />}

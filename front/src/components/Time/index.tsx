@@ -13,7 +13,7 @@ interface TimeProps {
   format: string;
 }
 
-const Time: React.SFC<TimeProps> = props => {
+const Time: React.FC<TimeProps> = props => {
   const datetime = formatDate(props.date, props.format);
   return <time dateTime={datetime}>{datetime}</time>;
 };

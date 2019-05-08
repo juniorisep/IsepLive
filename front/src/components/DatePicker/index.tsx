@@ -17,7 +17,7 @@ interface TimeSelectProps {
   items: TimeItem[];
 }
 
-const TimeSelect: React.SFC<TimeSelectProps> = props => {
+const TimeSelect: React.FC<TimeSelectProps> = props => {
   return (
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="input">{props.label}</InputLabel>

@@ -20,8 +20,8 @@ import { Paper, ProfileImage, Text, Title } from '../../../components/common';
 import * as rolesKey from '../../../constants';
 import * as userData from '../../../data/users/student';
 import { getPromo } from '../../../data/users/student';
-import UpdateStudent from './UpdateStudent';
 import { Student } from '../../../data/users/type';
+import UpdateStudent from './UpdateStudent';
 
 function getRoleName(role: string) {
   switch (role) {
@@ -48,7 +48,7 @@ type SelectRolesProps = {
   filterRoles: string[];
   handleSelectRoles: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
-const SelectRoles: React.SFC<SelectRolesProps> = props => {
+const SelectRoles: React.FC<SelectRolesProps> = props => {
   return (
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="roles">Roles</InputLabel>
@@ -80,7 +80,7 @@ type SelectPromoProps = {
   years: number[];
   onPromoFilter: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
-const SelectPromo: React.SFC<SelectPromoProps> = props => {
+const SelectPromo: React.FC<SelectPromoProps> = props => {
   return (
     <FormControl style={{ width: '100%' }}>
       <InputLabel htmlFor="year-multiple">Promotions</InputLabel>

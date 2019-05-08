@@ -19,9 +19,9 @@ import {
 } from '../../components/common';
 import Loader from '../../components/Loader';
 import PostListView from '../../components/PostList';
+import { Post } from '../../data/post/type';
 import IsepDorHome from '../isepdor/Home';
 import PublishBoxView from './publishBox';
-import { Post } from '../../data/post/type';
 
 const PostSection = styled.div`
   margin: 30px 0;
@@ -42,7 +42,7 @@ const Circle = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 `;
 
-const CircleIcon: React.SFC = props => (
+const CircleIcon: React.FC = props => (
   <Circle>
     <span
       style={{
@@ -66,7 +66,7 @@ interface HomeViewProps {
   onSeeMore: () => void;
 }
 
-export const HomeView: React.SFC<HomeViewProps> = props => {
+export const HomeView: React.FC<HomeViewProps> = props => {
   return (
     <div>
       <Header url="/img/background.jpg">

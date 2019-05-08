@@ -45,7 +45,7 @@ type ErrorViewProps = {
   message: string;
 };
 
-const ErrorView: React.SFC<ErrorViewProps> = props => (
+const ErrorView: React.FC<ErrorViewProps> = props => (
   <div>
     <div style={noConnectStyle}>{props.title}</div>
     <div

@@ -70,7 +70,7 @@ interface SendAsProps {
   c?: string;
 }
 
-const SendAs: React.SFC<SendAsProps> = ({ author, c }) => {
+const SendAs: React.FC<SendAsProps> = ({ author, c }) => {
   return (
     <Flex alignItems="center">
       <Box mr="10px">
@@ -283,6 +283,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
 
       this.setState({ title: '', message: '', isUploading: false });
       this.props.refreshPosts();
+      return;
     }
 
     try {

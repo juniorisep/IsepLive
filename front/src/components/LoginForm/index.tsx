@@ -20,7 +20,7 @@ type LoginFormProps = {
   onChange: (name: 'username' | 'password', value: string) => void;
 };
 
-const LoginForm: React.SFC<LoginFormProps> = props => {
+const LoginForm: React.FC<LoginFormProps> = props => {
   return (
     <Dialog
       open={props.open}

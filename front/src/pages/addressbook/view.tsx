@@ -56,7 +56,7 @@ type PersonProps = {
   name: string;
   promotion: number;
 };
-const Person: React.SFC<PersonProps> = props => {
+const Person: React.FC<PersonProps> = props => {
   const promo = getPromo(props.promotion);
   return (
     <div style={{ boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)', height: '100%' }}>

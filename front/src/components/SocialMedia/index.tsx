@@ -11,7 +11,7 @@ type MediaIconProps = {
   iconAlt: string;
 };
 
-const MediaIcon: React.SFC<MediaIconProps> = props => (
+const MediaIcon: React.FC<MediaIconProps> = props => (
   <a href={props.url} target="_blank" rel="noopener noreferrer">
     <img
       style={iconStyle}
@@ -30,7 +30,7 @@ interface SocialMediaProps {
   };
 }
 
-const SocialMedia: React.SFC<SocialMediaProps> = props => {
+const SocialMedia: React.FC<SocialMediaProps> = props => {
   const { facebook, twitter, snapchat, instagram } = props.socials;
   return (
     <div style={{ marginTop: 10 }}>

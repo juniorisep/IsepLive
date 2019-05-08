@@ -16,8 +16,8 @@ import {
 } from '../../components/common';
 import Loader from '../../components/Loader';
 import Time from '../../components/Time';
-import { Album, Gazette, Video } from './mediaViews';
 import * as mediaTypes from '../../data/media/type';
+import { Album, Gazette, Video } from './mediaViews';
 
 const Title = styled.h2`
   margin-right: 20px;
@@ -26,7 +26,7 @@ const Title = styled.h2`
 `;
 
 type DateSeparatorProps = { date: React.ReactNode };
-const DateSeparator: React.SFC<DateSeparatorProps> = props => {
+const DateSeparator: React.FC<DateSeparatorProps> = props => {
   return (
     <Flex alignItems="center">
       <Box flex="0 0 auto" mr="20px">

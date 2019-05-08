@@ -1,9 +1,7 @@
 import React from 'react';
-
-import Time from '../../components/Time';
-
-import { Text } from '../../components/common';
 import styled from 'styled-components';
+import { Text } from '../../components/common';
+import Time from '../../components/Time';
 import { Student } from '../../data/users/type';
 
 const InfoDescriptorStyle = styled.td`
@@ -15,7 +13,7 @@ const InfoDescriptorStyle = styled.td`
 type InfoDescriptorProps = {
   label: string;
 };
-const InfoDescriptor: React.SFC<InfoDescriptorProps> = props => (
+const InfoDescriptor: React.FC<InfoDescriptorProps> = props => (
   <InfoDescriptorStyle>
     <Text>{props.label}</Text>
   </InfoDescriptorStyle>
@@ -26,7 +24,7 @@ type InfoValueProps = {
   default: string;
   display?: (value: any) => React.ReactNode;
 };
-const InfoValue: React.SFC<InfoValueProps> = props => (
+const InfoValue: React.FC<InfoValueProps> = props => (
   <td style={{ fontStyle: props.label ? 'normal' : 'italic' }}>
     {props.display && (
       <Text>{props.label ? props.display(props.label) : props.default}</Text>
@@ -38,7 +36,7 @@ const InfoValue: React.SFC<InfoValueProps> = props => (
 type UserInfoProps = {
   user: Student;
 };
-const UserInfo: React.SFC<UserInfoProps> = ({ user }) => {
+const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   return (
     <table>
       <tbody>

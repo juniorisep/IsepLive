@@ -1,9 +1,7 @@
 import Button from '@material-ui/core/Button';
 import * as React from 'react';
-import styled, { StyledFunction } from 'styled-components';
+import styled from 'styled-components';
 import { backUrl } from '../config';
-import { StyledProps } from 'styled-components';
-import { Link } from 'react-router-dom';
 
 type SeparatorProps = { m?: string };
 export const Separator = styled.div`
@@ -134,11 +132,11 @@ class ImageStyle extends React.Component<ImageStyleProps> {
   }
 }
 
-export const Image: React.SFC<ImageStyleProps> = props => (
+export const Image: React.FC<ImageStyleProps> = props => (
   <ImageStyle {...props} src={props.src && backUrl + props.src} />
 );
 
-export const BgImageProfileStyle: React.SFC<ImageStyleProps> = props => (
+export const BgImageProfileStyle: React.FC<ImageStyleProps> = props => (
   <div
     style={{
       backgroundImage: `url(${props.src})`,
@@ -153,7 +151,7 @@ export const BgImageProfileStyle: React.SFC<ImageStyleProps> = props => (
   />
 );
 
-export const ProfileImage: React.SFC<ImageStyleProps> = props => {
+export const ProfileImage: React.FC<ImageStyleProps> = props => {
   const src = props.src ? backUrl + props.src : '/img/svg/user.svg';
   return <BgImageProfileStyle {...props} src={src} />;
 };
@@ -175,7 +173,7 @@ type BgImageProps = BgImageStyleProps & {
   style?: React.CSSProperties;
   onClick?: () => void;
 };
-export const BgImage: React.SFC<BgImageProps> = props => {
+export const BgImage: React.FC<BgImageProps> = props => {
   if (!props.src && props.defaultSrc) {
     return <BgImageStyle {...props} src={props.defaultSrc} />;
   }
@@ -185,7 +183,7 @@ export const BgImage: React.SFC<BgImageProps> = props => {
   return <BgImageStyle {...props} src={props.src && backUrl + props.src} />;
 };
 
-export const ImageLink: React.SFC<{ src: string }> = props => {
+export const ImageLink: React.FC<{ src: string }> = props => {
   return <a href={backUrl + props.src}>{props.children}</a>;
 };
 
@@ -254,7 +252,7 @@ const IframeWrap = styled.div`
   }
 `;
 
-export const FacebookVideo: React.SFC<{ url: string }> = props => {
+export const FacebookVideo: React.FC<{ url: string }> = props => {
   return (
     <IframeWrap>
       <iframe
@@ -273,7 +271,7 @@ const Iframe = styled.iframe`
   height: 100%;
 `;
 
-export const YoutubeVideo: React.SFC<{ url: string }> = props => {
+export const YoutubeVideo: React.FC<{ url: string }> = props => {
   return (
     <Iframe
       src={props.url}
@@ -290,7 +288,7 @@ const VideoStyle = styled.video`
   vertical-align: middle;
 `;
 
-export const Video: React.SFC<{ url: string }> = props => {
+export const Video: React.FC<{ url: string }> = props => {
   return <VideoStyle preload="preload" src={backUrl + props.url} controls />;
 };
 
@@ -311,7 +309,7 @@ type FileUploadProps = {
   onFile: (files: FileList | null) => any;
 };
 
-export const FileUpload: React.SFC<FileUploadProps> = props => {
+export const FileUpload: React.FC<FileUploadProps> = props => {
   const hash = new Date().getTime().toString(32);
   return (
     <div>

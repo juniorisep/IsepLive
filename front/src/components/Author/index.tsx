@@ -16,7 +16,7 @@ interface AuthorProps {
   data: userTypes.Author;
 }
 
-const Author: React.SFC<AuthorProps> = ({ data: user }) => {
+const Author: React.FC<AuthorProps> = ({ data: user }) => {
   switch (user.authorType) {
     case 'club':
       const club = user as userTypes.Club;

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router';
+import { Redirect, Route, RouteProps } from 'react-router';
 import { hasRole } from '../../data/auth';
 
 interface AuthenticatedRouteProps extends RouteProps {
   roles: string[];
 }
 
-const AuthenticatedRoute: React.SFC<AuthenticatedRouteProps> = ({
+const AuthenticatedRoute: React.FC<AuthenticatedRouteProps> = ({
   component: Component,
   roles,
   ...rest

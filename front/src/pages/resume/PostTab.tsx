@@ -12,7 +12,7 @@ type PostTabProps = {
   refreshPosts: () => void;
   onSeeMore: () => void;
 };
-export const PostTab: React.SFC<PostTabProps> = props => {
+export const PostTab: React.FC<PostTabProps> = props => {
   const { posts, lastPage } = props;
   return (
     <Box p={2} width={1}>

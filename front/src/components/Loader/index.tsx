@@ -24,7 +24,7 @@ const Box = styled.div`
 `;
 
 type RotatingLoaderProps = { mh?: string };
-const RotatingLoader: React.SFC<RotatingLoaderProps> = props => (
+const RotatingLoader: React.FC<RotatingLoaderProps> = props => (
   <Wrap mh={props.mh || '400px'}>
     <Box>
       <Img src="/img/svg/loader/tail-spin.svg" />
@@ -76,7 +76,7 @@ class LoaderV2 extends Component<LoaderV2Props, LoaderV2State> {
   }
 }
 
-const Loader: React.SFC<
+const Loader: React.FC<
   LoaderV2Props &
     RotatingLoaderProps & {
       v2?: boolean;

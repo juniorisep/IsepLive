@@ -6,18 +6,18 @@ import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 import { BgImage, Paper, Title } from '../../components/common';
 import { backUrl } from '../../config';
 import {
-  AnswerDorScore,
-  QuestionDor,
   AnswerDor,
+  AnswerDorScore,
   EventDor,
+  QuestionDor,
 } from '../../data/dor/type';
-import { Student, Club, Employee } from '../../data/users/type';
+import { Club, Employee, Student } from '../../data/users/type';
 
 const DEFAULT_USER_IMAGE = '/img/svg/user.svg';
 const DEFAULT_EVENT_IMAGE = '/img/svg/event-dor.svg';
 
 type RankProps = { pos: number; score: number };
-const Rank: React.SFC<RankProps> = ({ pos, score }) => {
+const Rank: React.FC<RankProps> = ({ pos, score }) => {
   const isFirst = pos === 1;
   const style = {
     fontSize: isFirst ? 25 : 15,

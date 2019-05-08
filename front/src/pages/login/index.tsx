@@ -125,7 +125,7 @@ const ButtonContainer = styled.div`
   text-align: center;
 `;
 
-const BigButton = styled(Button as React.SFC<ButtonProps>)`
+const BigButton = styled(Button as React.FC<ButtonProps>)`
   margin-bottom: 20px !important;
   font-size: 1.5em !important;
   color: white !important;
@@ -154,10 +154,7 @@ export default class Login extends Component {
     const { username, password } = this.state;
     this.setState({ loading: true });
     return authData
-      .connect(
-        username,
-        password
-      )
+      .connect(username, password)
       .then(res => {
         this.handleRequestClose();
       })

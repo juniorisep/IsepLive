@@ -19,7 +19,7 @@ import { Student } from '../../data/users/type';
 import Auth from '../Auth/AuthComponent';
 import { Text } from '../common';
 
-const CustomCheckbox = styled(Checkbox as React.SFC<CheckboxProps>)`
+const CustomCheckbox = styled(Checkbox as React.FC<CheckboxProps>)`
   color: ${props => props.theme.accent} !important;
 `;
 
@@ -37,7 +37,7 @@ interface LikesPanelProps {
   onClose: () => void;
 }
 
-const LikesPanel: React.SFC<LikesPanelProps> = props => {
+const LikesPanel: React.FC<LikesPanelProps> = props => {
   return (
     <Dialog open={props.open || false} onClose={props.onClose}>
       <DialogTitle>{props.students.length} J'aime</DialogTitle>

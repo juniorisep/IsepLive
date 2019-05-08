@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import * as authData from '../../data/auth';
 import { Post } from '../../data/post/type';
+import { Student } from '../../data/users/type';
 import Author from '../Author';
 import { ProfileImage, Subtitle, Title } from '../common';
 import Time from '../Time';
-import { Student } from '../../data/users/type';
 
 const DynamicTitle = styled(Title)`
   padding-right: 10px;
@@ -19,7 +19,7 @@ const DynamicTitle = styled(Title)`
 type PostTitleViewProps = {
   post: Post;
 };
-const PostTitleView: React.SFC<PostTitleViewProps> = ({ post }) => {
+const PostTitleView: React.FC<PostTitleViewProps> = ({ post }) => {
   const dateFormat = 'Do MMMM YYYY [à] H[h]mm';
   if (post.author.authorType === 'student') {
     const student = post.author as Student;

@@ -50,7 +50,7 @@ interface PostDetailViewProps {
   deletePost: (ok: boolean) => void;
 }
 
-export const PostDetailView: React.SFC<PostDetailViewProps> = props => {
+export const PostDetailView: React.FC<PostDetailViewProps> = props => {
   return (
     <div>
       <ScrollToTopOnMount />

@@ -121,7 +121,7 @@ interface RangeProps {
   seekVideo: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Range: React.SFC<RangeProps> = props => {
+const Range: React.FC<RangeProps> = props => {
   const width = (props.currentTime * 100) / props.vidLength + '%';
   return (
     <RangeStyle>
@@ -149,7 +149,7 @@ function pad(n: number, width: number): string {
     : new Array(width - number.length + 1).join('0') + number;
 }
 
-const LargePlayBtn: React.SFC<{ huge: boolean }> = props => (
+const LargePlayBtn: React.FC<{ huge: boolean }> = props => (
   <img
     style={{ width: props.huge ? 140 : 90, cursor: 'pointer' }}
     src="/img/svg/play.svg"

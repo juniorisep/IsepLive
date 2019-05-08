@@ -25,7 +25,7 @@ const Explore = styled(ExploreAction)`
 `;
 
 type BtnProps = ButtonProps & { mt?: string };
-const Button = styled(MUIButton as React.SFC<BtnProps>)`
+const Button = styled(MUIButton as React.FC<BtnProps>)`
   margin-top: ${(props: BtnProps) => props.mt || '0'};
 `;
 
@@ -38,7 +38,7 @@ type ClubDetailViewProps = ClubDetailState & {
   closeForm: () => void;
   deleteAccepted: (accept: boolean) => void;
 };
-const ClubDetailView: React.SFC<ClubDetailViewProps> = props => {
+const ClubDetailView: React.FC<ClubDetailViewProps> = props => {
   return (
     <div style={{ background: BACKGROUND_COLOR }}>
       <ScrollToTopOnMount />

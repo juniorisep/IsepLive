@@ -1,5 +1,7 @@
 import { Tab, Tabs } from '@material-ui/core';
 import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import styled from 'styled-components';
 import {
   FluidContent,
   Paper,
@@ -7,13 +9,11 @@ import {
   ScrollToTopOnMount,
   Title,
 } from '../../../components/common';
-import React from 'react';
-import styled from 'styled-components';
 import FullScreenView from '../../../components/FullScreen/View';
 import Loader from '../../../components/Loader';
 import SocialMedia from '../../../components/SocialMedia';
-import UserInfo from '../../resume/UserInfo';
 import { Student } from '../../../data/users/type';
+import UserInfo from '../../resume/UserInfo';
 
 const PersonStyle = styled.div`
   > div {
@@ -33,7 +33,7 @@ type AdressbookDetailViewProps = {
   renderTab: () => React.ReactNode;
 };
 
-const AdressbookDetailView: React.SFC<AdressbookDetailViewProps> = ({
+const AdressbookDetailView: React.FC<AdressbookDetailViewProps> = ({
   user,
   isLoading,
   tabIndex,

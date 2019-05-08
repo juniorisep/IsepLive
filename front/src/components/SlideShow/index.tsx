@@ -114,7 +114,7 @@ interface ImageTransitionProps {
   coverMode: string;
   image: string;
 }
-const ImageTransition: React.SFC<ImageTransitionProps> = props => (
+const ImageTransition: React.FC<ImageTransitionProps> = props => (
   <Transition in={props.in} timeout={props.duration}>
     {(state: any) => (
       <ImageLoader

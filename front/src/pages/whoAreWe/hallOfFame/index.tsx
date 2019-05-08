@@ -1,17 +1,13 @@
+import Paper from '@material-ui/core/Paper';
+import { Box, Flex } from '@rebass/grid';
 import React, { Component } from 'react';
-
+import styled from 'styled-components';
 import {
+  BgImageProfileStyle,
   FluidContent,
   ScrollToTopOnMount,
-  BgImageProfileStyle,
   Title,
 } from '../../../components/common';
-
-import Paper from '@material-ui/core/Paper';
-
-import { Box, Flex } from '@rebass/grid';
-
-import styled from 'styled-components';
 
 const BgImageStyle = styled.div`
   > img {
@@ -50,7 +46,7 @@ type PersonProps = {
   role: string;
   promotion: string;
 };
-const Person: React.SFC<PersonProps> = props => {
+const Person: React.FC<PersonProps> = props => {
   return (
     <PersonStyle>
       <BgImageProfileStyle alt="" src={props.url} w="100%" mh="200px" />{' '}

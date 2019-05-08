@@ -19,7 +19,7 @@ export interface PostViewProps {
   textView: (size: number[]) => React.ReactNode;
 }
 
-export const PostView: React.SFC<PostViewProps> = props => {
+export const PostView: React.FC<PostViewProps> = props => {
   if (props.post.media) {
     switch (props.post.media.mediaType) {
       case 'poll':

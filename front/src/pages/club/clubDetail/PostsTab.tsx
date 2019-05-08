@@ -13,7 +13,7 @@ type PostsTabProps = {
   refreshPosts: () => void;
   onSeeMore: () => void;
 };
-const PostsTab: React.SFC<PostsTabProps> = props => {
+const PostsTab: React.FC<PostsTabProps> = props => {
   return (
     <Loader loading={props.loading}>
       {props.posts.length === 0 && (

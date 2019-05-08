@@ -32,7 +32,7 @@ const Index = styled.span`
   color: #777;
 `;
 
-const Item = styled(ListItem as React.SFC<ListItemProps>)`
+const Item = styled(ListItem as React.FC<ListItemProps>)`
   display: flex;
   align-items: center;
 `;
@@ -49,7 +49,7 @@ type AnswerItemProps = {
   answer: AnswerDorScore;
   index: number;
 };
-const AnswerItem: React.SFC<AnswerItemProps> = ({ answer, index }) => {
+const AnswerItem: React.FC<AnswerItemProps> = ({ answer, index }) => {
   const data = dorData.getAnswerData(answer);
   return (
     <Fragment>

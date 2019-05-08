@@ -22,7 +22,7 @@ type AlbumProps = {
   id: number;
   url: string | null;
 };
-export const Album: React.SFC<AlbumProps> = props => {
+export const Album: React.FC<AlbumProps> = props => {
   return (
     <AlbumStyle>
       <Link to={`/gallery/${props.id}`}>
@@ -41,7 +41,7 @@ export const Album: React.SFC<AlbumProps> = props => {
 };
 
 type VideoStyleProps = StyledProps<{ poster: string | null }>;
-const VideoStyle = styled(Cell as React.SFC<VideoStyleProps>)`
+const VideoStyle = styled(Cell as React.FC<VideoStyleProps>)`
   .image {
     position: absolute;
     top: 0;
@@ -68,7 +68,7 @@ const VideoStyle = styled(Cell as React.SFC<VideoStyleProps>)`
     padding: 10px;
     color: ${props => props.theme.main};
   }
-`;
+` as any;
 
 const Poster = styled.div`
   position: relative;
@@ -83,7 +83,7 @@ type VideoProps = {
   poster: string | null;
   creation: number;
 };
-export const Video: React.SFC<VideoProps> = props => {
+export const Video: React.FC<VideoProps> = props => {
   return (
     <VideoStyle poster={props.poster}>
       <Poster
@@ -134,7 +134,7 @@ type GazetteProps = {
   title: string;
   creation: number;
 };
-export const Gazette: React.SFC<GazetteProps> = props => {
+export const Gazette: React.FC<GazetteProps> = props => {
   return (
     <GazetteStyle>
       <div className="image">

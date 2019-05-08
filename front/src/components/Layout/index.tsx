@@ -114,7 +114,7 @@ const NavLinkBtn: React.FC<any> = props => (
   />
 );
 
-const Nav: React.SFC<any> = props => {
+const Nav: React.FC<any> = props => {
   return (
     <div>
       <Button component={NavLinkBtn} {...props} />
@@ -122,7 +122,7 @@ const Nav: React.SFC<any> = props => {
   );
 };
 
-const SideNav: React.SFC<NavProps> = props => {
+const SideNav: React.FC<NavProps> = props => {
   return (
     <NavLink to={props.to}>
       <ListItem button>
@@ -132,11 +132,11 @@ const SideNav: React.SFC<NavProps> = props => {
   );
 };
 
-const NavItem: React.SFC = props => (
+const NavItem: React.FC = props => (
   <Flex alignItems="center">{props.children}</Flex>
 );
 
-const NavIcon: React.SFC<{
+const NavIcon: React.FC<{
   icon: React.ComponentType<SvgIconProps>;
 }> = props => <props.icon style={{ color: MAIN_COLOR, marginRight: 10 }} />;
 
@@ -314,10 +314,7 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
     event.preventDefault();
     const { username, password } = this.state;
     try {
-      await authData.connect(
-        username,
-        password
-      );
+      await authData.connect(username, password);
       this.handleRequestClose();
       this.props.history.push('/');
     } catch (err) {

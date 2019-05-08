@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import { Box, Flex } from '@rebass/grid';
+import React from 'react';
+import styled from 'styled-components';
 import {
   Banner,
   Filler,
@@ -20,16 +22,12 @@ import {
   Text,
   Title,
 } from '../../components/common';
-import React from 'react';
-import styled from 'styled-components';
 import DatePicker from '../../components/DatePicker';
 import FullScreenView from '../../components/FullScreen/View';
 import Loader from '../../components/Loader';
 import SocialMedia from '../../components/SocialMedia';
-import UserInfo from './UserInfo';
 import { Student, StudentUpdate } from '../../data/users/type';
-import { Post } from '../../data/post/type';
-import { ClubMember } from '../../data/club/type';
+import UserInfo from './UserInfo';
 
 const PersonStyle = styled.div`
   > div {
@@ -53,7 +51,7 @@ type ResumeViewProps = {
   handleUpdate: (form: StudentUpdate) => void;
 };
 
-export const ResumeView: React.SFC<ResumeViewProps> = ({
+export const ResumeView: React.FC<ResumeViewProps> = ({
   user,
   open,
   isLoading,

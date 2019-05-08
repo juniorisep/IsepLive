@@ -36,7 +36,7 @@ interface MediaCreatorProps {
   onDelete: () => void;
 }
 
-export const MediaCreator: React.SFC<MediaCreatorProps> = props => {
+export const MediaCreator: React.FC<MediaCreatorProps> = props => {
   if (props.show) {
     return (
       <MediaCreatorWrap>

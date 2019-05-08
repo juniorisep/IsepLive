@@ -38,7 +38,7 @@ type MemberProps = {
   promotion: number;
   role: string;
 };
-const Member: React.SFC<MemberProps> = props => {
+const Member: React.FC<MemberProps> = props => {
   return (
     <MemberStyle>
       <ProfileImage
@@ -60,7 +60,7 @@ type MembersTabProps = {
   loading: boolean;
   members: ClubMember[];
 };
-const MembersTab: React.SFC<MembersTabProps> = props => {
+const MembersTab: React.FC<MembersTabProps> = props => {
   return (
     <Loader loading={props.loading}>
       <Flex flexWrap="wrap" style={{ minHeight: 400 }}>

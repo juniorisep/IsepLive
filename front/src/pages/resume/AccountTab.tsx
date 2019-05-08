@@ -1,9 +1,9 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Box, Flex } from '@rebass/grid';
-import { BgImage, Paper, Text, Title } from '../../components/common';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { BgImage, Paper, Text, Title } from '../../components/common';
 import * as clubData from '../../data/club';
 import { ClubMember } from '../../data/club/type';
 
@@ -13,7 +13,7 @@ type AccountTabProps = {
   toggleNotif?: () => void;
   clubMembers: ClubMember[];
 };
-export const AccountTab: React.SFC<AccountTabProps> = props => {
+export const AccountTab: React.FC<AccountTabProps> = props => {
   const { data, clubMembers } = props;
   const { bio, allowNotifications } = data;
   return (

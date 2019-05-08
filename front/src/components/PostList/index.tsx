@@ -155,8 +155,10 @@ export function PostTextContent(props: TextContentProps) {
   );
 }
 
+type PostListRefreshAction = 'delete';
+
 type PostListViewProps = {
-  refreshPosts: (action?: string) => void;
+  refreshPosts: (action?: PostListRefreshAction) => void;
   posts: PostType[];
   canPin: boolean;
 };

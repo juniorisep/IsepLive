@@ -45,7 +45,22 @@ class View extends Component<ViewProps, ViewState> {
     matcherOpen: false,
   };
 
+  componentDidMount() {
+    this.setOverflowHidden(true);
+  }
+
+  componentDidUpdate(prevProps: ViewProps) {
+    if (!this.props.visible) {
+      this.removeEscListener();
+    } else {
+      document.addEventListener('keydown', this.keyHandler);
+    }
+
+    this.setOverflowHidden(this.props.visible);
+  }
+
   componentWillUnmount() {
+    this.setOverflowHidden(false);
     this.removeEscListener();
   }
 
@@ -57,14 +72,8 @@ class View extends Component<ViewProps, ViewState> {
     this.setState({ matcherOpen: open });
   };
 
-  componentDidUpdate(props: ViewProps) {
-    if (!props.visible) {
-      this.removeEscListener();
-    } else {
-      document.addEventListener('keydown', this.keyHandler);
-    }
-
-    document.body.style.overflow = props.visible ? 'hidden' : 'auto';
+  setOverflowHidden(visible?: boolean) {
+    document.body.style.overflow = visible ? 'hidden' : 'auto';
   }
 
   keyHandler = ({ key }: KeyboardEvent) => {

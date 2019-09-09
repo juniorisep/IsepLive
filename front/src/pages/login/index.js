@@ -211,7 +211,7 @@ export default class Login extends Component {
             </TitleHeader>
             <LogoPartner>
               <a href="https://www.juniorisep.com" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/juniorisep.png" alt="Junior ISEP logo" /></a>
-              <a href="https://www.bdedestiny.com/" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/destiny.png" alt="BDE logo" /></a>
+              <a href="https://www.bdedestiny.com/" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/genesis.png" alt="BDE logo" /></a>
               <a href="https://www.isep.fr/" target="_blank" rel="noopener noreferrer"><Logo src="/img/login/isep.png" alt="ISEP logo" /></a>
             </LogoPartner>
           </TitleContainer>

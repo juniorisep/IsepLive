@@ -151,6 +151,8 @@ export const BgImageProfileStyle = props => (
 );
 
 export const ProfileImage = (props: ImageType) => {
+  //BACK TO BDE 2019
+  //const src = '/img/lol/'+ (Math.floor((Math.random()*15))+1)  + '.jpg';
   const src = props.src ? backUrl + props.src : '/img/svg/user.svg';
   return <BgImageProfileStyle {...props} src={src} />;
 };

@@ -96,7 +96,7 @@ class Intercept extends React.Component<{}, State> {
   }
 
   handleOffline = () => {
-    sendAlert('Connexion interrompu', 'error');
+    sendAlert('Connexion interrompue', 'error');
   };
 
   handleOnline = () => {

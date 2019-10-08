@@ -1,9 +1,9 @@
 // @flow
 
 import axios from 'axios';
-import type { AxiosPromise } from 'axios';
+import type {AxiosPromise} from 'axios';
 
-import { MAX_PROMO } from '../../constants';
+import {MAX_PROMO} from '../../constants';
 import type {
   StudentUpdate,
   Student,
@@ -12,9 +12,9 @@ import type {
   Employee,
   CreateEmployee,
 } from './type';
-import type { Post } from '../post/type';
-import type { Image } from '../media/type';
-import type { ClubMember } from '../club/type';
+import type {Post} from '../post/type';
+import type {Image} from '../media/type';
+import type {ClubMember} from '../club/type';
 
 export function getStudents(page: number = 0): AxiosPromise<PagedStudent> {
   return axios.get(`/user/student?page=${page}`);
@@ -123,6 +123,14 @@ export function importStudents(
     form.append('images[]', photos[index]);
   }
   return axios.post('/user/student/import', form, { onUploadProgress });
+}
+
+export function updateStudentsPhoto(photos: File[], onUploadProgress: () => mixed): AxiosPromise<any> {
+  let form = new FormData();
+  for (let index = 0; index < photos.length; index++) {
+    form.append('images[]', photos[index]);
+  }
+  return axios.put('/user/student/update/photos', form, {onUploadProgress});
 }
 
 export function getClubMembers(id: number): AxiosPromise<ClubMember[]> {

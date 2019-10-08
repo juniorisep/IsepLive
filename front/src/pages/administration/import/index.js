@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Flex, Box } from 'grid-styled';
+import {Flex, Box} from 'grid-styled';
 
 import {
   Table,
@@ -17,8 +17,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import FileUpload from '@material-ui/icons/CloudUpload';
 import Done from '@material-ui/icons/Done';
 
-import { FluidContent, Title, Paper, Text } from '../../../components/common';
-import { sendAlert } from '../../../components/Alert';
+import {FluidContent, Title, Paper, Text} from '../../../components/common';
+import {sendAlert} from '../../../components/Alert';
 import * as studentData from '../../../data/users/student';
 
 export default class ImportStudents extends React.Component {
@@ -35,8 +35,8 @@ export default class ImportStudents extends React.Component {
   };
 
   importStudents = () => {
-    const { csv, photos } = this.state;
-    this.setState({ uploading: true });
+    const {csv, photos} = this.state;
+    this.setState({uploading: true});
 
     studentData
       .importStudents(csv, photos, progress => {
@@ -78,10 +78,51 @@ export default class ImportStudents extends React.Component {
       });
   };
 
+  importPhotosUpdate = () => {
+    const  {photos} = this.state;
+    this.setState({uploading: true});
+
+    studentData
+      .updateStudentsPhoto(photos, progress => {
+        let percentCompleted = Math.floor(
+          (progress.loaded * 100) / progress.total
+        );
+        this.setState({
+          progress: percentCompleted,
+          uploadState:
+            progress.loaded === progress.total
+              ? 'indeterminate'
+              : 'determinate',
+        });
+      })
+      .then(r => {
+        sendAlert('Photos mises à jour');
+        this.setState({
+          result: r.data,
+          uploading: false,
+          progress: 0,
+          photos: [],
+          photosData: {}
+        });
+      })
+      .catch(err => {
+        if (err.response) {
+          sendAlert("Erreur lors de l'import");
+          console.log(err.response);
+          this.setState({
+            uploading: false,
+            progress: 0,
+            photos: [],
+            photosData: {}
+          });
+        }
+      });
+  };
+
   handle = name => e => {
     let file = name === 'csv' ? e.target.files[0] : e.target.files;
 
-    this.setState({ [name]: file });
+    this.setState({[name]: file});
   };
 
   addCsv = e => {
@@ -106,11 +147,11 @@ export default class ImportStudents extends React.Component {
           });
         }
       });
-      this.setState({ students });
+      this.setState({students});
     };
     reader.readAsText(csv);
 
-    this.setState({ csv, result: null });
+    this.setState({csv, result: null});
   };
 
   importPhoto = e => {
@@ -119,7 +160,7 @@ export default class ImportStudents extends React.Component {
     const readerPromise = file =>
       new Promise((resolve, reject) => {
         let reader = new FileReader();
-        reader.onload = e => resolve({ url: e.target.result, file });
+        reader.onload = e => resolve({url: e.target.result, file});
         reader.readAsDataURL(file);
       });
 
@@ -136,11 +177,11 @@ export default class ImportStudents extends React.Component {
       });
     });
 
-    this.setState({ photosData, photos, result: null });
+    this.setState({photosData, photos, result: null});
   };
 
   handleChangePage = (e, page) => {
-    this.setState({ page });
+    this.setState({page});
   };
 
   render() {
@@ -162,19 +203,19 @@ export default class ImportStudents extends React.Component {
     return (
       <FluidContent>
         <Title invert>Import Élèves</Title>
-        <Paper p="2em">
+        <Paper p="2em" mb="3em">
           <Flex>
             <Box mr={2} mb={2}>
               <input
                 id="csvFile"
                 type="file"
                 accept=".csv"
-                style={{ display: 'none' }}
+                style={{display: 'none'}}
                 onChange={this.addCsv}
               />
               <label htmlFor="csvFile">
                 <Button component="span" variant="raised" color="primary">
-                  <FileUpload style={{ marginRight: 5 }} /> CSV Eleves
+                  <FileUpload style={{marginRight: 5}}/> CSV Eleves
                 </Button>
               </label>
             </Box>
@@ -184,12 +225,12 @@ export default class ImportStudents extends React.Component {
                 type="file"
                 multiple
                 accept=".jpg,.jpeg"
-                style={{ display: 'none' }}
+                style={{display: 'none'}}
                 onChange={this.importPhoto}
               />
               <label htmlFor="photos">
                 <Button component="span" variant="raised" color="primary">
-                  <FileUpload style={{ marginRight: 5 }} /> Photos
+                  <FileUpload style={{marginRight: 5}}/> Photos
                 </Button>
               </label>
             </Box>
@@ -201,7 +242,7 @@ export default class ImportStudents extends React.Component {
                 CSV élèves: {csv.name} - {students.length} élèves à importer
               </Text>
             )}
-            {photos.length !== 0 && (
+            {csv && photos.length !== 0 && (
               <Text>
                 {photos.length} photo
                 {photos.length !== 1 && 's'} sélectionnée
@@ -210,8 +251,8 @@ export default class ImportStudents extends React.Component {
             )}
           </Box>
           <Box mb={1}>
-            {uploading && (
-              <LinearProgress variant={uploadState} value={progress} />
+            {csv && photos.length !== 0 && uploading && (
+              <LinearProgress variant={uploadState} value={progress}/>
             )}
           </Box>
           <Box mb={1}>
@@ -221,7 +262,7 @@ export default class ImportStudents extends React.Component {
               color="secondary"
               onClick={this.importStudents}
             >
-              <Done style={{ marginRight: 5 }} /> Importer
+              <Done style={{marginRight: 5}}/> Importer
             </Button>
           </Box>
           {result && (
@@ -271,7 +312,7 @@ export default class ImportStudents extends React.Component {
                         <img
                           alt="student"
                           src={photosData[s.studentid]}
-                          style={{ width: '50px' }}
+                          style={{width: '50px'}}
                         />
                       </TableCell>
                       <TableCell>
@@ -295,6 +336,53 @@ export default class ImportStudents extends React.Component {
               </TableFooter>
             </Table>
           )}
+        </Paper>
+
+
+        <Title invert>Mise à jour photo Elèves</Title>
+        <Paper p="2em">
+          <Flex>
+            <Box>
+              <input
+                id="photos"
+                type="file"
+                multiple
+                accept=".jpg,.jpeg"
+                style={{display: 'none'}}
+                onChange={this.importPhoto}
+              />
+              <label htmlFor="photos">
+                <Button component="span" variant="raised" color="primary">
+                  <FileUpload style={{marginRight: 5}}/> Photos
+                </Button>
+              </label>
+            </Box>
+          </Flex>
+          <Box mb={2}>
+            {!csv && photos.length !== 0 && (
+              <Text>
+                {photos.length} photo
+                {photos.length !== 1 && 's'} sélectionnée
+                {photos.length !== 1 && 's'}
+              </Text>
+            )}
+          </Box>
+          <Box mb={1}>
+            {!csv && photos.length !== 0 && uploading && (
+              <LinearProgress variant={uploadState} value={progress}/>
+            )}
+          </Box>
+
+          <Box mb={1}>
+            <Button
+              disabled={uploading || photos.length === 0}
+              variant="raised"
+              color="secondary"
+              onClick={this.importPhotosUpdate}
+            >
+              <Done style={{marginRight: 5}}/> Importer
+            </Button>
+          </Box>
         </Paper>
       </FluidContent>
     );

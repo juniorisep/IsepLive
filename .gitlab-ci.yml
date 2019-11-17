@@ -37,7 +37,7 @@ build:front:
       - front/build
 
 package:back:
-  image: docker:stable
+  image: docker:19.03.5-dind
   stage: package
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -48,7 +48,7 @@ package:back:
     - build:back
 
 package:front:
-  image: docker:stable
+  image: docker:19.03.5-dind
   stage: package
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY

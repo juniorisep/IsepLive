@@ -45,7 +45,7 @@ package:back:
   stage: package
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/vely/iseplive-back:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-back:latest -f back .
+    - docker build -t $CI_REGISTRY/vely/iseplive-back:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-back:latest -f back/Dockerfile .
     - docker push $CI_REGISTRY/vely/iseplive-back:$APP_VERSION
     - docker push $CI_REGISTRY/vely/iseplive-back:latest
   dependencies:
@@ -55,7 +55,7 @@ package:front:
   stage: package
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/vely/iseplive-front:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-front:latest -f front .
+    - docker build -t $CI_REGISTRY/vely/iseplive-front:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-front:latest -f front/Dockerfile .
     - docker push $CI_REGISTRY/vely/iseplive-front:$APP_VERSION
     - docker push $CI_REGISTRY/vely/iseplive-front:latest
   dependencies:

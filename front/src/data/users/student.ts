@@ -1,7 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
 import { MAX_PROMO } from '../../constants';
 import { ClubMember } from '../club/type';
-import { Image, Match, MatchedView } from '../media/type';
+import { MatchedView } from '../media/type';
 import { Post } from '../post/type';
 import { Page } from '../request.type';
 import { CreateEmployee, Employee, Role, Student, StudentUpdate } from './type';
@@ -13,7 +13,7 @@ export function getStudents(page: number = 0): AxiosPromise<Page<Student>> {
 }
 
 export function getStudentsForAdmin(
-  page: number = 0
+  page: number = 0,
 ): AxiosPromise<Page<Student>> {
   return axios.get(`/user/student/admin?page=${page}`);
 }
@@ -43,7 +43,7 @@ export function updateStudentFull(data: any): AxiosPromise<Student> {
       instagram: data.instagram,
       snapchat: data.snapchat,
       roles: data.roles,
-    })
+    }),
   );
 
   form.append('image', data.file);
@@ -55,11 +55,11 @@ export function searchStudents(
   name: string,
   promotionFilter: number[] = [],
   sort: SortOrder = 'a',
-  page: number = 0
+  page: number = 0,
 ): AxiosPromise<Page<Student>> {
   const promos = promotionFilter.join(',');
   return axios.get(
-    `/user/student/search?name=${name}&promos=${promos}&sort=${sort}&page=${page}`
+    `/user/student/search?name=${name}&promos=${promos}&sort=${sort}&page=${page}`,
   );
 }
 
@@ -68,12 +68,12 @@ export function searchStudentsAdmin(
   rolesFilter: string[] = [],
   promotionFilter: number[] = [],
   sort: SortOrder = 'a',
-  page: number = 0
+  page: number = 0,
 ): AxiosPromise<Page<Student>> {
   const promos = promotionFilter.join(',');
   const roles = rolesFilter.join(',');
   return axios.get(
-    `/user/student/search/admin?name=${name}&roles=${roles}&promos=${promos}&sort=${sort}&page=${page}`
+    `/user/student/search/admin?name=${name}&roles=${roles}&promos=${promos}&sort=${sort}&page=${page}`,
   );
 }
 
@@ -91,14 +91,14 @@ export function getLoggedUser(): AxiosPromise<Student> {
 
 export function getPosts(
   id: number,
-  page: number = 0
+  page: number = 0,
 ): AxiosPromise<Page<Post>> {
   return axios.get(`/user/student/${id}/post?page=${page}`);
 }
 
 export function getTaggedPhotos(
   id: number,
-  page: number = 0
+  page: number = 0,
 ): AxiosPromise<Page<MatchedView>> {
   return axios.get(`/user/student/${id}/photo?page=${page}`);
 }
@@ -110,7 +110,7 @@ export function toggleNotifications(): AxiosPromise<void> {
 export function importStudents(
   csv: File,
   photos: File[],
-  onUploadProgress: (progress: { loaded: number; total: number }) => void
+  onUploadProgress: (progress: { loaded: number; total: number }) => void,
 ): AxiosPromise<any> {
   let form = new FormData();
   form.append('csv', csv);
@@ -122,6 +122,17 @@ export function importStudents(
 
 export function getClubMembers(id: number): AxiosPromise<ClubMember[]> {
   return axios.get(`/user/student/${id}/club`);
+}
+
+export function updateStudentsPhoto(
+  photos: File[],
+  onUploadProgress: (progress: any) => void,
+): AxiosPromise<any> {
+  let form = new FormData();
+  for (let index = 0; index < photos.length; index++) {
+    form.append('images[]', photos[index]);
+  }
+  return axios.put('/user/student/update/photos', form, { onUploadProgress });
 }
 
 export function computeYearsPromo(): number[] {
@@ -190,7 +201,7 @@ export function createEmployee(emp: CreateEmployee): AxiosPromise<Employee> {
 
 export function updateEmployee(
   id: number,
-  emp: CreateEmployee
+  emp: CreateEmployee,
 ): AxiosPromise<Employee> {
   return axios.put(`/dor/employee/${id}`, emp);
 }

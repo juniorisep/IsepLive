@@ -292,7 +292,7 @@ export const Video: React.FC<{ url: string }> = props => {
   return <VideoStyle preload="preload" src={backUrl + props.url} controls />;
 };
 
-type PaperProps = { p?: string; mb?: number };
+type PaperProps = { p?: string; mb?: string };
 export const Paper = styled.div`
   box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
   background: white;

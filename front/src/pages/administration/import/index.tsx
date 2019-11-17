@@ -60,7 +60,7 @@ export default class ImportStudents extends React.Component<
       try {
         const res = await studentData.importStudents(csv, photos, progress => {
           let percentCompleted = Math.floor(
-            (progress.loaded * 100) / progress.total
+            (progress.loaded * 100) / progress.total,
           );
           this.setState({
             progress: percentCompleted,
@@ -94,6 +94,47 @@ export default class ImportStudents extends React.Component<
         }
       }
     }
+  };
+
+  importPhotosUpdate = () => {
+    const { photos } = this.state;
+    this.setState({ uploading: true });
+
+    studentData
+      .updateStudentsPhoto(photos, progress => {
+        let percentCompleted = Math.floor(
+          (progress.loaded * 100) / progress.total,
+        );
+        this.setState({
+          progress: percentCompleted,
+          uploadState:
+            progress.loaded === progress.total
+              ? 'indeterminate'
+              : 'determinate',
+        });
+      })
+      .then(r => {
+        sendAlert('Photos mises à jour');
+        this.setState({
+          result: r.data,
+          uploading: false,
+          progress: 0,
+          photos: [],
+          photosData: {},
+        });
+      })
+      .catch(err => {
+        if (err.response) {
+          sendAlert("Erreur lors de l'import");
+          console.log(err.response);
+          this.setState({
+            uploading: false,
+            progress: 0,
+            photos: [],
+            photosData: {},
+          });
+        }
+      });
   };
 
   addCsv = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,7 +175,7 @@ export default class ImportStudents extends React.Component<
       let photos = Array.from(files);
       e.target.files = null;
       const readerPromise = (
-        file: File
+        file: File,
       ): Promise<{ url: string; file: File }> =>
         new Promise(resolve => {
           let reader = new FileReader();
@@ -182,7 +223,7 @@ export default class ImportStudents extends React.Component<
     return (
       <FluidContent>
         <Title invert>Import Élèves</Title>
-        <Paper p="2em">
+        <Paper p="2em" mb="3em">
           <Flex>
             <Box mr={2} mb={2}>
               <input
@@ -221,7 +262,7 @@ export default class ImportStudents extends React.Component<
                 CSV élèves: {csv.name} - {students.length} élèves à importer
               </Text>
             )}
-            {photos.length !== 0 && (
+            {csv && photos.length !== 0 && (
               <Text>
                 {photos.length} photo
                 {photos.length !== 1 && 's'} sélectionnée
@@ -230,7 +271,7 @@ export default class ImportStudents extends React.Component<
             )}
           </Box>
           <Box mb={1}>
-            {uploading && (
+            {csv && photos.length !== 0 && uploading && (
               <LinearProgress variant={uploadState} value={progress} />
             )}
           </Box>
@@ -315,6 +356,52 @@ export default class ImportStudents extends React.Component<
               </TableFooter>
             </Table>
           )}
+        </Paper>
+
+        <Title invert>Mise à jour photo Elèves</Title>
+        <Paper p="2em">
+          <Flex>
+            <Box>
+              <input
+                id="photos"
+                type="file"
+                multiple
+                accept=".jpg,.jpeg"
+                style={{ display: 'none' }}
+                onChange={this.importPhoto}
+              />
+              <label htmlFor="photos">
+                <Button component="span" variant="contained" color="primary">
+                  <FileUpload style={{ marginRight: 5 }} /> Photos
+                </Button>
+              </label>
+            </Box>
+          </Flex>
+          <Box mb={2}>
+            {!csv && photos.length !== 0 && (
+              <Text>
+                {photos.length} photo
+                {photos.length !== 1 && 's'} sélectionnée
+                {photos.length !== 1 && 's'}
+              </Text>
+            )}
+          </Box>
+          <Box mb={1}>
+            {!csv && photos.length !== 0 && uploading && (
+              <LinearProgress variant={uploadState} value={progress} />
+            )}
+          </Box>
+
+          <Box mb={1}>
+            <Button
+              disabled={uploading || photos.length === 0}
+              variant="contained"
+              color="secondary"
+              onClick={this.importPhotosUpdate}
+            >
+              <Done style={{ marginRight: 5 }} /> Importer
+            </Button>
+          </Box>
         </Paper>
       </FluidContent>
     );

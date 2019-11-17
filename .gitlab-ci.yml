@@ -1,3 +1,11 @@
+image: docker:18.09.9
+
+services:
+  - docker:18.09.9-dind
+
+before_script:
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
 stages:
   - build
   - package
@@ -37,10 +45,8 @@ build:front:
       - front/build
 
 package:back:
-  image: docker:18.09.9-dind
   stage: package
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY/vely/iseplive-back:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-back:latest -f back .
     - docker push $CI_REGISTRY/vely/iseplive-back:$APP_VERSION
     - docker push $CI_REGISTRY/vely/iseplive-back:latest
@@ -48,10 +54,8 @@ package:back:
     - build:back
 
 package:front:
-  image: docker:18.09.9-dind
   stage: package
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY/vely/iseplive-front:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-front:latest -f front .
     - docker push $CI_REGISTRY/vely/iseplive-front:$APP_VERSION
     - docker push $CI_REGISTRY/vely/iseplive-front:latest

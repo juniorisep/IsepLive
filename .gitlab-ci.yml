@@ -5,6 +5,7 @@ stages:
 
 variables:
   APP_VERSION: v1.3
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
 
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
@@ -19,10 +20,10 @@ build:back:
   stage: build
   script:
     - cd back
-    - mvn package -Pprod -Dmaven.test.skip=true -DskipTests
+    - mvn package $MAVEN_CLI_OPTS -Pprod -DskipTests
   artifacts:
     paths:
-      - target/
+      - back/target
 
 build:front:
   image: node:8-alpine
@@ -33,7 +34,7 @@ build:front:
     - npm run build:prod
   artifacts:
     paths:
-      - build/
+      - front/build
 
 package:back:
   image: docker:stable

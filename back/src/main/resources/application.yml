@@ -10,6 +10,8 @@ spring:
     multipart:
       max-file-size: 2000MB
       max-request-size: 2000MB
+  profiles:
+    active: @activeProfiles@
 
 server:
   port: 8080
@@ -43,14 +45,13 @@ logging:
   level:
     com.iseplive.api: INFO
 
-
 jwt:
   secret: 1jmhvPXhI40vqAnm
   refreshSecret: fIH3ZmRmqH2LT6vH
   tokenDuration: 600 # 10 min
   refreshTokenDuration: 604800 # 7 jours
-#  tokenDuration: 604800 # 7 jours
-#  tokenDuration: 10
+  #  tokenDuration: 604800 # 7 jours
+  #  tokenDuration: 10
   issuer: IsepLive
 
 auth:

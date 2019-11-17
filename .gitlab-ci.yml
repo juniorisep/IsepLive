@@ -1,0 +1,58 @@
+stages:
+  - build
+  - package
+  - deploy
+
+variables:
+  APP_VERSION: v1.3
+
+# Cache downloaded dependencies and plugins between builds.
+# To keep cache across branches add 'key: "$CI_JOB_NAME"'
+cache:
+  paths:
+    - .m2/repository
+    - back/target
+    - .npm
+
+build:back:
+  image: maven:3.3.9-jdk-8
+  stage: build
+  script:
+    - cd back
+    - mvn package -Pprod -Dmaven.test.skip=true -DskipTests
+  artifacts:
+    paths:
+      - target/
+
+build:front:
+  image: node:8-alpine
+  stage: build
+  script:
+    - cd front
+    - npm ci
+    - npm run build:prod
+  artifacts:
+    paths:
+      - build/
+
+package:back:
+  image: docker:stable
+  stage: package
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY/vely/iseplive-back:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-back:latest -f back .
+    - docker push $CI_REGISTRY/vely/iseplive-back:$APP_VERSION
+    - docker push $CI_REGISTRY/vely/iseplive-back:latest
+  dependencies:
+    - build:back
+
+package:front:
+  image: docker:stable
+  stage: package
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY/vely/iseplive-front:$APP_VERSION -t $CI_REGISTRY/vely/iseplive-front:latest -f front .
+    - docker push $CI_REGISTRY/vely/iseplive-front:$APP_VERSION
+    - docker push $CI_REGISTRY/vely/iseplive-front:latest
+  dependencies:
+    - build:front

@@ -10,6 +10,8 @@ spring:
     multipart:
       max-file-size: 2000MB
       max-request-size: 2000MB
+  profiles:
+    active: @activeProfiles@
 
 server:
   port: 8080

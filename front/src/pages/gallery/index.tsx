@@ -128,7 +128,7 @@ export default class GalleryPage extends React.Component<
 
   static getDerivedStateFromProps(
     props: GalleryPageProps,
-    state: GalleryPageState
+    state: GalleryPageState,
   ): Partial<GalleryPageState> | null {
     const routeState = props.history.location.state as GalleryPageRouteState;
     if (
@@ -335,7 +335,7 @@ export default class GalleryPage extends React.Component<
                         marginTop: 0,
                       }}
                       btnProps={{
-                        variant: 'raised',
+                        variant: 'contained',
                         color: 'secondary',
                         disabled: isAdding,
                       }}

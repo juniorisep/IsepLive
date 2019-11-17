@@ -56,7 +56,7 @@ export default class ModifyPostModal extends React.Component<
           await eventData.updateEvent(
             post.media.id,
             post.media as Event,
-            post.author.id
+            post.author.id,
           );
         }
       }
@@ -66,12 +66,16 @@ export default class ModifyPostModal extends React.Component<
   };
 
   change = (name: keyof Post) => (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const post = this.state.post;
     if (post) {
-      post[name] =
-        name === 'private' ? event.target.checked : event.target.value;
+      if (name === 'private') {
+        post.private = event.target.checked;
+      } else {
+        (post[name] as any) = event.target.value;
+      }
+
       this.setState({ post });
     }
   };
@@ -92,7 +96,7 @@ export default class ModifyPostModal extends React.Component<
               image,
             },
           },
-        } as any)
+        } as any),
     );
   };
 

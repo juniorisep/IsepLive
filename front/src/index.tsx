@@ -1,9 +1,7 @@
-import DateFnsUtils from '@date-io/date-fns';
+import MomentUtils from '@date-io/moment';
 import red from '@material-ui/core/colors/red';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
-
 import axios from 'axios';
 // TODO: avoid using both date-fns and moment, migrate to date-fns later
 import moment from 'moment';
@@ -66,7 +64,7 @@ const styledTheme = {
 const App = () => (
   <MuiThemeProvider theme={theme}>
     <ThemeProvider theme={styledTheme}>
-      <MuiPickersUtilsProvider utils={MomentUtils} locale={frLocale}>
+      <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
         <>
           <Router>
             <Switch>

@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
-import { DatePicker, MaterialUiPickersDate } from '@material-ui/pickers';
+import { DatePicker } from '@material-ui/pickers';
 import React, { Fragment } from 'react';
 import { sendAlert } from '../../../../components/Alert';
 import { Paper, Text, Title } from '../../../../components/common';
@@ -53,7 +53,7 @@ export default class SessionForm extends React.Component<
     this.setState({ showResults: false });
   };
 
-  changeForm = (name: string) => (date: MaterialUiPickersDate) => {
+  changeForm = (name: string) => (date: any) => {
     this.setState(state => ({
       sessionForm: {
         ...state.sessionForm,
@@ -162,7 +162,7 @@ export default class SessionForm extends React.Component<
                 label="1er tour"
                 value={sessionForm.firstTurn}
                 onChange={this.changeForm('firstTurn')}
-                format="dd/MM/yy"
+                format="DD/MM/YYYY"
                 fullWidth
                 {...firstTurnLimit}
               />
@@ -171,7 +171,7 @@ export default class SessionForm extends React.Component<
                 label="2e tour"
                 value={sessionForm.secondTurn}
                 onChange={this.changeForm('secondTurn')}
-                format="dd/MM/yy"
+                format="DD/MM/YYYY"
                 fullWidth
                 {...secondTurnLimit}
               />
@@ -181,7 +181,7 @@ export default class SessionForm extends React.Component<
                 minDate={sessionForm.secondTurn}
                 value={sessionForm.result}
                 onChange={this.changeForm('result')}
-                format="dd/MM/yy"
+                format="DD/MM/YYYY"
                 fullWidth
                 {...resultLimit}
               />

@@ -81,7 +81,7 @@ class Intercept extends React.Component<RouteComponentProps, InterceptState> {
   componentDidMount() {
     this.intercept = axios.interceptors.response.use(
       this.axiosResponseInterceptor,
-      this.axiosErrorInterceptor
+      this.axiosErrorInterceptor,
     );
 
     window.addEventListener('offline', this.handleOffline);
@@ -122,7 +122,7 @@ class Intercept extends React.Component<RouteComponentProps, InterceptState> {
     if (error.response) {
       switch (error.response.status) {
         case 404:
-          props.history.push('/404');
+          // props.history.push('/404');
           break;
 
         case 401:

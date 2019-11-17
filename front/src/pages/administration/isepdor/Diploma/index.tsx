@@ -213,7 +213,7 @@ export default class Diploma extends React.Component<{}, DiplomaState> {
                     btnProps={{
                       size: 'small',
                       color: 'primary',
-                      variant: 'raised',
+                      variant: 'contained',
                     }}
                   >
                     <DiplomaIcon style={{ marginRight: 10 }} /> Diplôme
@@ -233,7 +233,7 @@ export default class Diploma extends React.Component<{}, DiplomaState> {
                     btnProps={{
                       size: 'small',
                       color: 'primary',
-                      variant: 'raised',
+                      variant: 'contained',
                     }}
                   >
                     <FontIcon style={{ marginRight: 10 }} /> Police

@@ -44,8 +44,15 @@ type ProfileMenuProps = {
   onClick: (event: React.MouseEvent) => void;
 };
 
-class ProfileMenu extends Component<ProfileMenuProps> {
-  state = {
+type ProfileMenuState = {
+  photoUrlThumb: string;
+  firstname: string;
+  lastname: string;
+  loading: boolean;
+};
+
+class ProfileMenu extends Component<ProfileMenuProps, ProfileMenuState> {
+  state: ProfileMenuState = {
     photoUrlThumb: '',
     firstname: '',
     lastname: '',

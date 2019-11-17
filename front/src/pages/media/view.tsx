@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import { Fab } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -225,12 +225,12 @@ class MediaView extends Component<MediaViewProps, MediaViewState> {
                     date={<Time date={m.date.getTime()} format="MMMM YYYY" />}
                   />
                   <Flex flexWrap="wrap">
-                    {m.medias.filter(e => e.coverImage).map(e => {
+                    {m.medias.map(e => {
                       return (
                         <Box key={e.id} width={[1, 1 / 2, 1 / 3]} p={2}>
                           {this.renderMediaComponent(e)}
                         </Box>
-                      )
+                      );
                     })}
                   </Flex>
                 </div>
@@ -238,13 +238,9 @@ class MediaView extends Component<MediaViewProps, MediaViewState> {
             })}
             {!this.props.lastPage && (
               <div style={{ textAlign: 'center' }}>
-                <Button
-                  variant="fab"
-                  color="primary"
-                  onClick={this.props.seeMore}
-                >
+                <Fab color="primary" onClick={this.props.seeMore}>
                   <ArrowDownwardIcon />
-                </Button>
+                </Fab>
               </div>
             )}
           </Loader>

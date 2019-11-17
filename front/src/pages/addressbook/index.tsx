@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as studentData from '../../data/users/student';
-import { AddressBookView } from './view';
 import { Student } from '../../data/users/type';
+import { AddressBookView } from './view';
 
 type AddressBookProps = {};
 type AddressBookState = {
@@ -57,8 +57,10 @@ class AddressBook extends Component<AddressBookProps, AddressBookState> {
     this.getStudents();
   };
 
-  searchStudents = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    const search = target.value;
+  searchStudents = ({
+    target,
+  }: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    const search = target.value as string;
     const { promotionFilter, sort } = this.state;
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
@@ -81,7 +83,9 @@ class AddressBook extends Component<AddressBookProps, AddressBookState> {
     }, 300);
   };
 
-  handleSort = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+  handleSort = async (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
     const sort = event.target.value as studentData.SortOrder;
     const { search, promotionFilter } = this.state;
     const res = await studentData.searchStudents(
@@ -99,10 +103,10 @@ class AddressBook extends Component<AddressBookProps, AddressBookState> {
     });
   };
 
-  handlePromoFilter = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const promotionFilter = Array.from(event.target.options)
-      .filter(opt => opt.selected)
-      .map(opt => parseInt(opt.value, 10));
+  handlePromoFilter = async (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
+    const promotionFilter = event.target.value as number[];
     const { search, sort } = this.state;
     const res = await studentData.searchStudents(
       search,

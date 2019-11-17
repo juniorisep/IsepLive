@@ -182,19 +182,19 @@ export default class ImportStudents extends React.Component<
     return (
       <FluidContent>
         <Title invert>Import Élèves</Title>
-        <Paper p="2em" mb="3em">
+        <Paper p="2em">
           <Flex>
             <Box mr={2} mb={2}>
               <input
                 id="csvFile"
                 type="file"
                 accept=".csv"
-                style={{display: 'none'}}
+                style={{ display: 'none' }}
                 onChange={this.addCsv}
               />
               <label htmlFor="csvFile">
-                <Button component="span" variant="raised" color="primary">
-                  <FileUpload style={{marginRight: 5}}/> CSV Eleves
+                <Button component="span" variant="contained" color="primary">
+                  <FileUpload style={{ marginRight: 5 }} /> CSV Eleves
                 </Button>
               </label>
             </Box>
@@ -204,12 +204,12 @@ export default class ImportStudents extends React.Component<
                 type="file"
                 multiple
                 accept=".jpg,.jpeg"
-                style={{display: 'none'}}
+                style={{ display: 'none' }}
                 onChange={this.importPhoto}
               />
               <label htmlFor="photos">
-                <Button component="span" variant="raised" color="primary">
-                  <FileUpload style={{marginRight: 5}}/> Photos
+                <Button component="span" variant="contained" color="primary">
+                  <FileUpload style={{ marginRight: 5 }} /> Photos
                 </Button>
               </label>
             </Box>
@@ -221,7 +221,7 @@ export default class ImportStudents extends React.Component<
                 CSV élèves: {csv.name} - {students.length} élèves à importer
               </Text>
             )}
-            {csv && photos.length !== 0 && (
+            {photos.length !== 0 && (
               <Text>
                 {photos.length} photo
                 {photos.length !== 1 && 's'} sélectionnée
@@ -230,18 +230,18 @@ export default class ImportStudents extends React.Component<
             )}
           </Box>
           <Box mb={1}>
-            {csv && photos.length !== 0 && uploading && (
-              <LinearProgress variant={uploadState} value={progress}/>
+            {uploading && (
+              <LinearProgress variant={uploadState} value={progress} />
             )}
           </Box>
           <Box mb={1}>
             <Button
               disabled={uploading || !csv || photos.length === 0}
-              variant="raised"
+              variant="contained"
               color="secondary"
               onClick={this.importStudents}
             >
-              <Done style={{marginRight: 5}}/> Importer
+              <Done style={{ marginRight: 5 }} /> Importer
             </Button>
           </Box>
           {result && (
@@ -280,7 +280,7 @@ export default class ImportStudents extends React.Component<
                 <TableRow>
                   <TableCell>Photo</TableCell>
                   <TableCell>Nom</TableCell>
-                  <TableCell numeric>Promotion</TableCell>
+                  <TableCell>Promotion</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -291,13 +291,13 @@ export default class ImportStudents extends React.Component<
                         <img
                           alt="student"
                           src={photosData[s.studentid]}
-                          style={{width: '50px'}}
+                          style={{ width: '50px' }}
                         />
                       </TableCell>
                       <TableCell>
                         {s.firstname} {s.lastname}
                       </TableCell>
-                      <TableCell numeric>{s.promo}</TableCell>
+                      <TableCell>{s.promo}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -315,53 +315,6 @@ export default class ImportStudents extends React.Component<
               </TableFooter>
             </Table>
           )}
-        </Paper>
-
-
-        <Title invert>Mise à jour photo Elèves</Title>
-        <Paper p="2em">
-          <Flex>
-            <Box>
-              <input
-                id="photos"
-                type="file"
-                multiple
-                accept=".jpg,.jpeg"
-                style={{display: 'none'}}
-                onChange={this.importPhoto}
-              />
-              <label htmlFor="photos">
-                <Button component="span" variant="raised" color="primary">
-                  <FileUpload style={{marginRight: 5}}/> Photos
-                </Button>
-              </label>
-            </Box>
-          </Flex>
-          <Box mb={2}>
-            {!csv && photos.length !== 0 && (
-              <Text>
-                {photos.length} photo
-                {photos.length !== 1 && 's'} sélectionnée
-                {photos.length !== 1 && 's'}
-              </Text>
-            )}
-          </Box>
-          <Box mb={1}>
-            {!csv && photos.length !== 0 && uploading && (
-              <LinearProgress variant={uploadState} value={progress}/>
-            )}
-          </Box>
-
-          <Box mb={1}>
-            <Button
-              disabled={uploading || photos.length === 0}
-              variant="raised"
-              color="secondary"
-              onClick={this.importPhotosUpdate}
-            >
-              <Done style={{marginRight: 5}}/> Importer
-            </Button>
-          </Box>
         </Paper>
       </FluidContent>
     );

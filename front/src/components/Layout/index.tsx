@@ -14,15 +14,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import People from '@material-ui/icons/People';
 import Play from '@material-ui/icons/PlayCircleFilled';
 import { Flex } from '@rebass/grid';
+import { NavLinkAdapter } from 'components/utils';
 import React from 'react';
-import {
-  Link,
-  NavLink,
-  Redirect,
-  Route,
-  RouteComponentProps,
-  Switch,
-} from 'react-router-dom';
+import { Link, NavLink, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import { MAIN_COLOR, SECONDARY_COLOR } from '../../colors';
 import Auth from '../../components/Auth/AuthComponent';
@@ -104,20 +98,17 @@ type NavProps = {
   to: string;
 };
 
-const NavLinkBtn: React.FC<any> = props => (
-  <NavLink
-    to={props.to}
-    activeStyle={{
-      color: SECONDARY_COLOR,
-    }}
-    {...props}
-  />
-);
-
 const Nav: React.FC<any> = props => {
   return (
     <div>
-      <Button component={NavLinkBtn} {...props} />
+      <Button
+        to={props.to}
+        activeStyle={{
+          color: SECONDARY_COLOR,
+        }}
+        component={NavLinkAdapter}
+        {...props}
+      />
     </div>
   );
 };
@@ -263,7 +254,7 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
           }
         });
       } catch (error) {
-        console.log(error);
+        console.warn(error);
       }
     };
 
@@ -367,26 +358,23 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
                   {authData.hasRole([roles.ADMIN, roles.USER_MANAGER]) && (
                     <MenuItem
                       onClick={this.handleRequestClose}
-                      component={(props: any) => (
-                        <NavLink to="/administration" {...props} />
-                      )}
+                      to="/administration"
+                      component={NavLinkAdapter}
                     >
                       Administration
                     </MenuItem>
                   )}
                   <MenuItem
                     onClick={this.handleRequestClose}
-                    component={(props: any) => (
-                      <NavLink to="/profile" {...props} />
-                    )}
+                    component={NavLinkAdapter}
+                    to="/profile"
                   >
                     Profil
                   </MenuItem>
                   <MenuItem
                     onClick={this.handleDisconnect}
-                    component={(props: any) => (
-                      <NavLink to="/connexion" {...props} />
-                    )}
+                    to="/connexion"
+                    component={NavLinkAdapter}
                   >
                     Déconnexion
                   </MenuItem>

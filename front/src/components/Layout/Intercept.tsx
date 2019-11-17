@@ -60,7 +60,7 @@ const ErrorView: React.FC<ErrorViewProps> = props => (
       Essayez de recharger la page.
     </div>
     <div style={{ textAlign: 'center' }}>
-      <Button variant="raised" color="primary" onClick={refreshPage}>
+      <Button variant="contained" color="primary" onClick={refreshPage}>
         Recharger
       </Button>
     </div>
@@ -97,7 +97,7 @@ class Intercept extends React.Component<RouteComponentProps, InterceptState> {
   }
 
   handleOffline = () => {
-    sendAlert('Connexion interrompue', 'error');
+    sendAlert('Connexion interrompu', 'error');
   };
 
   handleOnline = () => {

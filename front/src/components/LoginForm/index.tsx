@@ -5,8 +5,8 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
+import { SlideTransition } from 'components/MaterialTransition';
 import React from 'react';
 import Loader from '../Loader';
 
@@ -24,7 +24,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
   return (
     <Dialog
       open={props.open}
-      TransitionComponent={Slide}
+      TransitionComponent={SlideTransition}
       onClose={props.handleRequestClose}
     >
       <DialogTitle

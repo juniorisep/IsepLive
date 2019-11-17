@@ -6,9 +6,9 @@ import {
 } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import { Box, Flex } from '@rebass/grid';
+import { SlideTransition } from 'components/MaterialTransition';
 import React from 'react';
 import AutoComplete from '../../components/Autocomplete';
 import { Text } from '../../components/common';
@@ -48,12 +48,11 @@ export default class AddClubForm extends React.Component<
     autocompleteValue: '',
   };
 
-  change = (name: string, value: any): string => {
+  change = (name: string, value: any) => {
     this.setState(state => ({
       ...state,
       [name]: value,
     }));
-    return '';
   };
 
   changeLogo = (files: FileList | null) => {
@@ -104,7 +103,7 @@ export default class AddClubForm extends React.Component<
     return (
       <Dialog
         open={props.open}
-        TransitionComponent={Slide}
+        TransitionComponent={SlideTransition}
         onClose={props.handleRequestClose}
       >
         <DialogTitle>{props.title}</DialogTitle>
@@ -126,10 +125,13 @@ export default class AddClubForm extends React.Component<
               onChange={date => this.change('creation', date)}
             />
           </div>
-          <AutoComplete
+          <AutoComplete<Student>
             label="Président *"
             search={this.search}
-            onSelect={val => this.change('president', val.id)}
+            onSelect={val => {
+              this.change('president', val.id);
+              return `${val.firstname} ${val.lastname}`;
+            }}
             renderSuggestion={this.renderSuggestion}
           />
           <TextField
@@ -158,7 +160,7 @@ export default class AddClubForm extends React.Component<
             <label htmlFor="file">
               <Flex alignItems="center">
                 <Box>
-                  <Button color="primary" variant="raised" component="span">
+                  <Button color="primary" variant="contained" component="span">
                     Choisir logo
                   </Button>
                 </Box>

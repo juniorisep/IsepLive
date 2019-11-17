@@ -5,13 +5,13 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
+import { SlideTransition } from 'components/MaterialTransition';
 import React from 'react';
 import { Text } from '../../../components/common';
 import DatePicker from '../../../components/DatePicker';
 import * as userData from '../../../data/users/student';
-import { Student, Club } from '../../../data/users/type';
+import { Club, Student } from '../../../data/users/type';
 
 type UpdateClubFormProps = {
   open: boolean;
@@ -90,7 +90,7 @@ export default class UpdateClubForm extends React.Component<
     return (
       <Dialog
         open={props.open}
-        TransitionComponent={Slide}
+        TransitionComponent={SlideTransition}
         onClose={props.handleRequestClose}
       >
         <DialogTitle>{props.title}</DialogTitle>
@@ -141,7 +141,7 @@ export default class UpdateClubForm extends React.Component<
               style={{ display: 'none' }}
             />
             <label htmlFor="file">
-              <Button variant="raised" component="span">
+              <Button variant="contained" component="span">
                 Ajouter logo
               </Button>
             </label>

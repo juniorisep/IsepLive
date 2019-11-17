@@ -16,13 +16,14 @@ import {
 } from '../../components/common';
 import FullScreenGallery from '../../components/FullScreen/Gallery';
 import Loader from '../../components/Loader';
+import Popup from '../../components/Popup';
 import Time from '../../components/Time';
 import { backUrl } from '../../config';
 import { ADMIN, POST_MANAGER } from '../../constants';
 import * as authData from '../../data/auth';
 import * as mediaData from '../../data/media/image';
-import * as postData from '../../data/post';
 import * as mediaTypes from '../../data/media/type';
+import * as postData from '../../data/post';
 
 const ImagePlaceholder = styled.div`
   background: #eee;
@@ -84,6 +85,7 @@ type GalleryPageState = {
   isPostAuthor: boolean;
   isEditing: boolean;
   isAdding: boolean;
+  deleteEnabled: boolean;
 };
 
 type GalleryPageRouteState = {
@@ -104,7 +106,7 @@ export default class GalleryPage extends React.Component<
     isPostAuthor: false,
     isEditing: false,
     isAdding: false,
-    deleteEnable: false
+    deleteEnabled: false,
   };
 
   galleryId?: number;
@@ -143,10 +145,6 @@ export default class GalleryPage extends React.Component<
       };
     }
     return null;
-  }
-
-  componentDidUpdate() {
-    console.log(this.props.location.state);
   }
 
   async getGallery() {
@@ -241,13 +239,28 @@ export default class GalleryPage extends React.Component<
   };
 
   deletePhotos = () => {
-    const { selectedImages, gallery } = this.state;
+    const { selectedImages, gallery, images } = this.state;
     if (gallery) {
-      this.setState({ selectedImages: [] });
-      mediaData.deleteImages(gallery.id, selectedImages).then(res => {
-        this.refreshGallery();
+      if (selectedImages.length === images.length) {
+        this.setState({ deleteEnabled: true });
+      } else {
+        mediaData.deleteImages(gallery.id, selectedImages).then(res => {
+          this.refreshGallery();
+        });
+      }
+    }
+  };
+
+  deleteGallery = (ok: boolean) => {
+    const { gallery } = this.state;
+    if (ok && gallery) {
+      postData.deletePost(gallery.postId).then(res => {
+        this.props.history.push('/');
       });
     }
+    this.setState({
+      deleteEnabled: false,
+    });
   };
 
   render() {
@@ -261,12 +274,12 @@ export default class GalleryPage extends React.Component<
       isPostAuthor,
       isEditing,
       isAdding,
+      deleteEnabled,
     } = this.state;
 
     const countImages = selectedImages.length;
     const canEdit = isPostAuthor || authData.hasRole([ADMIN, POST_MANAGER]);
     const shouldEdit = canEdit && isEditing;
-
     return (
       <FluidContent>
         <ScrollToTopOnMount />
@@ -294,7 +307,7 @@ export default class GalleryPage extends React.Component<
                 <Box ml="auto">
                   {canEdit && (
                     <Button
-                      variant="raised"
+                      variant="contained"
                       color="primary"
                       onClick={this.toggleEdit}
                     >
@@ -307,7 +320,7 @@ export default class GalleryPage extends React.Component<
                 <Flex alignItems="center">
                   <Box p={1}>
                     <Button
-                      variant="raised"
+                      variant="contained"
                       color="primary"
                       onClick={this.deletePhotos}
                       disabled={selectedImages.length === 0}
@@ -386,7 +399,7 @@ export default class GalleryPage extends React.Component<
           <Popup
             title="Suppression"
             description="Attention si vous supprimez toutes les photos, le post sera lui aussi supprimé !"
-            open={this.state.deleteEnabled}
+            open={deleteEnabled}
             onRespond={this.deleteGallery}
           />
         </Loader>

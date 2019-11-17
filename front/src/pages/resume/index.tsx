@@ -4,11 +4,11 @@ import { TokenPayload } from '../../data/auth/type';
 import { ClubMember } from '../../data/club/type';
 import { Post } from '../../data/post/type';
 import * as userData from '../../data/users/student';
+import { StudentUpdate } from '../../data/users/type';
 import { AccountTab } from './AccountTab';
 import { PhotoTab } from './PhotoTab';
-import { ResumeView } from './view';
 import { PostTab } from './PostTab';
-import { Student, StudentUpdate } from '../../data/users/type';
+import { ResumeView } from './view';
 
 type ResumeProps = {};
 type ResumeState = {

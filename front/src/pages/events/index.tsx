@@ -44,7 +44,7 @@ class Event extends Component<EventProps, EventState> {
     const now = new Date().getTime();
     return events
       .filter(e =>
-        this.state.eventsFilter === 'past' ? e.date < now : e.date > now
+        this.state.eventsFilter === 'past' ? e.date < now : e.date > now,
       )
       .sort((a, b) => (a.date > b.date ? 1 : -1));
   };
@@ -56,7 +56,7 @@ class Event extends Component<EventProps, EventState> {
   saveEvent = (event: mediaTypes.Event) => {
     const user = userData.getUser();
     if (user) {
-      const id = eventData.updateEvent(event.id, event, user.id).then(() => {
+      eventData.updateEvent(event.id, event, user.id).then(() => {
         this.fetchEvents();
         this.closeEditEvent();
       });

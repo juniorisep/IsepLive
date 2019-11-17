@@ -106,12 +106,14 @@ export class ResultQuestion extends React.Component<ResultQuestionProps> {
               value: r.voteDor.resEvent,
             } as AnswerDor;
           }
+          return null;
         });
 
         const totalVotes = resultAnswers.reduce(
           (all, v) => (v && v.score ? all + v.score : 0),
-          0
+          0,
         );
+
         const computeSharePercent = (total: number, score?: number): number =>
           Math.floor(((score || 0) / total) * 100);
 
@@ -139,6 +141,7 @@ export class ResultQuestion extends React.Component<ResultQuestionProps> {
               </Box>
             );
           }
+          return null;
         });
       }
     }
@@ -174,7 +177,7 @@ export class ResultQuestion extends React.Component<ResultQuestionProps> {
   }
 
   render() {
-    const { question, results } = this.props;
+    const { question } = this.props;
     return (
       <Paper>
         <BgImage

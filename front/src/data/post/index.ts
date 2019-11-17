@@ -1,8 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
 import { Page } from '../request.type';
-import { Post, PostCreation, Comment } from './type';
 import { Author, Student } from '../users/type';
-import { UpdateClubFormData } from '../../pages/club/clubDetail/UpdateClubForm';
+import { Comment, Post, PostCreation } from './type';
 
 export function getPosts(page: number): AxiosPromise<Page<Post>> {
   return axios.get(`/post?page=${page}`);
@@ -30,21 +29,21 @@ export function getComments(postId: number): AxiosPromise<Comment[]> {
 
 export function comment(
   postId: number,
-  message: string
+  message: string,
 ): AxiosPromise<Comment> {
   return axios.put(`/post/${postId}/comment`, { message });
 }
 
 export function deleteComment(
   postId: number,
-  commId: number
+  commId: number,
 ): AxiosPromise<void> {
   return axios.delete(`/post/${postId}/comment/${commId}`);
 }
 
 export function toggleLikeComment(
   postId: number,
-  comId: number
+  comId: number,
 ): AxiosPromise<void> {
   return axios.put(`/post/${postId}/comment/${comId}/like`);
 }

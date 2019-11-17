@@ -1,11 +1,11 @@
 import { Box, Flex } from '@rebass/grid';
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { PostViewProps } from '.';
-import { Gallery } from '../../../data/media/type';
-import { Post } from '..';
-import { Paper, Title, Image } from '../../common';
 import styled from 'styled-components';
+import { PostViewProps } from '.';
+import { Post } from '..';
+import { Gallery } from '../../../data/media/type';
+import { Image, Paper, Title } from '../../common';
 
 const ViewMore = styled.div`
   width: 100%;

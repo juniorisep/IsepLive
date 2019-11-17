@@ -20,10 +20,6 @@ import { ADMIN, CLUB_MANAGER } from '../../../constants';
 import * as authData from '../../../data/auth';
 import UpdateClubForm, { UpdateClubFormData } from './UpdateClubForm';
 
-const Explore = styled(ExploreAction)`
-  margin-right: 10px;
-`;
-
 type BtnProps = ButtonProps & { mt?: string };
 const Button = styled<any>(MUIButton)`
   margin-top: ${(props: BtnProps) => props.mt || '0'};

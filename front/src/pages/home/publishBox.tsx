@@ -197,7 +197,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
                   ? (author as userTypes.Club).admin
                   : false,
             };
-          }
+          },
         );
         this.setState({ authorList: authors, author: authors[0] });
       });
@@ -348,7 +348,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
   onProgress = (progressEvent: { loaded: number; total: number }) => {
     if (this.state.isUploading) {
       const percent = Math.floor(
-        (progressEvent.loaded * 100) / progressEvent.total
+        (progressEvent.loaded * 100) / progressEvent.total,
       );
       if (percent === 100) {
         this.setState({ uploadMode: 'indeterminate' });
@@ -359,7 +359,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
   };
 
   canPublish() {
-    const { author, title, message, mediaSelected } = this.state;
+    const { author, title, message } = this.state;
 
     if (author && author.type === 'club') {
       if (title && message && title !== '' && message !== '') {
@@ -398,7 +398,7 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
           return imageData.createImage(
             postId,
             this.state.form.file,
-            this.onProgress
+            this.onProgress,
           );
         // case 'videoEmbed':
         //   return videoData.createVideoEmbed(this.state.form);
@@ -406,20 +406,20 @@ class PublishBoxView extends Component<PublishBoxProps, PublishBoxState> {
           return videoData.createVideo(
             postId,
             this.state.form,
-            this.onProgress
+            this.onProgress,
           );
         case 'gallery':
           return imageData.createGallery(
             postId,
             this.state.form,
-            this.onProgress
+            this.onProgress,
           );
         case 'event':
           if (this.state.author) {
             return mediaData.createEvent(
               postId,
               this.state.form,
-              this.state.author.id
+              this.state.author.id,
             );
           }
           break;

@@ -4,7 +4,7 @@ stages:
   - deploy
 
 variables:
-  APP_VERSION: v1.3
+  APP_VERSION: v1.4
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
 
 # Cache downloaded dependencies and plugins between builds.

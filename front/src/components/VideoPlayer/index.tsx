@@ -38,12 +38,6 @@ const Wrapper = styled.div`
 
 const PlayPause = styled.div``;
 
-const ProgressBar = styled.div`
-  border-radius: 20px;
-  height: 20px;
-  background: red;
-`;
-
 const ProgressSlider = styled.input`
   position: relative;
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
@@ -148,14 +142,6 @@ function pad(n: number, width: number): string {
     ? number
     : new Array(width - number.length + 1).join('0') + number;
 }
-
-const LargePlayBtn: React.FC<{ huge: boolean }> = props => (
-  <img
-    style={{ width: props.huge ? 140 : 90, cursor: 'pointer' }}
-    src="/img/svg/play.svg"
-    alt="play"
-  />
-);
 
 interface VideoPlayerProps {
   source: string;

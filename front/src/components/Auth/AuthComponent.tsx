@@ -9,7 +9,7 @@ type AuthProps = {
 
 class Auth extends React.Component<AuthProps> {
   render() {
-    const { children, roles = [], not, logged } = this.props;
+    const { children, roles = [], not } = this.props;
 
     if (!children) {
       return null;

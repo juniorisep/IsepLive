@@ -59,7 +59,7 @@ const AnswerItem: React.FC<AnswerItemProps> = ({ answer, index }) => {
         <Name>{data.name}</Name>
         <Score>
           {answer.score} vote
-          {answer.score != 1 && 's'}
+          {answer.score !== 1 && 's'}
         </Score>
       </Item>
       <Divider />
@@ -109,7 +109,7 @@ class ResultPanel extends Component<ResultPanelProps, ResultPanelState> {
       const res = await dorData.getRoundResultsForQuestion(
         selected.id,
         round,
-        questionId
+        questionId,
       );
       this.setState({ answers: res.data, loading: false });
     }
@@ -167,7 +167,7 @@ class ResultPanel extends Component<ResultPanelProps, ResultPanelState> {
                     <ListItem
                       button
                       style={{
-                        background: q.id == selectedQuestion ? '#ccc' : '',
+                        background: q.id === selectedQuestion ? '#ccc' : '',
                       }}
                       onClick={() => {
                         this.setState({ selectedQuestion: q.id });
@@ -198,7 +198,7 @@ class ResultPanel extends Component<ResultPanelProps, ResultPanelState> {
                   <Tab label="1er tour" />
                   <Tab label="2ème tour" />
                 </Tabs>
-                {!loading && answers.length == 0 && (
+                {!loading && answers.length === 0 && (
                   <h2 style={{ margin: '1em' }}>Aucun résultat</h2>
                 )}
                 <Loader loading={loading}>

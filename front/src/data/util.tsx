@@ -11,7 +11,7 @@ export const makeCancelable = (promise: Promise<any>): CancelablePromise => {
   const wrappedPromise = new Promise((resolve, reject) => {
     promise.then(
       val => (hasCanceled_ ? reject({ isCanceled: true }) : resolve(val)),
-      error => (hasCanceled_ ? reject({ isCanceled: true }) : reject(error))
+      error => (hasCanceled_ ? reject({ isCanceled: true }) : reject(error)),
     );
   });
 
@@ -38,7 +38,13 @@ export function parseText(text: string) {
     const sep = i < words.length - 1 ? ' ' : '';
     if (word.match(/^https?:\//)) {
       return [
-        <a key={i} href={word} target="_blank" style={linkStyle}>
+        <a
+          key={i}
+          href={word}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={linkStyle}
+        >
           {word}
         </a>,
         sep,

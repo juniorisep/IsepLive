@@ -73,7 +73,7 @@ class MediaView extends Component<MediaViewProps, MediaViewState> {
 
   handleChange = (name: keyof MediaViewState) => (
     event: any,
-    checked: boolean
+    checked: boolean,
   ) => {
     this.setState({ [name]: checked } as any);
   };
@@ -97,7 +97,7 @@ class MediaView extends Component<MediaViewProps, MediaViewState> {
     return this.props.medias
       .map(mg => {
         const medias = mg.medias.filter(m =>
-          this.filterMedia(m.mediaType as MediaViewTypes)
+          this.filterMedia(m.mediaType as MediaViewTypes),
         );
         return { ...mg, medias };
       })
@@ -225,13 +225,15 @@ class MediaView extends Component<MediaViewProps, MediaViewState> {
                     date={<Time date={m.date.getTime()} format="MMMM YYYY" />}
                   />
                   <Flex flexWrap="wrap">
-                    {m.medias.map(e => {
-                      return (
-                        <Box key={e.id} width={[1, 1 / 2, 1 / 3]} p={2}>
-                          {this.renderMediaComponent(e)}
-                        </Box>
-                      );
-                    })}
+                    {m.medias
+                      .filter(e => (e as mediaTypes.Gallery).coverImage)
+                      .map(e => {
+                        return (
+                          <Box key={e.id} width={[1, 1 / 2, 1 / 3]} p={2}>
+                            {this.renderMediaComponent(e)}
+                          </Box>
+                        );
+                      })}
                   </Flex>
                 </div>
               );

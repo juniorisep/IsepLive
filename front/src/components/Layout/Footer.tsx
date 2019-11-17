@@ -129,11 +129,11 @@ export default class FooterView extends React.Component {
                     </Box>
                     <Box width={1 / 3} p={1}>
                       <a
-                        href="https://www.bdedestiny.com/"
+                        href="https://www.facebook.com/genesisbde"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <img src="/img/layout/destiny.png" alt="Destiny logo" />
+                        <img src="/img/layout/genesis.png" alt="BDE logo" />
                       </a>
                     </Box>
                     <Box width={1 / 3} p={1}>

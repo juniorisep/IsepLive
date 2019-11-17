@@ -97,18 +97,30 @@ public class MediaService {
    * @return
    */
   public Page<Media> getAllGalleryGazetteVideoPublic(int page) {
-    return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeAndPost_isPrivateOrderByCreationDesc(
+    return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeAndPost_isPrivateAndPost_PublishStateOrderByCreationDesc(
       Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),
-      "club", false, new PageRequest(page, ALL_MEDIA_PAGE_SIZE)
+      "club", false, PublishStateEnum.PUBLISHED, new PageRequest(page, ALL_MEDIA_PAGE_SIZE)
     );
   }
 
   /**
    * List all galleries, gazette and video published
    * @param page
+   */
+  @Cacheable("media-list-published")
+  public Page<Media>getAllGalleryGazetteVideoPublished(int page) {
+    return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeAndPost_PublishStateOrderByCreationDesc(
+      Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),
+      "club", PublishStateEnum.PUBLISHED, new PageRequest(page, ALL_MEDIA_PAGE_SIZE)
+    );
+  }
+
+  /**
+   * List all galleries, gazette and video published or not
+   * @param page
    * @return
    */
-  @Cacheable("media-list")
+  @Cacheable("media-list-all")
   public Page<Media> getAllGalleryGazetteVideo(int page) {
     return mediaRepository.findAllByMediaTypeInAndPost_Author_AuthorTypeOrderByCreationDesc(
       Arrays.asList(MediaType.GALLERY, MediaType.GAZETTE, MediaType.VIDEO),

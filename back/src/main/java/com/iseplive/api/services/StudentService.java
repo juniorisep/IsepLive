@@ -201,6 +201,19 @@ public class StudentService {
     student.setPhotoUrlThumb(imageUtils.getPublicUrlImage(pathThumb));
   }
 
+  public void updateMultipleProfileImage(List<MultipartFile> photos){
+    for(MultipartFile photo: photos){
+      String fullname = photo.getOriginalFilename();
+      String isepID = fullname.split("\\.")[0];
+      Student student = studentRepository.findFirstByStudentId(isepID);
+
+      if(student != null){
+        updateProfileImage(student, photo);
+        studentRepository.save(student);
+      }
+    }
+  }
+
   public Page<StudentWithRoleView> getAllForAdmin(int page) {
     return getAll(page).map(s -> studentFactory.studentToStudentWithRoles(s));
   }

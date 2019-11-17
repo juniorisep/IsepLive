@@ -155,4 +155,9 @@ public class UserController {
     studentService.toggleNotifications(auth);
   }
 
+  @PutMapping("/student/update/photos")
+  @RolesAllowed({Roles.ADMIN, Roles.USER_MANAGER})
+  public void updateStudentsPhoto(@RequestParam("images[]") List<MultipartFile> photos) {
+    studentService.updateMultipleProfileImage(photos);
+  }
 }

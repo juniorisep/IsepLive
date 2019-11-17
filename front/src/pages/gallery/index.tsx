@@ -104,6 +104,7 @@ export default class GalleryPage extends React.Component<
     isPostAuthor: false,
     isEditing: false,
     isAdding: false,
+    deleteEnable: false
   };
 
   galleryId?: number;
@@ -265,6 +266,7 @@ export default class GalleryPage extends React.Component<
     const countImages = selectedImages.length;
     const canEdit = isPostAuthor || authData.hasRole([ADMIN, POST_MANAGER]);
     const shouldEdit = canEdit && isEditing;
+
     return (
       <FluidContent>
         <ScrollToTopOnMount />
@@ -381,6 +383,12 @@ export default class GalleryPage extends React.Component<
               </Flex>
             </div>
           )}
+          <Popup
+            title="Suppression"
+            description="Attention si vous supprimez toutes les photos, le post sera lui aussi supprimé !"
+            open={this.state.deleteEnabled}
+            onRespond={this.deleteGallery}
+          />
         </Loader>
 
         <FullScreenGallery

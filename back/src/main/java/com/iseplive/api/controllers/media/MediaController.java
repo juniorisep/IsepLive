@@ -39,9 +39,12 @@ public class MediaController {
   ClubService clubService;
 
   @GetMapping
-  public Page<Media> getAllMedia(@RequestParam(defaultValue = "0") int page) {
+  public Page<Media> getAllMedia(@RequestParam(defaultValue = "0") int page,
+                                 @AuthenticationPrincipal TokenPayload auth) {
     if (authService.isUserAnonymous()) {
       return mediaService.getAllGalleryGazetteVideoPublic(page);
+    }else if(!auth.getRoles().contains(Roles.ADMIN) && !auth.getRoles().contains(Roles.CLUB_MANAGER)){
+      return mediaService.getAllGalleryGazetteVideoPublished(page);
     }
     return mediaService.getAllGalleryGazetteVideo(page);
   }

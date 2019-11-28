@@ -53,6 +53,7 @@
     "start:prod": "REACT_APP_BACKEND_URL=iseplive.fr/api REACT_APP_HTTP_PROTOCOL=https react-scripts start",
     "build": "react-scripts build",
     "build:prod": "cross-env GENERATE_SOURCEMAP=false REACT_APP_HTTP_PROTOCOL=https REACT_APP_WS_PROTOCOL=wss REACT_APP_BACKEND_URL=iseplive.fr/api react-scripts build",
+    "build:prod2": "cross-env GENERATE_SOURCEMAP=false REACT_APP_HTTP_PROTOCOL=http REACT_APP_WS_PROTOCOL=ws REACT_APP_BACKEND_URL=iseplive.188.165.228.36.xip.io/api react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint:css": "stylelint './src/**/*.js'"

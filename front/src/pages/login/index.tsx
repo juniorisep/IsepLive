@@ -176,7 +176,7 @@ export default class Login extends Component {
 
   isLoginDisabled() {
     const { loading, username, password } = this.state;
-    return loading || (username === '' || password === '');
+    return loading || username === '' || password === '';
   }
 
   render() {
@@ -211,11 +211,11 @@ export default class Login extends Component {
                 <Logo src="/img/login/juniorisep.png" alt="Junior ISEP logo" />
               </a>
               <a
-                href="https://www.bdedestiny.com/"
+                href="https://www.facebook.com/genesisbde"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Logo src="/img/login/destiny.png" alt="BDE logo" />
+                <Logo src="/img/login/genesis.png" alt="BDE logo" />
               </a>
               <a
                 href="https://www.isep.fr/"
